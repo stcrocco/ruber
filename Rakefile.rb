@@ -88,3 +88,11 @@ begin
   end
 rescue LoadError
 end
+
+desc 'Builds the ruber gem'
+task :gem => [:ruber] do
+  require 'rubygems'
+  spec = Gem::Specification.load 'ruber.gemspec'
+  builder = Gem::Builder.new(spec)
+  builder.build
+end
