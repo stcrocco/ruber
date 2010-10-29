@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>Module: Ruber::SyntaxChecker</title>
+<link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (S)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../Ruber.html" title="Ruber (module)">Ruber</a></span></span>
+     &raquo; 
+    <span class="title">SyntaxChecker</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Module: Ruber::SyntaxChecker
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">plugins/syntax_checker/syntax_checker.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>Module for the <strong>Syntax checker</strong> plugin.</p>
+<p>This plugin provides a framework to let the user know whether the file in the
+current editor view is syntactically correct or not (according to the most appropriate
+sytnax for that kind of file). The result of the syntax check is displayed in a
+widget at the right end of the status bar (this will be referred to as the *syntax
+result widget). This implementation of the <code>syntax_checker</code> feature uses a <code>KDE::Led</code>
+whose colour changes according to the result of the syntax check, but other plugins
+may use other widgets. If the user right clikcs on the widget, a menu showing a
+list of syntax errors is displayed. Clicking on it will jump to the corresponding
+like, while clicking on the widget itself jumps to the line corresponding to the
+first error.</p>
+<p>The syntax check is run every time the file is activated or saved and the user can choose to
+have it run automatically when one second has passed since he last edited the
+file. The reasoning is that it makes little sense to check the syntax while the
+user is writing text: it will most likely be wrong (because the user hasn&#8217;t finished
+writing what he wants), may quickly change from valid to invalid depending on the
+point the user has reached in writing, and the user won&#8217;t look at it because he&#8217;s
+busy writing.</p>
+<p>The kind of syntax check to perform on a document is decided according to the mimetype
+of the document (this means that only documents associated with a file can be
+syntax-checked). Currently, this plugin contains syntax checkers for ruby files
+and <span class="caps">YAML</span> files, but syntax checkers for other kind of files can be added by other
+plugins (see the documentation for <span class='object_link'><a href="SyntaxChecker/SyntaxCheckerPlugin.html#register_syntax_checker-instance_method" title="Ruber::SyntaxChecker::SyntaxCheckerPlugin#register_syntax_checker (method)">register_syntax_checker</a></span>
+for details)</p>
+<p>syntax checks after one second of inactivity</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>    <h2>API for feature <tt>syntax_checker</tt></h2>
+      <h4>Plugin object API</h4>
+      <p>See API for <span class='object_link'><a href="SyntaxChecker/SyntaxCheckerPlugin.html" title="Ruber::SyntaxChecker::SyntaxCheckerPlugin (class)">SyntaxChecker::SyntaxCheckerPlugin</a></span></p>
+
+
+<h4>Global Settings</h4>
+  
+    
+
+
+<h5 style="margin-bottom:0; " ><tt>syntax_checker/automatic_check &ndash; <tt>Boolean</tt></tt></h5>
+<div>
+Whether to perform automatic
+</div>
+
+
+  
+
+
+
+<h2>Defined Under Namespace</h2>
+<p class="children">
+   
+    
+   
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="SyntaxChecker/RubySyntaxChecker.html" title="Ruber::SyntaxChecker::RubySyntaxChecker (class)">RubySyntaxChecker</a></span>, <span class='object_link'><a href="SyntaxChecker/SyntaxCheckerExtension.html" title="Ruber::SyntaxChecker::SyntaxCheckerExtension (class)">SyntaxCheckerExtension</a></span>, <span class='object_link'><a href="SyntaxChecker/SyntaxCheckerPlugin.html" title="Ruber::SyntaxChecker::SyntaxCheckerPlugin (class)">SyntaxCheckerPlugin</a></span>, <span class='object_link'><a href="SyntaxChecker/SyntaxResultWidget.html" title="Ruber::SyntaxChecker::SyntaxResultWidget (class)">SyntaxResultWidget</a></span>, <span class='object_link'><a href="SyntaxChecker/YamlSyntaxChecker.html" title="Ruber::SyntaxChecker::YamlSyntaxChecker (class)">YamlSyntaxChecker</a></span>
+    
+  
+</p>
+
+
+
+
+
+</div>
+    
+    <div id="footer">
+  Generated on Fri Oct 29 12:53:05 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.1 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>

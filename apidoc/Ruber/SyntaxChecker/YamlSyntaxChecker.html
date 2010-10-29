@@ -1,0 +1,414 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>Class: Ruber::SyntaxChecker::YamlSyntaxChecker</title>
+<link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '../..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../_index.html">Index (Y)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../../Ruber.html" title="Ruber (module)">Ruber</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../SyntaxChecker.html" title="Ruber::SyntaxChecker (module)">SyntaxChecker</a></span></span>
+     &raquo; 
+    <span class="title">YamlSyntaxChecker</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Ruber::SyntaxChecker::YamlSyntaxChecker
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName"><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next">Ruber::SyntaxChecker::YamlSyntaxChecker</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">plugins/syntax_checker/syntax_checker.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>Class which checks the syntax of a ruby file.</p>
+<p>It calls the <code>YAML.load</code> method on the document&#8217;s content within a begin/rescue
+block, rescuing any ArgumentError exception. The message of the exception is used
+to find information about the error</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#check-instance_method" title="#check (instance method)">- (String) <strong>check</strong>(str) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Checks the syntax of the given string.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#convert_check_result-instance_method" title="#convert_check_result (instance method)">- (&lt;SyntaxCheckerPlugin::ErrorDescription&gt;) <strong>convert_check_result</strong>(str) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Parses the output of <span class='object_link'><a href="#check-instance_method" title="Ruber::SyntaxChecker::YamlSyntaxChecker#check (method)">YamlSyntaxChecker#check</a></span>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (YamlSyntaxChecker) <strong>initialize</strong>(doc) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Creates a new instance.</p></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+
+
+
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::SyntaxChecker::YamlSyntaxChecker (class)">YamlSyntaxChecker</a></span></tt>) <strong>initialize</strong>(doc) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Creates a new instance</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Document.html" title="Ruber::Document (class)">Document</a></span></tt>)</span>
+      
+      
+        <span class='name'>doc</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the document to check</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+563
+564</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/syntax_checker/syntax_checker.rb', line 563</span>
+
+<span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id doc'>doc</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="check-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>) <strong>check</strong>(str) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Checks the syntax of the given string.</p>
+<p>concerning syntax errors or an empty string if there were no syntax error</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>str</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the string to check (usually, it&#8217;ll be the document&#8217;s text)</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>a string containing the lines of output produced by <code>YAML.load</code></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+573
+574
+575
+576
+577
+578
+579
+580</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/syntax_checker/syntax_checker.rb', line 573</span>
+
+<span class='kw'>def</span> <span class='id check'>check</span> <span class='id str'>str</span>
+  <span class='kw'>begin</span> 
+    <span class='const'>YAML</span><span class='period'>.</span><span class='id load'>load</span> <span class='id str'>str</span>
+    <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span>
+  <span class='kw'>rescue</span> <span class='const'>ArgumentError</span> <span class='op'>=&gt;</span> <span class='id e'>e</span>
+    <span class='id e'>e</span><span class='period'>.</span><span class='id message'>message</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="convert_check_result-instance_method">
+  
+    - (<tt>&lt;<span class='object_link'><a href="SyntaxCheckerPlugin/ErrorDescription.html" title="Ruber::SyntaxChecker::SyntaxCheckerPlugin::ErrorDescription (class)">SyntaxCheckerPlugin::ErrorDescription</a></span>&gt;</tt>) <strong>convert_check_result</strong>(str) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Parses the output of <span class='object_link'><a href="#check-instance_method" title="Ruber::SyntaxChecker::YamlSyntaxChecker#check (method)">#check</a></span></p>
+<p>corresponding to the syntax errors mentioned in <em>str</em></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>str</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the string to parse.</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>&lt;<span class='object_link'><a href="SyntaxCheckerPlugin/ErrorDescription.html" title="Ruber::SyntaxChecker::SyntaxCheckerPlugin::ErrorDescription (class)">SyntaxCheckerPlugin::ErrorDescription</a></span>&gt;</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>a list of <span class='object_link'><a href="SyntaxCheckerPlugin/ErrorDescription.html" title="Ruber::SyntaxChecker::SyntaxCheckerPlugin::ErrorDescription (class)">ErrorDescription</a></span>s</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+589
+590
+591
+592
+593
+594</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/syntax_checker/syntax_checker.rb', line 589</span>
+
+<span class='kw'>def</span> <span class='id convert_check_result'>convert_check_result</span> <span class='id str'>str</span>
+  <span class='kw'>return</span> <span class='lbracket'>[</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id str'>str</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+  <span class='id str'>str</span><span class='period'>.</span><span class='id match'>match</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^syntax error on line (\d+), col (\d+): `(.*)'$</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span>
+  <span class='id error'>error</span> <span class='op'>=</span> <span class='const'>SyntaxCheckerPlugin</span><span class='op'>::</span><span class='const'>ErrorDescription</span><span class='period'>.</span><span class='id new'>new</span> <span class='backref'>$1</span><span class='period'>.</span><span class='id to_i'>to_i</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Syntax error</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='backref'>$3</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='comma'>,</span> <span class='backref'>$2</span><span class='period'>.</span><span class='id to_i'>to_i</span>
+  <span class='lbracket'>[</span><span class='id error'>error</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+
+</div>
+    
+    <div id="footer">
+  Generated on Fri Oct 29 12:53:06 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.1 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>

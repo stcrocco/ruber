@@ -1,0 +1,687 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>Class: Ruber::FilteredOutputWidget::FilterModel</title>
+<link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '../..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../_index.html">Index (F)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../../Ruber.html" title="Ruber (module)">Ruber</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../FilteredOutputWidget.html" title="Ruber::FilteredOutputWidget (class)">FilteredOutputWidget</a></span></span>
+     &raquo; 
+    <span class="title">FilterModel</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Ruber::FilteredOutputWidget::FilterModel
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName"><span class='object_link'><a href="../../Qt/SortFilterProxyModel.html" title="Qt::SortFilterProxyModel (class)">Qt::SortFilterProxyModel</a></span></span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next"><span class='object_link'><a href="../../Qt/SortFilterProxyModel.html" title="Qt::SortFilterProxyModel (class)">Qt::SortFilterProxyModel</a></span></li>
+          
+            <li class="next">Ruber::FilteredOutputWidget::FilterModel</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/ruber/filtered_output_widget.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>Filter model derived from <tt>Qt::SortFilterProxyModel</tt> which better integrate
+with FilteredOutputWidget.</p>
+<p>The differences between this class and <tt>Qt::SortFilterProxyModel</tt> are the
+following</p>
+<ul>
+	<li>it has the ability to ignore the filter (see FilteredOutputWidget)</li>
+	<li>it provides an easy way to always accept some kind of items (see <ins>exclude</ins> and
+<tt>exclude_from_filtering?</tt>)</li>
+	<li>it emits a signal when the filter reg exp is changed</li>
+</ul>
+<p><b>Note:</b> this class is meant to be used with a regexp filter, not with a string
+filter.</p>
+<p>=Signals
+===<tt>filter_changed(QString reg)</tt>
+Signal emitted when the regexp used for filtering changes (including when the
+filter is removed). <em>reg</em> is a string containing the source of the regexp.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><div id="subclasses">
+  <h2>Direct Known Subclasses</h2>
+  <p class="children"><span class='object_link'><a href="../RSpec/FilterModel.html" title="Ruber::RSpec::FilterModel (class)">RSpec::FilterModel</a></span></p>
+</div>
+
+
+  
+  
+  
+  
+  
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#exclude-instance_method" title="#exclude (instance method)">- (Object) <strong>exclude</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The kind of items to exclude from filtering.</p></div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <!-- Provides the  slot annotation -->
+<li class="protected ">
+  <span class="summary_signature">
+    
+      <a href="#exclude_from_filtering%3F-instance_method" title="#exclude_from_filtering? (instance method)">- (Boolean) <strong>exclude_from_filtering?</strong>(r, parent) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title protected">protected</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Tells the filter whether the filter should be applied to the given row and parent
+or whether it should always be accepted, according to the value of <ins>exclude</ins>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#filter_ignored%3F-instance_method" title="#filter_ignored? (instance method)">- (Boolean) <strong>filter_ignored?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Tells whether the object has been instructed to ignore the filter.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#filter_reg_exp%3D-instance_method" title="#filter_reg_exp= (instance method)">- (Object) <strong>filter_reg_exp</strong>(str) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Override of <tt>Qt::SortFilterProxyModel#filter_reg_exp=</tt> which, after changing the regexp (
+and invalidating the model) emits the <tt>filter_changed(QString)</tt> signal.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="protected ">
+  <span class="summary_signature">
+    
+      <a href="#filterAcceptsRow-instance_method" title="#filterAcceptsRow (instance method)">- (Object) <strong>filterAcceptsRow</strong>(r, parent) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title protected">protected</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Override of <tt>Qt::SortFilterProxyModel#filterAcceptsRow</tt> which also takes
+into account the setting for <tt>filter_ignored?</tt> and <ins>exclude</ins>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ignore_filter%3D-instance_method" title="#ignore_filter= (instance method)">- (Object) <strong>ignore_filter</strong>(val) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Instructs the model to ignore or not the filter, according to <em>val</em>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (FilterModel) <strong>initialize</strong>(parent = nil, exclude = nil) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Creates a new FilterModel.</p></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="../../Qt/SortFilterProxyModel.html" title="Qt::SortFilterProxyModel (class)">Qt::SortFilterProxyModel</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../../Qt/SortFilterProxyModel.html#each-instance_method" title="Qt::SortFilterProxyModel#each (method)">#each</a></span></p>
+
+  
+
+  <h2>Signal Summary</h2>
+  <ul class="summary" >
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#filter_changed-signalcode" title="filter_changed (signalcode)">- <strong>filter_changed</strong>(QString arg1) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
+  
+  </ul>
+
+
+
+
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::FilteredOutputWidget::FilterModel (class)">FilterModel</a></span></tt>) <strong>initialize</strong>(parent = nil, exclude = nil) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Creates a new FilterModel.</p>
+<p><em>parent</em> is the parent object, while <em>exclude</em> is the initial value of the <ins>exclude</ins>
+attribute (which can be changed later).</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+265
+266
+267
+268
+269</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/filtered_output_widget.rb', line 265</span>
+
+<span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id parent'>parent</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id exclude'>exclude</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='kw'>super</span> <span class='id parent'>parent</span>
+  <span class='ivar'>@exclude</span> <span class='op'>=</span> <span class='id exclude'>exclude</span>
+  <span class='ivar'>@ignore_filter</span> <span class='op'>=</span> <span class='kw'>false</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id="exclude=-instance_method"></span>
+      <span id="exclude-instance_method"></span>
+      <div class="method_details first">
+  <p class="signature first" id="exclude-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>exclude</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The kind of items to exclude from filtering. See <tt>exclude_from_filtering?</tt></p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+257
+258
+259</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/filtered_output_widget.rb', line 257</span>
+
+<span class='kw'>def</span> <span class='id exclude'>exclude</span>
+  <span class='ivar'>@exclude</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="exclude_from_filtering?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>exclude_from_filtering?</strong>(r, parent)  <span class="extras">(protected)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Tells the filter whether the filter should be applied to the given row and parent
+or whether it should always be accepted, according to the value of <ins>exclude</ins>. In
+particular:</p>
+<ul>
+	<li>if <ins>exclude</ins> is <ins>:toplevel</ins>, then the filter will be applied only to child items
+(toplevel items will always be accepted)</li>
+	<li>if <ins>exclude</ins> is <ins>:children</ins>, then the filter will be applied only to toplevel items
+(child items will always be accepted)</li>
+	<li>any other value will cause the filter to be applied to all items</li>
+</ul>
+<p>Derived classes can modify this behaviour by overriding this method. The arguments
+have the same meaning as sin <ins>filterAcceptsRow</ins></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+329
+330
+331
+332
+333
+334
+335</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/filtered_output_widget.rb', line 329</span>
+
+<span class='kw'>def</span> <span class='id exclude_from_filtering?'>exclude_from_filtering?</span> <span class='id r'>r</span><span class='comma'>,</span> <span class='id parent'>parent</span>
+  <span class='kw'>case</span> <span class='ivar'>@exclude</span>
+  <span class='kw'>when</span> <span class='symbol'>:toplevel</span> <span class='kw'>then</span> <span class='op'>!</span><span class='id parent'>parent</span><span class='period'>.</span><span class='id valid?'>valid?</span>
+  <span class='kw'>when</span> <span class='symbol'>:children</span> <span class='kw'>then</span> <span class='id parent'>parent</span><span class='period'>.</span><span class='id valid?'>valid?</span>
+  <span class='kw'>else</span> <span class='kw'>false</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="filter_ignored?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>filter_ignored?</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Tells whether the object has been instructed to ignore the filter</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+274
+275
+276</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/filtered_output_widget.rb', line 274</span>
+
+<span class='kw'>def</span> <span class='id filter_ignored?'>filter_ignored?</span>
+  <span class='ivar'>@ignore_filter</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="filter_reg_exp=-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>filter_reg_exp=</strong>(str) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Override of <tt>Qt::SortFilterProxyModel#filter_reg_exp=</tt> which, after changing the regexp (
+and invalidating the model) emits the <tt>filter_changed(QString)</tt> signal</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+291
+292
+293
+294</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/filtered_output_widget.rb', line 291</span>
+
+<span class='kw'>def</span> <span class='id filter_reg_exp='>filter_reg_exp=</span> <span class='id str'>str</span>
+  <span class='kw'>super</span>
+  <span class='id emit'>emit</span> <span class='id filter_changed'>filter_changed</span><span class='lparen'>(</span><span class='id str'>str</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="filterAcceptsRow-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>filterAcceptsRow</strong>(r, parent)  <span class="extras">(protected)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Override of <tt>Qt::SortFilterProxyModel#filterAcceptsRow</tt> which also takes
+into account the setting for <tt>filter_ignored?</tt> and <ins>exclude</ins>. In particular,
+if <tt>filter_ignored?</tt> is <strong>true</strong> or if <tt>exclude_from_filtering?</tt> returns
+<strong>true</strong> for the given row and parent, then it will always return <strong>true</strong>. Otherwise,
+it behaves like <tt>Qt::SortFilterProxyModel#filterAcceptsRow</tt></p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+310
+311
+312
+313
+314</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/filtered_output_widget.rb', line 310</span>
+
+<span class='kw'>def</span> <span class='id filterAcceptsRow'>filterAcceptsRow</span> <span class='id r'>r</span><span class='comma'>,</span> <span class='id parent'>parent</span>
+  <span class='kw'>return</span> <span class='kw'>true</span> <span class='kw'>if</span> <span class='ivar'>@ignore_filter</span>
+  <span class='kw'>return</span> <span class='kw'>true</span> <span class='kw'>if</span> <span class='id exclude_from_filtering?'>exclude_from_filtering?</span> <span class='id r'>r</span><span class='comma'>,</span> <span class='id parent'>parent</span>
+  <span class='kw'>super</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="ignore_filter=-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>ignore_filter=</strong>(val) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Instructs the model to ignore or not the filter, according to <em>val</em>. This method
+always invalidate the model</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+282
+283
+284
+285</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/filtered_output_widget.rb', line 282</span>
+
+<span class='kw'>def</span> <span class='id ignore_filter='>ignore_filter=</span> <span class='id val'>val</span>
+  <span class='ivar'>@ignore_filter</span> <span class='op'>=</span> <span class='id val'>val</span>
+  <span class='id invalidate'>invalidate</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Signal Details</h2>
+    
+      <div class="method_details first">
+  <p class="signature first" id="filter_changed-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>filter_changed</strong>(QString arg1) 
+</p>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Fri Oct 29 12:53:01 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.1 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>

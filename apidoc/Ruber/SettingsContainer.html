@@ -1,0 +1,2128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>Module: Ruber::SettingsContainer</title>
+<link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (S)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../Ruber.html" title="Ruber (module)">Ruber</a></span></span>
+     &raquo; 
+    <span class="title">SettingsContainer</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Module: Ruber::SettingsContainer
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+  
+    
+  
+  
+    <dt class="r1">Included in:</dt>
+    <dd class="r1"><span class='object_link'><a href="AbstractProject.html" title="Ruber::AbstractProject (class)">AbstractProject</a></span>, <span class='object_link'><a href="ConfigManager.html" title="Ruber::ConfigManager (class)">ConfigManager</a></span></dd>
+    
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/ruber/settings_container.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+  <div class="note todo">
+    <strong>TODO:</strong> 
+    <div class='inline'><p>Change all names referring to &#8220;option&#8221; to use the word &#8220;setting&#8221; instead</p></div>
+  </div>
+
+  <div class="note todo">
+    <strong>TODO:</strong> 
+    <div class='inline'><p>Replace instance variables used by classes mixing-in this (for example, @dialog_class)</p></div>
+  </div>
+
+<p>Module which allows including classes to store and retrieve settings and provides
+an interface (but not the implentation, which is a backend&#8217;s job) to write the
+settings to a file. It&#8217;s
+a part of the <a href="../file.settings_framework.html">Ruber Settings Framework</a></p>
+<p>Settings are divided into groups, and each settings has a name, so any of them
+can be accessed using the <code>[group, name]</code> pair. Each group can contain multiple
+settings, obviously all with different names (of course, you can have settings
+with the same name in different groups).</p>
+<p>To read or write a setting, you must first add it, using the <span class='object_link'><a href="#add_setting-instance_method" title="Ruber::SettingsContainer#add_setting (method)">SettingsContainer#add_setting</a></span> method.
+This method takes what we call a <em>settings object</em>, that is an object describing
+a setting. Among other things, a setting object provides information about the name
+of the setting, the group it belongs to and the default value, that is the value
+to use for the setting if the user hasn&#8217;t changed it.</p>
+<p>The user can change the value of the settings added to a container using the dialog
+returned by the <span class='object_link'><a href="#dialog-instance_method" title="Ruber::SettingsContainer#dialog (method)">SettingsContainer#dialog</a></span> method. This dialog is a sublcass of <code>KDE::PageDialog</code>,
+to which plugins can add the widgets needed to change their settings (see <span class='object_link'><a href="#add_widget-instance_method" title="Ruber::SettingsContainer#add_widget (method)">SettingsContainer#add_widget</a></span>).
+The dialog is only created when the <span class='object_link'><a href="#dialog-instance_method" title="Ruber::SettingsContainer#dialog (method)">SettingsContainer#dialog</a></span> method is called and is destroyed
+every time a widget is added or removed to it.</p>
+<p>This module knows nothing about the way the data is stored to file, so it needs
+a backend to do the reading/writing. Refer to
+<a href="../file.settings_framework.html#backends">the ruber settings framework documentation</a>
+for the interface a backend class must provide.</p>
+<p><strong>Notes:</strong></p>
+<ul>
+	<li>classes mixing-in this module <strong>must</strong> call <span class='object_link'><a href="#setup_container-instance_method" title="Ruber::SettingsContainer#setup_container (method)">SettingsContainer#setup_container</a></span> before using the
+functionality it provides. Usually, this can be done from the class&#8217;s <code>initialize</code>
+method</li>
+	<li>the values of the options in the backend aren&#8217;t updated when they are changed
+using the []= method, but only when the <span class='object_link'><a href="#write-instance_method" title="Ruber::SettingsContainer#write (method)">SettingsContainer#write</a></span> method is called.</li>
+	<li>if you want to store a value of a custom class in a settings file, make sure
+you require the file the class is defined in before <em>creating</em> the instance of
+<code>SettingsContainer</code> associated with the configuration file (not before accessing
+it). This is because some backends (for example the <span class="caps">YAML</span> backend) create all the
+objects stored in it on creation</li>
+</ul>
+<h3>Instance variables</h3>
+<p>There are some instance variables which classes mixing-in this module may set
+to tune the behaviour of the module. They are:</p>
+<ul>
+	<li><code>@base_dir</code>: this variable can be set to a path to use as base for settings
+representing a relative path. For example, if this variable is set to <code>/home/myhome/</code>,
+a setting with value <code>/home/myhome/somefile</code> will be stored simply as <code>somefile</code></li>
+	<li><code>@dialog_class</code>: the class to instantiate to create the dialog. It must be a
+subclass of <span class='object_link'><a href="SettingsDialog.html" title="Ruber::SettingsDialog (class)">SettingsDialog</a></span>. If this variable isn&#8217;t set, <span class='object_link'><a href="SettingsDialog.html" title="Ruber::SettingsDialog (class)">SettingsDialog</a></span>
+will be used.</li>
+</ul>
+<p>with method calls which may be overridden</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+
+
+
+<h2>Defined Under Namespace</h2>
+<p class="children">
+   
+    
+   
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="SettingsContainer/Proxy.html" title="Ruber::SettingsContainer::Proxy (class)">Proxy</a></span>
+    
+  
+</p>
+
+
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#dialog_title-instance_method" title="#dialog_title (instance method)">- (String) <strong>dialog_title</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    
+    
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The title which will be used for the dialog.</p></div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#%5B%5D-instance_method" title="#[] (instance method)">- (Object) <strong>[]</strong>(*args) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of a setting
+been added, except in the case of one argument, where the <span class='object_link'><a href="SettingsContainer/Proxy.html" title="Ruber::SettingsContainer::Proxy (class)">SettingsContainer::Proxy</a></span> object is always
+returned.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#%5B%5D%3D-instance_method" title="#[]= (instance method)">- (Object) <strong>[]=</strong>(group, name, value) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Changes the value of a setting.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#add_setting-instance_method" title="#add_setting (instance method)">- (nil) <strong>add_setting</strong>(opt) </a>
+    
+
+    
+      (also: #add_option)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Adds a setting to the container.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#add_widget-instance_method" title="#add_widget (instance method)">- (nil) <strong>add_widget</strong>(w) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Instructs the container to add a widget to the associated dialog.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#collect_options-instance_method" title="#collect_options (instance method)">- (Hash) <strong>collect_options</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The known settings and their values.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#default-instance_method" title="#default (instance method)">- (Object) <strong>default</strong>(group, name) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The default value for a given setting.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#delete_dialog-instance_method" title="#delete_dialog (instance method)">- (Object) <strong>delete_dialog</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Deletes the dialog.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#dialog-instance_method" title="#dialog (instance method)">- (Qt::Dialog) <strong>dialog</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The dialog associated with the container.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#has_setting%3F-instance_method" title="#has_setting? (instance method)">- (Boolean) <strong>has_setting?</strong>(group, name) </a>
+    
+
+    
+      (also: #has_option?)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Whether a given setting has been added to the container.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#relative_path%3F-instance_method" title="#relative_path? (instance method)">- (Boolean) <strong>relative_path?</strong>(group, name) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Whether a setting should be considered a relative path or not.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#remove_setting-instance_method" title="#remove_setting (instance method)">- (Object) <strong>remove_setting</strong>(*args) </a>
+    
+
+    
+      (also: #remove_option)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Removes a setting.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#remove_widget-instance_method" title="#remove_widget (instance method)">- (nil) <strong>remove_widget</strong>(w) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Removes a widget from the dialog.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#setup_container-instance_method" title="#setup_container (instance method)">- (nil) <strong>setup_container</strong>(backend, base_dir = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Initializes instance variables needed by this module.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#write-instance_method" title="#write (instance method)">- (nil) <strong>write</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Writes the settings to file.</p></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id="dialog_title=-instance_method"></span>
+      <span id="dialog_title-instance_method"></span>
+      <div class="method_details first">
+  <p class="signature first" id="dialog_title-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>dialog_title</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The title which will be used for the dialog</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the title which will be used for the dialog</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+438
+439
+440</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/settings_container.rb', line 438</span>
+
+<span class='kw'>def</span> <span class='id dialog_title'>dialog_title</span>
+  <span class='ivar'>@dialog_title</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="[]-instance_method">
+  
+    
+      <span class="overload">- (<tt><span class='object_link'><a href="SettingsContainer/Proxy.html" title="Ruber::SettingsContainer::Proxy (class)">SettingsContainer::Proxy</a></span></tt>) <strong>[]</strong>(group) </span>
+    
+      <span class="overload">- (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>[]</strong>(group, name) </span>
+    
+      <span class="overload">- (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>[]</strong>(group, name, mode) </span>
+    
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of a setting
+been added, except in the case of one argument, where the <span class='object_link'><a href="SettingsContainer/Proxy.html" title="Ruber::SettingsContainer::Proxy (class)">Proxy</a></span> object is always
+returned</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+  <h3>Overloads:</h3>
+  <ul class="overload">
+    
+      
+      <li class="overload_item">
+        <span class="signature">- (<tt><span class='object_link'><a href="SettingsContainer/Proxy.html" title="Ruber::SettingsContainer::Proxy (class)">SettingsContainer::Proxy</a></span></tt>) <strong>[]</strong>(group) </span>
+        <div class="docstring">
+  <div class="discussion">
+    <p>Returns a <span class='object_link'><a href="SettingsContainer/Proxy.html" title="Ruber::SettingsContainer::Proxy (class)">Proxy</a></span> object associated with a group</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
+      
+      
+        <span class='name'>group</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the name of the group</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="SettingsContainer/Proxy.html" title="Ruber::SettingsContainer::Proxy (class)">SettingsContainer::Proxy</a></span></tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+      </li>
+    
+      
+      <li class="overload_item">
+        <span class="signature">- (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>[]</strong>(group, name) </span>
+        <div class="docstring">
+  <div class="discussion">
+    <p>value is returned</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
+      
+      
+        <span class='name'>group</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the group the setting belongs to</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
+      
+      
+        <span class='name'>name</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the name of the setting</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the value of the setting. If it has never been set, the default</p></div>
+      
+    </li>
+  
+</ul>
+
+</div>
+      </li>
+    
+      
+      <li class="overload_item">
+        <span class="signature">- (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>[]</strong>(group, name, mode) </span>
+        <div class="docstring">
+  <div class="discussion">
+    <p>or a <code>Pathname</code>, it is considered as a path relative to the base directory. The
+absolute path, obtained by joining the base directory with the value of the setting
+is then returned
+value is returned</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
+      
+      
+        <span class='name'>group</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the group the setting belongs to</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
+      
+      
+        <span class='name'>name</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the name of the setting</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
+      
+      
+        <span class='name'>mode</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>if either <code>:abs</code> or <code>absolute</code>, and if the setting is a <code>string</code></p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the value of the setting. If it has never been set, the default</p></div>
+      
+    </li>
+  
+</ul>
+
+</div>
+      </li>
+    
+  </ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'></span>
+      
+      
+      
+      
+        
+        <div class='inline'><p>IndexError if an option corresponding to the given group and name hasn&#8217;t</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/settings_container.rb', line 283</span>
+
+<span class='kw'>def</span> <span class='op'>[]</span><span class='lparen'>(</span><span class='op'>*</span><span class='id args'>args</span><span class='rparen'>)</span>
+  <span class='id group'>group</span><span class='comma'>,</span> <span class='id name'>name</span><span class='comma'>,</span> <span class='id path_opt'>path_opt</span> <span class='op'>=</span> <span class='id args'>args</span>
+  <span class='kw'>return</span> <span class='const'>Proxy</span><span class='period'>.</span><span class='id new'>new</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='id group'>group</span> <span class='kw'>unless</span> <span class='id name'>name</span>
+  <span class='id res'>res</span> <span class='op'>=</span> <span class='ivar'>@options</span><span class='period'>.</span><span class='id fetch'>fetch</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='id group'>group</span><span class='comma'>,</span> <span class='id name'>name</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>do</span>
+    <span class='id raise'>raise</span> <span class='const'>IndexError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>An option called </span><span class='embexpr_beg'>#{</span><span class='id name'>name</span><span class='rbrace'>}</span><span class='tstring_content'> belonging to group </span><span class='embexpr_beg'>#{</span><span class='id group'>group</span><span class='rbrace'>}</span><span class='tstring_content'> doesn't exist</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  <span class='kw'>if</span> <span class='ivar'>@base_directory</span> <span class='kw'>and</span> <span class='lparen'>(</span><span class='id path_opt'>path_opt</span> <span class='op'>==</span> <span class='symbol'>:abs</span> <span class='kw'>or</span> <span class='id path_opt'>path_opt</span> <span class='op'>==</span> <span class='symbol'>:absolute</span><span class='rparen'>)</span>
+<span class='comment'># The call to File.expand_path is used to avoid returning names as /base/dir/.
+</span><span class='comment'># if the value of the options were .
+</span>    <span class='kw'>if</span> <span class='id res'>res</span><span class='period'>.</span><span class='id is_a?'>is_a?</span> <span class='const'>String</span>
+      <span class='id res'>res</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id expand_path'>expand_path</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span><span class='lparen'>(</span><span class='ivar'>@base_directory</span><span class='comma'>,</span> <span class='id res'>res</span><span class='rparen'>)</span><span class='rparen'>)</span>
+    <span class='kw'>elsif</span> <span class='id res'>res</span><span class='period'>.</span><span class='id is_a?'>is_a?</span> <span class='const'>Pathname</span>
+      <span class='id res'>res</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='const'>Pathname</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='ivar'>@base_directory</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='id res'>res</span><span class='rparen'>)</span><span class='period'>.</span><span class='id cleanpath'>cleanpath</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='id res'>res</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="[]=-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>[]=</strong>(group, name, value) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Changes the value of a setting</p>
+<p>If the new value is a string containing an absolute path, the corresponding
+setting object has a <code>relative_path</code> method which returns <strong>true</strong> and the base directory
+is not <strong>nil</strong>, the string will be trasformed into a path relative to the base directory
+before being stored.</p>
+<p>to the object</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
+      
+      
+        <span class='name'>group</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the group the setting belongs to</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
+      
+      
+        <span class='name'>name</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the name of the setting</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>)</span>
+      
+      
+        <span class='name'>value</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the new value of the setting</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><em>value</em></p></div>
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'>(<tt>IndexError</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>if a setting with the given name and group haven&#8217;t been added</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/settings_container.rb', line 316</span>
+
+<span class='kw'>def</span> <span class='op'>[]=</span><span class='lparen'>(</span><span class='id group'>group</span><span class='comma'>,</span> <span class='id name'>name</span><span class='comma'>,</span> <span class='id value'>value</span><span class='rparen'>)</span>
+  <span class='id full_name'>full_name</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id group'>group</span><span class='comma'>,</span> <span class='id name'>name</span><span class='rbracket'>]</span>
+  <span class='id opt'>opt</span> <span class='op'>=</span> <span class='ivar'>@known_options</span><span class='period'>.</span><span class='id fetch'>fetch</span><span class='lparen'>(</span><span class='id full_name'>full_name</span><span class='rparen'>)</span> <span class='kw'>do</span>
+    <span class='id raise'>raise</span> <span class='const'>IndexError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No option called </span><span class='embexpr_beg'>#{</span><span class='id name'>name</span><span class='rbrace'>}</span><span class='tstring_content'> and belonging to group </span><span class='embexpr_beg'>#{</span><span class='id group'>group</span><span class='rbrace'>}</span><span class='tstring_content'> exists</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  <span class='kw'>if</span> <span class='id value'>value</span><span class='period'>.</span><span class='id is_a?'>is_a?</span> <span class='const'>String</span> <span class='kw'>and</span> <span class='lparen'>(</span><span class='id opt'>opt</span><span class='period'>.</span><span class='id relative_path'>relative_path</span> <span class='kw'>rescue</span> <span class='kw'>false</span><span class='rparen'>)</span> <span class='kw'>and</span> <span class='ivar'>@base_directory</span>
+    <span class='id path'>path</span> <span class='op'>=</span> <span class='const'>Pathname</span><span class='period'>.</span><span class='id new'>new</span> <span class='id value'>value</span>
+    <span class='id dir'>dir</span> <span class='op'>=</span> <span class='const'>Pathname</span><span class='period'>.</span><span class='id new'>new</span> <span class='ivar'>@base_directory</span>
+    <span class='id value'>value</span> <span class='op'>=</span> <span class='id path'>path</span><span class='period'>.</span><span class='id relative_path_from'>relative_path_from</span><span class='lparen'>(</span> <span class='id dir'>dir</span><span class='rparen'>)</span><span class='period'>.</span><span class='id to_s'>to_s</span> <span class='kw'>rescue</span> <span class='id value'>value</span>
+  <span class='kw'>end</span>
+  <span class='ivar'>@options</span><span class='lbracket'>[</span><span class='id full_name'>full_name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id value'>value</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="add_setting-instance_method">
+  
+    - (<tt>nil</tt>) <strong>add_setting</strong>(opt) 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='add_option-instance_method'>add_option</span></span>
+    </span>
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Adds a setting to the container</p>
+<p><strong>Note:</strong> this method also deletes the configuration dialog, so a new one will be
+created the next time it&#8217;s needed</p>
+<p>following methods:</p>
+<ul>
+	<li><code>name</code>: takes no arguments and returns a symbol corresponding to the name of the setting</li>
+	<li><code>group</code>: takes no arguments and returns a symbol corresponding to the group the setting belongs to</li>
+	<li><code>default</code>: takes one argument of class <code>Binding</code> and returns the default value
+to use for the setting</li>
+</ul>
+<p>If the object also has a <code>relative_path</code> method and that method returns <strong>true</strong>,
+then the setting will be treated a a path relative to the base directory
+already exists</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>)</span>
+      
+      
+        <span class='name'>the</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>settings object describing the setting to add. It must have the three</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'></span>
+      
+      
+      
+      
+        
+        <div class='inline'><p>ArgumentError if an option with the same name nad belonging to the same group</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/settings_container.rb', line 208</span>
+
+<span class='kw'>def</span> <span class='id add_setting'>add_setting</span> <span class='id opt'>opt</span>
+  <span class='id full_name'>full_name</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id opt'>opt</span><span class='period'>.</span><span class='id group'>group</span><span class='comma'>,</span> <span class='id opt'>opt</span><span class='period'>.</span><span class='id name'>name</span><span class='rbracket'>]</span>
+  <span class='kw'>if</span> <span class='ivar'>@known_options</span><span class='lbracket'>[</span><span class='id full_name'>full_name</span><span class='rbracket'>]</span>
+    <span class='id raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>An option with name </span><span class='embexpr_beg'>#{</span><span class='id opt'>opt</span><span class='period'>.</span><span class='id name'>name</span><span class='rbrace'>}</span><span class='tstring_content'> belonging to group </span><span class='embexpr_beg'>#{</span><span class='id opt'>opt</span><span class='period'>.</span><span class='id group'>group</span><span class='rbrace'>}</span><span class='tstring_content'> already exists</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  <span class='ivar'>@known_options</span><span class='lbracket'>[</span><span class='id full_name'>full_name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id opt'>opt</span>
+  <span class='ivar'>@options</span><span class='lbracket'>[</span><span class='id full_name'>full_name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='ivar'>@backend</span><span class='lbracket'>[</span><span class='id opt'>opt</span><span class='rbracket'>]</span>
+  <span class='id delete_dialog'>delete_dialog</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="add_widget-instance_method">
+  
+    - (<tt>nil</tt>) <strong>add_widget</strong>(w) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Instructs the container to add a widget to the associated dialog</p>
+<p>The widget won&#8217;t be immediately added to the dialog. This method only gives the
+container information about the widget to insert in the dialog. The widget itself
+will only be created and inserted in the dialog when it will first be shown.</p>
+<p>This method resets the dialog.</p>
+<p>below
+the page doesn&#8217;t exist in the dialog, it will be added. Otherwise, the widget will
+be added to the one already existing in the page
+<code>initialize</code> method must take no parameters. Either this method or the <code>code</code>
+method must not be <strong>nil</strong>
+<code>TOPLEVEL_BINDING</code>, will return the widget to add to the dialog. Either this
+method or the <code>class_obje</code> method must not be <strong>nil</strong>. If both are not <strong>nil</strong>, this
+method will have the precedence</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>)</span>
+      
+      
+        <span class='name'>w</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the object describing the widget. It must have the methods documented</p></div>
+      
+    </li>
+  
+</ul>
+
+  
+    
+    
+    <h3>Options Hash (<tt>w</tt>):</h3>
+    <ul class="option">
+      
+        <li>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="name">caption</span>
+          <span class="default">
+            
+              <span class="na">N/A</span>
+            
+          </span>
+          &mdash;<div class='inline'><p>the name of the page the widget should be put into. If</p></div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt>Class</tt>)</span>
+          <span class="name">class_obj</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>nil</tt>
+            
+          </span>
+          &mdash;<div class='inline'><p>the class of the widget to create. The class&#8217;s</p></div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="name">code</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>nil</tt>
+            
+          </span>
+          &mdash;<div class='inline'><p>a piece of ruby code which, when executed in the</p></div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="name">pixmap</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>''</tt>
+            
+          </span>
+          &mdash;<div class='inline'><p>the path of the pixmap to associate to the page</p></div>
+        </tr>
+      
+    </ul>
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+  <h3>See Also:</h3>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="SettingsDialog.html#initialize-instance_method" title="Ruber::SettingsDialog#initialize (method)">Ruber::SettingsDialog#initialize</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+383
+384
+385
+386
+387</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/settings_container.rb', line 383</span>
+
+<span class='kw'>def</span> <span class='id add_widget'>add_widget</span> <span class='id w'>w</span>
+  <span class='ivar'>@widgets</span> <span class='op'>&lt;&lt;</span> <span class='id w'>w</span>
+  <span class='id delete_dialog'>delete_dialog</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="collect_options-instance_method">
+  
+    - (<tt>Hash</tt>) <strong>collect_options</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The known settings and their values</p>
+<p>and the corresponding values as values</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>a hash having the settings objects added to the container as keys</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+507
+508
+509
+510
+511</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/settings_container.rb', line 507</span>
+
+<span class='kw'>def</span> <span class='id collect_options'>collect_options</span>
+  <span class='id data'>data</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='ivar'>@known_options</span><span class='period'>.</span><span class='id each_value'>each_value</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id v'>v</span><span class='op'>|</span> <span class='id data'>data</span><span class='lbracket'>[</span><span class='id v'>v</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='ivar'>@options</span><span class='lbracket'>[</span><span class='lbracket'>[</span><span class='id v'>v</span><span class='period'>.</span><span class='id group'>group</span><span class='comma'>,</span> <span class='id v'>v</span><span class='period'>.</span><span class='id name'>name</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
+  <span class='id data'>data</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="default-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>default</strong>(group, name) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The default value for a given setting</p>
+<p>the value returned by the <code>relative_path</code> method of the setting object
+(if it exists)</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>Sybmol</tt>)</span>
+      
+      
+        <span class='name'>group</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the group the setting belongs to</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>the</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>name of the setting</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the default value for the setting, without taking into account</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'></span>
+      
+      
+      
+      
+        
+        <div class='inline'><p><code>IndexError</code> if a setting with the given name and group hasn&#8217;t been added</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+339
+340
+341
+342
+343
+344</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/settings_container.rb', line 339</span>
+
+<span class='kw'>def</span> <span class='id default'>default</span> <span class='id group'>group</span><span class='comma'>,</span> <span class='id name'>name</span>
+  <span class='id opt'>opt</span> <span class='op'>=</span> <span class='ivar'>@known_options</span><span class='period'>.</span><span class='id fetch'>fetch</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='id group'>group</span><span class='comma'>,</span> <span class='id name'>name</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>do</span>
+    <span class='id raise'>raise</span> <span class='const'>IndexError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No option called </span><span class='embexpr_beg'>#{</span><span class='id name'>name</span><span class='rbrace'>}</span><span class='tstring_content'> and belonging to group </span><span class='embexpr_beg'>#{</span><span class='id group'>group</span><span class='rbrace'>}</span><span class='tstring_content'> exists</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  <span class='id opt'>opt</span><span class='period'>.</span><span class='id default'>default</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="delete_dialog-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>delete_dialog</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Deletes the dialog</p>
+<p>After calling this method, a call to <span class='object_link'><a href="#dialog-instance_method" title="Ruber::SettingsContainer#dialog (method)">#dialog</a></span> will cause a new dialog to be
+craeated. This is used, for example, when adding a new widget to the dialog or
+removing an existing one.</p>
+<p>If the dialog hadn&#8217;t already been crated, nothing is done.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+494
+495
+496
+497
+498
+499</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/settings_container.rb', line 494</span>
+
+<span class='kw'>def</span> <span class='id delete_dialog'>delete_dialog</span>
+  <span class='kw'>if</span> <span class='ivar'>@dialog</span>
+    <span class='ivar'>@dialog</span><span class='period'>.</span><span class='id delete_later'>delete_later</span> 
+    <span class='ivar'>@dialog</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="dialog-instance_method">
+  
+    - (<tt>Qt::Dialog</tt>) <strong>dialog</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The dialog associated with the container</p>
+<p>If a dialog has already been created, it will be returned. Otherwise, another dialog
+will be created and filled with the widgets added to the container</p>
+<p>The dialog will be an instance of the class stored in the <code>@dialog_class</code> instance
+variable.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Qt::Dialog</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the dialog associated with the container.</p></div>
+      
+    </li>
+  
+</ul>
+
+  <h3>See Also:</h3>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#add_widget-instance_method" title="Ruber::SettingsContainer#add_widget (method)">#add_widget</a></span></li>
+    
+      <li><span class='object_link'><a href="" title="Ruber::SettingsContainer (module)">Ruber::SettingsContainer</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+415
+416
+417</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/settings_container.rb', line 415</span>
+
+<span class='kw'>def</span> <span class='id dialog'>dialog</span>
+  <span class='ivar'>@dialog</span> <span class='op'>||=</span> <span class='ivar'>@dialog_class</span><span class='period'>.</span><span class='id new'>new</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='ivar'>@known_options</span><span class='period'>.</span><span class='id values'>values</span><span class='comma'>,</span> <span class='ivar'>@widgets</span><span class='comma'>,</span> <span class='ivar'>@dialog_title</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="has_setting?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>has_setting?</strong>(group, name) 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='has_option?-instance_method'>has_option?</span></span>
+    </span>
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Whether a given setting has been added to the container</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
+      
+      
+        <span class='name'>group</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the name the setting belongs to</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
+      
+      
+        <span class='name'>name</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the name of the setting</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><strong>true</strong> if the setting had already been added and <strong>false</strong> otherwise</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+251
+252
+253</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/settings_container.rb', line 251</span>
+
+<span class='kw'>def</span> <span class='id has_setting?'>has_setting?</span> <span class='id group'>group</span><span class='comma'>,</span> <span class='id name'>name</span>
+  <span class='op'>!</span><span class='ivar'>@known_options</span><span class='lbracket'>[</span><span class='lbracket'>[</span><span class='id group'>group</span><span class='comma'>,</span> <span class='id name'>name</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id nil?'>nil?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="relative_path?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>relative_path?</strong>(group, name) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Whether a setting should be considered a relative path or not</p>
+<p><em>name</em> has a <code>relative_path</code> method and it returns <strong>true</strong> and <strong>false</strong> otherwise</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>Sybmol</tt>)</span>
+      
+      
+        <span class='name'>group</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the group the setting belongs to</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>the</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>name of the setting</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><strong>true</strong> if the settings object corresponding to <em>group</em> and</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+354
+355
+356</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/settings_container.rb', line 354</span>
+
+<span class='kw'>def</span> <span class='id relative_path?'>relative_path?</span> <span class='id group'>group</span><span class='comma'>,</span> <span class='id name'>name</span>
+  <span class='ivar'>@known_options</span><span class='lbracket'>[</span><span class='lbracket'>[</span><span class='id group'>group</span><span class='comma'>,</span> <span class='id name'>name</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id relative_path'>relative_path</span><span class='period'>.</span><span class='id to_bool'>to_bool</span> <span class='kw'>rescue</span> <span class='kw'>false</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="remove_setting-instance_method">
+  
+    
+      <span class="overload">- (<tt>nil</tt>) <strong>remove_setting</strong>(group, name) </span>
+    
+      <span class="overload">- (<tt>nil</tt>) <strong>remove_setting</strong>(obj) </span>
+    
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='remove_option-instance_method'>remove_option</span></span>
+    </span>
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Removes a setting</p>
+<p><strong>Note:</strong> this method also deletes the configuration dialog, so a new one will be
+created the next time it&#8217;s needed</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+  <h3>Overloads:</h3>
+  <ul class="overload">
+    
+      
+      <li class="overload_item">
+        <span class="signature">- (<tt>nil</tt>) <strong>remove_setting</strong>(group, name) </span>
+        <div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
+      
+      
+        <span class='name'>group</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the group the setting belongs to</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
+      
+      
+        <span class='name'>name</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the name of the setting to remove</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+      </li>
+    
+      
+      <li class="overload_item">
+        <span class="signature">- (<tt>nil</tt>) <strong>remove_setting</strong>(obj) </span>
+        <div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>)</span>
+      
+      
+        <span class='name'>see</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><span class='object_link'><a href="#add_setting-instance_method" title="Ruber::SettingsContainer#add_setting (method)">#add_setting</a></span></p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div>
+      </li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+235
+236
+237
+238
+239
+240
+241
+242</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/settings_container.rb', line 235</span>
+
+<span class='kw'>def</span> <span class='id remove_setting'>remove_setting</span> <span class='op'>*</span><span class='id args'>args</span>
+  <span class='id group'>group</span><span class='comma'>,</span> <span class='id name'>name</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='id args'>args</span><span class='period'>.</span><span class='id size'>size</span> <span class='op'>==</span> <span class='int'>1</span> <span class='kw'>then</span> <span class='lbracket'>[</span><span class='id args'>args</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id group'>group</span><span class='comma'>,</span> <span class='id args'>args</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id name'>name</span><span class='rbracket'>]</span>
+  <span class='kw'>else</span> <span class='id args'>args</span>
+  <span class='kw'>end</span>
+  <span class='ivar'>@known_options</span><span class='period'>.</span><span class='id delete'>delete</span> <span class='lbracket'>[</span><span class='id group'>group</span><span class='comma'>,</span> <span class='id name'>name</span><span class='rbracket'>]</span>
+  <span class='ivar'>@options</span><span class='period'>.</span><span class='id delete'>delete</span> <span class='lbracket'>[</span><span class='id group'>group</span><span class='comma'>,</span> <span class='id name'>name</span><span class='rbracket'>]</span>
+  <span class='id delete_dialog'>delete_dialog</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="remove_widget-instance_method">
+  
+    - (<tt>nil</tt>) <strong>remove_widget</strong>(w) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Removes a widget from the dialog</p>
+<p>If the dialog doesn&#8217;t contain the widget, nothing is done. Otherwise, the dialog
+will be deleted</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>Qt::Widget</tt>)</span>
+      
+      
+        <span class='name'>w</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the widget to remove</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+398
+399
+400
+401</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/settings_container.rb', line 398</span>
+
+<span class='kw'>def</span> <span class='id remove_widget'>remove_widget</span> <span class='id w'>w</span>
+  <span class='id deleted'>deleted</span> <span class='op'>=</span> <span class='ivar'>@widgets</span><span class='period'>.</span><span class='id delete'>delete</span> <span class='id w'>w</span>
+  <span class='id delete_dialog'>delete_dialog</span> <span class='kw'>if</span> <span class='id deleted'>deleted</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="setup_container-instance_method">
+  
+    - (<tt>nil</tt>) <strong>setup_container</strong>(backend, base_dir = nil)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Initializes instance variables needed by this module</p>
+<p>This method must be called
+before any of the instance method provided by the module may be
+used. Usually it&#8217;s called from the constructor of the including class.</p>
+<p>for documentation about backends
+to. If <strong>nil</strong>, then settings containing absolute paths will be stored as such
+path (that is, it doesn&#8217;t start with a <code>/</code>)</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>)</span>
+      
+      
+        <span class='name'>backend</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the backend to use. See <a href="../file.settings_framework.html#backends">here</a></p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+        <span class='name'>base_dir</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>the directory all paths settings will be relative</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'>(<tt>ArgumentError</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>if <em>base_dir</em> is a string but doesn&#8217;t represent a full</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/settings_container.rb', line 455</span>
+
+<span class='kw'>def</span> <span class='id setup_container'>setup_container</span> <span class='id backend'>backend</span><span class='comma'>,</span> <span class='id base_dir'>base_dir</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='ivar'>@known_options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='ivar'>@options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='ivar'>@backend</span> <span class='op'>=</span> <span class='id backend'>backend</span>
+  <span class='ivar'>@dialog</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='ivar'>@dialog_title</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='ivar'>@widgets</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='ivar'>@dialog_class</span> <span class='op'>=</span> <span class='const'>SettingsDialog</span>
+  <span class='kw'>if</span> <span class='id base_dir'>base_dir</span> <span class='kw'>and</span> <span class='op'>!</span><span class='id base_dir'>base_dir</span><span class='period'>.</span><span class='id match'>match</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>%r{</span><span class='tstring_content'>\A/</span><span class='regexp_end'>}</span></span><span class='rparen'>)</span>
+    <span class='id raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The second argument to setup_container should be either an absolute path or nil</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  <span class='ivar'>@base_directory</span> <span class='op'>=</span> <span class='id base_dir'>base_dir</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="write-instance_method">
+  
+    - (<tt>nil</tt>) <strong>write</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Writes the settings to file</p>
+<p>If you need to modify the content of an option before writing (for example because
+it contains a value which can only be read if a specific plugin has been loaded),
+override this method and change the value of the option, then return the hash.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+428
+429
+430
+431</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/settings_container.rb', line 428</span>
+
+<span class='kw'>def</span> <span class='id write'>write</span>
+  <span class='ivar'>@backend</span><span class='period'>.</span><span class='id write'>write</span> <span class='id collect_options'>collect_options</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Fri Oct 29 12:52:58 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.1 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>

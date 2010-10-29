@@ -1,0 +1,329 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>File: plugin_specification_file</title>
+<link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html" title="Index">Index</a> &raquo; 
+    <span class="title">File: plugin_specification_file</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><div id='filecontents'><h1>The Plugin Specification File</h1>
+<p>The Plugin Specification File (<span class="caps">PSF</span>) is a file which describes the contents and the
+characteristics of a plugin. It&#8217;s written in <span class="caps">YAML</span> format, must be called <code>plugin.yaml</code>
+and be placed inside the plugin&#8217;s directory.</p>
+<p>The <span class="caps">PSF</span> contains a single hash, whose entries can be divided in two logical sections:
+an introduction which only contains generic information, such as the plugin name,
+its description, which plugins it depends on and so on, and a detailed description
+containing, for example, the files to require before loading the plugin, the options
+provided by the plugin and so on.</p>
+<p>Here&#8217;s a complete list of the <span class="caps">PSF</span> entries. Keys can be either symbols or strings,
+and will be converted to strings upon reading (the same is true wherever the following
+description says that something can be either a string or symbol)<sup class="footnote" id="fnr1"><a href="#fn1">1</a></sup>. All entries,
+except those explicitly marked as mandatory, are optional. The default values are
+given in the description of each entry.</p>
+<h2><span class="caps">PSF</span> Introduction</h2>
+<h4><code>name</code> [Mandatory]</h4>
+<p>The name of the plugin. It can be either a string or symbol
+and is the name Ruber uses to make the plugin availlable to other components. It&#8217;s
+mostly invisible to users. In theory, it can contain any character, but in practice
+it&#8217;s better to use a symbol which can be entered using the ruby symbol literal
+syntax (<code>:something</code>). This means it should abide the same restrictions as a method
+name. The plugin name <b>must</b> be unique.</p>
+<h4><code>version</code> [Mandatory]</h4>
+<p>The plugin version. It&#8217;s a string and can have any format, but the <code>x.y.z</code> format
+is recomanded.</p>
+<h4><code>about</code></h4>
+<p>A hash with some information about the plugin which can be useful to the user. If
+missing, an empty hash is used. The following keys are recognized:</p>
+<ul>
+	<li><strong>human_name</strong>: a string or symbol with a human friendly name for the plugin. Unlike
+the <code>name</code> entry, this has no meaning for Ruber itself (in particular, there&#8217;s
+no need for uniqueness, even if it&#8217;s still suggested) and so it can be anything the
+plugin author likes. If missing, the human name is derived from the <code>name</code> entry
+by replacing all underscores with spaces and making the first character upcase.</li>
+</ul>
+<ul>
+	<li><strong>authors</strong>: an array of pairs. Each pair corresponds to one of the
+plugin&#8217;s authors. The first element of the pair is the author&#8217;s name, while the
+second is his e-mail address. The second entry of a pair may also be omitted, in
+which case an empty string is used. If the plugin has only one author, then the
+external array may be omitted. If this entry is missing, an empty array will be
+used.</li>
+</ul>
+<ul>
+	<li><strong>license</strong>: a symbol or string specifying the license under which the plugin is
+released. The following values are recognized: <code>unknown</code>, <code>gpl</code>, <code>gpl2</code>, <code>lgpl</code>,
+<code>lgpl2</code>, <code>bsd</code>, <code>artistic</code>, <code>qpl</code>, <code>qpl1</code>, <code>gpl3</code>, <code>lgpl3</code>. The licenses ending
+with a number mean that the plugin is released under that exact version of the
+license, while if the number is missing it means any version of the license. If
+the value is a string different from the values just listed, Ruber assumes the
+string contains the text of a custom license. A symbol different from those values,
+instead, produces an invalid <span class="caps">PSF</span>. If omitted, <code>unknown</code> is used.</li>
+</ul>
+<ul>
+	<li><strong>description</strong>: a string with a short description of what the plugin does. If
+omitted, an empty string is used.</li>
+</ul>
+<ul>
+	<li><strong>bug_address</strong>: a string containing the e-mail address to report bugs for the
+plugin. If missing, an empty string is used.</li>
+</ul>
+<ul>
+	<li><strong>icon</strong>: a string containing the path of the file with the icon associated with
+the plugin, relative to the plugin directory. If the file can&#8217;t be found there,
+an attempt is made to find it using <code>KDE::IconLoader</code>.</li>
+</ul>
+<h4><code>deps</code></h4>
+<p>An array of strings or symbols with the names of other plugins this one depends
+from. If the plugin depends only one other plugin, the array can be omitted and
+this entry can directly contain the name of the dependency. If omitted, Ruber
+assumes the plugin doesn&#8217;t depend on other plugins.</p>
+<p>Note that only direct dependencies need to be listed here. If the plugin depends
+on another plugin <em>A</em>, which in turn depends on the plugin <em>B</em>, you only need to
+list <em>A</em> here.</p>
+<h2><span class="caps">PSF</span> Details</h2>
+<h4><code>require</code> [Mandatory]</h4>
+<p>An array of strings containing the names of the files to be required before loading
+the plugin, relative to the plugin directory. In particular, these files must
+contain all the classes mentioned in other sections of the <span class="caps">PSF</span>.</p>
+<p>If only one file needs to be required, it doesn&#8217;t need to be enclosed in the array.</p>
+<h4><code>class</code></h4>
+<p>The full name of the class of the plugin object. It must be a class which is 
+availlable after having required all files listed in the <em>require</em> section.</p>
+<p>If omitted, it defaults to <span class='object_link'><a href="Ruber/Plugin.html" title="Ruber::Plugin (class)">Ruber::Plugin</a></span>. This usually only happens if the
+plugin only needs to add extensions to documents and projects.</p>
+<h4><code>ui_file</code></h4>
+<p>The path (relative to the plugin directory) of the <span class="caps">XML</span> file to be used with
+<code>KDE::XMLGuiClient</code> to describe the ui of the plugin (in particular, menu entries
+and toolbars). If the plugin class derives (maybe indirectly) from <span class='object_link'><a href="Ruber/GuiPlugin.html" title="Ruber::GuiPlugin (class)">Ruber::GuiPlugin</a></span>,
+this entry is <strong>mandatory</strong>, otherwise it <strong>must</strong> not be given.</p>
+<h4><code>actions</code></h4>
+<p>A hash containing data describing the actions associated with the plugin. It is
+ignored if the <i>ui_file</i> is missing (that is, for plugins which do not derive
+from <span class='object_link'><a href="Ruber/GuiPlugin.html" title="Ruber::GuiPlugin (class)">Ruber::GuiPlugin</a></span>).</p>
+<p>The keys of the hash are the names of the actions as they appear in the UI file,
+while the values are hashes which can have the following entries:</p>
+<ul>
+	<li><code>text</code>: a string with the text to display in the menu</li>
+	<li><code>shortcut</code>: a string with the default shortcut to associate with the action. If
+missing, the action will have no default shortcut</li>
+	<li><code>icon</code>: the icon to associate with the action. It can be either a filename relative
+to the plugin directory or an icon which can be loaded using <code>KDE::IconLoader</code>.
+If omitted, no icon will be associated with the action. It&#8217;s best to specify it
+if the action should be inserted in a toolbar</li>
+	<li><code>standard_action</code>: a string with the name of the method in <code>KDE::StandardActions</code>
+to call to create the action. This entry should only be present if the action
+should actually be a standard action.</li>
+	<li><code>class</code>: a string with the full name of the class of the action. If missing,
+the action will be a <code>KDE::Action</code>. This entry is only needed to create actions
+of a special class (for example, toggle actions or recent files actions). This
+entry is also not needed for standard action.</li>
+	<li><code>receiver</code>: a string which, after having been evaluated in the context of the
+plugin object will return the object to connect the action&#8217;s signal to. If missing,
+it defaults to <strong>self</strong>, that is the plugin object</li>
+	<li><code>signal</code>: a string with the signal of the actions to connect with the receiver
+(including the signal signature).
+If missing, it defaults to <code>triggered()</code></li>
+	<li><code>slot</code>: the slot of the receiver to connect with the signal of the action, as
+specified in the <em>receiver</em> and <em>signal</em> entries (including the signal signature).
+If missing, the action&#8217;s signal won&#8217;t be connected with anything (in this case,
+of course, the <em>receiver</em> and <em>signal</em> entries are ignored).</li>
+	<li><code>state</code>: a string with a single state the action depends on (see <span class='object_link'><a href="Ruber/GuiStatesHandler.html" title="Ruber::GuiStatesHandler (module)">Ruber::GuiStatesHandler</a></span>).
+If given, then a handler for that action will be created</li>
+	<li><code>states</code>: an array of string representing the states the action depends upon.
+Unlike for the <em>state</em> entry, no action handler is created for these states. This
+entry is used by the Ruber::GuiPlugin#register_handler convenience method.</li>
+</ul>
+<h4><code>config_options</code></h4>
+<p>This entry contains the settings that the plugin adds to the configuration manager
+and which will be shown in the <em>Configure Ruber</em> dialog.</p>
+<p>See <a href="#common_options_entries">Option entries</a> below for a description of the entry.</p>
+<p>If this entry is missing, then the plugin will add no global option.</p>
+<h4><code>config_widgets</code></h4>
+<p>An array of hashes, where each hash describes a widget which should be put in the
+<em>Configure Ruber</em> dialog. See <a href="#common_widget_entries">below</a>
+for a description of these hashes, keeping in mind that the <em>caption</em> entry of
+each hash is required. See also SettingsDialog for more information.</p>
+<p>If the plugin has only one configuration widget, the array can be omitted and this
+entry may simply contain the hash describing the widget.</p>
+<p>If this entry is omitted, the plugin will have no configuration widget.</p>
+<h4><code>project_options</code></h4>
+<p>This entry contains the settings which the plugin adds to projects and documents.</p>
+<p>See <a href="#common_options_entries">Option entries</a> below for a description of the entry,
+keeping in mind that each inner hash can also have the entries described in the
+<a href="#common_rules_entries">Rules entries section</a>.</p>
+<p>If this entry is missing the plugin will add no option to projects and documents.</p>
+<h4><code>project_widgets</code></h4>
+<p>An array of hashes, where each hash describes a widget which should be put in the
+<em>Configure Project</em> and/or <em>Configure Document</em> dialogs. See <a href="#common_widget_entries">below</a>
+for a description of these hashes, keeping in mind that the <em>caption</em> entry of
+each hash is required and that each hash can also contain the entries described in the
+<a href="#common_rules_entries">Rules entries section</a>. See also SettingsDialog for
+more information.</p>
+<h4><code>tool_widgets</code></h4>
+<p>An array of hashes, where each hash represents one of the tool widget provided
+by the plugin. The hash as the format described in the <a href="#common_widget_entries">widget entries section</a>,
+with both caption and icon mandatory. In addition, it can contain the following
+entries:</p>
+<ul>
+	<li><code>side</code>: a string or symbol which can take the values <code>left</code>, <code>right</code> or <code>bottom</code>.
+It tells on which side of the editor the tool widget should be put. If it isn&#8217;t
+specified, it defaults to <code>bottom</code>.</li>
+	<li><code>name</code>: a string or symbol with an unique name which can be used to identify the
+tool widget. If not given, the caption will be used</li>
+	<li><code>variable_name</code>: if given and not <strong>nil</strong>, after the tool widget has been created
+it will be stored in an instance variable with this name inside the plugin object.
+If this entry is missing, the instance variable will be <code>@widget</code>. If this entry
+is explicitly set to <strong>nil</strong>, the tool widget won&#8217;t be stored in an instance variable.
+Note that the leading <code>@</code> shouldn&#8217;t be included in this entry.</li>
+</ul>
+<p>If this entry is missing, the plugin will provide no tool widget.</p>
+<h4><code>extensions</code></h4>
+<p>A hash describing the extensions provided by the plugin. The hash&#8217;s keys are strings
+or symbols representing the extensions names (which should be uinque), while the
+values are hashes which describe the extension.</p>
+<p>Each hash can have the entries described in the <a href="#common_rules_entries">Rules entries section</a>
+and a mandatory <code>class</code> entry, which is a string with the full name of the class
+of the extension.</p>
+<p>In some situations, it can be useful to use different classes for the same extension,
+depending on which rule matches (for example, the extension for a document and that
+for a project may provide the same <span class="caps">API</span>, but use different implementations, and thus
+be of different classes). In this case, the value associated to the extension should
+be an array containing the hashes for the different rules. For each document or
+project, the first entry with a matching rule will be used.</p>
+<p>If this entry is missing, the plugin will provide no extensions.</p>
+<h2>Common entries</h2>
+<h4 id="common_options_entries">Option entries</h4>
+<p>An options entry is a series of nested hashes. The outer one represents the groups
+the options are divided into. It has the group names as keys and hashes as values.</p>
+<p>Each hash in a group represents an option. It has the names of the options as keys
+and hashes describing each option as values.</p>
+<p>Each inner hash describes an option. The recognized entries are:</p>
+<ul>
+	<li><code>default</code>: it represents the value the option has if the configuration file
+doesn&#8217;t specify a value for it. This option can have any value (if the entry is
+missing, the default value will be an empty string). For convenience,
+if it is a string, it&#8217;s treated in a special way:
+	<ul>
+		<li>an attempt is made to evaluate the string in a context which depends on the
+specific entry. If the attempt succeeds (that is, if <code>eval</code> doesn&#8217;t raise exceptions),
+the value returned by <code>eval</code> is used as default value</li>
+		<li>if <code>eval</code> raised an exception, the literal value of the string is used as default
+value</li>
+		<li>if the <i>eval_default</i> entry is <strong>false</strong>, the listeral value of the string
+is always used and no attempt to evaluate it is made.</li>
+	</ul></li>
+	<li><code>order</code>: the order in which options should be created. Usually, the order in which
+options are created doesn&#8217;t matter. However, there are situations when the default
+value of an option depends on the value of another option. In this case, the <em>order</em>
+parameter for the two options should be set to a number, with the option to be
+created earlier having a lower number. Options for which this entry is missing are
+created in an arbitrary order</li>
+	<li><code>eval_default</code>: whether or not to attempt to evaluate the content of the <em>default</em>
+entry if it is a string. This should be set to false if the <em>default</em> entry is a
+string which can be successfully evaluated but needs to be treated as string instead
+(for example, if the default value should be the string &#8220;Object&#8221;, you need to set
+this entry to <strong>false</strong>, otherwise you&#8217;d get the object <code>Object</code> as default value).
+If not given, this entry is <strong>true</strong>.</li>
+</ul>
+<p>Besides the above ones, each inner hash can also contain other entries, depending
+on the exact entry.</p>
+<h4 id="common_widget_entries">Widget entries</h4>
+<p>A widget entry is a hash which describes a widget. The following entries are recognized:</p>
+<ul>
+	<li><code>class</code>: a string with the full name of the widget&#8217;s class</li>
+	<li><code>code</code>: a string which, when evaluated, returns the widget object</li>
+	<li><code>caption</code>: a text to display for the widget (depending on the use of the widget
+entry, the exact way the caption is shown varies. For a tool widget, for example,
+it is displayed near the icon when the tool widget is visible). If missing, it
+defaults to an empty string</li>
+	<li><code>pixmap</code>: a string with the name of the file of a pixmap to display for the widget
+(as for the <em>caption</em>, here also the exact way the pixmap is displayed may vary).
+The icon may be either in the plugin&#8217;s directory or be obtain using <code>KDE::IconLoader</code>.</li>
+</ul>
+<p>The <em>caption</em> and <em>pixmap</em> entries may be or not mandatory depending on the exact
+entry (for example, only the caption entry is mandatory for the <i>config_widgets</i>
+entry, but are mandatory for the <em>tool_widgets</em> entry).</p>
+<p>One and <strong>only</strong> one of the <em>class</em> and <em>code</em> entries <strong>must</strong> be specified.</p>
+<p>The <em>code</em> entry is useful, for example, to avoid creating a class when the same
+effect can be obtained with a line of two of code (for instance, if a configuration
+widget is a single check box, you can set the <em>code</em> entry to <code>Qt::CheckBox.new{|w| w.text = "Something"}</code>
+instead of creating a new widget class just to set the text of the checkbox)</p>
+<h4 id="common_rules_entries">Rules entries</h4>
+<p>A rule is a series of properties which tells whether an extension, project option
+or project widget (which here we&#8217;ll call &#8220;objects&#8221;) should be added to a project or
+document or not (see Ruber::AbstractProject.match_rule? for more). As described
+above, extensions, project options and project widgets are represented in the <span class="caps">PSF</span>
+by hashes. A rule is made by several standard entries in those hashes. The entries
+are:</p>
+<ul>
+	<li><code>scope</code>: tells whether the object should be added only to global projects,
+only to documents or to both. It is an array containing strings or symbols, which
+should match the scope of the global project or document project (see <span class='object_link'><a href="Ruber/Project.html#scope-instance_method" title="Ruber::Project#scope (method)">Ruber::Project#scope</a></span>
+and <span class='object_link'><a href="Ruber/DocumentProject.html#scope-instance_method" title="Ruber::DocumentProject#scope (method)">Ruber::DocumentProject#scope</a></span>). For convenience, if the array contains a single
+entry, it can be avoided. Also, this entry can be <code>all</code>, which matches all scopes.
+If this entry is missing, it defaults to <code>project</code></li>
+	<li><code>file_extension</code>: an array of strings, where each string is a shell glob. For
+the object to be added to a document, its file name must match at least one of the
+globs. A single string doesn&#8217;t need to be put an array. If this entry is missing,
+the name of the file associated with the document isn&#8217;t taken into account when
+deciding whether to add the object to the document or not. Note that if at least
+a glob is specified, the object will never be added to documents not associated
+with a file</li>
+	<li><code>mimetype</code>: an array of strings, each containing the name of a mimetype. The
+object will be added to a document only if its mimetype matches at least one of
+the ones given here (see <span class='object_link'><a href="Ruber/Document.html#file_type_match%3F-instance_method" title="Ruber::Document#file_type_match? (method)">Ruber::Document#file_type_match?</a></span> for details). If
+a single mimetype is specified, there&#8217;s no need to include it in an array. If
+this entry isn&#8217;t given, the mimetype won&#8217;t be taken into account.</li>
+</ul>
+<p class="footnote" id="fn1"><a href="#fnr1"><sup>1</sup></a> This is one of many examples where the contents of the <span class="caps">PSF</span> differ from the
+internal representation which Ruber uses for them. In the <span class="caps">PSF</span>, some entries can
+be written in a concise way to make life easier for plugin writers, but they&#8217;re
+converted to another format when the <span class='object_link'><a href="Ruber/PluginSpecification.html" title="Ruber::PluginSpecification (class)">PluginSpecification</a></span>
+object corresponding to the <span class="caps">PSF</span> is created. This also allows to have alternative
+ways to specify an entry in the <span class="caps">PSF</span> while retaining a single internal representation.
+See <a href="file.plugin_specification_object">the plugin specification object</a>
+for details about such differences.</p></div></div>
+    
+    <div id="footer">
+  Generated on Fri Oct 29 12:52:45 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.1 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>

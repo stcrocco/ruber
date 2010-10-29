@@ -1,0 +1,4428 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>Class: Ruber::MainWindow</title>
+<link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (M)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../Ruber.html" title="Ruber (module)">Ruber</a></span></span>
+     &raquo; 
+    <span class="title">MainWindow</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Ruber::MainWindow
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">KParts::MainWindow</span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next">KParts::MainWindow</li>
+          
+            <li class="next">Ruber::MainWindow</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+      <dt class="r2">Extended by:</dt>
+      <dd class="r2">Forwardable</dd>
+      
+    
+  
+    
+      <dt class="r1">Includes:</dt>
+      <dd class="r1"><span class='object_link'><a href="GuiStatesHandler.html" title="Ruber::GuiStatesHandler (module)">GuiStatesHandler</a></span>, <span class='object_link'><a href="PluginLike.html" title="Ruber::PluginLike (module)">PluginLike</a></span></dd>
+      
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/ruber/main_window/main_window.rb<span class="defines">,<br />
+  lib/ruber/main_window/main_window_actions.rb,<br /> lib/ruber/main_window/main_window_internal.rb</span>
+</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>===Slots</p>
+<ul>
+	<li><tt>new_file()</tt></li>
+</ul>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="OPEN_DLG_FILTERS-constant" class="">OPEN_DLG_FILTERS =
+          <div class="docstring">
+  <div class="discussion">
+    <p>A list of strings to be used to create the filter for open file dialogs</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbracket'>[</span>
+<span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>*.rb|Ruby source file (*.rb)</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> 
+<span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>*.yaml *.yml|YAML files (*.yaml, *.yml)</span><span class='tstring_end'>'</span></span><span class='comma'>,</span>
+<span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>*|All files</span><span class='tstring_end'>'</span></span>
+<span class='rbracket'>]</span></pre></dd>
+      
+    </dl>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#last_session_data-instance_method" title="#last_session_data (instance method)">- (Object) <strong>last_session_data</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title readonly">readonly</span>
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>A hash with the data stored in the session manager by plugins.</p></div></span>
+  
+</li>
+
+    
+      <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#workspace-instance_method" title="#workspace (instance method)">- (Object) <strong>workspace</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title readonly">readonly</span>
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The widget which contains the tool widgets.</p></div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#activate_editor-instance_method" title="#activate_editor (instance method)">- (Object) <strong>activate_editor</strong>(arg) </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Activates an editor.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#active_editor-instance_method" title="#active_editor (instance method)">- (Object) <strong>active_editor</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the active editor, or <strong>nil</strong> if there&#8217;s no active editor.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#add_about_plugin_action-instance_method" title="#add_about_plugin_action (instance method)">- (Object) <strong>add_about_plugin_action</strong>(comp) </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Adds an action to the &#8220;about_plugins_list&#8221; action list which displays the AboutData
+dialog for the plugin <em>comp</em>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#choose_plugins-instance_method" title="#choose_plugins (instance method)">- (Object) <strong>choose_plugins</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Slot connected with the &#8216;Choose Plugins&#8217; action.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#close_all_views-instance_method" title="#close_all_views (instance method)">- (Object) <strong>close_all_views</strong>(ask = true) </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Slot connected with the &#8216;Close All&#8217; action.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#close_current_editor-instance_method" title="#close_current_editor (instance method)">- (Object) <strong>close_current_editor</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Slot connected to the &#8216;Close Current&#8217; action.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#close_current_project-instance_method" title="#close_current_project (instance method)">- (Object) <strong>close_current_project</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Slot connectedto the &#8216;Close Current Project&#8217; action.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#close_editor-instance_method" title="#close_editor (instance method)">- (Object) <strong>close_editor</strong>(ed, ask = true) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Closes the editor <em>ed</em>, deleting its tab and closing the corresponding document
+and activating the next tab if auto activating is on.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#close_other_views-instance_method" title="#close_other_views (instance method)">- (Object) <strong>close_other_views</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Slot connected to the &#8216;Close All Other&#8217; action.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="protected ">
+  <span class="summary_signature">
+    
+      <a href="#close_project_files-instance_method" title="#close_project_files (instance method)">- (Object) <strong>close_project_files</strong>(prj) </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title protected">protected</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#configure_document-instance_method" title="#configure_document (instance method)">- (Object) <strong>configure_document</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Displays the configuration dialog for the current project, if it exists.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#configure_project-instance_method" title="#configure_project (instance method)">- (Object) <strong>configure_project</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Slot connected with the &#8216;Configure Project&#8217; action.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#create_editor_if_needed-instance_method" title="#create_editor_if_needed (instance method)">- (Object) <strong>create_editor_if_needed</strong>(doc) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Checks whether an editor view for the given document exists and creates it if it
+doesn&#8217;t.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#current_document-instance_method" title="#current_document (instance method)">- (Object) <strong>current_document</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the document associated with the active editor or <strong>nil</strong> if there&#8217;s no.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#current_editor-instance_method" title="#current_editor (instance method)">- (Object) <strong>current_editor</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the editor in the current tab, or <strong>nil</strong> if there&#8217;s no tab.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#deactivate_editor-instance_method" title="#deactivate_editor (instance method)">- (Object) <strong>deactivate_editor</strong>(ed) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>If <em>ed</em> is the active editor, it deactivates it and removes it from the gui.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#display_about_plugin_dlg-instance_method" title="#display_about_plugin_dlg (instance method)">- (Object) <strong>display_about_plugin_dlg</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Slot connected to the actions in the &#8220;about_plugins_list&#8221; action list.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#display_doc-instance_method" title="#display_doc (instance method)">- (Object) <strong>display_doc</strong>(doc, line = nil, col = 0) </a>
+    
+
+    
+      (also: #display_document)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Similar to <tt>editor_for!</tt> but, after having retrieved/created the editor
+view, it activates and gives focus to it and moves the cursor to the line <em>line</em>
+and column <em>col</em> (both of them are 0-based indexes).</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="protected ">
+  <span class="summary_signature">
+    
+      <a href="#document_modified_changed-instance_method" title="#document_modified_changed (instance method)">- (Object) <strong>document_modified_changed</strong>(mod) </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title protected">protected</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>:call-seq: document_modified_changed(mod) [<span class="caps">SLOT</span>].</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="protected ">
+  <span class="summary_signature">
+    
+      <a href="#document_url_changed-instance_method" title="#document_url_changed (instance method)">- (Object) <strong>document_url_changed</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title protected">protected</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Slot called whenever the document url changes (usually because the document has
+been saved).</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#editor_for-instance_method" title="#editor_for (instance method)">- (Object) <strong>editor_for</strong>(doc) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Similar to <tt>editor_for!</tt> but it doesn&#8217;t create the document or the editor
+if they don&#8217;t exist.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#editor_for%21-instance_method" title="#editor_for! (instance method)">- (Object) <strong>editor_for!</strong>(doc) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the editor view for the given document, or creates and returns a new.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#execute_action-instance_method" title="#execute_action (instance method)">- (Object) <strong>execute_action</strong>(name, *args) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Executes the action with name <em>action</em> contained in the main window&#8217;s action collection.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#focus_on_editor-instance_method" title="#focus_on_editor (instance method)">- (Object) <strong>focus_on_editor</strong>(ed = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Gives the focus to the current editor view.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#gui_open_file-instance_method" title="#gui_open_file (instance method)">- (Object) <strong>gui_open_file</strong>(file) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Opens a file, creating a document and an editor for it, activates and gives focus
+to the editor and adds the file to the list of recent files.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (MainWindow) <strong>initialize</strong>(_manager, pdf) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Creates a new MainWindow.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#load_settings-instance_method" title="#load_settings (instance method)">- (Object) <strong>load_settings</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Loads the settings (in particular, the default script directory and the
+default project directory).</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="protected ">
+  <span class="summary_signature">
+    
+      <a href="#make_title-instance_method" title="#make_title (instance method)">- (Object) <strong>make_title</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title protected">protected</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Creates a suitable title for the main window.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#new_file-instance_method" title="#new_file (instance method)">- (Object) <strong>new_file</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Slot connected to the &#8216;New File&#8217; action.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#new_project-instance_method" title="#new_project (instance method)">- (Object) <strong>new_project</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Slot connected with the &#8216;New Project&#8217; action.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#next_document-instance_method" title="#next_document (instance method)">- (Object) <strong>next_document</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Switches to the next document.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#open_file-instance_method" title="#open_file (instance method)">- (Object) <strong>open_file</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Slot connected to the &#8216;Open File&#8217; action.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#open_file_in_project-instance_method" title="#open_file_in_project (instance method)">- (Object) <strong>open_file_in_project</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Slot connected to the &#8216;Quick Open File&#8217; action.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#open_project-instance_method" title="#open_project (instance method)">- (Object) <strong>open_project</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Slot connected to the &#8216;Open Project&#8217; action.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#open_recent_file-instance_method" title="#open_recent_file (instance method)">- (Object) <strong>open_recent_file</strong>(url) </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Slot connected to the &#8216;Open Recent File&#8217; action.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#open_recent_project-instance_method" title="#open_recent_project (instance method)">- (Object) <strong>open_recent_project</strong>(url) </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Slot connected to the &#8216;Open Recent Projet&#8217; action.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#preferences-instance_method" title="#preferences (instance method)">- (Object) <strong>preferences</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Slot connected to the &#8216;Configure Ruber&#8217; action.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#previous_document-instance_method" title="#previous_document (instance method)">- (Object) <strong>previous_document</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Switches to the previous document.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#projects_directory-instance_method" title="#projects_directory (instance method)">- (Object) <strong>projects_directory</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The directory where to create new projects by default.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#query_close-instance_method" title="#query_close (instance method)">- (Object) <strong>query_close</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Asks the user whether to save the modified documents and saves the chosen ones.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="protected ">
+  <span class="summary_signature">
+    
+      <a href="#queryClose-instance_method" title="#queryClose (instance method)">- (Object) <strong>queryClose</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title protected">protected</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Override of <tt>KParts::MainWindow#queryClose</tt> which calls the <tt>query_close</tt>
+method of the component manager.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="protected ">
+  <span class="summary_signature">
+    
+      <a href="#queryExit-instance_method" title="#queryExit (instance method)">- (Object) <strong>queryExit</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title protected">protected</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Override of <tt>KParts::MainWindow#queryExit</tt> which calls the <ins>shutdown</ins> method
+of the component.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="protected ">
+  <span class="summary_signature">
+    
+      <a href="#readProperties-instance_method" title="#readProperties (instance method)">- (Object) <strong>readProperties</strong>(conf) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title protected">protected</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Reads the properties from the config object for session management.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#remove_about_plugin_action-instance_method" title="#remove_about_plugin_action (instance method)">- (Object) <strong>remove_about_plugin_action</strong>(comp) </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Removes from the &#8220;about_plugins_list&#8221; action list the action corresponding to the
+plugin <em>comp</em>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="protected ">
+  <span class="summary_signature">
+    
+      <a href="#remove_plugin_ui_actions-instance_method" title="#remove_plugin_ui_actions (instance method)">- (Object) <strong>remove_plugin_ui_actions</strong>(plug) </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title protected">protected</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Removes the action handlers for all the actions belonging to the plugin <em>plug</em>
+from the list of handlers.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#remove_view-instance_method" title="#remove_view (instance method)">- (Object) <strong>remove_view</strong>(ed) </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Remove the editor <em>ed</em> from the tab widget, deactivating it before (if needed).</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#safe_open_project-instance_method" title="#safe_open_project (instance method)">- (Object) <strong>safe_open_project</strong>(file, allow_reuse = false) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Provides a standard interface to creating a project from a project file named <em>file</em>, automatically
+handling the possible exceptions.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#save_documents-instance_method" title="#save_documents (instance method)">- (Object) <strong>save_documents</strong>(docs = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>This method is meant to be called in situation where the user may want to save.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#save_settings-instance_method" title="#save_settings (instance method)">- (Object) <strong>save_settings</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Saves recent files and projects, the position of the splitters and the size of
+the window.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="protected ">
+  <span class="summary_signature">
+    
+      <a href="#saveProperties-instance_method" title="#saveProperties (instance method)">- (Object) <strong>saveProperties</strong>(conf) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title protected">protected</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Saves the properties for session management.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="protected ">
+  <span class="summary_signature">
+    
+      <a href="#setup_initial_states-instance_method" title="#setup_initial_states (instance method)">- (Object) <strong>setup_initial_states</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title protected">protected</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Sets the UI states defined by the main window to their initial values.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#show_user_manual-instance_method" title="#show_user_manual (instance method)">- (Object) <strong>show_user_manual</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Opens the user&#8217;s browser and points it to the user manual.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#toggle_tool_widget-instance_method" title="#toggle_tool_widget (instance method)">- (Object) <strong>toggle_tool_widget</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#update_document_icon-instance_method" title="#update_document_icon (instance method)">- (Object) <strong>update_document_icon</strong>(doc) </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Changes the icon in the tab corresponding to the Document <em>doc</em> so that it reflects
+its current status.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#without_activating-instance_method" title="#without_activating (instance method)">- (Object) <strong>without_activating</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Executes the contents of the block with automatical editor activation disabled.</p></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="GuiStatesHandler.html" title="Ruber::GuiStatesHandler (module)">GuiStatesHandler</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="GuiStatesHandler.html#change_state-instance_method" title="Ruber::GuiStatesHandler#change_state (method)">#change_state</a></span>, <span class='object_link'><a href="GuiStatesHandler.html#included-class_method" title="Ruber::GuiStatesHandler.included (method)">included</a></span>, <span class='object_link'><a href="GuiStatesHandler.html#initialize_states_handler-instance_method" title="Ruber::GuiStatesHandler#initialize_states_handler (method)">#initialize_states_handler</a></span>, <span class='object_link'><a href="GuiStatesHandler.html#register_action_handler-instance_method" title="Ruber::GuiStatesHandler#register_action_handler (method)">#register_action_handler</a></span>, <span class='object_link'><a href="GuiStatesHandler.html#remove_action_handler_for-instance_method" title="Ruber::GuiStatesHandler#remove_action_handler_for (method)">#remove_action_handler_for</a></span>, <span class='object_link'><a href="GuiStatesHandler.html#state-instance_method" title="Ruber::GuiStatesHandler#state (method)">#state</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="PluginLike.html" title="Ruber::PluginLike (module)">PluginLike</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="PluginLike.html#add_extensions_to_project-instance_method" title="Ruber::PluginLike#add_extensions_to_project (method)">#add_extensions_to_project</a></span>, <span class='object_link'><a href="PluginLike.html#add_options_to_project-instance_method" title="Ruber::PluginLike#add_options_to_project (method)">#add_options_to_project</a></span>, <span class='object_link'><a href="PluginLike.html#add_widgets_to_project-instance_method" title="Ruber::PluginLike#add_widgets_to_project (method)">#add_widgets_to_project</a></span>, <span class='object_link'><a href="PluginLike.html#create_tool_widget-instance_method" title="Ruber::PluginLike#create_tool_widget (method)">#create_tool_widget</a></span>, <span class='object_link'><a href="PluginLike.html#delayed_initialize-instance_method" title="Ruber::PluginLike#delayed_initialize (method)">#delayed_initialize</a></span>, <span class='object_link'><a href="PluginLike.html#initialize_plugin-instance_method" title="Ruber::PluginLike#initialize_plugin (method)">#initialize_plugin</a></span>, <span class='object_link'><a href="PluginLike.html#plugin_name-instance_method" title="Ruber::PluginLike#plugin_name (method)">#plugin_name</a></span>, <span class='object_link'><a href="PluginLike.html#register_options-instance_method" title="Ruber::PluginLike#register_options (method)">#register_options</a></span>, <span class='object_link'><a href="PluginLike.html#register_with_project-instance_method" title="Ruber::PluginLike#register_with_project (method)">#register_with_project</a></span>, <span class='object_link'><a href="PluginLike.html#remove_extensions_from_project-instance_method" title="Ruber::PluginLike#remove_extensions_from_project (method)">#remove_extensions_from_project</a></span>, <span class='object_link'><a href="PluginLike.html#remove_from_project-instance_method" title="Ruber::PluginLike#remove_from_project (method)">#remove_from_project</a></span>, <span class='object_link'><a href="PluginLike.html#remove_options_from_project-instance_method" title="Ruber::PluginLike#remove_options_from_project (method)">#remove_options_from_project</a></span>, <span class='object_link'><a href="PluginLike.html#remove_widgets_from_project-instance_method" title="Ruber::PluginLike#remove_widgets_from_project (method)">#remove_widgets_from_project</a></span>, <span class='object_link'><a href="PluginLike.html#restore_session-instance_method" title="Ruber::PluginLike#restore_session (method)">#restore_session</a></span>, <span class='object_link'><a href="PluginLike.html#session_data-instance_method" title="Ruber::PluginLike#session_data (method)">#session_data</a></span>, <span class='object_link'><a href="PluginLike.html#setup_action-instance_method" title="Ruber::PluginLike#setup_action (method)">#setup_action</a></span>, <span class='object_link'><a href="PluginLike.html#setup_actions-instance_method" title="Ruber::PluginLike#setup_actions (method)">#setup_actions</a></span>, <span class='object_link'><a href="PluginLike.html#shutdown-instance_method" title="Ruber::PluginLike#shutdown (method)">#shutdown</a></span>, <span class='object_link'><a href="PluginLike.html#unload-instance_method" title="Ruber::PluginLike#unload (method)">#unload</a></span>, <span class='object_link'><a href="PluginLike.html#update_project-instance_method" title="Ruber::PluginLike#update_project (method)">#update_project</a></span></p>
+
+  
+
+  <h2>Signal Summary</h2>
+  <ul class="summary" >
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#current_document_changed-signalcode" title="current_document_changed (signalcode)">- <strong>current_document_changed</strong>(QObject* arg1) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#active_editor_changed-signalcode" title="active_editor_changed (signalcode)">- <strong>active_editor_changed</strong>(QObject* arg1) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
+  
+  </ul>
+
+
+
+
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::MainWindow (class)">MainWindow</a></span></tt>) <strong>initialize</strong>(_manager, pdf) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Creates a new MainWindow. <i>_manager</i> is the component manager, while <em>pdf</em>
+is the plugin description for this object.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window.rb', line 90</span>
+
+<span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id _manager'>_manager</span><span class='comma'>,</span> <span class='id pdf'>pdf</span>
+  <span class='kw'>super</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='int'>0</span>
+  <span class='id initialize_plugin'>initialize_plugin</span> <span class='id pdf'>pdf</span>
+  <span class='id initialize_states_handler'>initialize_states_handler</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id central_widget'>central_widget</span> <span class='op'>=</span> <span class='const'>Workspace</span><span class='period'>.</span><span class='id new'>new</span> <span class='kw'>self</span>
+  <span class='comment'># We need the instance variable to use it with Forwardable
+</span>  <span class='ivar'>@workspace</span> <span class='op'>=</span> <span class='id central_widget'>central_widget</span> 
+  <span class='ivar'>@views</span> <span class='op'>=</span> <span class='id central_widget'>central_widget</span><span class='period'>.</span><span class='id instance_variable_get'>instance_variable_get</span> <span class='symbol'>:@views</span>
+  <span class='ivar'>@current_view</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='ivar'>@active_editor</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='ivar'>@auto_activate_editors</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='ivar'>@editors_mapper</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>SignalMapper</span><span class='period'>.</span><span class='id new'>new</span> <span class='kw'>self</span>
+  <span class='ivar'>@ui_states</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='ivar'>@actions_state_handlers</span> <span class='op'>=</span> <span class='const'>Hash</span><span class='period'>.</span><span class='id new'>new</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id h'>h</span><span class='comma'>,</span> <span class='id k'>k</span><span class='op'>|</span> <span class='id h'>h</span><span class='lbracket'>[</span><span class='id k'>k</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
+  <span class='ivar'>@about_plugin_actions</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='ivar'>@last_session_data</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id status_bar'>status_bar</span> <span class='op'>=</span> <span class='const'>StatusBar</span><span class='period'>.</span><span class='id new'>new</span> <span class='kw'>self</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id connect'>connect</span><span class='lparen'>(</span><span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>current_document_changed(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id doc'>doc</span><span class='op'>|</span>
+    <span class='id change_state'>change_state</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>current_document</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='op'>!</span><span class='id doc'>doc</span><span class='period'>.</span><span class='id nil_object?'>nil_object?</span>
+  <span class='kw'>end</span>
+  <span class='id connect'>connect</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:components</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>component_loaded(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>add_about_plugin_action(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+  <span class='id connect'>connect</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:components</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>unloading_component(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>remove_about_plugin_action(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+  <span class='id connect'>connect</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:components</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>unloading_component(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>remove_plugin_ui_actions(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+  <span class='id connect'>connect</span> <span class='ivar'>@editors_mapper</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>mapped(QWidget*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>remove_view(QWidget*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+  <span class='id setup_actions'>setup_actions</span> <span class='id action_collection'>action_collection</span>
+  <span class='ivar'>@views</span><span class='period'>.</span><span class='id connect'>connect</span><span class='lparen'>(</span><span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>currentChanged(int)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id idx'>idx</span><span class='op'>|</span>
+    <span class='kw'>if</span> <span class='ivar'>@auto_activate_editors</span> <span class='kw'>then</span> <span class='id activate_editor'>activate_editor</span> <span class='id idx'>idx</span> 
+    <span class='kw'>else</span> <span class='id activate_editor'>activate_editor</span> <span class='kw'>nil</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id connect'>connect</span><span class='lparen'>(</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>current_project_changed(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span> <span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id prj'>prj</span><span class='op'>|</span>
+    <span class='id change_state'>change_state</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>active_project_exists</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='op'>!</span><span class='id prj'>prj</span><span class='period'>.</span><span class='id nil?'>nil?</span>
+    <span class='id make_title'>make_title</span>
+  <span class='kw'>end</span>
+  <span class='id connect'>connect</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>closing_project(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>close_project_files(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+  
+  <span class='id setup_GUI'>setup_GUI</span>
+  <span class='id create_shell_GUI'>create_shell_GUI</span> <span class='kw'>true</span>
+  
+  <span class='id config_obj'>config_obj</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id kconfig'>kconfig</span>
+  <span class='id apply_main_window_settings'>apply_main_window_settings</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>ConfigGroup</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span> <span class='id config_obj'>config_obj</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>MainWindow</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+  <span class='id recent_files'>recent_files</span> <span class='op'>=</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>ConfigGroup</span><span class='period'>.</span><span class='id new'>new</span> <span class='id config_obj'>config_obj</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Recent files</span><span class='tstring_end'>'</span></span>
+  <span class='id action_collection'>action_collection</span><span class='period'>.</span><span class='id action'>action</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>file_open_recent</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id load_entries'>load_entries</span> <span class='id recent_files'>recent_files</span>
+  <span class='id recent_projects'>recent_projects</span> <span class='op'>=</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>ConfigGroup</span><span class='period'>.</span><span class='id new'>new</span> <span class='id config_obj'>config_obj</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Recent projects</span><span class='tstring_end'>'</span></span>
+  <span class='id action_collection'>action_collection</span><span class='period'>.</span><span class='id action'>action</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>project-open_recent</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id load_entries'>load_entries</span> <span class='id recent_projects'>recent_projects</span>
+  <span class='id status_bar'>status_bar</span><span class='period'>.</span><span class='id show'>show</span>
+  <span class='id setup_initial_states'>setup_initial_states</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <span id="last_session_data-instance_method"></span>
+      <div class="method_details first">
+  <p class="signature first" id="last_session_data-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>last_session_data</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>A hash with the data stored in the session manager by plugins. The hash is only
+availlable after the <tt>restore</tt> method has been called (which means that it
+will always be unavaillable if ruber wasn&#8217;t started by the session manager). If
+the hash isn&#8217;t availlable, <strong>nil</strong> is returned</p>
+<p><b><span class="caps">NOTE</span>:</b> only for use by Application when restoring the session</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+84
+85
+86</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window.rb', line 84</span>
+
+<span class='kw'>def</span> <span class='id last_session_data'>last_session_data</span>
+  <span class='ivar'>@last_session_data</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <span id="workspace-instance_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="workspace-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>workspace</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The widget which contains the tool widgets.</p>
+<p>The primary use of this method is to connect to the signals emitted from the workspace
+when a tool widget is raised, shown or hidden. All of its other methods are also
+provided by the MainWindow, so you shouldn&#8217;t need to access the workspace to use
+them.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+74
+75
+76</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window.rb', line 74</span>
+
+<span class='kw'>def</span> <span class='id workspace'>workspace</span>
+  <span class='ivar'>@workspace</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="activate_editor-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>activate_editor</strong>(arg) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Activates an editor. <em>arg</em> can be either the index of a widget in the tab widget
+(for internal uses only) or the editor to activate, or <strong>nil</strong>. If the editor to
+activate is not in the current tab, the tab which contains it will become the current
+one. Activating an editor deactivates the previously active one.</p>
+<p>Activating an editor means merging its <span class="caps">GUI</span> with the main window&#8217;s <span class="caps">GUI</span>, changing
+the title of the main window accordingly and telling the status bar to refer to
+that view. Also, the <tt>current_document_changed</tt> and <tt>active_editor_changed</tt>
+signals are emitted.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window.rb', line 246</span>
+
+<span class='kw'>def</span> <span class='id activate_editor'>activate_editor</span> <span class='id arg'>arg</span>
+  <span class='id view'>view</span> <span class='op'>=</span> <span class='id arg'>arg</span><span class='period'>.</span><span class='id is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Integer</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='ivar'>@views</span><span class='period'>.</span><span class='id widget'>widget</span><span class='lparen'>(</span> <span class='id arg'>arg</span> <span class='rparen'>)</span> <span class='op'>:</span> <span class='id arg'>arg</span>
+  <span class='ivar'>@views</span><span class='period'>.</span><span class='id current_widget'>current_widget</span> <span class='op'>=</span> <span class='id view'>view</span> <span class='kw'>if</span> <span class='id view'>view</span> <span class='kw'>and</span> <span class='ivar'>@views</span><span class='period'>.</span><span class='id current_widget'>current_widget</span> <span class='op'>!=</span> <span class='id view'>view</span>
+  <span class='id deactivate_editor'>deactivate_editor</span> <span class='ivar'>@active_editor</span> <span class='kw'>if</span> <span class='ivar'>@active_editor</span> <span class='op'>!=</span> <span class='id view'>view</span>
+  <span class='ivar'>@active_editor</span> <span class='op'>=</span> <span class='id view'>view</span>
+  <span class='kw'>if</span> <span class='ivar'>@active_editor</span>
+    <span class='id gui_factory'>gui_factory</span><span class='period'>.</span><span class='id add_client'>add_client</span> <span class='ivar'>@active_editor</span><span class='period'>.</span><span class='id doc'>doc</span><span class='period'>.</span><span class='id view'>view</span><span class='period'>.</span><span class='id send'>send</span><span class='lparen'>(</span><span class='symbol'>:internal</span><span class='rparen'>)</span>
+    <span class='ivar'>@active_editor</span><span class='period'>.</span><span class='id document'>document</span><span class='period'>.</span><span class='id activate'>activate</span>
+  <span class='kw'>end</span>
+  <span class='id make_title'>make_title</span>
+  <span class='id status_bar'>status_bar</span><span class='period'>.</span><span class='id view'>view</span> <span class='op'>=</span> <span class='ivar'>@active_editor</span>
+  <span class='id emit'>emit</span> <span class='id current_document_changed'>current_document_changed</span> <span class='ivar'>@active_editor</span> <span class='op'>?</span>  <span class='ivar'>@active_editor</span><span class='period'>.</span><span class='id document'>document</span> <span class='op'>:</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>NilObject</span>
+  <span class='id emit'>emit</span> <span class='id active_editor_changed'>active_editor_changed</span> <span class='ivar'>@active_editor</span> <span class='op'>||</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>NilObject</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>activate_editor(int)</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="active_editor-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>active_editor</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the active editor, or <strong>nil</strong> if there&#8217;s no active editor.</p>
+<p><b>Note:</b> strictly speaking, this is not the same as <tt>tab_widget.current_widget</tt>.
+For an editor to be active, it&#8217;s not enough to be in the current tab, but it also
+need to having been its gui merged with the main window gui.</p>
+<p><span class="caps">TODO</span>: in all places this is called, change the name from <tt>current_view</tt> to
+<tt>active_editor</tt>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+223
+224
+225</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window.rb', line 223</span>
+
+<span class='kw'>def</span> <span class='id active_editor'>active_editor</span>
+  <span class='ivar'>@active_editor</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="add_about_plugin_action-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>add_about_plugin_action</strong>(comp)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Adds an action to the &#8220;about_plugins_list&#8221; action list which displays the AboutData
+dialog for the plugin <em>comp</em>.</p>
+<p><b>Note:</b> if <em>comp</em> is not a plugin (for example, it&#8217;s a core component) this
+method does nothing
+<b>Note:</b> this method doesn&#8217;t check whether such an action for the component
+<em>comp</em> already exists. Usually, this is called in response to the <tt>component_loaded</tt>
+signal from the component manager, so things should work automatically.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 248</span>
+
+<span class='kw'>def</span> <span class='id add_about_plugin_action'>add_about_plugin_action</span> <span class='id comp'>comp</span>
+  <span class='id name'>name</span> <span class='op'>=</span> <span class='id comp'>comp</span><span class='period'>.</span><span class='id plugin_name'>plugin_name</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id comp'>comp</span><span class='period'>.</span><span class='id is_a?'>is_a?</span> <span class='const'>Plugin</span>
+  <span class='id unplug_action_list'>unplug_action_list</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>about_plugins_list</span><span class='tstring_end'>'</span></span>
+  <span class='id a'>a</span> <span class='op'>=</span> <span class='id action_collection'>action_collection</span><span class='period'>.</span><span class='id add_action'>add_action</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>__about_</span><span class='embexpr_beg'>#{</span><span class='id name'>name</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:display_about_plugin_dlg</span><span class='rparen'>)</span>
+  <span class='id a'>a</span><span class='period'>.</span><span class='id object_name'>object_name</span> <span class='op'>=</span> <span class='id name'>name</span><span class='period'>.</span><span class='id to_s'>to_s</span>
+  <span class='id a'>a</span><span class='period'>.</span><span class='id text'>text</span> <span class='op'>=</span> <span class='id comp'>comp</span><span class='period'>.</span><span class='id plugin_description'>plugin_description</span><span class='period'>.</span><span class='id about'>about</span><span class='period'>.</span><span class='id human_name'>human_name</span>
+  <span class='kw'>unless</span> <span class='id comp'>comp</span><span class='period'>.</span><span class='id plugin_description'>plugin_description</span><span class='period'>.</span><span class='id about'>about</span><span class='period'>.</span><span class='id icon'>icon</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+    <span class='id a'>a</span><span class='period'>.</span><span class='id icon'>icon</span> <span class='op'>=</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Icon</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id comp'>comp</span><span class='period'>.</span><span class='id plugin_description'>plugin_description</span><span class='period'>.</span><span class='id about'>about</span><span class='period'>.</span><span class='id icon'>icon</span><span class='rparen'>)</span> 
+  <span class='kw'>end</span>
+  <span class='ivar'>@about_plugin_actions</span> <span class='op'>&lt;&lt;</span> <span class='id a'>a</span>
+  <span class='id plug_action_list'>plug_action_list</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>about_plugins_list</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='ivar'>@about_plugin_actions</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>add_about_plugin_action(QObject*)</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="choose_plugins-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>choose_plugins</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Slot connected with the &#8216;Choose Plugins&#8217; action. Displays the Choose Plugin dialog</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 161</span>
+
+<span class='kw'>def</span> <span class='id choose_plugins'>choose_plugins</span>
+  <span class='id dlg'>dlg</span> <span class='op'>=</span> <span class='const'>ChoosePluginsDlg</span><span class='period'>.</span><span class='id new'>new</span> <span class='kw'>self</span>
+  <span class='kw'>return</span> <span class='kw'>if</span> <span class='id dlg'>dlg</span><span class='period'>.</span><span class='id exec'>exec</span> <span class='op'>==</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Dialog</span><span class='op'>::</span><span class='const'>Rejected</span>
+  <span class='id loaded'>loaded</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:components</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id plugins'>plugins</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id pl'>pl</span><span class='op'>|</span>
+    <span class='id pl'>pl</span><span class='period'>.</span><span class='id save_settings'>save_settings</span>
+    <span class='id loaded'>loaded</span> <span class='op'>&lt;&lt;</span> <span class='id pl'>pl</span><span class='period'>.</span><span class='id plugin_name'>plugin_name</span>
+  <span class='kw'>end</span>
+  <span class='id loaded'>loaded</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id pl'>pl</span><span class='op'>|</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:components</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id unload_plugin'>unload_plugin</span> <span class='id pl'>pl</span><span class='rbrace'>}</span>
+  <span class='id res'>res</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:app</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id safe_load_plugins'>safe_load_plugins</span> <span class='id dlg'>dlg</span><span class='period'>.</span><span class='id plugins'>plugins</span><span class='period'>.</span><span class='id keys'>keys</span><span class='period'>.</span><span class='id map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:to_s</span><span class='rparen'>)</span>
+  <span class='id close'>close</span> <span class='kw'>unless</span> <span class='id res'>res</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>choose_plugins()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="close_all_views-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>close_all_views</strong>(ask = true)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Slot connected with the &#8216;Close All&#8217; action</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+100
+101
+102
+103
+104
+105
+106
+107</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 100</span>
+
+<span class='kw'>def</span> <span class='id close_all_views'>close_all_views</span> <span class='id ask'>ask</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='kw'>return</span> <span class='kw'>if</span> <span class='id ask'>ask</span> <span class='kw'>and</span> <span class='op'>!</span><span class='id save_documents'>save_documents</span> <span class='ivar'>@views</span><span class='period'>.</span><span class='id map'>map</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id v'>v</span><span class='op'>|</span> <span class='id v'>v</span><span class='period'>.</span><span class='id document'>document</span><span class='rbrace'>}</span>
+  <span class='id without_activating'>without_activating</span> <span class='kw'>do</span>
+    <span class='ivar'>@views</span><span class='period'>.</span><span class='id to_a'>to_a</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id w'>w</span><span class='op'>|</span> 
+      <span class='id close_editor'>close_editor</span> <span class='id w'>w</span><span class='comma'>,</span> <span class='kw'>false</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>close_all_views()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="close_current_editor-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>close_current_editor</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Slot connected to the &#8216;Close Current&#8217; action. It closes the current editor</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+80
+81
+82</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 80</span>
+
+<span class='kw'>def</span> <span class='id close_current_editor'>close_current_editor</span>
+  <span class='id close_editor'>close_editor</span> <span class='id active_editor'>active_editor</span> <span class='kw'>if</span> <span class='id active_editor'>active_editor</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>close_current_editor()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="close_current_project-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>close_current_project</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Slot connectedto the &#8216;Close Current Project&#8217; action</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+133
+134
+135
+136
+137</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 133</span>
+
+<span class='kw'>def</span> <span class='id close_current_project'>close_current_project</span>
+  <span class='kw'>unless</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current_project'>current_project</span><span class='period'>.</span><span class='id close'>close</span>
+    <span class='const'>KDE</span><span class='op'>::</span><span class='const'>MessageBox</span><span class='period'>.</span><span class='id sorry'>sorry</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The project couldn't be saved</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>close_current_project()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="close_editor-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>close_editor</strong>(ed, ask = true) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Closes the editor <em>ed</em>, deleting its tab and closing the corresponding document
+and activating the next tab if auto activating is on. If <em>ask</em> is <strong>true</strong>, the document
+will ask whether to save modifications, otherwise it won&#8217;t</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+324
+325
+326</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window.rb', line 324</span>
+
+<span class='kw'>def</span> <span class='id close_editor'>close_editor</span> <span class='id ed'>ed</span><span class='comma'>,</span> <span class='id ask'>ask</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='id ed'>ed</span><span class='period'>.</span><span class='id document'>document</span><span class='period'>.</span><span class='id close_view'>close_view</span> <span class='id ed'>ed</span><span class='comma'>,</span> <span class='id ask'>ask</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="close_other_views-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>close_other_views</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Slot connected to the &#8216;Close All Other&#8217; action. It closes all the editors except
+the current one</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+88
+89
+90
+91
+92
+93
+94
+95</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 88</span>
+
+<span class='kw'>def</span> <span class='id close_other_views'>close_other_views</span>
+  <span class='id to_close'>to_close</span> <span class='op'>=</span> <span class='ivar'>@views</span><span class='period'>.</span><span class='id select'>select</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id w'>w</span><span class='op'>|</span> <span class='id w'>w</span> <span class='op'>!=</span> <span class='ivar'>@views</span><span class='period'>.</span><span class='id current_widget'>current_widget</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id map'>map</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id w'>w</span><span class='op'>|</span> <span class='id w'>w</span><span class='period'>.</span><span class='id document'>document</span><span class='rbrace'>}</span>
+  <span class='kw'>if</span> <span class='id save_documents'>save_documents</span> <span class='id to_close'>to_close</span>
+    <span class='id without_activating'>without_activating</span> <span class='kw'>do</span>
+      <span class='id to_close'>to_close</span><span class='period'>.</span><span class='id dup'>dup</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id d'>d</span><span class='op'>|</span> <span class='id d'>d</span><span class='period'>.</span><span class='id close_view'>close_view</span> <span class='id d'>d</span><span class='period'>.</span><span class='id view'>view</span><span class='comma'>,</span> <span class='kw'>false</span><span class='rbrace'>}</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>close_other_views()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="close_project_files-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>close_project_files</strong>(prj)  <span class="extras">(protected)</span>
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+228
+229
+230
+231
+232
+233
+234</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_internal.rb', line 228</span>
+
+<span class='kw'>def</span> <span class='id close_project_files'>close_project_files</span> <span class='id prj'>prj</span>
+  <span class='id to_close'>to_close</span> <span class='op'>=</span> <span class='ivar'>@views</span><span class='period'>.</span><span class='id select'>select</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id v'>v</span><span class='op'>|</span>
+    <span class='id prj'>prj</span><span class='period'>.</span><span class='id project_files'>project_files</span><span class='period'>.</span><span class='id file_in_project?'>file_in_project?</span> <span class='id v'>v</span><span class='period'>.</span><span class='id document'>document</span><span class='period'>.</span><span class='id path'>path</span>
+  <span class='kw'>end</span>
+  <span class='id save_documents'>save_documents</span> <span class='id to_close'>to_close</span><span class='period'>.</span><span class='id map'>map</span> <span class='op'>&amp;</span><span class='symbol'>:document</span>
+  <span class='id to_close'>to_close</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id v'>v</span><span class='op'>|</span> <span class='id v'>v</span><span class='period'>.</span><span class='id document'>document</span><span class='period'>.</span><span class='id close'>close</span><span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>close_project_files(QObject*)</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="configure_document-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>configure_document</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Displays the configuration dialog for the current project, if it exists</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+285
+286
+287</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 285</span>
+
+<span class='kw'>def</span> <span class='id configure_document'>configure_document</span>
+  <span class='id current_document'>current_document</span><span class='period'>.</span><span class='id own_project'>own_project</span><span class='period'>.</span><span class='id dialog'>dialog</span><span class='period'>.</span><span class='id exec'>exec</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>configure_document()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="configure_project-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>configure_project</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Slot connected with the &#8216;Configure Project&#8217; action. It displays the Configure 
+Project dialog</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+178
+179
+180
+181
+182</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 178</span>
+
+<span class='kw'>def</span> <span class='id configure_project'>configure_project</span>
+  <span class='id prj'>prj</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='period'>.</span><span class='id current_project'>current_project</span>
+  <span class='id raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No project is selected</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id prj'>prj</span>
+  <span class='id prj'>prj</span><span class='period'>.</span><span class='id dialog'>dialog</span><span class='period'>.</span><span class='id exec'>exec</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>configure_project()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="create_editor_if_needed-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>create_editor_if_needed</strong>(doc)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Checks whether an editor view for the given document exists and creates it if it
+doesn&#8217;t. In both cases, An editor view for the document is returned. <em>doc</em> is the
+Document for which the editor should be created.</p>
+<p><b>Note:</b> this also creates a new tab with the new view, if it needs to create
+one</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_internal.rb', line 51</span>
+
+<span class='kw'>def</span> <span class='id create_editor_if_needed'>create_editor_if_needed</span> <span class='id doc'>doc</span>
+  <span class='kw'>if</span> <span class='id doc'>doc</span><span class='period'>.</span><span class='id view'>view</span> <span class='kw'>then</span> <span class='id doc'>doc</span><span class='period'>.</span><span class='id view'>view</span>
+  <span class='kw'>else</span>
+    <span class='id view'>view</span> <span class='op'>=</span> <span class='id doc'>doc</span><span class='period'>.</span><span class='id create_view'>create_view</span>
+    <span class='ivar'>@editors_mapper</span><span class='period'>.</span><span class='id set_mapping'>set_mapping</span> <span class='id view'>view</span><span class='comma'>,</span> <span class='id view'>view</span>
+    <span class='id connect'>connect</span> <span class='id view'>view</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:closing</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='ivar'>@editors_mapper</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:map</span><span class='rparen'>)</span>
+    <span class='id connect'>connect</span> <span class='id view'>view</span><span class='period'>.</span><span class='id document'>document</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>modified_changed(bool, QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>document_modified_changed(bool)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+    <span class='id connect'>connect</span> <span class='id view'>view</span><span class='period'>.</span><span class='id document'>document</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>modified_on_disk(QObject*, bool, KTextEditor::ModificationInterface::ModifiedOnDiskReason)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>update_document_icon(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+    <span class='id connect'>connect</span> <span class='id view'>view</span><span class='period'>.</span><span class='id document'>document</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>document_url_changed(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:document_url_changed</span><span class='rparen'>)</span>
+    <span class='ivar'>@views</span><span class='period'>.</span><span class='id add_tab'>add_tab</span> <span class='id view'>view</span><span class='comma'>,</span> <span class='id doc'>doc</span><span class='period'>.</span><span class='id icon'>icon</span><span class='comma'>,</span> <span class='id doc'>doc</span><span class='period'>.</span><span class='id document_name'>document_name</span>
+    <span class='id view'>view</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="current_document-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>current_document</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the document associated with the active editor or <strong>nil</strong> if there&#8217;s no
+  current editor.</p>
+It&#8217;s almost the same as <tt>active_editor.doc</tt>, but already takes care of
+the case when <tt>active_editor</tt> is <strong>nil</strong>.
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+268
+269
+270
+271</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window.rb', line 268</span>
+
+<span class='kw'>def</span> <span class='id current_document'>current_document</span>
+  <span class='id view'>view</span> <span class='op'>=</span> <span class='ivar'>@views</span><span class='period'>.</span><span class='id current_widget'>current_widget</span>
+  <span class='id view'>view</span> <span class='op'>?</span> <span class='id view'>view</span><span class='period'>.</span><span class='id doc'>doc</span> <span class='op'>:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="current_editor-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>current_editor</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the editor in the current tab, or <strong>nil</strong> if there&#8217;s no tab. Note that this
+may not be the active editor.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+231
+232
+233</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window.rb', line 231</span>
+
+<span class='kw'>def</span> <span class='id current_editor'>current_editor</span>
+  <span class='ivar'>@views</span><span class='period'>.</span><span class='id current_widget'>current_widget</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="deactivate_editor-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>deactivate_editor</strong>(ed)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>If <em>ed</em> is the active editor, it deactivates it and removes it from the gui. If
+<em>ed</em> is not the active editor (or if it&#8217;s <strong>nil</strong>), nothing is done.</p>
+<p><b>Note:</b> this doesn&#8217;t change the status bar associated with the view.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+96
+97
+98
+99
+100</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_internal.rb', line 96</span>
+
+<span class='kw'>def</span> <span class='id deactivate_editor'>deactivate_editor</span> <span class='id ed'>ed</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id ed'>ed</span> <span class='kw'>and</span> <span class='id ed'>ed</span> <span class='op'>==</span> <span class='ivar'>@active_editor</span>
+  <span class='ivar'>@active_editor</span><span class='period'>.</span><span class='id document'>document</span><span class='period'>.</span><span class='id deactivate'>deactivate</span>
+  <span class='id gui_factory'>gui_factory</span><span class='period'>.</span><span class='id remove_client'>remove_client</span> <span class='id ed'>ed</span><span class='period'>.</span><span class='id send'>send</span><span class='lparen'>(</span> <span class='symbol'>:internal</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="display_about_plugin_dlg-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>display_about_plugin_dlg</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Slot connected to the actions in the &#8220;about_plugins_list&#8221; action list.</p>
+<p>Displays a dialog with the about data regarding a plugin. The plugin to use is
+determined from the triggered action</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+231
+232
+233
+234
+235
+236</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 231</span>
+
+<span class='kw'>def</span> <span class='id display_about_plugin_dlg'>display_about_plugin_dlg</span>
+  <span class='id name'>name</span> <span class='op'>=</span> <span class='id sender'>sender</span><span class='period'>.</span><span class='id object_name'>object_name</span><span class='period'>.</span><span class='id to_sym'>to_sym</span>
+  <span class='id data'>data</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='id name'>name</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id about_data'>about_data</span>
+  <span class='id dlg'>dlg</span> <span class='op'>=</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>AboutApplicationDialog</span><span class='period'>.</span><span class='id new'>new</span> <span class='id data'>data</span><span class='comma'>,</span> <span class='kw'>self</span>
+  <span class='id dlg'>dlg</span><span class='period'>.</span><span class='id exec'>exec</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>display_about_plugin_dlg()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="display_doc-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>display_doc</strong>(doc, line = nil, col = 0) 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='display_document-instance_method'>display_document</span></span>
+    </span>
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Similar to <tt>editor_for!</tt> but, after having retrieved/created the editor
+view, it activates and gives focus to it and moves the cursor to the line <em>line</em>
+and column <em>col</em> (both of them are 0-based indexes).</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+278
+279
+280
+281
+282
+283
+284</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window.rb', line 278</span>
+
+<span class='kw'>def</span> <span class='id display_doc'>display_doc</span> <span class='id doc'>doc</span><span class='comma'>,</span> <span class='id line'>line</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id col'>col</span> <span class='op'>=</span> <span class='int'>0</span>
+  <span class='id ed'>ed</span> <span class='op'>=</span> <span class='id editor_for!'>editor_for!</span> <span class='id doc'>doc</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id ed'>ed</span>
+  <span class='id activate_editor'>activate_editor</span> <span class='id ed'>ed</span>
+  <span class='id ed'>ed</span><span class='period'>.</span><span class='id go_to'>go_to</span> <span class='id line'>line</span><span class='comma'>,</span> <span class='id col'>col</span> <span class='kw'>if</span> <span class='id line'>line</span> <span class='kw'>and</span> <span class='id col'>col</span>
+  <span class='id ed'>ed</span><span class='period'>.</span><span class='id set_focus'>set_focus</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="document_modified_changed-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>document_modified_changed</strong>(mod)  <span class="extras">(protected)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>:call-seq: document_modified_changed(mod) [<span class="caps">SLOT</span>]</p>
+<p>Slot called whenever the modified status of a document changes. It updates the
+icon on the tab of the document&#8217;s editor and the window title (if the document
+was the active one) accordingly.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+185
+186
+187
+188
+189
+190</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_internal.rb', line 185</span>
+
+<span class='kw'>def</span> <span class='id document_modified_changed'>document_modified_changed</span> <span class='id mod'>mod</span>
+  <span class='id doc'>doc</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id sender'>sender</span>
+  <span class='id make_title'>make_title</span>
+<span class='comment'>#This assumes that only one editor exists for each document
+</span>  <span class='id update_document_icon'>update_document_icon</span> <span class='id doc'>doc</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>document_modified_changed(bool)</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="document_url_changed-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>document_url_changed</strong>  <span class="extras">(protected)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Slot called whenever the document url changes (usually because the document has
+been saved). It changes the title and icon of the tab and changes the title of the
+window is the document is active.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_internal.rb', line 197</span>
+
+<span class='kw'>def</span> <span class='id document_url_changed'>document_url_changed</span>
+  <span class='id doc'>doc</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id sender'>sender</span>
+  <span class='id make_title'>make_title</span>
+  <span class='id idx'>idx</span> <span class='op'>=</span> <span class='ivar'>@views</span><span class='period'>.</span><span class='id index_of'>index_of</span> <span class='id doc'>doc</span><span class='period'>.</span><span class='id view'>view</span>
+  <span class='ivar'>@views</span><span class='period'>.</span><span class='id set_tab_text'>set_tab_text</span> <span class='id idx'>idx</span><span class='comma'>,</span> <span class='id doc'>doc</span><span class='period'>.</span><span class='id document_name'>document_name</span>
+  <span class='id update_document_icon'>update_document_icon</span> <span class='id doc'>doc</span>
+  
+  <span class='kw'>unless</span> <span class='id doc'>doc</span><span class='period'>.</span><span class='id path'>path</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+    <span class='id action_collection'>action_collection</span><span class='period'>.</span><span class='id action'>action</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>file_open_recent</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id add_url'>add_url</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Url</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id doc'>doc</span><span class='period'>.</span><span class='id path'>path</span><span class='rparen'>)</span> 
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>document_url_changed()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="editor_for-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>editor_for</strong>(doc) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Similar to <tt>editor_for!</tt> but it doesn&#8217;t create the document or the editor
+if they don&#8217;t exist. If a Document for the string <em>doc</em> doesn&#8217;t exist, or if it
+doesn&#8217;t have an editor, returns <strong>nil</strong>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+207
+208
+209
+210
+211</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window.rb', line 207</span>
+
+<span class='kw'>def</span> <span class='id editor_for'>editor_for</span> <span class='id doc'>doc</span>
+  <span class='id doc'>doc</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:documents</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id doc'>doc</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id doc'>doc</span><span class='period'>.</span><span class='id is_a?'>is_a?</span> <span class='const'>String</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id doc'>doc</span>
+  <span class='id doc'>doc</span><span class='period'>.</span><span class='id view'>view</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="editor_for!-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>editor_for!</strong>(doc) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the editor view for the given document, or creates and returns a new
+  editor view if the document doesn&#8217;t already have one.</p>
+<em>doc</em> specifies the document whose editor should be returned. It can be: a Document
+or a string. If it is a string which represents an absolute filename, an editor
+for the Document corresponding to that file is returned (creating the document
+if it doesn&#8217;t already exist and raising <ins>ArgumentError</ins> if the file doesn&#8217;t exist).
+If <em>doc</em> is a string not representing an absolute pathname (that is, not starting
+with a /), an editor for the document with <tt>document_name</tt>
+<em>doc</em> will be returned (or created). If a document with that <tt>document_name</tt>
+doesn&#8217;t exist, <strong>nil</strong> will be returned.
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+194
+195
+196
+197
+198
+199
+200</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window.rb', line 194</span>
+
+<span class='kw'>def</span> <span class='id editor_for!'>editor_for!</span> <span class='id doc'>doc</span>
+  <span class='kw'>if</span> <span class='id doc'>doc</span><span class='period'>.</span><span class='id is_a?'>is_a?</span> <span class='const'>String</span> <span class='kw'>and</span> <span class='id doc'>doc</span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/</span><span class='tstring_end'>'</span></span> <span class='kw'>then</span> <span class='id doc'>doc</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:documents</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id document'>document</span> <span class='id doc'>doc</span>
+  <span class='kw'>elsif</span> <span class='id doc'>doc</span><span class='period'>.</span><span class='id is_a?'>is_a?</span> <span class='const'>String</span> <span class='kw'>then</span> <span class='id doc'>doc</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:documents</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id document_with_name'>document_with_name</span> <span class='id doc'>doc</span>
+  <span class='kw'>end</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id doc'>doc</span>
+  <span class='id create_editor_if_needed'>create_editor_if_needed</span> <span class='id doc'>doc</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="execute_action-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>execute_action</strong>(name, *args) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Executes the action with name <em>action</em> contained in the main window&#8217;s action collection.</p>
+<p>See <tt>GuiPlugin#execute_action</tt> for more details</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window.rb', line 504</span>
+
+<span class='kw'>def</span> <span class='id execute_action'>execute_action</span> <span class='id name'>name</span><span class='comma'>,</span> <span class='op'>*</span><span class='id args'>args</span>
+  <span class='id data'>data</span> <span class='op'>=</span> <span class='id plugin_description'>plugin_description</span><span class='period'>.</span><span class='id actions'>actions</span><span class='lbracket'>[</span><span class='id name'>name</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='rbracket'>]</span>
+  <span class='kw'>if</span> <span class='id data'>data</span>
+    <span class='id slot'>slot</span> <span class='op'>=</span> <span class='id data'>data</span><span class='period'>.</span><span class='id slot'>slot</span><span class='period'>.</span><span class='id sub'>sub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\(.*</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+    <span class='id instance_eval'>instance_eval</span><span class='lparen'>(</span><span class='id data'>data</span><span class='period'>.</span><span class='id receiver'>receiver</span><span class='rparen'>)</span><span class='period'>.</span><span class='id send'>send</span> <span class='id slot'>slot</span><span class='comma'>,</span> <span class='op'>*</span><span class='id args'>args</span>
+    <span class='kw'>true</span>
+  <span class='kw'>elsif</span> <span class='lparen'>(</span><span class='id action'>action</span> <span class='op'>=</span> <span class='id action_collection'>action_collection</span><span class='period'>.</span><span class='id action'>action</span><span class='lparen'>(</span><span class='id name'>name</span><span class='rparen'>)</span><span class='rparen'>)</span>
+    <span class='kw'>if</span> <span class='id action'>action</span><span class='period'>.</span><span class='id class'>class</span> <span class='op'>==</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>ToggleAction</span> <span class='kw'>then</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>ToggleAction</span>
+      <span class='id action'>action</span><span class='period'>.</span><span class='id instance_eval'>instance_eval</span><span class='lbrace'>{</span><span class='id emit'>emit</span> <span class='id toggled'>toggled</span><span class='lparen'>(</span><span class='op'>*</span><span class='id args'>args</span><span class='rparen'>)</span><span class='rbrace'>}</span>
+    <span class='kw'>elsif</span> <span class='id action'>action</span><span class='period'>.</span><span class='id class'>class</span> <span class='op'>==</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Action</span> 
+      <span class='id action'>action</span><span class='period'>.</span><span class='id instance_eval'>instance_eval</span><span class='lbrace'>{</span><span class='id emit'>emit</span> <span class='id triggered'>triggered</span><span class='lparen'>(</span><span class='rparen'>)</span><span class='rbrace'>}</span>
+    <span class='kw'>else</span> <span class='id action'>action</span><span class='period'>.</span><span class='id instance_eval'>instance_eval</span><span class='lbrace'>{</span><span class='id emit'>emit</span> <span class='id triggered'>triggered</span><span class='lparen'>(</span><span class='op'>*</span><span class='id args'>args</span><span class='rparen'>)</span><span class='rbrace'>}</span>
+    <span class='kw'>end</span>
+    <span class='kw'>true</span>
+  <span class='kw'>else</span> <span class='kw'>false</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="focus_on_editor-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>focus_on_editor</strong>(ed = nil) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Gives the focus to the current editor view. <em>ed</em> can be:</p>
+<ul>
+	<li>an EditorView</li>
+	<li>any argument acceptable by <tt>editor_for!</tt></li>
+	<li><strong>nil</strong>
+In the first two cases, the editor corresponding to <em>ed</em> is activated and given
+focus; in the last case the active editor is given focus.</li>
+</ul>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+477
+478
+479
+480
+481
+482
+483</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window.rb', line 477</span>
+
+<span class='kw'>def</span> <span class='id focus_on_editor'>focus_on_editor</span> <span class='id ed'>ed</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='kw'>if</span> <span class='id ed'>ed</span>
+    <span class='id ed'>ed</span> <span class='op'>=</span> <span class='id editor_for!'>editor_for!</span> <span class='id ed'>ed</span> <span class='kw'>unless</span> <span class='id ed'>ed</span><span class='period'>.</span><span class='id is_a?'>is_a?</span> <span class='const'>EditorView</span>
+    <span class='id activate_editor'>activate_editor</span> <span class='id ed'>ed</span> <span class='kw'>if</span> <span class='id ed'>ed</span>
+  <span class='kw'>end</span>
+  <span class='ivar'>@active_editor</span><span class='period'>.</span><span class='id set_focus'>set_focus</span> <span class='kw'>if</span> <span class='ivar'>@active_editor</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>focus_on_editor()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="gui_open_file-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>gui_open_file</strong>(file)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Opens a file, creating a document and an editor for it, activates and gives focus
+to the editor and adds the file to the list of recent files. <em>file</em> is the absolute
+path of the file to open</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+82
+83
+84
+85
+86
+87
+88</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_internal.rb', line 82</span>
+
+<span class='kw'>def</span> <span class='id gui_open_file'>gui_open_file</span> <span class='id file'>file</span>
+  <span class='id editor'>editor</span> <span class='op'>=</span> <span class='id editor_for!'>editor_for!</span> <span class='id file'>file</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id editor'>editor</span>
+  <span class='id focus_on_editor'>focus_on_editor</span> <span class='id editor'>editor</span>
+  <span class='id url'>url</span> <span class='op'>=</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Url</span><span class='period'>.</span><span class='id from_path'>from_path</span><span class='lparen'>(</span><span class='id file'>file</span><span class='rparen'>)</span>
+  <span class='id action_collection'>action_collection</span><span class='period'>.</span><span class='id action'>action</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>file_open_recent</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id add_url'>add_url</span> <span class='id url'>url</span><span class='comma'>,</span> <span class='id url'>url</span><span class='period'>.</span><span class='id file_name'>file_name</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="load_settings-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>load_settings</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Loads the settings (in particular, the default script directory and the
+default project directory)</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+463
+464
+465
+466
+467</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window.rb', line 463</span>
+
+<span class='kw'>def</span> <span class='id load_settings'>load_settings</span>
+  <span class='id c'>c</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:general</span><span class='rbracket'>]</span>
+  <span class='ivar'>@default_script_dir</span> <span class='op'>=</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Url</span><span class='period'>.</span><span class='id from_path'>from_path</span> <span class='id c'>c</span><span class='period'>.</span><span class='id default_script_directory'>default_script_directory</span>
+  <span class='ivar'>@default_project_dir</span> <span class='op'>=</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Url</span><span class='period'>.</span><span class='id from_path'>from_path</span> <span class='id c'>c</span><span class='period'>.</span><span class='id default_project_directory'>default_project_directory</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>load_settings()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="make_title-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>make_title</strong>  <span class="extras">(protected)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Creates a suitable title for the main window.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_internal.rb', line 161</span>
+
+<span class='kw'>def</span> <span class='id make_title'>make_title</span> 
+  <span class='id title'>title</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span>
+  <span class='id prj'>prj</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current_project'>current_project</span>
+  <span class='kw'>if</span> <span class='id prj'>prj</span>
+    <span class='id title'>title</span> <span class='op'>&lt;&lt;</span> <span class='lparen'>(</span><span class='id prj'>prj</span><span class='period'>.</span><span class='id project_name'>project_name</span> <span class='op'>?</span> <span class='id prj'>prj</span><span class='period'>.</span><span class='id project_name'>project_name</span> <span class='op'>:</span>
+              <span class='const'>File</span><span class='period'>.</span><span class='id basename'>basename</span><span class='lparen'>(</span><span class='id prj'>prj</span><span class='period'>.</span><span class='id project_file'>project_file</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>.ruprj</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+  <span class='kw'>if</span> <span class='ivar'>@active_editor</span> <span class='kw'>and</span> <span class='ivar'>@active_editor</span><span class='period'>.</span><span class='id document'>document</span><span class='period'>.</span><span class='id path'>path</span><span class='period'>.</span><span class='id empty?'>empty?</span> 
+    <span class='id title'>title</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'> - </span><span class='tstring_end'>'</span></span> <span class='op'>&lt;&lt;</span> <span class='ivar'>@active_editor</span><span class='period'>.</span><span class='id document'>document</span><span class='period'>.</span><span class='id document_name'>document_name</span>
+  <span class='kw'>elsif</span> <span class='ivar'>@active_editor</span>
+    <span class='id title'>title</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'> - </span><span class='tstring_end'>'</span></span> <span class='op'>&lt;&lt;</span> <span class='ivar'>@active_editor</span><span class='period'>.</span><span class='id document'>document</span><span class='period'>.</span><span class='id path'>path</span>
+  <span class='kw'>end</span>
+  <span class='id title'>title</span><span class='period'>.</span><span class='id sub!'>sub!</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\A\s+-</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+  <span class='id mod'>mod</span> <span class='op'>=</span> <span class='id current_document'>current_document</span><span class='period'>.</span><span class='id modified?'>modified?</span> <span class='kw'>rescue</span> <span class='kw'>false</span>
+  <span class='id set_caption'>set_caption</span> <span class='id title'>title</span><span class='comma'>,</span> <span class='id mod'>mod</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="new_file-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>new_file</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Slot connected to the &#8216;New File&#8217; action</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+49
+50
+51</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 49</span>
+
+<span class='kw'>def</span> <span class='id new_file'>new_file</span>
+  <span class='id display_doc'>display_doc</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:docs</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id new_document'>new_document</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>new_file()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="new_project-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>new_project</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Slot connected with the &#8216;New Project&#8217; action. It displays the New Project dialog.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 187</span>
+
+<span class='kw'>def</span> <span class='id new_project'>new_project</span>
+  <span class='id dlg'>dlg</span> <span class='op'>=</span> <span class='const'>NewProjectDialog</span><span class='period'>.</span><span class='id new'>new</span> <span class='kw'>self</span>
+  <span class='kw'>return</span> <span class='kw'>if</span> <span class='id dlg'>dlg</span><span class='period'>.</span><span class='id exec'>exec</span> <span class='op'>==</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Dialog</span><span class='op'>::</span><span class='const'>Rejected</span>
+  <span class='id dir'>dir</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id dirname'>dirname</span> <span class='id dlg'>dlg</span><span class='period'>.</span><span class='id project_file'>project_file</span>
+  <span class='const'>FileUtils</span><span class='period'>.</span><span class='id mkdir'>mkdir</span> <span class='id dir'>dir</span>
+  <span class='id prj'>prj</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id new_project'>new_project</span> <span class='id dlg'>dlg</span><span class='period'>.</span><span class='id project_file'>project_file</span><span class='comma'>,</span> <span class='id dlg'>dlg</span><span class='period'>.</span><span class='id project_name'>project_name</span>
+  <span class='id prj'>prj</span><span class='period'>.</span><span class='id save'>save</span>
+  <span class='id action_collection'>action_collection</span><span class='period'>.</span><span class='id action'>action</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>project-open_recent</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id add_url'>add_url</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Url</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id dlg'>dlg</span><span class='period'>.</span><span class='id project_file'>project_file</span><span class='rparen'>)</span>
+  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id close_current_project'>close_current_project</span> <span class='kw'>if</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current'>current</span>
+  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current_project'>current_project</span> <span class='op'>=</span> <span class='id prj'>prj</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>new_project()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="next_document-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>next_document</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Switches to the next document</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+202
+203
+204
+205
+206</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 202</span>
+
+<span class='kw'>def</span> <span class='id next_document'>next_document</span>
+  <span class='id idx'>idx</span> <span class='op'>=</span> <span class='ivar'>@views</span><span class='period'>.</span><span class='id current_index'>current_index</span>
+  <span class='id new_idx'>new_idx</span> <span class='op'>=</span> <span class='id idx'>idx</span> <span class='op'>+</span> <span class='int'>1</span> <span class='op'>&lt;</span> <span class='ivar'>@views</span><span class='period'>.</span><span class='id count'>count</span> <span class='op'>?</span> <span class='id idx'>idx</span> <span class='op'>+</span> <span class='int'>1</span> <span class='op'>:</span> <span class='int'>0</span>
+  <span class='id activate_editor'>activate_editor</span> <span class='id new_idx'>new_idx</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>next_document()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="open_file-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>open_file</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Slot connected to the &#8216;Open File&#8217; action. It displays an &#8216;open file&#8217; dialog where
+the user can choose the file to open, then creates a new document for it, creates
+an editor for it and activates and gives focus to it. It also adds the url to the
+list of recently opened files.</p>
+<p>The open file dialog is initially in the project directory of the current project,
+if there&#8217;s a current project and in the default script thirectory otherwise.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+62
+63
+64
+65
+66
+67
+68</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 62</span>
+
+<span class='kw'>def</span> <span class='id open_file'>open_file</span>
+  <span class='id dir'>dir</span> <span class='op'>=</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Url</span><span class='period'>.</span><span class='id from_path'>from_path</span><span class='lparen'>(</span><span class='const'>Ruber</span><span class='period'>.</span><span class='id current_project'>current_project</span><span class='period'>.</span><span class='id project_directory'>project_directory</span><span class='rparen'>)</span> <span class='kw'>rescue</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Url</span><span class='period'>.</span><span class='id new'>new</span>
+  <span class='id filenames'>filenames</span> <span class='op'>=</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>FileDialog</span><span class='period'>.</span><span class='id get_open_file_names'>get_open_file_names</span><span class='lparen'>(</span><span class='id dir'>dir</span><span class='comma'>,</span> <span class='const'>OPEN_DLG_FILTERS</span><span class='period'>.</span><span class='id join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='comma'>,</span> <span class='kw'>self</span><span class='rparen'>)</span>
+  <span class='id without_activating'>without_activating</span> <span class='kw'>do</span>
+    <span class='id filenames'>filenames</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id f'>f</span><span class='op'>|</span> <span class='id gui_open_file'>gui_open_file</span> <span class='id f'>f</span><span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>open_file()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="open_file_in_project-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>open_file_in_project</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Slot connected to the &#8216;Quick Open File&#8217; action. Displays the QuickOpenFile dialog
+<span class="caps">TODO</span>: <span class="caps">MOVE</span>? Changed name?</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+143
+144
+145
+146
+147
+148
+149</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 143</span>
+
+<span class='kw'>def</span> <span class='id open_file_in_project'>open_file_in_project</span>
+  <span class='id dlg'>dlg</span> <span class='op'>=</span> <span class='const'>OpenFileInProjectDlg</span><span class='period'>.</span><span class='id new'>new</span> <span class='kw'>self</span>
+  <span class='kw'>if</span> <span class='id dlg'>dlg</span><span class='period'>.</span><span class='id exec'>exec</span> <span class='op'>==</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Dialog</span><span class='op'>::</span><span class='const'>Accepted</span>
+    <span class='id display_doc'>display_doc</span> <span class='id dlg'>dlg</span><span class='period'>.</span><span class='id chosen_file'>chosen_file</span>
+    <span class='id action_collection'>action_collection</span><span class='period'>.</span><span class='id action'>action</span><span class='lparen'>(</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>file_open_recent</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id add_url'>add_url</span><span class='lparen'>(</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Url</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id dlg'>dlg</span><span class='period'>.</span><span class='id chosen_file'>chosen_file</span><span class='rparen'>)</span> <span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>open_file_in_project()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="open_project-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>open_project</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Slot connected to the &#8216;Open Project&#8217; action</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+120
+121
+122
+123
+124
+125
+126
+127
+128</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 120</span>
+
+<span class='kw'>def</span> <span class='id open_project'>open_project</span>
+  <span class='id filename'>filename</span> <span class='op'>=</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>FileDialog</span><span class='period'>.</span><span class='id get_open_file_name'>get_open_file_name</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Url</span><span class='period'>.</span><span class='id from_path'>from_path</span><span class='lparen'>(</span> 
+    <span class='const'>ENV</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>HOME</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>*.ruprj|Ruber project files (*.ruprj)</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span>
+    <span class='const'>KDE</span><span class='op'>::</span><span class='id i18n'>i18n</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Open project</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id filename'>filename</span>
+  <span class='id prj'>prj</span> <span class='op'>=</span> <span class='id safe_open_project'>safe_open_project</span> <span class='id filename'>filename</span>
+  <span class='id url'>url</span> <span class='op'>=</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Url</span><span class='period'>.</span><span class='id new'>new</span> <span class='id prj'>prj</span><span class='period'>.</span><span class='id project_file'>project_file</span>
+  <span class='id action_collection'>action_collection</span><span class='period'>.</span><span class='id action'>action</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>project-open_recent</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id add_url'>add_url</span> <span class='id url'>url</span><span class='comma'>,</span> <span class='id url'>url</span><span class='period'>.</span><span class='id file_name'>file_name</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>open_project()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="open_recent_file-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>open_recent_file</strong>(url)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Slot connected to the &#8216;Open Recent File&#8217; action</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+73
+74
+75</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 73</span>
+
+<span class='kw'>def</span> <span class='id open_recent_file'>open_recent_file</span> <span class='id url'>url</span>
+  <span class='id gui_open_file'>gui_open_file</span> <span class='id url'>url</span><span class='period'>.</span><span class='id path'>path</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>open_recent_file(KUrl)</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="open_recent_project-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>open_recent_project</strong>(url)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Slot connected to the &#8216;Open Recent Projet&#8217; action</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+112
+113
+114
+115</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 112</span>
+
+<span class='kw'>def</span> <span class='id open_recent_project'>open_recent_project</span> <span class='id url'>url</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id safe_open_project'>safe_open_project</span> <span class='id url'>url</span><span class='period'>.</span><span class='id path'>path</span>
+  <span class='id action_collection'>action_collection</span><span class='period'>.</span><span class='id action'>action</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>project-open_recent</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id add_url'>add_url</span> <span class='id url'>url</span><span class='comma'>,</span> <span class='id url'>url</span><span class='period'>.</span><span class='id file_name'>file_name</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>open_recent_project(KUrl)</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="preferences-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>preferences</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Slot connected to the &#8216;Configure Ruber&#8217; action</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+154
+155
+156</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 154</span>
+
+<span class='kw'>def</span> <span class='id preferences'>preferences</span>
+  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id dialog'>dialog</span><span class='period'>.</span><span class='id show'>show</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>preferences()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="previous_document-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>previous_document</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Switches to the previous document</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+211
+212
+213
+214
+215</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 211</span>
+
+<span class='kw'>def</span> <span class='id previous_document'>previous_document</span>
+  <span class='id idx'>idx</span> <span class='op'>=</span> <span class='ivar'>@views</span><span class='period'>.</span><span class='id current_index'>current_index</span>
+  <span class='id new_idx'>new_idx</span> <span class='op'>=</span> <span class='id idx'>idx</span> <span class='op'>&gt;</span> <span class='int'>0</span> <span class='op'>?</span> <span class='id idx'>idx</span> <span class='op'>-</span> <span class='int'>1</span> <span class='op'>:</span> <span class='ivar'>@views</span><span class='period'>.</span><span class='id count'>count</span> <span class='op'>-</span> <span class='int'>1</span>
+  <span class='id activate_editor'>activate_editor</span> <span class='id new_idx'>new_idx</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>previous_document()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="projects_directory-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>projects_directory</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The directory where to create new projects by default</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+495
+496
+497</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window.rb', line 495</span>
+
+<span class='kw'>def</span> <span class='id projects_directory'>projects_directory</span>
+  <span class='ivar'>@default_project_dir</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="query_close-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>query_close</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Asks the user whether to save the modified documents and saves the chosen ones.
+Returns <strong>true</strong> all the selected documents where saved and <strong>false</strong> if some of the
+document couldn&#8217;t be saved.
+<span class="caps">MOVE</span>: this should be moved to DocumentList, as there might be documents without
+a window</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+389
+390
+391
+392
+393
+394</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window.rb', line 389</span>
+
+<span class='kw'>def</span> <span class='id query_close'>query_close</span>
+  <span class='kw'>if</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:app</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id session_saving'>session_saving</span>
+    <span class='ivar'>@session_data</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:components</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id session_data'>session_data</span>
+  <span class='kw'>end</span>
+  <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="queryClose-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>queryClose</strong>  <span class="extras">(protected)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Override of <tt>KParts::MainWindow#queryClose</tt> which calls the <tt>query_close</tt>
+method of the component manager. This means that the latter method will be called
+everytime the application is closed.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+128
+129
+130</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_internal.rb', line 128</span>
+
+<span class='kw'>def</span> <span class='id queryClose'>queryClose</span>
+  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:components</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id query_close'>query_close</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="queryExit-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>queryExit</strong>  <span class="extras">(protected)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Override of <tt>KParts::MainWindow#queryExit</tt> which calls the <ins>shutdown</ins> method
+of the component</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+136
+137
+138
+139</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_internal.rb', line 136</span>
+
+<span class='kw'>def</span> <span class='id queryExit'>queryExit</span>
+  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:app</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id quit_ruber'>quit_ruber</span>
+  <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="readProperties-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>readProperties</strong>(conf)  <span class="extras">(protected)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Reads the properties from the config object for session management</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+154
+155
+156</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_internal.rb', line 154</span>
+
+<span class='kw'>def</span> <span class='id readProperties'>readProperties</span> <span class='id conf'>conf</span>
+  <span class='ivar'>@last_session_data</span> <span class='op'>=</span> <span class='const'>YAML</span><span class='period'>.</span><span class='id load'>load</span> <span class='id conf'>conf</span><span class='period'>.</span><span class='id read_entry'>read_entry</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Ruber</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>{}</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="remove_about_plugin_action-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>remove_about_plugin_action</strong>(comp)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Removes from the &#8220;about_plugins_list&#8221; action list the action corresponding to the
+plugin <em>comp</em>.</p>
+<p><b>Note:</b> if <em>comp</em> is not a plugin (for example, it&#8217;s a core component) this
+method does nothing
+<b>Note:</b> this method doesn&#8217;t check whether such an action for the component
+<em>comp</em> actually exists. Usually, this is called in response to the <tt>unloading_component</tt>
+signal from the component manager, so things should work automatically.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+272
+273
+274
+275
+276
+277
+278
+279
+280</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 272</span>
+
+<span class='kw'>def</span> <span class='id remove_about_plugin_action'>remove_about_plugin_action</span> <span class='id comp'>comp</span>
+  <span class='id name'>name</span> <span class='op'>=</span> <span class='id comp'>comp</span><span class='period'>.</span><span class='id plugin_name'>plugin_name</span><span class='period'>.</span><span class='id to_s'>to_s</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id comp'>comp</span><span class='period'>.</span><span class='id is_a?'>is_a?</span> <span class='const'>Plugin</span>
+  <span class='id unplug_action_list'>unplug_action_list</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>about_plugins_list</span><span class='tstring_end'>'</span></span>
+  <span class='id a'>a</span> <span class='op'>=</span> <span class='ivar'>@about_plugin_actions</span><span class='period'>.</span><span class='id find'>find</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span> <span class='id i'>i</span><span class='period'>.</span><span class='id object_name'>object_name</span> <span class='op'>==</span> <span class='id comp'>comp</span><span class='period'>.</span><span class='id plugin_name'>plugin_name</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='rbrace'>}</span>
+  <span class='ivar'>@about_plugin_actions</span><span class='period'>.</span><span class='id delete'>delete</span> <span class='id a'>a</span>
+  <span class='id plug_action_list'>plug_action_list</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>about_plugins_list</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='ivar'>@about_plugin_actions</span>
+  <span class='id a'>a</span><span class='period'>.</span><span class='id delete_later'>delete_later</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>remove_about_plugin_action(QObject*)</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="remove_plugin_ui_actions-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>remove_plugin_ui_actions</strong>(plug)  <span class="extras">(protected)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Removes the action handlers for all the actions belonging to the plugin <em>plug</em>
+from the list of handlers</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+213
+214
+215
+216
+217
+218</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_internal.rb', line 213</span>
+
+<span class='kw'>def</span> <span class='id remove_plugin_ui_actions'>remove_plugin_ui_actions</span> <span class='id plug'>plug</span>
+  <span class='ivar'>@actions_state_handlers</span><span class='period'>.</span><span class='id delete_if'>delete_if</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id state'>state</span><span class='comma'>,</span> <span class='id hs'>hs</span><span class='op'>|</span>
+    <span class='id hs'>hs</span><span class='period'>.</span><span class='id delete_if'>delete_if</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id h'>h</span><span class='op'>|</span> <span class='id h'>h</span><span class='period'>.</span><span class='id plugin'>plugin</span> <span class='op'>==</span> <span class='id plug'>plug</span><span class='rbrace'>}</span>
+    <span class='id hs'>hs</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>remove_plugin_ui_actions(QObject*)</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="remove_view-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>remove_view</strong>(ed)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Remove the editor <em>ed</em> from the tab widget, deactivating it before (if needed).
+If automatical activation of editors is on, it also activates another editor,
+if any</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_internal.rb', line 107</span>
+
+<span class='kw'>def</span> <span class='id remove_view'>remove_view</span> <span class='id ed'>ed</span>
+  <span class='id status_bar'>status_bar</span><span class='period'>.</span><span class='id view'>view</span> <span class='op'>=</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id ed'>ed</span> <span class='op'>==</span> <span class='ivar'>@active_editor</span>
+  <span class='id deactivate_editor'>deactivate_editor</span> <span class='id ed'>ed</span>
+  <span class='id idx'>idx</span> <span class='op'>=</span> <span class='ivar'>@views</span><span class='period'>.</span><span class='id index_of'>index_of</span> <span class='id ed'>ed</span>
+  <span class='ivar'>@views</span><span class='period'>.</span><span class='id remove_tab'>remove_tab</span> <span class='id idx'>idx</span>
+  <span class='comment'>#This assumes that only one editor can exist for each document
+</span>  <span class='id ed'>ed</span><span class='period'>.</span><span class='id document'>document</span><span class='period'>.</span><span class='id disconnect'>disconnect</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>modified_changed(bool, QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span>
+  <span class='id ed'>ed</span><span class='period'>.</span><span class='id document'>document</span><span class='period'>.</span><span class='id disconnect'>disconnect</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>document_url_changed(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span>
+  <span class='kw'>if</span> <span class='ivar'>@views</span><span class='period'>.</span><span class='id current_widget'>current_widget</span> <span class='kw'>and</span> <span class='ivar'>@auto_activate_editors</span>
+    <span class='id activate_editor'>activate_editor</span> <span class='ivar'>@views</span><span class='period'>.</span><span class='id current_widget'>current_widget</span>
+    <span class='ivar'>@views</span><span class='period'>.</span><span class='id current_widget'>current_widget</span><span class='period'>.</span><span class='id set_focus'>set_focus</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>remove_view(QWidget*)</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="safe_open_project-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>safe_open_project</strong>(file, allow_reuse = false) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Provides a standard interface to creating a project from a project file named <em>file_, automatically
+handling the possible exceptions. In particular, a message box will be displayed
+if the project file doesn&#8217;t exist or if it exists but it&#8217;s not a valid project file.
+A message box is also displayed if <i>allow</em>reuse</i> is <strong>false</strong> and the project
+list already contains a project corresponding to <em>file</em>. In all cases in which a
+message box is displayed <strong>nil</strong> is returned. Otherwise, the <ins>Project</ins> object
+corresponding to <ins>file</ins> is returned.</p>
+<p>If a project was created from the project file, it will be made active and the
+old active project (if any) will be closed.</p>
+<p><b>Note:</b> <em>file</em> must be an absolute path.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window.rb', line 410</span>
+
+<span class='kw'>def</span> <span class='id safe_open_project'>safe_open_project</span> <span class='id file'>file</span><span class='comma'>,</span> <span class='id allow_reuse'>allow_reuse</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='id prj'>prj</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id file'>file</span><span class='rbracket'>]</span>
+  <span class='kw'>if</span> <span class='op'>!</span><span class='id allow_reuse'>allow_reuse</span> <span class='kw'>and</span> <span class='id prj'>prj</span>
+    <span class='id text'>text</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>A project corresponding to the file </span><span class='embexpr_beg'>#{</span><span class='id file'>file</span><span class='rbrace'>}</span><span class='tstring_content'> is already open. Please, close it before attempting to open it again</span><span class='tstring_end'>&quot;</span></span>
+    <span class='const'>KDE</span><span class='op'>::</span><span class='const'>MessageBox</span><span class='period'>.</span><span class='id sorry'>sorry</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>KDE</span><span class='period'>.</span><span class='id i18n'>i18n</span><span class='lparen'>(</span><span class='id text'>text</span><span class='rparen'>)</span>
+    <span class='kw'>return</span> <span class='kw'>nil</span>
+  <span class='kw'>elsif</span> <span class='id prj'>prj</span> <span class='kw'>then</span> <span class='kw'>return</span> <span class='id prj'>prj</span>
+  <span class='kw'>end</span>
+  <span class='kw'>begin</span> <span class='id prj'>prj</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id project'>project</span> <span class='id file'>file</span>
+  <span class='kw'>rescue</span> <span class='const'>Project</span><span class='op'>::</span><span class='const'>InvalidProjectFile</span> <span class='op'>=&gt;</span> <span class='id ex'>ex</span>
+    <span class='id text'>text</span> <span class='op'>=</span> <span class='heredoc_beg'>&lt;&lt;-EOS</span><span class='embexpr_beg'>#{</span><span class='id file'>file</span><span class='rbrace'>}</span><span class='tstring_content'> isn't a valid project file. The error reported was:
+</span><span class='embexpr_beg'>#{</span><span class='id ex'>ex</span><span class='period'>.</span><span class='id message'>message</span><span class='rbrace'>}</span><span class='tstring_content'>
+</span><span class='heredoc_end'>    EOS
+</span>
+    <span class='const'>KDE</span><span class='op'>::</span><span class='const'>MessageBox</span><span class='period'>.</span><span class='id sorry'>sorry</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>KDE</span><span class='period'>.</span><span class='id i18n'>i18n</span><span class='lparen'>(</span><span class='id text'>text</span><span class='rparen'>)</span>
+    <span class='kw'>return</span> <span class='kw'>nil</span>
+  <span class='kw'>rescue</span> <span class='const'>LoadError</span>
+    <span class='const'>KDE</span><span class='op'>::</span><span class='const'>MessageBox</span><span class='period'>.</span><span class='id sorry'>sorry</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>KDE</span><span class='period'>.</span><span class='id i18n'>i18n</span><span class='lparen'>(</span><span class='id ex'>ex</span><span class='period'>.</span><span class='id message'>message</span><span class='rparen'>)</span>
+    <span class='kw'>return</span> <span class='kw'>nil</span>
+  <span class='kw'>end</span>
+<span class='comment'># The following two lines should be removed when we'll allow more than one project
+</span><span class='comment'># open at the same time
+</span>  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current_project'>current_project</span><span class='period'>.</span><span class='id close'>close</span> <span class='kw'>if</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current_project'>current_project</span>
+  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current_project'>current_project</span> <span class='op'>=</span> <span class='id prj'>prj</span>
+  <span class='id prj'>prj</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="save_documents-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>save_documents</strong>(docs = nil) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>This method is meant to be called in situation where the user may want to save
+  a number of documents, for example when the application is quitting, as it avoids
+  displaying a dialog box for each modified document.</p>
+<em>docs</em> can be either an array containing the documents which can be saved (documents
+in it which aren&#8217;t modified will be ignored) or <strong>nil</strong>. In this case, all the
+open documents (with or without an open editor) will be taken into account.
+
+It displays a dialog where the user can choose, among the documents passed as
+first argument, which ones he wants to save. The user has three choiches:
+<ul>
+	<li>save some (or all) the files, then proceed with the operation which has caused
+    the dialog to be shown (for example, quitting the application)</li>
+	<li>don&#8217;t save any file and go on with the operation</li>
+	<li>abort the operation.</li>
+</ul>
+In the first case, this method attempts to perform save the selected files. If
+any of them can&#8217;t be saved, the dialog to choose the files to save will be
+displayed again, with only those files which couldn&#8217;t be saved (after informing
+the user of the failure). The user can again chose which of those files this method
+should attempt to save again, or whether to abort the operation or skip saving.
+This will be repeated until all files have been saved or the user gives up
+
+In the second and third cases, the method simply returns respectively <ins>true</ins> or
+<strong>false</strong>.
+
+The value returned by this method is <strong>false</strong> if the user choose to abort the
+operation and <strong>true</strong> otherwise. Calling methods should act appropriately (for
+example, if this is called from a method which closes all documents and returns
+<strong>false</strong>, the documents should&#8217;t be closed. If it returns true, instead, they
+should be closed, without asking again to save them).
+
+<b>Note:</b> if <em>docs</em> only contains non-modified documents, this method will
+do nothing and immediately return <strong>true</strong>.
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window.rb', line 363</span>
+
+<span class='kw'>def</span> <span class='id save_documents'>save_documents</span> <span class='id docs'>docs</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='id docs'>docs</span> <span class='op'>||=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:docs</span><span class='rbracket'>]</span>
+  <span class='id to_save'>to_save</span> <span class='op'>=</span> <span class='id docs'>docs</span><span class='period'>.</span><span class='id select'>select</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id d'>d</span><span class='op'>|</span> <span class='id d'>d</span><span class='period'>.</span><span class='id modified?'>modified?</span><span class='rbrace'>}</span>
+  <span class='kw'>until</span> <span class='id to_save'>to_save</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+    <span class='id dlg'>dlg</span> <span class='op'>=</span> <span class='const'>SaveModifiedFilesDlg</span><span class='period'>.</span><span class='id new'>new</span> <span class='id to_save'>to_save</span><span class='comma'>,</span> <span class='kw'>self</span>
+    <span class='kw'>case</span> <span class='id dlg'>dlg</span><span class='period'>.</span><span class='id exec'>exec</span>
+    <span class='kw'>when</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Dialog</span><span class='op'>::</span><span class='const'>Yes</span>
+      <span class='id to_save'>to_save</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:docs</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id save_documents'>save_documents</span> <span class='id dlg'>dlg</span><span class='period'>.</span><span class='id to_save'>to_save</span>
+      <span class='kw'>unless</span> <span class='id to_save'>to_save</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+        <span class='id msg'>msg</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The following documents couldn't be saved: </span><span class='embexpr_beg'>#{</span><span class='id to_save'>to_save</span><span class='period'>.</span><span class='id join'>join</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='tstring_content'>\nPlease, choose how to proceed</span><span class='tstring_end'>&quot;</span></span>
+        <span class='const'>KDE</span><span class='op'>::</span><span class='const'>MessageBox</span><span class='period'>.</span><span class='id sorry'>sorry</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='const'>KDE</span><span class='period'>.</span><span class='id i18n'>i18n</span><span class='lparen'>(</span><span class='id msg'>msg</span><span class='rparen'>)</span>
+      <span class='kw'>end</span>
+    <span class='kw'>when</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Dialog</span><span class='op'>::</span><span class='const'>No</span> <span class='kw'>then</span> <span class='id to_save'>to_save</span><span class='period'>.</span><span class='id clear'>clear</span>
+    <span class='kw'>when</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Dialog</span><span class='op'>::</span><span class='const'>Rejected</span> <span class='kw'>then</span> <span class='kw'>return</span> <span class='kw'>false</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="save_settings-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>save_settings</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Saves recent files and projects, the position of the splitters and the size of
+the window.</p>
+<p><span class="caps">TODO</span>: since restoring window position seems to work correctly in Kate (even if
+there&#8217;s still an open bug, it seems to work, at least for me) see whether it&#8217;s
+still necessary to store the window size.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window.rb', line 445</span>
+
+<span class='kw'>def</span> <span class='id save_settings'>save_settings</span>
+  <span class='ivar'>@workspace</span><span class='period'>.</span><span class='id store_sizes'>store_sizes</span>
+<span class='comment'># TODO use Ruber[:config] as soon as it works
+</span><span class='comment'>#       config = Ruber[:config].kconfig
+</span>  <span class='id config'>config</span> <span class='op'>=</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Global</span><span class='period'>.</span><span class='id config'>config</span>
+  <span class='id recent_files'>recent_files</span> <span class='op'>=</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>ConfigGroup</span><span class='period'>.</span><span class='id new'>new</span> <span class='id config'>config</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Recent files</span><span class='tstring_end'>'</span></span>
+  <span class='id action_collection'>action_collection</span><span class='period'>.</span><span class='id action'>action</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>file_open_recent</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id save_entries'>save_entries</span> <span class='id recent_files'>recent_files</span>
+  <span class='id recent_projects'>recent_projects</span> <span class='op'>=</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>ConfigGroup</span><span class='period'>.</span><span class='id new'>new</span> <span class='id config'>config</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Recent projects</span><span class='tstring_end'>'</span></span>
+  <span class='id action_collection'>action_collection</span><span class='period'>.</span><span class='id action'>action</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>project-open_recent</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id save_entries'>save_entries</span> <span class='id recent_projects'>recent_projects</span>
+  <span class='id config'>config</span><span class='period'>.</span><span class='id sync'>sync</span>
+  <span class='id c'>c</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span>
+  <span class='id c'>c</span><span class='period'>.</span><span class='id window_size'>window_size</span> <span class='op'>=</span> <span class='id rect'>rect</span><span class='period'>.</span><span class='id size'>size</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="saveProperties-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>saveProperties</strong>(conf)  <span class="extras">(protected)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Saves the properties for session management.
+<span class="caps">TODO</span>: currently, session management doesn&#8217;t work at all. So, either remove the
+method or make it work</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+146
+147
+148
+149</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_internal.rb', line 146</span>
+
+<span class='kw'>def</span> <span class='id saveProperties'>saveProperties</span> <span class='id conf'>conf</span>
+  <span class='id data'>data</span> <span class='op'>=</span> <span class='const'>YAML</span><span class='period'>.</span><span class='id dump'>dump</span> <span class='ivar'>@session_data</span> 
+  <span class='id conf'>conf</span><span class='period'>.</span><span class='id write_entry'>write_entry</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Ruber</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='id data'>data</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="setup_initial_states-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>setup_initial_states</strong>  <span class="extras">(protected)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Sets the UI states defined by the main window to their initial values.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+223
+224
+225
+226</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_internal.rb', line 223</span>
+
+<span class='kw'>def</span> <span class='id setup_initial_states'>setup_initial_states</span>
+  <span class='id change_state'>change_state</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>active_project_exists</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='kw'>false</span>
+  <span class='id change_state'>change_state</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>current_document</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='kw'>false</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="show_user_manual-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>show_user_manual</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Opens the user&#8217;s browser and points it to the user manual</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+220
+221
+222</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 220</span>
+
+<span class='kw'>def</span> <span class='id show_user_manual'>show_user_manual</span>
+  <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Run</span><span class='period'>.</span><span class='id run_url'>run_url</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Url</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>http://stcrocco.github.com/ruber/user_manual</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>text/html</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>show_user_manual()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="toggle_tool_widget-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>toggle_tool_widget</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+289
+290
+291
+292
+293
+294</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 289</span>
+
+<span class='kw'>def</span> <span class='id toggle_tool_widget'>toggle_tool_widget</span>
+  <span class='id side'>side</span> <span class='op'>=</span> <span class='id sender'>sender</span><span class='period'>.</span><span class='id object_name'>object_name</span><span class='period'>.</span><span class='id match'>match</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>(left|right|bottom)</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id to_sym'>to_sym</span>
+  <span class='id w'>w</span> <span class='op'>=</span> <span class='ivar'>@workspace</span><span class='period'>.</span><span class='id current_widget'>current_widget</span><span class='lparen'>(</span><span class='id side'>side</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id w'>w</span>
+  <span class='ivar'>@workspace</span><span class='period'>.</span><span class='id toggle_tool'>toggle_tool</span> <span class='id w'>w</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>toggle_tool_widget()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="update_document_icon-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>update_document_icon</strong>(doc)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Changes the icon in the tab corresponding to the Document <em>doc</em> so that it reflects
+its current status</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+69
+70
+71
+72
+73
+74
+75</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_internal.rb', line 69</span>
+
+<span class='kw'>def</span> <span class='id update_document_icon'>update_document_icon</span> <span class='id doc'>doc</span>
+  <span class='id ed'>ed</span> <span class='op'>=</span> <span class='id editor_for'>editor_for</span> <span class='id doc'>doc</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id ed'>ed</span>
+  <span class='id idx'>idx</span> <span class='op'>=</span> <span class='ivar'>@views</span><span class='period'>.</span><span class='id index_of'>index_of</span> <span class='id ed'>ed</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id idx'>idx</span>
+  <span class='ivar'>@views</span><span class='period'>.</span><span class='id set_tab_icon'>set_tab_icon</span> <span class='id idx'>idx</span><span class='comma'>,</span> <span class='id doc'>doc</span><span class='period'>.</span><span class='id icon'>icon</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>update_document_icon(QObject*)</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="without_activating-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>without_activating</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Executes the contents of the block with automatical editor activation disabled.
+This should be used, for example, when more than one editor should be opened at
+once. Without this, every new editor would become (for a little time) the active
+one, with its gui merged with the main window and so on. This slows things down
+and should be avoided. To do so, you use this method:
+  Ruber[:main_window].without_activating do
+    ed = nil
+    files.each do |f|
+      ed = Ruber[:main_window].editor_for! f
+    end
+    Ruber[:main_window].activate_editor ed
+  end
+After the block has been called, if there is no editor, or if the current widget
+in the tab widget is different from the active editor, the current widget will
+be activated.
+<b>Note:</b> automatical editor activation will be restored at the end of this
+method (even if exceptions occur).</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window.rb', line 306</span>
+
+<span class='kw'>def</span> <span class='id without_activating'>without_activating</span>
+  <span class='kw'>begin</span>
+    <span class='ivar'>@auto_activate_editors</span> <span class='op'>=</span> <span class='kw'>false</span>
+    <span class='kw'>yield</span>
+  <span class='kw'>ensure</span> 
+    <span class='ivar'>@auto_activate_editors</span> <span class='op'>=</span> <span class='kw'>true</span>
+    <span class='kw'>if</span> <span class='ivar'>@views</span><span class='period'>.</span><span class='id current_index'>current_index</span> <span class='op'>&lt;</span> <span class='int'>0</span> <span class='kw'>then</span> <span class='id activate_editor'>activate_editor</span> <span class='kw'>nil</span>
+    <span class='kw'>elsif</span> <span class='ivar'>@views</span><span class='period'>.</span><span class='id current_widget'>current_widget</span> <span class='op'>!=</span> <span class='ivar'>@active_editor</span>
+      <span class='id activate_editor'>activate_editor</span> <span class='ivar'>@views</span><span class='period'>.</span><span class='id current_widget'>current_widget</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Signal Details</h2>
+    
+      <div class="method_details first">
+  <p class="signature first" id="current_document_changed-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>current_document_changed</strong>(QObject* arg1) 
+</p>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="active_editor_changed-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>active_editor_changed</strong>(QObject* arg1) 
+</p>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Fri Oct 29 12:53:02 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.1 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>File: documenting_plugins</title>
+<link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html" title="Index">Index</a> &raquo; 
+    <span class="title">File: documenting_plugins</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><div id='filecontents'><h1>Documenting Plugins</h1>
+<p>After writing a plugin, you need to make sure other plugin writers can know about
+the functionality it provides, both to use it or to create alternative plugins
+which can be used in place of yours. This means documenting the plugin <span class="caps">API</span>.</p>
+<p>This documentation is written as normal source code documentation, formatted for
+<span class="caps">YARD</span> and using the extensions included by Ruber (in the yard subdirectory of the
+gem).</p>
+<p>The <span class="caps">API</span> documentation for a plugin is made of two main parts: the <span class="caps">API</span> documentation
+for the the feature the plugin provides and the <span class="caps">API</span> documentation for specific
+parts of the plugin (the plugin object, extensions objects and tool widgets). Most
+of the times, a plugin <span class="caps">API</span> only contains the feature <span class="caps">API</span> and the <span class="caps">API</span> for the plugin
+objects, since extensions and tool widgets are usually implementation details which
+other plugins don&#8217;t need to know.</p>
+<p>The <span class="caps">API</span> documentation for the feature, together with a description of what the
+plugin does, should be written as documentation for the module or class which
+acts as namespace for the plugin (if the plugin doesn&#8217;t use a namespace, any class
+or module can be used for this, the use of a namespace is strongly suggested).
+Documentation for tool widgets and extensions should be written as normal source
+code documentation for the class which implements the tool widget or extension.</p>
+<p>Although conceptually different, the feature <span class="caps">API</span> documentation and the documentation
+for the individual parts of the plugin are in practice quite similar. They all make
+use of the following <span class="caps">YARD</span> tags (the feature <span class="caps">API</span> documentation also uses the
+the plugin&#8217;s specification file to retrieve some information about the plugin).</p>
+<h2>Tags to document a plugin&#8217;s <span class="caps">API</span></h2>
+<h4><code>api</code></h4>
+<p>Tells <span class="caps">YARD</span> to write an <span class="caps">API</span> feature in the documentation. It takes two
+or three parameters. The first two parameters are the kind of object the <span class="caps">API</span> is
+for (<code>feature</code>, <code>extension</code>, <code>tool_widget</code>) and the name Ruber uses to refer to
+it (the internal name for features, the name for extension and the name or caption
+for tool widgets, as in the <span class="caps">PSF</span>). The third parameter (which is everything after
+the second one) is additional text to display.</p>
+<p>If the first parameter is <code>feature</code>, the presence of this tag also causes the <span class="caps">PSF</span>
+to be read to look for information to be used with other tags. The <span class="caps">PSF</span> must be in
+the same directory as the file where this tag is and be called <code>plugin.yaml</code>.</p>
+<p><strong>Examples:</strong></p>
+<pre class="code">@api feature xxx</pre>
+<pre class="code">@api tool_widget abc extra description for tool widget abc</pre>
+<h4><code>plugin</code></h4>
+<p>A description of the <span class="caps">API</span> for the plugin object. If no parameter is
+given, the class of the plugin object is read from the <span class="caps">PSF</span> and a line saying &#8220;See
+<span class="caps">API</span> for <em>clsname</em>&#8221; is inserted. If the tag contains some text, that text is used
+instead.</p>
+<p>Usully, you don&#8217;t need to specify a parameter here, as any documentation should
+most likely go into the documentation of the plugin class itself. In special situations,
+however, it may be useful to write custom text here (note that no automatic text
+is inserted if the parameter is specified, so you should mention the plugin class
+by yourself)</p>
+<p><strong>Examples:</strong></p>
+<pre class="code"><span class='ivar'>@plugin</span></pre>
+<pre class="code">@plugin some description</pre>
+<h4><code>extension</code></h4>
+<p>An extension which plugins providing this feature must also provide. It can take
+one or two argument. The first is the name of the extension, as in the <span class="caps">PSF</span>. The
+second (not required) can be either a description of what the extension does
+or a <span class="caps">YAML</span> hash (in the short form \value&#8230;\)which can contain the same
+entries allowed for an extension entry
+in the <span class="caps">PSF</span> plus an <code>api</code> entry and a <code>description</code> entry.</p>
+<p>If the second argument is a hash, its contents will be merged with those contained
+in the corresponding entr in the <span class="caps">PSF</span> (with the hash in the documentation having
+the precedence on the one in the <span class="caps">PSF</span>).</p>
+<p>The <code>description</code> entry in the hash contains a general description of the extension
+(just as if the second parameter hadn&#8217;t been a hash).</p>
+<p>If the hash doesn&#8217;t contain an <code>api</code> entry, then a line specifying the class to
+look for for the extension <span class="caps">API</span> is inserted automatically (the class is read from
+the <code>class</code> entry of the hash or from the <span class="caps">PSF</span>). If the <code>api</code> entry exists, then
+its contents are used for the <code>api</code> section.</p>
+<p>The <code>scope</code>, <code>file_extension</code> and <code>mimetype</code> entries, either in the hash or the
+<span class="caps">PSF</span> are used to format messages saying to which kind of projects the extension
+is applied.</p>
+<p>If the entry corresponding to the extension in the <span class="caps">PSF</span> is an array, the text contains
+sections for the various cases. However, if the second parameter to the tag is a
+hash, then the <span class="caps">PSF</span> entry for the extension is completely ignored.</p>
+<p><strong>Examples</strong></p>
+<pre class="code">@extension xyz</pre>
+<pre class="code">@extension xyz a description of the extension</pre>
+<pre class="code">@extension xyz {api: some strange api, scope: global}</pre>
+<h4><code>tool_widget</code></h4>
+<p>A tool widget which plugins providing this feature must also provide. Its syntax
+is exactly that for the <code>extension</code> tag.</p>
+<p><strong>Examples</strong></p>
+<pre class="code">@tool_widget xyz</pre>
+<pre class="code">@tool_widget xyz a description of the tool widget</pre>
+<pre class="code">@tool_widget xyz {api: some strange api, scope: global}</pre>
+<h4><code>config_option</code></h4>
+<p>A global option which is part of the public <span class="caps">API</span>. It takes three arguments:
+the first two are the group and name of the option. The third is the type of its
+value (using the <span class="caps">YARD</span> syntax to specify types).</p>
+<p><strong>Examples</strong></p>
+<pre class="code">@config_option grp opt [String]</pre>
+<pre class="code">@config_option grp opt [String, nil]</pre>
+<pre class="code">@config_option grp opt [&lt;Qt::Color&gt;]</pre>
+<h4><code>project_option</code></h4>
+<p>A project or document option which is part of the public <span class="caps">API</span>. It takes three or four
+arguments: the first three are equal to the arguments of the <code>config_option</code> tag,
+while the last is as the last parameter of the <code>extension</code> tag, except that the
+<code>api</code> and <code>class</code> entries of the hash aren&#8217;t used</p>
+<p><strong>Examples</strong></p>
+<pre class="code">@project_option grp opt [String, nil] {scope: global}</pre>
+<pre class="code">@project_option grp opt [String, nil] {scope: document, file_extension: '*.rb'}</pre>
+<h4><code>api_method</code>, <code>api_signal</code>, <code>api_slot</code>, <code>api_class</code>, <code>api_constant</code></h4>
+<p>Tags which specify that a given method, signal, slot, class or constant is part
+of the <span class="caps">API</span>. They all take a single argument, which is the name of the item. A link
+will be created (if the target is found) to that item.</p>
+<p>These tags are the most common part of the <span class="caps">API</span> of plugin objects, extensions or
+tool widget, but should rarely appear in the <span class="caps">API</span> of the feature itself.</p>
+<p>Note that, since you can&#8217;t create a class or constant which is part of the <span class="caps">API</span> in
+the usual way but only using <code>const_set</code>, the content of the <code>@api_class</code> and
+<code>@api_constant</code> tags should specify both the internal constant and the name which
+users of the api should use.</p>
+<p><strong>Examples</strong></p>
+<pre class="code">@api_method SomeClass#some_method</pre>
+<pre class="code">@api_signal SomeClass#some_signal</pre>
+<pre class="code">@api_slot SomeClass#some_slot</pre>
+<pre class="code">@api_constant SomeClass::InternalName SomeClass::SomeConstant</pre></div></div>
+    
+    <div id="footer">
+  Generated on Fri Oct 29 12:52:45 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.1 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>

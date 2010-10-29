@@ -1,0 +1,1608 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>Class: Ruber::AbstractProject</title>
+<link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (A)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../Ruber.html" title="Ruber (module)">Ruber</a></span></span>
+     &raquo; 
+    <span class="title">AbstractProject</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Ruber::AbstractProject
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName"><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next">Ruber::AbstractProject</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+      <dt class="r2">Includes:</dt>
+      <dd class="r2"><span class='object_link'><a href="SettingsContainer.html" title="Ruber::SettingsContainer (module)">SettingsContainer</a></span></dd>
+      
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">lib/ruber/project.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>Base class for all projects. It must be sublcassed to be used.</p>
+<p>It has two main functionalities</p>
+<ul>
+	<li>store configuration options specific to each project (called <i>project options</i>),
+  and read/write them to file, allow access to them and provide a way to configure
+  them</li>
+	<li>store the projects extensions relative to this projects and allow access to them.</li>
+</ul>
+<p>Project option management is almost all done by the included SettingsContainer module. The
+backend may be choose by subclasses, with the only restriction that it should provide
+a <ins>file</ins> method returning the name of the file associated with it.</p>
+<p>Subclasses must reimplement the <ins>:scope</ins> method, which should return <tt>:global</tt>
+if the project is a global one (that is a project managed by the <ins>ProjectList</ins>)
+component or <tt>:document</tt> if the project is associated with a single document.</p>
+<p>A project can be in two states: <em>active</em> and <em>inactive</em>, depending on whether the
+user chose it as active project or not. Signals are emitted when the state changes.
+<b>Note:</b> there can be at most one active project at any given time.</p>
+<p>=Signals
+===<tt>option_changed(QString, QString)</tt>
+Signal emitted when the value of an option changes. The two parameters are the
+group and the name of the option, converted to strings. You&#8217;ll have to convert
+them back to symbols if you want to use them to access the option&#8217;s value</p>
+<p>=<tt>closing(QObject*)</tt>
+Signal emitted when the project is about to close The argument is the project itself.
+This is mostly used by project
+extensions which need to do some cleanup. They shouldn&#8217;t use it to store settings
+or similar, as there&#8217;s the <tt>save_settings</tt> method for that.</p>
+<p>=<tt>saving()</tt>
+Signal emitted just before the project is saved to file. This can be used by
+extensions to write their options to the project.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><div id="subclasses">
+  <h2>Direct Known Subclasses</h2>
+  <p class="children"><span class='object_link'><a href="DocumentProject.html" title="Ruber::DocumentProject (class)">DocumentProject</a></span>, <span class='object_link'><a href="Project.html" title="Ruber::Project (class)">Project</a></span></p>
+</div>
+<h2>Defined Under Namespace</h2>
+<p class="children">
+   
+    
+   
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="AbstractProject/InvalidProjectFile.html" title="Ruber::AbstractProject::InvalidProjectFile (class)">InvalidProjectFile</a></span>
+    
+  
+</p>
+
+
+  
+  
+  
+  
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#project_file-instance_method" title="#project_file (instance method)">- (Object) <strong>project_file</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title readonly">readonly</span>
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The absolute path of the project file.</p></div></span>
+  
+</li>
+
+    
+      <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#project_name-instance_method" title="#project_name (instance method)">- (Object) <strong>project_name</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title readonly">readonly</span>
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>A string containing the name of the project.</p></div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#%5B%5D%3D-instance_method" title="#[]= (instance method)">- (Object) <strong>[]=</strong>(group, name, value) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Override of SettingsContainer#[]= which after changing the value of the option,
+emits the <tt>option_changed(QString, QString)</tt> message if the value of
+the option changed (according to eql?).</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#add_extension-instance_method" title="#add_extension (instance method)">- (Object) <strong>add_extension</strong>(name, ext) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Adds the project extension <em>ext</em> to the project, under the name <em>name</em>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#close-instance_method" title="#close (instance method)">- (Object) <strong>close</strong>(save = true) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Closes the project.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#each_extension-instance_method" title="#each_extension (instance method)">- (Object) <strong>each_extension</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>If called with a block, calls it for each extension passing the extension name
+and the extension object itself as argument.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#extension-instance_method" title="#extension (instance method)">- (Object) <strong>extension</strong>(name) </a>
+    
+
+    
+      (also: #project_extension)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the project extension with name <em>name</em>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#extensions-instance_method" title="#extensions (instance method)">- (Object) <strong>extensions</strong> </a>
+    
+
+    
+      (also: #project_extensions)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns a hash having the extension names as keys and the extension objects as
+values.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#files-instance_method" title="#files (instance method)">- (Object) <strong>files</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns an array containing the name of the files belonging to the project.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#has_extension%3F-instance_method" title="#has_extension? (instance method)">- (Boolean) <strong>has_extension?</strong>(name) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns true if the project contains an extension corresponding to the name <ins>:name</ins>
+and false otherwise.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (AbstractProject) <strong>initialize</strong>(parent, backend, name = nil) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Creates a new Project.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#match_rule%3F-instance_method" title="#match_rule? (instance method)">- (Boolean) <strong>match_rule?</strong>(obj) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Tells whether the project matches the rule specified in the object <em>obj</em>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#method_missing-instance_method" title="#method_missing (instance method)">- (Object) <strong>method_missing</strong>(name, *args, &amp;blk) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the project extension with name <em>name</em>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#project_directory-instance_method" title="#project_directory (instance method)">- (Object) <strong>project_directory</strong> </a>
+    
+
+    
+      (also: #project_dir)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the absolute path of project directory, that is the directory where the
+project file lies.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#query_close-instance_method" title="#query_close (instance method)">- (Object) <strong>query_close</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#remove_extension-instance_method" title="#remove_extension (instance method)">- (Object) <strong>remove_extension</strong>(name) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Removes the project extension with name <em>name</em>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#save-instance_method" title="#save (instance method)">- (Object) <strong>save</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#scope-instance_method" title="#scope (instance method)">- (Object) <strong>scope</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the scope of the project (currently it must be either <ins>:global</ins> or <ins>document</ins>).</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#write-instance_method" title="#write (instance method)">- (Object) <strong>write</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Override of <tt>SettingsContainer#write</tt> which emits the <ins>settings_changed</ins> signal after
+writing the settings to file.</p></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="SettingsContainer.html" title="Ruber::SettingsContainer (module)">SettingsContainer</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="SettingsContainer.html#%5B%5D-instance_method" title="Ruber::SettingsContainer#[] (method)">#[]</a></span>, <span class='object_link'><a href="SettingsContainer.html#add_setting-instance_method" title="Ruber::SettingsContainer#add_setting (method)">#add_setting</a></span>, <span class='object_link'><a href="SettingsContainer.html#add_widget-instance_method" title="Ruber::SettingsContainer#add_widget (method)">#add_widget</a></span>, <span class='object_link'><a href="SettingsContainer.html#collect_options-instance_method" title="Ruber::SettingsContainer#collect_options (method)">#collect_options</a></span>, <span class='object_link'><a href="SettingsContainer.html#default-instance_method" title="Ruber::SettingsContainer#default (method)">#default</a></span>, <span class='object_link'><a href="SettingsContainer.html#delete_dialog-instance_method" title="Ruber::SettingsContainer#delete_dialog (method)">#delete_dialog</a></span>, <span class='object_link'><a href="SettingsContainer.html#dialog-instance_method" title="Ruber::SettingsContainer#dialog (method)">#dialog</a></span>, <span class='object_link'><a href="SettingsContainer.html#has_setting%3F-instance_method" title="Ruber::SettingsContainer#has_setting? (method)">#has_setting?</a></span>, <span class='object_link'><a href="SettingsContainer.html#relative_path%3F-instance_method" title="Ruber::SettingsContainer#relative_path? (method)">#relative_path?</a></span>, <span class='object_link'><a href="SettingsContainer.html#remove_setting-instance_method" title="Ruber::SettingsContainer#remove_setting (method)">#remove_setting</a></span>, <span class='object_link'><a href="SettingsContainer.html#remove_widget-instance_method" title="Ruber::SettingsContainer#remove_widget (method)">#remove_widget</a></span>, <span class='object_link'><a href="SettingsContainer.html#setup_container-instance_method" title="Ruber::SettingsContainer#setup_container (method)">#setup_container</a></span></p>
+
+
+  <h2>Signal Summary</h2>
+  <ul class="summary" >
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#option_changed-signalcode" title="option_changed (signalcode)">- <strong>option_changed</strong>(QString arg1, QString arg2) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#closing-signalcode" title="closing (signalcode)">- <strong>closing</strong>(QObject* arg1) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#settings_changed-signalcode" title="settings_changed (signalcode)">- <strong>settings_changed</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#saving-signalcode" title="saving (signalcode)">- <strong>saving</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
+  
+  </ul>
+
+
+
+
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::AbstractProject (class)">AbstractProject</a></span></tt>) <strong>initialize</strong>(parent, backend, name = nil) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Creates a new Project. <em>parent</em> is the projects parent object (derived from <tt>Qt::Object</tt>);
+<em>file</em> is the name of the project file, which may already
+exist or not, while <em>name</em> is the name of the project. <em>name</em> can only be specified
+if the project file doesn&#8217;t exist, otherwise <ins>ArgumentError</ins> will be raised.</p>
+<p>The project file, if existing, must follow the format described in the documentation for YamlSettingsBackend
+and must contain a <tt>:project_name</tt> entry under the <tt>:general</tt> group,
+otherwise it will be considered invalid. In this case, InvalidProjectFile will be
+raised.</p>
+<p>The new project asks each component to register itself with it, so that project
+options, project widgets (widgets to be shown in the project&#8217;s configuration dialog)
+and project extensions are added. It also connects to the <tt>component_loaded</tt>
+and <tt>unloading_component</tt> signals of the component manager. The first allow
+each newly loaded plugin to register itself with the project, while the second allows
+any unloading plugin to unregister itself.</p>
+<p>When the project is created, it&#8217;s not active.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/project.rb', line 111</span>
+
+<span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id parent'>parent</span><span class='comma'>,</span> <span class='id backend'>backend</span><span class='comma'>,</span> <span class='id name'>name</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='kw'>super</span><span class='lparen'>(</span><span class='id parent'>parent</span><span class='rparen'>)</span>
+  <span class='ivar'>@active</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:components</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id named_connect'>named_connect</span><span class='lparen'>(</span><span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>component_loaded(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>register_component_with_project </span><span class='embexpr_beg'>#{</span><span class='id object_id'>object_id</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id c'>c</span><span class='op'>|</span> <span class='id c'>c</span><span class='period'>.</span><span class='id register_with_project'>register_with_project</span> <span class='kw'>self</span><span class='rbrace'>}</span>
+  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:components</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id named_connect'>named_connect</span><span class='lparen'>(</span><span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>unloading_component(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>remove_component_from_project </span><span class='embexpr_beg'>#{</span><span class='id object_id'>object_id</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id c'>c</span><span class='op'>|</span> <span class='id c'>c</span><span class='period'>.</span><span class='id remove_from_project'>remove_from_project</span> <span class='kw'>self</span><span class='rbrace'>}</span>
+  <span class='ivar'>@project_file</span> <span class='op'>=</span> <span class='id backend'>backend</span><span class='period'>.</span><span class='id file'>file</span>
+  <span class='id setup_container'>setup_container</span> <span class='id backend'>backend</span><span class='comma'>,</span> <span class='id project_dir'>project_dir</span>
+  <span class='ivar'>@dialog_class</span> <span class='op'>=</span> <span class='const'>ProjectDialog</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id dialog_title'>dialog_title</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Configure Project</span><span class='tstring_end'>'</span></span>
+  <span class='id add_option'>add_option</span> <span class='const'>OpenStruct</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='symbol'>:group</span> <span class='op'>=&gt;</span> <span class='symbol'>:general</span><span class='comma'>,</span> <span class='symbol'>:name</span> <span class='op'>=&gt;</span> <span class='symbol'>:project_name</span><span class='comma'>,</span> <span class='symbol'>:default</span> <span class='op'>=&gt;</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='ivar'>@project_name</span> <span class='op'>=</span> <span class='kw'>self</span><span class='lbracket'>[</span><span class='symbol'>:general</span><span class='comma'>,</span> <span class='symbol'>:project_name</span><span class='rbracket'>]</span>
+  <span class='kw'>if</span> <span class='ivar'>@project_name</span> <span class='kw'>and</span> <span class='id name'>name</span>
+    <span class='id raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>You can't specify a file name for an already existing project</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>elsif</span> <span class='id name'>name</span> 
+    <span class='kw'>self</span><span class='lbracket'>[</span><span class='symbol'>:general</span><span class='comma'>,</span> <span class='symbol'>:project_name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id name'>name</span>
+    <span class='ivar'>@project_name</span> <span class='op'>=</span> <span class='id name'>name</span>
+  <span class='kw'>elsif</span> <span class='op'>!</span><span class='ivar'>@project_name</span> <span class='kw'>and</span> <span class='const'>File</span><span class='period'>.</span><span class='id exist?'>exist?</span> <span class='ivar'>@project_file</span>
+    <span class='id raise'>raise</span> <span class='const'>InvalidProjectFile</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The project file </span><span class='embexpr_beg'>#{</span><span class='ivar'>@project_file</span><span class='rbrace'>}</span><span class='tstring_content'> isn't invalid because it doesn't contain a project name entry</span><span class='tstring_end'>&quot;</span></span> 
+  <span class='kw'>elsif</span> <span class='op'>!</span><span class='id name'>name</span> <span class='kw'>and</span> <span class='op'>!</span><span class='const'>File</span><span class='period'>.</span><span class='id exist?'>exist?</span> <span class='ivar'>@project_file</span>
+    <span class='id raise'>raise</span> <span class='const'>InvalidProjectFile</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>You need to specify a project name for a new project</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  <span class='ivar'>@project_extensions</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:components</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id each_component'>each_component</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id c'>c</span><span class='op'>|</span> <span class='id c'>c</span><span class='period'>.</span><span class='id register_with_project'>register_with_project</span> <span class='kw'>self</span><span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+<div id="method_missing_details" class="method_details_list">
+  <h2>Dynamic Method Handling</h2>
+  <p class="notice this">
+    This class handles dynamic methods through the <tt>method_missing</tt> method
+    
+  </p>
+  
+    <div class="method_details first">
+  <p class="signature first" id="method_missing-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>method_missing</strong>(name, *args, &amp;blk) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the project extension with name <em>name</em>. If a project extension with that
+name doesn&#8217;t exist, or if <em>args</em> is not empty, <ins>ArgumentError</ins> is raised.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/project.rb', line 256</span>
+
+<span class='kw'>def</span> <span class='id method_missing'>method_missing</span> <span class='id name'>name</span><span class='comma'>,</span> <span class='op'>*</span><span class='id args'>args</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id blk'>blk</span>
+  <span class='kw'>begin</span> <span class='kw'>super</span>
+  <span class='kw'>rescue</span> <span class='const'>NoMethodError</span><span class='comma'>,</span> <span class='const'>NameError</span><span class='comma'>,</span> <span class='const'>TypeError</span><span class='comma'>,</span> <span class='const'>ArgumentError</span> <span class='op'>=&gt;</span> <span class='id e'>e</span>
+    <span class='kw'>if</span> <span class='id e'>e</span><span class='period'>.</span><span class='id is_a?'>is_a?</span> <span class='const'>ArgumentError</span>
+      <span class='id puts'>puts</span> <span class='id e'>e</span><span class='period'>.</span><span class='id message'>message</span>
+      <span class='id puts'>puts</span> <span class='id e'>e</span><span class='period'>.</span><span class='id backtrace'>backtrace</span><span class='period'>.</span><span class='id join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+      <span class='id puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Method name: </span><span class='embexpr_beg'>#{</span><span class='id name'>name</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+      <span class='id puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Arguments: </span><span class='embexpr_beg'>#{</span><span class='id args'>args</span><span class='period'>.</span><span class='id empty?'>empty?</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>[]</span><span class='tstring_end'>'</span></span> <span class='op'>:</span> <span class='id args'>args</span><span class='period'>.</span><span class='id join'>join</span><span class='lparen'>(</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>, </span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+    <span class='id raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>wrong number of arguments (</span><span class='embexpr_beg'>#{</span><span class='id args'>args</span><span class='period'>.</span><span class='id size'>size</span><span class='rbrace'>}</span><span class='tstring_content'> for 0)</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id args'>args</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+    <span class='ivar'>@project_extensions</span><span class='period'>.</span><span class='id fetch'>fetch</span><span class='lparen'>(</span><span class='id name'>name</span><span class='rparen'>)</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id k'>k</span><span class='op'>|</span> <span class='id raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No project extension with name </span><span class='embexpr_beg'>#{</span><span class='id k'>k</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <span id="project_file-instance_method"></span>
+      <div class="method_details first">
+  <p class="signature first" id="project_file-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>project_file</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The absolute path of the project file</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+89
+90
+91</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/project.rb', line 89</span>
+
+<span class='kw'>def</span> <span class='id project_file'>project_file</span>
+  <span class='ivar'>@project_file</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <span id="project_name-instance_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="project_name-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>project_name</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>A string containing the name of the project</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+84
+85
+86</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/project.rb', line 84</span>
+
+<span class='kw'>def</span> <span class='id project_name'>project_name</span>
+  <span class='ivar'>@project_name</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="[]=-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>[]=</strong>(group, name, value) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Override of SettingsContainer#[]= which after changing the value of the option,
+emits the <tt>option_changed(QString, QString)</tt> message if the value of
+the option changed (according to eql?).</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+188
+189
+190
+191
+192</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/project.rb', line 188</span>
+
+<span class='kw'>def</span> <span class='op'>[]=</span> <span class='id group'>group</span><span class='comma'>,</span> <span class='id name'>name</span><span class='comma'>,</span> <span class='id value'>value</span>
+  <span class='id old'>old</span> <span class='op'>=</span> <span class='ivar'>@options</span><span class='lbracket'>[</span><span class='lbracket'>[</span><span class='id group'>group</span><span class='comma'>,</span> <span class='id name'>name</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
+  <span class='kw'>super</span>
+  <span class='id emit'>emit</span> <span class='id option_changed'>option_changed</span> <span class='id group'>group</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='comma'>,</span> <span class='id name'>name</span><span class='period'>.</span><span class='id to_s'>to_s</span> <span class='kw'>unless</span> <span class='id old'>old</span><span class='period'>.</span><span class='id eql?'>eql?</span> <span class='id value'>value</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="add_extension-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>add_extension</strong>(name, ext) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Adds the project extension <em>ext</em> to the project, under the name <em>name</em>. If an
+extension is already stored under that name, <ins>ArgumentError</ins> is raised.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+166
+167
+168
+169
+170
+171</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/project.rb', line 166</span>
+
+<span class='kw'>def</span> <span class='id add_extension'>add_extension</span> <span class='id name'>name</span><span class='comma'>,</span> <span class='id ext'>ext</span>
+  <span class='kw'>if</span> <span class='ivar'>@project_extensions</span><span class='lbracket'>[</span><span class='id name'>name</span><span class='rbracket'>]</span>
+    <span class='id raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>An extension called '</span><span class='embexpr_beg'>#{</span><span class='id name'>name</span><span class='rbrace'>}</span><span class='tstring_content'>' already exists</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  <span class='ivar'>@project_extensions</span><span class='lbracket'>[</span><span class='id name'>name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id ext'>ext</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="close-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>close</strong>(save = true) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Closes the project. This means:</p>
+<ul>
+	<li>calling the <ins>save</ins> method if <em>save</em> is <strong>true</strong></li>
+	<li>removing all the project extensions</li>
+	<li>emitting the <tt>closing(QObject*)</tt> signal</li>
+</ul>
+<p>If <em>save</em> is <strong>true</strong>, returns <strong>false</strong> if an error occurred while saving
+and <strong>true</strong> if no error occurred. If <em>save</em> is <strong>false</strong>, it always
+returns <strong>true</strong></p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/project.rb', line 301</span>
+
+<span class='kw'>def</span> <span class='id close'>close</span> <span class='id save'>save</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='kw'>if</span> <span class='id save'>save</span>
+    <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='kw'>self</span><span class='period'>.</span><span class='id save'>save</span>
+  <span class='kw'>end</span>
+  <span class='id emit'>emit</span> <span class='id closing'>closing</span><span class='lparen'>(</span><span class='kw'>self</span><span class='rparen'>)</span>
+  <span class='ivar'>@project_extensions</span><span class='period'>.</span><span class='id each_key'>each_key</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id k'>k</span><span class='op'>|</span> <span class='id remove_extension'>remove_extension</span> <span class='id k'>k</span><span class='rbrace'>}</span>
+  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:components</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id named_disconnect'>named_disconnect</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>remove_component_from_project </span><span class='embexpr_beg'>#{</span><span class='id object_id'>object_id</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:components</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id named_disconnect'>named_disconnect</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>register_component_with_project </span><span class='embexpr_beg'>#{</span><span class='id object_id'>object_id</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="each_extension-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>each_extension</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>If called with a block, calls it for each extension passing the extension name
+and the extension object itself as argument. If called without a block, returns
+an <ins>Enumerator</ins> whose <ins>each</ins> method works as explained above</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+207
+208
+209
+210
+211
+212</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/project.rb', line 207</span>
+
+<span class='kw'>def</span> <span class='id each_extension'>each_extension</span>
+  <span class='kw'>if</span> <span class='id block_given?'>block_given?</span>
+    <span class='ivar'>@project_extensions</span><span class='period'>.</span><span class='id each_pair'>each_pair</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id name'>name</span><span class='comma'>,</span> <span class='id ext'>ext</span><span class='op'>|</span> <span class='kw'>yield</span> <span class='id name'>name</span><span class='comma'>,</span> <span class='id ext'>ext</span><span class='rbrace'>}</span>
+  <span class='kw'>else</span> <span class='kw'>self</span><span class='period'>.</span><span class='id to_enum'>to_enum</span><span class='lparen'>(</span><span class='symbol'>:each_extension</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="extension-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>extension</strong>(name) 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='project_extension-instance_method'>project_extension</span></span>
+    </span>
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the project extension with name <em>name</em>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+197
+198
+199</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/project.rb', line 197</span>
+
+<span class='kw'>def</span> <span class='id extension'>extension</span> <span class='id name'>name</span>
+  <span class='ivar'>@project_extensions</span><span class='lbracket'>[</span><span class='id name'>name</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="extensions-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>extensions</strong> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='project_extensions-instance_method'>project_extensions</span></span>
+    </span>
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns a hash having the extension names as keys and the extension objects as
+values.</p>
+<p><b>Note:</b> modifiying the hash doesn&#8217;t change the internal list of extensions</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+220
+221
+222</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/project.rb', line 220</span>
+
+<span class='kw'>def</span> <span class='id extensions'>extensions</span>
+  <span class='ivar'>@project_extensions</span><span class='period'>.</span><span class='id dup'>dup</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="files-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>files</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns an array containing the name of the files belonging to the project.</p>
+<p>This method should be reimplemented in derived classes to return the actual list
+of files. The base class&#8217;s version always returns an empty array.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+248
+249
+250</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/project.rb', line 248</span>
+
+<span class='kw'>def</span> <span class='id files'>files</span>
+  <span class='lbracket'>[</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="has_extension?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>has_extension?</strong>(name) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns true if the project contains an extension corresponding to the name <ins>:name</ins>
+and false otherwise</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+229
+230
+231</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/project.rb', line 229</span>
+
+<span class='kw'>def</span> <span class='id has_extension?'>has_extension?</span> <span class='id name'>name</span>
+  <span class='ivar'>@project_extensions</span><span class='period'>.</span><span class='id has_key?'>has_key?</span> <span class='id name'>name</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="match_rule?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>match_rule?</strong>(obj) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Tells whether the project matches the rule specified in the object <em>obj</em>. <em>obj</em>
+is an object with at least the following methods:</p>
+<ul>
+	<li><ins>scope</ins></li>
+	<li><ins>mimetype</ins></li>
+	<li><ins>file_extension</ins></li>
+</ul>
+<p>This implementation returns <strong>true</strong> if <tt>obj.scope</tt> includes the value returned
+by <tt>self.scope</tt> (using this method requires subclassing AbstractProject,
+since <tt>AbstractProject#scope</tt> raises an exception). Subclasses may override
+this method to introduce other conditions. However, they&#8217;ll most likely always
+want to call the base class implementation.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+158
+159
+160</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/project.rb', line 158</span>
+
+<span class='kw'>def</span> <span class='id match_rule?'>match_rule?</span> <span class='id obj'>obj</span>
+  <span class='id obj'>obj</span><span class='period'>.</span><span class='id scope'>scope</span><span class='period'>.</span><span class='id include?'>include?</span> <span class='kw'>self</span><span class='period'>.</span><span class='id scope'>scope</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="project_directory-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>project_directory</strong> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='project_dir-instance_method'>project_dir</span></span>
+    </span>
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the absolute path of project directory, that is the directory where the
+project file lies.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+237
+238
+239</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/project.rb', line 237</span>
+
+<span class='kw'>def</span> <span class='id project_directory'>project_directory</span>
+  <span class='const'>File</span><span class='period'>.</span><span class='id dirname'>dirname</span><span class='lparen'>(</span><span class='ivar'>@project_file</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="query_close-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>query_close</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+312
+313
+314
+315</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/project.rb', line 312</span>
+
+<span class='kw'>def</span> <span class='id query_close'>query_close</span>
+  <span class='ivar'>@project_extensions</span><span class='period'>.</span><span class='id each_value'>each_value</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id v'>v</span><span class='op'>|</span> <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='id v'>v</span><span class='period'>.</span><span class='id query_close'>query_close</span><span class='rbrace'>}</span>
+  <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="remove_extension-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>remove_extension</strong>(name) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Removes the project extension with name <em>name</em>. If an extension with that name
+doesn&#8217;t exist, nothing is done.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+177
+178
+179
+180
+181</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/project.rb', line 177</span>
+
+<span class='kw'>def</span> <span class='id remove_extension'>remove_extension</span> <span class='id name'>name</span>
+  <span class='id ext'>ext</span> <span class='op'>=</span> <span class='ivar'>@project_extensions</span><span class='lbracket'>[</span><span class='id name'>name</span><span class='rbracket'>]</span>
+  <span class='id ext'>ext</span><span class='period'>.</span><span class='id remove_from_project'>remove_from_project</span> <span class='kw'>if</span> <span class='id ext'>ext</span><span class='period'>.</span><span class='id respond_to?'>respond_to?</span> <span class='symbol'>:remove_from_project</span>
+  <span class='ivar'>@project_extensions</span><span class='period'>.</span><span class='id delete'>delete</span> <span class='id name'>name</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="save-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>save</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/project.rb', line 271</span>
+
+<span class='kw'>def</span> <span class='id save'>save</span>
+  <span class='id emit'>emit</span> <span class='id saving'>saving</span>
+  <span class='ivar'>@project_extensions</span><span class='period'>.</span><span class='id each_value'>each_value</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id v'>v</span><span class='op'>|</span> <span class='id v'>v</span><span class='period'>.</span><span class='id save_settings'>save_settings</span><span class='rbrace'>}</span>
+  <span class='kw'>begin</span> 
+    <span class='id write'>write</span>
+    <span class='kw'>true</span>
+  <span class='kw'>rescue</span> <span class='const'>Exception</span>
+    <span class='kw'>false</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="scope-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>scope</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the scope of the project (currently it must be either <ins>:global</ins> or <ins>document</ins>).</p>
+<p>This method must be overridden in derived classes, as it only raises <ins>NoMethodError</ins></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'>(<tt>NoMethodError</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+141
+142
+143</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/project.rb', line 141</span>
+
+<span class='kw'>def</span> <span class='id scope'>scope</span>
+  <span class='id raise'>raise</span> <span class='const'>NoMethodError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Undefined method `scope' for </span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='rbrace'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id class'>class</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="write-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>write</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Override of <tt>SettingsContainer#write</tt> which emits the <ins>settings_changed</ins> signal after
+writing the settings to file</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+286
+287
+288
+289</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/project.rb', line 286</span>
+
+<span class='kw'>def</span> <span class='id write'>write</span>
+  <span class='kw'>super</span>
+  <span class='id emit'>emit</span> <span class='id settings_changed'>settings_changed</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Signal Details</h2>
+    
+      <div class="method_details first">
+  <p class="signature first" id="option_changed-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>option_changed</strong>(QString arg1, QString arg2) 
+</p>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="closing-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>closing</strong>(QObject* arg1) 
+</p>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="settings_changed-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>settings_changed</strong> 
+</p>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="saving-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>saving</strong> 
+</p>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Fri Oct 29 12:52:47 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.1 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>

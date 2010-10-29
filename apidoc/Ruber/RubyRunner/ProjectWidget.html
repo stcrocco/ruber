@@ -1,0 +1,314 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>Class: Ruber::RubyRunner::ProjectWidget</title>
+<link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '../..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../_index.html">Index (P)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../../Ruber.html" title="Ruber (module)">Ruber</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../RubyRunner.html" title="Ruber::RubyRunner (module)">RubyRunner</a></span></span>
+     &raquo; 
+    <span class="title">ProjectWidget</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Ruber::RubyRunner::ProjectWidget
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName"><span class='object_link'><a href="../ProjectConfigWidget.html" title="Ruber::ProjectConfigWidget (class)">ProjectConfigWidget</a></span></span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next">Qt::Widget</li>
+          
+            <li class="next"><span class='object_link'><a href="../ProjectConfigWidget.html" title="Ruber::ProjectConfigWidget (class)">ProjectConfigWidget</a></span></li>
+          
+            <li class="next">Ruber::RubyRunner::ProjectWidget</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">plugins/ruby_runner/project_widget.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>Project widget for the ruby runner plugin</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+
+  
+  
+  
+  
+  
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (ProjectWidget) <strong>initialize</strong>(prj) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Creates a new instance.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#interpreter%3D-instance_method" title="#interpreter= (instance method)">- (Object) <strong>interpreter</strong>(value) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Reader for the <code>ruby/ruby</code> option.</p></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+
+
+
+
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::RubyRunner::ProjectWidget (class)">ProjectWidget</a></span></tt>) <strong>initialize</strong>(prj) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Creates a new instance</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../AbstractProject.html" title="Ruber::AbstractProject (class)">Ruber::AbstractProject</a></span></tt>)</span>
+      
+      
+        <span class='name'>prj</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the project the widget is for</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+37
+38
+39
+40
+41
+42</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/ruby_runner/project_widget.rb', line 37</span>
+
+<span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id prj'>prj</span>
+  <span class='kw'>super</span>
+  <span class='ivar'>@ui</span> <span class='op'>=</span> <span class='const'>Ui</span><span class='op'>::</span><span class='const'>RubyRunnerProjectWidget</span><span class='period'>.</span><span class='id new'>new</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id setupUi'>setupUi</span> <span class='kw'>self</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id _ruby__ruby'>_ruby__ruby</span><span class='period'>.</span><span class='id add_items'>add_items</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:ruby</span><span class='comma'>,</span> <span class='symbol'>:interpreters</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="interpreter=-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>interpreter=</strong>(value) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Reader for the <code>ruby/ruby</code> option</p>
+<p>It selects the entry having text equal to <em>value</em> in the combo box (or the first
+entry if there&#8217;s no entry with text <em>value</em>)</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>value</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the path of the interpreter to use</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+52
+53
+54
+55
+56</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/ruby_runner/project_widget.rb', line 52</span>
+
+<span class='kw'>def</span> <span class='id interpreter='>interpreter=</span> <span class='id value'>value</span>
+  <span class='id item'>item</span> <span class='op'>=</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id _ruby__ruby'>_ruby__ruby</span><span class='period'>.</span><span class='id each_with_index'>each_with_index</span><span class='period'>.</span><span class='id find'>find</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id txt'>txt</span><span class='comma'>,</span> <span class='id i'>i</span><span class='op'>|</span> <span class='id txt'>txt</span> <span class='op'>==</span> <span class='id value'>value</span><span class='rbrace'>}</span>
+  <span class='id idx'>idx</span> <span class='op'>=</span> <span class='id item'>item</span> <span class='op'>?</span> <span class='id item'>item</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='int'>0</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id _ruby__ruby'>_ruby__ruby</span><span class='period'>.</span><span class='id current_index'>current_index</span> <span class='op'>=</span> <span class='id idx'>idx</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+
+</div>
+    
+    <div id="footer">
+  Generated on Fri Oct 29 12:53:03 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.1 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>

@@ -1,0 +1,1741 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>Class: Ruber::ProjectList</title>
+<link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (P)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../Ruber.html" title="Ruber (module)">Ruber</a></span></span>
+     &raquo; 
+    <span class="title">ProjectList</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Ruber::ProjectList
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName"><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next">Ruber::ProjectList</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+      <dt class="r2">Includes:</dt>
+      <dd class="r2"><span class='object_link'><a href="../Enumerable.html" title="Enumerable (module)">Enumerable</a></span>, <span class='object_link'><a href="PluginLike.html" title="Ruber::PluginLike (module)">PluginLike</a></span></dd>
+      
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">lib/ruber/projects/project_list.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>List of all open global projects</p>
+<p>It allows to obtain a list of the open projects, to know when a project is
+closed and keeps trace of which is the current project. The most common usage
+is the following:</p>
+<ul>
+	<li>use the <span class='object_link'><a href="#project-instance_method" title="Ruber::ProjectList#project (method)">ProjectList#project</a></span> method to retrieve an open project basing on the name of
+  its file, or to open it if it isn&#8217;t already open, or to create a new project.
+  This will also cause the project to be added to the list of open projects,
+  if needed</li>
+	<li>use <span class='object_link'><a href="#current_project%3D-instance_method" title="Ruber::ProjectList#current_project= (method)">ProjectList#current_project=</a></span> to set the current project</li>
+	<li>use one of the methods to iterate or work with one of the projects</li>
+	<li>close one of the projects with the project&#8217;s <span class='object_link'><a href="Project.html#close-instance_method" title="Ruber::Project#close (method)">close</a></span> method, or use the
+  <span class='object_link'><a href="#close_current_project-instance_method" title="Ruber::ProjectList#close_current_project (method)">ProjectList#close_current_project</a></span> method to close the current project.</li>
+</ul>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#current_project-instance_method" title="#current_project (instance method)">- (Ruber::Project<sup>?</sup>) <strong>current_project</strong> </a>
+    
+
+    
+      (also: #current)
+    
+  </span>
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The current project or <strong>nil</strong> if there&#8217;s no open project.</p></div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#%5B%5D-instance_method" title="#[] (instance method)">- (Object) <strong>[]</strong>(arg) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the project corresponding to a given file or with a given name.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#add_project-instance_method" title="#add_project (instance method)">- (Ruber::Project) <strong>add_project</strong>(prj) </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Adds a project to the list.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#close_current_project-instance_method" title="#close_current_project (instance method)">- (nil) <strong>close_current_project</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Closes the current project.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#close_project-instance_method" title="#close_project (instance method)">- (nil) <strong>close_project</strong>(prj) </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Closes a project.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#each_project-instance_method" title="#each_project (instance method)">- (Object) <strong>each_project</strong>(&amp;blk) </a>
+    
+
+    
+      (also: #each)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Iterates on all the projects.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (ProjectList) <strong>initialize</strong>(_manager, psf) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>the component.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#new_project-instance_method" title="#new_project (instance method)">- (Ruber::Project) <strong>new_project</strong>(file, name) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Creates a new empty project.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#project-instance_method" title="#project (instance method)">- (Ruber::Project) <strong>project</strong>(file) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the project associated with a project file, opening it if necessary.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#project_for_file-instance_method" title="#project_for_file (instance method)">- (Ruber::Project<sup>?</sup>) <strong>project_for_file</strong>(file, which = :active_only) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the project associated with a given project file.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#projects-instance_method" title="#projects (instance method)">- (Array&lt;Ruber::Project&gt;) <strong>projects</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The existing projects.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#query_close-instance_method" title="#query_close (instance method)">- (Boolean) <strong>query_close</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Tells whether it&#8217;s all right for the projects to close the application.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#save_settings-instance_method" title="#save_settings (instance method)">- (nil) <strong>save_settings</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Saves each open project.</p></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="../Enumerable.html" title="Enumerable (module)">Enumerable</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../Enumerable.html#find%21-instance_method" title="Enumerable#find! (method)">#find!</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="PluginLike.html" title="Ruber::PluginLike (module)">PluginLike</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="PluginLike.html#add_extensions_to_project-instance_method" title="Ruber::PluginLike#add_extensions_to_project (method)">#add_extensions_to_project</a></span>, <span class='object_link'><a href="PluginLike.html#add_options_to_project-instance_method" title="Ruber::PluginLike#add_options_to_project (method)">#add_options_to_project</a></span>, <span class='object_link'><a href="PluginLike.html#add_widgets_to_project-instance_method" title="Ruber::PluginLike#add_widgets_to_project (method)">#add_widgets_to_project</a></span>, <span class='object_link'><a href="PluginLike.html#create_tool_widget-instance_method" title="Ruber::PluginLike#create_tool_widget (method)">#create_tool_widget</a></span>, <span class='object_link'><a href="PluginLike.html#delayed_initialize-instance_method" title="Ruber::PluginLike#delayed_initialize (method)">#delayed_initialize</a></span>, <span class='object_link'><a href="PluginLike.html#initialize_plugin-instance_method" title="Ruber::PluginLike#initialize_plugin (method)">#initialize_plugin</a></span>, <span class='object_link'><a href="PluginLike.html#load_settings-instance_method" title="Ruber::PluginLike#load_settings (method)">#load_settings</a></span>, <span class='object_link'><a href="PluginLike.html#plugin_name-instance_method" title="Ruber::PluginLike#plugin_name (method)">#plugin_name</a></span>, <span class='object_link'><a href="PluginLike.html#register_options-instance_method" title="Ruber::PluginLike#register_options (method)">#register_options</a></span>, <span class='object_link'><a href="PluginLike.html#register_with_project-instance_method" title="Ruber::PluginLike#register_with_project (method)">#register_with_project</a></span>, <span class='object_link'><a href="PluginLike.html#remove_extensions_from_project-instance_method" title="Ruber::PluginLike#remove_extensions_from_project (method)">#remove_extensions_from_project</a></span>, <span class='object_link'><a href="PluginLike.html#remove_from_project-instance_method" title="Ruber::PluginLike#remove_from_project (method)">#remove_from_project</a></span>, <span class='object_link'><a href="PluginLike.html#remove_options_from_project-instance_method" title="Ruber::PluginLike#remove_options_from_project (method)">#remove_options_from_project</a></span>, <span class='object_link'><a href="PluginLike.html#remove_widgets_from_project-instance_method" title="Ruber::PluginLike#remove_widgets_from_project (method)">#remove_widgets_from_project</a></span>, <span class='object_link'><a href="PluginLike.html#restore_session-instance_method" title="Ruber::PluginLike#restore_session (method)">#restore_session</a></span>, <span class='object_link'><a href="PluginLike.html#session_data-instance_method" title="Ruber::PluginLike#session_data (method)">#session_data</a></span>, <span class='object_link'><a href="PluginLike.html#setup_action-instance_method" title="Ruber::PluginLike#setup_action (method)">#setup_action</a></span>, <span class='object_link'><a href="PluginLike.html#setup_actions-instance_method" title="Ruber::PluginLike#setup_actions (method)">#setup_actions</a></span>, <span class='object_link'><a href="PluginLike.html#shutdown-instance_method" title="Ruber::PluginLike#shutdown (method)">#shutdown</a></span>, <span class='object_link'><a href="PluginLike.html#unload-instance_method" title="Ruber::PluginLike#unload (method)">#unload</a></span>, <span class='object_link'><a href="PluginLike.html#update_project-instance_method" title="Ruber::PluginLike#update_project (method)">#update_project</a></span></p>
+
+
+  <h2>Signal Summary</h2>
+  <ul class="summary" >
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#current_project_changed-signalcode" title="current_project_changed (signalcode)">- <strong>current_project_changed</strong>(QObject* prj) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted when the current project changes.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#closing_project-signalcode" title="closing_project (signalcode)">- <strong>closing_project</strong>(QObject* prj) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted just before a project is closed.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#project_added-signalcode" title="project_added (signalcode)">- <strong>project_added</strong>(QObject* prj) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted whenever a project is added.</p></div></span>
+    </li>
+  
+  </ul>
+
+
+
+
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::ProjectList (class)">ProjectList</a></span></tt>) <strong>initialize</strong>(_manager, psf) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>the component</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="ComponentManager.html" title="Ruber::ComponentManager (class)">Ruber::ComponentManager</a></span></tt>)</span>
+      
+      
+        <span class='name'>_manager</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>(unused)</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="PluginSpecification.html" title="Ruber::PluginSpecification (class)">Ruber::PluginSpecification</a></span></tt>)</span>
+      
+      
+        <span class='name'>psf</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the plugin specification object describing</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+91
+92
+93
+94
+95
+96</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_list.rb', line 91</span>
+
+<span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id _manager'>_manager</span><span class='comma'>,</span> <span class='id psf'>psf</span>
+  <span class='kw'>super</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:app</span><span class='rbracket'>]</span>
+  <span class='id initialize_plugin'>initialize_plugin</span> <span class='id psf'>psf</span>
+  <span class='ivar'>@current_project</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='ivar'>@projects</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id="current_project=-instance_method"></span>
+      <span id="current_project-instance_method"></span>
+      <div class="method_details first">
+  <p class="signature first" id="current_project-instance_method">
+  
+    - (<tt><span class='object_link'><a href="Project.html" title="Ruber::Project (class)">Ruber::Project</a></span></tt><sup>?</sup>) <strong>current_project</strong> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='current-instance_method'>current</span></span>
+    </span>
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The current project or <strong>nil</strong> if there&#8217;s no open project</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Project.html" title="Ruber::Project (class)">Ruber::Project</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the current project or <strong>nil</strong> if there&#8217;s no open project</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+83
+84
+85</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_list.rb', line 83</span>
+
+<span class='kw'>def</span> <span class='id current_project'>current_project</span>
+  <span class='ivar'>@current_project</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="[]-instance_method">
+  
+    
+      <span class="overload">- (<tt><span class='object_link'><a href="Project.html" title="Ruber::Project (class)">Ruber::Project</a></span></tt><sup>?</sup>) <strong>[]</strong>(name) </span>
+    
+      <span class="overload">- (<tt><span class='object_link'><a href="Project.html" title="Ruber::Project (class)">Ruber::Project</a></span></tt><sup>?</sup>) <strong>[]</strong>(file) </span>
+    
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the project corresponding to a given file or with a given name</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+  <h3>Overloads:</h3>
+  <ul class="overload">
+    
+      
+      <li class="overload_item">
+        <span class="signature">- (<tt><span class='object_link'><a href="Project.html" title="Ruber::Project (class)">Ruber::Project</a></span></tt><sup>?</sup>) <strong>[]</strong>(name) </span>
+        <div class="docstring">
+  <div class="discussion">
+    <p>Returns the project with the given name
+project with that name exists. If more than one project with that name exist,
+which will be returned is arbitrary</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>name</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the name of the project. It <strong>must not</strong> start with a slash (<code>/</code>)</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Project.html" title="Ruber::Project (class)">Ruber::Project</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the project with name <em>name</em> or <strong>nil</strong> if no open</p></div>
+      
+    </li>
+  
+</ul>
+
+</div>
+      </li>
+    
+      
+      <li class="overload_item">
+        <span class="signature">- (<tt><span class='object_link'><a href="Project.html" title="Ruber::Project (class)">Ruber::Project</a></span></tt><sup>?</sup>) <strong>[]</strong>(file) </span>
+        <div class="docstring">
+  <div class="discussion">
+    <p>Returns the project corresponding to the given project file
+or <strong>nil</strong> if no open projects correspond to that file. Note that, unlike <span class='object_link'><a href="#project-instance_method" title="Ruber::ProjectList#project (method)">#project</a></span>,
+this method doesn&#8217;t attempt to open the project corresponding to <em>file</em> if it 
+isn&#8217;t already open</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>file</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the absolute path of the project file</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Project.html" title="Ruber::Project (class)">Ruber::Project</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the project corresponding to the project file <em>file</em></p></div>
+      
+    </li>
+  
+</ul>
+
+</div>
+      </li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+166
+167
+168
+169
+170
+171</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_list.rb', line 166</span>
+
+<span class='kw'>def</span> <span class='op'>[]</span> <span class='id arg'>arg</span>
+  <span class='kw'>if</span> <span class='id arg'>arg</span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/</span><span class='tstring_end'>'</span></span> <span class='kw'>then</span> <span class='ivar'>@projects</span><span class='lbracket'>[</span><span class='id arg'>arg</span><span class='rbracket'>]</span>
+  <span class='kw'>else</span>
+    <span class='id find'>find</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id prj'>prj</span><span class='op'>|</span> <span class='id prj'>prj</span><span class='period'>.</span><span class='id project_name'>project_name</span> <span class='op'>==</span> <span class='id arg'>arg</span><span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="add_project-instance_method">
+  
+    - (<tt><span class='object_link'><a href="Project.html" title="Ruber::Project (class)">Ruber::Project</a></span></tt>) <strong>add_project</strong>(prj) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Adds a project to the list</p>
+<p>The <span class='object_link'><a href="#project_added-signalcode" title="Ruber::ProjectList#project_added (signalcode)">#project_added</a></span> signal is emitted after adding the project.</p>
+<p>Since this method is automatically called by both <span class='object_link'><a href="#project-instance_method" title="Ruber::ProjectList#project (method)">#project</a></span> and <span class='object_link'><a href="#new_project-instance_method" title="Ruber::ProjectList#new_project (method)">#new_project</a></span>,
+you usually don&#8217;t need to call it, unless you need to create the project using
+<code>Project.new</code> rather than using one of the above methods.</p>
+<p>already in the list</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Project.html" title="Ruber::Project (class)">Ruber::Project</a></span></tt>)</span>
+      
+      
+        <span class='name'>prj</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the project to add</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Project.html" title="Ruber::Project (class)">Ruber::Project</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the project itself</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'></span>
+      
+      
+      
+      
+        
+        <div class='inline'><p><code>RuntimeError</code> if a project corresponding to the same file as <em>prj</em> is</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+225
+226
+227
+228
+229
+230
+231
+232
+233</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_list.rb', line 225</span>
+
+<span class='kw'>def</span> <span class='id add_project'>add_project</span> <span class='id prj'>prj</span>
+  <span class='kw'>if</span> <span class='ivar'>@projects</span><span class='lbracket'>[</span><span class='id prj'>prj</span><span class='period'>.</span><span class='id project_file'>project_file</span><span class='rbracket'>]</span>
+    <span class='id raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>A project with project file </span><span class='embexpr_beg'>#{</span><span class='id prj'>prj</span><span class='period'>.</span><span class='id project_file'>project_file</span><span class='rbrace'>}</span><span class='tstring_content'> is already open</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  <span class='ivar'>@projects</span><span class='lbracket'>[</span><span class='id prj'>prj</span><span class='period'>.</span><span class='id project_file'>project_file</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id prj'>prj</span>
+  <span class='id connect'>connect</span> <span class='id prj'>prj</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>closing(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>close_project(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+  <span class='id emit'>emit</span> <span class='id project_added'>project_added</span><span class='lparen'>(</span><span class='id prj'>prj</span><span class='rparen'>)</span>
+  <span class='id prj'>prj</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>add_project(QObject*)</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="close_current_project-instance_method">
+  
+    - (<tt>nil</tt>) <strong>close_current_project</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Closes the current project</p>
+<p>If there&#8217;s not a current project, nothing is done. Otherwise, it simply calls the
+<span class='object_link'><a href="#close_project-instance_method" title="Ruber::ProjectList#close_project (method)">#close_project</a></span> method passing the current project as argument.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+243
+244
+245
+246</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_list.rb', line 243</span>
+
+<span class='kw'>def</span> <span class='id close_current_project'>close_current_project</span>
+  <span class='ivar'>@current_project</span><span class='period'>.</span><span class='id close'>close</span> <span class='kw'>if</span> <span class='ivar'>@current_project</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="close_project-instance_method">
+  
+    - (<tt>nil</tt>) <strong>close_project</strong>(prj) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Closes a project</p>
+<p>If the project is current, sets the current project to <strong>nil</strong> before closing it.
+In all cases, emits the <span class='object_link'><a href="#closing_project-signalcode" title="Ruber::ProjectList#closing_project (signalcode)">#closing_project</a></span> signal before closing the project.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Project.html" title="Ruber::Project (class)">Ruber::Project</a></span></tt>)</span>
+      
+      
+        <span class='name'>the</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>project to close</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+258
+259
+260
+261
+262
+263</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_list.rb', line 258</span>
+
+<span class='kw'>def</span> <span class='id close_project'>close_project</span> <span class='id prj'>prj</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id current_project'>current_project</span> <span class='op'>=</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='ivar'>@current_project</span> <span class='op'>==</span> <span class='id prj'>prj</span>
+  <span class='id emit'>emit</span> <span class='id closing_project'>closing_project</span><span class='lparen'>(</span><span class='id prj'>prj</span><span class='rparen'>)</span>
+  <span class='ivar'>@projects</span><span class='period'>.</span><span class='id delete'>delete</span> <span class='id prj'>prj</span><span class='period'>.</span><span class='id project_file'>project_file</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>close_project(QObject*)</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="each_project-instance_method">
+  
+    
+      <span class="overload">- (<tt><span class='object_link'><a href="" title="Ruber::ProjectList (class)">Ruber::ProjectList</a></span></tt>) <strong>each_project</strong> {|prj| ... }</span>
+    
+      <span class="overload">- (<tt>Enumerator</tt>) <strong>each_project</strong> </span>
+    
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='each-instance_method'>each</span></span>
+    </span>
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Iterates on all the projects</p>
+<p>In both versions of the method, the order in which the projects are passed to the block is arbitrary</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+  <h3>Overloads:</h3>
+  <ul class="overload">
+    
+      
+      <li class="overload_item">
+        <span class="signature">- (<tt><span class='object_link'><a href="" title="Ruber::ProjectList (class)">Ruber::ProjectList</a></span></tt>) <strong>each_project</strong> {|prj| ... }</span>
+        <div class="docstring">
+  <div class="discussion">
+    <p>Passes each open project to the block in turn</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Yields:</h3>
+<ul class="yield">
+  
+    <li>
+      
+        <span class='type'>(<tt>prj</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>one of the projects</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Ruber::ProjectList (class)">Ruber::ProjectList</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><strong>self</strong></p></div>
+      
+    </li>
+  
+</ul>
+
+</div>
+      </li>
+    
+      
+      <li class="overload_item">
+        <span class="signature">- (<tt>Enumerator</tt>) <strong>each_project</strong> </span>
+        <div class="docstring">
+  <div class="discussion">
+    <p>in turn</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Enumerator</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>an enumerator whose <code>each</code> method yields all the projects</p></div>
+      
+    </li>
+  
+</ul>
+
+</div>
+      </li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+112
+113
+114
+115</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_list.rb', line 112</span>
+
+<span class='kw'>def</span> <span class='id each_project'>each_project</span> <span class='op'>&amp;</span><span class='id blk'>blk</span> <span class='comment'>#:yields: project
+</span>  <span class='id res'>res</span> <span class='op'>=</span> <span class='ivar'>@projects</span><span class='period'>.</span><span class='id each_value'>each_value</span> <span class='op'>&amp;</span><span class='id blk'>blk</span>
+  <span class='id res'>res</span><span class='period'>.</span><span class='id same?'>same?</span><span class='lparen'>(</span><span class='ivar'>@projects</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='kw'>self</span> <span class='op'>:</span> <span class='id res'>res</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="new_project-instance_method">
+  
+    - (<tt><span class='object_link'><a href="Project.html" title="Ruber::Project (class)">Ruber::Project</a></span></tt>) <strong>new_project</strong>(file, name) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Creates a new empty project</p>
+<p>After being created, the new project is added to the list. You almost always should
+use this method, rather than calling AbstractProject.new to create a new empty
+project.</p>
+<p>new project</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>file</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the absolue path of the project file to associate with the</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>name</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the name of the new project</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Project.html" title="Ruber::Project (class)">Ruber::Project</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the new project</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'></span>
+      
+      
+      
+      
+        
+        <div class='inline'><p><code>RuntimeError</code> if a file corresponding to the path <em>file</em> already exists</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+186
+187
+188</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_list.rb', line 186</span>
+
+<span class='kw'>def</span> <span class='id new_project'>new_project</span> <span class='id file'>file</span><span class='comma'>,</span> <span class='id name'>name</span>
+  <span class='id add_project'>add_project</span> <span class='const'>Project</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span> <span class='id file'>file</span><span class='comma'>,</span> <span class='id name'>name</span> <span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="project-instance_method">
+  
+    - (<tt><span class='object_link'><a href="Project.html" title="Ruber::Project (class)">Ruber::Project</a></span></tt>) <strong>project</strong>(file) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the project associated with a project file, opening it if necessary</p>
+<p>This is one of the core methods of this class. It searchs the list of open projects
+and return the one corresponding to the given project file. If a project for that
+file isn&#8217;t open, it will be opened and added to the list of open projects.</p>
+<p>If, for any reason, you create a project using <code>Project.new</code> instead of
+using this method, you&#8217;ll need to add it to the project list yourself using
+<span class='object_link'><a href="#add_project-instance_method" title="Ruber::ProjectList#add_project (method)">#add_project</a></span>.</p>
+<p>or can&#8217;t be opened</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>file</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the absolute path of the project file</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Project.html" title="Ruber::Project (class)">Ruber::Project</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the project corresponding to the project file <em>file</em></p></div>
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'></span>
+      
+      
+      
+      
+        
+        <div class='inline'><p>an error deriving from <code>SystemCallError</code> if the project file doesn&#8217;t exist</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="AbstractProject/InvalidProjectFile.html" title="Ruber::AbstractProject::InvalidProjectFile (class)">Ruber::AbstractProject::InvalidProjectFile</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>if <em>file</em> isn&#8217;t a valid project file</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+145
+146
+147</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_list.rb', line 145</span>
+
+<span class='kw'>def</span> <span class='id project'>project</span> <span class='id file'>file</span>
+  <span class='ivar'>@projects</span><span class='lbracket'>[</span><span class='id file'>file</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id add_project'>add_project</span><span class='lparen'>(</span><span class='const'>Project</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id file'>file</span><span class='rparen'>)</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="project_for_file-instance_method">
+  
+    - (<tt><span class='object_link'><a href="Project.html" title="Ruber::Project (class)">Ruber::Project</a></span></tt><sup>?</sup>) <strong>project_for_file</strong>(file, which = :active_only) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the project associated with a given project file</p>
+<p>be returned only if it&#8217;s active. If it is <code>:all</code> then it will be returned even if
+it&#8217;s inactive. Any other value will cause this method to always return <strong>nil</strong>
+if the list doesn&#8217;t contain any such file or if it doesn&#8217;t respect the value of
+<em>which</em>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>file</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the path of the project file</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
+      
+      
+        <span class='name'>which</span>
+      
+      
+        <em class="default">(defaults to: <tt>:active_only</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>if <code>:active_only</code>, the project corresponding to <em>file</em> will</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Project.html" title="Ruber::Project (class)">Ruber::Project</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the project associated with the file <em>file</em> or <strong>nil</strong></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+301
+302
+303
+304
+305
+306
+307
+308
+309</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_list.rb', line 301</span>
+
+<span class='kw'>def</span> <span class='id project_for_file'>project_for_file</span> <span class='id file'>file</span><span class='comma'>,</span> <span class='id which'>which</span> <span class='op'>=</span> <span class='symbol'>:active_only</span>
+  <span class='id current_prj'>current_prj</span> <span class='op'>=</span> <span class='id current'>current</span>
+  <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>unless</span> <span class='id current_prj'>current_prj</span>
+  <span class='kw'>if</span> <span class='id current_prj'>current_prj</span><span class='period'>.</span><span class='id project_files'>project_files</span><span class='period'>.</span><span class='id file_in_project?'>file_in_project?</span><span class='lparen'>(</span><span class='id file'>file</span><span class='rparen'>)</span> <span class='kw'>then</span> <span class='id current_prj'>current_prj</span>
+  <span class='kw'>elsif</span> <span class='id which'>which</span> <span class='op'>==</span> <span class='symbol'>:all</span>
+    <span class='id find'>find</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id prj'>prj</span><span class='op'>|</span> <span class='id prj'>prj</span><span class='period'>.</span><span class='id project_files'>project_files</span><span class='period'>.</span><span class='id file_in_project?'>file_in_project?</span><span class='lparen'>(</span><span class='id file'>file</span><span class='rparen'>)</span><span class='rbrace'>}</span>
+  <span class='kw'>else</span> <span class='kw'>nil</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="projects-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="Project.html" title="Ruber::Project (class)">Ruber::Project</a></span>&gt;</tt>) <strong>projects</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The existing projects</p>
+<p>wont affect the <code>ProjectList</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="Project.html" title="Ruber::Project (class)">Ruber::Project</a></span>&gt;</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the existing projects. Modifying the array</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+124
+125
+126</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_list.rb', line 124</span>
+
+<span class='kw'>def</span> <span class='id projects'>projects</span>
+  <span class='ivar'>@projects</span><span class='period'>.</span><span class='id values'>values</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="query_close-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>query_close</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Tells whether it&#8217;s all right for the projects to close the application</p>
+<p>It calls the <code>query_close</code> method for each project, returning <strong>false</strong> if any of
+them returns <strong>false</strong> and <strong>true</strong> if all return <strong>true</strong></p>
+<p>and <strong>false</strong> if at least one of them say the application can&#8217;t be closed</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><strong>true</strong> if it&#8217;s all right for the projects to close the application</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+285
+286
+287
+288</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_list.rb', line 285</span>
+
+<span class='kw'>def</span> <span class='id query_close'>query_close</span>
+  <span class='ivar'>@projects</span><span class='period'>.</span><span class='id values'>values</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id pr'>pr</span><span class='op'>|</span> <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='id pr'>pr</span><span class='period'>.</span><span class='id query_close'>query_close</span><span class='rbrace'>}</span>
+  <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="save_settings-instance_method">
+  
+    - (<tt>nil</tt>) <strong>save_settings</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Saves each open project</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+271
+272
+273
+274</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_list.rb', line 271</span>
+
+<span class='kw'>def</span> <span class='id save_settings'>save_settings</span>
+  <span class='ivar'>@projects</span><span class='period'>.</span><span class='id values'>values</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id pr'>pr</span><span class='op'>|</span> <span class='id pr'>pr</span><span class='period'>.</span><span class='id save'>save</span><span class='rbrace'>}</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Signal Details</h2>
+    
+      <div class="method_details first">
+  <p class="signature first" id="current_project_changed-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>current_project_changed</strong>(QObject* prj) 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted when the current project changes</p>
+<p>project</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Project.html" title="Ruber::Project (class)">Ruber::Project</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+        <span class='name'>prj</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the new current project, or <strong>nil</strong> if there&#8217;s no open</p></div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="closing_project-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>closing_project</strong>(QObject* prj) 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted just before a project is closed</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Project.html" title="Ruber::Project (class)">Ruber::Project</a></span></tt>)</span>
+      
+      
+        <span class='name'>prj</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the project which is being closed</p></div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="project_added-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>project_added</strong>(QObject* prj) 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted whenever a project is added</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Project.html" title="Ruber::Project (class)">Ruber::Project</a></span></tt>)</span>
+      
+      
+        <span class='name'>prj</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the newly added project</p></div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Fri Oct 29 12:52:59 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.1 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>

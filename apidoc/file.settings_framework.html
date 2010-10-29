@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>File: settings_framework</title>
+<link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html" title="Index">Index</a> &raquo; 
+    <span class="title">File: settings_framework</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><div id='filecontents'><h1>The Ruber Settings Framework</h1>
+<h2 id="backends">The backend</h2>
+<p>The backend is the responsible for writing the options to file and reading them
+from there. It should provide the following methods:
+A constructor:: it should read all the contents of the file and store it. The file
+                shouldn&#8217;t be read anymore from that point, unless explicitly
+                requested.
+<tt>[opt]</tt>:: returns the value of the option <em>opt_. See add</em>option for an
+                 explaination of what <em>opt</em> is. Additional methods provided by
+                 <em>opt</em> may be used to determine its value. If no value for <em>opt</em>
+                 is included in the file, the default value should be returned.
+                 Note that, while the backend is free to store the values for the
+                 different options however it wants, it <em>must</em> make sure that
+                 options with the same names, but belonging to different groups
+                 don&#8217;t clash.
+<tt>write(data)</tt>:: writes the options back to file. <em>data</em> is an hash whose
+                       keys are the objects describing the options (see add_option)
+                       and whose values are the actual values of the options.</p></div></div>
+    
+    <div id="footer">
+  Generated on Fri Oct 29 12:52:45 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.1 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>

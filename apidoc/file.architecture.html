@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>File: architecture</title>
+<link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html" title="Index">Index</a> &raquo; 
+    <span class="title">File: architecture</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><div id='filecontents'><h1>Ruber architecture</h1>
+<p>Ruber is a plugin-based <span class="caps">IDE</span>. This means that the Ruber program itself only provides
+the core functionality: a system to load, unload, manage and access plugins, the
+main window, the document/editor and project system. Everything else is provided
+by plugins.</p>
+<p>By itself, the Ruber program does only the following</p>
+<ul>
+	<li>create some unique objects (such as the appplication and the main window) when
+the application starts. Objects of this kind are treated almost like plugins,
+only they are created before any other plugin is loaded and are hardcoded: the user
+can&#8217;t (as yet) write a plugin which provides a different main window or application.
+These objects (of which only one is created during the application lifetime) are
+called <strong>core components</strong></li>
+	<li>provide some frameworks for doing common operation (for example managing options,
+<span class="caps">GUI</span> states and similar), some of which take the place of those provided by <span class="caps">KDE</span></li>
+	<li>provide a library of classes, such as the <code>Document</code>, <code>Project</code> and <code>Plugin</code>
+classes which represent fundamental Ruber entities</li>
+</ul>
+<p><a href="file.plugin_specification_file.html">The Plugin Specification File</a></p></div></div>
+    
+    <div id="footer">
+  Generated on Fri Oct 29 12:52:45 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.1 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>

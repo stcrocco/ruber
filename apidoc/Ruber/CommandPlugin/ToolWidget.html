@@ -1,0 +1,415 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>Class: Ruber::CommandPlugin::ToolWidget</title>
+<link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '../..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../_index.html">Index (T)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../../Ruber.html" title="Ruber (module)">Ruber</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../CommandPlugin.html" title="Ruber::CommandPlugin (module)">CommandPlugin</a></span></span>
+     &raquo; 
+    <span class="title">ToolWidget</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Ruber::CommandPlugin::ToolWidget
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Qt::Widget</span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next">Qt::Widget</li>
+          
+            <li class="next">Ruber::CommandPlugin::ToolWidget</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">plugins/command/command.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>The tool widget where the user can enter the ruby code to execute.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+
+  
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#execute_command-instance_method" title="#execute_command (instance method)">- (Boolean) <strong>execute_command</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Executes the text in the tool widget in the ruby interpreter where Ruber is running
+in.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (ToolWidget) <strong>initialize</strong>(parent = nil) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>A new instance of ToolWidget.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#load_settings-instance_method" title="#load_settings (instance method)">- (nil) <strong>load_settings</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Called whenever the global settings change and when the plugin is first loaded.</p></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+
+
+
+
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::CommandPlugin::ToolWidget (class)">ToolWidget</a></span></tt>) <strong>initialize</strong>(parent = nil) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>A new instance of ToolWidget</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>Qt::Widget</tt>, <tt>nil</tt>)</span>
+      
+      
+        <span class='name'>parent</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>the parent widget</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/command.rb', line 27</span>
+
+<span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id parent'>parent</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='kw'>super</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id layout'>layout</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>VBoxLayout</span><span class='period'>.</span><span class='id new'>new</span> <span class='kw'>self</span>
+  <span class='ivar'>@editor</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>PlainTextEdit</span><span class='period'>.</span><span class='id new'>new</span>
+  <span class='id layout'>layout</span><span class='period'>.</span><span class='id add_widget'>add_widget</span> <span class='ivar'>@editor</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id focus_proxy'>focus_proxy</span> <span class='op'>=</span> <span class='ivar'>@editor</span>
+  <span class='ivar'>@button</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>PushButton</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Execute</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='id connect'>connect</span> <span class='ivar'>@button</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:clicked</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:execute_command</span><span class='rparen'>)</span>
+  <span class='id layout'>layout</span><span class='period'>.</span><span class='id add_widget'>add_widget</span> <span class='ivar'>@button</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="execute_command-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>execute_command</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Executes the text in the tool widget in the ruby interpreter where Ruber is running
+in. If an exception is raised by the code, it won&#8217;t be propagated to Ruber. Instead,
+it will be displayed on standard error and in a message box.</p>
+<p>was raised.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><strong>true</strong> if the code was executed successfully and <strong>false</strong> if an exception</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/command.rb', line 46</span>
+
+<span class='kw'>def</span> <span class='id execute_command'>execute_command</span>
+  <span class='id code'>code</span> <span class='op'>=</span> <span class='ivar'>@editor</span><span class='period'>.</span><span class='id to_plain_text'>to_plain_text</span>
+  <span class='kw'>begin</span> 
+    <span class='id eval'>eval</span> <span class='id code'>code</span><span class='comma'>,</span> <span class='const'>TOPLEVEL_BINDING</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>COMMAND</span><span class='tstring_end'>'</span></span>
+    <span class='kw'>true</span>
+  <span class='kw'>rescue</span> <span class='const'>Exception</span> <span class='op'>=&gt;</span> <span class='id ex'>ex</span>
+    <span class='id lines'>lines</span> <span class='op'>=</span> <span class='id ex'>ex</span><span class='period'>.</span><span class='id message'>message</span><span class='period'>.</span><span class='id split_lines'>split_lines</span>
+    <span class='id msg'>msg</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>&lt;i&gt;&lt;/i&gt;The command you issued raised the following Exception:&lt;br/&gt;&lt;pre&gt;</span><span class='embexpr_beg'>#{</span><span class='id ex'>ex</span><span class='period'>.</span><span class='id message'>message</span><span class='rbrace'>}</span><span class='tstring_content'>&lt;/pre&gt;</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id details'>details</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>&lt;pre&gt;</span><span class='embexpr_beg'>#{</span><span class='id ex'>ex</span><span class='period'>.</span><span class='id message'>message</span><span class='rbrace'>}</span><span class='tstring_content'>\n\n</span><span class='embexpr_beg'>#{</span><span class='id ex'>ex</span><span class='period'>.</span><span class='id backtrace'>backtrace</span><span class='period'>.</span><span class='id join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+    <span class='const'>KDE</span><span class='op'>::</span><span class='const'>MessageBox</span><span class='period'>.</span><span class='id detailed_sorry'>detailed_sorry</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id msg'>msg</span><span class='comma'>,</span> <span class='id details'>details</span><span class='comma'>,</span> 
+        <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Command Error</span><span class='tstring_end'>&quot;</span></span>
+    <span class='gvar'>$stderr</span><span class='period'>.</span><span class='id puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id ex'>ex</span><span class='period'>.</span><span class='id message'>message</span><span class='rbrace'>}</span><span class='tstring_content'>\n</span><span class='embexpr_beg'>#{</span><span class='id ex'>ex</span><span class='period'>.</span><span class='id backtrace'>backtrace</span><span class='period'>.</span><span class='id join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>false</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>execute_command()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="load_settings-instance_method">
+  
+    - (<tt>nil</tt>) <strong>load_settings</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Called whenever the global settings change and when the plugin is first loaded</p>
+<p>Sets the font of the editor to the font chosen by the user as the output font</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+68
+69
+70
+71</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/command.rb', line 68</span>
+
+<span class='kw'>def</span> <span class='id load_settings'>load_settings</span>
+  <span class='ivar'>@editor</span><span class='period'>.</span><span class='id font'>font</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:general</span><span class='comma'>,</span> <span class='symbol'>:output_font</span><span class='rbracket'>]</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>load_settings()</tt></p>
+
+    
+  </div>
+
+
+
+</div>
+    
+    <div id="footer">
+  Generated on Fri Oct 29 12:52:53 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.1 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>

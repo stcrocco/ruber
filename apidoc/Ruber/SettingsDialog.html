@@ -1,0 +1,930 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>Class: Ruber::SettingsDialog</title>
+<link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (S)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../Ruber.html" title="Ruber (module)">Ruber</a></span></span>
+     &raquo; 
+    <span class="title">SettingsDialog</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Ruber::SettingsDialog
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">KDE::PageDialog</span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next">KDE::PageDialog</li>
+          
+            <li class="next">Ruber::SettingsDialog</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/ruber/settings_dialog.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>Dialog used to change the options contained in an SettingsContainer. It is a specialized
+<tt><span class="caps">KDE</span>::PageDialog</tt>.</p>
+<p>The widgets added to the option container are displayed in pages corresponding to
+the captions included in the widgets&#8217; description. If more than one widget has
+the same caption, they&#8217;re displayed in the same page, one below the other (using
+a Qt::VBoxLayout). The icon used for each page is the first one found among the
+widgets in that page.</p>
+<p>The process of keeping the options in sync between the widgets and the option container
+can be automatized using the functionality provided by the internal SettingsDialogManager.
+If this automatic management can&#8217;t be achieved for a particular option (for example,
+because the value should be obtained combining the data of more than one widget),
+you can still automatically manage the other widgets and integrate the manual
+management of the widgets which need it with the automatic management. To do so,
+you&#8217;ll need to define a read_settings, a store_settings and a read_default_settings
+method in your widget. In this case, you can access the dialog using the @settings_dialog
+instance variable, which is created by this class when the widget is created.</p>
+<p>===Manual option management example
+Suppose you have an option called <tt>:default_path</tt> in the :general group which stores a path. In
+your widget, however, the path is split in two parts: the directory and the filename,
+which are shown in two line edit widgets, called respectively <tt>default_dir_widget</tt>
+and <tt>default_file_widget</tt>. Since the automatic option management system assumes
+that each option corresponds to a single widget, you can&#8217;t use it. So, you define
+a <tt>read_settings</tt>, a <tt>store_settings</tt> and a <tt>read_default_settings</tt>
+method in your widget class like this:</p>
+class MyWidget &lt; Qt::Widget
+def initialize parent = nil
+super
+@default_dir_widget = <span class="caps">KDE</span>::LineEdit.new self
+@default_file_widget = <span class="caps">KDE</span>::LineEdit.new self
+end
+def read_settings
+path = @settings_dialog.settings_container[:general, :default_path]
+@default_dir_widget.text = File.dirname(path)
+@default_file_widget.text = File.basename(path)
+end
+
+def store_settings
+path = File.join @default_dir_widget.text, @default_file_widget.text
+@settings_dialog.settings_container[:general, :default_path] = path
+end
+
+def read_default_settings
+path = @settings_dialog.settings_container.default(:general, :default_path)
+@default_dir_widget.text = File.dirname(path)
+@default_file_widget.text = File.basename(path)
+end
+end
+<p>Note that the <tt>@settings_dialog</tt> instance variable has been automatically
+created by the dialog when the widget has been created and contains a reference
+to the dialog itself.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><div id="subclasses">
+  <h2>Direct Known Subclasses</h2>
+  <p class="children"><span class='object_link'><a href="ProjectDialog.html" title="Ruber::ProjectDialog (class)">ProjectDialog</a></span></p>
+</div>
+
+
+  
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#container-instance_method" title="#container (instance method)">- (Object) <strong>container</strong> </a>
+    
+
+    
+      (also: #settings_container)
+    
+  </span>
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The option container.</p></div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#exec-instance_method" title="#exec (instance method)">- (Object) <strong>exec</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Override of <tt><span class="caps">KDE</span>::PageDialog#exec</tt> which makes sure the first page is the current
+page and gives focus to the first widget on the page and reads the settings from
+the option container.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (SettingsDialog) <strong>initialize</strong>(container, options, widgets, title = nil) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Creates a new SettingsDialog.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#read_default_settings-instance_method" title="#read_default_settings (instance method)">- (Object) <strong>read_default_settings</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>This method works as read_settings except for the fact that it reads the default
+values of the options instad of the values set by the user.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#read_settings-instance_method" title="#read_settings (instance method)">- (Object) <strong>read_settings</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>This method reads settings from the option container and displays them in the widgets.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#show-instance_method" title="#show (instance method)">- (Object) <strong>show</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Override of <tt><span class="caps">KDE</span>::PageDialog#show</tt> which makes sure the first page is the current
+page and gives focus to the first widget on the page and reads the settings from
+the option container.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#store_settings-instance_method" title="#store_settings (instance method)">- (Object) <strong>store_settings</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>This method takes the values from the dialog widgets and stores them in to option container.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#widget_from_class-instance_method" title="#widget_from_class (instance method)">- (Object) <strong>widget_from_class</strong>(cls) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Method called to create a widget which is specified using the <tt>class_obj</tt> entry
+in the third argument to initialize.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#widget_from_code-instance_method" title="#widget_from_code (instance method)">- (Object) <strong>widget_from_code</strong>(code) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Method called to create a widget which is specified using a <tt>code</tt> entry
+in the third argument to initialize.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#widgets-instance_method" title="#widgets (instance method)">- (Object) <strong>widgets</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns an array containing all the widgets created for the dialog, that is the
+widgets created from the data in the third argument of the constructor.</p></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+
+
+
+
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::SettingsDialog (class)">SettingsDialog</a></span></tt>) <strong>initialize</strong>(container, options, widgets, title = nil) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Creates a new SettingsDialog. The dialog will store settings in the SettingsContainer
+<em>container</em>, manage the options <em>options</em> and display the widgets <em>widgets</em>.
+<em>options</em> is an array of option objects (see SettingsContainer#add_option).
+<em>widgets</em> is an array containing
+the description of the widgets to be displayed in the dialog (see SettingsContainer#add_widget).</p>
+<p>This method defines a new instance variable for each widget it creates. The variable
+is called @settings_dialog and contains a reference to the dialog itself. It can be
+used from custom widgets&#8217; implementation of read_settings, store_settings and
+read_default_settings methods to access the option container corresponding to
+the dialog.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/settings_dialog.rb', line 111</span>
+
+<span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id container'>container</span><span class='comma'>,</span> <span class='id options'>options</span><span class='comma'>,</span> <span class='id widgets'>widgets</span><span class='comma'>,</span> <span class='id title'>title</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='kw'>super</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id buttons'>buttons</span> <span class='op'>=</span> <span class='const'>Ok</span><span class='op'>|</span><span class='const'>Apply</span><span class='op'>|</span><span class='const'>Cancel</span><span class='op'>|</span><span class='const'>Default</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id window_title'>window_title</span> <span class='op'>=</span> <span class='id title'>title</span> <span class='kw'>if</span> <span class='id title'>title</span>
+  <span class='ivar'>@container</span> <span class='op'>=</span> <span class='id container'>container</span>
+  <span class='id grouped_widgets'>grouped_widgets</span> <span class='op'>=</span> <span class='const'>Hash</span><span class='period'>.</span><span class='id new'>new</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id h'>h</span><span class='comma'>,</span> <span class='id k'>k</span><span class='op'>|</span> <span class='id h'>h</span><span class='lbracket'>[</span><span class='id k'>k</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
+  <span class='id widgets'>widgets</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id w'>w</span><span class='op'>|</span> <span class='id grouped_widgets'>grouped_widgets</span><span class='lbracket'>[</span><span class='id w'>w</span><span class='period'>.</span><span class='id caption'>caption</span><span class='rbracket'>]</span> <span class='op'>&lt;&lt;</span> <span class='id w'>w</span> <span class='rbrace'>}</span>
+  <span class='ivar'>@page_items</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='ivar'>@widgets</span> <span class='op'>=</span> <span class='const'>Hash</span><span class='period'>.</span><span class='id new'>new</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id h'>h</span><span class='comma'>,</span> <span class='id k'>k</span><span class='op'>|</span> <span class='id h'>h</span><span class='lbracket'>[</span><span class='id k'>k</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
+  <span class='id grouped_widgets'>grouped_widgets</span><span class='period'>.</span><span class='id keys'>keys</span><span class='period'>.</span><span class='id sort'>sort</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id c'>c</span><span class='op'>|</span>
+    <span class='id icon'>icon</span> <span class='op'>=</span> <span class='kw'>nil</span>
+    <span class='id page'>page</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Widget</span><span class='period'>.</span><span class='id new'>new</span> <span class='kw'>self</span>
+    <span class='id page'>page</span><span class='period'>.</span><span class='id layout'>layout</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>VBoxLayout</span><span class='period'>.</span><span class='id new'>new</span> <span class='id page'>page</span>
+    <span class='id grouped_widgets'>grouped_widgets</span><span class='lbracket'>[</span><span class='id c'>c</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id w'>w</span><span class='op'>|</span> 
+      <span class='id widget'>widget</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='id w'>w</span><span class='period'>.</span><span class='id respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:code</span><span class='rparen'>)</span> <span class='kw'>and</span> <span class='id w'>w</span><span class='period'>.</span><span class='id code'>code</span> <span class='kw'>then</span> <span class='id widget_from_code'>widget_from_code</span><span class='lparen'>(</span><span class='id w'>w</span><span class='period'>.</span><span class='id code'>code</span><span class='rparen'>)</span> 
+      <span class='kw'>else</span> <span class='id widget_from_class'>widget_from_class</span><span class='lparen'>(</span><span class='id w'>w</span><span class='period'>.</span><span class='id class_obj'>class_obj</span><span class='rparen'>)</span>
+      <span class='kw'>end</span>
+      <span class='id widget'>widget</span><span class='period'>.</span><span class='id parent'>parent</span> <span class='op'>=</span> <span class='id page'>page</span>
+      <span class='id widget'>widget</span><span class='period'>.</span><span class='id instance_variable_set'>instance_variable_set</span> <span class='symbol'>:@settings_dialog</span><span class='comma'>,</span> <span class='kw'>self</span>
+      <span class='ivar'>@widgets</span><span class='lbracket'>[</span><span class='id c'>c</span><span class='rbracket'>]</span> <span class='op'>&lt;&lt;</span> <span class='id widget'>widget</span>
+      <span class='id page'>page</span><span class='period'>.</span><span class='id layout'>layout</span><span class='period'>.</span><span class='id add_widget'>add_widget</span> <span class='id widget'>widget</span>
+      <span class='id icon'>icon</span> <span class='op'>||=</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Icon</span><span class='period'>.</span><span class='id new'>new</span> <span class='id w'>w</span><span class='period'>.</span><span class='id pixmap'>pixmap</span> <span class='kw'>if</span> <span class='id w'>w</span><span class='period'>.</span><span class='id pixmap'>pixmap</span> <span class='kw'>rescue</span> <span class='kw'>nil</span>
+    <span class='kw'>end</span>
+    <span class='ivar'>@page_items</span> <span class='op'>&lt;&lt;</span> <span class='id add_page'>add_page</span><span class='lparen'>(</span><span class='id page'>page</span><span class='comma'>,</span> <span class='id c'>c</span><span class='rparen'>)</span>
+    <span class='ivar'>@page_items</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id icon'>icon</span> <span class='op'>=</span> <span class='id icon'>icon</span> <span class='kw'>if</span> <span class='id icon'>icon</span>
+  <span class='kw'>end</span>
+  <span class='ivar'>@manager</span> <span class='op'>=</span> <span class='const'>SettingsDialogManager</span><span class='period'>.</span><span class='id new'>new</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='id options'>options</span><span class='comma'>,</span> <span class='ivar'>@widgets</span><span class='period'>.</span><span class='id values'>values</span><span class='period'>.</span><span class='id flatten'>flatten</span>
+  <span class='id connect'>connect</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:okClicked</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:store_settings</span><span class='rparen'>)</span>
+  <span class='id connect'>connect</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:applyClicked</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:store_settings</span><span class='rparen'>)</span>
+  <span class='id connect'>connect</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:defaultClicked</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:read_default_settings</span><span class='rparen'>)</span>
+  <span class='id enable_button_apply'>enable_button_apply</span> <span class='kw'>false</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id="container=-instance_method"></span>
+      <span id="container-instance_method"></span>
+      <div class="method_details first">
+  <p class="signature first" id="container-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>container</strong> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='settings_container-instance_method'>settings_container</span></span>
+    </span>
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The option container. This method can be used by the widgets which need to define
+the read_settings, store_settings and read_default_settings methods to access the
+option container of the dialog.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+95
+96
+97</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/settings_dialog.rb', line 95</span>
+
+<span class='kw'>def</span> <span class='id container'>container</span>
+  <span class='ivar'>@container</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="exec-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>exec</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Override of <tt><span class="caps">KDE</span>::PageDialog#exec</tt> which makes sure the first page is the current
+page and gives focus to the first widget on the page and reads the settings from
+the option container.</p>
+<p>This is needed because usually the dialog object isn&#8217;t deleted after having been
+closed, so the interface should be updated manually.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+193
+194
+195
+196
+197
+198
+199
+200</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/settings_dialog.rb', line 193</span>
+
+<span class='kw'>def</span> <span class='id exec'>exec</span>
+  <span class='id read_settings'>read_settings</span>
+  <span class='kw'>if</span> <span class='ivar'>@page_items</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
+    <span class='kw'>self</span><span class='period'>.</span><span class='id current_page'>current_page</span> <span class='op'>=</span> <span class='ivar'>@page_items</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> 
+    <span class='kw'>self</span><span class='period'>.</span><span class='id current_page'>current_page</span><span class='period'>.</span><span class='id widget'>widget</span><span class='period'>.</span><span class='id layout'>layout</span><span class='period'>.</span><span class='id item_at'>item_at</span><span class='lparen'>(</span><span class='int'>0</span><span class='rparen'>)</span><span class='period'>.</span><span class='id widget'>widget</span><span class='period'>.</span><span class='id set_focus'>set_focus</span>
+  <span class='kw'>end</span>
+  <span class='kw'>super</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="read_default_settings-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>read_default_settings</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>This method works as read_settings except for the fact that it reads the default
+values of the options instad of the values set by the user.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+180
+181
+182
+183</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/settings_dialog.rb', line 180</span>
+
+<span class='kw'>def</span> <span class='id read_default_settings'>read_default_settings</span>
+  <span class='ivar'>@manager</span><span class='period'>.</span><span class='id read_default_settings'>read_default_settings</span>
+  <span class='ivar'>@widgets</span><span class='period'>.</span><span class='id values'>values</span><span class='period'>.</span><span class='id flatten'>flatten</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id w'>w</span><span class='op'>|</span> <span class='id w'>w</span><span class='period'>.</span><span class='id read_default_settings'>read_default_settings</span> <span class='kw'>if</span> <span class='id w'>w</span><span class='period'>.</span><span class='id respond_to?'>respond_to?</span> <span class='symbol'>:read_default_settings</span><span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>read_default_settings()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="read_settings-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>read_settings</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>This method reads settings from the option container and displays them in the widgets.
+It calls the read_settings method of the option dialog manager and the read_settings
+method of each widgets which provide it.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+159
+160
+161
+162</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/settings_dialog.rb', line 159</span>
+
+<span class='kw'>def</span> <span class='id read_settings'>read_settings</span>
+  <span class='ivar'>@manager</span><span class='period'>.</span><span class='id read_settings'>read_settings</span>
+  <span class='ivar'>@widgets</span><span class='period'>.</span><span class='id values'>values</span><span class='period'>.</span><span class='id flatten'>flatten</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id w'>w</span><span class='op'>|</span> <span class='id w'>w</span><span class='period'>.</span><span class='id read_settings'>read_settings</span> <span class='kw'>if</span> <span class='id w'>w</span><span class='period'>.</span><span class='id respond_to?'>respond_to?</span> <span class='symbol'>:read_settings</span><span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="show-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>show</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Override of <tt><span class="caps">KDE</span>::PageDialog#show</tt> which makes sure the first page is the current
+page and gives focus to the first widget on the page and reads the settings from
+the option container.</p>
+<p>This is needed because usually the dialog object isn&#8217;t deleted after having been
+closed, so the interface should be updated manually.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+210
+211
+212
+213
+214
+215</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/settings_dialog.rb', line 210</span>
+
+<span class='kw'>def</span> <span class='id show'>show</span>
+  <span class='id read_settings'>read_settings</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id current_page'>current_page</span> <span class='op'>=</span> <span class='ivar'>@page_items</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id current_page'>current_page</span><span class='period'>.</span><span class='id widget'>widget</span><span class='period'>.</span><span class='id layout'>layout</span><span class='period'>.</span><span class='id item_at'>item_at</span><span class='lparen'>(</span><span class='int'>0</span><span class='rparen'>)</span><span class='period'>.</span><span class='id widget'>widget</span><span class='period'>.</span><span class='id set_focus'>set_focus</span>
+  <span class='kw'>super</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="store_settings-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>store_settings</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>This method takes the values from the dialog widgets and stores them in to option container.
+It calls the store_settings method of the option dialog manager and the store_settings
+method of each widgets which provide it, then calls the write method of the container
+so that the options are written to file.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+170
+171
+172
+173
+174</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/settings_dialog.rb', line 170</span>
+
+<span class='kw'>def</span> <span class='id store_settings'>store_settings</span>
+  <span class='ivar'>@manager</span><span class='period'>.</span><span class='id store_settings'>store_settings</span>
+  <span class='ivar'>@widgets</span><span class='period'>.</span><span class='id values'>values</span><span class='period'>.</span><span class='id flatten'>flatten</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id w'>w</span><span class='op'>|</span> <span class='id w'>w</span><span class='period'>.</span><span class='id store_settings'>store_settings</span> <span class='kw'>if</span> <span class='id w'>w</span><span class='period'>.</span><span class='id respond_to?'>respond_to?</span> <span class='symbol'>:store_settings</span><span class='rbrace'>}</span>
+  <span class='ivar'>@container</span><span class='period'>.</span><span class='id write'>write</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>store_settings()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="widget_from_class-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>widget_from_class</strong>(cls)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Method called to create a widget which is specified using the <tt>class_obj</tt> entry
+in the third argument to initialize. <em>cls</em> is the widget&#8217;s class.</p>
+<p>The widget is created simply calling new on <em>cls</em> (no arguments are passed to it).
+Derived classes may want to override it to change this behaviour (for example,
+they may want to pass some argument to <ins>new</ins>).</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+239
+240
+241</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/settings_dialog.rb', line 239</span>
+
+<span class='kw'>def</span> <span class='id widget_from_class'>widget_from_class</span> <span class='id cls'>cls</span>
+  <span class='id cls'>cls</span><span class='period'>.</span><span class='id new'>new</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="widget_from_code-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>widget_from_code</strong>(code)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Method called to create a widget which is specified using a <tt>code</tt> entry
+in the third argument to initialize. <em>code</em> is the string containing the code.</p>
+<p>It evaluates <em>code</em> in the toplevel binding and returns the resulting object. Derived
+classes may override it to change this behaviour (for example, they may want to
+evaluate the code in another binding).</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+227
+228
+229</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/settings_dialog.rb', line 227</span>
+
+<span class='kw'>def</span> <span class='id widget_from_code'>widget_from_code</span> <span class='id code'>code</span>
+  <span class='id eval'>eval</span> <span class='id code'>code</span><span class='comma'>,</span> <span class='const'>TOPLEVEL_BINDING</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="widgets-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>widgets</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns an array containing all the widgets created for the dialog, that is the
+widgets created from the data in the third argument of the constructor.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+148
+149
+150
+151
+152</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/settings_dialog.rb', line 148</span>
+
+<span class='kw'>def</span> <span class='id widgets'>widgets</span>
+  <span class='id res'>res</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='ivar'>@widgets</span><span class='period'>.</span><span class='id each_value'>each_value</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id a'>a</span><span class='op'>|</span> <span class='id res'>res</span> <span class='op'>+=</span> <span class='id a'>a</span><span class='rbrace'>}</span>
+  <span class='id res'>res</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+
+</div>
+    
+    <div id="footer">
+  Generated on Fri Oct 29 12:52:54 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.1 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>

@@ -1,0 +1,1325 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>Class: Ruber::SettingsDialogManager</title>
+<link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (S)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../Ruber.html" title="Ruber (module)">Ruber</a></span></span>
+     &raquo; 
+    <span class="title">SettingsDialogManager</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Ruber::SettingsDialogManager
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName"><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next">Ruber::SettingsDialogManager</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/ruber/settings_dialog_manager.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>Class which takes care of automatically syncronize (some of) the options in
+an SettingsContainer with the widgets in the SettingsDialog.</p>
+<p>In the following documentation, the widgets passed as argument to the constructor
+will be called <i>upper level widgets</i>, because they&#8217;re the topmost widgets
+this class is interested in. The term <i>child widget</i> will be used to refer
+to any widget which is child of an upper level widget, while the generic <em>widget</em>
+can refer to both. The upper <i>level widget corresponding to </i> a widget is
+the upper level widget the given widget is child of (or the widget itself if it
+already is an upper level widget)</p>
+<p>To syncronize options and widgets contents, this class looks among the upper level
+widgets and their children for the widget which have an <tt>object_name</tt> of the form
+<tt>_group__option</tt>, that is: an underscore, a group name, two underscores,
+an option name (both the group and the option name can contain underscores. This
+is the reason for which <em>two</em> underscores are used to separate them). Such a
+widget is associated with the option with name <em>name</em> belonging to the group
+<em>group</em>.</p>
+<p>Having a widget associated with an option means three things:
+1. when the widget emits some signals (which mean that the settings have changed,
+   the dialog&#8217;s Apply button is enabled)
+2. when the dialog is displayed, the widget is updated so that it displays the
+   value stored in the SettingsContainer
+3. when the Apply or the OK button of the dialog is clicked, the option in the
+   SettingsContainer is updated with the value of the widget.</p>
+<p>For all this to happen, who writes the widget (or the upper level widget the widget
+is child of) must give it several custom properties
+(this can be done with the UI designer, if it is used to create the widget, or
+by hand). These properties are:</p>
+<ul>
+	<li>signal: it&#8217;s a string containing the signal(s) on which the Apply button of the
+  dialog will be enabled. If more than one signal should be used, you can specify
+  them using a <span class="caps">YAML</span> array (that is, enclose them in square brackets and separate
+  them with a comma followed by one space). If the widget has only a single signal
+  with that name, you can omit the signal&#8217;s signature, otherwise you need to include
+  it (for example, <tt>Qt::LineEdit</tt> has a single signall called <tt>textChanged</tt>,
+  so you can simply use that instead of <tt>textChanged(QString)</tt>. On the other
+  hand, <tt>Qt::ComboBox</tt> has two signals called <ins>currentIndexChanged</ins>, so
+  you must fully specify them: <tt>currentIndexChanged(QString)</tt> or
+  <tt>currentIndexChanged(int)</tt>).</li>
+	<li>read: is the method to use to sync the value in the widget with that in
+  the SettingsContainer. The reason of the name &#8220;read&#8221; is that it is used to
+  read the value from the container.</li>
+	<li>store: is the method to use to sync the value in the SettingsContainer with that
+  in the widget.</li>
+	<li>access: a method name to derive the <ins>read</ins> and the <ins>store</ins> methods from. The
+  <ins>store</ins> method has the same name as this property, while the <ins>read</ins>
+  method has the same name with ending &#8220;?&#8221; and &#8220;!&#8221; removed and an ending 
+  &#8220;=&#8221; added.</li>
+</ul>
+<p>In the documentation for this class, the term <i>read method</i> refers to the
+method specified in the <ins>read</ins> property or derived from the <ins>access</ins> property by
+adding the <tt>=</tt> to it. The term <i>store method</i> refers to the
+method specified in the <ins>store</ins> or <ins>access</ins> property.</p>
+<p>If the <ins>read</ins>, <ins>store</ins> or <ins>access</ins> properties start with a <tt>$</tt>, they&#8217;ll be called
+on the upper level widget corresponding to the widget, instead than on the widget
+itself.</p>
+<p>Not all of the above properties need to be specified. In particular, the <ins>access</ins>
+property can&#8217;t coexhist the <ins>read</ins> and the <ins>store</ins> properties. On the other hand,
+you can&#8217;t give only one of the <ins>read</ins> and <ins>store</ins> properties. If you omit the
+<ins>access</ins>, <ins>store</ins> and <ins>read</ins> property entierely, and the <ins>signal</ins> property only
+contains one signal, then an <ins>access</ins> property is automatically created using the
+name of the signal after having removed from its end the strings &#8216;Edited&#8217;, &#8216;Changed&#8217;,
+&#8216;Modified&#8217;, &#8216;_edited&#8217;, &#8216;_changed&#8217;, &#8216;_modified&#8217; (for example, if the signal is
+&#8217;<tt>textChanged(QString)</tt>, then the <ins>access</ins> property will become <ins>text</ins>.</p>
+<p>If the <ins>signal</ins> property hasn&#8217;t been specified, a default one will be used, depending
+on the class of the widgets. See the documentation for DEFAULT_PROPERTIES to see
+which signals will be used for which classes. If neither the <ins>access</ins> property
+nor the <ins>read</ins> and <ins>store</ins> properties have been given, a default <ins>access</ins> property
+will also be used. If the class of the widget is not included in DEFAULT_PROPERTIES,
+an exception will be raised.</p>
+<p>A read method must accept one argument, which is the value of the option, and 
+display it in the corresponding widget in whichever way is appropriate. A store
+method, instead, should take no arguments, retrieve the option value from the widget,
+again using the most appropriate way, and return it.</p>
+<p>Often, the default <ins>access</ins> method is almost, but not completely, enough. For
+example, if the widget is a <tt><span class="caps">KDE</span>::UrlRequester</tt>, but you want to store
+the option as a string, instead of using a <tt><span class="caps">KDE</span>::Url</tt>, you&#8217;d need to create
+a method whose only task is to convert a  <tt><span class="caps">KDE</span>::Url</tt> to a string and vice
+versa. The same could happen with a symbol and a <tt>Qt::LineEdit</tt>. To avoid
+such a need, this class also performs automatic conversions, when reading or storing
+an option. It works this way: if the value to store in the <ins>SettingsContainer</ins> or
+in the widget are of a different class from the one previously contained there,
+the <ins>DEFAULT_CONVERSIONS</ins> hash is scanned for an entry corresponding to the two
+classes and, if found, the value returned by the corresponding <ins>Proc</ins> is stored
+instead of the original one.</p>
+<p>===Example</p>
+<p>Consider the following situation:</p>
+<p><b>Options:</b>
+<tt>OpenStruct.new({:name =&gt; :number, :group =&gt; :G1, :default =&gt; 4})</tt>::
+  this is an option which contains an integral value, with default 4
+<tt>OpenStruct.new({:name =&gt; :path, :group =&gt; :G1, :default =&gt; <span class="caps">ENV</span>[[&#8216;<span class="caps">HOME</span>&#8217;]]})</tt>::
+  this is an option which contains a string representing a path. The default value
+  is the user&#8217;s home directory (contained in the environment variable <span class="caps">HOME</span>)
+<tt>OpenStruct.new({:name =&gt; :list, :group =&gt; :G2, :default =&gt; %w[a b c]})</tt>::
+  this is an option which contains an array of strings, with default value
+  <tt>[&#8216;a&#8217;, &#8216;b&#8217;, &#8216;c&#8217;]</tt>.</p>
+<p><b>Widgets:</b></p>
+<p>There&#8217;s a single upper level widget, of class <ins>MyWidget</ins>, which contains a
+<tt>Qt::SpinBox</tt>, a <tt><span class="caps">KDE</span>::UrlRequester</tt> and a <tt>Qt::LineEdit</tt>.
+The value displayed in the spin box should be associated to the <tt>:number</tt>
+option, while the url requester should be associated to the <tt>:path</tt> option.
+The line edit widget should be associated with the <tt>:list</tt> option, by splitting
+the text on commas.</p>
+<p>We can make some observations:</p>
+<ul>
+	<li>the spin box doesn&#8217;t need anything except having its name set to match the
+  <tt>:number</tt> option: the default signal and access method provided by
+  <tt>DEFAULT_PROPERTIES</tt> are perfectly adequate to this situation.</li>
+	<li>the url requester doesn&#8217;t need any special settings, aside from the object name:
+  the default signal and access method provided by <tt>DEFAULT_PROPERTIES</tt> are
+  almost what we need and the only issue is that the methods take and return a
+  <tt><span class="caps">KDE</span>::Url</tt> instead of a string. But since the <tt>DEFAULT_CONVERSIONS</tt>
+  contains conversion procs for this pair of classes, even this is handled automatically</li>
+	<li>the line edit requires custom <ins>read</ins> and <ins>store</ins> methods (which can be specified
+  with a signle <ins>access</ins> property), because there&#8217;s no default conversion from
+  array to string and vice versa. The default signal, instead, is suitable for
+  our needs, so we don&#8217;t need to specify one.</li>
+</ul>
+<p>Here&#8217;s how the class <ins>MyWidget</ins> could be written (here, all widgets are created
+manually. In general, it&#8217;s more likely that you&#8217;d use the Qt Designer to create
+it. In that case, you can set the widgets&#8217; properties using the designer itself).
+Note that in the constructor we make use of the block form of the widgets&#8217; constructors,
+which evaluates the given block in the new widget&#8217;s context.</p>
+class MyWidget &lt; Qt::Widget
+
+def initialize parent = nil
+super
+@spin_box = Qt::SpinBox.new{ self.object_name = &#8217;_G1__number&#8217;}
+@url_req = <span class="caps">KDE</span>::UrlRequester.new= &#8217;_G1__path&#8217;
+@line_edit = Qt::LineEdit.new do
+self.object_name = &#8216;_G2__list&#8217;
+set_property &#8216;access&#8217;, &#8216;$items&#8217;
+end
+end
+<ol>
+	<li>This is the store method for the list option. It takes the text in the line</li>
+	<li>edit and splits it on commas, returning the array
+    def items
+      @line_edit.text.split &#8216;,&#8217;
+    end</li>
+</ol>
+<ol>
+	<li>This is the read method for the list option. It takes the array containing</li>
+	<li>the value of the option (an array) as argument, then sets the text of the</li>
+	<li>line edit to the string obtained by calling join on the array
+    def items= array
+      @line_edit.text = array.join &#8216;,&#8217;
+    end</li>
+</ol>
+end
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="DEFAULT_PROPERTIES-constant" class="">DEFAULT_PROPERTIES =
+          <div class="docstring">
+  <div class="discussion">
+    <p>A hash containing the default signal and access methods to use for a number of
+classes, when the <ins>signal</ins> property isn&#8217;t given. The keys of the hash are the
+classes, while the values are arrays of two elements. The first element is the
+name of the signal, while the second is the name of the access method.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbrace'>{</span>
+  <span class='const'>Qt</span><span class='op'>::</span><span class='const'>CheckBox</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>toggled(bool)</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>checked?</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='const'>Qt</span><span class='op'>::</span><span class='const'>PushButton</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>toggled(bool)</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>checked?</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='const'>KDE</span><span class='op'>::</span><span class='const'>PushButton</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>toggled(bool)</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>checked?</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='const'>KDE</span><span class='op'>::</span><span class='const'>ColorButton</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>changed(QColor)</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>color</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='const'>KDE</span><span class='op'>::</span><span class='const'>IconButton</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>iconChanged(QString)</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>icon</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='const'>Qt</span><span class='op'>::</span><span class='const'>LineEdit</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>textChanged(QString)</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>text</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='const'>KDE</span><span class='op'>::</span><span class='const'>LineEdit</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>textChanged(QString)</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>text</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='const'>KDE</span><span class='op'>::</span><span class='const'>RestrictedLine</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>textChanged(QString)</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>text</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='const'>Qt</span><span class='op'>::</span><span class='const'>ComboBox</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>currentIndexChanged(int)</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>current_index</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='const'>KDE</span><span class='op'>::</span><span class='const'>ComboBox</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>currentIndexChanged(int)</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>current_index</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='const'>KDE</span><span class='op'>::</span><span class='const'>ColorCombo</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>currentIndexChanged(int)</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>color</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='const'>Qt</span><span class='op'>::</span><span class='const'>TextEdit</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>textChanged(QString)</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>text</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='const'>KDE</span><span class='op'>::</span><span class='const'>TextEdit</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>textChanged(QString)</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>text</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='const'>Qt</span><span class='op'>::</span><span class='const'>PlainTextEdit</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>textChanged(QString)</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>text</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='const'>Qt</span><span class='op'>::</span><span class='const'>SpinBox</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>valueChanged(int)</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>value</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='const'>KDE</span><span class='op'>::</span><span class='const'>IntSpinBox</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>valueChanged(int)</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>value</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='const'>Qt</span><span class='op'>::</span><span class='const'>DoubleSpinBox</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>valueChanged(double)</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>value</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='const'>KDE</span><span class='op'>::</span><span class='const'>IntNumInput</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>valueChanged(int)</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>value</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='const'>KDE</span><span class='op'>::</span><span class='const'>DoubleNumInput</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>valueChanged(double)</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>value</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='const'>Qt</span><span class='op'>::</span><span class='const'>TimeEdit</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>timeChanged(QTime)</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>time</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='const'>Qt</span><span class='op'>::</span><span class='const'>DateEdit</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>dateChanged(QDate)</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>date</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='const'>Qt</span><span class='op'>::</span><span class='const'>DateTimeEdit</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>dateTimeChanged(QDateTime)</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>date_time</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Dial</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>valueChanged(int)</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>value</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Slider</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>valueChanged(int)</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>value</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='const'>KDE</span><span class='op'>::</span><span class='const'>DatePicker</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>dateChanged(QDate)</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>date</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='const'>KDE</span><span class='op'>::</span><span class='const'>DateTimeWidget</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>valueChanged(QDateTime)</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>date_time</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='const'>KDE</span><span class='op'>::</span><span class='const'>DateWidget</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>changed(QDate)</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>date</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='const'>KDE</span><span class='op'>::</span><span class='const'>FontComboBox</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>currentFontChanged(QFont)</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>current_font</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='const'>KDE</span><span class='op'>::</span><span class='const'>FontRequester</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>fontSelected(QFont)</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>font</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='const'>KDE</span><span class='op'>::</span><span class='const'>UrlRequester</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>textChanged(QString)</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>url</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+<span class='rbrace'>}</span></pre></dd>
+      
+        <dt id="DEFAULT_CONVERSIONS-constant" class="">DEFAULT_CONVERSIONS =
+          <div class="docstring">
+  <div class="discussion">
+    <p>Hash which contains the Procs used by <tt>convert_value</tt> to convert a value
+from its class to another. Each key must an array of two classes, corresponding
+respectively to the class to convert <em>from</em> and to the class to convert <em>to</em>. The
+values should be Procs which take one argument of class corresponding to the first
+entry of the key and return an object of class equal to the second argument of the
+key.</p>
+<p>If you want to implement a new automatic conversion, all you need to do is to
+add the appropriate entries here. Note that usually you&#8217;ll want to add two entries:
+one for the conversion from A to B and one for the conversion in the opposite
+direction.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbrace'>{</span>
+  <span class='lbracket'>[</span><span class='const'>Symbol</span><span class='comma'>,</span> <span class='const'>String</span><span class='rbracket'>]</span> <span class='op'>=&gt;</span> <span class='id proc'>proc</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id sym'>sym</span><span class='op'>|</span> <span class='id sym'>sym</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='rbrace'>}</span><span class='comma'>,</span>
+  <span class='lbracket'>[</span><span class='const'>String</span><span class='comma'>,</span> <span class='const'>Symbol</span><span class='rbracket'>]</span> <span class='op'>=&gt;</span> <span class='id proc'>proc</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id str'>str</span><span class='op'>|</span> <span class='id str'>str</span><span class='period'>.</span><span class='id to_sym'>to_sym</span><span class='rbrace'>}</span><span class='comma'>,</span>
+  <span class='lbracket'>[</span><span class='const'>String</span><span class='comma'>,</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Url</span><span class='rbracket'>]</span> <span class='op'>=&gt;</span> <span class='id proc'>proc</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id str'>str</span><span class='op'>|</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Url</span><span class='period'>.</span><span class='id from_path'>from_path</span><span class='lparen'>(</span><span class='id str'>str</span><span class='rparen'>)</span><span class='rbrace'>}</span><span class='comma'>,</span>
+<span class='comment'># KDE::Url#path_or_url returns nil if the KDE::Url is not valid, so, we use
+</span><span class='comment'># || '' to ensure the returned object is a string
+</span>  <span class='lbracket'>[</span><span class='const'>KDE</span><span class='op'>::</span><span class='const'>Url</span><span class='comma'>,</span> <span class='const'>String</span><span class='rbracket'>]</span> <span class='op'>=&gt;</span> <span class='id proc'>proc</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id url'>url</span><span class='op'>|</span> <span class='id url'>url</span><span class='period'>.</span><span class='id path_or_url'>path_or_url</span> <span class='op'>||</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span><span class='rbrace'>}</span><span class='comma'>,</span>
+  <span class='lbracket'>[</span><span class='const'>String</span><span class='comma'>,</span> <span class='const'>Fixnum</span><span class='rbracket'>]</span> <span class='op'>=&gt;</span> <span class='id proc'>proc</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id str'>str</span><span class='op'>|</span> <span class='id str'>str</span><span class='period'>.</span><span class='id to_i'>to_i</span><span class='rbrace'>}</span><span class='comma'>,</span>
+  <span class='lbracket'>[</span><span class='const'>Fixnum</span><span class='comma'>,</span> <span class='const'>String</span><span class='rbracket'>]</span> <span class='op'>=&gt;</span> <span class='id proc'>proc</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id n'>n</span><span class='op'>|</span> <span class='id n'>n</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='rbrace'>}</span><span class='comma'>,</span>
+  <span class='lbracket'>[</span><span class='const'>String</span><span class='comma'>,</span> <span class='const'>Float</span><span class='rbracket'>]</span> <span class='op'>=&gt;</span> <span class='id proc'>proc</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id str'>str</span><span class='op'>|</span> <span class='id str'>str</span><span class='period'>.</span><span class='id to_f'>to_f</span><span class='rbrace'>}</span><span class='comma'>,</span>
+  <span class='lbracket'>[</span><span class='const'>Float</span><span class='comma'>,</span> <span class='const'>String</span><span class='rbracket'>]</span> <span class='op'>=&gt;</span> <span class='id proc'>proc</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id x'>x</span><span class='op'>|</span> <span class='id x'>x</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='rbrace'>}</span><span class='comma'>,</span>
+<span class='rbrace'>}</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#add_signal_signature-instance_method" title="#add_signal_signature (instance method)">- (Object) <strong>add_signal_signature</strong>(sig, obj) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the full signature of the signal with name <em>sig</em> in the <tt>Qt::Object</tt>
+obj.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#call_widget_method-instance_method" title="#call_widget_method (instance method)">- (Object) <strong>call_widget_method</strong>(*args) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>:call-seq:
+manager.call_widget_method data
+manager.call_widget_method data, value.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#convert_value-instance_method" title="#convert_value (instance method)">- (Object) <strong>convert_value</strong>(new, old) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Converts the value <em>new</em> so that it has the same class as <em>old</em>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#find_associated_methods-instance_method" title="#find_associated_methods (instance method)">- (Object) <strong>find_associated_methods</strong>(signals, methods, widget, ulw) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Finds the read and store methods to associate to the widget <em>widget</em>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (SettingsDialogManager) <strong>initialize</strong>(dlg, options, widgets) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Creates a new SettingsDialogManager.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#read_default_settings-instance_method" title="#read_default_settings (instance method)">- (Object) <strong>read_default_settings</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>It works like <tt>read_settings</tt> except for the fact that it updates the
+widgets with the default values of the options.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#read_settings-instance_method" title="#read_settings (instance method)">- (Object) <strong>read_settings</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Updates all the widgets corresponding to an automatically managed option by calling
+the associated reader methods, passing them the value read from the option container,
+converted as described in the the documentation for SettingsDialogManager, 
+<tt>convert_value</tt> and <tt>DEFAULT_CONVERSIONS</tt>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#settings_changed-instance_method" title="#settings_changed (instance method)">- (Object) <strong>settings_changed</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Enables the Apply button of the dialog.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#setup_automatic_option-instance_method" title="#setup_automatic_option (instance method)">- (Object) <strong>setup_automatic_option</strong>(opt, widget, ulw) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Associates the widget <em>w</em> with the option <em>option</em>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#setup_option-instance_method" title="#setup_option (instance method)">- (Object) <strong>setup_option</strong>(opt) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Looks in the list of widgets passed to the constructor and their children for a
+widget whose name corresponds to that of the option (see widget_name for the meaning
+of <em>corresponds</em>).</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#store_settings-instance_method" title="#store_settings (instance method)">- (Object) <strong>store_settings</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Updates all the automatically managed options by calling setting them to the values
+returned by the associated &#8216;store&#8217; methods,
+converted as described in the the documentation for <ins>SettingsDialogManager</ins>, 
+<tt>convert_value</tt> and <tt>DEFAULT_CONVERSIONS</tt>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#widget_name-instance_method" title="#widget_name (instance method)">- (Object) <strong>widget_name</strong>(group, name) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the name of the widget corresponding to the option belonging to group
+<em>group</em> and with name <em>name</em>.</p></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+
+
+
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::SettingsDialogManager (class)">SettingsDialogManager</a></span></tt>) <strong>initialize</strong>(dlg, options, widgets) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Creates a new SettingsDialogManager. The first argument is the SettingsDialog whose
+widgets will be managed by the new instance. The second argument is an array with
+the option objects corresponding to the options which are candidates for automatic
+management. The keys of the hash are the option
+objects, which contain all the information about the options, while the values
+are the values of the options. <em>widgets</em> is a list of widgets where to look for
+for widgets corresponding to the options.</p>
+<p>When the <ins>SettingsDialogManager</ins> instance is created, associations between options
+and widgets are created, but the widgets themselves aren&#8217;t updated with the values
+of the options.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+274
+275
+276
+277
+278
+279
+280</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/settings_dialog_manager.rb', line 274</span>
+
+<span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id dlg'>dlg</span><span class='comma'>,</span> <span class='id options'>options</span><span class='comma'>,</span> <span class='id widgets'>widgets</span>
+  <span class='kw'>super</span><span class='lparen'>(</span><span class='id dlg'>dlg</span><span class='rparen'>)</span>
+  <span class='ivar'>@widgets</span> <span class='op'>=</span> <span class='id widgets'>widgets</span>
+  <span class='ivar'>@container</span> <span class='op'>=</span> <span class='id dlg'>dlg</span><span class='period'>.</span><span class='id settings_container'>settings_container</span>
+  <span class='ivar'>@associations</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='id options'>options</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id o'>o</span><span class='op'>|</span> <span class='id setup_option'>setup_option</span> <span class='id o'>o</span><span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="add_signal_signature-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>add_signal_signature</strong>(sig, obj)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the full signature of the signal with name <em>sig</em> in the <tt>Qt::Object</tt>
+obj. If <em>sig</em> already has a signature, it is returned as it is. Otherwise, the list
+of signals of <em>obj</em> is searched for a signal whose name is equal to <em>sig</em> and the
+full name of that signal is returned. If no signal has that name, or if more than
+one signal have that name, <ins>ArgumentError</ins> is raised.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'>(<tt>ArgumentError</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+411
+412
+413
+414
+415
+416
+417
+418
+419</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/settings_dialog_manager.rb', line 411</span>
+
+<span class='kw'>def</span> <span class='id add_signal_signature'>add_signal_signature</span> <span class='id sig'>sig</span><span class='comma'>,</span> <span class='id obj'>obj</span>
+  <span class='kw'>return</span> <span class='id sig'>sig</span> <span class='kw'>if</span> <span class='id sig'>sig</span><span class='period'>.</span><span class='id index'>index</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>(</span><span class='tstring_end'>'</span></span>
+  <span class='id mo'>mo</span> <span class='op'>=</span> <span class='id obj'>obj</span><span class='period'>.</span><span class='id meta_object'>meta_object</span>
+  <span class='id reg'>reg</span> <span class='op'>=</span> <span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^</span><span class='embexpr_beg'>#{</span><span class='const'>Regexp</span><span class='period'>.</span><span class='id quote'>quote</span> <span class='id sig'>sig</span><span class='rbrace'>}</span><span class='regexp_end'>/</span></span>
+  <span class='id signals'>signals</span> <span class='op'>=</span> <span class='id mo'>mo</span><span class='period'>.</span><span class='id each_signal'>each_signal</span><span class='period'>.</span><span class='id find_all'>find_all</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id s'>s</span><span class='op'>|</span> <span class='id s'>s</span><span class='period'>.</span><span class='id signature'>signature</span> <span class='op'>=~</span> <span class='id reg'>reg</span><span class='rbrace'>}</span>
+  <span class='id raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Ambiguous signal name, '</span><span class='embexpr_beg'>#{</span><span class='id sig'>sig</span><span class='rbrace'>}</span><span class='tstring_content'>'</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id signals'>signals</span><span class='period'>.</span><span class='id size'>size</span> <span class='op'>&gt;</span> <span class='int'>1</span>
+  <span class='id raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No signal with name '</span><span class='embexpr_beg'>#{</span><span class='id sig'>sig</span><span class='rbrace'>}</span><span class='tstring_content'>' exist</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id signals'>signals</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+  <span class='id signals'>signals</span><span class='period'>.</span><span class='id first'>first</span><span class='period'>.</span><span class='id signature'>signature</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="call_widget_method-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>call_widget_method</strong>(*args)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>:call-seq:
+manager.call_widget_method data
+manager.call_widget_method data, value</p>
+<p>Helper method which calls the &#8216;read&#8217; or &#8216;store&#8217; method for an association. If called
+in the first form, calls the &#8216;store&#8217; method, while in the first form it calls the
+&#8216;read&#8217; method passing <em>value</em> as argument. <em>data</em> is one of the hashes contained
+in the <tt>@associations</tt> instance variable as values: it has the following
+form: <tt>{:read =&gt; [widget, read_method], :store =&gt; [widget, store_method]}. In
+both versions, it returns what the called method returned.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+471
+472
+473
+474
+475
+476</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/settings_dialog_manager.rb', line 471</span>
+
+<span class='kw'>def</span> <span class='id call_widget_method'>call_widget_method</span> <span class='op'>*</span><span class='id args'>args</span>
+  <span class='id data'>data</span> <span class='op'>=</span> <span class='id args'>args</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
+  <span class='kw'>if</span> <span class='id args'>args</span><span class='period'>.</span><span class='id size'>size</span> <span class='op'>==</span> <span class='int'>1</span> <span class='kw'>then</span> <span class='id data'>data</span><span class='lbracket'>[</span><span class='symbol'>:store</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id send'>send</span> <span class='id data'>data</span><span class='lbracket'>[</span><span class='symbol'>:store</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span>
+  <span class='kw'>else</span> <span class='id data'>data</span><span class='lbracket'>[</span><span class='symbol'>:read</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id send'>send</span> <span class='id data'>data</span><span class='lbracket'>[</span><span class='symbol'>:read</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id args'>args</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="convert_value-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>convert_value</strong>(new, old)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Converts the value <em>new</em> so that it has the same class as <em>old_. To do so, it looks
+in the +DEFAULT</em>CONVERSIONS+ hash for an entry whose key is an array with the class
+of <em>new</em> as first entry and the class of <em>old</em> as second entry. If the key is found,
+the corresponding value (which is a <ins>Proc</ins>), is called, passing it <em>new</em> and the
+method returns its return value. If the key isn&#8217;t found (including the case when
+<em>new</em> and <em>old</em> have the same class), <em>new</em> is returned as it is.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+486
+487
+488
+489
+490
+491
+492</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/settings_dialog_manager.rb', line 486</span>
+
+<span class='kw'>def</span> <span class='id convert_value'>convert_value</span> <span class='id new'>new</span><span class='comma'>,</span> <span class='id old'>old</span>
+  <span class='id prc'>prc</span> <span class='op'>=</span> <span class='const'>DEFAULT_CONVERSIONS</span><span class='lbracket'>[</span><span class='lbracket'>[</span><span class='id new'>new</span><span class='period'>.</span><span class='id class'>class</span><span class='comma'>,</span> <span class='id old'>old</span><span class='period'>.</span><span class='id class'>class</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
+  <span class='kw'>if</span> <span class='id prc'>prc</span> <span class='kw'>then</span> 
+    <span class='id prc'>prc</span><span class='period'>.</span><span class='id call'>call</span> <span class='id new'>new</span>
+  <span class='kw'>else</span> <span class='id new'>new</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="find_associated_methods-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>find_associated_methods</strong>(signals, methods, widget, ulw)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Finds the read and store methods to associate to the widget <em>widget</em>. It returns
+an hash with keys <tt>:read</tt> and <tt>:store</tt> and for values pairs of the
+form <tt>[receiver, method]</tt>, where <em>method</em> is the method to call to read
+or store the option value and <em>receiver</em> is the object to call the method on (it
+may be either <em>widget</em>, if the corresponding property doesn&#8217;t begin with <ins>$</ins>, 
+or its upper level widget, <em>ulw</em>, if the property begins with <ins>$</ins>).</p>
+<p><em>signals</em> is an array with all the signals included in the <ins>signal</ins> property of
+the widget. <em>methods</em> is an array with the contents of the <ins>read</ins>, <ins>store</ins> and
+<ins>access</ins> properties, (in this order), converted to string (if one property is
+missing, the corresponding entry will be <strong>nil</strong>). <em>widget</em> is the widget for which
+the association should be done and <em>ulw</em> is the corresponding upper level widget.</p>
+<p>See the documentation for <tt>setup_automatic_option</tt> for a description of
+the situation on which an <ins>ArgumentError</ins> exception is raised.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/settings_dialog_manager.rb', line 438</span>
+
+<span class='kw'>def</span> <span class='id find_associated_methods'>find_associated_methods</span> <span class='id signals'>signals</span><span class='comma'>,</span> <span class='id methods'>methods</span><span class='comma'>,</span> <span class='id widget'>widget</span><span class='comma'>,</span> <span class='id ulw'>ulw</span>
+  <span class='id read'>read</span><span class='comma'>,</span> <span class='id store'>store</span><span class='comma'>,</span> <span class='id access'>access</span> <span class='op'>=</span> <span class='id methods'>methods</span>
+  <span class='kw'>if</span> <span class='id access'>access</span> <span class='kw'>and</span> <span class='lparen'>(</span><span class='id read'>read</span> <span class='kw'>or</span> <span class='id store'>store</span><span class='rparen'>)</span>
+    <span class='id raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The widget </span><span class='embexpr_beg'>#{</span><span class='id widget'>widget</span><span class='period'>.</span><span class='id object_name'>object_name</span><span class='rbrace'>}</span><span class='tstring_content'> has both the access property and one or both of the store and read properties</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>elsif</span> <span class='id access'>access</span>
+    <span class='id read'>read</span> <span class='op'>=</span> <span class='id access'>access</span><span class='period'>.</span><span class='id sub'>sub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>[?!=]$</span><span class='regexp_end'>/</span></span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='op'>+</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>=</span><span class='tstring_end'>'</span></span>
+    <span class='id store'>store</span> <span class='op'>=</span> <span class='id access'>access</span>
+  <span class='kw'>elsif</span> <span class='op'>!</span><span class='id access'>access</span> <span class='kw'>and</span> <span class='op'>!</span><span class='lparen'>(</span><span class='id store'>store</span> <span class='kw'>and</span> <span class='id read'>read</span><span class='rparen'>)</span>
+    <span class='kw'>if</span> <span class='id signals'>signals</span><span class='period'>.</span><span class='id size'>size</span> <span class='op'>&gt;</span> <span class='int'>1</span>
+      <span class='id raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>When more signals are specified, you need to specify also the access property or both the read and store properties</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+    <span class='id sig'>sig</span> <span class='op'>=</span> <span class='id signals'>signals</span><span class='period'>.</span><span class='id first'>first</span>
+    <span class='id store'>store</span> <span class='op'>||=</span> <span class='id sig'>sig</span><span class='lbracket'>[</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>[^(]+</span><span class='regexp_end'>/</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id snakecase'>snakecase</span><span class='period'>.</span><span class='id sub'>sub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>_(?:changed|modified|edited)$</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+    <span class='id read'>read</span> <span class='op'>||=</span> <span class='id sig'>sig</span><span class='lbracket'>[</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>[^(]+</span><span class='regexp_end'>/</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id snakecase'>snakecase</span><span class='period'>.</span><span class='id sub'>sub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>_(?:changed|modified|edited)$</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>=</span><span class='tstring_end'>'</span></span>
+  <span class='kw'>end</span>
+  <span class='id data'>data</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='id data'>data</span><span class='lbracket'>[</span><span class='symbol'>:read</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id read'>read</span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>$</span><span class='tstring_end'>'</span></span> <span class='op'>?</span> <span class='lbracket'>[</span><span class='id ulw'>ulw</span><span class='comma'>,</span> <span class='id read'>read</span><span class='lbracket'>[</span><span class='int'>1</span><span class='op'>..</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='lbracket'>[</span><span class='id widget'>widget</span><span class='comma'>,</span> <span class='id read'>read</span><span class='rbracket'>]</span>
+  <span class='id data'>data</span><span class='lbracket'>[</span><span class='symbol'>:store</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id store'>store</span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>$</span><span class='tstring_end'>'</span></span> <span class='op'>?</span> <span class='lbracket'>[</span><span class='id ulw'>ulw</span><span class='comma'>,</span> <span class='id store'>store</span><span class='lbracket'>[</span><span class='int'>1</span><span class='op'>..</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='lbracket'>[</span><span class='id widget'>widget</span><span class='comma'>,</span> <span class='id store'>store</span><span class='rbracket'>]</span>
+  <span class='id data'>data</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="read_default_settings-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>read_default_settings</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>It works like <tt>read_settings</tt> except for the fact that it updates the
+widgets with the default values of the options.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+320
+321
+322
+323
+324
+325
+326
+327
+328</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/settings_dialog_manager.rb', line 320</span>
+
+<span class='kw'>def</span> <span class='id read_default_settings'>read_default_settings</span>
+  <span class='ivar'>@associations</span><span class='period'>.</span><span class='id each_pair'>each_pair</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id o'>o</span><span class='comma'>,</span> <span class='id data'>data</span><span class='op'>|</span>
+    <span class='id group'>group</span><span class='comma'>,</span> <span class='id name'>name</span> <span class='op'>=</span> <span class='id o'>o</span><span class='lbracket'>[</span><span class='int'>1</span><span class='op'>..</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>__</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:to_sym</span><span class='rparen'>)</span>
+    <span class='id value'>value</span> <span class='op'>=</span> <span class='ivar'>@container</span><span class='period'>.</span><span class='id default'>default</span><span class='lparen'>(</span><span class='id group'>group</span><span class='comma'>,</span> <span class='id name'>name</span><span class='rparen'>)</span>
+    <span class='id old_value'>old_value</span> <span class='op'>=</span> <span class='id call_widget_method'>call_widget_method</span> <span class='id data'>data</span>
+    <span class='id value'>value</span> <span class='op'>=</span> <span class='id convert_value'>convert_value</span><span class='lparen'>(</span><span class='id value'>value</span><span class='comma'>,</span> <span class='id old_value'>old_value</span><span class='rparen'>)</span>
+    <span class='id call_widget_method'>call_widget_method</span> <span class='id data'>data</span><span class='comma'>,</span> <span class='id value'>value</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="read_settings-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>read_settings</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Updates all the widgets corresponding to an automatically managed option by calling
+the associated reader methods, passing them the value read from the option container,
+converted as described in the the documentation for SettingsDialogManager, 
+<tt>convert_value</tt> and <tt>DEFAULT_CONVERSIONS</tt>. It emits the
+<tt>settings_changed</tt> signal with <strong>true</strong> as argument.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+289
+290
+291
+292
+293
+294
+295
+296
+297</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/settings_dialog_manager.rb', line 289</span>
+
+<span class='kw'>def</span> <span class='id read_settings'>read_settings</span>
+  <span class='ivar'>@associations</span><span class='period'>.</span><span class='id each_pair'>each_pair</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id o'>o</span><span class='comma'>,</span> <span class='id data'>data</span><span class='op'>|</span>
+    <span class='id group'>group</span><span class='comma'>,</span> <span class='id name'>name</span> <span class='op'>=</span> <span class='id o'>o</span><span class='lbracket'>[</span><span class='int'>1</span><span class='op'>..</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>__</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:to_sym</span><span class='rparen'>)</span>
+    <span class='id value'>value</span> <span class='op'>=</span> <span class='ivar'>@container</span><span class='period'>.</span><span class='id relative_path?'>relative_path?</span><span class='lparen'>(</span><span class='id group'>group</span><span class='comma'>,</span> <span class='id name'>name</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='ivar'>@container</span><span class='lbracket'>[</span><span class='id group'>group</span><span class='comma'>,</span> <span class='id name'>name</span><span class='comma'>,</span> <span class='symbol'>:abs</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='ivar'>@container</span><span class='lbracket'>[</span><span class='id group'>group</span><span class='comma'>,</span> <span class='id name'>name</span><span class='rbracket'>]</span>
+    <span class='id old_value'>old_value</span> <span class='op'>=</span> <span class='id call_widget_method'>call_widget_method</span> <span class='id data'>data</span>
+    <span class='id value'>value</span> <span class='op'>=</span> <span class='id convert_value'>convert_value</span><span class='lparen'>(</span><span class='id value'>value</span><span class='comma'>,</span> <span class='id old_value'>old_value</span><span class='rparen'>)</span>
+    <span class='id call_widget_method'>call_widget_method</span> <span class='id data'>data</span><span class='comma'>,</span> <span class='id value'>value</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="settings_changed-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>settings_changed</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Enables the Apply button of the dialog</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+497
+498
+499</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/settings_dialog_manager.rb', line 497</span>
+
+<span class='kw'>def</span> <span class='id settings_changed'>settings_changed</span>
+  <span class='id parent'>parent</span><span class='period'>.</span><span class='id enable_button_apply'>enable_button_apply</span> <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>settings_changed()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="setup_automatic_option-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>setup_automatic_option</strong>(opt, widget, ulw)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Associates the widget <em>w</em> with the option <em>option</em>. <em>ulw</em> is the upper level
+widget associated with <em>widget</em>. Associating a widget with an option means two
+things:</p>
+<ul>
+	<li>connecting each signal specified in the <ins>signal</ins> property of the widget with
+  the settings_changed slot of <strong>self</strong></li>
+	<li>creating an entry in the <tt>@associations</tt> instance variable with the name
+  of the widget as key and a hash as value. Each hash has a <ins>read</ins> and a <ins>store</ins>
+  entry, which are both arrays: the second element is the name of the <ins>read</ins> and
+  <ins>store</ins> method respectively, while the first is the widget on which it should
+  be called (which will be either <em>widget</em> or the corresponding upper level widget,
+  <em>ulw</em>).</li>
+</ul>
+<p>As explained in the documentation for this class, some of the properties may be
+missing and be automatically determined. If one of the following situations happen,
+<ins>ArgumentError</ins> will be raised:</p>
+<ul>
+	<li>no <ins>signal</ins> property exist for <em>widget</em> and its class is not in <ins>DEFAULT_PROPERTIES</ins></li>
+	<li><em>widget</em> doesn&#8217;t specify neither the <ins>access</ins> property nor the <ins>read</ins> and the
+  <ins>store</ins> properties and more than one signal is specified in the <ins>signal</ins> property</li>
+	<li>both the <ins>access</ins> property and the <ins>read</ins> and/or <ins>store</ins> properties are specified
+  for <em>widget</em></li>
+	<li>the signature of one signal isn&#8217;t given and it couldn&#8217;t be determined automatically
+  because either no signal or more than one signals of <em>widget</em> have that name</li>
+</ul>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/settings_dialog_manager.rb', line 374</span>
+
+<span class='kw'>def</span> <span class='id setup_automatic_option'>setup_automatic_option</span> <span class='id opt'>opt</span><span class='comma'>,</span> <span class='id widget'>widget</span><span class='comma'>,</span> <span class='id ulw'>ulw</span>
+  <span class='comment'>#Qt::Variant#to_string returns nil if the variant is invalid
+</span>  <span class='id signals'>signals</span> <span class='op'>=</span> <span class='const'>Array</span><span class='lparen'>(</span><span class='const'>YAML</span><span class='period'>.</span><span class='id load'>load</span><span class='lparen'>(</span><span class='id widget'>widget</span><span class='period'>.</span><span class='id property'>property</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>signal</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id to_string'>to_string</span> <span class='op'>||</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>[]</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='comment'>#Qt::Variant#to_string returns nil if the variant is invalid
+</span>  <span class='id methods'>methods</span> <span class='op'>=</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>read</span><span class='words_sep'> </span><span class='tstring_content'>store</span><span class='words_sep'> </span><span class='tstring_content'>access</span><span class='words_sep'>]</span><span class='period'>.</span><span class='id map'>map</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id m'>m</span><span class='op'>|</span> <span class='id prop'>prop</span> <span class='op'>=</span> <span class='id widget'>widget</span><span class='period'>.</span><span class='id property'>property</span><span class='lparen'>(</span><span class='id m'>m</span><span class='rparen'>)</span><span class='period'>.</span><span class='id to_string'>to_string</span><span class='rbrace'>}</span>
+  <span class='kw'>if</span> <span class='id signals'>signals</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+    <span class='id data'>data</span> <span class='op'>=</span> <span class='const'>DEFAULT_PROPERTIES</span><span class='period'>.</span><span class='id fetch'>fetch</span><span class='lparen'>(</span><span class='id widget'>widget</span><span class='period'>.</span><span class='id class'>class</span><span class='rparen'>)</span> <span class='kw'>do</span>
+      <span class='id raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No default signal exists for class </span><span class='embexpr_beg'>#{</span><span class='id widget'>widget</span><span class='period'>.</span><span class='id class'>class</span><span class='rbrace'>}</span><span class='tstring_content'>, you need to specify one</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+    <span class='id signals'>signals</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id data'>data</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
+    <span class='id methods'>methods</span><span class='lbracket'>[</span><span class='int'>2</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id data'>data</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id methods'>methods</span> <span class='op'>==</span> <span class='const'>Array</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='int'>3</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+  <span class='id signals'>signals</span><span class='period'>.</span><span class='id each_index'>each_index</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span> 
+    <span class='id signals'>signals</span><span class='lbracket'>[</span><span class='id i'>i</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id add_signal_signature'>add_signal_signature</span> <span class='id signals'>signals</span><span class='lbracket'>[</span><span class='id i'>i</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id widget'>widget</span>
+    <span class='id connect'>connect</span> <span class='id widget'>widget</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='id signals'>signals</span><span class='lbracket'>[</span><span class='id i'>i</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:settings_changed</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+  <span class='id data'>data</span> <span class='op'>=</span> <span class='id find_associated_methods'>find_associated_methods</span> <span class='id signals'>signals</span><span class='comma'>,</span> <span class='id methods'>methods</span><span class='comma'>,</span> <span class='id widget'>widget</span><span class='comma'>,</span> <span class='id ulw'>ulw</span>
+  <span class='ivar'>@associations</span><span class='lbracket'>[</span><span class='id widget'>widget</span><span class='period'>.</span><span class='id object_name'>object_name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id data'>data</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="setup_option-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>setup_option</strong>(opt)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Looks in the list of widgets passed to the constructor and their children for a
+widget whose name corresponds to that of the option (see widget_name for the meaning
+of <em>corresponds_). If one is found, the setup_automatic</em>option method is called
+for that option. If no widget is found, nothing is done.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/settings_dialog_manager.rb', line 338</span>
+
+<span class='kw'>def</span> <span class='id setup_option'>setup_option</span> <span class='id opt'>opt</span>
+  <span class='id name'>name</span> <span class='op'>=</span> <span class='id widget_name'>widget_name</span> <span class='id opt'>opt</span><span class='period'>.</span><span class='id group'>group</span><span class='comma'>,</span> <span class='id opt'>opt</span><span class='period'>.</span><span class='id name'>name</span>
+  <span class='id widgets'>widgets</span> <span class='op'>=</span> <span class='ivar'>@widgets</span><span class='period'>.</span><span class='id find!'>find!</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id w'>w</span><span class='op'>|</span>
+    <span class='kw'>if</span> <span class='id w'>w</span><span class='period'>.</span><span class='id object_name'>object_name</span> <span class='op'>==</span> <span class='id name'>name</span> <span class='kw'>then</span> <span class='lbracket'>[</span><span class='id w'>w</span><span class='comma'>,</span> <span class='id w'>w</span><span class='rbracket'>]</span>
+    <span class='kw'>else</span>
+      <span class='id child'>child</span> <span class='op'>=</span> <span class='id w'>w</span><span class='period'>.</span><span class='id find_child'>find_child</span><span class='lparen'>(</span><span class='const'>Qt</span><span class='op'>::</span><span class='const'>Widget</span><span class='comma'>,</span> <span class='id name'>name</span><span class='rparen'>)</span>
+      <span class='id child'>child</span> <span class='op'>?</span> <span class='lbracket'>[</span><span class='id child'>child</span><span class='comma'>,</span> <span class='id w'>w</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='kw'>nil</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='id setup_automatic_option'>setup_automatic_option</span> <span class='id opt'>opt</span><span class='comma'>,</span> <span class='op'>*</span><span class='id widgets'>widgets</span> <span class='kw'>if</span> <span class='id widgets'>widgets</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="store_settings-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>store_settings</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Updates all the automatically managed options by calling setting them to the values
+returned by the associated &#8216;store&#8217; methods,
+converted as described in the the documentation for <ins>SettingsDialogManager</ins>, 
+<tt>convert_value</tt> and <tt>DEFAULT_CONVERSIONS</tt>. It emits the
+<tt>settings_changed</tt> signal with <strong>false</strong> as argument.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+306
+307
+308
+309
+310
+311
+312
+313
+314</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/settings_dialog_manager.rb', line 306</span>
+
+<span class='kw'>def</span> <span class='id store_settings'>store_settings</span>
+  <span class='ivar'>@associations</span><span class='period'>.</span><span class='id each_pair'>each_pair</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id o'>o</span><span class='comma'>,</span> <span class='id data'>data</span><span class='op'>|</span>
+    <span class='id group'>group</span><span class='comma'>,</span> <span class='id name'>name</span> <span class='op'>=</span> <span class='id o'>o</span><span class='lbracket'>[</span><span class='int'>1</span><span class='op'>..</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>__</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:to_sym</span><span class='rparen'>)</span>
+    <span class='id value'>value</span> <span class='op'>=</span> <span class='id call_widget_method'>call_widget_method</span><span class='lparen'>(</span><span class='id data'>data</span><span class='rparen'>)</span>
+    <span class='id old_value'>old_value</span> <span class='op'>=</span> <span class='ivar'>@container</span><span class='lbracket'>[</span><span class='id group'>group</span><span class='comma'>,</span> <span class='id name'>name</span><span class='rbracket'>]</span>
+    <span class='id value'>value</span> <span class='op'>=</span> <span class='id convert_value'>convert_value</span> <span class='id value'>value</span><span class='comma'>,</span> <span class='id old_value'>old_value</span>
+    <span class='ivar'>@container</span><span class='lbracket'>[</span><span class='id group'>group</span><span class='comma'>,</span> <span class='id name'>name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id value'>value</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="widget_name-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>widget_name</strong>(group, name)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the name of the widget corresponding to the option belonging to group
+<em>group</em> and with name <em>name</em>. The widget name has the form: underscore, group,
+double underscore, name. For example if <em>group</em> is :general and <em>name</em> is <em>path_,
+this method would return &quot;_general</em>_path&quot;</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+400
+401
+402</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/settings_dialog_manager.rb', line 400</span>
+
+<span class='kw'>def</span> <span class='id widget_name'>widget_name</span> <span class='id group'>group</span><span class='comma'>,</span> <span class='id name'>name</span>
+  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>_</span><span class='embexpr_beg'>#{</span><span class='id group'>group</span><span class='rbrace'>}</span><span class='tstring_content'>__</span><span class='embexpr_beg'>#{</span><span class='id name'>name</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+
+</div>
+    
+    <div id="footer">
+  Generated on Fri Oct 29 12:53:02 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.1 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>

@@ -1,0 +1,1616 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>Class: Ruber::Rake::ProjectWidget</title>
+<link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '../..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../_index.html">Index (P)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../../Ruber.html" title="Ruber (module)">Ruber</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Rake.html" title="Ruber::Rake (module)">Rake</a></span></span>
+     &raquo; 
+    <span class="title">ProjectWidget</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Ruber::Rake::ProjectWidget
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName"><span class='object_link'><a href="../ProjectConfigWidget.html" title="Ruber::ProjectConfigWidget (class)">ProjectConfigWidget</a></span></span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next">Qt::Widget</li>
+          
+            <li class="next"><span class='object_link'><a href="../ProjectConfigWidget.html" title="Ruber::ProjectConfigWidget (class)">ProjectConfigWidget</a></span></li>
+          
+            <li class="next">Ruber::Rake::ProjectWidget</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">plugins/rake/rake_widgets.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>Project configuration widget</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+
+  
+  
+  
+  
+  
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#add_task-instance_method" title="#add_task (instance method)">- (nil) <strong>add_task</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Displays a dialog where the user can add a new task and adds it to the task widget.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#environment-instance_method" title="#environment (instance method)">- (&lt;String&gt;) <strong>environment</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The environment variables set in the Environment variables widget
+to <span class='object_link'><a href="../../Shellwords.html#split_with_quotes-class_method" title="Shellwords.split_with_quotes (method)">Shellwords.split_with_quotes</a></span>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#environment%3D-instance_method" title="#environment= (instance method)">- (&lt;String&gt;) <strong>environment</strong>(value) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Fills the Rake environment widget
+entry of the array should have the form <code>ENV_VAR=value</code> (with quotes added as needed).</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#fill_tasks_widget-instance_method" title="#fill_tasks_widget (instance method)">- (nil) <strong>fill_tasks_widget</strong>(tasks) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Fills the task widget
+keys of the hash are the task names, while the values are arrays of size 1 or 2.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#find_updated_tasks-instance_method" title="#find_updated_tasks (instance method)">- (Hash) <strong>find_updated_tasks</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Uses the values in the Rake, Rake program, Rake options and environment variables
+widgets to retrieve an up-to-date list of tasks.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (ProjectWidget) <strong>initialize</strong>(prj) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>A new instance of ProjectWidget.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#options-instance_method" title="#options (instance method)">- (&lt;String&gt;) <strong>options</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The options set in the Rake options widget
+quoted according to <span class='object_link'><a href="../../Shellwords.html#split_with_quotes-class_method" title="Shellwords.split_with_quotes (method)">Shellwords.split_with_quotes</a></span>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#options%3D-instance_method" title="#options= (instance method)">- (&lt;String&gt;) <strong>options</strong>(value) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Fills the Rake options widget.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#rakefile-instance_method" title="#rakefile (instance method)">- (String<sup>?</sup>) <strong>rakefile</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The rakefile chosen by the user
+rake decide.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#rakefile%3D-instance_method" title="#rakefile= (instance method)">- (String) <strong>rakefile</strong>(value) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Fills the rakefile widget
+decide.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#read_default_settings-instance_method" title="#read_default_settings (instance method)">- (ni;) <strong>read_default_settings</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Clears the task widget.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#read_settings-instance_method" title="#read_settings (instance method)">- (nil) <strong>read_settings</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Fills the Tasks widget according to the rake/tasks and rake/quick_tasks project 
+options.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#refresh_tasks-instance_method" title="#refresh_tasks (instance method)">- (nil) <strong>refresh_tasks</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Fills the task widget with an up to date list of tasks, according to the current
+content of the various widgets.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#remove_task-instance_method" title="#remove_task (instance method)">- (nil) <strong>remove_task</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Removes the currently selected task from the task widget.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#store_settings-instance_method" title="#store_settings (instance method)">- (nil) <strong>store_settings</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Sets the rake/tasks and rake/quick_task project options according to the contents
+of the Tasks widget.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#tasks-instance_method" title="#tasks (instance method)">- (Hash) <strong>tasks</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The list of tasks.</p></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+
+
+
+
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::Rake::ProjectWidget (class)">ProjectWidget</a></span></tt>) <strong>initialize</strong>(prj) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>A new instance of ProjectWidget</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../AbstractProject.html" title="Ruber::AbstractProject (class)">Ruber::AbstractProject</a></span></tt>)</span>
+      
+      
+        <span class='name'>prj</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the project the widget refers to</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rake/rake_widgets.rb', line 361</span>
+
+<span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id prj'>prj</span>
+  <span class='kw'>super</span>
+  <span class='ivar'>@ui</span> <span class='op'>=</span> <span class='const'>Ui</span><span class='op'>::</span><span class='const'>RakeProjectWidget</span><span class='period'>.</span><span class='id new'>new</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id setupUi'>setupUi</span> <span class='kw'>self</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id tasks'>tasks</span><span class='period'>.</span><span class='id model'>model</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>StandardItemModel</span><span class='period'>.</span><span class='id new'>new</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id tasks'>tasks</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id tasks'>tasks</span><span class='period'>.</span><span class='id item_delegate'>item_delegate</span> <span class='op'>=</span> <span class='const'>ShortcutDelegate</span><span class='period'>.</span><span class='id new'>new</span> <span class='int'>1</span><span class='comma'>,</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id refresh_tasks'>refresh_tasks</span>
+  <span class='id view'>view</span> <span class='op'>=</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id tasks'>tasks</span>
+  <span class='id view'>view</span><span class='period'>.</span><span class='id header'>header</span><span class='period'>.</span><span class='id resize_mode'>resize_mode</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>HeaderView</span><span class='op'>::</span><span class='const'>ResizeToContents</span>
+  <span class='kw'>def</span> <span class='id view'>view</span><span class='period'>.</span><span class='id mouseDoubleClickEvent'>mouseDoubleClickEvent</span> <span class='id e'>e</span>
+    <span class='id idx'>idx</span> <span class='op'>=</span> <span class='id index_at'>index_at</span> <span class='id e'>e</span><span class='period'>.</span><span class='id pos'>pos</span>
+    <span class='kw'>if</span> <span class='id idx'>idx</span><span class='period'>.</span><span class='id valid?'>valid?</span> <span class='kw'>then</span> <span class='kw'>super</span>
+    <span class='kw'>else</span>
+      <span class='id it'>it</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>StandardItem</span><span class='period'>.</span><span class='id new'>new</span>
+      <span class='id model'>model</span><span class='period'>.</span><span class='id append_row'>append_row</span> <span class='int'>3</span><span class='period'>.</span><span class='id times'>times</span><span class='period'>.</span><span class='id map'>map</span><span class='lbrace'>{</span><span class='const'>Qt</span><span class='op'>::</span><span class='const'>StandardItem</span><span class='period'>.</span><span class='id new'>new</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span><span class='rbrace'>}</span>
+      <span class='id edit'>edit</span> <span class='id it'>it</span><span class='period'>.</span><span class='id index'>index</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='id connect'>connect</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id refresh_tasks'>refresh_tasks</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:clicked</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:refresh_tasks</span><span class='rparen'>)</span>
+  <span class='id connect'>connect</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id add_task'>add_task</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:clicked</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:add_task</span><span class='rparen'>)</span>
+  <span class='id connect'>connect</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id remove_task'>remove_task</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:clicked</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:remove_task</span><span class='rparen'>)</span>
+  <span class='id view'>view</span><span class='period'>.</span><span class='id selection_model'>selection_model</span><span class='period'>.</span><span class='id connect'>connect</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>selectionChanged(QItemSelection, QItemSelection)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span> <span class='kw'>do</span>
+    <span class='ivar'>@ui</span><span class='period'>.</span><span class='id remove_task'>remove_task</span><span class='period'>.</span><span class='id enabled'>enabled</span> <span class='op'>=</span> <span class='op'>!</span><span class='id view'>view</span><span class='period'>.</span><span class='id selection_model'>selection_model</span><span class='period'>.</span><span class='id selected_indexes'>selected_indexes</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+  <span class='kw'>end</span>
+  <span class='id fill_tasks_widget'>fill_tasks_widget</span> <span class='ivar'>@project</span><span class='lbracket'>[</span><span class='symbol'>:rake</span><span class='comma'>,</span> <span class='symbol'>:tasks</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="add_task-instance_method">
+  
+    - (<tt>nil</tt>) <strong>add_task</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Displays a dialog where the user can add a new task and adds it to the task widget</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+589
+590
+591
+592
+593
+594
+595</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rake/rake_widgets.rb', line 589</span>
+
+<span class='kw'>def</span> <span class='id add_task'>add_task</span>
+  <span class='id name'>name</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>InputDialog</span><span class='period'>.</span><span class='id get_text'>get_text</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Add task</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Task name</span><span class='tstring_end'>'</span></span>
+  <span class='kw'>return</span> <span class='kw'>if</span> <span class='id name'>name</span><span class='period'>.</span><span class='id nil?'>nil?</span> <span class='kw'>or</span> <span class='id name'>name</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+  <span class='id row'>row</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id name'>name</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id map'>map</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>StandardItem</span><span class='period'>.</span><span class='id new'>new</span> <span class='id i'>i</span><span class='rbrace'>}</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id tasks'>tasks</span><span class='period'>.</span><span class='id model'>model</span><span class='period'>.</span><span class='id append_row'>append_row</span> <span class='id row'>row</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>add_task()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="environment-instance_method">
+  
+    - (<tt>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>&gt;</tt>) <strong>environment</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The environment variables set in the Environment variables widget
+to <span class='object_link'><a href="../../Shellwords.html#split_with_quotes-class_method" title="Shellwords.split_with_quotes (method)">Shellwords.split_with_quotes</a></span>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the environment variables chosen by the user, split according</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+470
+471
+472</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rake/rake_widgets.rb', line 470</span>
+
+<span class='kw'>def</span> <span class='id environment'>environment</span>
+  <span class='const'>Shellwords</span><span class='period'>.</span><span class='id split_with_quotes'>split_with_quotes</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id _rake__environment'>_rake__environment</span><span class='period'>.</span><span class='id text'>text</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="environment=-instance_method">
+  
+    - (<tt>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>&gt;</tt>) <strong>environment=</strong>(value) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Fills the Rake environment widget
+entry of the array should have the form <code>ENV_VAR=value</code> (with quotes added as needed)</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+      
+      
+        <span class='name'>value</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>an array containing the environment variables to set. Each</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+461
+462
+463</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rake/rake_widgets.rb', line 461</span>
+
+<span class='kw'>def</span> <span class='id environment='>environment=</span> <span class='id value'>value</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id _rake__environment'>_rake__environment</span><span class='period'>.</span><span class='id text'>text</span> <span class='op'>=</span> <span class='id value'>value</span><span class='period'>.</span><span class='id join'>join</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> </span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="fill_tasks_widget-instance_method">
+  
+    - (<tt>nil</tt>) <strong>fill_tasks_widget</strong>(tasks)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Fills the task widget
+keys of the hash are the task names, while the values are arrays of size 1 or 2.
+The first element of the array is a string representing the task description,
+while the second, if it exists, is a string representing the shortcut associated
+with the task
+<strong>Note:</strong> the previous contents of the widget will be removed</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <span class='name'>tasks</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>a hash with the information about the tasks to display. The</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+535
+536
+537
+538
+539
+540
+541
+542
+543
+544
+545
+546
+547</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rake/rake_widgets.rb', line 535</span>
+
+<span class='kw'>def</span> <span class='id fill_tasks_widget'>fill_tasks_widget</span> <span class='id tasks'>tasks</span>
+  <span class='id mod'>mod</span> <span class='op'>=</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id tasks'>tasks</span><span class='period'>.</span><span class='id model'>model</span>
+  <span class='id mod'>mod</span><span class='period'>.</span><span class='id clear'>clear</span>
+  <span class='id tasks'>tasks</span> <span class='op'>=</span> <span class='id tasks'>tasks</span><span class='period'>.</span><span class='id sort'>sort</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id tasks'>tasks</span><span class='period'>.</span><span class='id model'>model</span><span class='period'>.</span><span class='id horizontal_header_labels'>horizontal_header_labels</span> <span class='op'>=</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>Task</span><span class='words_sep'> </span><span class='tstring_content'>Shortcut</span><span class='words_sep'> </span><span class='tstring_content'>Description</span><span class='words_sep'>]</span>
+  <span class='id tasks'>tasks</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id n'>n</span><span class='comma'>,</span> <span class='id i'>i</span><span class='op'>|</span>
+    <span class='id name'>name</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>StandardItem</span><span class='period'>.</span><span class='id new'>new</span> <span class='id n'>n</span>
+    <span class='id desc'>desc</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>StandardItem</span><span class='period'>.</span><span class='id new'>new</span> <span class='id i'>i</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
+    <span class='id key'>key</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>StandardItem</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id i'>i</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+    <span class='id mod'>mod</span><span class='period'>.</span><span class='id append_row'>append_row</span> <span class='lbracket'>[</span><span class='id name'>name</span><span class='comma'>,</span> <span class='id key'>key</span><span class='comma'>,</span> <span class='id desc'>desc</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="find_updated_tasks-instance_method">
+  
+    - (<tt>Hash</tt>) <strong>find_updated_tasks</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Uses the values in the Rake, Rake program, Rake options and environment variables
+widgets to retrieve an up-to-date list of tasks</p>
+<p>keys of the hash are the task names, while the values are arrays of size 1 or 2.
+The first element of the array is a string representing the task description,
+while the second, if it exists, is a string representing the shortcut associated
+with the task</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>a hash with the information about the tasks to display. The</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Plugin/RakeError.html" title="Ruber::Rake::Plugin::RakeError (class)">Plugin::RakeError</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>if rake fails</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+560
+561
+562
+563
+564
+565
+566
+567
+568
+569
+570
+571
+572
+573
+574
+575
+576
+577
+578
+579
+580
+581
+582
+583</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rake/rake_widgets.rb', line 560</span>
+
+<span class='kw'>def</span> <span class='id find_updated_tasks'>find_updated_tasks</span>
+  <span class='id rake'>rake</span> <span class='op'>=</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id _rake__rake'>_rake__rake</span><span class='period'>.</span><span class='id text'>text</span>
+  <span class='id rakefile'>rakefile</span> <span class='op'>=</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id _rake__rakefile'>_rake__rakefile</span><span class='period'>.</span><span class='id text'>text</span>
+  <span class='id rakefile'>rakefile</span> <span class='op'>=</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id rakefile'>rakefile</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+  <span class='id rake_options'>rake_options</span> <span class='op'>=</span> <span class='const'>Shellwords</span><span class='period'>.</span><span class='id split_with_quotes'>split_with_quotes</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id _rake__options'>_rake__options</span><span class='period'>.</span><span class='id text'>text</span>
+  <span class='id rake_options'>rake_options</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>-T</span><span class='tstring_end'>'</span></span>
+  <span class='id env'>env</span> <span class='op'>=</span> <span class='const'>Shellwords</span><span class='period'>.</span><span class='id split_with_quotes'>split_with_quotes</span><span class='lparen'>(</span><span class='ivar'>@ui</span><span class='period'>.</span><span class='id _rake__environment'>_rake__environment</span><span class='period'>.</span><span class='id text'>text</span><span class='rparen'>)</span><span class='period'>.</span><span class='id select'>select</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id s'>s</span><span class='op'>|</span> <span class='id s'>s</span><span class='period'>.</span><span class='id include?'>include?</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>=</span><span class='tstring_end'>'</span></span><span class='rbrace'>}</span>
+  <span class='id dir'>dir</span> <span class='op'>=</span> <span class='ivar'>@project</span><span class='period'>.</span><span class='id project_directory'>project_directory</span>
+  <span class='kw'>if</span> <span class='id rakefile'>rakefile</span>
+    <span class='id rel_dir'>rel_dir</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id dirname'>dirname</span><span class='lparen'>(</span><span class='id rakefile'>rakefile</span><span class='rparen'>)</span>
+    <span class='id dir'>dir</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span> <span class='id dir'>dir</span><span class='comma'>,</span> <span class='id rel_dir'>rel_dir</span> <span class='kw'>unless</span> <span class='id rel_dir'>rel_dir</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>.</span><span class='tstring_end'>'</span></span>
+  <span class='kw'>end</span>
+  <span class='id ruby'>ruby</span><span class='comma'>,</span> <span class='op'>*</span><span class='id ruby_opts'>ruby_opts</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:rake</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id ruby_command_for'>ruby_command_for</span> <span class='ivar'>@project</span><span class='comma'>,</span> <span class='id dir'>dir</span>
+  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:app</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id with_override_cursor'>with_override_cursor</span> <span class='kw'>do</span>
+    <span class='kw'>begin</span>
+      <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:rake</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id tasks'>tasks</span> <span class='id ruby'>ruby</span><span class='comma'>,</span> <span class='id dir'>dir</span><span class='comma'>,</span> <span class='symbol'>:env</span> <span class='op'>=&gt;</span> <span class='id env'>env</span><span class='comma'>,</span> <span class='symbol'>:ruby_options</span> <span class='op'>=&gt;</span> <span class='id ruby_opts'>ruby_opts</span><span class='comma'>,</span>
+        <span class='symbol'>:rake_options</span> <span class='op'>=&gt;</span> <span class='id rake_options'>rake_options</span><span class='comma'>,</span> <span class='symbol'>:rakefile</span> <span class='op'>=&gt;</span> <span class='id rakefile'>rakefile</span><span class='comma'>,</span> <span class='symbol'>:rake</span> <span class='op'>=&gt;</span> <span class='id rake'>rake</span><span class='comma'>,</span>
+        <span class='symbol'>:timeout</span> <span class='op'>=&gt;</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id _rake__timeout'>_rake__timeout</span><span class='period'>.</span><span class='id value'>value</span>
+    <span class='kw'>rescue</span> <span class='const'>Error</span> <span class='op'>=&gt;</span> <span class='id ex'>ex</span>
+      <span class='id display_task_retrival_error_dialog'>display_task_retrival_error_dialog</span> <span class='id ex'>ex</span>
+      <span class='kw'>return</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="options-instance_method">
+  
+    - (<tt>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>&gt;</tt>) <strong>options</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The options set in the Rake options widget
+quoted according to <span class='object_link'><a href="../../Shellwords.html#split_with_quotes-class_method" title="Shellwords.split_with_quotes (method)">Shellwords.split_with_quotes</a></span></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>an array containing the options chosen by the user, split and</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+451
+452
+453</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rake/rake_widgets.rb', line 451</span>
+
+<span class='kw'>def</span> <span class='id options'>options</span>
+  <span class='const'>Shellwords</span><span class='period'>.</span><span class='id split_with_quotes'>split_with_quotes</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id _rake__options'>_rake__options</span><span class='period'>.</span><span class='id text'>text</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="options=-instance_method">
+  
+    - (<tt>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>&gt;</tt>) <strong>options=</strong>(value) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Fills the Rake options widget</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+      
+      
+        <span class='name'>value</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>an array with the rake options</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+442
+443
+444</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rake/rake_widgets.rb', line 442</span>
+
+<span class='kw'>def</span> <span class='id options='>options=</span> <span class='id value'>value</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id _rake__options'>_rake__options</span><span class='period'>.</span><span class='id text'>text</span> <span class='op'>=</span> <span class='id value'>value</span><span class='period'>.</span><span class='id join'>join</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> </span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="rakefile-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt><sup>?</sup>) <strong>rakefile</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The rakefile chosen by the user
+rake decide</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the path to the rakefile chosen by the user or <strong>nil</strong> to let</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+489
+490
+491
+492</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rake/rake_widgets.rb', line 489</span>
+
+<span class='kw'>def</span> <span class='id rakefile'>rakefile</span>
+  <span class='id text'>text</span> <span class='op'>=</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id _rake__rakefile'>_rake__rakefile</span><span class='period'>.</span><span class='id text'>text</span>
+  <span class='id text'>text</span><span class='period'>.</span><span class='id empty?'>empty?</span> <span class='op'>?</span> <span class='kw'>nil</span> <span class='op'>:</span> <span class='id text'>text</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="rakefile=-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>) <strong>rakefile=</strong>(value) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Fills the rakefile widget
+decide</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+        <span class='name'>value</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the path to the rakefile to use or <strong>nil</strong> to let rake</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+480
+481
+482</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rake/rake_widgets.rb', line 480</span>
+
+<span class='kw'>def</span> <span class='id rakefile='>rakefile=</span> <span class='id value'>value</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id _rake__rakefile'>_rake__rakefile</span><span class='period'>.</span><span class='id text'>text</span> <span class='op'>=</span> <span class='id value'>value</span> <span class='op'>||</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="read_default_settings-instance_method">
+  
+    - (<tt>ni;</tt>) <strong>read_default_settings</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Clears the task widget</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>ni;</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+411
+412
+413
+414
+415</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rake/rake_widgets.rb', line 411</span>
+
+<span class='kw'>def</span> <span class='id read_default_settings'>read_default_settings</span>
+  <span class='id mod'>mod</span> <span class='op'>=</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id tasks'>tasks</span><span class='period'>.</span><span class='id model'>model</span>
+  <span class='id mod'>mod</span><span class='period'>.</span><span class='id remove_rows'>remove_rows</span> <span class='int'>0</span><span class='comma'>,</span> <span class='id mod'>mod</span><span class='period'>.</span><span class='id row_count'>row_count</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="read_settings-instance_method">
+  
+    - (<tt>nil</tt>) <strong>read_settings</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Fills the Tasks widget according to the rake/tasks and rake/quick_tasks project 
+options</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+392
+393
+394
+395</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rake/rake_widgets.rb', line 392</span>
+
+<span class='kw'>def</span> <span class='id read_settings'>read_settings</span>
+  <span class='id fill_tasks_widget'>fill_tasks_widget</span> <span class='ivar'>@project</span><span class='lbracket'>[</span><span class='symbol'>:rake</span><span class='comma'>,</span> <span class='symbol'>:tasks</span><span class='rbracket'>]</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="refresh_tasks-instance_method">
+  
+    - (<tt>nil</tt>) <strong>refresh_tasks</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Fills the task widget with an up to date list of tasks, according to the current
+content of the various widgets</p>
+<p>Shortcut assigned to tasks which still exist after the update are kept.</p>
+<p>This also enables the Tasks widget and hides the outdated tasks warning.</p>
+<p>If the tasks couldn&#8217;t be retrieved because of a rake error, a message box is shown
+and nothing is done</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rake/rake_widgets.rb', line 508</span>
+
+<span class='kw'>def</span> <span class='id refresh_tasks'>refresh_tasks</span>
+  <span class='id new_tasks'>new_tasks</span> <span class='op'>=</span> <span class='kw'>begin</span> <span class='id find_updated_tasks'>find_updated_tasks</span>
+  <span class='kw'>rescue</span> <span class='const'>Rake</span><span class='op'>::</span><span class='const'>Error</span> <span class='op'>=&gt;</span> <span class='id e'>e</span>
+    <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:rake</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id display_task_retrival_error_dialog'>display_task_retrival_error_dialog</span> <span class='id ex'>ex</span>
+  <span class='kw'>end</span>
+  <span class='id new_tasks'>new_tasks</span><span class='period'>.</span><span class='id each_pair'>each_pair</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id k'>k</span><span class='comma'>,</span> <span class='id v'>v</span><span class='op'>|</span> <span class='id new_tasks'>new_tasks</span><span class='lbracket'>[</span><span class='id k'>k</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id v'>v</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
+  <span class='id old_tasks'>old_tasks</span> <span class='op'>=</span> <span class='id tasks'>tasks</span>
+  <span class='id old_tasks'>old_tasks</span><span class='period'>.</span><span class='id each_pair'>each_pair</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id t'>t</span><span class='comma'>,</span> <span class='id data'>data</span><span class='op'>|</span>
+    <span class='kw'>if</span> <span class='id data'>data</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span>
+      <span class='id new'>new</span> <span class='op'>=</span> <span class='id new_tasks'>new_tasks</span><span class='lbracket'>[</span><span class='id t'>t</span><span class='rbracket'>]</span>
+      <span class='id new'>new</span> <span class='op'>&lt;&lt;</span> <span class='id data'>data</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id new'>new</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='id fill_tasks_widget'>fill_tasks_widget</span> <span class='id new_tasks'>new_tasks</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>refresh_tasks()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="remove_task-instance_method">
+  
+    - (<tt>nil</tt>) <strong>remove_task</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Removes the currently selected task from the task widget</p>
+<p><strong>Note:</strong> this method assumes a task is selected</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+603
+604
+605
+606
+607
+608
+609</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rake/rake_widgets.rb', line 603</span>
+
+<span class='kw'>def</span> <span class='id remove_task'>remove_task</span>
+  <span class='comment'>#We don't check whether a task is selected or not as the button should
+</span>  <span class='comment'>#be disabled otherwise
+</span>  <span class='id idx'>idx</span> <span class='op'>=</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id tasks'>tasks</span><span class='period'>.</span><span class='id selection_model'>selection_model</span><span class='period'>.</span><span class='id selected_indexes'>selected_indexes</span><span class='period'>.</span><span class='id first'>first</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id tasks'>tasks</span><span class='period'>.</span><span class='id model'>model</span><span class='period'>.</span><span class='id remove_row'>remove_row</span> <span class='id idx'>idx</span><span class='period'>.</span><span class='id row'>row</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>remove_task()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="store_settings-instance_method">
+  
+    - (<tt>nil</tt>) <strong>store_settings</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Sets the rake/tasks and rake/quick_task project options according to the contents
+of the Tasks widget</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+402
+403
+404
+405</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rake/rake_widgets.rb', line 402</span>
+
+<span class='kw'>def</span> <span class='id store_settings'>store_settings</span>
+  <span class='ivar'>@project</span><span class='lbracket'>[</span><span class='symbol'>:rake</span><span class='comma'>,</span> <span class='symbol'>:tasks</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id tasks'>tasks</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="tasks-instance_method">
+  
+    - (<tt>Hash</tt>) <strong>tasks</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The list of tasks</p>
+<p>while the values are arrays having as first argument the task descriptions and
+as second argument a string corresponding to the shortcut chosen by the user,
+or <strong>nil</strong> if no shortcut has been chosen.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>a hash containing the tasks. The keys are the names of the tasks,</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rake/rake_widgets.rb', line 425</span>
+
+<span class='kw'>def</span> <span class='id tasks'>tasks</span>
+  <span class='id res'>res</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id tasks'>tasks</span><span class='period'>.</span><span class='id model'>model</span><span class='period'>.</span><span class='id each_row'>each_row</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id r'>r</span><span class='op'>|</span>
+    <span class='kw'>unless</span> <span class='id r'>r</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id text'>text</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+      <span class='id new_task'>new_task</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id r'>r</span><span class='lbracket'>[</span><span class='int'>2</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id text'>text</span><span class='rbracket'>]</span>
+      <span class='id new_task'>new_task</span> <span class='op'>&lt;&lt;</span> <span class='id r'>r</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id text'>text</span> <span class='kw'>unless</span> <span class='id r'>r</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id text'>text</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+      <span class='id res'>res</span><span class='lbracket'>[</span><span class='id r'>r</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id text'>text</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id new_task'>new_task</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='id res'>res</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+
+</div>
+    
+    <div id="footer">
+  Generated on Fri Oct 29 12:52:54 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.1 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>

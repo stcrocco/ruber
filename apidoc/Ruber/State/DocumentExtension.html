@@ -1,0 +1,484 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>Class: Ruber::State::DocumentExtension</title>
+<link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '../..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../_index.html">Index (D)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../../Ruber.html" title="Ruber (module)">Ruber</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../State.html" title="Ruber::State (module)">State</a></span></span>
+     &raquo; 
+    <span class="title">DocumentExtension</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Ruber::State::DocumentExtension
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName"><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next">Ruber::State::DocumentExtension</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+      <dt class="r2">Includes:</dt>
+      <dd class="r2"><span class='object_link'><a href="../Extension.html" title="Ruber::Extension (module)">Extension</a></span></dd>
+      
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">plugins/state/state.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>Extension for documents needed by the State plugin</p>
+<p>The scope of this extension is to save and restore the position of the cursor
+in the document</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+
+  
+  
+  
+  
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#auto_restore-instance_method" title="#auto_restore (instance method)">- (nil) <strong>auto_restore</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Moves the cursor in a new view to the position stored in the document&#8217;s own project.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (DocumentExtension) <strong>initialize</strong>(prj) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>A new instance of DocumentExtension.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#restore-instance_method" title="#restore (instance method)">- (nil) <strong>restore</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Restores the position of the cursor according to the value saved in the document&#8217;s
+own project.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#save_settings-instance_method" title="#save_settings (instance method)">- (nil) <strong>save_settings</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Saves the position of the cursor in the document&#8217;s own project.</p></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="../Extension.html" title="Ruber::Extension (module)">Extension</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../Extension.html#query_close-instance_method" title="Ruber::Extension#query_close (method)">#query_close</a></span>, <span class='object_link'><a href="../Extension.html#remove_from_project-instance_method" title="Ruber::Extension#remove_from_project (method)">#remove_from_project</a></span>, <span class='object_link'><a href="../Extension.html#shutdown-instance_method" title="Ruber::Extension#shutdown (method)">#shutdown</a></span></p>
+
+
+
+
+
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::State::DocumentExtension (class)">DocumentExtension</a></span></tt>) <strong>initialize</strong>(prj) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>A new instance of DocumentExtension</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../DocumentProject.html" title="Ruber::DocumentProject (class)">Ruber::DocumentProject</a></span></tt>)</span>
+      
+      
+        <span class='name'>prj</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the project associated with the document</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+345
+346
+347
+348
+349
+350</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 345</span>
+
+<span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id prj'>prj</span>
+  <span class='kw'>super</span>
+  <span class='ivar'>@project</span> <span class='op'>=</span> <span class='id prj'>prj</span>
+  <span class='ivar'>@document</span> <span class='op'>=</span> <span class='id prj'>prj</span><span class='period'>.</span><span class='id document'>document</span>
+  <span class='id connect'>connect</span> <span class='ivar'>@document</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>view_created(QObject*, QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:auto_restore</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="auto_restore-instance_method">
+  
+    - (<tt>nil</tt>) <strong>auto_restore</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Moves the cursor in a new view to the position stored in the document&#8217;s own project</p>
+<p>It does nothing if the user chose not to have the position restored when opening
+a document.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+393
+394
+395
+396</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 393</span>
+
+<span class='kw'>def</span> <span class='id auto_restore'>auto_restore</span>
+  <span class='id restore'>restore</span> <span class='kw'>if</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id restore_cursor_position?'>restore_cursor_position?</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>auto_restore()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="restore-instance_method">
+  
+    - (<tt>nil</tt>) <strong>restore</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Restores the position of the cursor according to the value saved in the document&#8217;s
+own project</p>
+<p>It does nothing if the document isn&#8217;t associated with a view</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+359
+360
+361
+362
+363
+364
+365</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 359</span>
+
+<span class='kw'>def</span> <span class='id restore'>restore</span>
+  <span class='id view'>view</span> <span class='op'>=</span> <span class='ivar'>@document</span><span class='period'>.</span><span class='id view'>view</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id view'>view</span>
+  <span class='id pos'>pos</span> <span class='op'>=</span> <span class='ivar'>@document</span><span class='period'>.</span><span class='id own_project'>own_project</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='comma'>,</span> <span class='symbol'>:cursor_position</span><span class='rbracket'>]</span>
+  <span class='id view'>view</span><span class='period'>.</span><span class='id go_to'>go_to</span> <span class='op'>*</span><span class='id pos'>pos</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="save_settings-instance_method">
+  
+    - (<tt>nil</tt>) <strong>save_settings</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Saves the position of the cursor in the document&#8217;s own project</p>
+<p>It does nothing if the document isn&#8217;t associated with a view</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 373</span>
+
+<span class='kw'>def</span> <span class='id save_settings'>save_settings</span>
+  <span class='id view'>view</span> <span class='op'>=</span> <span class='ivar'>@document</span><span class='period'>.</span><span class='id view'>view</span> 
+  <span class='id pos'>pos</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='id view'>view</span>
+    <span class='id cur'>cur</span> <span class='op'>=</span> <span class='id view'>view</span><span class='period'>.</span><span class='id cursor_position'>cursor_position</span>
+    <span class='lbracket'>[</span><span class='id cur'>cur</span><span class='period'>.</span><span class='id line'>line</span><span class='comma'>,</span> <span class='id cur'>cur</span><span class='period'>.</span><span class='id column'>column</span><span class='rbracket'>]</span>
+  <span class='kw'>else</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span><span class='int'>0</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+  <span class='ivar'>@project</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='comma'>,</span> <span class='symbol'>:cursor_position</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id pos'>pos</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+
+</div>
+    
+    <div id="footer">
+  Generated on Fri Oct 29 12:52:50 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.1 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>

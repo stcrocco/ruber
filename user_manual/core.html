@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="description" content="Your description goes here" />
+    <meta name="keywords" content="your,keywords,goes,here" />
+    <meta name="author" content="Stefano Crocco / Original design: Andreas Viklund - http://andreasviklund.com/" />
+    <meta name="generator" content="webgen - http://webgen.rubyforge.org" />
+    <link rel="stylesheet" type="text/css" href="../default.css" media="screen,projection" />
+    <link rel="icon" href="../images/ruber-small.png"/>
+    <title>Ruber &ndash; Ruber core</title>
+  </head>
+
+  <body>
+    <div id="wrap">
+      <div id="header">
+        <h1><a href="../index.html">Ruber IDE</a></h1>
+        <p id="slogan"><strong>A Ruby IDE written in Ruby</strong></p>
+      </div>
+
+      <div id="avmenu">
+        <h2 class="hide">Site menu:</h2>
+        <ul><li class="webgen-menu-level1"><a href="../index.html">Home</a></li><li class="webgen-menu-level1"><a href="../news.html">News</a></li><li class="webgen-menu-level1"><a href="../features.html">Features</a></li><li class="webgen-menu-level1"><a href="../status.html">Status</a></li><li class="webgen-menu-level1"><a href="../screenshots.html">Screenshots</a></li><li class="webgen-menu-level1"><a href="../install.html">Installing</a></li><li class="webgen-menu-level1 webgen-menu-submenu webgen-menu-submenu-inhierarchy"><a href="index.html">User manual</a><ul><li class="webgen-menu-level2 webgen-menu-item-selected"><span>Ruber core</span></li><li class="webgen-menu-level2"><a href="plugins.html">Plugins</a></li></ul></li><li class="webgen-menu-level1"><a href="../plugin_developer_manual.html">Developer Manual</a></li><li class="webgen-menu-level1 webgen-menu-submenu"><a href="../apidoc/_index.html">API documentation</a></li><li class="webgen-menu-level1"><a href="../contacts.html">Contacts</a></li><li class="webgen-menu-level1"><a href="http://github.com/stcrocco/ruber">Ruber page on github</a></li></ul>
+
+        <div class="announce">
+          <h2>Latest news:</h2>
+          
+            <p><a href="../news.html#Ruber-0-0-1-released-2010-10-29">Ruber 0.0.1 released</a></p>
+          
+        </div>
+      </div>
+
+      <div id="contentwide">
+        <h2>User manual &#8211; core functionality</h2>
+<h3>Basic usage</h3>
+<p>By design, Ruber can be used to work on both stand-alone files (for example, a
+small ruby script) or projects containing multiple files.</p>
+<h4>Editing stand-alone files</h4>
+<p>The basic operations to work with a single file are those common to most editors:
+use the <code>File/New</code> menu entry to create a new file or the <code>File/Open</code> menu entry
+to open an existing file and <code>File/Save</code> or <code>File/Save As</code> menu entries to save it.</p>
+<p>Like other editors, Ruber allows you to change settings for a single file. To do
+so, use the <code>Document/Configure Document</code> menu entry. Using this functionality
+you can, for example, tell Ruber to always use a particular ruby interpreter to
+execute that file, without changing the default global interpreter. Note that this
+only works for ruby settings. For settings used by the editor component, you&#8217;ll
+need to use modelines. See the <a href="http://docs.kde.org/development/en/kdesdk/kate/config-variables.html">Kate documentation</a>.</p>
+<p>Note that some of the functionality provided by plugins only works for projects.
+This is because stand-alone files are meant to truly be stand-alone. For example,
+the rake plugin provides no functionality for single files, because usually a
+Rakefile is used together with other files.</p>
+<h4>Working with projects</h4>
+<p>In Ruber, a project consists of a directory (called <em>project directory</em>_)
+containing a file with extension
+<code>.ruprj</code> and possibly one or two oteher files, one with extension <code>.ruusr</code> and one
+with extension <code>.ruses</code>. The first file is called <em>project file</em>, the second is
+called <em>user file</em> and the third <em>session file</em>.</p>
+<p>The project files contains settings which are intrinsic to the project (for example,
+the name of the project, which files belong to the project, or the patterns
+associating each file with its spec file).</p>
+<p>The user file, instead, contains settings which are specific for a user (for example,
+the path of the ruby interpreter to use, which may vary on different systems,
+or the shortcuts to associate to rake tasks, which each developers chooses
+according to his own preferences).</p>
+<p>The session file contains settings which are not only specific to a user, but also
+to the current status of the environment. For example, the list of open files
+in the project (used to restore them when Ruber is next started) is stored here.
+Usually, settings in this file are created automatically and don&#8217;t appear in the
+project configuration dialog.</p>
+<p>Of these files, the project file is the only one which defines the identity of the
+project and the only one which is meant to be shared among developers working
+on the project; the other two files are optional and not meant to be shared. If
+your project is under version control, you usually want to version control only
+the project file (unless you&#8217;re working alone, in which case you may also want to
+version control the user file).</p>
+<p>To open an existing project, use the <code>Projects/Open Project</code> menu entry, or
+the <code>Projects/Open Recent Project</code>.</p>
+<p>To create a new project, use the <code>Projects/New Project</code> menu entry. You&#8217;ll be
+shown a dialog where you must enter the project name and choose a location where
+to create it (the default location is controlled by a global setting). Pressing
+the OK button will create a directory named as the project in the location you
+chose and containing a project, user file and sessions file having the same name
+as the directory.</p>
+<p>After creating a new project, one of the first things to do is setup the list
+of files which Ruber should consider as belonging to the project.</p>
+<p>To decide whether or not a file belongs to the project, Ruber uses <em>include rules</em>
+and <em>exclude rules</em>:</p>
+<ul>
+	<li>a file belongs to the project if it matches at least one include rule and no
+  exclude rule;</li>
+	<li>a file doesn&#8217;t belong to the project if it matches at least an exclude rule or
+  if it doesn&#8217;t match any rule.</li>
+</ul>
+<p>There are three kinds of rules:</p>
+<dl>
+	<dt>file rules</dt>
+	<dd>strings which specify a single file in the project directory.
+  They only match that file</dd>
+	<dt>regexp rules</dt>
+	<dd>regexps to match files in the project directory. The names of
+  the files will be relative to the project directory (without any leading <code>./</code>).</dd>
+	<dt>shell glob rules</dt>
+	<dd>shell globs which match files in the project directory.</dd>
+</dl>
+<p>File rules and regexp rules can be used to specify either include or exclude rules,
+while shell glob rules can only be used for include rules.</p>
+<p>To create the list of files belonging to the project, use
+the <code>Project/Configure Project</code> menu entry and go to the General page of the
+dialog. It&#8217;s aspect will be similar to the following.</p>
+<p><a href="../images/project_files_dialog.png">
+  <img src="../images/project_files_dialog.png" style="width:95%;height:auto;display:block;margin-left:auto;margin-right:auto;" alt="General page of the Project Settings dialog"/>
+</a></p>
+<p>Write the shell glob rules in the <code>Extensions</code> line edit, separate by either spaces
+or commas, or both (note that you can&#8217;t have spaces in the globs). This is usually
+done so that files with certain extensions belong to the project without having
+to add them explicitly.</p>
+<p>To add a file or regexp include rule, use the corresponding buttons in the <code>Files
+to include</code> box, while to add file and regexp exclude rules use the buttons in
+the <code>Files to exclude</code> box. To remove a rule, select it and click on the <code>Remove
+rule</code> button in the appropriate section. Note that you can only add a file rule
+for an existing file.</p>
+<p>In the project configuration dialog, you can also set various project-wide options
+provided by the plugins you have loaded. You can&#8217;t change the project name, however
+(if you really want to, you can do so opening the project file in any editor (after
+making sure the project is not open in Ruber), and look for an entry called <code>project_name</code> under a <code>general</code> entry.
+The value after the colon is the name of the project. Change it and close the file.</p>
+<p>Currently, in Ruber you can only have one open project at a time. Opening a project
+(or creating a new one) will close the current project (if any).</p>
+<h3>Ruber user interface</h3>
+<p>Ruber&#8217;s UI comprises:</p>
+<dl>
+	<dt>an editor</dt>
+	<dd>located in the centre of the Ruber window, this is where you
+  edit the current file.</dd>
+	<dt>a tab bar</dt>
+	<dd>placed above the editor, it has a tab for each open file. Clicking
+  on a tab you activate the corresponding file, making it visible in the editor</dd>
+	<dt>three tool widget bars</dt>
+	<dd>located left, right and below the editor, they contain
+  a button for each tool widget. Clicking on the button makes the corresponding
+  tool widget become visible.</dd>
+</dl>
+<h4>Tool widgets</h4>
+<p>When a tool widget has focus, you can use the <code>View/Activate Editor</code> menu entry
+to switch back to the editor (without closing the tool widget). The three entries
+in the <code>View/Tool Widgets</code> submenu, instead will each close the corresponding tool
+widget if visible, and display it if hidden. In the former case, the focus will
+be given back to the editor.</p>
+<p>All the tool widget displaying the output from external programs share some
+functionality. In particular:</p>
+<ul>
+	<li>left clicking on a line containing a file name hides the tool widget and opens the
+  file in the editor. If the line also contained a line number associated with
+  the file (with the syntax <code>file_name:line_number</code>, then the cursor will be moved
+  to that line</li>
+	<li>left clicking on a line containing a file name while keeping the Meta keyboard button
+  pressed will cause the same effect but won&#8217;t close the tool widget</li>
+	<li>left clicking on several lines while keeping the Ctrl or the Shift keyboard
+  buttons pressed will select multiple lines according to the usual conventions</li>
+	<li>right clicking on the tool widget will display a context menu. In the menu
+  you&#8217;ll find several entries, among which: Clear, which empties the tool widget,
+  Copy and Copy Selection which copy respectively the whole content of the tool
+  widget or the selected lines in the clipboard. Note that some tool widgets
+  may organize the output in complex way, maybe using a tree (for an example,
+  see the RSpec plugin) and may implement copying to clipboard in an unexpected
+  way (or not implement it at all)</li>
+</ul>
+<p>Some tool widgets also provide a filtering functionality. To use it, choose the
+&#8220;Create Filter&#8221; entry from the context menu, enter the desired regular expression
+in the line edit which becomes visible and (with focus in the line edit) press
+Enter. Now only the lines matching the regexp you entered will be visible. You
+can remove the filter using the Clear Filter context menu entry. If you want to
+remove the filter but be able to apply it without writing it again, check the 
+Ignore Filter entry. Uncheking it will make the filter active again.</p>
+<h4>The Quick Open File dialog</h4>
+<p>When you have a project open, you can quickly open a file belonging to the project
+by using the Quick Open File menu entry in the Project menu. It&#8217;l display a dialog
+with a list of all files in the project and a line edit above it. In the line edit,
+you can enter a regular exrpession to restrict the list of files. If the regexp
+contains the path separator (<code>/</code>), the regexp will match both the file name and
+the directory name (relative to the project directory). If the regexp doesn&#8217;t
+contain a path separator, only the file name will be matched.</p>
+<p>For example, suppose the list of files is:</p>
+<pre><code>lib/plugins.rb
+plugins/x.rb
+plugins/y.rb</code></pre>
+<p>If the regexp is <code>plug</code>, then the list will only contain <code>plugins.rb</code>. If the regexp
+is <code>plugins/</code>, then all three files will be listed.</p>
+<p>Pressing the up and down keys on your keyboard will navigate the list of files
+even if the focus is in the line edit.</p>
+<h3>Configuring Ruber</h3>
+<h4>Choosing the plugins</h4>
+<p>You can choose the plugins using the <code>Settings/Choose Plugins</code> menu entry. It&#8217;ll
+display a dialog like the one in the following picture
+<a href="../images/choose_plugins_dialog.png">
+  <img src="../images/choose_plugins_dialog.png" style="width:95%;height:auto;display:block;margin-left:auto;margin-right:auto;" alt="General page of the Project Settings dialog"/>
+</a></p>
+<p>The list at the top of the widget contains all the plugins availlable on your system,
+together with a description (second column) and their plugin directory (third column).</p>
+<p>Checked plugins are the ones you have enabled (or which are enabled in the default
+Ruber configuration, if you didn&#8217;t change it).</p>
+<p>Plugins which are partially checked (like Ruby runner and Autosave in the picture)
+are plugins which you didn&#8217;t choose, but are needed because some of the plugins
+you&#8217;ve enabled need them. You can click again on them to choose them, but can&#8217;t
+disable them.</p>
+<p>The lower part of the dialog contains a list of directories which are searched
+for plugins. By default, the <code>plugins</code> subdirectory Ruber installation directory
+and a directory in your <span class="caps">KDE</span> configuration directory. You can add other directories
+by inserting it in the <span class="caps">URL</span> widget above the list, then pressing the Add button.
+To remove a directory, select it, then press the Remove button. You can move the
+selected directory up and down with the corresponding buttons. Plugins in directories
+higher in the list have priority over those in directories below them.</p>
+<p>If changing the plugin directories causes problems, such as some selected plugins
+being missing, or some dependencies among plugins being unsatisfied, you&#8217;ll be
+warned with a message box.</p>
+<h4>Configuring the editor component</h4>
+<p>To configure the editor, use the <code>Settings/Configure Editor</code> menu entry. The dialog
+is the same as the <code>Editor component</code> page in the Kate Settings dialog.</p>
+<h4>Configuring Ruber</h4>
+<p>To change options related to Ruber, use the <code>Settings/Configure Ruber</code> menu entry.</p>
+<p>The Ruber core provides two pages in this dialog, General and Colors (the other
+pages you may see are associated with plugins and will be described in each
+plugin&#8217;s section).</p>
+<p>In the General page, you can configure:</p>
+<ul>
+	<li>The font to be used in all the tool widgets which display output from command
+  line programs, such as ruby or rspec. You&#8217;re advised (but not forced) to
+  choose a fixed-with font like Courier or Monospace.</li>
+	<li>Wether or no to apply word wrapping to tool widgets displaying output from
+  command line programs. Note that some plugins may force or forbid word-wrapping:
+  this option won&#8217;t affect them</li>
+	<li>The default path for scripts (stand-alone files). This is the path where the
+  Open and Save As dialog will start if no project is open (if a project is open,
+  the dialog will always start in the project&#8217;s directory).</li>
+	<li>The default path for project. This is the path where the Open Project will
+  start in and the path used as location by the New Project dialog.</li>
+</ul>
+<p>In the Colors page, you can configure the colors commonly used by various tool
+widgets, in particular those displaying output from external programs.</p>
+<p>Each line of text in these tool widget is of one of four categories:</p>
+<dl>
+	<dt>output</dt>
+	<dd>text displayed by the external program on standard output</dd>
+	<dt>errors</dt>
+	<dd>text displayed by the external program on standard error and referring to
+errors (for example, uncaught exceptions raised by ruby)</dd>
+	<dt>warnings</dt>
+	<dd>text displayed by the external program on standard error and containing
+warnings (for example those messages output by ruby when called with the <code>-w</code> flag)</dd>
+	<dt>message</dt>
+	<dd>text which doesn&#8217;t belong to any of the other categories. Usually, this
+is text produced by Ruber itself (either the core or, more often, the plugin the
+tool widget belongs to).</dd>
+</dl>
+<p>Beside each of the Output, Error and Warning label there are three color selectors,
+labeled &#8220;Default&#8221;, &#8220;Variant 1&#8221; and &#8220;Variant 2&#8221;. Variants can be used by plugins
+to display text belonging to the same category but with somewhat different meaning
+in different colors (for example, a plugin which runs two programs in sequence
+can use the default color to display the output of the first one and the &#8220;variant 1&#8221;
+color for the output of the second).</p>
+<p>Also beside the Message label there are color selectors, labeled with &#8220;Default&#8221;,
+&#8220;Good&#8221; and &#8220;Bad&#8221;. The meaning is similar to those of the variants: the color
+associated with &#8220;Good&#8221; is used to display messages which the user will consider
+good (for example, the success of a given operation). Conversely, the color associated
+with &#8220;Bad&#8221; is used to inform of bad news (for example, that something has failed),
+while the &#8220;Default&#8221; color is used for messages which are neither good nor bad.</p>
+      </div>
+
+      <div id="footer">
+        <p>Copyright &copy; 2010 Stefano Crocco | Generated by <a href="http://webgen.rubyforge.org">webgen</a> | Original design by <a href="http://andreasviklund.com">Andreas Viklund</a>
+| Ruby picture on banner by <a href="http://en.wikipedia.org/wiki/User:Humanfeather">Michelle Jo</a></p>
+      </div>
+    </div>
+  </body>
+</html>

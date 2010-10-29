@@ -1,0 +1,621 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>Class: Ruber::ConfigDlg</title>
+<link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (C)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../Ruber.html" title="Ruber (module)">Ruber</a></span></span>
+     &raquo; 
+    <span class="title">ConfigDlg</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Ruber::ConfigDlg
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">KDE::ConfigDialog</span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next">KDE::ConfigDialog</li>
+          
+            <li class="next">Ruber::ConfigDlg</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/ruber/config/config_dlg.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>Dialog to change the application settings. Plugins requiring configuration may
+ add pages to this dialog by using the mechanism described here[link:files/doc/plugins.html]</p>
+====<span class="caps">TODO</span>
+<ul>
+	<li>See why it&#8217;s necessary to define the sizeHint method.</li>
+</ul>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+
+  
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create_data-instance_method" title="#create_data (instance method)">- (Object) <strong>create_data</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#hasChanged-instance_method" title="#hasChanged (instance method)">- (Object) <strong>hasChanged</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (ConfigDlg) <strong>initialize</strong>(parent, name, config) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Creates a new <ins>ConfigDlg</ins>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#sizeHint-instance_method" title="#sizeHint (instance method)">- (Object) <strong>sizeHint</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Informs the dialog of a page which it will need to add when its <tt>update_pages</tt>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#updateSettings-instance_method" title="#updateSettings (instance method)">- (Object) <strong>updateSettings</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>def create data, config.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#updateWidgets-instance_method" title="#updateWidgets (instance method)">- (Object) <strong>updateWidgets</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#updateWidgetsDefault-instance_method" title="#updateWidgetsDefault (instance method)">- (Object) <strong>updateWidgetsDefault</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+
+
+
+
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::ConfigDlg (class)">ConfigDlg</a></span></tt>) <strong>initialize</strong>(parent, name, config) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Creates a new <ins>ConfigDlg</ins>
+ =Arguments
+ <em>parent</em>:: the parent widget
+ <em>name</em>:: the name of the dialog
+ <em>config</em>:: the <span class="caps">KDE</span>::ConfigSkeleton object used by the dialog</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+41
+42
+43
+44
+45
+46</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/config/config_dlg.rb', line 41</span>
+
+<span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id parent'>parent</span><span class='comma'>,</span> <span class='id name'>name</span><span class='comma'>,</span> <span class='id config'>config</span>
+  <span class='kw'>super</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id face_type'>face_type</span> <span class='op'>=</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>PageDialog</span><span class='op'>::</span><span class='const'>List</span>
+  <span class='ivar'>@widgets</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='id create_data'>create_data</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="create_data-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>create_data</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/config/config_dlg.rb', line 48</span>
+
+<span class='kw'>def</span> <span class='id create_data'>create_data</span>
+  <span class='id pages'>pages</span> <span class='op'>=</span> <span class='const'>Hash</span><span class='period'>.</span><span class='id new'>new</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id h'>h</span><span class='comma'>,</span> <span class='id k'>k</span><span class='op'>|</span> <span class='id h'>h</span><span class='lbracket'>[</span><span class='id k'>k</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
+  <span class='id groups'>groups</span> <span class='op'>=</span> <span class='const'>Dictionary</span><span class='period'>.</span><span class='id alpha'>alpha</span>
+  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:components</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id each_component'>each_component</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id c'>c</span><span class='op'>|</span>
+    <span class='id c'>c</span><span class='period'>.</span><span class='id plugin_description'>plugin_description</span><span class='period'>.</span><span class='id config_widgets'>config_widgets</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span>
+      <span class='id groups'>groups</span><span class='lbracket'>[</span><span class='id i'>i</span><span class='period'>.</span><span class='id caption'>caption</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='id i'>i</span><span class='period'>.</span><span class='id pixmap'>pixmap</span>
+      <span class='id w'>w</span> <span class='op'>=</span> <span class='id i'>i</span><span class='period'>.</span><span class='id code'>code</span> <span class='op'>?</span> <span class='id eval'>eval</span><span class='lparen'>(</span><span class='id i'>i</span><span class='period'>.</span><span class='id code'>code</span><span class='comma'>,</span> <span class='const'>TOPLEVEL_BINDING</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='id i'>i</span><span class='period'>.</span><span class='id class_obj'>class_obj</span><span class='period'>.</span><span class='id new'>new</span>
+      <span class='ivar'>@widgets</span> <span class='op'>&lt;&lt;</span> <span class='id w'>w</span>
+      <span class='id pages'>pages</span><span class='lbracket'>[</span><span class='id i'>i</span><span class='period'>.</span><span class='id caption'>caption</span><span class='rbracket'>]</span> <span class='op'>&lt;&lt;</span> <span class='id w'>w</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='id groups'>groups</span><span class='period'>.</span><span class='id each_pair'>each_pair</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id k'>k</span><span class='comma'>,</span> <span class='id v'>v</span><span class='op'>|</span>
+    <span class='id page'>page</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Widget</span><span class='period'>.</span><span class='id new'>new</span>
+    <span class='id page'>page</span><span class='period'>.</span><span class='id layout'>layout</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>VBoxLayout</span><span class='period'>.</span><span class='id new'>new</span> <span class='id page'>page</span>
+    <span class='id pages'>pages</span><span class='lbracket'>[</span><span class='id k'>k</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id w'>w</span><span class='op'>|</span>
+      <span class='id w'>w</span><span class='period'>.</span><span class='id parent'>parent</span> <span class='op'>=</span> <span class='id page'>page</span>
+      <span class='id page'>page</span><span class='period'>.</span><span class='id layout'>layout</span><span class='period'>.</span><span class='id add_widget'>add_widget</span> <span class='id w'>w</span>
+    <span class='kw'>end</span>
+    <span class='id add_page'>add_page</span> <span class='id page'>page</span><span class='comma'>,</span> <span class='id k'>k</span><span class='comma'>,</span> <span class='id v'>v</span>
+  <span class='kw'>end</span>
+  
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="hasChanged-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>hasChanged</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+102
+103
+104</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/config/config_dlg.rb', line 102</span>
+
+<span class='kw'>def</span> <span class='id hasChanged'>hasChanged</span>
+  <span class='kw'>super</span> <span class='op'>||</span> <span class='ivar'>@widgets</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id w'>w</span><span class='op'>|</span> <span class='id w'>w</span><span class='period'>.</span><span class='id respond_to?'>respond_to?</span> <span class='symbol'>:changed?</span> <span class='kw'>and</span> <span class='id w'>w</span><span class='period'>.</span><span class='id changed?'>changed?</span><span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="sizeHint-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>sizeHint</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Informs the dialog of a page which it will need to add when its <tt>update_pages</tt>
+ method will be called.
+ =Arguments
+ <em>widget</em>:: the widget representing the page. Note that it won&#8217;t be directly
+            inserted in the dialog: a container widget will be created and <em>widget</em>
+            will be made its children. The new widget will be inserted in the dialog
+ <em>name_:: the label to display in the navigation section of the dialog. It must
+          be unique unless <i>allow</em>duplicate</i> is <ins>true</ins>
+ <em>pixmap_:: the path of the pixmap to show in the navigation part of the dialog
+ <i>allow</em>duplicate</i>:: what to do if a page with name <em>name</em> is given. If <ins>false</ins>
+                          or <ins>nil</ins>, an <ins>ArgumentError</ins> exception will be raised.
+                          Otherwise, the widget will be added at the bottom of
+                          the existing page.</p>
+def register_widget name, widget, pixmap
+page = @pages.find{|pg| pg.name == name}
+unless page
+page = PageInfo.new name, pixmap
+@pages &lt;&lt; page
+end
+page.widgets &lt;&lt; widget
+end
+def add_widget_data data
+@widget_data[data.caption]  &lt;&lt; data
+@widget_data_changed = true
+end
+def remove_widget_data data
+list = @widget_data[data.caption]
+list.delete data if list
+@widget_data_changed = true
+end
+def show
+update_pages if @widget_data_changed
+super
+end
+def exec
+update_pages if @widget_data_changed
+super
+end
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+151
+152
+153</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/config/config_dlg.rb', line 151</span>
+
+<span class='kw'>def</span> <span class='id sizeHint'>sizeHint</span>
+  <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Size</span><span class='period'>.</span><span class='id new'>new</span> <span class='int'>650</span><span class='comma'>,</span> <span class='int'>650</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="updateSettings-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>updateSettings</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>def create data, config
+      @pages.each_value{|pg| remove_page pg}
+      @widgets.clear
+      @pages.clear
+      data.each_pair do |c, wd|
+        pw = Qt::Widget.new
+        pw.layout = Qt::VBoxLayout.new pw
+        pix, *widgets = wd
+        widgets.each do |w|
+          @widgets &lt;&lt; w
+          w.parent = pw
+          pw.layout.add_widget w
+        end
+        pg = add_page(pw, config, c, pix)
+        @pages&#169; = pg
+      end
+    end</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+89
+90
+91
+92</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/config/config_dlg.rb', line 89</span>
+
+<span class='kw'>def</span> <span class='id updateSettings'>updateSettings</span>
+  <span class='ivar'>@widgets</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id pg'>pg</span><span class='op'>|</span> <span class='id pg'>pg</span><span class='period'>.</span><span class='id send'>send</span> <span class='symbol'>:update_settings</span> <span class='kw'>if</span> <span class='id pg'>pg</span><span class='period'>.</span><span class='id respond_to?'>respond_to?</span> <span class='symbol'>:update_settings</span><span class='comma'>,</span> <span class='kw'>true</span><span class='rbrace'>}</span>
+  <span class='id emit'>emit</span> <span class='id settingsChanged'>settingsChanged</span><span class='lparen'>(</span> <span class='id object_name'>object_name</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="updateWidgets-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>updateWidgets</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+94
+95
+96</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/config/config_dlg.rb', line 94</span>
+
+<span class='kw'>def</span> <span class='id updateWidgets'>updateWidgets</span>
+  <span class='ivar'>@widgets</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id pg'>pg</span><span class='op'>|</span> <span class='id pg'>pg</span><span class='period'>.</span><span class='id send'>send</span> <span class='symbol'>:update_widget</span> <span class='kw'>if</span> <span class='id pg'>pg</span><span class='period'>.</span><span class='id respond_to?'>respond_to?</span> <span class='symbol'>:update_widget</span><span class='comma'>,</span> <span class='kw'>true</span><span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="updateWidgetsDefault-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>updateWidgetsDefault</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+98
+99
+100</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/config/config_dlg.rb', line 98</span>
+
+<span class='kw'>def</span> <span class='id updateWidgetsDefault'>updateWidgetsDefault</span>
+  <span class='ivar'>@widgets</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id pg'>pg</span><span class='op'>|</span> <span class='id pg'>pg</span><span class='period'>.</span><span class='id send'>send</span> <span class='symbol'>:update_widget_default</span> <span class='kw'>if</span> <span class='id pg'>pg</span><span class='period'>.</span><span class='id respond_to?'>respond_to?</span> <span class='symbol'>:update_widget_default</span><span class='comma'>,</span> <span class='kw'>true</span><span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+
+</div>
+    
+    <div id="footer">
+  Generated on Mon Oct 11 18:31:31 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.1 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>

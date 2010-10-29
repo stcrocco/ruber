@@ -1,0 +1,1121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>Class: Ruber::ProjectFilesRuleChooser</title>
+<link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (P)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../Ruber.html" title="Ruber (module)">Ruber</a></span></span>
+     &raquo; 
+    <span class="title">ProjectFilesRuleChooser</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Ruber::ProjectFilesRuleChooser
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Qt::Widget</span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next">Qt::Widget</li>
+          
+            <li class="next">Ruber::ProjectFilesRuleChooser</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/ruber/projects/project_files_widget.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>Widget which displays and allows to modify the rules which determine whether a
+file belongs to a project or not.</p>
+<p>It contains a <code>Qt::TreeView</code> where the rules are displayed and some buttons to add
+and remove rules. The tree view has two columns: the first displays the contents
+of the rules, while the second contains the rules&#8217; type (whether they&#8217;re regexp
+rules or file rules).</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+  <h3>See Also:</h3>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="ProjectFilesList.html" title="Ruber::ProjectFilesList (class)">ProjectFilesList</a></span></li>
+    
+  </ul>
+
+</div><h2>Defined Under Namespace</h2>
+<p class="children">
+   
+    
+   
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="ProjectFilesRuleChooser/RegexpRuleValidator.html" title="Ruber::ProjectFilesRuleChooser::RegexpRuleValidator (class)">RegexpRuleValidator</a></span>
+    
+  
+</p>
+
+
+  
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#project%3D-instance_method" title="#project= (instance method)">- (Ruber::Project) <strong>project</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    
+    <span class="note title writeonly">writeonly</span>
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The project the widget displays rules for.</p></div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#add_path_rule-instance_method" title="#add_path_rule (instance method)">- (nil) <strong>add_path_rule</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Adds a file rule to the list.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#add_regexp_rule-instance_method" title="#add_regexp_rule (instance method)">- (nil) <strong>add_regexp_rule</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Adds a regexp rule to the list.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#add_rule-instance_method" title="#add_rule (instance method)">- ((Qt::StandardItem, Qt::StandardItem)) <strong>add_rule</strong>(text, type) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Adds a rule to the tree view.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#change_button_state-instance_method" title="#change_button_state (instance method)">- (nil) <strong>change_button_state</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Enables or disables the the Remove button.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (ProjectFilesRuleChooser) <strong>initialize</strong>(parent = nil) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>A new instance of ProjectFilesRuleChooser.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#remove_rule-instance_method" title="#remove_rule (instance method)">- (nil) <strong>remove_rule</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Removes the selected rule from the list.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#rules-instance_method" title="#rules (instance method)">- (Array&lt;String,Regexp&gt;) <strong>rules</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The rules chosen by the user.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#rules%3D-instance_method" title="#rules= (instance method)">- (nil) <strong>rules</strong>(list) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Fills the tree view.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#sizeHint-instance_method" title="#sizeHint (instance method)">- (Qt::Size) <strong>sizeHint</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Override of <code>Qt::Widget#sizeHint</code>.</p></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+
+  <h2>Signal Summary</h2>
+  <ul class="summary" >
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#rules_edited-signalcode" title="rules_edited (signalcode)">- <strong>rules_edited</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted when the rules have been changed.</p></div></span>
+    </li>
+  
+  </ul>
+
+
+
+
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::ProjectFilesRuleChooser (class)">ProjectFilesRuleChooser</a></span></tt>) <strong>initialize</strong>(parent = nil) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>A new instance of ProjectFilesRuleChooser</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>Qt::Widget</tt>)</span>
+      
+      
+        <span class='name'>parent</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>the parent widget</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_files_widget.rb', line 83</span>
+
+<span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id parent'>parent</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='kw'>super</span> 
+  <span class='ivar'>@project</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='ivar'>@ui</span> <span class='op'>=</span> <span class='const'>Ui</span><span class='op'>::</span><span class='const'>ProjectFilesRuleChooser</span><span class='period'>.</span><span class='id new'>new</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id setupUi'>setupUi</span> <span class='kw'>self</span>
+  <span class='id model'>model</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>StandardItemModel</span><span class='period'>.</span><span class='id new'>new</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id rules_widget'>rules_widget</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id rules_widget'>rules_widget</span><span class='period'>.</span><span class='id model'>model</span> <span class='op'>=</span> <span class='id model'>model</span>
+  <span class='id model'>model</span><span class='period'>.</span><span class='id horizontal_header_labels'>horizontal_header_labels</span> <span class='op'>=</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>Pattern</span><span class='words_sep'> </span><span class='tstring_content'>Type</span><span class='words_sep'>]</span>
+  <span class='id connect'>connect</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id add_regexp_btn'>add_regexp_btn</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>clicked()</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>add_regexp_rule()</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+  <span class='id connect'>connect</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id add_path_btn'>add_path_btn</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>clicked()</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>add_path_rule()</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+  <span class='id connect'>connect</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id remove_rule_btn'>remove_rule_btn</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>clicked()</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>remove_rule()</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+  <span class='id connect'>connect</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id rules_widget'>rules_widget</span><span class='period'>.</span><span class='id selection_model'>selection_model</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>selectionChanged(QItemSelection, QItemSelection)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>change_button_state()</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id remove_rule_btn'>remove_rule_btn</span><span class='period'>.</span><span class='id enabled'>enabled</span> <span class='op'>=</span> <span class='kw'>false</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id="project=-instance_method"></span>
+      <span id=""></span>
+      <div class="method_details first">
+  <p class="signature first" id="project=-instance_method">
+  
+    - (<tt><span class='object_link'><a href="Project.html" title="Ruber::Project (class)">Ruber::Project</a></span></tt>) <strong>project=</strong>(value)  <span class="extras">(writeonly)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The project the widget displays rules for</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Project.html" title="Ruber::Project (class)">Ruber::Project</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the project the widget displays rules for</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+49
+50
+51</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_files_widget.rb', line 49</span>
+
+<span class='kw'>def</span> <span class='id project='>project=</span><span class='lparen'>(</span><span class='id value'>value</span><span class='rparen'>)</span>
+  <span class='ivar'>@project</span> <span class='op'>=</span> <span class='id value'>value</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="add_path_rule-instance_method">
+  
+    - (<tt>nil</tt>) <strong>add_path_rule</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Adds a file rule to the list</p>
+<p>A dialog is shown to the user to select the file to add to the project</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_files_widget.rb', line 192</span>
+
+<span class='kw'>def</span> <span class='id add_path_rule'>add_path_rule</span>
+  <span class='id rule'>rule</span> <span class='op'>=</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>FileDialog</span><span class='period'>.</span><span class='id get_open_file_name'>get_open_file_name</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Url</span><span class='period'>.</span><span class='id from_path'>from_path</span><span class='lparen'>(</span><span class='ivar'>@project</span><span class='period'>.</span><span class='id project_dir'>project_dir</span><span class='rparen'>)</span><span class='comma'>,</span>
+      <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Add files to project</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id rule'>rule</span>
+  <span class='id path'>path</span> <span class='op'>=</span> <span class='const'>Pathname</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id rule'>rule</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id path'>path</span><span class='period'>.</span><span class='id child_of?'>child_of?</span><span class='lparen'>(</span><span class='ivar'>@project</span><span class='period'>.</span><span class='id project_dir'>project_dir</span><span class='rparen'>)</span>
+    <span class='id prj_dir'>prj_dir</span> <span class='op'>=</span> <span class='const'>Pathname</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='ivar'>@project</span><span class='period'>.</span><span class='id project_dir'>project_dir</span><span class='rparen'>)</span>
+    <span class='id rule'>rule</span> <span class='op'>=</span> <span class='id path'>path</span><span class='period'>.</span><span class='id relative_path_from'>relative_path_from</span><span class='lparen'>(</span><span class='id prj_dir'>prj_dir</span><span class='rparen'>)</span><span class='period'>.</span><span class='id to_s'>to_s</span>
+  <span class='kw'>end</span>
+  <span class='id add_rule'>add_rule</span> <span class='id rule'>rule</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Path</span><span class='tstring_end'>'</span></span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>add_path_rule()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="add_regexp_rule-instance_method">
+  
+    - (<tt>nil</tt>) <strong>add_regexp_rule</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Adds a regexp rule to the list</p>
+<p>The user is shown a dialog to choose the regexp</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+212
+213
+214
+215
+216
+217
+218</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_files_widget.rb', line 212</span>
+
+<span class='kw'>def</span> <span class='id add_regexp_rule'>add_regexp_rule</span>
+  <span class='id rule'>rule</span> <span class='op'>=</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>InputDialog</span><span class='period'>.</span><span class='id get_text'>get_text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Add regexp rule</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Regexp</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> 
+      <span class='symbol'>:validator</span> <span class='op'>=&gt;</span> <span class='const'>RegexpRuleValidator</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='rparen'>)</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id rule'>rule</span>
+  <span class='id add_rule'>add_rule</span> <span class='id rule'>rule</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Regexp</span><span class='tstring_end'>'</span></span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>add_regexp_rule()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="add_rule-instance_method">
+  
+    - (<tt>(<span class='object_link'><a href="../Qt/StandardItem.html" title="Qt::StandardItem (class)">Qt::StandardItem</a></span>, <span class='object_link'><a href="../Qt/StandardItem.html" title="Qt::StandardItem (class)">Qt::StandardItem</a></span>)</tt>) <strong>add_rule</strong>(text, type)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Adds a rule to the tree view</p>
+<p>The <span class='object_link'><a href="#rules_edited-signalcode" title="Ruber::ProjectFilesRuleChooser#rules_edited (signalcode)">#rules_edited</a></span> signal will be emitted after the rule has been inserted</p>
+<p>be the path of the file for a file rule and the source of the regexp for a regexp
+rule
+<code>Regexp</code> or <code>File</code>
+model</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>text</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the text to insert in the first column of the view. It must</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>the</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>name of the type of rule. Currently, this should be either</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>(<span class='object_link'><a href="../Qt/StandardItem.html" title="Qt::StandardItem (class)">Qt::StandardItem</a></span>, <span class='object_link'><a href="../Qt/StandardItem.html" title="Qt::StandardItem (class)">Qt::StandardItem</a></span>)</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the new items inserted in the view&#8217;s</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+162
+163
+164
+165
+166
+167
+168
+169
+170</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_files_widget.rb', line 162</span>
+
+<span class='kw'>def</span> <span class='id add_rule'>add_rule</span> <span class='id text'>text</span><span class='comma'>,</span> <span class='id type'>type</span>
+  <span class='id row'>row</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='const'>Qt</span><span class='op'>::</span><span class='const'>StandardItem</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id text'>text</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>StandardItem</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id type'>type</span><span class='rparen'>)</span><span class='rbracket'>]</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id rules_widget'>rules_widget</span><span class='period'>.</span><span class='id model'>model</span><span class='period'>.</span><span class='id append_row'>append_row</span> <span class='id row'>row</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id rules_widget'>rules_widget</span><span class='period'>.</span><span class='id selection_model'>selection_model</span><span class='period'>.</span><span class='id select'>select</span> <span class='id row'>row</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id index'>index</span><span class='comma'>,</span> 
+        <span class='const'>Qt</span><span class='op'>::</span><span class='const'>ItemSelectionModel</span><span class='op'>::</span><span class='const'>SelectCurrent</span><span class='op'>|</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>ItemSelectionModel</span><span class='op'>::</span><span class='const'>Rows</span> <span class='op'>|</span>
+        <span class='const'>Qt</span><span class='op'>::</span><span class='const'>ItemSelectionModel</span><span class='op'>::</span><span class='const'>Clear</span>
+  <span class='id emit'>emit</span> <span class='id rules_edited'>rules_edited</span>
+  <span class='id row'>row</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="change_button_state-instance_method">
+  
+    - (<tt>nil</tt>) <strong>change_button_state</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Enables or disables the the Remove button</p>
+<p>The button is enabled if a rule is selected and disabled otherwise</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+179
+180
+181
+182
+183</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_files_widget.rb', line 179</span>
+
+<span class='kw'>def</span> <span class='id change_button_state'>change_button_state</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id remove_rule_btn'>remove_rule_btn</span><span class='period'>.</span><span class='id enabled'>enabled</span> <span class='op'>=</span> 
+      <span class='op'>!</span><span class='ivar'>@ui</span><span class='period'>.</span><span class='id rules_widget'>rules_widget</span><span class='period'>.</span><span class='id selection_model'>selection_model</span><span class='period'>.</span><span class='id selected_rows'>selected_rows</span><span class='period'>.</span><span class='id first'>first</span><span class='period'>.</span><span class='id nil?'>nil?</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>change_button_state()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="remove_rule-instance_method">
+  
+    - (<tt>nil</tt>) <strong>remove_rule</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Removes the selected rule from the list</p>
+<p>The <span class='object_link'><a href="#rules_edited-signalcode" title="Ruber::ProjectFilesRuleChooser#rules_edited (signalcode)">#rules_edited</a></span> signal is emitted after removing the rule</p>
+<p><strong>Note:</strong> this method doesn&#8217;t check whether there&#8217;s an item selected and will fail
+if it isn&#8217;t so</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+229
+230
+231
+232
+233
+234</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_files_widget.rb', line 229</span>
+
+<span class='kw'>def</span> <span class='id remove_rule'>remove_rule</span>
+  <span class='id row'>row</span> <span class='op'>=</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id rules_widget'>rules_widget</span><span class='period'>.</span><span class='id selection_model'>selection_model</span><span class='period'>.</span><span class='id selected_rows'>selected_rows</span><span class='period'>.</span><span class='id first'>first</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id rules_widget'>rules_widget</span><span class='period'>.</span><span class='id model'>model</span><span class='period'>.</span><span class='id remove_row'>remove_row</span> <span class='id row'>row</span><span class='period'>.</span><span class='id row'>row</span>
+  <span class='id emit'>emit</span> <span class='id rules_edited'>rules_edited</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>remove_rule()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="rules-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>,Regexp&gt;</tt>) <strong>rules</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The rules chosen by the user</p>
+<p>String entries correspond to file rules, while regexp entries correspond to regexp
+rules</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>,Regexp&gt;</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>an array containing the rules the user has chosen.</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+114
+115
+116
+117
+118
+119
+120</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_files_widget.rb', line 114</span>
+
+<span class='kw'>def</span> <span class='id rules'>rules</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id rules_widget'>rules_widget</span><span class='period'>.</span><span class='id model'>model</span><span class='period'>.</span><span class='id enum_for'>enum_for</span><span class='lparen'>(</span><span class='symbol'>:each_row</span><span class='rparen'>)</span><span class='period'>.</span><span class='id map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id rule'>rule</span><span class='comma'>,</span> <span class='id type'>type</span><span class='op'>|</span>
+    <span class='kw'>if</span> <span class='id type'>type</span><span class='period'>.</span><span class='id text'>text</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Path</span><span class='tstring_end'>'</span></span> <span class='kw'>then</span> <span class='id rule'>rule</span><span class='period'>.</span><span class='id text'>text</span>
+    <span class='kw'>else</span> <span class='const'>Regexp</span><span class='period'>.</span><span class='id new'>new</span> <span class='id rule'>rule</span><span class='period'>.</span><span class='id text'>text</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="rules=-instance_method">
+  
+    - (<tt>nil</tt>) <strong>rules=</strong>(list) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Fills the tree view</p>
+<p><strong>Note:</strong> calling this method won&#8217;t trigger the <span class='object_link'><a href="#rules_edited-signalcode" title="Ruber::ProjectFilesRuleChooser#rules_edited (signalcode)">#rules_edited</a></span> signal</p>
+<p>entries will be considered as file rules, while regexp entries will be considered
+regexp rules</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>,Regexp&gt;</tt>)</span>
+      
+      
+        <span class='name'>list</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>a list of the rules to insert in the view. String</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_files_widget.rb', line 132</span>
+
+<span class='kw'>def</span> <span class='id rules='>rules=</span> <span class='id list'>list</span>
+  <span class='id model'>model</span> <span class='op'>=</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id rules_widget'>rules_widget</span><span class='period'>.</span><span class='id model'>model</span>
+  <span class='id model'>model</span><span class='period'>.</span><span class='id clear'>clear</span>
+  <span class='id model'>model</span><span class='period'>.</span><span class='id horizontal_header_labels'>horizontal_header_labels</span> <span class='op'>=</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>Pattern</span><span class='words_sep'> </span><span class='tstring_content'>Type</span><span class='words_sep'>]</span>
+  <span class='id list'>list</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id rule'>rule</span><span class='op'>|</span>
+    <span class='id type'>type</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Path</span><span class='tstring_end'>'</span></span>
+    <span class='kw'>if</span> <span class='id rule'>rule</span><span class='period'>.</span><span class='id is_a?'>is_a?</span> <span class='const'>Regexp</span>
+      <span class='id type'>type</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Regexp</span><span class='tstring_end'>'</span></span>
+      <span class='id rule'>rule</span> <span class='op'>=</span> <span class='id rule'>rule</span><span class='period'>.</span><span class='id source'>source</span>
+    <span class='kw'>end</span>
+    <span class='id model'>model</span><span class='period'>.</span><span class='id append_row'>append_row</span> <span class='lbracket'>[</span><span class='const'>Qt</span><span class='op'>::</span><span class='const'>StandardItem</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id rule'>rule</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>StandardItem</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id type'>type</span><span class='rparen'>)</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="sizeHint-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Qt/Size.html" title="Qt::Size (class)">Qt::Size</a></span></tt>) <strong>sizeHint</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Override of <code>Qt::Widget#sizeHint</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Qt/Size.html" title="Qt::Size (class)">Qt::Size</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the optimal size to use (350&#215;200)</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+103
+104
+105</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_files_widget.rb', line 103</span>
+
+<span class='kw'>def</span> <span class='id sizeHint'>sizeHint</span>
+  <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Size</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='int'>350</span><span class='comma'>,</span><span class='int'>200</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Signal Details</h2>
+    
+      <div class="method_details first">
+  <p class="signature first" id="rules_edited-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>rules_edited</strong> 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted when the rules have been changed</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Fri Oct 29 12:53:06 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.1 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>

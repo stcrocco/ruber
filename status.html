@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="description" content="Your description goes here" />
+    <meta name="keywords" content="your,keywords,goes,here" />
+    <meta name="author" content="Stefano Crocco / Original design: Andreas Viklund - http://andreasviklund.com/" />
+    <meta name="generator" content="webgen - http://webgen.rubyforge.org" />
+    <link rel="stylesheet" type="text/css" href="default.css" media="screen,projection" />
+    <link rel="icon" href="images/ruber-small.png"/>
+    <title>Ruber &ndash; Status</title>
+  </head>
+
+  <body>
+    <div id="wrap">
+      <div id="header">
+        <h1><a href="index.html">Ruber IDE</a></h1>
+        <p id="slogan"><strong>A Ruby IDE written in Ruby</strong></p>
+      </div>
+
+      <div id="avmenu">
+        <h2 class="hide">Site menu:</h2>
+        <ul><li class="webgen-menu-level1"><a href="index.html">Home</a></li><li class="webgen-menu-level1"><a href="news.html">News</a></li><li class="webgen-menu-level1"><a href="features.html">Features</a></li><li class="webgen-menu-level1 webgen-menu-item-selected"><span>Status</span></li><li class="webgen-menu-level1"><a href="screenshots.html">Screenshots</a></li><li class="webgen-menu-level1"><a href="install.html">Installing</a></li><li class="webgen-menu-level1 webgen-menu-submenu"><a href="user_manual/index.html">User manual</a></li><li class="webgen-menu-level1"><a href="plugin_developer_manual.html">Developer Manual</a></li><li class="webgen-menu-level1 webgen-menu-submenu"><a href="apidoc/_index.html">API documentation</a></li><li class="webgen-menu-level1"><a href="contacts.html">Contacts</a></li><li class="webgen-menu-level1"><a href="http://github.com/stcrocco/ruber">Ruber page on github</a></li></ul>
+
+        <div class="announce">
+          <h2>Latest news:</h2>
+          
+            <p><a href="news.html#Ruber-0-0-1-released-2010-10-29">Ruber 0.0.1 released</a></p>
+          
+        </div>
+      </div>
+
+      <div id="contentwide">
+        <h2>Status</h2>
+<p>Despite the fact I&#8217;ve been developing it for a couple of years, Ruber is still
+currently in alpha state. This is mostly my fault, because I have sometimes spent
+months working very little on it. However, I have been using it for its own development
+for a long time and I think it works quite well.</p>
+<p>Here&#8217;s a short list of shortcomings of the current version. A list of planned
+changes to be made and features to be added is availlable <a href="apidoc/index.html">here</a></p>
+<h3>Current issues</h3>
+<h4>Random crashes on the C++ side</h4>
+<p>Although the <span class="caps">KDE</span> ruby bindings are very well done and complete, they do have a
+drawback: if your ruby code causes the C++ side to fail somehow, you get a long
+backtrace containing only references to the internals of the bindings, which are
+completely useless if you are not a korundum developer.</p>
+<p>What this means is that these crashes are quite difficult to fix. I&#8217;m going to ask
+help to the <span class="caps">KDE</span> bindings developer about this, but I&#8217;ve waited to have the source
+online before doing that so that they can have a look at the program, in case they
+need it.</p>
+<p>Note that, at least with my workflow, these crashes never caused data loss. I only
+had to start Ruber again.</p>
+<h4>Random crashes on the Ruby side</h4>
+<p>Every now and then, when starting Ruber, you can get an exception about a <code>to_sym</code>
+called on <code>nil</code>. I haven&#8217;t as yet figured out what&#8217;s causing this, expecially since
+starting Ruber again doesn&#8217;t cause the issue anymore. Since this is only an inconvenience,
+I&#8217;ve postponed investigating to after I&#8217;ve released the first alpha version of Ruber.</p>
+<h4>Unstable <span class="caps">API</span></h4>
+<p>Currently, the Ruber <span class="caps">API</span> is not completely stable. In particular, there are two
+issues on my <span class="caps">TODO</span> list which most likely will require incompatible <span class="caps">API</span> changes 
+that may affect plugin developers.</p>
+<ul>
+	<li>having open documents without a view, which will break the assumption that each
+  document has a view associated with it</li>
+	<li>allowing more than one open project</li>
+</ul>
+<h4>Missing plugins</h4>
+<p>At the moment, the only plugins included with Ruber are the ones I needed most
+to develop it. This means, for example, that there isn&#8217;t a <code>Test::Unit</code> plugin,
+because I use RSpec for testing. My <a href="features.html#todo"><span class="caps">TODO</span></a> list contains a large number of plugins,
+but before starting working on them, I wanted to finish some core functionality.</p>
+<p>This, of course, shouldn&#8217;t stop anyone needing the missing plugins to start developing
+them. I only ask that anyone intentioned to write, and release to the public, 
+a plugin which is already on the <span class="caps">TODO</span> list contact me before starting, so that
+we can exchange ideas and maybe have the plugin included with future releases of
+Ruber</p>
+<h4>Lacking documentation</h4>
+<p>Unfortunately, Ruber is not completly documented. Originally, I&#8217;d decided to write
+all documentation before the first public release, but, seeing large amount of
+time documentation was taking, I changed my mind.</p>
+<p>At the moment, Ruber code may be divided in three categories according to the
+documentation status:</p>
+<ul>
+	<li>well documented: documentation is complete, up-to-date and written in <span class="caps">YARD</span> format.
+  This includes all the plugins and some core files</li>
+	<li>old documentation: the documentation is there but may be outdated and it&#8217;s in
+  RDoc format. In particular, any documentation about signals and slots will most
+  likely be outdated. This categories includes most of the core files</li>
+	<li>(almost) not documented: some random files</li>
+</ul>
+      </div>
+
+      <div id="footer">
+        <p>Copyright &copy; 2010 Stefano Crocco | Generated by <a href="http://webgen.rubyforge.org">webgen</a> | Original design by <a href="http://andreasviklund.com">Andreas Viklund</a>
+| Ruby picture on banner by <a href="http://en.wikipedia.org/wiki/User:Humanfeather">Michelle Jo</a></p>
+      </div>
+    </div>
+  </body>
+</html>

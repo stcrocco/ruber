@@ -1,0 +1,1161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>Class: Ruber::FindInFiles::ReplaceWidget</title>
+<link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '../..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../_index.html">Index (R)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../../Ruber.html" title="Ruber (module)">Ruber</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../FindInFiles.html" title="Ruber::FindInFiles (module)">FindInFiles</a></span></span>
+     &raquo; 
+    <span class="title">ReplaceWidget</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Ruber::FindInFiles::ReplaceWidget
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName"><span class='object_link'><a href="../OutputWidget.html" title="Ruber::OutputWidget (class)">OutputWidget</a></span></span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next">Qt::Widget</li>
+          
+            <li class="next"><span class='object_link'><a href="../OutputWidget.html" title="Ruber::OutputWidget (class)">OutputWidget</a></span></li>
+          
+            <li class="next">Ruber::FindInFiles::ReplaceWidget</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">plugins/find_in_files/find_in_files_widgets.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>Tool widget which displays the results of a replace operation</p>
+<p>The widget consists of a checkable tree view with two columns. The first column
+contains the text which will be replaced, while the second contains the text
+after the replacement. The user can uncheck the replacements he doesn&#8217;t want,
+both linewise or filewise. The replacement is only carried out when the user
+presses the Replace button in the tool widget. A Clear button empties the tool
+widget.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><h2>Defined Under Namespace</h2>
+<p class="children">
+   
+    
+   
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="ReplaceWidget/Model.html" title="Ruber::FindInFiles::ReplaceWidget::Model (class)">Model</a></span>
+    
+  
+</p>
+
+  <h2>Constant Summary</h2>
+  
+
+
+  
+  
+  
+  
+  <h3 class="inherited">Constants inherited from <span class='object_link'><a href="../OutputWidget.html" title="Ruber::OutputWidget (class)">OutputWidget</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../OutputWidget.html#IsTitleRole-constant" title="Ruber::OutputWidget::IsTitleRole (constant)">IsTitleRole</a></span>, <span class='object_link'><a href="../OutputWidget.html#OutputTypeRole-constant" title="Ruber::OutputWidget::OutputTypeRole (constant)">OutputTypeRole</a></span></p>
+
+  
+  
+  
+  
+  
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#add_line-instance_method" title="#add_line (instance method)">- (nil) <strong>add_line</strong>(file, line, orig, repl) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Adds a replacement line to the widget.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#clear_output-instance_method" title="#clear_output (instance method)">- (nil) <strong>clear_output</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Empties the widget.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#display_output-instance_method" title="#display_output (instance method)">- (nil) <strong>display_output</strong>(lines) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Inserts the name of the files in the output widget.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#file_modified-instance_method" title="#file_modified (instance method)">- (nil) <strong>file_modified</strong>(file) </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Slot called when a file among those listed for replacement is modified on disk.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (ReplaceWidget) <strong>initialize</strong>(parent = nil) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Creates a new instance.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#replace-instance_method" title="#replace (instance method)">- (nil) <strong>replace</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Performs the replacements chosen by the user.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#replace_file-instance_method" title="#replace_file (instance method)">- (Symbol, ...) <strong>replace_file</strong>(it, doc) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Carries out the replacements for a file.</p></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="../OutputWidget.html" title="Ruber::OutputWidget (class)">OutputWidget</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../OutputWidget.html#copy-instance_method" title="Ruber::OutputWidget#copy (method)">#copy</a></span>, <span class='object_link'><a href="../OutputWidget.html#copy_selected-instance_method" title="Ruber::OutputWidget#copy_selected (method)">#copy_selected</a></span>, <span class='object_link'><a href="../OutputWidget.html#create_standard_actions-instance_method" title="Ruber::OutputWidget#create_standard_actions (method)">#create_standard_actions</a></span>, <span class='object_link'><a href="../OutputWidget.html#create_widgets-instance_method" title="Ruber::OutputWidget#create_widgets (method)">#create_widgets</a></span>, <span class='object_link'><a href="../OutputWidget.html#do_auto_scroll-instance_method" title="Ruber::OutputWidget#do_auto_scroll (method)">#do_auto_scroll</a></span>, <span class='object_link'><a href="../OutputWidget.html#fill_menu-instance_method" title="Ruber::OutputWidget#fill_menu (method)">#fill_menu</a></span>, <span class='object_link'><a href="../OutputWidget.html#find_filename_in_index-instance_method" title="Ruber::OutputWidget#find_filename_in_index (method)">#find_filename_in_index</a></span>, <span class='object_link'><a href="../OutputWidget.html#find_filename_in_string-instance_method" title="Ruber::OutputWidget#find_filename_in_string (method)">#find_filename_in_string</a></span>, <span class='object_link'><a href="../OutputWidget.html#has_title%3F-instance_method" title="Ruber::OutputWidget#has_title? (method)">#has_title?</a></span>, <span class='object_link'><a href="../OutputWidget.html#load_settings-instance_method" title="Ruber::OutputWidget#load_settings (method)">#load_settings</a></span>, <span class='object_link'><a href="../OutputWidget.html#maybe_open_file-instance_method" title="Ruber::OutputWidget#maybe_open_file (method)">#maybe_open_file</a></span>, <span class='object_link'><a href="../OutputWidget.html#rows_changed-instance_method" title="Ruber::OutputWidget#rows_changed (method)">#rows_changed</a></span>, <span class='object_link'><a href="../OutputWidget.html#scroll_to-instance_method" title="Ruber::OutputWidget#scroll_to (method)">#scroll_to</a></span>, <span class='object_link'><a href="../OutputWidget.html#selection_changed-instance_method" title="Ruber::OutputWidget#selection_changed (method)">#selection_changed</a></span>, <span class='object_link'><a href="../OutputWidget.html#set_color_for-instance_method" title="Ruber::OutputWidget#set_color_for (method)">#set_color_for</a></span>, <span class='object_link'><a href="../OutputWidget.html#set_output_type-instance_method" title="Ruber::OutputWidget#set_output_type (method)">#set_output_type</a></span>, <span class='object_link'><a href="../OutputWidget.html#setup_model-instance_method" title="Ruber::OutputWidget#setup_model (method)">#setup_model</a></span>, <span class='object_link'><a href="../OutputWidget.html#show_menu-instance_method" title="Ruber::OutputWidget#show_menu (method)">#show_menu</a></span>, <span class='object_link'><a href="../OutputWidget.html#text_for_clipboard-instance_method" title="Ruber::OutputWidget#text_for_clipboard (method)">#text_for_clipboard</a></span>, <span class='object_link'><a href="../OutputWidget.html#title%3D-instance_method" title="Ruber::OutputWidget#title= (method)">#title=</a></span>, <span class='object_link'><a href="../OutputWidget.html#update_index_color-instance_method" title="Ruber::OutputWidget#update_index_color (method)">#update_index_color</a></span>, <span class='object_link'><a href="../OutputWidget.html#with_auto_scrolling-instance_method" title="Ruber::OutputWidget#with_auto_scrolling (method)">#with_auto_scrolling</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="../GuiStatesHandler.html" title="Ruber::GuiStatesHandler (module)">GuiStatesHandler</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../GuiStatesHandler.html#change_state-instance_method" title="Ruber::GuiStatesHandler#change_state (method)">#change_state</a></span>, <span class='object_link'><a href="../GuiStatesHandler.html#included-class_method" title="Ruber::GuiStatesHandler.included (method)">included</a></span>, <span class='object_link'><a href="../GuiStatesHandler.html#initialize_states_handler-instance_method" title="Ruber::GuiStatesHandler#initialize_states_handler (method)">#initialize_states_handler</a></span>, <span class='object_link'><a href="../GuiStatesHandler.html#register_action_handler-instance_method" title="Ruber::GuiStatesHandler#register_action_handler (method)">#register_action_handler</a></span>, <span class='object_link'><a href="../GuiStatesHandler.html#remove_action_handler_for-instance_method" title="Ruber::GuiStatesHandler#remove_action_handler_for (method)">#remove_action_handler_for</a></span>, <span class='object_link'><a href="../GuiStatesHandler.html#state-instance_method" title="Ruber::GuiStatesHandler#state (method)">#state</a></span></p>
+
+  
+
+  <h2>Signal Summary</h2>
+  <ul class="summary" >
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#file_added-signalcode" title="file_added (signalcode)">- <strong>file_added</strong>(QString str) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted when a new file is added to the model.</p></div></span>
+    </li>
+  
+  </ul>
+
+
+
+
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::FindInFiles::ReplaceWidget (class)">ReplaceWidget</a></span></tt>) <strong>initialize</strong>(parent = nil) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Creates a new instance</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Qt::Object</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+        <span class='name'>parent</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>the parent object</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/find_in_files/find_in_files_widgets.rb', line 235</span>
+
+<span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id parent'>parent</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='kw'>super</span> <span class='id parent'>parent</span><span class='comma'>,</span> <span class='symbol'>:view</span> <span class='op'>=&gt;</span> <span class='symbol'>:tree</span><span class='comma'>,</span> <span class='symbol'>:use_default_font</span> <span class='op'>=&gt;</span> <span class='kw'>true</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id auto_scroll'>auto_scroll</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='id model'>model</span><span class='period'>.</span><span class='id global_flags'>global_flags</span> <span class='op'>|=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>ItemIsUserCheckable</span><span class='period'>.</span><span class='id to_i'>to_i</span>
+  <span class='kw'>def</span> <span class='id model'>model</span><span class='period'>.</span><span class='id flags'>flags</span> <span class='id idx'>idx</span>
+    <span class='kw'>if</span> <span class='id idx'>idx</span><span class='period'>.</span><span class='id column'>column</span> <span class='op'>==</span> <span class='int'>0</span> <span class='kw'>then</span> <span class='kw'>super</span> <span class='id idx'>idx</span>
+    <span class='kw'>else</span> <span class='lparen'>(</span><span class='const'>Qt</span><span class='op'>::</span><span class='const'>ItemIsEnabled</span> <span class='op'>|</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>ItemIsSelectable</span><span class='rparen'>)</span><span class='period'>.</span><span class='id to_i'>to_i</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='ivar'>@replace_button</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>PushButton</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Replace</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='kw'>self</span><span class='rparen'>)</span><span class='lbrace'>{</span><span class='kw'>self</span><span class='period'>.</span><span class='id enabled'>enabled</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rbrace'>}</span>
+  <span class='ivar'>@clear_button</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>PushButton</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Clear</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='kw'>self</span><span class='rparen'>)</span><span class='lbrace'>{</span><span class='kw'>self</span><span class='period'>.</span><span class='id enabled'>enabled</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rbrace'>}</span>
+  <span class='id layout'>layout</span><span class='period'>.</span><span class='id remove_widget'>remove_widget</span> <span class='id view'>view</span>
+  <span class='id layout'>layout</span><span class='period'>.</span><span class='id add_widget'>add_widget</span> <span class='id view'>view</span><span class='comma'>,</span> <span class='int'>0</span><span class='comma'>,</span><span class='int'>0</span><span class='comma'>,</span><span class='int'>1</span><span class='comma'>,</span><span class='int'>0</span>
+  <span class='id layout'>layout</span><span class='period'>.</span><span class='id add_widget'>add_widget</span> <span class='ivar'>@replace_button</span><span class='comma'>,</span> <span class='int'>1</span><span class='comma'>,</span> <span class='int'>0</span>
+  <span class='id layout'>layout</span><span class='period'>.</span><span class='id add_widget'>add_widget</span> <span class='ivar'>@clear_button</span><span class='comma'>,</span> <span class='int'>1</span><span class='comma'>,</span> <span class='int'>1</span>
+  <span class='id model'>model</span><span class='period'>.</span><span class='id horizontal_header_labels'>horizontal_header_labels</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Line</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Original text</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Replacement text</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
+  <span class='ivar'>@file_items</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='ivar'>@watcher</span> <span class='op'>=</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>DirWatch</span><span class='period'>.</span><span class='id new'>new</span> <span class='kw'>self</span>
+  <span class='id connect'>connect</span> <span class='ivar'>@watcher</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>dirty(QString)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>file_modified(QString)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+  <span class='id connect'>connect</span> <span class='ivar'>@replace_button</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:clicked</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:replace</span><span class='rparen'>)</span>
+  <span class='id connect'>connect</span> <span class='ivar'>@clear_button</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:clicked</span><span class='rparen'>)</span> <span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:clear_output</span><span class='rparen'>)</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id connect'>connect</span><span class='lparen'>(</span><span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:about_to_fill_menu</span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='kw'>do</span>
+    <span class='id actions'>actions</span><span class='period'>.</span><span class='id delete'>delete</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>copy</span><span class='tstring_end'>'</span></span>
+    <span class='id actions'>actions</span><span class='period'>.</span><span class='id delete'>delete</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>copy_selected</span><span class='tstring_end'>'</span></span>
+    <span class='id action_list'>action_list</span><span class='period'>.</span><span class='id delete'>delete</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>copy</span><span class='tstring_end'>'</span></span>
+    <span class='id action_list'>action_list</span><span class='period'>.</span><span class='id delete'>delete</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>copy_selected</span><span class='tstring_end'>'</span></span>
+  <span class='kw'>end</span>
+  <span class='id model'>model</span><span class='period'>.</span><span class='id connect'>connect</span><span class='lparen'>(</span><span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rowsInserted(QModelIndex, int, int)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id par'>par</span><span class='comma'>,</span> <span class='id st'>st</span><span class='comma'>,</span> <span class='id en'>en</span><span class='op'>|</span>
+    <span class='kw'>if</span> <span class='op'>!</span><span class='id par'>par</span><span class='period'>.</span><span class='id valid?'>valid?</span>
+      <span class='id st'>st</span><span class='period'>.</span><span class='id upto'>upto</span><span class='lparen'>(</span><span class='id en'>en</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span>
+        <span class='id view'>view</span><span class='period'>.</span><span class='id set_first_column_spanned'>set_first_column_spanned</span> <span class='id i'>i</span><span class='comma'>,</span> <span class='id par'>par</span><span class='comma'>,</span> <span class='kw'>true</span>
+        <span class='id view'>view</span><span class='period'>.</span><span class='id expand'>expand</span> <span class='id model'>model</span><span class='period'>.</span><span class='id index'>index</span><span class='lparen'>(</span><span class='id i'>i</span><span class='comma'>,</span> <span class='int'>0</span><span class='comma'>,</span> <span class='id par'>par</span><span class='rparen'>)</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:find_in_files</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id connect'>connect</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:replace_search_started</span><span class='rparen'>)</span> <span class='kw'>do</span>
+    <span class='ivar'>@replace_button</span><span class='period'>.</span><span class='id enabled'>enabled</span> <span class='op'>=</span> <span class='kw'>false</span>
+    <span class='ivar'>@clear_button</span><span class='period'>.</span><span class='id enabled'>enabled</span> <span class='op'>=</span> <span class='kw'>false</span>
+    <span class='id view'>view</span><span class='period'>.</span><span class='id header'>header</span><span class='period'>.</span><span class='id resize_mode'>resize_mode</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>HeaderView</span><span class='op'>::</span><span class='const'>Fixed</span>
+    <span class='kw'>self</span><span class='period'>.</span><span class='id cursor'>cursor</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Cursor</span><span class='period'>.</span><span class='id new'>new</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>WaitCursor</span>
+  <span class='kw'>end</span>
+  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:find_in_files</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id connect'>connect</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:replace_search_finished</span><span class='rparen'>)</span> <span class='kw'>do</span>
+    <span class='ivar'>@watcher</span><span class='period'>.</span><span class='id start_scan'>start_scan</span>
+    <span class='ivar'>@replace_button</span><span class='period'>.</span><span class='id enabled'>enabled</span> <span class='op'>=</span> <span class='kw'>true</span>
+    <span class='ivar'>@clear_button</span><span class='period'>.</span><span class='id enabled'>enabled</span> <span class='op'>=</span> <span class='kw'>true</span>
+    <span class='id h'>h</span> <span class='op'>=</span> <span class='id view'>view</span><span class='period'>.</span><span class='id header'>header</span>
+    <span class='id view'>view</span><span class='period'>.</span><span class='id resize_column_to_contents'>resize_column_to_contents</span> <span class='int'>0</span>
+    <span class='id view'>view</span><span class='period'>.</span><span class='id header'>header</span><span class='period'>.</span><span class='id resize_mode'>resize_mode</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>HeaderView</span><span class='op'>::</span><span class='const'>Fixed</span>
+    <span class='id av_size'>av_size</span> <span class='op'>=</span> <span class='id h'>h</span><span class='period'>.</span><span class='id rect'>rect</span><span class='period'>.</span><span class='id width'>width</span> <span class='op'>-</span> <span class='id h'>h</span><span class='period'>.</span><span class='id section_size'>section_size</span><span class='lparen'>(</span> <span class='int'>0</span><span class='rparen'>)</span>
+    <span class='id view'>view</span><span class='period'>.</span><span class='id set_column_width'>set_column_width</span> <span class='int'>1</span><span class='comma'>,</span>  <span class='id av_size'>av_size</span> <span class='op'>/</span> <span class='float'>2.0</span>
+    <span class='id view'>view</span><span class='period'>.</span><span class='id set_column_width'>set_column_width</span> <span class='int'>2</span><span class='comma'>,</span> <span class='id av_size'>av_size</span> <span class='op'>/</span> <span class='float'>2.0</span>
+    <span class='id unset_cursor'>unset_cursor</span>
+  <span class='kw'>end</span>
+  <span class='id view'>view</span><span class='period'>.</span><span class='id all_columns_show_focus'>all_columns_show_focus</span> <span class='op'>=</span>  <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="add_line-instance_method">
+  
+    - (<tt>nil</tt>) <strong>add_line</strong>(file, line, orig, repl) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Adds a replacement line to the widget</p>
+<p>A replacement line is made of three columns: the line number in the file,
+the original text and the text after the replacement.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>file</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the file where the line is</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <span class='name'>line</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the line number (0 based)</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>orig</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the original text of the line</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>repl</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the text of the line after the replacement</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+324
+325
+326
+327
+328
+329
+330</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/find_in_files/find_in_files_widgets.rb', line 324</span>
+
+<span class='kw'>def</span> <span class='id add_line'>add_line</span> <span class='id file'>file</span><span class='comma'>,</span> <span class='id line'>line</span><span class='comma'>,</span> <span class='id orig'>orig</span><span class='comma'>,</span> <span class='id repl'>repl</span>
+  <span class='id parent'>parent</span> <span class='op'>=</span> <span class='ivar'>@file_items</span><span class='lbracket'>[</span><span class='id file'>file</span><span class='rbracket'>]</span>
+  <span class='id row'>row</span> <span class='op'>=</span> <span class='id model'>model</span><span class='period'>.</span><span class='id insert'>insert</span> <span class='lbracket'>[</span><span class='lparen'>(</span><span class='id line'>line</span><span class='op'>+</span><span class='int'>1</span><span class='rparen'>)</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='comma'>,</span> <span class='id orig'>orig</span><span class='comma'>,</span> <span class='id repl'>repl</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='symbol'>:output1</span><span class='comma'>,</span> <span class='symbol'>:output</span><span class='comma'>,</span> <span class='symbol'>:output</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='symbol'>:parent</span> <span class='op'>=&gt;</span> <span class='id parent'>parent</span>
+  <span class='id row'>row</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id checked'>checked</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='id view'>view</span><span class='period'>.</span><span class='id expand'>expand</span> <span class='id parent'>parent</span><span class='period'>.</span><span class='id index'>index</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="clear_output-instance_method">
+  
+    - (<tt>nil</tt>) <strong>clear_output</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Empties the widget</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+337
+338
+339
+340
+341
+342
+343</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/find_in_files/find_in_files_widgets.rb', line 337</span>
+
+<span class='kw'>def</span> <span class='id clear_output'>clear_output</span>
+  <span class='ivar'>@file_items</span><span class='period'>.</span><span class='id clear'>clear</span>
+  <span class='ivar'>@file_items</span><span class='period'>.</span><span class='id each_key'>each_key</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id k'>k</span><span class='op'>|</span> <span class='ivar'>@watcher</span><span class='period'>.</span><span class='id remove_file'>remove_file</span> <span class='id k'>k</span><span class='rbrace'>}</span>
+  <span class='ivar'>@replace_button</span><span class='period'>.</span><span class='id enabled'>enabled</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='ivar'>@clear_button</span><span class='period'>.</span><span class='id enabled'>enabled</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='kw'>super</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="display_output-instance_method">
+  
+    - (<tt>nil</tt>) <strong>display_output</strong>(lines) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Inserts the name of the files in the output widget</p>
+<p>Each file is added to the file watcher, so that replacing in it can be disabled
+if it changes.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+      
+      
+        <span class='name'>lines</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>an array containing the name of the files</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/find_in_files/find_in_files_widgets.rb', line 300</span>
+
+<span class='kw'>def</span> <span class='id display_output'>display_output</span> <span class='id lines'>lines</span>
+  <span class='id lines'>lines</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id l'>l</span><span class='op'>|</span>
+    <span class='id it'>it</span> <span class='op'>=</span> <span class='id model'>model</span><span class='period'>.</span><span class='id insert'>insert</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='id l'>l</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:message</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
+    <span class='id it'>it</span><span class='period'>.</span><span class='id checked'>checked</span> <span class='op'>=</span> <span class='kw'>true</span>
+    <span class='ivar'>@watcher</span><span class='period'>.</span><span class='id add_file'>add_file</span> <span class='id l'>l</span>
+    <span class='ivar'>@watcher</span><span class='period'>.</span><span class='id stop_scan'>stop_scan</span>
+    <span class='ivar'>@file_items</span><span class='lbracket'>[</span><span class='id l'>l</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id it'>it</span>
+    <span class='id emit'>emit</span> <span class='id file_added'>file_added</span><span class='lparen'>(</span><span class='id l'>l</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="file_modified-instance_method">
+  
+    - (<tt>nil</tt>) <strong>file_modified</strong>(file)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Slot called when a file among those listed for replacement is modified on disk</p>
+<p>When this happens, the file is marked as modified in the view and it is no longer
+checkable (the same happens for its children)</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/find_in_files/find_in_files_widgets.rb', line 447</span>
+
+<span class='kw'>def</span> <span class='id file_modified'>file_modified</span> <span class='id file'>file</span>
+  <span class='ivar'>@watcher</span><span class='period'>.</span><span class='id remove_file'>remove_file</span> <span class='id file'>file</span>
+  <span class='id it'>it</span> <span class='op'>=</span> <span class='ivar'>@file_items</span><span class='lbracket'>[</span><span class='id file'>file</span><span class='rbracket'>]</span>
+  <span class='kw'>if</span> <span class='id it'>it</span>
+    <span class='id it'>it</span><span class='period'>.</span><span class='id text'>text</span> <span class='op'>=</span> <span class='id it'>it</span><span class='period'>.</span><span class='id text'>text</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\t [MODIFIED]</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id it'>it</span><span class='period'>.</span><span class='id checked'>checked</span> <span class='op'>=</span> <span class='kw'>false</span>
+    <span class='id view'>view</span><span class='period'>.</span><span class='id collapse'>collapse</span> <span class='id it'>it</span><span class='period'>.</span><span class='id index'>index</span>
+    <span class='id model'>model</span><span class='period'>.</span><span class='id set_data'>set_data</span> <span class='id it'>it</span><span class='period'>.</span><span class='id index'>index</span><span class='comma'>,</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Variant</span><span class='period'>.</span><span class='id new'>new</span><span class='comma'>,</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>ForegroundRole</span>
+    <span class='id it'>it</span><span class='period'>.</span><span class='id flags'>flags</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>ItemIsSelectable</span>
+    <span class='id it'>it</span><span class='period'>.</span><span class='id each_row'>each_row</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id r'>r</span><span class='op'>|</span>
+      <span class='id r'>r</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id checked'>checked</span> <span class='op'>=</span> <span class='kw'>false</span>
+      <span class='id r'>r</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span> <span class='id i'>i</span><span class='period'>.</span><span class='id flags'>flags</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>ItemIsSelectable</span><span class='rbrace'>}</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>file_modified(QString)</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="replace-instance_method">
+  
+    - (<tt>nil</tt>) <strong>replace</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Performs the replacements chosen by the user</p>
+<p>Calling this method applies replaces the original text with the replacement
+texts for all the lines chosen by the user (that is, the checked lines which
+belong to a checked file). A message box is shown if some replacements cannot be
+carrried out.</p>
+<p>Items corresponding to successful replacements are removed from the view.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/find_in_files/find_in_files_widgets.rb', line 359</span>
+
+<span class='kw'>def</span> <span class='id replace'>replace</span>
+  <span class='id failed'>failed</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='id success'>success</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='id docs'>docs</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:docs</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id documents_with_file'>documents_with_file</span><span class='period'>.</span><span class='id map'>map</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id d'>d</span><span class='op'>|</span> <span class='lbracket'>[</span><span class='id d'>d</span><span class='period'>.</span><span class='id path'>path</span><span class='comma'>,</span> <span class='id d'>d</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id to_h'>to_h</span>
+  <span class='id model'>model</span><span class='period'>.</span><span class='id each_row'>each_row</span><span class='period'>.</span><span class='id each_with_index'>each_with_index</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id r'>r</span><span class='comma'>,</span> <span class='id i'>i</span><span class='op'>|</span>
+    <span class='kw'>if</span> <span class='id r'>r</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id checked?'>checked?</span>
+      <span class='id res'>res</span> <span class='op'>=</span> <span class='id replace_file'>replace_file</span> <span class='id r'>r</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id docs'>docs</span><span class='lbracket'>[</span><span class='id r'>r</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id text'>text</span><span class='rbracket'>]</span>
+      <span class='kw'>if</span> <span class='id res'>res</span> <span class='kw'>then</span> <span class='id failed'>failed</span><span class='lbracket'>[</span><span class='id r'>r</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id text'>text</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id res'>res</span> 
+      <span class='kw'>else</span> <span class='id success'>success</span> <span class='op'>&lt;&lt;</span> <span class='id r'>r</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='id success'>success</span><span class='period'>.</span><span class='id reverse_each'>reverse_each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span> 
+    <span class='ivar'>@file_items</span><span class='period'>.</span><span class='id delete'>delete</span> <span class='id i'>i</span><span class='period'>.</span><span class='id text'>text</span>
+    <span class='id model'>model</span><span class='period'>.</span><span class='id remove_row'>remove_row</span> <span class='id i'>i</span><span class='period'>.</span><span class='id row'>row</span>
+  <span class='kw'>end</span>
+  <span class='id create_error_message'>create_error_message</span> <span class='op'>=</span> <span class='const'>Proc</span><span class='period'>.</span><span class='id new'>new</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id f'>f</span><span class='comma'>,</span> <span class='id err'>err</span><span class='op'>|</span>
+    <span class='kw'>if</span> <span class='id err'>err</span> <span class='op'>==</span> <span class='symbol'>:doc_modified</span> <span class='kw'>then</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id f'>f</span><span class='rbrace'>}</span><span class='tstring_content'>: modified in editor</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>else</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id f'>f</span><span class='rbrace'>}</span><span class='tstring_content'>: </span><span class='embexpr_beg'>#{</span><span class='id err'>err</span><span class='period'>.</span><span class='id message'>message</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='kw'>unless</span> <span class='id failed'>failed</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+    <span class='id failed_text'>failed_text</span> <span class='op'>=</span> <span class='id failed'>failed</span><span class='period'>.</span><span class='id map'>map</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id f'>f</span><span class='comma'>,</span> <span class='id err'>err</span><span class='op'>|</span> <span class='id create_error_message'>create_error_message</span><span class='period'>.</span><span class='id call'>call</span> <span class='id f'>f</span><span class='comma'>,</span> <span class='id err'>err</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id join'>join</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span>
+    <span class='const'>KDE</span><span class='op'>::</span><span class='const'>MessageBox</span><span class='period'>.</span><span class='id sorry'>sorry</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The following files couldn't be modified:\n</span><span class='embexpr_beg'>#{</span><span class='id failed_text'>failed_text</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>replace()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="replace_file-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>, ...) <strong>replace_file</strong>(it, doc)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Carries out the replacements for a file</p>
+<p>If the file is associated with a document and the document isn&#8217;t modified, the
+text in the editor is changed to reflect the modifications in the file. If the
+document is modified (which means its contents differ from the contents of the
+file), instead, nothing will be done.</p>
+<p>correctly; an exception derived from <code>SystemCallError</code> if it wasn&#8217;t possible to
+write the file and the symbol <code>:doc_modified</code> if the replacement wasn&#8217;t attempted
+because the document corresponding to the file was modified</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Qt/StandardItem.html" title="Qt::StandardItem (class)">Qt::StandardItem</a></span></tt>)</span>
+      
+      
+        <span class='name'>it</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the item corresponding to the file in the model</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Document.html" title="Ruber::Document (class)">Document</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+        <span class='name'>doc</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the document associated with the file, if any</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>, <tt>SystemCallError</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><strong>nil</strong> if the replacement was carried out</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/find_in_files/find_in_files_widgets.rb', line 402</span>
+
+<span class='kw'>def</span> <span class='id replace_file'>replace_file</span> <span class='id it'>it</span><span class='comma'>,</span> <span class='id doc'>doc</span>
+  <span class='id file'>file</span> <span class='op'>=</span> <span class='id it'>it</span><span class='period'>.</span><span class='id text'>text</span>
+  <span class='id lines_to_replace'>lines_to_replace</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='id it'>it</span><span class='period'>.</span><span class='id each_row'>each_row</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id line'>line</span><span class='comma'>,</span> <span class='id _'>_</span><span class='comma'>,</span> <span class='id repl'>repl</span><span class='op'>|</span>
+    <span class='id lines_to_replace'>lines_to_replace</span><span class='lbracket'>[</span><span class='id line'>line</span><span class='period'>.</span><span class='id text'>text</span><span class='period'>.</span><span class='id to_i'>to_i</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id repl'>repl</span><span class='period'>.</span><span class='id text'>text</span> <span class='kw'>if</span> <span class='id line'>line</span><span class='period'>.</span><span class='id checked?'>checked?</span>
+  <span class='kw'>end</span>
+<span class='comment'># TODO see what the line below did. In my opinion, it is the remainder of some line
+</span><span class='comment'># I added for testing and forgot to remove
+</span><span class='comment'>#         path = file.sub( '/home/stefano/tmp/ruber', '').gsub('/', '_')
+</span>  <span class='id lines'>lines</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id readlines'>readlines</span><span class='lparen'>(</span><span class='id file'>file</span><span class='rparen'>)</span>
+  <span class='id lines_to_replace'>lines_to_replace</span><span class='period'>.</span><span class='id each_pair'>each_pair</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id idx'>idx</span><span class='comma'>,</span> <span class='id text'>text</span><span class='op'>|</span> <span class='id lines'>lines</span><span class='lbracket'>[</span><span class='id idx'>idx</span> <span class='op'>-</span> <span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id text'>text</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span>
+  <span class='id new_text'>new_text</span> <span class='op'>=</span> <span class='id lines'>lines</span><span class='period'>.</span><span class='id join'>join</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span>
+  <span class='kw'>if</span> <span class='id doc'>doc</span>
+    <span class='id pos'>pos</span> <span class='op'>=</span> <span class='id doc'>doc</span><span class='period'>.</span><span class='id view'>view</span><span class='period'>.</span><span class='id cursor_position'>cursor_position</span> <span class='kw'>if</span> <span class='id doc'>doc</span><span class='period'>.</span><span class='id view'>view</span>
+    <span class='kw'>return</span> <span class='symbol'>:doc_modified</span> <span class='kw'>if</span> <span class='id doc'>doc</span><span class='period'>.</span><span class='id modified?'>modified?</span>
+    <span class='id text'>text</span> <span class='op'>=</span> <span class='kw'>nil</span>
+    <span class='id doc'>doc</span><span class='period'>.</span><span class='id editing'>editing</span> <span class='kw'>do</span>
+      <span class='id text'>text</span> <span class='op'>=</span> <span class='id doc'>doc</span><span class='period'>.</span><span class='id text'>text</span>
+      <span class='id doc'>doc</span><span class='period'>.</span><span class='id clear'>clear</span>
+      <span class='id doc'>doc</span><span class='period'>.</span><span class='id text'>text</span> <span class='op'>=</span> <span class='id new_text'>new_text</span>
+    <span class='kw'>end</span>
+    <span class='id doc'>doc</span><span class='period'>.</span><span class='id save'>save</span>
+    <span class='id doc'>doc</span><span class='period'>.</span><span class='id view'>view</span><span class='period'>.</span><span class='id go_to'>go_to</span> <span class='id pos'>pos</span><span class='period'>.</span><span class='id line'>line</span><span class='comma'>,</span> <span class='id pos'>pos</span><span class='period'>.</span><span class='id column'>column</span> <span class='kw'>if</span> <span class='id pos'>pos</span>
+  <span class='kw'>else</span>
+    <span class='const'>Tempfile</span><span class='period'>.</span><span class='id open'>open</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id basename'>basename</span><span class='lparen'>(</span><span class='id file'>file</span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id f'>f</span><span class='op'>|</span>
+      <span class='id f'>f</span><span class='period'>.</span><span class='id write'>write</span> <span class='id new_text'>new_text</span>
+      <span class='id f'>f</span><span class='period'>.</span><span class='id flush'>flush</span>
+      <span class='kw'>begin</span> 
+        <span class='const'>FileUtils</span><span class='period'>.</span><span class='id cp'>cp</span> <span class='id f'>f</span><span class='period'>.</span><span class='id path'>path</span><span class='comma'>,</span> <span class='id file'>file</span>
+      <span class='kw'>rescue</span> <span class='const'>SystemCallError</span> <span class='op'>=&gt;</span> <span class='id e'>e</span>
+        <span class='kw'>return</span> <span class='id e'>e</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Signal Details</h2>
+    
+      <div class="method_details first">
+  <p class="signature first" id="file_added-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>file_added</strong>(QString str) 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted when a new file is added to the model.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>str</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the name of the file</p></div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Fri Oct 29 12:53:09 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.1 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>

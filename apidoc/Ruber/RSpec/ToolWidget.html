@@ -1,0 +1,1849 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>Class: Ruber::RSpec::ToolWidget</title>
+<link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '../..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../_index.html">Index (T)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../../Ruber.html" title="Ruber (module)">Ruber</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../RSpec.html" title="Ruber::RSpec (module)">RSpec</a></span></span>
+     &raquo; 
+    <span class="title">ToolWidget</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Ruber::RSpec::ToolWidget
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName"><span class='object_link'><a href="../FilteredOutputWidget.html" title="Ruber::FilteredOutputWidget (class)">FilteredOutputWidget</a></span></span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next">Qt::Widget</li>
+          
+            <li class="next"><span class='object_link'><a href="../OutputWidget.html" title="Ruber::OutputWidget (class)">OutputWidget</a></span></li>
+          
+            <li class="next"><span class='object_link'><a href="../FilteredOutputWidget.html" title="Ruber::FilteredOutputWidget (class)">FilteredOutputWidget</a></span></li>
+          
+            <li class="next">Ruber::RSpec::ToolWidget</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">plugins/rspec/rspec.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>Tool widget used by the rspec plugin.</p>
+<p>It displays the output from the spec program in a multi column tree. The name of
+failing or pending examples are displayed in a full line; all other information,
+such as the location of the example, the error message and so on are displayed
+in child items.</p>
+<p>While the examples are being run, a progress bar is shown.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+  <h2>Constant Summary</h2>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Constants inherited from <span class='object_link'><a href="../OutputWidget.html" title="Ruber::OutputWidget (class)">OutputWidget</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../OutputWidget.html#IsTitleRole-constant" title="Ruber::OutputWidget::IsTitleRole (constant)">IsTitleRole</a></span>, <span class='object_link'><a href="../OutputWidget.html#OutputTypeRole-constant" title="Ruber::OutputWidget::OutputTypeRole (constant)">OutputTypeRole</a></span></p>
+
+  
+  
+  
+  
+  
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#change_current_example-instance_method" title="#change_current_example (instance method)">- (nil) <strong>change_current_example</strong>(data) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Changes the current example.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#display_example-instance_method" title="#display_example (instance method)">- (Object) <strong>display_example</strong>(data) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Displays the data relative to an example in the widget.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#display_failed_example-instance_method" title="#display_failed_example (instance method)">- (nil) <strong>display_failed_example</strong>(data) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Displays information about a failed example in the tool widget.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#display_pending_example-instance_method" title="#display_pending_example (instance method)">- (nil) <strong>display_pending_example</strong>(data) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Displays information about a pending example in the tool widget.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#display_successful_example-instance_method" title="#display_successful_example (instance method)">- (nil) <strong>display_successful_example</strong>(data) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Updates the progress bar by incrementing its value by one.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#display_summary-instance_method" title="#display_summary (instance method)">- (nil) <strong>display_summary</strong>(data) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Displays a summary of the spec run in the tool widget.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#find_filename_in_index-instance_method" title="#find_filename_in_index (instance method)">- (Array&lt;String,Integer&gt;, ...) <strong>find_filename_in_index</strong>(idx) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Override of <span class='object_link'><a href="../OutputWidget.html#find_filename_in_index-instance_method" title="Ruber::OutputWidget#find_filename_in_index (method)">OutputWidget#find_filename_in_index</a></span>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (ToolWidget) <strong>initialize</strong>(parent = nil) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>A new instance of ToolWidget.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#set_example_count-instance_method" title="#set_example_count (instance method)">- (nil) <strong>set_example_count</strong>(data) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Sets the number of examples found by the spec program.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#setup_actions-instance_method" title="#setup_actions (instance method)">- (nil) <strong>setup_actions</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Creates the additional actions.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#spec_finished-instance_method" title="#spec_finished (instance method)">- (nil) <strong>spec_finished</strong>(code, reason) </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Does the necessary cleanup for when spec finishes running.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#spec_started-instance_method" title="#spec_started (instance method)">- (nil) <strong>spec_started</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Resets the tool widget and sets the cursor to busy.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#text_for_clipboard-instance_method" title="#text_for_clipboard (instance method)">- (QString) <strong>text_for_clipboard</strong>(idxs) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Override of <span class='object_link'><a href="../OutputWidget.html#text_for_clipboard-instance_method" title="Ruber::OutputWidget#text_for_clipboard (method)">OutputWidget#text_for_clipboard</a></span>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#title%3D-instance_method" title="#title= (instance method)">- (Object) <strong>title</strong>(val) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Override of <span class='object_link'><a href="../OutputWidget.html#title%3D-instance_method" title="Ruber::OutputWidget#title= (method)">OutputWidget#title=</a></span>.</p></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="../FilteredOutputWidget.html" title="Ruber::FilteredOutputWidget (class)">FilteredOutputWidget</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../FilteredOutputWidget.html#clear_filter-instance_method" title="Ruber::FilteredOutputWidget#clear_filter (method)">#clear_filter</a></span>, <span class='object_link'><a href="../FilteredOutputWidget.html#copy-instance_method" title="Ruber::FilteredOutputWidget#copy (method)">#copy</a></span>, <span class='object_link'><a href="../FilteredOutputWidget.html#copy_selected-instance_method" title="Ruber::FilteredOutputWidget#copy_selected (method)">#copy_selected</a></span>, <span class='object_link'><a href="../FilteredOutputWidget.html#create_filter_from_editor-instance_method" title="Ruber::FilteredOutputWidget#create_filter_from_editor (method)">#create_filter_from_editor</a></span>, <span class='object_link'><a href="../FilteredOutputWidget.html#create_standard_actions-instance_method" title="Ruber::FilteredOutputWidget#create_standard_actions (method)">#create_standard_actions</a></span>, <span class='object_link'><a href="../FilteredOutputWidget.html#ignore_filter-instance_method" title="Ruber::FilteredOutputWidget#ignore_filter (method)">#ignore_filter</a></span>, <span class='object_link'><a href="../FilteredOutputWidget.html#keyReleaseEvent-class_method" title="Ruber::FilteredOutputWidget.keyReleaseEvent (method)">keyReleaseEvent</a></span>, <span class='object_link'><a href="../FilteredOutputWidget.html#maybe_open_file-instance_method" title="Ruber::FilteredOutputWidget#maybe_open_file (method)">#maybe_open_file</a></span>, <span class='object_link'><a href="../FilteredOutputWidget.html#scroll_to-instance_method" title="Ruber::FilteredOutputWidget#scroll_to (method)">#scroll_to</a></span>, <span class='object_link'><a href="../FilteredOutputWidget.html#show_editor-instance_method" title="Ruber::FilteredOutputWidget#show_editor (method)">#show_editor</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="../OutputWidget.html" title="Ruber::OutputWidget (class)">OutputWidget</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../OutputWidget.html#clear_output-instance_method" title="Ruber::OutputWidget#clear_output (method)">#clear_output</a></span>, <span class='object_link'><a href="../OutputWidget.html#copy-instance_method" title="Ruber::OutputWidget#copy (method)">#copy</a></span>, <span class='object_link'><a href="../OutputWidget.html#copy_selected-instance_method" title="Ruber::OutputWidget#copy_selected (method)">#copy_selected</a></span>, <span class='object_link'><a href="../OutputWidget.html#create_standard_actions-instance_method" title="Ruber::OutputWidget#create_standard_actions (method)">#create_standard_actions</a></span>, <span class='object_link'><a href="../OutputWidget.html#create_widgets-instance_method" title="Ruber::OutputWidget#create_widgets (method)">#create_widgets</a></span>, <span class='object_link'><a href="../OutputWidget.html#do_auto_scroll-instance_method" title="Ruber::OutputWidget#do_auto_scroll (method)">#do_auto_scroll</a></span>, <span class='object_link'><a href="../OutputWidget.html#fill_menu-instance_method" title="Ruber::OutputWidget#fill_menu (method)">#fill_menu</a></span>, <span class='object_link'><a href="../OutputWidget.html#find_filename_in_string-instance_method" title="Ruber::OutputWidget#find_filename_in_string (method)">#find_filename_in_string</a></span>, <span class='object_link'><a href="../OutputWidget.html#has_title%3F-instance_method" title="Ruber::OutputWidget#has_title? (method)">#has_title?</a></span>, <span class='object_link'><a href="../OutputWidget.html#load_settings-instance_method" title="Ruber::OutputWidget#load_settings (method)">#load_settings</a></span>, <span class='object_link'><a href="../OutputWidget.html#maybe_open_file-instance_method" title="Ruber::OutputWidget#maybe_open_file (method)">#maybe_open_file</a></span>, <span class='object_link'><a href="../OutputWidget.html#rows_changed-instance_method" title="Ruber::OutputWidget#rows_changed (method)">#rows_changed</a></span>, <span class='object_link'><a href="../OutputWidget.html#scroll_to-instance_method" title="Ruber::OutputWidget#scroll_to (method)">#scroll_to</a></span>, <span class='object_link'><a href="../OutputWidget.html#selection_changed-instance_method" title="Ruber::OutputWidget#selection_changed (method)">#selection_changed</a></span>, <span class='object_link'><a href="../OutputWidget.html#set_color_for-instance_method" title="Ruber::OutputWidget#set_color_for (method)">#set_color_for</a></span>, <span class='object_link'><a href="../OutputWidget.html#set_output_type-instance_method" title="Ruber::OutputWidget#set_output_type (method)">#set_output_type</a></span>, <span class='object_link'><a href="../OutputWidget.html#setup_model-instance_method" title="Ruber::OutputWidget#setup_model (method)">#setup_model</a></span>, <span class='object_link'><a href="../OutputWidget.html#show_menu-instance_method" title="Ruber::OutputWidget#show_menu (method)">#show_menu</a></span>, <span class='object_link'><a href="../OutputWidget.html#update_index_color-instance_method" title="Ruber::OutputWidget#update_index_color (method)">#update_index_color</a></span>, <span class='object_link'><a href="../OutputWidget.html#with_auto_scrolling-instance_method" title="Ruber::OutputWidget#with_auto_scrolling (method)">#with_auto_scrolling</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="../GuiStatesHandler.html" title="Ruber::GuiStatesHandler (module)">GuiStatesHandler</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../GuiStatesHandler.html#change_state-instance_method" title="Ruber::GuiStatesHandler#change_state (method)">#change_state</a></span>, <span class='object_link'><a href="../GuiStatesHandler.html#included-class_method" title="Ruber::GuiStatesHandler.included (method)">included</a></span>, <span class='object_link'><a href="../GuiStatesHandler.html#initialize_states_handler-instance_method" title="Ruber::GuiStatesHandler#initialize_states_handler (method)">#initialize_states_handler</a></span>, <span class='object_link'><a href="../GuiStatesHandler.html#register_action_handler-instance_method" title="Ruber::GuiStatesHandler#register_action_handler (method)">#register_action_handler</a></span>, <span class='object_link'><a href="../GuiStatesHandler.html#remove_action_handler_for-instance_method" title="Ruber::GuiStatesHandler#remove_action_handler_for (method)">#remove_action_handler_for</a></span>, <span class='object_link'><a href="../GuiStatesHandler.html#state-instance_method" title="Ruber::GuiStatesHandler#state (method)">#state</a></span></p>
+
+  
+
+
+
+
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::RSpec::ToolWidget (class)">ToolWidget</a></span></tt>) <strong>initialize</strong>(parent = nil) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>A new instance of ToolWidget</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>Qt::Widget</tt>, <tt>nil</tt>)</span>
+      
+      
+        <span class='name'>parent</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>the parent widget</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+570
+571
+572
+573
+574
+575
+576
+577
+578
+579
+580
+581
+582
+583
+584
+585
+586
+587
+588
+589
+590
+591</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 570</span>
+
+<span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id parent'>parent</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='kw'>super</span> <span class='id parent'>parent</span><span class='comma'>,</span> <span class='symbol'>:view</span> <span class='op'>=&gt;</span> <span class='symbol'>:tree</span><span class='comma'>,</span> <span class='symbol'>:filter</span> <span class='op'>=&gt;</span> <span class='const'>FilterModel</span><span class='period'>.</span><span class='id new'>new</span>
+  <span class='ivar'>@ignore_word_wrap_option</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='id view'>view</span><span class='period'>.</span><span class='id word_wrap'>word_wrap</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='id view'>view</span><span class='period'>.</span><span class='id horizontal_scroll_mode'>horizontal_scroll_mode</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>AbstractItemView</span><span class='op'>::</span><span class='const'>ScrollPerItem</span>
+<span class='comment'>#         view.text_elide_mode = Qt::ElideNone
+</span>  <span class='id model'>model</span><span class='period'>.</span><span class='id append_column'>append_column</span> <span class='lbracket'>[</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id model'>model</span><span class='period'>.</span><span class='id column_count'>column_count</span> <span class='op'>&lt;</span> <span class='int'>2</span>
+  <span class='ivar'>@progress_bar</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>ProgressBar</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='rparen'>)</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id w'>w</span><span class='op'>|</span> <span class='id w'>w</span><span class='period'>.</span><span class='id hide'>hide</span><span class='rbrace'>}</span>
+  <span class='id layout'>layout</span><span class='period'>.</span><span class='id add_widget'>add_widget</span> <span class='ivar'>@progress_bar</span><span class='comma'>,</span> <span class='int'>1</span><span class='comma'>,</span><span class='int'>0</span>
+  <span class='id view'>view</span><span class='period'>.</span><span class='id header_hidden'>header_hidden</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='id view'>view</span><span class='period'>.</span><span class='id header'>header</span><span class='period'>.</span><span class='id resize_mode'>resize_mode</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>HeaderView</span><span class='op'>::</span><span class='const'>ResizeToContents</span>
+  <span class='id connect'>connect</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:rspec</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:process_started</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:spec_started</span><span class='rparen'>)</span>
+  <span class='id connect'>connect</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:rspec</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>process_finished(int, QString)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>spec_finished(int, QString)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+  <span class='id filter'>filter</span><span class='period'>.</span><span class='id connect'>connect</span><span class='lparen'>(</span><span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rowsInserted(QModelIndex, int, int)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id par'>par</span><span class='comma'>,</span> <span class='id st'>st</span><span class='comma'>,</span> <span class='id en'>en</span><span class='op'>|</span>
+    <span class='kw'>if</span> <span class='op'>!</span><span class='id par'>par</span><span class='period'>.</span><span class='id valid?'>valid?</span>
+      <span class='id st'>st</span><span class='period'>.</span><span class='id upto'>upto</span><span class='lparen'>(</span><span class='id en'>en</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span>
+        <span class='id view'>view</span><span class='period'>.</span><span class='id set_first_column_spanned'>set_first_column_spanned</span> <span class='id i'>i</span><span class='comma'>,</span> <span class='id par'>par</span><span class='comma'>,</span> <span class='kw'>true</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='id setup_actions'>setup_actions</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="change_current_example-instance_method">
+  
+    - (<tt>nil</tt>) <strong>change_current_example</strong>(data) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Changes the current example</p>
+<p>Currently, this only affects the tool tip displayed by the progress bar.</p>
+<p>which contains the text of the tool tip to use.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <span class='name'>data</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the data to use. It must contain the <code>:description</code> entry,</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+637
+638
+639
+640</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 637</span>
+
+<span class='kw'>def</span> <span class='id change_current_example'>change_current_example</span> <span class='id data'>data</span>
+  <span class='ivar'>@progress_bar</span><span class='period'>.</span><span class='id tool_tip'>tool_tip</span> <span class='op'>=</span> <span class='id data'>data</span><span class='lbracket'>[</span><span class='symbol'>:description</span><span class='rbracket'>]</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="display_example-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>display_example</strong>(data) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Displays the data relative to an example in the widget</p>
+<p>Actually, this method simply passes its argument to a more specific method, depending
+on the data it contains.</p>
+<p>the example. This hash must contain the <code>:type</code> key, which tells which kind of
+event the hash describes. The other entries change depending on the method which
+will be called, which is determined according to the <code>:type</code> entry:</p>
+<ul>
+	<li><code>:success</code>: <span class='object_link'><a href="#display_successful_example-instance_method" title="Ruber::RSpec::ToolWidget#display_successful_example (method)">#display_successful_example</a></span></li>
+	<li><code>:failure</code>: <span class='object_link'><a href="#display_failed_example-instance_method" title="Ruber::RSpec::ToolWidget#display_failed_example (method)">#display_failed_example</a></span></li>
+	<li><code>:pending</code>: <span class='object_link'><a href="#display_pending_example-instance_method" title="Ruber::RSpec::ToolWidget#display_pending_example (method)">#display_pending_example</a></span></li>
+	<li><code>:new_example</code>: <span class='object_link'><a href="#change_current_example-instance_method" title="Ruber::RSpec::ToolWidget#change_current_example (method)">#change_current_example</a></span></li>
+	<li><code>:start</code>: <span class='object_link'><a href="#set_example_count-instance_method" title="Ruber::RSpec::ToolWidget#set_example_count (method)">#set_example_count</a></span></li>
+	<li><code>:summary</code>: <span class='object_link'><a href="#display_summary-instance_method" title="Ruber::RSpec::ToolWidget#display_summary (method)">#display_summary</a></span>
+If the <code>:type</code> entry doesn&#8217;t have one of the previous values, the hash will be
+converted to a string and displayed in the widget</li>
+</ul>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <span class='name'>data</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>a hash containing the data describing the results of running</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+612
+613
+614
+615
+616
+617
+618
+619
+620
+621
+622
+623
+624
+625
+626</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 612</span>
+
+<span class='kw'>def</span> <span class='id display_example'>display_example</span> <span class='id data'>data</span>
+  <span class='kw'>unless</span> <span class='id data'>data</span><span class='period'>.</span><span class='id is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Hash</span><span class='rparen'>)</span>
+    <span class='id model'>model</span><span class='period'>.</span><span class='id insert_lines'>insert_lines</span> <span class='id data'>data</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='comma'>,</span> <span class='symbol'>:output</span><span class='comma'>,</span> <span class='kw'>nil</span>
+    <span class='kw'>return</span>
+  <span class='kw'>end</span>
+  <span class='kw'>case</span> <span class='id data'>data</span><span class='lbracket'>[</span><span class='symbol'>:type</span><span class='rbracket'>]</span>
+  <span class='kw'>when</span> <span class='symbol'>:success</span> <span class='kw'>then</span> <span class='id display_successful_example'>display_successful_example</span> <span class='id data'>data</span>
+  <span class='kw'>when</span> <span class='symbol'>:failure</span> <span class='kw'>then</span> <span class='id display_failed_example'>display_failed_example</span> <span class='id data'>data</span>
+  <span class='kw'>when</span> <span class='symbol'>:pending</span> <span class='kw'>then</span> <span class='id display_pending_example'>display_pending_example</span> <span class='id data'>data</span>
+  <span class='kw'>when</span> <span class='symbol'>:new_example</span> <span class='kw'>then</span> <span class='id change_current_example'>change_current_example</span> <span class='id data'>data</span>
+  <span class='kw'>when</span> <span class='symbol'>:start</span> <span class='kw'>then</span> <span class='id set_example_count'>set_example_count</span> <span class='id data'>data</span>
+  <span class='kw'>when</span> <span class='symbol'>:summary</span> <span class='kw'>then</span> <span class='id display_summary'>display_summary</span> <span class='id data'>data</span>
+  <span class='kw'>else</span> <span class='id model'>model</span><span class='period'>.</span><span class='id insert_lines'>insert_lines</span> <span class='id data'>data</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='comma'>,</span> <span class='symbol'>:output</span><span class='comma'>,</span> <span class='kw'>nil</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="display_failed_example-instance_method">
+  
+    - (<tt>nil</tt>) <strong>display_failed_example</strong>(data) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Displays information about a failed example in the tool widget.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <span class='name'>data</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the data about the example.</p></div>
+      
+    </li>
+  
+</ul>
+
+  
+    
+    
+    <h3>Options Hash (<tt>data</tt>):</h3>
+    <ul class="option">
+      
+        <li>
+          <span class="type">(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="name">:location</span>
+          <span class="default">
+            
+              <span class="na">N/A</span>
+            
+          </span>
+          &mdash;<div class='inline'><p>the line number where the error occurred</p></div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="name">:description</span>
+          <span class="default">
+            
+              <span class="na">N/A</span>
+            
+          </span>
+          &mdash;<div class='inline'><p>the name of the failed example</p></div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="name">:message</span>
+          <span class="default">
+            
+              <span class="na">N/A</span>
+            
+          </span>
+          &mdash;<div class='inline'><p>the explaination of why the example failed</p></div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="name">:exception</span>
+          <span class="default">
+            
+              <span class="na">N/A</span>
+            
+          </span>
+          &mdash;<div class='inline'><p>the content of the exception</p></div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="name">:backtrace</span>
+          <span class="default">
+            
+              <span class="na">N/A</span>
+            
+          </span>
+          &mdash;<div class='inline'><p>the backtrace of the exception (a single new-line separated string)</p></div>
+        </tr>
+      
+    </ul>
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+680
+681
+682
+683
+684
+685
+686
+687
+688
+689
+690
+691
+692
+693
+694
+695
+696
+697
+698
+699
+700
+701
+702
+703</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 680</span>
+
+<span class='kw'>def</span> <span class='id display_failed_example'>display_failed_example</span> <span class='id data'>data</span>
+  <span class='ivar'>@progress_bar</span><span class='period'>.</span><span class='id value'>value</span> <span class='op'>+=</span> <span class='int'>1</span>
+  <span class='id top'>top</span> <span class='op'>=</span> <span class='id model'>model</span><span class='period'>.</span><span class='id insert'>insert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[FAILURE] </span><span class='embexpr_beg'>#{</span><span class='id data'>data</span><span class='lbracket'>[</span><span class='symbol'>:description</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:error</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='rparen'>)</span><span class='period'>.</span><span class='id first'>first</span>
+  <span class='id model'>model</span><span class='period'>.</span><span class='id insert'>insert</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>From:</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='id data'>data</span><span class='lbracket'>[</span><span class='symbol'>:location</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:message</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='symbol'>:parent</span> <span class='op'>=&gt;</span> <span class='id top'>top</span>
+  <span class='id ex_label'>ex_label</span> <span class='op'>=</span> <span class='id model'>model</span><span class='period'>.</span><span class='id insert'>insert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Exception:</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='symbol'>:message</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='symbol'>:parent</span> <span class='op'>=&gt;</span> <span class='id top'>top</span><span class='rparen'>)</span><span class='period'>.</span><span class='id first'>first</span>
+  <span class='id exception_body'>exception_body</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id data'>data</span><span class='lbracket'>[</span><span class='symbol'>:message</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_content'> (</span><span class='embexpr_beg'>#{</span><span class='id data'>data</span><span class='lbracket'>[</span><span class='symbol'>:exception</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_content'>)</span><span class='tstring_end'>&quot;</span></span><span class='period'>.</span><span class='id split_lines'>split_lines</span><span class='period'>.</span><span class='id delete_if'>delete_if</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id l'>l</span><span class='op'>|</span> <span class='id l'>l</span><span class='period'>.</span><span class='id strip'>strip</span><span class='period'>.</span><span class='id empty?'>empty?</span><span class='rbrace'>}</span>
+  <span class='comment'>#exception_body may contain more than one line and some of them may be empty
+</span>  <span class='id model'>model</span><span class='period'>.</span><span class='id set'>set</span> <span class='id exception_body'>exception_body</span><span class='period'>.</span><span class='id shift'>shift</span><span class='comma'>,</span> <span class='symbol'>:message</span><span class='comma'>,</span> <span class='id ex_label'>ex_label</span><span class='period'>.</span><span class='id row'>row</span><span class='comma'>,</span> <span class='symbol'>:col</span> <span class='op'>=&gt;</span> <span class='int'>1</span><span class='comma'>,</span> <span class='symbol'>:parent</span> <span class='op'>=&gt;</span> <span class='id top'>top</span>
+  <span class='id exception_body'>exception_body</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id l'>l</span><span class='op'>|</span>
+    <span class='kw'>unless</span> <span class='id l'>l</span><span class='period'>.</span><span class='id strip'>strip</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+      <span class='id model'>model</span><span class='period'>.</span><span class='id set'>set</span> <span class='id l'>l</span><span class='comma'>,</span> <span class='symbol'>:message</span><span class='comma'>,</span> <span class='id top'>top</span><span class='period'>.</span><span class='id row_count'>row_count</span><span class='comma'>,</span> <span class='symbol'>:col</span> <span class='op'>=&gt;</span> <span class='int'>1</span><span class='comma'>,</span> <span class='symbol'>:parent</span> <span class='op'>=&gt;</span> <span class='id top'>top</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='id backtrace'>backtrace</span> <span class='op'>=</span> <span class='id data'>data</span><span class='lbracket'>[</span><span class='symbol'>:backtrace</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id split_lines'>split_lines</span>
+  <span class='id back_label'>back_label</span><span class='comma'>,</span> <span class='id back'>back</span> <span class='op'>=</span> <span class='id model'>model</span><span class='period'>.</span><span class='id insert'>insert</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Backtrace:</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='id backtrace'>backtrace</span><span class='period'>.</span><span class='id shift'>shift</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:message</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='symbol'>:parent</span> <span class='op'>=&gt;</span> <span class='id top'>top</span><span class='rparen'>)</span>
+  <span class='id backtrace'>backtrace</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id l'>l</span><span class='op'>|</span>
+    <span class='id model'>model</span><span class='period'>.</span><span class='id insert'>insert</span> <span class='lbracket'>[</span><span class='kw'>nil</span><span class='comma'>,</span> <span class='id l'>l</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:message</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='symbol'>:parent</span> <span class='op'>=&gt;</span> <span class='id back_label'>back_label</span>
+  <span class='kw'>end</span>
+  <span class='id top_index'>top_index</span> <span class='op'>=</span> <span class='id filter'>filter</span><span class='period'>.</span><span class='id map_from_source'>map_from_source</span><span class='lparen'>(</span><span class='id top'>top</span><span class='period'>.</span><span class='id index'>index</span><span class='rparen'>)</span>
+  <span class='id view'>view</span><span class='period'>.</span><span class='id collapse'>collapse</span> <span class='id top_index'>top_index</span>
+  <span class='id view'>view</span><span class='period'>.</span><span class='id set_first_column_spanned'>set_first_column_spanned</span> <span class='id top_index'>top_index</span><span class='period'>.</span><span class='id row'>row</span><span class='comma'>,</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>ModelIndex</span><span class='period'>.</span><span class='id new'>new</span><span class='comma'>,</span> <span class='kw'>true</span>
+  <span class='id view'>view</span><span class='period'>.</span><span class='id expand'>expand</span> <span class='id filter'>filter</span><span class='period'>.</span><span class='id map_from_source'>map_from_source</span><span class='lparen'>(</span><span class='id back_label'>back_label</span><span class='period'>.</span><span class='id index'>index</span><span class='rparen'>)</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="display_pending_example-instance_method">
+  
+    - (<tt>nil</tt>) <strong>display_pending_example</strong>(data) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Displays information about a pending example in the tool widget</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <span class='name'>data</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+  
+    
+    
+    <h3>Options Hash (<tt>data</tt>):</h3>
+    <ul class="option">
+      
+        <li>
+          <span class="type">(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="name">:location</span>
+          <span class="default">
+            
+              <span class="na">N/A</span>
+            
+          </span>
+          &mdash;<div class='inline'><p>the line number where the error occurred</p></div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="name">:description</span>
+          <span class="default">
+            
+              <span class="na">N/A</span>
+            
+          </span>
+          &mdash;<div class='inline'><p>the name of the failed example</p></div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="name">:message</span>
+          <span class="default">
+            
+              <span class="na">N/A</span>
+            
+          </span>
+          &mdash;<div class='inline'><p>the explaination of why the example failed</p></div>
+        </tr>
+      
+    </ul>
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+714
+715
+716
+717
+718
+719
+720</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 714</span>
+
+<span class='kw'>def</span> <span class='id display_pending_example'>display_pending_example</span> <span class='id data'>data</span>
+  <span class='ivar'>@progress_bar</span><span class='period'>.</span><span class='id value'>value</span> <span class='op'>+=</span> <span class='int'>1</span>
+  <span class='id top'>top</span> <span class='op'>=</span> <span class='id model'>model</span><span class='period'>.</span><span class='id insert'>insert</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[PENDING] </span><span class='embexpr_beg'>#{</span><span class='id data'>data</span><span class='lbracket'>[</span><span class='symbol'>:description</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:warning</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
+  <span class='id model'>model</span><span class='period'>.</span><span class='id insert'>insert</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>From:</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='id data'>data</span><span class='lbracket'>[</span><span class='symbol'>:location</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:message</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='symbol'>:parent</span> <span class='op'>=&gt;</span> <span class='id top'>top</span>
+  <span class='id model'>model</span><span class='period'>.</span><span class='id insert'>insert</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Message: </span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id data'>data</span><span class='lbracket'>[</span><span class='symbol'>:message</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_content'> (</span><span class='embexpr_beg'>#{</span><span class='id data'>data</span><span class='lbracket'>[</span><span class='symbol'>:exception</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_content'>)</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:message</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='symbol'>:parent</span> <span class='op'>=&gt;</span> <span class='id top'>top</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="display_successful_example-instance_method">
+  
+    - (<tt>nil</tt>) <strong>display_successful_example</strong>(data) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Updates the progress bar by incrementing its value by one</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <span class='name'>data</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the data to use. Currently it&#8217;s unused</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+663
+664
+665
+666</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 663</span>
+
+<span class='kw'>def</span> <span class='id display_successful_example'>display_successful_example</span> <span class='id data'>data</span>
+  <span class='ivar'>@progress_bar</span><span class='period'>.</span><span class='id value'>value</span> <span class='op'>+=</span> <span class='int'>1</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="display_summary-instance_method">
+  
+    - (<tt>nil</tt>) <strong>display_summary</strong>(data) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Displays a summary of the spec run in the tool widget</p>
+<p>The summary is a single title line which contains the number or successful, pending
+and failed example.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <span class='name'>data</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+  
+    
+    
+    <h3>Options Hash (<tt>data</tt>):</h3>
+    <ul class="option">
+      
+        <li>
+          <span class="type">(<tt>Integer</tt>)</span>
+          <span class="name">:total</span>
+          <span class="default">
+            
+              <span class="na">N/A</span>
+            
+          </span>
+          &mdash;<div class='inline'><p>the number of run examples</p></div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt>Integer</tt>)</span>
+          <span class="name">:passed</span>
+          <span class="default">
+            
+              <span class="na">N/A</span>
+            
+          </span>
+          &mdash;<div class='inline'><p>the number of passed examples</p></div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt>Integer</tt>)</span>
+          <span class="name">:failed</span>
+          <span class="default">
+            
+              <span class="na">N/A</span>
+            
+          </span>
+          &mdash;<div class='inline'><p>the number of failed examples</p></div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt>Integer</tt>)</span>
+          <span class="name">:pending</span>
+          <span class="default">
+            
+              <span class="na">N/A</span>
+            
+          </span>
+          &mdash;<div class='inline'><p>the number of pending examples</p></div>
+        </tr>
+      
+    </ul>
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+735
+736
+737
+738
+739
+740
+741
+742
+743
+744
+745
+746
+747
+748
+749
+750</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 735</span>
+
+<span class='kw'>def</span> <span class='id display_summary'>display_summary</span> <span class='id data'>data</span>
+  <span class='ivar'>@progress_bar</span><span class='period'>.</span><span class='id hide'>hide</span>
+  <span class='kw'>if</span> <span class='id data'>data</span><span class='lbracket'>[</span><span class='symbol'>:passed</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='id data'>data</span><span class='lbracket'>[</span><span class='symbol'>:total</span><span class='rbracket'>]</span>
+    <span class='kw'>self</span><span class='period'>.</span><span class='id title'>title</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[SUMMARY] All </span><span class='embexpr_beg'>#{</span><span class='id data'>data</span><span class='lbracket'>[</span><span class='symbol'>:total</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_content'> examples passed</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id set_output_type'>set_output_type</span> <span class='id model'>model</span><span class='period'>.</span><span class='id index'>index</span><span class='lparen'>(</span><span class='int'>0</span><span class='comma'>,</span><span class='int'>0</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='symbol'>:message_good</span>
+  <span class='kw'>else</span>
+    <span class='id text'>text</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>[SUMMARY]      Examples: </span><span class='embexpr_beg'>#{</span><span class='id data'>data</span><span class='lbracket'>[</span><span class='symbol'>:total</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id text'>text</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>      Failed: </span><span class='embexpr_beg'>#{</span><span class='id data'>data</span><span class='lbracket'>[</span><span class='symbol'>:failure</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id data'>data</span><span class='lbracket'>[</span><span class='symbol'>:failure</span><span class='rbracket'>]</span> <span class='op'>&gt;</span> <span class='int'>0</span>
+    <span class='id text'>text</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>      Pending: </span><span class='embexpr_beg'>#{</span><span class='id data'>data</span><span class='lbracket'>[</span><span class='symbol'>:pending</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id data'>data</span><span class='lbracket'>[</span><span class='symbol'>:pending</span><span class='rbracket'>]</span> <span class='op'>&gt;</span> <span class='int'>0</span>
+    <span class='id text'>text</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>      Passed: </span><span class='embexpr_beg'>#{</span><span class='id data'>data</span><span class='lbracket'>[</span><span class='symbol'>:passed</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>self</span><span class='period'>.</span><span class='id title'>title</span> <span class='op'>=</span> <span class='id text'>text</span>
+    <span class='id type'>type</span> <span class='op'>=</span> <span class='id data'>data</span><span class='lbracket'>[</span><span class='symbol'>:failure</span><span class='rbracket'>]</span> <span class='op'>&gt;</span> <span class='int'>0</span> <span class='op'>?</span> <span class='symbol'>:message_bad</span> <span class='op'>:</span> <span class='symbol'>:message</span>
+    <span class='id set_output_type'>set_output_type</span> <span class='id model'>model</span><span class='period'>.</span><span class='id index'>index</span><span class='lparen'>(</span><span class='int'>0</span><span class='comma'>,</span><span class='int'>0</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id type'>type</span>
+  <span class='kw'>end</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="find_filename_in_index-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>,Integer&gt;</tt>, ...) <strong>find_filename_in_index</strong>(idx)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Override of <span class='object_link'><a href="../OutputWidget.html#find_filename_in_index-instance_method" title="Ruber::OutputWidget#find_filename_in_index (method)">OutputWidget#find_filename_in_index</a></span></p>
+<p>It works as the base class method, but, if it doesn&#8217;t find a result in <em>idx</em>,
+it looks for it in the parent indexes</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>Qt::ModelIndex</tt>)</span>
+      
+      
+        <span class='name'>idx</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the index where to look for a file name</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>,Integer&gt;</tt>, <tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>see <span class='object_link'><a href="../OutputWidget.html#find_filename_in_index-instance_method" title="Ruber::OutputWidget#find_filename_in_index (method)">OutputWidget#find_filename_in_index</a></span></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+840
+841
+842
+843
+844
+845
+846
+847
+848</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 840</span>
+
+<span class='kw'>def</span> <span class='id find_filename_in_index'>find_filename_in_index</span> <span class='id idx'>idx</span>
+  <span class='id res'>res</span> <span class='op'>=</span> <span class='kw'>super</span>
+  <span class='kw'>unless</span> <span class='id res'>res</span>
+    <span class='id idx'>idx</span> <span class='op'>=</span> <span class='id idx'>idx</span><span class='period'>.</span><span class='id parent'>parent</span> <span class='kw'>while</span> <span class='id idx'>idx</span><span class='period'>.</span><span class='id parent'>parent</span><span class='period'>.</span><span class='id valid?'>valid?</span>
+    <span class='id idx'>idx</span> <span class='op'>=</span> <span class='id idx'>idx</span><span class='period'>.</span><span class='id child'>child</span><span class='lparen'>(</span><span class='int'>0</span><span class='comma'>,</span><span class='int'>1</span><span class='rparen'>)</span>
+    <span class='id res'>res</span> <span class='op'>=</span> <span class='kw'>super</span> <span class='id idx'>idx</span> <span class='kw'>if</span> <span class='id idx'>idx</span><span class='period'>.</span><span class='id valid?'>valid?</span>
+  <span class='kw'>end</span>
+  <span class='id res'>res</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="set_example_count-instance_method">
+  
+    - (<tt>nil</tt>) <strong>set_example_count</strong>(data) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Sets the number of examples found by the spec program.</p>
+<p>This is used to set the maximum value of the progress bar.</p>
+<p>which contains the number of examples</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <span class='name'>data</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the data to use. It must contain the <code>:count</code> entry,</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+651
+652
+653
+654</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 651</span>
+
+<span class='kw'>def</span> <span class='id set_example_count'>set_example_count</span> <span class='id data'>data</span>
+  <span class='ivar'>@progress_bar</span><span class='period'>.</span><span class='id maximum'>maximum</span> <span class='op'>=</span> <span class='id data'>data</span><span class='lbracket'>[</span><span class='symbol'>:count</span><span class='rbracket'>]</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="setup_actions-instance_method">
+  
+    - (<tt>nil</tt>) <strong>setup_actions</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Creates the additional actions.</p>
+<p>It adds a single action, which allows the user to chose whether messages from
+standard error should be displayed or not.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+823
+824
+825
+826
+827
+828
+829</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 823</span>
+
+<span class='kw'>def</span> <span class='id setup_actions'>setup_actions</span>
+  <span class='id action_list'>action_list</span> <span class='op'>&lt;&lt;</span> <span class='kw'>nil</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>show_stderr</span><span class='tstring_end'>'</span></span>
+  <span class='id a'>a</span> <span class='op'>=</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>ToggleAction</span><span class='period'>.</span><span class='id new'>new</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>S&amp;how Standard Error</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='kw'>self</span>
+  <span class='id actions'>actions</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>show_stderr</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id a'>a</span>
+  <span class='id a'>a</span><span class='period'>.</span><span class='id checked'>checked</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='id connect'>connect</span> <span class='id a'>a</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>toggled(bool)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id filter'>filter</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>toggle_display_stderr(bool)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="spec_finished-instance_method">
+  
+    - (<tt>nil</tt>) <strong>spec_finished</strong>(code, reason)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Does the necessary cleanup for when spec finishes running</p>
+<p>It hides the progress widget and restores the default cursor.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <span class='name'>code</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the exit code</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>reason</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>why the program exited</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+790
+791
+792
+793
+794
+795
+796
+797
+798
+799
+800
+801
+802
+803
+804
+805
+806
+807
+808
+809
+810
+811
+812
+813</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 790</span>
+
+<span class='kw'>def</span> <span class='id spec_finished'>spec_finished</span> <span class='id code'>code</span><span class='comma'>,</span> <span class='id reason'>reason</span>
+  <span class='ivar'>@progress_bar</span><span class='period'>.</span><span class='id hide'>hide</span>
+  <span class='ivar'>@progress_bar</span><span class='period'>.</span><span class='id value'>value</span> <span class='op'>=</span> <span class='int'>0</span>
+  <span class='ivar'>@progress_bar</span><span class='period'>.</span><span class='id maximum'>maximum</span> <span class='op'>=</span> <span class='int'>100</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id set_focus'>set_focus</span>
+  <span class='id unset_cursor'>unset_cursor</span>
+  <span class='kw'>unless</span> <span class='id reason'>reason</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>killed</span><span class='tstring_end'>'</span></span>
+    <span class='id non_stderr_types'>non_stderr_types</span> <span class='op'>=</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>message</span><span class='words_sep'> </span><span class='tstring_content'>message_good</span><span class='words_sep'> </span><span class='tstring_content'>message_bad</span><span class='words_sep'> </span><span class='tstring_content'>warning</span><span class='words_sep'> </span><span class='tstring_content'>error</span><span class='words_sep'>]</span>
+    <span class='id only_stderr'>only_stderr</span> <span class='op'>=</span> <span class='op'>!</span><span class='id model'>model</span><span class='period'>.</span><span class='id item'>item</span><span class='lparen'>(</span><span class='int'>0</span><span class='comma'>,</span><span class='int'>0</span><span class='rparen'>)</span><span class='period'>.</span><span class='id text'>text</span><span class='period'>.</span><span class='id match'>match</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^\[SUMMARY\]</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span>
+    <span class='kw'>if</span> <span class='id only_stderr'>only_stderr</span>
+      <span class='int'>1</span><span class='period'>.</span><span class='id upto'>upto</span><span class='lparen'>(</span><span class='id model'>model</span><span class='period'>.</span><span class='id row_count'>row_count</span> <span class='op'>-</span> <span class='int'>1</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span>
+        <span class='kw'>if</span> <span class='id non_stderr_types'>non_stderr_types</span><span class='period'>.</span><span class='id include?'>include?</span> <span class='id model'>model</span><span class='period'>.</span><span class='id item'>item</span><span class='lparen'>(</span><span class='id i'>i</span><span class='comma'>,</span><span class='int'>0</span><span class='rparen'>)</span><span class='period'>.</span><span class='id data'>data</span><span class='lparen'>(</span><span class='const'>OutputWidget</span><span class='op'>::</span><span class='const'>OutputTypeRole</span><span class='rparen'>)</span><span class='period'>.</span><span class='id to_string'>to_string</span>
+          <span class='id only_stderr'>only_stderr</span> <span class='op'>=</span> <span class='kw'>false</span>
+          <span class='kw'>break</span>
+        <span class='kw'>end</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+    <span class='kw'>if</span> <span class='id only_stderr'>only_stderr</span>
+      <span class='id actions'>actions</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>show_stderr</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id checked'>checked</span> <span class='op'>=</span> <span class='kw'>true</span>
+      <span class='id model'>model</span><span class='period'>.</span><span class='id insert'>insert</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>spec wasn't able to run the examples</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:message_bad</span><span class='comma'>,</span> <span class='kw'>nil</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>spec_finished(int, QString)</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="spec_started-instance_method">
+  
+    - (<tt>nil</tt>) <strong>spec_started</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Resets the tool widget and sets the cursor to busy</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+771
+772
+773
+774
+775
+776
+777
+778
+779</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 771</span>
+
+<span class='kw'>def</span> <span class='id spec_started'>spec_started</span>
+  <span class='ivar'>@progress_bar</span><span class='period'>.</span><span class='id maximum'>maximum</span> <span class='op'>=</span> <span class='int'>0</span>
+  <span class='ivar'>@progress_bar</span><span class='period'>.</span><span class='id value'>value</span> <span class='op'>=</span> <span class='int'>0</span>
+  <span class='ivar'>@progress_bar</span><span class='period'>.</span><span class='id show'>show</span>
+  <span class='ivar'>@progress_bar</span><span class='period'>.</span><span class='id tool_tip'>tool_tip</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span>
+  <span class='id actions'>actions</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>show_stderr</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id checked'>checked</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id cursor'>cursor</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Cursor</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='const'>Qt</span><span class='op'>::</span><span class='const'>BusyCursor</span><span class='rparen'>)</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>spec_started()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="text_for_clipboard-instance_method">
+  
+    - (<tt>QString</tt>) <strong>text_for_clipboard</strong>(idxs)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Override of <span class='object_link'><a href="../OutputWidget.html#text_for_clipboard-instance_method" title="Ruber::OutputWidget#text_for_clipboard (method)">OutputWidget#text_for_clipboard</a></span></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>&lt;Qt::ModelIndex&gt;</tt>)</span>
+      
+      
+        <span class='name'>idxs</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the selected indexes</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>QString</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the text to copy to the clipboard</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+856
+857
+858
+859
+860
+861
+862
+863
+864
+865
+866
+867
+868
+869
+870
+871
+872
+873
+874
+875
+876
+877
+878
+879
+880
+881
+882
+883</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 856</span>
+
+<span class='kw'>def</span> <span class='id text_for_clipboard'>text_for_clipboard</span> <span class='id idxs'>idxs</span>
+  <span class='id order'>order</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='id idxs'>idxs</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span>
+    <span class='id val'>val</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+    <span class='id parent'>parent</span> <span class='op'>=</span> <span class='id i'>i</span>
+    <span class='kw'>while</span> <span class='id parent'>parent</span><span class='period'>.</span><span class='id parent'>parent</span><span class='period'>.</span><span class='id valid?'>valid?</span>
+      <span class='id parent'>parent</span> <span class='op'>=</span> <span class='id parent'>parent</span><span class='period'>.</span><span class='id parent'>parent</span>
+      <span class='id val'>val</span><span class='period'>.</span><span class='id unshift'>unshift</span> <span class='id parent'>parent</span><span class='period'>.</span><span class='id row'>row</span>
+    <span class='kw'>end</span>
+    <span class='id val'>val</span> <span class='op'>&lt;&lt;</span> <span class='lbracket'>[</span><span class='id i'>i</span><span class='period'>.</span><span class='id row'>row</span><span class='comma'>,</span> <span class='id i'>i</span><span class='period'>.</span><span class='id column'>column</span><span class='rbracket'>]</span>
+    <span class='id order'>order</span><span class='lbracket'>[</span><span class='id val'>val</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id i'>i</span>
+  <span class='kw'>end</span>
+  <span class='id order'>order</span> <span class='op'>=</span> <span class='id order'>order</span><span class='period'>.</span><span class='id sort'>sort</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id a'>a</span><span class='comma'>,</span> <span class='id b'>b</span><span class='op'>|</span>
+    <span class='id a'>a</span><span class='comma'>,</span> <span class='id b'>b</span> <span class='op'>=</span> <span class='id a'>a</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id b'>b</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
+    <span class='id res'>res</span> <span class='op'>=</span> <span class='id a'>a</span><span class='lbracket'>[</span><span class='int'>0</span><span class='op'>..</span><span class='op'>-</span><span class='int'>2</span><span class='rbracket'>]</span> <span class='op'>&lt;=&gt;</span>  <span class='id b'>b</span><span class='lbracket'>[</span><span class='int'>0</span><span class='op'>..</span><span class='op'>-</span><span class='int'>2</span><span class='rbracket'>]</span>
+    <span class='kw'>if</span> <span class='id res'>res</span> <span class='op'>==</span> <span class='int'>0</span> <span class='kw'>then</span> <span class='id a'>a</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>&lt;=&gt;</span> <span class='id b'>b</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span>
+    <span class='kw'>else</span> <span class='id res'>res</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='id prev'>prev</span> <span class='op'>=</span> <span class='id order'>order</span><span class='period'>.</span><span class='id shift'>shift</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span>
+  <span class='id text'>text</span> <span class='op'>=</span> <span class='id prev'>prev</span><span class='period'>.</span><span class='id data'>data</span><span class='period'>.</span><span class='id valid?'>valid?</span> <span class='op'>?</span> <span class='id prev'>prev</span><span class='period'>.</span><span class='id data'>data</span><span class='period'>.</span><span class='id to_string'>to_string</span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span>
+  <span class='id order'>order</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id _'>_</span><span class='comma'>,</span> <span class='id v'>v</span><span class='op'>|</span>
+    <span class='id text'>text</span> <span class='op'>&lt;&lt;</span> <span class='lparen'>(</span> <span class='lparen'>(</span><span class='id prev'>prev</span><span class='period'>.</span><span class='id parent'>parent</span> <span class='op'>==</span> <span class='id v'>v</span><span class='period'>.</span><span class='id parent'>parent</span> <span class='kw'>and</span> <span class='id prev'>prev</span><span class='period'>.</span><span class='id row'>row</span> <span class='op'>==</span> <span class='id v'>v</span><span class='period'>.</span><span class='id row'>row</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\t</span><span class='tstring_end'>&quot;</span></span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> 
+    <span class='id text'>text</span> <span class='op'>&lt;&lt;</span> <span class='lparen'>(</span><span class='id v'>v</span><span class='period'>.</span><span class='id data'>data</span><span class='period'>.</span><span class='id valid?'>valid?</span> <span class='op'>?</span> <span class='id v'>v</span><span class='period'>.</span><span class='id data'>data</span><span class='period'>.</span><span class='id to_string'>to_string</span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+    <span class='id prev'>prev</span> <span class='op'>=</span> <span class='id v'>v</span>
+  <span class='kw'>end</span>
+  <span class='id text'>text</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="title=-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>title=</strong>(val) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Override of <span class='object_link'><a href="../OutputWidget.html#title%3D-instance_method" title="Ruber::OutputWidget#title= (method)">OutputWidget#title=</a></span></p>
+<p>It&#8217;s needed to have the title element span all columns</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>val</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the new title</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+759
+760
+761
+762
+763</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 759</span>
+
+<span class='kw'>def</span> <span class='id title='>title=</span> <span class='id val'>val</span>
+  <span class='kw'>super</span>
+  <span class='id model'>model</span><span class='period'>.</span><span class='id item'>item</span><span class='lparen'>(</span><span class='int'>0</span><span class='comma'>,</span><span class='int'>0</span><span class='rparen'>)</span><span class='period'>.</span><span class='id tool_tip'>tool_tip</span> <span class='op'>=</span> <span class='id val'>val</span>
+  <span class='id view'>view</span><span class='period'>.</span><span class='id set_first_column_spanned'>set_first_column_spanned</span> <span class='int'>0</span><span class='comma'>,</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>ModelIndex</span><span class='period'>.</span><span class='id new'>new</span><span class='comma'>,</span> <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+
+</div>
+    
+    <div id="footer">
+  Generated on Fri Oct 29 12:52:52 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.1 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>

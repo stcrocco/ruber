@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>Module: Ruber::Rake</title>
+<link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (R)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../Ruber.html" title="Ruber (module)">Ruber</a></span></span>
+     &raquo; 
+    <span class="title">Rake</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Module: Ruber::Rake
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">plugins/rake/rake.rb<span class="defines">,<br />
+  plugins/rake/rake_widgets.rb,<br /> plugins/rake/rake_extension.rb</span>
+</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>Plugin which allows to run rake tasks from within Ruber, displaying the output
+in a tool widget.</p>
+<p>It provides a dialog which lists all the tasks defined in the rakefile (which can
+be either chosen by the user or left to rake to find), a menu containing the tasks
+defined in the current rakefile and a menu containing globally defined tasks. To
+both project tasks and globally defined tasks can be assigned a shortcut.</p>
+<p><strong>Note:</strong> the list of project tasks, both in the menu and in the dialog, is computed
+automatically only once, the first time it&#8217;s needed. If the rakefile is later changed,
+the user must manually ask to refresh the list using either the appropriate entry
+in the menu, the button in the dialog or in the project configuration widget.</p>
+<p><strong>Note:</strong> this plugin only works for projects, not for single documents (the reason
+being that if you have more than one file working together, you should create a
+project).</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>    <h2>API for feature <tt>rake</tt></h2>
+      <h4>Plugin object API</h4>
+      <p>See API for <span class='object_link'><a href="Rake/Plugin.html" title="Ruber::Rake::Plugin (class)">Rake::Plugin</a></span></p>
+
+
+
+
+<h2>Defined Under Namespace</h2>
+<p class="children">
+   
+    
+   
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Rake/ChooseTaskDlg.html" title="Ruber::Rake::ChooseTaskDlg (class)">ChooseTaskDlg</a></span>, <span class='object_link'><a href="Rake/ConfigWidget.html" title="Ruber::Rake::ConfigWidget (class)">ConfigWidget</a></span>, <span class='object_link'><a href="Rake/Plugin.html" title="Ruber::Rake::Plugin (class)">Plugin</a></span>, <span class='object_link'><a href="Rake/ProjectExtension.html" title="Ruber::Rake::ProjectExtension (class)">ProjectExtension</a></span>, <span class='object_link'><a href="Rake/ProjectWidget.html" title="Ruber::Rake::ProjectWidget (class)">ProjectWidget</a></span>, <span class='object_link'><a href="Rake/ShortcutDelegate.html" title="Ruber::Rake::ShortcutDelegate (class)">ShortcutDelegate</a></span>
+    
+  
+</p>
+
+
+
+
+
+</div>
+    
+    <div id="footer">
+  Generated on Fri Oct 29 12:52:46 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.1 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>

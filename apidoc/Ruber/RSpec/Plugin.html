@@ -1,0 +1,2208 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>Class: Ruber::RSpec::Plugin</title>
+<link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '../..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../_index.html">Index (P)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../../Ruber.html" title="Ruber (module)">Ruber</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../RSpec.html" title="Ruber::RSpec (module)">RSpec</a></span></span>
+     &raquo; 
+    <span class="title">Plugin</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Ruber::RSpec::Plugin
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">RubyRunner::RubyRunnerPlugin</span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next">RubyRunner::RubyRunnerPlugin</li>
+          
+            <li class="next">Ruber::RSpec::Plugin</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">plugins/rspec/rspec.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>Plugin object for the RSpec plugin</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="STARTING_DELIMITER-constant" class="">STARTING_DELIMITER =
+          <div class="docstring">
+  <div class="discussion">
+    <p>The starting delimiter of the data written by the formatter</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^####%%%%####KRUBY_BEGIN$</span><span class='regexp_end'>/</span></span></pre></dd>
+      
+        <dt id="ENDING_DELIMITER-constant" class="">ENDING_DELIMITER =
+          <div class="docstring">
+  <div class="discussion">
+    <p>The ending delimiter of the data written by the formatter</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^####%%%%####KRUBY_END$</span><span class='regexp_end'>/</span></span></pre></dd>
+      
+    </dl>
+  
+
+
+  
+
+  
+    <h2>
+      Class Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#find_default_executable-class_method" title="find_default_executable (class method)">+ (String) <strong>find_default_executable</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Finds the rspec program to use by default.</p></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#display_exit_message-instance_method" title="#display_exit_message (instance method)">- (Object) <strong>display_exit_message</strong>(code, reason) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Override of <span class='object_link'><a href="../ExternalProgramPlugin.html#display_exit_message-instance_method" title="Ruber::ExternalProgramPlugin#display_exit_message (method)">ExternalProgramPlugin#display_exit_message</a></span>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#file_for_spec-instance_method" title="#file_for_spec (instance method)">- (String) <strong>file_for_spec</strong>(prj, file) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The name of the code file associated with a given spec file.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#go_to_file-instance_method" title="#go_to_file (instance method)">- (nil) <strong>go_to_file</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Opens the code file associated with the current spec file in the editor.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#go_to_spec-instance_method" title="#go_to_spec (instance method)">- (nil) <strong>go_to_spec</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Opens the spec file(s) associated with the current document in the editor.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (Plugin) <strong>initialize</strong>(psf) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>the plugin.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#options-instance_method" title="#options (instance method)">- (Hash) <strong>options</strong>(prj) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Collects all the options relative to this plugin from a project.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#parse_spec_output-instance_method" title="#parse_spec_output (instance method)">- (&lt;Hash, String&gt;) <strong>parse_spec_output</strong>(str) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Parses the output of the <em>spec</em> command.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#process_standard_error-instance_method" title="#process_standard_error (instance method)">- (nil) <strong>process_standard_error</strong>(lines) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Override of <span class='object_link'><a href="../ExternalProgramPlugin.html#process_standard_error-instance_method" title="Ruber::ExternalProgramPlugin#process_standard_error (method)">ExternalProgramPlugin#process_standard_error</a></span>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#process_standard_output-instance_method" title="#process_standard_output (instance method)">- (nil) <strong>process_standard_output</strong>(lines) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Override of <span class='object_link'><a href="../ExternalProgramPlugin.html#process_standard_output-instance_method" title="Ruber::ExternalProgramPlugin#process_standard_output (method)">ExternalProgramPlugin#process_standard_output</a></span>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#run_all-instance_method" title="#run_all (instance method)">- (nil) <strong>run_all</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Runs all the specs for the project.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#run_current-instance_method" title="#run_current (instance method)">- (Boolean) <strong>run_current</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Runs the specs corresponding to the current file.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#run_current_line-instance_method" title="#run_current_line (instance method)">- (Boolean) <strong>run_current_line</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Runs the example(s) in the current line.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#run_rspec-instance_method" title="#run_rspec (instance method)">- (Boolean) <strong>run_rspec</strong>(files, opts, autosave_opts = {}, &amp;blk) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Runs rspec for the given files.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#run_rspec_for-instance_method" title="#run_rspec_for (instance method)">- (Boolean) <strong>run_rspec_for</strong>(origin, opts, autosave_opts = {}, &amp;blk) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Runs the spec command for the given object.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#specs_for_file-instance_method" title="#specs_for_file (instance method)">- (&lt;String&gt;) <strong>specs_for_file</strong>(opts, file) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Determines all possible specs files associated with a code file.</p></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+
+
+
+
+
+<h4>Methods API</h4>
+<ul>
+<li><span class='object_link'><a href="#specs_for_file-instance_method" title="Ruber::RSpec::Plugin#specs_for_file (method)">Plugin#specs_for_file</a></span></li>
+<li><span class='object_link'><a href="#file_for_spec-instance_method" title="Ruber::RSpec::Plugin#file_for_spec (method)">Plugin#file_for_spec</a></span></li>
+<li><span class='object_link'><a href="#run_rspec-instance_method" title="Ruber::RSpec::Plugin#run_rspec (method)">Plugin#run_rspec</a></span></li>
+<li><span class='object_link'><a href="#run_rspec_for-instance_method" title="Ruber::RSpec::Plugin#run_rspec_for (method)">Plugin#run_rspec_for</a></span></li>
+</ul>
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::RSpec::Plugin (class)">Plugin</a></span></tt>) <strong>initialize</strong>(psf) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>the plugin</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../PluginSpecification.html" title="Ruber::PluginSpecification (class)">Ruber::PluginSpecification</a></span></tt>)</span>
+      
+      
+        <span class='name'>the</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>plugin specification object associated with</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 84</span>
+
+<span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id psf'>psf</span>
+  <span class='kw'>super</span> <span class='id psf'>psf</span><span class='comma'>,</span> <span class='symbol'>:rspec</span><span class='comma'>,</span> <span class='lbrace'>{</span><span class='symbol'>:scope</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='symbol'>:global</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='kw'>false</span>
+  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:autosave</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id register_plugin'>register_plugin</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='kw'>true</span>
+  <span class='ivar'>@formatter</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span> <span class='const'>File</span><span class='period'>.</span><span class='id dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>ruber_rspec_formatter</span><span class='tstring_end'>'</span></span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id connect'>connect</span><span class='lparen'>(</span><span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>process_finished(int, QString)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='rparen'>)</span><span class='lbrace'>{</span><span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id set_state'>set_state</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rspec_running</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='kw'>false</span><span class='rbrace'>}</span>
+  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id set_state'>set_state</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rspec_running</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='kw'>false</span>
+  
+  <span class='id switch_prc'>switch_prc</span> <span class='op'>=</span> <span class='const'>Proc</span><span class='period'>.</span><span class='id new'>new</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id states'>states</span><span class='op'>|</span> <span class='id states'>states</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>active_project_exists</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='kw'>and</span> <span class='id states'>states</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>current_document</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='rbrace'>}</span>
+  <span class='id register_action_handler'>register_action_handler</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rspec-go_to_file</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id switch_prc'>switch_prc</span>
+  <span class='id register_action_handler'>register_action_handler</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rspec-go_to_spec</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id switch_prc'>switch_prc</span>
+  <span class='id register_action_handler'>register_action_handler</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rspec-run_all</span><span class='tstring_end'>'</span></span> <span class='kw'>do</span> <span class='op'>|</span><span class='id states'>states</span><span class='op'>|</span>
+    <span class='id states'>states</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>active_project_exists</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='kw'>and</span> <span class='op'>!</span><span class='id states'>states</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rspec_running</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+  <span class='id current_prc'>current_prc</span> <span class='op'>=</span> <span class='const'>Proc</span><span class='period'>.</span><span class='id new'>new</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id states'>states</span><span class='op'>|</span>
+    <span class='id states'>states</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>active_project_exists</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='kw'>and</span> <span class='id states'>states</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>current_document</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='kw'>and</span>
+        <span class='op'>!</span><span class='id states'>states</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rspec_running</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+  <span class='id register_action_handler'>register_action_handler</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rspec-run_current</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id current_prc'>current_prc</span>
+  <span class='id register_action_handler'>register_action_handler</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rspec-run_current_line</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id current_prc'>current_prc</span>
+  
+  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:components</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id connect'>connect</span><span class='lparen'>(</span><span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>feature_loaded(QString, QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id f'>f</span><span class='comma'>,</span> <span class='id o'>o</span><span class='op'>|</span>
+    <span class='id o'>o</span><span class='period'>.</span><span class='id register_plugin'>register_plugin</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='kw'>true</span> <span class='kw'>if</span> <span class='id f'>f</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>autosave</span><span class='tstring_end'>'</span></span>
+  <span class='kw'>end</span>
+  <span class='ivar'>@output_widget</span> <span class='op'>=</span> <span class='ivar'>@widget</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="find_default_executable-class_method">
+  
+    + (<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>) <strong>find_default_executable</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Finds the rspec program to use by default</p>
+<p>It looks for an executable called <code>rspec</code> or <code>spec</code> (this is to support both RSpec
+1 and 2) in <code>PATH</code> (using the <code>which</code> command).
+if no rspec program was found</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>a string with the path to the rspec program or an empty string</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+69
+70
+71
+72
+73
+74
+75</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 69</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id find_default_executable'>find_default_executable</span>
+  <span class='id path'>path</span> <span class='op'>=</span> <span class='const'>Open3</span><span class='period'>.</span><span class='id popen3'>popen3</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>which rspec</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id stdin'>stdin</span><span class='comma'>,</span> <span class='id stdout'>stdout</span><span class='comma'>,</span> <span class='id stderr'>stderr</span><span class='op'>|</span> <span class='id stdout'>stdout</span><span class='period'>.</span><span class='id read'>read</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id strip'>strip</span>
+  <span class='kw'>if</span> <span class='id path'>path</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+    <span class='id path'>path</span> <span class='op'>=</span> <span class='const'>Open3</span><span class='period'>.</span><span class='id popen3'>popen3</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>which spec</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id stdin'>stdin</span><span class='comma'>,</span> <span class='id stdout'>stdout</span><span class='comma'>,</span> <span class='id stderr'>stderr</span><span class='op'>|</span> <span class='id stdout'>stdout</span><span class='period'>.</span><span class='id read'>read</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id strip'>strip</span>
+  <span class='kw'>end</span>
+  <span class='id path'>path</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="display_exit_message-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>display_exit_message</strong>(code, reason)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Override of <span class='object_link'><a href="../ExternalProgramPlugin.html#display_exit_message-instance_method" title="Ruber::ExternalProgramPlugin#display_exit_message (method)">ExternalProgramPlugin#display_exit_message</a></span></p>
+<p>It works as the base class&#8217;s method except when the program exits successfully,
+in which case it does nothing.</p>
+<p>See <span class='object_link'><a href="../ExternalProgramPlugin.html#display_exit_message-instance_method" title="Ruber::ExternalProgramPlugin#display_exit_message (method)">ExternalProgramPlugin#display_exit_message</a></span> for the meaning of the parameters</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'></span>
+      
+      
+      
+      
+        
+        <div class='inline'><p>nil</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+483
+484
+485</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 483</span>
+
+<span class='kw'>def</span> <span class='id display_exit_message'>display_exit_message</span> <span class='id code'>code</span><span class='comma'>,</span> <span class='id reason'>reason</span>
+  <span class='kw'>super</span> <span class='kw'>unless</span> <span class='id reason'>reason</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="file_for_spec-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>) <strong>file_for_spec</strong>(prj, file)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The name of the code file associated with a given spec file</p>
+<p>To find out which code file is associated with the given spec file, this method
+takes all the project files and constructs the file names of all the specs associated
+to them according to the <code>rspec/spec_pattern</code> project option. As soon as one of
+the generated file names matches the given spec file, the generating file is returned.</p>
+<p>to the settings contained in <em>prj</em>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../AbstractProject.html" title="Ruber::AbstractProject (class)">Ruber::AbstractProject</a></span></tt>)</span>
+      
+      
+        <span class='name'>prj</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the project containing the settings to use</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>file</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the name of the spec file to find the code file for</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the absolute path of a file <em>file</em> is a spec of, according</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+467
+468
+469
+470
+471</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 467</span>
+
+<span class='kw'>def</span> <span class='id file_for_spec'>file_for_spec</span> <span class='id prj'>prj</span><span class='comma'>,</span> <span class='id file'>file</span>
+  <span class='id pattern'>pattern</span> <span class='op'>=</span> <span class='id prj'>prj</span><span class='lbracket'>[</span><span class='symbol'>:spec_pattern</span><span class='rbracket'>]</span>
+  <span class='id opts'>opts</span> <span class='op'>=</span> <span class='id options'>options</span> <span class='id prj'>prj</span>
+  <span class='id prj'>prj</span><span class='period'>.</span><span class='id project_files'>project_files</span><span class='period'>.</span><span class='id abs'>abs</span><span class='period'>.</span><span class='id find'>find</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id f'>f</span><span class='op'>|</span> <span class='id specs_for_file'>specs_for_file</span><span class='lparen'>(</span> <span class='id opts'>opts</span><span class='comma'>,</span> <span class='id f'>f</span><span class='rparen'>)</span><span class='period'>.</span><span class='id include?'>include?</span> <span class='id file'>file</span><span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="go_to_file-instance_method">
+  
+    - (<tt>nil</tt>) <strong>go_to_file</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Opens the code file associated with the current spec file in the editor</p>
+<p>This method assumes the current file is a spec file and attempts to find the
+correspondent code file and open it in the editor. It does nothing if no correspondent
+code file can be found.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+  <h3>See Also:</h3>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#file_for_spec-instance_method" title="Ruber::RSpec::Plugin#file_for_spec (method)">#file_for_spec</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 421</span>
+
+<span class='kw'>def</span> <span class='id go_to_file'>go_to_file</span>
+  <span class='id prj'>prj</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current_project'>current_project</span>
+  <span class='kw'>unless</span> <span class='id prj'>prj</span>
+    <span class='const'>KDE</span><span class='op'>::</span><span class='const'>MessageBox</span><span class='period'>.</span><span class='id error'>error</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>You must have an open project to choose this entry.\nYOU SHOULD NEVER SEE THIS MESSAGE</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>return</span>
+  <span class='kw'>end</span>
+  <span class='id opts'>opts</span> <span class='op'>=</span> <span class='id options'>options</span> <span class='id prj'>prj</span>
+  <span class='id doc'>doc</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current_document'>current_document</span>
+  <span class='kw'>unless</span> <span class='id prj'>prj</span>
+    <span class='const'>KDE</span><span class='op'>::</span><span class='const'>MessageBox</span><span class='period'>.</span><span class='id error'>error</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>You must have an open document to choose this entry.\nYOU SHOULD NEVER SEE THIS MESSAGE</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>return</span>
+  <span class='kw'>end</span>
+  <span class='id file'>file</span> <span class='op'>=</span> <span class='id file_for_spec'>file_for_spec</span> <span class='id prj'>prj</span><span class='comma'>,</span> <span class='id doc'>doc</span><span class='period'>.</span><span class='id path'>path</span>
+  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id display_document'>display_document</span> <span class='id file'>file</span> <span class='kw'>if</span> <span class='id file'>file</span> <span class='kw'>and</span> <span class='const'>File</span><span class='period'>.</span><span class='id exist?'>exist?</span> <span class='id file'>file</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>go_to_file()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="go_to_spec-instance_method">
+  
+    - (<tt>nil</tt>) <strong>go_to_spec</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Opens the spec file(s) associated with the current document in the editor</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 395</span>
+
+<span class='kw'>def</span> <span class='id go_to_spec'>go_to_spec</span>
+  <span class='id prj'>prj</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current_project'>current_project</span>
+  <span class='kw'>unless</span> <span class='id prj'>prj</span>
+    <span class='const'>KDE</span><span class='op'>::</span><span class='const'>MessageBox</span><span class='period'>.</span><span class='id error'>error</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>You must have an open project to choose this entry.\nYOU SHOULD NEVER SEE THIS MESSAGE</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>return</span>
+  <span class='kw'>end</span>
+  <span class='id opts'>opts</span> <span class='op'>=</span> <span class='id options'>options</span> <span class='id prj'>prj</span>
+  <span class='id doc'>doc</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current_document'>current_document</span>
+  <span class='kw'>unless</span> <span class='id prj'>prj</span>
+    <span class='const'>KDE</span><span class='op'>::</span><span class='const'>MessageBox</span><span class='period'>.</span><span class='id error'>error</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>You must have an open document to choose this entry.\nYOU SHOULD NEVER SEE THIS MESSAGE</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>return</span>
+  <span class='kw'>end</span>
+  <span class='id files'>files</span> <span class='op'>=</span> <span class='id specs_for_file'>specs_for_file</span> <span class='id opts'>opts</span><span class='comma'>,</span> <span class='id doc'>doc</span><span class='period'>.</span><span class='id path'>path</span>
+  <span class='id files'>files</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id f'>f</span><span class='op'>|</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id display_document'>display_document</span> <span class='id f'>f</span> <span class='kw'>if</span> <span class='const'>File</span><span class='period'>.</span><span class='id exist?'>exist?</span> <span class='id f'>f</span><span class='rbrace'>}</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>go_to_spec()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="options-instance_method">
+  
+    - (<tt>Hash</tt>) <strong>options</strong>(prj)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Collects all the options relative to this plugin from a project</p>
+<p><strong>Note:</strong> <strong>never</strong> use destructive methods on the values contained in this hash. Doing so will
+change the options stored in the project, which most likely isn&#8217;t what you want.
+If you need to change the options, make duplicates of the values</p>
+<p>between options and entries in this hash is the following:</p>
+<ul>
+	<li><code>:rspec/executable</code> &rarr; <code>:spec</code></li>
+	<li><code>:rspec/options</code> &rarr; <code>:spec_options</code></li>
+	<li><code>:rspec/spec_directory</code> &rarr; <code>:specs_dir</code></li>
+	<li><code>:rspec/spec_files</code> &rarr; <code>:filter</code></li>
+	<li><code>:rspec/spec_pattern</code> &rarr; <code>:pattern</code></li>
+	<li><code>:rspec/full_backtraces</code> &rarr; <code>:full_backtraces</code></li>
+</ul>
+<p>Besides, the above entries, the hash also contains a <code>:dir</code> entry which contains
+the project directory.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../AbstractProject.html" title="Ruber::AbstractProject (class)">AbstractProject</a></span></tt>)</span>
+      
+      
+        <span class='name'>prj</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the project to retrieve options from</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>an hash containing the options stored in the project. The correspondence</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 378</span>
+
+<span class='kw'>def</span> <span class='id options'>options</span> <span class='id prj'>prj</span>
+  <span class='id res'>res</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='id res'>res</span><span class='lbracket'>[</span><span class='symbol'>:spec</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id prj'>prj</span><span class='lbracket'>[</span><span class='symbol'>:rspec</span><span class='comma'>,</span> <span class='symbol'>:executable</span><span class='rbracket'>]</span>
+  <span class='id res'>res</span><span class='lbracket'>[</span><span class='symbol'>:spec_options</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id prj'>prj</span><span class='lbracket'>[</span><span class='symbol'>:rspec</span><span class='comma'>,</span> <span class='symbol'>:options</span><span class='rbracket'>]</span>
+  <span class='id res'>res</span><span class='lbracket'>[</span><span class='symbol'>:specs_dir</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id prj'>prj</span><span class='lbracket'>[</span><span class='symbol'>:rspec</span><span class='comma'>,</span> <span class='symbol'>:spec_directory</span><span class='comma'>,</span> <span class='symbol'>:absolute</span><span class='rbracket'>]</span>
+  <span class='id res'>res</span><span class='lbracket'>[</span><span class='symbol'>:filter</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id prj'>prj</span><span class='lbracket'>[</span><span class='symbol'>:rspec</span><span class='comma'>,</span> <span class='symbol'>:spec_files</span><span class='rbracket'>]</span>
+  <span class='id res'>res</span><span class='lbracket'>[</span><span class='symbol'>:pattern</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id prj'>prj</span><span class='lbracket'>[</span><span class='symbol'>:rspec</span><span class='comma'>,</span> <span class='symbol'>:spec_pattern</span><span class='rbracket'>]</span>
+  <span class='id res'>res</span><span class='lbracket'>[</span><span class='symbol'>:dir</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id prj'>prj</span><span class='period'>.</span><span class='id project_directory'>project_directory</span>
+  <span class='id res'>res</span><span class='lbracket'>[</span><span class='symbol'>:full_backtraces</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id prj'>prj</span><span class='lbracket'>[</span><span class='symbol'>:rspec</span><span class='comma'>,</span> <span class='symbol'>:full_backtraces</span><span class='rbracket'>]</span>
+  <span class='id res'>res</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="parse_spec_output-instance_method">
+  
+    - (<tt>&lt;Hash, <span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>&gt;</tt>) <strong>parse_spec_output</strong>(str)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Parses the output of the <em>spec</em> command</p>
+<p>This method only works if the <span class='object_link'><a href="../RSpec.html#Formatter-constant" title="Ruber::RSpec::Formatter (constant)">Ruber rspec formatter</a></span>
+is used.</p>
+<p>The output is split according in regions between <span class='object_link'><a href="#STARTING_DELIMITER-constant" title="Ruber::RSpec::Plugin::STARTING_DELIMITER (constant)">STARTING_DELIMITER</a></span> and
+<span class='object_link'><a href="#ENDING_DELIMITER-constant" title="Ruber::RSpec::Plugin::ENDING_DELIMITER (constant)">ENDING_DELIMITER</a></span>. All text inside these regions is considered the <span class="caps">YAML</span> dump of
+a hash and converted back to a hash. All text which is not between a pair of
+delimiters, as well as the text which can&#8217;t be converted by <span class="caps">YAML</span> is left as is
+parsed by <span class="caps">YAML</span> is stored as a hash, while the rest is stored as strings. Order is
+preserved.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>str</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the output to parse</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>&lt;Hash, <span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the result of the parse. The text which was successfully</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 229</span>
+
+<span class='kw'>def</span> <span class='id parse_spec_output'>parse_spec_output</span> <span class='id str'>str</span>
+  <span class='id sc'>sc</span> <span class='op'>=</span> <span class='const'>StringScanner</span><span class='period'>.</span><span class='id new'>new</span> <span class='id str'>str</span>
+  <span class='id res'>res</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='kw'>until</span> <span class='id sc'>sc</span><span class='period'>.</span><span class='id eos?'>eos?</span>
+    <span class='id match'>match</span> <span class='op'>=</span> <span class='id sc'>sc</span><span class='period'>.</span><span class='id scan_until'>scan_until</span><span class='lparen'>(</span><span class='const'>STARTING_DELIMITER</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='id sc'>sc</span><span class='period'>.</span><span class='id rest'>rest</span>
+    <span class='id found'>found</span> <span class='op'>=</span> <span class='id match'>match</span><span class='period'>.</span><span class='id sub!'>sub!</span><span class='lparen'>(</span><span class='const'>STARTING_DELIMITER</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+    <span class='id res'>res</span> <span class='op'>&lt;&lt;</span> <span class='id match'>match</span>
+    <span class='kw'>if</span> <span class='id found'>found</span>
+      <span class='id yaml'>yaml</span> <span class='op'>=</span> <span class='id sc'>sc</span><span class='period'>.</span><span class='id scan_until'>scan_until</span><span class='lparen'>(</span><span class='const'>ENDING_DELIMITER</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='id sc'>sc</span><span class='period'>.</span><span class='id rest'>rest</span>
+      <span class='id yaml'>yaml</span><span class='period'>.</span><span class='id sub!'>sub!</span> <span class='const'>ENDING_DELIMITER</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span>
+      <span class='id res'>res</span> <span class='op'>&lt;&lt;</span> <span class='lparen'>(</span><span class='const'>YAML</span><span class='period'>.</span><span class='id load'>load</span><span class='lparen'>(</span><span class='id yaml'>yaml</span><span class='rparen'>)</span> <span class='kw'>rescue</span> <span class='id yaml'>yaml</span><span class='rparen'>)</span>
+    <span class='kw'>else</span> <span class='id sc'>sc</span><span class='period'>.</span><span class='id terminate'>terminate</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='id res'>res</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="process_standard_error-instance_method">
+  
+    - (<tt>nil</tt>) <strong>process_standard_error</strong>(lines)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Override of <span class='object_link'><a href="../ExternalProgramPlugin.html#process_standard_error-instance_method" title="Ruber::ExternalProgramPlugin#process_standard_error (method)">ExternalProgramPlugin#process_standard_error</a></span></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span></tt>)</span>
+      
+      
+        <span class='name'>lines</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the standard error output, split in lines</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+209
+210
+211
+212</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 209</span>
+
+<span class='kw'>def</span> <span class='id process_standard_error'>process_standard_error</span> <span class='id lines'>lines</span>
+  <span class='ivar'>@widget</span><span class='period'>.</span><span class='id model'>model</span><span class='period'>.</span><span class='id insert_lines'>insert_lines</span> <span class='id lines'>lines</span><span class='comma'>,</span> <span class='symbol'>:output1</span><span class='comma'>,</span> <span class='kw'>nil</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="process_standard_output-instance_method">
+  
+    - (<tt>nil</tt>) <strong>process_standard_output</strong>(lines)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Override of <span class='object_link'><a href="../ExternalProgramPlugin.html#process_standard_output-instance_method" title="Ruber::ExternalProgramPlugin#process_standard_output (method)">ExternalProgramPlugin#process_standard_output</a></span></p>
+<p>It parses the output from the <em>spec</em> program (generated with the
+<span class='object_link'><a href="../RSpec.html#Formatter-constant" title="Ruber::RSpec::Formatter (constant)">Ruber rspec formatter</a></span>) and displays the data it contains
+appropriately.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span></tt>)</span>
+      
+      
+        <span class='name'>lines</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the output, split in lines</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+194
+195
+196
+197
+198
+199
+200
+201
+202</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 194</span>
+
+<span class='kw'>def</span> <span class='id process_standard_output'>process_standard_output</span> <span class='id lines'>lines</span>
+  <span class='id items'>items</span> <span class='op'>=</span> <span class='id parse_spec_output'>parse_spec_output</span> <span class='id lines'>lines</span><span class='period'>.</span><span class='id join'>join</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id items'>items</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id it'>it</span><span class='op'>|</span>
+    <span class='kw'>if</span> <span class='id it'>it</span><span class='period'>.</span><span class='id is_a?'>is_a?</span> <span class='const'>String</span> <span class='kw'>then</span> <span class='ivar'>@widget</span><span class='period'>.</span><span class='id model'>model</span><span class='period'>.</span><span class='id insert_lines'>insert_lines</span> <span class='id it'>it</span><span class='comma'>,</span> <span class='symbol'>:output</span><span class='comma'>,</span> <span class='kw'>nil</span>
+    <span class='kw'>else</span> <span class='ivar'>@widget</span><span class='period'>.</span><span class='id display_example'>display_example</span> <span class='id it'>it</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="run_all-instance_method">
+  
+    - (<tt>nil</tt>) <strong>run_all</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Runs all the specs for the project.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 250</span>
+
+<span class='kw'>def</span> <span class='id run_all'>run_all</span>
+  <span class='id prj'>prj</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current_project'>current_project</span>
+  <span class='kw'>unless</span> <span class='id prj'>prj</span>
+    <span class='const'>KDE</span><span class='op'>::</span><span class='const'>MessageBox</span><span class='period'>.</span><span class='id error'>error</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>You must have an open project to choose this entry.\nYOU SHOULD NEVER SEE THIS MESSAGE</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>return</span>
+  <span class='kw'>end</span>
+  <span class='id opts'>opts</span> <span class='op'>=</span> <span class='id options'>options</span> <span class='id prj'>prj</span>
+  <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:files</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'>Dir</span><span class='period'>.</span><span class='id glob'>glob</span> <span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span><span class='lparen'>(</span><span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:specs_dir</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:filter</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='id run_rspec_for'>run_rspec_for</span> <span class='id prj'>prj</span><span class='comma'>,</span> <span class='id opts'>opts</span><span class='comma'>,</span> <span class='symbol'>:files</span> <span class='op'>=&gt;</span> <span class='symbol'>:project_files</span><span class='comma'>,</span> <span class='symbol'>:on_failure</span> <span class='op'>=&gt;</span> <span class='symbol'>:ask</span><span class='comma'>,</span> <span class='symbol'>:message</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Do you want to run the tests all the same?</span><span class='tstring_end'>'</span></span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>run_all()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="run_current-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>run_current</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Runs the specs corresponding to the current file</p>
+<p>If the current file is a code file, the corresponding spec file will be run. If
+it is a spec file, the file itself will be run.</p>
+<p>To decide whether the current file is a spec or a code file, this method uses
+the patters stored in the <code>rspec/spec_pattern</code> project setting to build the names
+of the spec files associated with the current file, which is assumed to be a code
+file. If none of these files exist, then the current file is treated as a spec file,
+otherwise one of the spec files thus generated is run.</p>
+<p><strong>Note:</strong> the way this method works implies that if it is called on a code
+file which doesn&#8217;t have an associated spec file, rspec will be run on that file,
+which, most likely, will cause it to fail.</p>
+<p>(including the case when the process was already running or autosaving failed)</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><strong>true</strong> if the spec program is started and <strong>false</strong> otherwise</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 281</span>
+
+<span class='kw'>def</span> <span class='id run_current'>run_current</span>
+  <span class='id prj'>prj</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current_project'>current_project</span>
+  <span class='kw'>unless</span> <span class='id prj'>prj</span>
+    <span class='const'>KDE</span><span class='op'>::</span><span class='const'>MessageBox</span><span class='period'>.</span><span class='id error'>error</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>You must have an open project to choose this entry.\nYOU SHOULD NEVER SEE THIS MESSAGE</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>return</span>
+  <span class='kw'>end</span>
+  <span class='id opts'>opts</span> <span class='op'>=</span> <span class='id options'>options</span> <span class='id prj'>prj</span>
+  <span class='id doc'>doc</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current_document'>current_document</span>
+  <span class='kw'>unless</span> <span class='id doc'>doc</span>
+    <span class='const'>KDE</span><span class='op'>::</span><span class='const'>MessageBox</span><span class='period'>.</span><span class='id error'>error</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>You must have an open document to choose this entry.\nYOU SHOULD NEVER SEE THIS MESSAGE</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>return</span>
+  <span class='kw'>end</span>
+  <span class='id files'>files</span> <span class='op'>=</span> <span class='id specs_for_file'>specs_for_file</span> <span class='id opts'>opts</span><span class='comma'>,</span> <span class='id doc'>doc</span><span class='period'>.</span><span class='id path'>path</span>
+  <span class='id files'>files</span><span class='period'>.</span><span class='id reject!'>reject!</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id f'>f</span><span class='op'>|</span> <span class='op'>!</span><span class='const'>File</span><span class='period'>.</span><span class='id exist?'>exist?</span> <span class='id f'>f</span><span class='rbrace'>}</span>
+  <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:files</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id files'>files</span><span class='period'>.</span><span class='id empty?'>empty?</span> <span class='op'>?</span> <span class='lbracket'>[</span><span class='id doc'>doc</span><span class='period'>.</span><span class='id path'>path</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='id files'>files</span>
+  <span class='id run_rspec_for'>run_rspec_for</span> <span class='id prj'>prj</span><span class='comma'>,</span> <span class='id opts'>opts</span><span class='comma'>,</span> <span class='symbol'>:files</span> <span class='op'>=&gt;</span> <span class='symbol'>:documents_with_file</span><span class='comma'>,</span> <span class='symbol'>:on_failure</span> <span class='op'>=&gt;</span> <span class='symbol'>:ask</span><span class='comma'>,</span>
+      <span class='symbol'>:message</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Do you want to run the tests all the same?</span><span class='tstring_end'>'</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>run_current()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="run_current_line-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>run_current_line</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Runs the example(s) in the current line</p>
+<p>Similar to <span class='object_link'><a href="#run_current-instance_method" title="Ruber::RSpec::Plugin#run_current (method)">#run_current</a></span>, but tells spec to run only the example or example
+group corresponding to the line where the cursor is (using spec&#8217;s -l option).
+Besides, unlike <span class='object_link'><a href="#run_current-instance_method" title="Ruber::RSpec::Plugin#run_current (method)">#run_current</a></span>, this method can only be called when the
+current file is the example file, not the source.</p>
+<p>(including the case when the process was already running or autosaving failed)</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><strong>true</strong> if the spec program is started and <strong>false</strong> otherwise</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 311</span>
+
+<span class='kw'>def</span> <span class='id run_current_line'>run_current_line</span>
+  <span class='id prj'>prj</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current_project'>current_project</span>
+  <span class='kw'>unless</span> <span class='id prj'>prj</span>
+    <span class='const'>KDE</span><span class='op'>::</span><span class='const'>MessageBox</span><span class='period'>.</span><span class='id error'>error</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>You must have an open project to choose this entry.\nYOU SHOULD NEVER SEE THIS MESSAGE</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>return</span>
+  <span class='kw'>end</span>
+  <span class='id opts'>opts</span> <span class='op'>=</span> <span class='id options'>options</span> <span class='id prj'>prj</span>
+  <span class='id doc'>doc</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current_document'>current_document</span>
+  <span class='kw'>unless</span> <span class='id doc'>doc</span>
+    <span class='const'>KDE</span><span class='op'>::</span><span class='const'>MessageBox</span><span class='period'>.</span><span class='id error'>error</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>You must have an open document to choose this entry.\nYOU SHOULD NEVER SEE THIS MESSAGE</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>return</span>
+  <span class='kw'>end</span>
+  <span class='id line'>line</span> <span class='op'>=</span> <span class='id doc'>doc</span><span class='period'>.</span><span class='id view'>view</span><span class='period'>.</span><span class='id cursor_position'>cursor_position</span><span class='period'>.</span><span class='id line'>line</span> <span class='op'>+</span> <span class='int'>1</span>
+  <span class='id files'>files</span> <span class='op'>=</span> <span class='id specs_for_file'>specs_for_file</span> <span class='id opts'>opts</span><span class='comma'>,</span> <span class='id doc'>doc</span><span class='period'>.</span><span class='id path'>path</span>
+  <span class='id files'>files</span><span class='period'>.</span><span class='id reject!'>reject!</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id f'>f</span><span class='op'>|</span> <span class='op'>!</span><span class='const'>File</span><span class='period'>.</span><span class='id exist?'>exist?</span> <span class='id f'>f</span><span class='rbrace'>}</span>
+  <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:files</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id files'>files</span><span class='period'>.</span><span class='id empty?'>empty?</span> <span class='op'>?</span> <span class='lbracket'>[</span><span class='id doc'>doc</span><span class='period'>.</span><span class='id path'>path</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='id files'>files</span>
+  <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:spec_options</span><span class='rbracket'>]</span> <span class='op'>+=</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>-l</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id line'>line</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='rbracket'>]</span>
+  <span class='id run_rspec_for'>run_rspec_for</span> <span class='id prj'>prj</span><span class='comma'>,</span> <span class='id opts'>opts</span><span class='comma'>,</span> <span class='symbol'>:files</span> <span class='op'>=&gt;</span> <span class='symbol'>:documents_with_file</span><span class='comma'>,</span> <span class='symbol'>:on_failure</span> <span class='op'>=&gt;</span> <span class='symbol'>:ask</span><span class='comma'>,</span>
+      <span class='symbol'>:message</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Do you want to run the tests all the same?</span><span class='tstring_end'>'</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>run_current_line()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="run_rspec-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>run_rspec</strong>(files, opts, autosave_opts = {}, &amp;blk) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Runs rspec for the given files</p>
+<p>The output of spec is displayed in the associated output widget.</p>
+<p>Files are autosaved before running rspec.</p>
+<p>If spec is already running, or if autosaving fails, noting is done.</p>
+<p>passed to autosave</p>
+<p>to use
+the options to pass to the ruby interpreter
+program
+to the spec program</p>
+<p>It has the same meaning as second parameter to <span class='object_link'><a href="../Autosave/AutosavePlugin.html#autosave-instance_method" title="Ruber::Autosave::AutosavePlugin#autosave (method)">Autosave::AutosavePlugin#autosave</a></span>.
+If it&#8217;s <strong>nil</strong>, autosave won&#8217;t be used
+as first argument to <span class='object_link'><a href="../Autosave/AutosavePlugin.html#autosave-instance_method" title="Ruber::Autosave::AutosavePlugin#autosave (method)">Autosave::AutosavePlugin#autosave</a></span>
+(including the case when the process was already running or autosaving failed)</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+      
+      
+        <span class='name'>files</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the spec files to run. Nonexisting files are ignored</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <span class='name'>opts</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>options to fine-tune the behaviour of spec</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <span class='name'>autosave_opts</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>options telling whether and how autosave files</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Proc</tt>)</span>
+      
+      
+        <span class='name'>blk</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>a block to pass to autosave. If not given, no block will be</p></div>
+      
+    </li>
+  
+</ul>
+
+  
+    
+    
+    
+    
+    <h3>Options Hash (<tt>opts</tt>):</h3>
+    <ul class="option">
+      
+        <li>
+          <span class="type">(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="name">:ruby</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>Ruber[:config][:ruby</tt>, <tt>:ruby]</tt>
+            
+          </span>
+          &mdash;<div class='inline'><p>the ruby interpreter</p></div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+          <span class="name">:ruby_options</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>Ruber[:config][:ruby</tt>, <tt>:ruby_options]</tt>
+            
+          </span>
+          &mdash;<div class='inline'></div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="name">:spec</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>'spec'</tt>
+            
+          </span>
+          &mdash;<div class='inline'><p>the path of the spec command to use</p></div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+          <span class="name">:spec_options</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>[]</tt>
+            
+          </span>
+          &mdash;<div class='inline'><p>the options to pass to the spec</p></div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="name">:dir</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>'.'</tt>
+            
+          </span>
+          &mdash;<div class='inline'><p>the directory to run spec from</p></div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt>Boolean</tt>)</span>
+          <span class="name">:full_backtraces</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>nil</tt>
+            
+          </span>
+          &mdash;<div class='inline'><p>whether or not to pass the <code>-b</code> option</p></div>
+        </tr>
+      
+    </ul>
+  
+    
+    
+    <h3>Options Hash (<tt>autosave_opts</tt>):</h3>
+    <ul class="option">
+      
+        <li>
+          <span class="type">(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Document.html" title="Ruber::Document (class)">Document</a></span>&gt;</tt>, <tt><span class='object_link'><a href="../../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
+          <span class="name">:files</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>nil</tt>
+            
+          </span>
+          &mdash;<div class='inline'><p>the documents to autosave.</p></div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt><span class='object_link'><a href="../../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>, <tt><span class='object_link'><a href="" title="Ruber::RSpec::Plugin (class)">Plugin</a></span></tt>)</span>
+          <span class="name">:plugin</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>Ruber[:rspec]</tt>
+            
+          </span>
+          &mdash;<div class='inline'><p>the value to pass</p></div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt>Boolean</tt>)</span>
+          <span class="name">:stop_on_failure</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>nil</tt>
+            
+          </span>
+          &mdash;<div class='inline'><p>as in <span class='object_link'><a href="../Autosave/AutosavePlugin.html#autosave-instance_method" title="Ruber::Autosave::AutosavePlugin#autosave (method)">Autosave::AutosavePlugin#autosave</a></span></p></div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt><span class='object_link'><a href="../../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
+          <span class="name">:on_failure</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>nil</tt>
+            
+          </span>
+          &mdash;<div class='inline'><p>as in <span class='object_link'><a href="../Autosave/AutosavePlugin.html#autosave-instance_method" title="Ruber::Autosave::AutosavePlugin#autosave (method)">Autosave::AutosavePlugin#autosave</a></span></p></div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="name">:message</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>nil</tt>
+            
+          </span>
+          &mdash;<div class='inline'><p>as in <span class='object_link'><a href="../Autosave/AutosavePlugin.html#autosave-instance_method" title="Ruber::Autosave::AutosavePlugin#autosave (method)">Autosave::AutosavePlugin#autosave</a></span></p></div>
+        </tr>
+      
+    </ul>
+  
+    
+    
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><strong>true</strong> if the process is started and <strong>false</strong> otherwise</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 148</span>
+
+<span class='kw'>def</span> <span class='id run_rspec'>run_rspec</span> <span class='id files'>files</span><span class='comma'>,</span> <span class='id opts'>opts</span><span class='comma'>,</span> <span class='id autosave_opts'>autosave_opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id blk'>blk</span>
+  <span class='id default_opts'>default_opts</span> <span class='op'>=</span> <span class='lbrace'>{</span>
+    <span class='symbol'>:ruby</span> <span class='op'>=&gt;</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:ruby</span><span class='comma'>,</span> <span class='symbol'>:ruby</span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='symbol'>:ruby_options</span> <span class='op'>=&gt;</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:ruby</span><span class='comma'>,</span> <span class='symbol'>:ruby_options</span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='symbol'>:spec</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>spec</span><span class='tstring_end'>'</span></span><span class='comma'>,</span>
+    <span class='symbol'>:spec_options</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='symbol'>:dir</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>.</span><span class='tstring_end'>'</span></span>
+  <span class='rbrace'>}</span>
+  <span class='id opts'>opts</span> <span class='op'>=</span> <span class='id default_opts'>default_opts</span><span class='period'>.</span><span class='id merge'>merge</span> <span class='id opts'>opts</span>
+  <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>if</span> <span class='ivar'>@process</span><span class='period'>.</span><span class='id state'>state</span> <span class='op'>!=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Process</span><span class='op'>::</span><span class='const'>NotRunning</span>
+  <span class='ivar'>@widget</span><span class='period'>.</span><span class='id clear_output'>clear_output</span>
+  <span class='id files'>files</span> <span class='op'>=</span> <span class='id files'>files</span><span class='period'>.</span><span class='id select'>select</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id f'>f</span><span class='op'>|</span> <span class='const'>File</span><span class='period'>.</span><span class='id exist?'>exist?</span> <span class='id f'>f</span><span class='rbrace'>}</span>
+<span class='comment'>#         if files.empty?
+</span><span class='comment'>#           KDE::MessageBox.sorry nil, 'No spec file has been found. RSpec won\'t be run'
+</span><span class='comment'>#           return false
+</span><span class='comment'>#         end
+</span>  <span class='kw'>if</span> <span class='id autosave_opts'>autosave_opts</span><span class='lbracket'>[</span><span class='symbol'>:files</span><span class='rbracket'>]</span>
+    <span class='id plug'>plug</span> <span class='op'>=</span> <span class='id autosave_opts'>autosave_opts</span><span class='lbracket'>[</span><span class='symbol'>:plugin</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='kw'>self</span>
+    <span class='id what'>what</span> <span class='op'>=</span> <span class='id autosave_opts'>autosave_opts</span><span class='lbracket'>[</span><span class='symbol'>:files</span><span class='rbracket'>]</span>
+    <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:autosave</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id autosave'>autosave</span> <span class='id plug'>plug</span><span class='comma'>,</span> 
+        <span class='id what'>what</span><span class='comma'>,</span> <span class='id autosave_opts'>autosave_opts</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id blk'>blk</span>
+  <span class='kw'>end</span>
+  <span class='id full_backtraces'>full_backtraces</span> <span class='op'>=</span> <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:full_backtraces</span><span class='rbracket'>]</span> <span class='op'>?</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>-b</span><span class='words_sep'>]</span> <span class='op'>:</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='id args'>args</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:spec</span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='op'>+</span> <span class='words_beg'>%W[</span><span class='tstring_content'>-r</span><span class='words_sep'> </span><span class='embexpr_beg'>#{</span><span class='ivar'>@formatter</span><span class='rbrace'>}</span><span class='words_sep'> </span><span class='tstring_content'>-f</span><span class='words_sep'> </span><span class='tstring_content'>Ruber::RSpec::Formatter</span><span class='words_sep'>]</span> <span class='op'>+</span> 
+      <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:spec_options</span><span class='rbracket'>]</span> <span class='op'>+</span> <span class='id full_backtraces'>full_backtraces</span> <span class='op'>+</span> <span class='id files'>files</span>
+  <span class='ivar'>@widget</span><span class='period'>.</span><span class='id working_directory'>working_directory</span> <span class='op'>=</span> <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:dir</span><span class='rbracket'>]</span>
+  <span class='ivar'>@display_standard_error</span> <span class='op'>=</span> <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:stderr</span><span class='rbracket'>]</span>
+  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id activate_tool'>activate_tool</span><span class='lparen'>(</span><span class='ivar'>@widget</span><span class='rparen'>)</span>
+  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id change_state'>change_state</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rspec_running</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='kw'>true</span>
+  <span class='id title'>title</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='lbracket'>[</span><span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:spec</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='op'>+</span> <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:spec_options</span><span class='rbracket'>]</span><span class='op'>+</span> <span class='id full_backtraces'>full_backtraces</span> <span class='op'>+</span> <span class='id files'>files</span><span class='rparen'>)</span><span class='period'>.</span><span class='id join'>join</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'> </span><span class='tstring_end'>'</span></span>
+  <span class='id run_process'>run_process</span> <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:ruby</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:dir</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:ruby_options</span><span class='rbracket'>]</span> <span class='op'>+</span> <span class='id args'>args</span><span class='comma'>,</span> <span class='id title'>title</span>
+  <span class='ivar'>@widget</span><span class='period'>.</span><span class='id model'>model</span><span class='period'>.</span><span class='id item'>item</span><span class='lparen'>(</span><span class='int'>0</span><span class='comma'>,</span><span class='int'>0</span><span class='rparen'>)</span><span class='period'>.</span><span class='id tool_tip'>tool_tip</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='lbracket'>[</span><span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:ruby</span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='op'>+</span> <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:ruby_options</span><span class='rbracket'>]</span> <span class='op'>+</span> <span class='id args'>args</span><span class='rparen'>)</span><span class='period'>.</span><span class='id join'>join</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> </span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="run_rspec_for-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>run_rspec_for</strong>(origin, opts, autosave_opts = {}, &amp;blk)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Runs the spec command for the given object</p>
+<p>It works like <span class='object_link'><a href="../RubyRunner/RubyRunnerPluginInternal.html#ruby_command_for-instance_method" title="Ruber::RubyRunner::RubyRunnerPluginInternal#ruby_command_for (method)">RubyRunner::RubyRunnerPlugin#ruby_command_for</a></span>
+but already takes care of the user&#8217;s settings regarding the path of the spec program.</p>
+<p>of <span class='object_link'><a href="../RubyRunner/RubyRunnerPluginInternal.html#option_for-instance_method" title="Ruber::RubyRunner::RubyRunnerPluginInternal#option_for (method)">RubyRunner::RubyRunnerPlugin#option_for</a></span>
+meaning as the <em>opts</em> argument to <span class='object_link'><a href="#run_rspec-instance_method" title="Ruber::RSpec::Plugin#run_rspec (method)">#run_rspec</a></span>, but can also contain an additional
+entry (see below)
+(including the case when the process was already running or autosaving failed)</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../AbstractProject.html" title="Ruber::AbstractProject (class)">AbstractProject</a></span></tt>, <tt><span class='object_link'><a href="../Document.html" title="Ruber::Document (class)">Document</a></span></tt>, <tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+        <span class='name'>origin</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>see the <em>target</em> argument</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <span class='name'>opts</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the options to pass to the <em>spec</em> program. It has the same</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <span class='name'>autosave_opts</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>see the <em>autosave_opts</em> argument of <span class='object_link'><a href="#run_rspec-instance_method" title="Ruber::RSpec::Plugin#run_rspec (method)">#run_rspec</a></span></p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Proc</tt>)</span>
+      
+      
+        <span class='name'>blk</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>see the <em>blk</em> argument of <span class='object_link'><a href="#run_rspec-instance_method" title="Ruber::RSpec::Plugin#run_rspec (method)">#run_rspec</a></span></p></div>
+      
+    </li>
+  
+</ul>
+
+  
+    
+    
+    
+    
+    <h3>Options Hash (<tt>opts</tt>):</h3>
+    <ul class="option">
+      
+        <li>
+          <span class="type">(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+          <span class="name">:files</span>
+          <span class="default">
+            
+              <span class="na">N/A</span>
+            
+          </span>
+          &mdash;<div class='inline'><p>the files to pass to the spec program</p></div>
+        </tr>
+      
+    </ul>
+  
+    
+    
+    
+    
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><strong>true</strong> if the process is started and <strong>false</strong> otherwise</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+351
+352
+353
+354
+355
+356</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 351</span>
+
+<span class='kw'>def</span> <span class='id run_rspec_for'>run_rspec_for</span> <span class='id origin'>origin</span><span class='comma'>,</span> <span class='id opts'>opts</span><span class='comma'>,</span> <span class='id autosave_opts'>autosave_opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id blk'>blk</span>
+  <span class='id process'>process</span><span class='period'>.</span><span class='id kill'>kill</span>
+  <span class='id ruby'>ruby</span><span class='comma'>,</span> <span class='op'>*</span><span class='id cmd'>cmd</span> <span class='op'>=</span> <span class='id ruby_command_for'>ruby_command_for</span> <span class='id origin'>origin</span><span class='comma'>,</span> <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:dir</span><span class='rbracket'>]</span>
+  <span class='id opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='symbol'>:ruby</span> <span class='op'>=&gt;</span> <span class='id ruby'>ruby</span><span class='comma'>,</span> <span class='symbol'>:ruby_options</span> <span class='op'>=&gt;</span> <span class='id cmd'>cmd</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id merge'>merge</span> <span class='id opts'>opts</span>
+  <span class='id run_rspec'>run_rspec</span> <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:files</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id opts'>opts</span><span class='comma'>,</span> <span class='id autosave_opts'>autosave_opts</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id blk'>blk</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="specs_for_file-instance_method">
+  
+    - (<tt>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>&gt;</tt>) <strong>specs_for_file</strong>(opts, file)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Determines all possible specs files associated with a code file</p>
+<p>The names of the possible spec files are obtained replacing the <code>%f</code> tag in each
+entry of the <code>rspec/pattern</code> setting with the name of the file (without checking
+whether the files actually exist).</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>file</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the name of the code file</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the names of the possible spec file associated with <em>file</em></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+448
+449
+450
+451
+452</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 448</span>
+
+<span class='kw'>def</span> <span class='id specs_for_file'>specs_for_file</span> <span class='id opts'>opts</span><span class='comma'>,</span> <span class='id file'>file</span>
+  <span class='id file'>file</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id basename'>basename</span> <span class='id file'>file</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>.rb</span><span class='tstring_end'>'</span></span>
+  <span class='id res'>res</span> <span class='op'>=</span> <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:pattern</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id map'>map</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span> <span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span> <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:specs_dir</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id i'>i</span><span class='period'>.</span><span class='id gsub'>gsub</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>%f</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='id file'>file</span><span class='rparen'>)</span><span class='rbrace'>}</span>
+  <span class='id res'>res</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+
+</div>
+    
+    <div id="footer">
+  Generated on Fri Oct 29 12:52:51 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.1 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>

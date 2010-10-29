@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>Module: Ruber::FindInFiles</title>
+<link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (F)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../Ruber.html" title="Ruber (module)">Ruber</a></span></span>
+     &raquo; 
+    <span class="title">FindInFiles</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Module: Ruber::FindInFiles
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">plugins/find_in_files/find_in_files.rb<span class="defines">,<br />
+  plugins/find_in_files/find_in_files_dlg.rb,<br /> plugins/find_in_files/find_in_files_widgets.rb</span>
+</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>Plugin which allows the user to perform searches and replacements in a range of files</p>
+<p>This plugin, which is mostly a frontend for the <a href="http://rak.rubyforge.org/">rak</a> program,
+consists in a dialog and two tool widgets.</p>
+<p>The dialog is where the user chooses
+the search criteria (the text to search, the directory where to look and filters
+to limit the kind of files to look for) and, optionally, the replacement text. 
+Depending on whether the user presses the Find or the Replace button in the dialog,
+a find or a replacement operation is started.</p>
+<p>The tool widgets display the results of the search and replacement operations. In
+particular, in case of a replacement, nothing is actually replaced when the user
+presses the Replace button in the dialog. Instead, when this happens, the Replace
+tool widgets is filled with a list of potential replacements. The user can uncheck
+the replacements he doesn&#8217;t like. The replacements are only applied when he presses
+the Replace button on the tool widget. If a file changes before the user presses
+that button, replacements in it won&#8217;t  be carried out.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>    <h2>API for feature <tt>find_in_files</tt></h2>
+      <h4>Plugin object API</h4>
+      <p>See API for <span class='object_link'><a href="FindInFiles/FindInFilesPlugin.html" title="Ruber::FindInFiles::FindInFilesPlugin (class)">FindInFiles::FindInFilesPlugin</a></span></p>
+
+
+
+
+<h2>Defined Under Namespace</h2>
+<p class="children">
+   
+    
+   
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="FindInFiles/ConfigWidget.html" title="Ruber::FindInFiles::ConfigWidget (class)">ConfigWidget</a></span>, <span class='object_link'><a href="FindInFiles/FindInFilesPlugin.html" title="Ruber::FindInFiles::FindInFilesPlugin (class)">FindInFilesPlugin</a></span>, <span class='object_link'><a href="FindInFiles/FindReplaceInFilesDlg.html" title="Ruber::FindInFiles::FindReplaceInFilesDlg (class)">FindReplaceInFilesDlg</a></span>, <span class='object_link'><a href="FindInFiles/FindWidget.html" title="Ruber::FindInFiles::FindWidget (class)">FindWidget</a></span>, <span class='object_link'><a href="FindInFiles/ReplaceWidget.html" title="Ruber::FindInFiles::ReplaceWidget (class)">ReplaceWidget</a></span>
+    
+  
+</p>
+
+
+
+
+
+</div>
+    
+    <div id="footer">
+  Generated on Fri Oct 29 12:53:03 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.1 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>

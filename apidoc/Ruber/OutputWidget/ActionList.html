@@ -1,0 +1,364 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>Class: Ruber::OutputWidget::ActionList</title>
+<link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '../..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../_index.html">Index (A)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../../Ruber.html" title="Ruber (module)">Ruber</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../OutputWidget.html" title="Ruber::OutputWidget (class)">OutputWidget</a></span></span>
+     &raquo; 
+    <span class="title">ActionList</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Ruber::OutputWidget::ActionList
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName"><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span></span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next"><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span></li>
+          
+            <li class="next">Ruber::OutputWidget::ActionList</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/ruber/output_widget.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>Array of actions and separators (represented by nil) which allows to easily
+ insert an entry before or after another one</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+
+  
+  
+  
+  
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#insert_after-instance_method" title="#insert_after (instance method)">- (Object) <strong>insert_after</strong>(entry, *names) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>:call-seq: list.insert_after entry, name1 [, name2, &#8230;].</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#insert_after_or_before-instance_method" title="#insert_after_or_before (instance method)">- (Object) <strong>insert_after_or_before</strong>(entry, where, names) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Helper method used by <tt>insert_after</tt> and <tt>insert_before</tt> which performs
+the actual insertion of the elements.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#insert_before-instance_method" title="#insert_before (instance method)">- (Object) <strong>insert_before</strong>(entry, *names) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>:call-seq: list.insert_before entry, name1 [, name2, &#8230;].</p></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../../Array.html#only%3F-instance_method" title="Array#only? (method)">#only?</a></span>, <span class='object_link'><a href="../../Array.html#sample-instance_method" title="Array#sample (method)">#sample</a></span>, <span class='object_link'><a href="../../Array.html#to_array-instance_method" title="Array#to_array (method)">#to_array</a></span>, <span class='object_link'><a href="../../Array.html#to_h-instance_method" title="Array#to_h (method)">#to_h</a></span></p>
+
+
+
+
+
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="insert_after-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>insert_after</strong>(entry, *names) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>:call-seq: list.insert_after entry, name1 [, name2, &#8230;]</p>
+Adds one or more actions after a given one
+=Arguments
+<em>entry</em>:: the name of the action after which to insert the new ones. If this
+an integer <em>n</em>, then the actions will be added after the _n_th
+separator. If the entry doesn&#8217;t exist, or the number of separators is
+less than <em>n</em>, the new entries will be added at the end of the list
+<em>namei</em>:: the names of the actions to add (or <ins>nil</ins> for separators)
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1058
+1059
+1060</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/output_widget.rb', line 1058</span>
+
+<span class='kw'>def</span> <span class='id insert_after'>insert_after</span> <span class='id entry'>entry</span><span class='comma'>,</span> <span class='op'>*</span><span class='id names'>names</span>
+  <span class='id insert_after_or_before'>insert_after_or_before</span> <span class='id entry'>entry</span><span class='comma'>,</span> <span class='symbol'>:after</span><span class='comma'>,</span> <span class='id names'>names</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="insert_after_or_before-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>insert_after_or_before</strong>(entry, where, names)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Helper method used by <tt>insert_after</tt> and <tt>insert_before</tt> which performs
+the actual insertion of the elements.</p>
+<p><em>entry</em> has the same meaning as in <tt>insert_after</tt> and <i>insert_before</tt>,
+while <em>names</em> has the same meaning as the optional arguments of those methods.
+<em>where</em> can be <ins>:after</ins> or <ins>:before</ins> and tells whether the new elements should be
+inserted after or before the position.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1073
+1074
+1075
+1076
+1077
+1078
+1079
+1080
+1081
+1082
+1083
+1084
+1085
+1086
+1087</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/output_widget.rb', line 1073</span>
+
+<span class='kw'>def</span> <span class='id insert_after_or_before'>insert_after_or_before</span> <span class='id entry'>entry</span><span class='comma'>,</span> <span class='id where'>where</span><span class='comma'>,</span> <span class='id names'>names</span>
+  <span class='id idx'>idx</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='id entry'>entry</span><span class='period'>.</span><span class='id is_a?'>is_a?</span> <span class='const'>Integer</span>
+  <span class='comment'># The - 1 is needed because entry is the number of separators, but indexes start
+</span>  <span class='comment'># at 0
+</span>    <span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id each_with_index'>each_with_index</span><span class='period'>.</span><span class='id find_all'>find_all</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id a'>a</span><span class='comma'>,</span> <span class='id i'>i</span><span class='op'>|</span> <span class='id a'>a</span><span class='period'>.</span><span class='id nil?'>nil?</span><span class='rbrace'>}</span><span class='lbracket'>[</span><span class='id entry'>entry</span> <span class='op'>-</span> <span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span>
+  <span class='kw'>else</span> <span class='kw'>self</span><span class='period'>.</span><span class='id index'>index</span><span class='lparen'>(</span><span class='id entry'>entry</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+  <span class='kw'>if</span> <span class='id idx'>idx</span> <span class='kw'>and</span> <span class='id where'>where</span> <span class='op'>==</span> <span class='symbol'>:after</span> <span class='kw'>then</span> <span class='id idx'>idx</span> <span class='op'>+=</span> <span class='int'>1</span>
+  <span class='kw'>elsif</span> <span class='op'>!</span><span class='id idx'>idx</span> <span class='kw'>then</span> <span class='id idx'>idx</span> <span class='op'>=</span> <span class='id size'>size</span>
+  <span class='kw'>end</span>
+  <span class='comment'>#Using reverse_each, we don't need to care increasing idx as we add items (the 
+</span>  <span class='comment'>#first item should be at position idx, the second at idx+1 and so on. With reverse_each)
+</span>  <span class='comment'>#this happens automatically. The +1 is needed to insert the items after idx
+</span>  <span class='id names'>names</span><span class='period'>.</span><span class='id reverse_each'>reverse_each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id n'>n</span><span class='op'>|</span> <span class='id insert'>insert</span> <span class='id idx'>idx</span><span class='comma'>,</span> <span class='id n'>n</span><span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="insert_before-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>insert_before</strong>(entry, *names) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>:call-seq: list.insert_before entry, name1 [, name2, &#8230;]</p>
+Adds one or more actions before a given one
+=Arguments
+<em>entry</em>:: the name of the action before which to insert the new ones. If this
+an integer <em>n</em>, then the actions will be added before the _n_th
+separator. If the entry doesn&#8217;t exist, or the number of separators is
+less than <em>n</em>, the new entries will be added at the end of the list
+<em>namei</em>:: the names of the actions to add (or <ins>nil</ins> for separators)
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+1043
+1044
+1045</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/output_widget.rb', line 1043</span>
+
+<span class='kw'>def</span> <span class='id insert_before'>insert_before</span> <span class='id entry'>entry</span><span class='comma'>,</span> <span class='op'>*</span><span class='id names'>names</span>
+  <span class='id insert_after_or_before'>insert_after_or_before</span> <span class='id entry'>entry</span><span class='comma'>,</span> <span class='symbol'>:before</span><span class='comma'>,</span> <span class='id names'>names</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+
+</div>
+    
+    <div id="footer">
+  Generated on Fri Oct 29 12:52:53 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.1 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>

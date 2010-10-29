@@ -1,0 +1,1247 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>Class: Ruber::Application</title>
+<link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (A)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../Ruber.html" title="Ruber (module)">Ruber</a></span></span>
+     &raquo; 
+    <span class="title">Application</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Ruber::Application
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName"><span class='object_link'><a href="../KDE/Application.html" title="KDE::Application (class)">KDE::Application</a></span></span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next"><span class='object_link'><a href="../KDE/Application.html" title="KDE::Application (class)">KDE::Application</a></span></li>
+          
+            <li class="next">Ruber::Application</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+      <dt class="r2">Includes:</dt>
+      <dd class="r2"><span class='object_link'><a href="PluginLike.html" title="Ruber::PluginLike (module)">PluginLike</a></span></dd>
+      
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">lib/ruber/application/application.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="DEFAULT_PLUGIN_PATHS-constant" class="">DEFAULT_PLUGIN_PATHS =
+          <div class="docstring">
+  <div class="discussion">
+    <p>The default path where to look for plugins. It only includes the <em>plugins</em> directory
+in the Ruber installation path</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+        </dt>
+        <dd><pre class="code">[0], 'plugins'),
+  File.expand_path(File.join(RUBER_LIB_DIR, '..', '..', 'plugins'))
+]</pre></dd>
+      
+        <dt id="DEFAULT_PLUGINS-constant" class="">DEFAULT_PLUGINS =
+          <div class="docstring">
+  <div class="discussion">
+    <p>The default plugins to load. They are: ruby_development, find_in_files, syntax_checker,
+command and state</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+        </dt>
+        <dd><pre class="code"><span class='qwords_beg'>%w[</span><span class='tstring_end'>ruby_development</span></span></pre></dd>
+      
+    </dl>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#cmd_line_options-instance_method" title="#cmd_line_options (instance method)">- (Object) <strong>cmd_line_options</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title readonly">readonly</span>
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>A hash containing the command line options.</p></div></span>
+  
+</li>
+
+    
+      <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#status-instance_method" title="#status (instance method)">- (Object) <strong>status</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title readonly">readonly</span>
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The status of the application.</p></div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (Application) <strong>initialize</strong>(manager, pdf) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Creates a new application object.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#load_core_components-instance_method" title="#load_core_components (instance method)">- (Object) <strong>load_core_components</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Loads the core components.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#load_settings-instance_method" title="#load_settings (instance method)">- (Object) <strong>load_settings</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Applies the application&#8217;s configuration settings.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#open_command_line_files-instance_method" title="#open_command_line_files (instance method)">- (Object) <strong>open_command_line_files</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Opens the files and/or project listed on the command line, or creates a single.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#quit_ruber-instance_method" title="#quit_ruber (instance method)">- (Object) <strong>quit_ruber</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#quitting%3F-instance_method" title="#quitting? (instance method)">- (Boolean) <strong>quitting?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#register_with_config-instance_method" title="#register_with_config (instance method)">- (Object) <strong>register_with_config</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Registers the configuration options with the configuration manager, calls the.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#running%3F-instance_method" title="#running? (instance method)">- (Boolean) <strong>running?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#safe_load_plugins-instance_method" title="#safe_load_plugins (instance method)">- (Object) <strong>safe_load_plugins</strong>(plugins, silent = false, dirs = nil, &amp;blk) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>It is a wrapper around ComponentManager#load_plugins which allows an easier handling
+of exceptions raised by the loaded plugins.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#setup-instance_method" title="#setup (instance method)">- (Object) <strong>setup</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Loads the plugins in the configuration file and opens the files and/or.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#starting%3F-instance_method" title="#starting? (instance method)">- (Boolean) <strong>starting?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns <strong>true</strong> if the application is starting and <strong>false</strong> if it has already.</p></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="PluginLike.html" title="Ruber::PluginLike (module)">PluginLike</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="PluginLike.html#add_extensions_to_project-instance_method" title="Ruber::PluginLike#add_extensions_to_project (method)">#add_extensions_to_project</a></span>, <span class='object_link'><a href="PluginLike.html#add_options_to_project-instance_method" title="Ruber::PluginLike#add_options_to_project (method)">#add_options_to_project</a></span>, <span class='object_link'><a href="PluginLike.html#add_widgets_to_project-instance_method" title="Ruber::PluginLike#add_widgets_to_project (method)">#add_widgets_to_project</a></span>, <span class='object_link'><a href="PluginLike.html#create_tool_widget-instance_method" title="Ruber::PluginLike#create_tool_widget (method)">#create_tool_widget</a></span>, <span class='object_link'><a href="PluginLike.html#delayed_initialize-instance_method" title="Ruber::PluginLike#delayed_initialize (method)">#delayed_initialize</a></span>, <span class='object_link'><a href="PluginLike.html#initialize_plugin-instance_method" title="Ruber::PluginLike#initialize_plugin (method)">#initialize_plugin</a></span>, <span class='object_link'><a href="PluginLike.html#plugin_name-instance_method" title="Ruber::PluginLike#plugin_name (method)">#plugin_name</a></span>, <span class='object_link'><a href="PluginLike.html#query_close-instance_method" title="Ruber::PluginLike#query_close (method)">#query_close</a></span>, <span class='object_link'><a href="PluginLike.html#register_options-instance_method" title="Ruber::PluginLike#register_options (method)">#register_options</a></span>, <span class='object_link'><a href="PluginLike.html#register_with_project-instance_method" title="Ruber::PluginLike#register_with_project (method)">#register_with_project</a></span>, <span class='object_link'><a href="PluginLike.html#remove_extensions_from_project-instance_method" title="Ruber::PluginLike#remove_extensions_from_project (method)">#remove_extensions_from_project</a></span>, <span class='object_link'><a href="PluginLike.html#remove_from_project-instance_method" title="Ruber::PluginLike#remove_from_project (method)">#remove_from_project</a></span>, <span class='object_link'><a href="PluginLike.html#remove_options_from_project-instance_method" title="Ruber::PluginLike#remove_options_from_project (method)">#remove_options_from_project</a></span>, <span class='object_link'><a href="PluginLike.html#remove_widgets_from_project-instance_method" title="Ruber::PluginLike#remove_widgets_from_project (method)">#remove_widgets_from_project</a></span>, <span class='object_link'><a href="PluginLike.html#restore_session-instance_method" title="Ruber::PluginLike#restore_session (method)">#restore_session</a></span>, <span class='object_link'><a href="PluginLike.html#save_settings-instance_method" title="Ruber::PluginLike#save_settings (method)">#save_settings</a></span>, <span class='object_link'><a href="PluginLike.html#session_data-instance_method" title="Ruber::PluginLike#session_data (method)">#session_data</a></span>, <span class='object_link'><a href="PluginLike.html#setup_action-instance_method" title="Ruber::PluginLike#setup_action (method)">#setup_action</a></span>, <span class='object_link'><a href="PluginLike.html#setup_actions-instance_method" title="Ruber::PluginLike#setup_actions (method)">#setup_actions</a></span>, <span class='object_link'><a href="PluginLike.html#shutdown-instance_method" title="Ruber::PluginLike#shutdown (method)">#shutdown</a></span>, <span class='object_link'><a href="PluginLike.html#unload-instance_method" title="Ruber::PluginLike#unload (method)">#unload</a></span>, <span class='object_link'><a href="PluginLike.html#update_project-instance_method" title="Ruber::PluginLike#update_project (method)">#update_project</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="../KDE/Application.html" title="KDE::Application (class)">KDE::Application</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../KDE/Application.html#with_override_cursor-class_method" title="KDE::Application.with_override_cursor (method)">with_override_cursor</a></span>, <span class='object_link'><a href="../KDE/Application.html#with_override_cursor-instance_method" title="KDE::Application#with_override_cursor (method)">#with_override_cursor</a></span></p>
+
+
+
+
+
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::Application (class)">Application</a></span></tt>) <strong>initialize</strong>(manager, pdf) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Creates a new application object.</p>
+Besides creating the application, this method also loads the core components
+and sets up a timer which will cause the application&#8217;s <em>setup</em> method to be
+called as soon as <tt>Application#exec</tt> is called.
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 81</span>
+
+<span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id manager'>manager</span><span class='comma'>,</span> <span class='id pdf'>pdf</span>
+  <span class='kw'>super</span><span class='lparen'>(</span><span class='rparen'>)</span>
+  <span class='ivar'>@components</span> <span class='op'>=</span> <span class='id manager'>manager</span>
+  <span class='ivar'>@components</span><span class='period'>.</span><span class='id parent'>parent</span> <span class='op'>=</span> <span class='kw'>self</span>
+  <span class='const'>Ruber</span><span class='period'>.</span><span class='id instance_variable_set'>instance_variable_set</span> <span class='symbol'>:@components</span><span class='comma'>,</span> <span class='ivar'>@components</span>
+  <span class='id initialize_plugin'>initialize_plugin</span> <span class='id pdf'>pdf</span>
+  <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Global</span><span class='period'>.</span><span class='id dirs'>dirs</span><span class='period'>.</span><span class='id addPrefix'>addPrefix</span> <span class='const'>File</span><span class='period'>.</span><span class='id expand_path'>expand_path</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span><span class='lparen'>(</span> <span class='const'>RUBER_DATA_DIR</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>..</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>..</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>data</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='id icon_path'>icon_path</span> <span class='op'>=</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Global</span><span class='period'>.</span><span class='id dirs'>dirs</span><span class='period'>.</span><span class='id find_resource'>find_resource</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>icon</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>ruber</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id window_icon'>window_icon</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Icon</span><span class='period'>.</span><span class='id new'>new</span> <span class='id icon_path'>icon_path</span>
+  <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Global</span><span class='period'>.</span><span class='id main_component'>main_component</span><span class='period'>.</span><span class='id about_data'>about_data</span><span class='period'>.</span><span class='id program_icon_name'>program_icon_name</span> <span class='op'>=</span> <span class='id icon_path'>icon_path</span>
+  <span class='ivar'>@cmd_line_options</span> <span class='op'>=</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>CmdLineArgs</span><span class='period'>.</span><span class='id parsed_args'>parsed_args</span>
+  <span class='ivar'>@plugin_dirs</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='id load_core_components'>load_core_components</span>
+  <span class='ivar'>@status</span> <span class='op'>=</span> <span class='symbol'>:starting</span>
+  <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Timer</span><span class='period'>.</span><span class='id single_shot'>single_shot</span><span class='lparen'>(</span><span class='int'>0</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:setup</span><span class='rparen'>)</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <span id="cmd_line_options-instance_method"></span>
+      <div class="method_details first">
+  <p class="signature first" id="cmd_line_options-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>cmd_line_options</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>A hash containing the command line options</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+67
+68
+69</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 67</span>
+
+<span class='kw'>def</span> <span class='id cmd_line_options'>cmd_line_options</span>
+  <span class='ivar'>@cmd_line_options</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <span id="status-instance_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="status-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>status</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The status of the application. It can be: <ins>:starting</ins>, <ins>:running</ins> or <ins>:quitting</ins></p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+72
+73
+74</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 72</span>
+
+<span class='kw'>def</span> <span class='id status'>status</span>
+  <span class='ivar'>@status</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="load_core_components-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>load_core_components</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Loads the core components. In order, they are:</p>
+<ul>
+	<li>the configuration manager</li>
+	<li>the document keeper</li>
+	<li>the main window</li>
+</ul>
+After creating the configuration manager, the <tt>register_with_config</tt>
+method is called
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 232</span>
+
+<span class='kw'>def</span> <span class='id load_core_components'>load_core_components</span>
+  <span class='kw'>begin</span>
+    <span class='id current'>current</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>config</span><span class='tstring_end'>'</span></span>
+    <span class='ivar'>@components</span><span class='period'>.</span><span class='id load_component'>load_component</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>config</span><span class='tstring_end'>'</span></span>
+    <span class='id register_with_config'>register_with_config</span>
+    <span class='qwords_beg'>%w[</span><span class='tstring_content'>documents</span><span class='words_sep'> </span><span class='tstring_content'>projects</span><span class='words_sep'> </span><span class='tstring_content'>main_window</span><span class='words_sep'>]</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span>
+      <span class='id current'>current</span> <span class='op'>=</span> <span class='id i'>i</span>
+      <span class='ivar'>@components</span><span class='period'>.</span><span class='id load_component'>load_component</span> <span class='id i'>i</span>
+    <span class='kw'>end</span>
+  <span class='kw'>rescue</span> <span class='const'>Exception</span> <span class='op'>=&gt;</span> <span class='id e'>e</span>
+    <span class='const'>ComponentLoadingErrorDialog</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id current'>current</span><span class='comma'>,</span> <span class='id e'>e</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='kw'>true</span><span class='rparen'>)</span><span class='period'>.</span><span class='id exec'>exec</span>
+    <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Internal</span><span class='period'>.</span><span class='id application_terminated'>application_terminated</span> <span class='op'>=</span> <span class='kw'>true</span>
+    <span class='id exit'>exit</span> <span class='int'>1</span>
+  <span class='kw'>end</span>
+  <span class='kw'>if</span> <span class='id sessionRestored?'>sessionRestored?</span> <span class='kw'>then</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id restore'>restore</span> <span class='int'>1</span><span class='comma'>,</span> <span class='kw'>false</span>
+  <span class='kw'>else</span>
+    <span class='id open_command_line_files'>open_command_line_files</span>
+    <span class='kw'>if</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id projects'>projects</span><span class='period'>.</span><span class='id empty?'>empty?</span> <span class='kw'>and</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:documents</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id documents'>documents</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+      <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id display_doc'>display_doc</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:documents</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id new_document'>new_document</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="load_settings-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>load_settings</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Applies the application&#8217;s configuration settings. It also adds any plugin directory
+  to the load path, unless it&#8217;s already there.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+159
+160
+161
+162
+163</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 159</span>
+
+<span class='kw'>def</span> <span class='id load_settings'>load_settings</span>
+  <span class='ivar'>@plugin_dirs</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:general</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id plugin_dirs'>plugin_dirs</span>
+  <span class='id new_dirs'>new_dirs</span> <span class='op'>=</span> <span class='ivar'>@plugin_dirs</span> <span class='op'>-</span> <span class='gvar'>$:</span>
+  <span class='id new_dirs'>new_dirs</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id d'>d</span><span class='op'>|</span> <span class='gvar'>$:</span><span class='period'>.</span><span class='id unshift'>unshift</span> <span class='id d'>d</span><span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>load_settings()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="open_command_line_files-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>open_command_line_files</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Opens the files and/or project listed on the command line, or creates a single
+  empty document if neither files nor projects have been specified.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 275</span>
+
+<span class='kw'>def</span> <span class='id open_command_line_files'>open_command_line_files</span>
+  <span class='id args'>args</span> <span class='op'>=</span> <span class='ivar'>@cmd_line_options</span><span class='period'>.</span><span class='id files'>files</span>
+  <span class='id win'>win</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span>
+  <span class='id projects'>projects</span><span class='comma'>,</span> <span class='id files'>files</span> <span class='op'>=</span> <span class='id args'>args</span><span class='period'>.</span><span class='id partition'>partition</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id f'>f</span><span class='op'>|</span> <span class='const'>File</span><span class='period'>.</span><span class='id extname'>extname</span><span class='lparen'>(</span><span class='id f'>f</span><span class='rparen'>)</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>.ruprj</span><span class='tstring_end'>'</span></span><span class='rbrace'>}</span>
+  <span class='id prj'>prj</span> <span class='op'>=</span> <span class='id win'>win</span><span class='period'>.</span><span class='id safe_open_project'>safe_open_project</span> <span class='id projects'>projects</span><span class='period'>.</span><span class='id last'>last</span> <span class='kw'>unless</span> <span class='id projects'>projects</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+  <span class='id files'>files</span> <span class='op'>+=</span> <span class='ivar'>@cmd_line_options</span><span class='period'>.</span><span class='id getOptionList'>getOptionList</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>file</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+  <span class='id files'>files</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id f'>f</span><span class='op'>|</span> 
+    <span class='id win'>win</span><span class='period'>.</span><span class='id display_document'>display_document</span> <span class='id f'>f</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="quit_ruber-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>quit_ruber</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+98
+99
+100
+101</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 98</span>
+
+<span class='kw'>def</span> <span class='id quit_ruber'>quit_ruber</span>
+  <span class='ivar'>@status</span> <span class='op'>=</span> <span class='symbol'>:quitting</span>
+  <span class='ivar'>@components</span><span class='period'>.</span><span class='id shutdown'>shutdown</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="quitting?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>quitting?</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+122
+123
+124</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 122</span>
+
+<span class='kw'>def</span> <span class='id quitting?'>quitting?</span>
+  <span class='ivar'>@status</span> <span class='op'>==</span> <span class='symbol'>:quitting</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="register_with_config-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>register_with_config</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Registers the configuration options with the configuration manager, calls the
+  <tt>load_settings</tt> method and connects to the configuration manager&#8217;s
+  <tt>settings_changed</tt> signal.</p>
+This tasks are performed by the <tt>PluginLike#initialize_plugin</tt> method,
+but as the config manager didn&#8217;t exist when that method was called,  it is
+necessary to to them here
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+264
+265
+266
+267
+268
+269</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 264</span>
+
+<span class='kw'>def</span> <span class='id register_with_config'>register_with_config</span>
+  <span class='id config'>config</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span>
+  <span class='ivar'>@plugin_description</span><span class='period'>.</span><span class='id config_options'>config_options</span><span class='period'>.</span><span class='id each_value'>each_value</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id o'>o</span><span class='op'>|</span> <span class='id config'>config</span><span class='period'>.</span><span class='id add_option'>add_option</span> <span class='id o'>o</span><span class='rbrace'>}</span>
+  <span class='id load_settings'>load_settings</span>
+  <span class='id connect'>connect</span> <span class='id config'>config</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:settings_changed</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:load_settings</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="running?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>running?</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+118
+119
+120</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 118</span>
+
+<span class='kw'>def</span> <span class='id running?'>running?</span>
+  <span class='ivar'>@status</span> <span class='op'>==</span> <span class='symbol'>:running</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="safe_load_plugins-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>safe_load_plugins</strong>(plugins, silent = false, dirs = nil, &amp;blk) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>It is a wrapper around ComponentManager#load_plugins which allows an easier handling
+of exceptions raised by the loaded plugins.</p>
+<p>If a block is given, it is passed to ComponentManager#load_plugins, to determine
+what to do if an exception is raised while loading a plugin. If no block is given
+and <em>silent</em> is <strong>false</strong>, then a dialog displaying the error message is shown to
+the user, who has the following options: ignore the plugin which gave the error,
+skip all the remaining plugins, go on ignoring other errors or aborting. If no
+block is given and <em>silent</em> is a true value, then all errors will be ignored.</p>
+<p><em>plugins</em> should be an array containing the names of the plugins to load
+(dependencies) will be computed automatically. <em>dirs</em> is an array containing the
+directories where to look for plugins. If <strong>nil</strong>, the values stored in the
+&#8220;Plugin directories&#8221; entry in the configuration file will be used.</p>
+<p><b>Note:</b> this method doesn&#8217;t attempt to handle exceptions raised while computing
+or sorting dependencies.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+145
+146
+147
+148
+149
+150
+151</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 145</span>
+
+<span class='kw'>def</span> <span class='id safe_load_plugins'>safe_load_plugins</span> <span class='id plugins'>plugins</span><span class='comma'>,</span> <span class='id silent'>silent</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='id dirs'>dirs</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id blk'>blk</span>
+  <span class='kw'>if</span> <span class='id blk'>blk</span><span class='period'>.</span><span class='id nil?'>nil?</span> <span class='kw'>and</span> <span class='id silent'>silent</span> <span class='kw'>then</span> <span class='id blk'>blk</span> <span class='op'>=</span> <span class='id proc'>proc</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id _pl'>_pl</span><span class='comma'>,</span> <span class='id _e'>_e</span><span class='op'>|</span> <span class='symbol'>:silent</span><span class='rbrace'>}</span>
+  <span class='kw'>elsif</span> <span class='id blk'>blk</span><span class='period'>.</span><span class='id nil?'>nil?</span>
+    <span class='id blk'>blk</span> <span class='op'>=</span> <span class='const'>Proc</span><span class='period'>.</span><span class='id new'>new</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id pl'>pl</span><span class='comma'>,</span> <span class='id e'>e</span><span class='op'>|</span> <span class='const'>ComponentLoadingErrorDialog</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id pl'>pl</span><span class='period'>.</span><span class='id name'>name</span><span class='comma'>,</span> <span class='id e'>e</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='rparen'>)</span><span class='period'>.</span><span class='id exec'>exec</span><span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+  <span class='ivar'>@components</span><span class='period'>.</span><span class='id load_plugins'>load_plugins</span> <span class='id plugins'>plugins</span><span class='comma'>,</span> <span class='id dirs'>dirs</span> <span class='op'>||</span> <span class='ivar'>@plugin_dirs</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id blk'>blk</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="setup-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>setup</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Loads the plugins in the configuration file and opens the files and/or
+  projects listed in the command line. At the end, marks the application
+  as <em>running</em>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 170</span>
+
+<span class='kw'>def</span> <span class='id setup'>setup</span>
+  <span class='comment'># Create $KDEHOME/share/apps/ruber/plugins if it's missing
+</span>  <span class='kw'>begin</span> <span class='const'>FileUtils</span><span class='period'>.</span><span class='id mkdir'>mkdir</span> <span class='const'>DEFAULT_PLUGIN_PATHS</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
+  <span class='kw'>rescue</span> <span class='const'>Errno</span><span class='op'>::</span><span class='const'>EEXIST</span>
+  <span class='kw'>end</span>
+  <span class='id chosen_plugins'>chosen_plugins</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:general</span><span class='comma'>,</span> <span class='symbol'>:plugins</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:to_sym</span><span class='rparen'>)</span>
+  <span class='id needed_plugins'>needed_plugins</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='id deps_problem_msg'>deps_problem_msg</span> <span class='op'>=</span> <span class='const'>Proc</span><span class='period'>.</span><span class='id new'>new</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id e'>e</span><span class='op'>|</span>
+    <span class='heredoc_beg'>&lt;&lt;-EOS</span><span class='tstring_content'>    The following errors have occurred while attempting to resolve the dependencies among plugins you chose:
+</span><span class='tstring_content'>    </span><span class='embexpr_beg'>#{</span><span class='id e'>e</span><span class='period'>.</span><span class='id message'>message</span><span class='rbrace'>}</span><span class='tstring_content'>
+    
+    Ruber will start with no plugin loaded. Please, use the Choose Plugins menu entry in the Settings menu to solve the issue.
+</span><span class='heredoc_end'>    EOS
+</span>
+  <span class='kw'>end</span>
+  <span class='kw'>begin</span> 
+    <span class='id availlable_plugins'>availlable_plugins</span> <span class='op'>=</span> <span class='const'>ComponentManager</span><span class='period'>.</span><span class='id find_plugins'>find_plugins</span> <span class='ivar'>@plugin_dirs</span><span class='comma'>,</span> <span class='kw'>true</span>
+    <span class='id chosen_data'>chosen_data</span> <span class='op'>=</span> <span class='id chosen_plugins'>chosen_plugins</span><span class='period'>.</span><span class='id map'>map</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span> <span class='id availlable_plugins'>availlable_plugins</span><span class='lbracket'>[</span><span class='id i'>i</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id compact'>compact</span>
+    <span class='id found'>found</span> <span class='op'>=</span> <span class='id chosen_data'>chosen_data</span><span class='period'>.</span><span class='id map'>map</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span> <span class='id i'>i</span><span class='period'>.</span><span class='id name'>name</span><span class='rbrace'>}</span>
+    <span class='kw'>if</span> <span class='id found'>found</span><span class='period'>.</span><span class='id size'>size</span> <span class='op'>!=</span> <span class='id chosen_plugins'>chosen_plugins</span><span class='period'>.</span><span class='id size'>size</span>
+      <span class='id missing'>missing</span> <span class='op'>=</span> <span class='id chosen_plugins'>chosen_plugins</span> <span class='op'>-</span> <span class='id found'>found</span>
+      <span class='id question'>question</span> <span class='op'>=</span> <span class='heredoc_beg'>&lt;&lt;-EOS</span><span class='tstring_content'>Ruber couldn't find some plugins it has been configured to automatically load at startup. They are:
+</span><span class='embexpr_beg'>#{</span><span class='id missing'>missing</span><span class='period'>.</span><span class='id join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rbrace'>}</span><span class='tstring_content'>
+Do you want to start the application without them or to quit Ruber?
+</span><span class='heredoc_end'>      EOS
+</span>
+      <span class='id ans'>ans</span> <span class='op'>=</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>MessageBox</span><span class='period'>.</span><span class='id question_yes_no'>question_yes_no</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id question'>question</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Missing plugins</span><span class='tstring_end'>'</span></span><span class='comma'>,</span>
+          <span class='const'>KDE</span><span class='op'>::</span><span class='const'>GuiItem</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Start Ruber</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>GuiItem</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Quit</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+      <span class='id exit'>exit</span> <span class='kw'>if</span> <span class='id ans'>ans</span> <span class='op'>==</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>MessageBox</span><span class='op'>::</span><span class='const'>No</span>
+      <span class='id chosen_plugins'>chosen_plugins</span> <span class='op'>=</span> <span class='id found'>found</span>
+    <span class='kw'>end</span>
+    <span class='id needed_plugins'>needed_plugins</span> <span class='op'>=</span> <span class='const'>ComponentManager</span><span class='period'>.</span><span class='id fill_dependencies'>fill_dependencies</span> <span class='id chosen_data'>chosen_data</span><span class='comma'>,</span> <span class='id availlable_plugins'>availlable_plugins</span><span class='period'>.</span><span class='id values'>values</span>
+  <span class='kw'>rescue</span> <span class='const'>ComponentManager</span><span class='op'>::</span><span class='const'>DependencyError</span> <span class='op'>=&gt;</span> <span class='id e'>e</span>
+    <span class='const'>KDE</span><span class='op'>::</span><span class='const'>MessageBox</span><span class='period'>.</span><span class='id sorry'>sorry</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id deps_problem_msg'>deps_problem_msg</span><span class='period'>.</span><span class='id call'>call</span><span class='lparen'>(</span><span class='id e'>e</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+  <span class='id plugins'>plugins</span> <span class='op'>=</span> <span class='id chosen_plugins'>chosen_plugins</span> <span class='op'>+</span> <span class='id needed_plugins'>needed_plugins</span>
+  <span class='kw'>begin</span> 
+    <span class='id res'>res</span> <span class='op'>=</span> <span class='id safe_load_plugins'>safe_load_plugins</span><span class='lparen'>(</span><span class='id plugins'>plugins</span><span class='rparen'>)</span> 
+    <span class='kw'>unless</span> <span class='id res'>res</span>
+      <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Internal</span><span class='period'>.</span><span class='id application_terminated'>application_terminated</span> <span class='op'>=</span> <span class='kw'>true</span>
+      <span class='id exit'>exit</span> <span class='int'>1</span>
+    <span class='kw'>end</span>
+  <span class='kw'>rescue</span> <span class='const'>ComponentManager</span><span class='op'>::</span><span class='const'>DependencyError</span> <span class='op'>=&gt;</span> <span class='id e'>e</span>
+    <span class='const'>KDE</span><span class='op'>::</span><span class='const'>MessageBox</span><span class='period'>.</span><span class='id error'>error</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id deps_problem_msg'>deps_problem_msg</span><span class='period'>.</span><span class='id call'>call</span><span class='lparen'>(</span><span class='id e'>e</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+  <span class='kw'>if</span> <span class='id sessionRestored?'>sessionRestored?</span>
+    <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:components</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id restore_session'>restore_session</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id last_session_data'>last_session_data</span>
+  <span class='kw'>end</span>
+  <span class='ivar'>@status</span> <span class='op'>=</span> <span class='symbol'>:running</span>
+  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id show'>show</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>setup()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="starting?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>starting?</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns <strong>true</strong> if the application is starting and <strong>false</strong> if it has already
+  started otherwise. The application is considered to have started after the 
+  application&#8217;s <ins>setup</ins> method has been called and has returned. Before that,
+  it is considered to be starting.</p>
+This method is mostly useful for plugins which need to perform different actions
+depending on whether they&#8217;re loaded at application startup (in which case
+<tt>starting?</tt> returns <strong>true</strong>) or later (when <tt>starting?</tt> returns
+<strong>false</strong>)
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+114
+115
+116</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 114</span>
+
+<span class='kw'>def</span> <span class='id starting?'>starting?</span>
+  <span class='ivar'>@status</span> <span class='op'>==</span> <span class='symbol'>:starting</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+
+</div>
+    
+    <div id="footer">
+  Generated on Fri Oct 29 12:53:03 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.1 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>

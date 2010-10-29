@@ -1,0 +1,505 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>Class: Ruber::Autosave::ConfigWidget</title>
+<link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '../..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../_index.html">Index (C)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../../Ruber.html" title="Ruber (module)">Ruber</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Autosave.html" title="Ruber::Autosave (module)">Autosave</a></span></span>
+     &raquo; 
+    <span class="title">ConfigWidget</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Ruber::Autosave::ConfigWidget
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Qt::Widget</span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next">Qt::Widget</li>
+          
+            <li class="next">Ruber::Autosave::ConfigWidget</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">plugins/autosave/autosave.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>The configuration widget for the Autosave plugin</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+
+  
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#fill_plugin_list-instance_method" title="#fill_plugin_list (instance method)">- (nil) <strong>fill_plugin_list</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Fills the list view with the registered plugins.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (ConfigWidget) <strong>initialize</strong>(parent = nil) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Creates a new instance.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#plugins-instance_method" title="#plugins (instance method)">- (Hash) <strong>plugins</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The plugins for which autsave is enabled and those for which it&#8217;s disabled.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#plugins%3D-instance_method" title="#plugins= (instance method)">- (void) <strong>plugins</strong>(val) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Changes the status of the Plugins widget according to the given value.</p></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+
+
+
+
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::Autosave::ConfigWidget (class)">ConfigWidget</a></span></tt>) <strong>initialize</strong>(parent = nil) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Creates a new instance</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>Qt::Widget</tt>, <tt>nil</tt>)</span>
+      
+      
+        <span class='name'>the</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>parent widget</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/autosave/autosave.rb', line 329</span>
+
+<span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id parent'>parent</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='kw'>super</span>
+  <span class='ivar'>@ui</span> <span class='op'>=</span> <span class='const'>Ui</span><span class='op'>::</span><span class='const'>AutosaveConfigWidget</span><span class='period'>.</span><span class='id new'>new</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id setupUi'>setupUi</span> <span class='kw'>self</span>
+  <span class='id m'>m</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>StandardItemModel</span><span class='period'>.</span><span class='id new'>new</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id _autosave__plugins'>_autosave__plugins</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id _autosave__plugins'>_autosave__plugins</span><span class='period'>.</span><span class='id model'>model</span> <span class='op'>=</span> <span class='id m'>m</span>
+  <span class='id fill_plugin_list'>fill_plugin_list</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id _autosave__plugins'>_autosave__plugins</span><span class='period'>.</span><span class='id enabled'>enabled</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id _autosave__enable'>_autosave__enable</span><span class='period'>.</span><span class='id connect'>connect</span><span class='lparen'>(</span><span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>toggled(bool)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id b'>b</span><span class='op'>|</span>
+    <span class='ivar'>@ui</span><span class='period'>.</span><span class='id _autosave__plugins'>_autosave__plugins</span><span class='period'>.</span><span class='id enabled'>enabled</span> <span class='op'>=</span> <span class='id b'>b</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="fill_plugin_list-instance_method">
+  
+    - (<tt>nil</tt>) <strong>fill_plugin_list</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Fills the list view with the registered plugins</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/autosave/autosave.rb', line 387</span>
+
+<span class='kw'>def</span> <span class='id fill_plugin_list'>fill_plugin_list</span>
+  <span class='id m'>m</span> <span class='op'>=</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id _autosave__plugins'>_autosave__plugins</span><span class='period'>.</span><span class='id model'>model</span>
+  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:autosave</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id registered_plugins'>registered_plugins</span><span class='period'>.</span><span class='id each_pair'>each_pair</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id pl'>pl</span><span class='comma'>,</span> <span class='id val'>val</span><span class='op'>|</span>
+    <span class='id obj'>obj</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='id pl'>pl</span><span class='period'>.</span><span class='id to_sym'>to_sym</span><span class='rbracket'>]</span>
+    <span class='id it'>it</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>StandardItem</span><span class='period'>.</span><span class='id new'>new</span> <span class='id obj'>obj</span><span class='period'>.</span><span class='id plugin_description'>plugin_description</span><span class='period'>.</span><span class='id about'>about</span><span class='period'>.</span><span class='id human_name'>human_name</span>
+    <span class='id it'>it</span><span class='period'>.</span><span class='id data'>data</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Variant</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id pl'>pl</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='rparen'>)</span>
+    <span class='id it'>it</span><span class='period'>.</span><span class='id flags'>flags</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>ItemIsEnabled</span><span class='op'>|</span><span class='const'>Qt</span><span class='op'>::</span><span class='const'>ItemIsSelectable</span><span class='op'>|</span><span class='const'>Qt</span><span class='op'>::</span><span class='const'>ItemIsUserCheckable</span>
+    <span class='id it'>it</span><span class='period'>.</span><span class='id checked'>checked</span> <span class='op'>=</span> <span class='id val'>val</span>
+    <span class='id m'>m</span><span class='period'>.</span><span class='id append_row'>append_row</span> <span class='id it'>it</span>
+  <span class='kw'>end</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="plugins-instance_method">
+  
+    - (<tt>Hash</tt>) <strong>plugins</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The plugins for which autsave is enabled and those for which it&#8217;s disabled</p>
+<p>autosave is enabled or not for a given plugin</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>a hash whose keys are the plugin names and whose values tell whether</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+372
+373
+374
+375
+376
+377
+378</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/autosave/autosave.rb', line 372</span>
+
+<span class='kw'>def</span> <span class='id plugins'>plugins</span>
+  <span class='id mod'>mod</span> <span class='op'>=</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id _autosave__plugins'>_autosave__plugins</span><span class='period'>.</span><span class='id model'>model</span>
+  <span class='id mod'>mod</span><span class='period'>.</span><span class='id inject'>inject</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id res'>res</span><span class='comma'>,</span> <span class='id it'>it</span><span class='op'>|</span>
+    <span class='id res'>res</span><span class='lbracket'>[</span><span class='id it'>it</span><span class='period'>.</span><span class='id data'>data</span><span class='period'>.</span><span class='id to_string'>to_string</span><span class='period'>.</span><span class='id to_sym'>to_sym</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id it'>it</span><span class='period'>.</span><span class='id checked?'>checked?</span>
+    <span class='id res'>res</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="plugins=-instance_method">
+  
+    - (<tt>void</tt>) <strong>plugins=</strong>(val) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p class="note returns_void">This method returns an undefined value.</p><p>Changes the status of the Plugins widget according to the given value</p>
+<p>autosave should be enabled or not for the given plugin. Any entries corresponding
+to plugins without a corresponding entry in the wigdet are added</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <span class='name'>val</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the keys are the names of the plugin, while the values tell whether</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/autosave/autosave.rb', line 351</span>
+
+<span class='kw'>def</span> <span class='id plugins='>plugins=</span> <span class='id val'>val</span>
+  <span class='id mod'>mod</span> <span class='op'>=</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id _autosave__plugins'>_autosave__plugins</span><span class='period'>.</span><span class='id model'>model</span>
+  <span class='id val'>val</span><span class='period'>.</span><span class='id each_pair'>each_pair</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id k'>k</span><span class='comma'>,</span> <span class='id v'>v</span><span class='op'>|</span>
+    <span class='id name'>name</span> <span class='op'>=</span> <span class='id v'>v</span><span class='period'>.</span><span class='id to_s'>to_s</span>
+    <span class='id it'>it</span> <span class='op'>=</span> <span class='id mod'>mod</span><span class='period'>.</span><span class='id find'>find</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span> <span class='id i'>i</span><span class='period'>.</span><span class='id data'>data</span><span class='period'>.</span><span class='id to_string'>to_string</span> <span class='op'>==</span> <span class='id name'>name</span><span class='rbrace'>}</span>
+    <span class='kw'>unless</span> <span class='id it'>it</span>
+      <span class='id it'>it</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>StandardItem</span><span class='period'>.</span><span class='id new'>new</span> <span class='id k'>k</span><span class='period'>.</span><span class='id to_s'>to_s</span>
+      <span class='id it'>it</span><span class='period'>.</span><span class='id data'>data</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Variant</span><span class='period'>.</span><span class='id new'>new</span> <span class='id k'>k</span><span class='period'>.</span><span class='id to_s'>to_s</span>
+      <span class='id it'>it</span><span class='period'>.</span><span class='id flags'>flags</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>ItemIsEnabled</span><span class='op'>|</span><span class='const'>Qt</span><span class='op'>::</span><span class='const'>ItemIsSelectable</span><span class='op'>|</span><span class='const'>Qt</span><span class='op'>::</span><span class='const'>ItemIsUserCheckable</span>
+      <span class='id mod'>mod</span><span class='period'>.</span><span class='id append_row'>append_row</span> <span class='id it'>it</span>
+    <span class='kw'>end</span>
+    <span class='id it'>it</span><span class='period'>.</span><span class='id checked'>checked</span> <span class='op'>=</span> <span class='id v'>v</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+
+</div>
+    
+    <div id="footer">
+  Generated on Fri Oct 29 12:52:55 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.1 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>

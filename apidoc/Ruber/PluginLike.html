@@ -1,0 +1,2844 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>Module: Ruber::PluginLike</title>
+<link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (P)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../Ruber.html" title="Ruber (module)">Ruber</a></span></span>
+     &raquo; 
+    <span class="title">PluginLike</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Module: Ruber::PluginLike
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+  
+    
+  
+  
+    <dt class="r1">Included in:</dt>
+    <dd class="r1"><span class='object_link'><a href="Application.html" title="Ruber::Application (class)">Application</a></span>, <span class='object_link'><a href="ConfigManager.html" title="Ruber::ConfigManager (class)">ConfigManager</a></span>, <span class='object_link'><a href="DocumentList.html" title="Ruber::DocumentList (class)">DocumentList</a></span>, <span class='object_link'><a href="MainWindow.html" title="Ruber::MainWindow (class)">MainWindow</a></span>, <span class='object_link'><a href="Plugin.html" title="Ruber::Plugin (class)">Plugin</a></span>, <span class='object_link'><a href="ProjectList.html" title="Ruber::ProjectList (class)">ProjectList</a></span></dd>
+    
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/ruber/plugin_like.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>Module providing basic functionality common to both plugin and core components.</p>
+<p>This mainly is an helper module, used to avoid code duplication among the <span class='object_link'><a href="Plugin.html" title="Ruber::Plugin (class)">Plugin</a></span>
+class and the various core components (<span class='object_link'><a href="Application.html" title="Ruber::Application (class)">Application</a></span>, <span class='object_link'><a href="MainWindow.html" title="Ruber::MainWindow (class)">MainWindow</a></span> and so on which
+<strong>can&#8217;t</strong> inherit from <span class='object_link'><a href="Plugin.html" title="Ruber::Plugin (class)">Plugin</a></span>). From
+a logical point of view, all of the functionality provided by this module should
+be in the Plugin class, instead.</p>
+<p><strong>Note:</strong> this module <strong><span class="caps">MUST</span></strong> only be included in classes which descend from
+<code>Qt::Object</code>, otherwise it will produce crashes</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+
+
+
+
+
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#plugin_description-instance_method" title="#plugin_description (instance method)">- (PluginSpecification) <strong>plugin_description</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title readonly">readonly</span>
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The plugins specification object for the plugin.</p></div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#add_extensions_to_project-instance_method" title="#add_extensions_to_project (instance method)">- (nil) <strong>add_extensions_to_project</strong>(prj, forbid_existing = true) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Adds the project extensions provided by the plugin to a project.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#add_options_to_project-instance_method" title="#add_options_to_project (instance method)">- (nil) <strong>add_options_to_project</strong>(prj, forbid_existing = true) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Adds the project options provided by the plugin to a project.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#add_widgets_to_project-instance_method" title="#add_widgets_to_project (instance method)">- (nil) <strong>add_widgets_to_project</strong>(prj) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Adds the project widgets provided by the plugin to a project.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#create_tool_widget-instance_method" title="#create_tool_widget (instance method)">- (nil) <strong>create_tool_widget</strong>(data) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Creates a tool widget and inserts it in the main window.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#delayed_initialize-instance_method" title="#delayed_initialize (instance method)">- (nil) <strong>delayed_initialize</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Performs delayed initialization.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#initialize_plugin-instance_method" title="#initialize_plugin (instance method)">- (PluginLike) <strong>initialize_plugin</strong>(pdf) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Initializes the plugin.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#load_settings-instance_method" title="#load_settings (instance method)">- (nil) <strong>load_settings</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Applies the configuration settings.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#plugin_name-instance_method" title="#plugin_name (instance method)">- (Symbol) <strong>plugin_name</strong> </a>
+    
+
+    
+      (also: #component_name)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The internal name of the plugin.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#query_close-instance_method" title="#query_close (instance method)">- (Boolean) <strong>query_close</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Whether or not the plugin allows the application to shut down.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#register_options-instance_method" title="#register_options (instance method)">- (nil) <strong>register_options</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Adds the global options and configuration widgets provided by the plugin to the
+configuration manager.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#register_with_project-instance_method" title="#register_with_project (instance method)">- (nil) <strong>register_with_project</strong>(prj) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Informs a project of the existance of the plugin.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#remove_extensions_from_project-instance_method" title="#remove_extensions_from_project (instance method)">- (nil) <strong>remove_extensions_from_project</strong>(prj, all = true) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Remove the extensions provided by the pluging from a project.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#remove_from_project-instance_method" title="#remove_from_project (instance method)">- (nil) <strong>remove_from_project</strong>(prj) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Removes all traces of the plugin from a project.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#remove_options_from_project-instance_method" title="#remove_options_from_project (instance method)">- (nil) <strong>remove_options_from_project</strong>(prj, matching = true) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Removes the project options provided by the plugin from a project.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#remove_widgets_from_project-instance_method" title="#remove_widgets_from_project (instance method)">- (nil) <strong>remove_widgets_from_project</strong>(prj) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Removes the project widgets provided by the plugin from a project.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#restore_session-instance_method" title="#restore_session (instance method)">- (Object) <strong>restore_session</strong>(cfg) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Restores the state of the plugin from session management.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#save_settings-instance_method" title="#save_settings (instance method)">- (nil) <strong>save_settings</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Method called at application shutdown to allow plugins to save their settings.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#session_data-instance_method" title="#session_data (instance method)">- (Hash) <strong>session_data</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The data the plugin wants to store when the application is shut down by session
+management.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#setup_action-instance_method" title="#setup_action (instance method)">- (KDE::Action) <strong>setup_action</strong>(data, coll) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Creates one of the actions described in the <span class="caps">PSF</span>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#setup_actions-instance_method" title="#setup_actions (instance method)">- (nil) <strong>setup_actions</strong>(coll) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Creates the actions provided by the plugin.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#shutdown-instance_method" title="#shutdown (instance method)">- (nil) <strong>shutdown</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Does the required cleanup before the application closes.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#unload-instance_method" title="#unload (instance method)">- (nil) <strong>unload</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Method called before the plugin is unloaded.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#update_project-instance_method" title="#update_project (instance method)">- (nil) <strong>update_project</strong>(prj) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Ensures that all the project options, widgets and extensions which are provided
+by the plugin and match the project have been added to it and that none which
+doesn&#8217;t match it have been added.</p></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <span id="plugin_description-instance_method"></span>
+      <div class="method_details first">
+  <p class="signature first" id="plugin_description-instance_method">
+  
+    - (<tt><span class='object_link'><a href="PluginSpecification.html" title="Ruber::PluginSpecification (class)">PluginSpecification</a></span></tt>) <strong>plugin_description</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The plugins specification object for the plugin</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="PluginSpecification.html" title="Ruber::PluginSpecification (class)">PluginSpecification</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the plugins specification object for the plugin</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+40
+41
+42</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/plugin_like.rb', line 40</span>
+
+<span class='kw'>def</span> <span class='id plugin_description'>plugin_description</span>
+  <span class='ivar'>@plugin_description</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="add_extensions_to_project-instance_method">
+  
+    - (<tt>nil</tt>) <strong>add_extensions_to_project</strong>(prj, forbid_existing = true) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Adds the project extensions provided by the plugin to a project</p>
+<p>Only the extensions matching the project will be added.</p>
+<p>If the project already has one of the extensions this method wouold add, it can
+either raise an exception or ignore the
+exception. The first behaviour is desirable the first time the plugin&#8217;s extensions are
+added to the project, while the second is useful if this method has already been
+called for the project. In the first case, the existing extension most likely belongs
+to another plugin, which may lead to conflict. In  the second case, instead, the
+extension will belong to this plugin, so there&#8217;s no risk.</p>
+<p>an extension already exists in the project.
+one of the extension which this method would add</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="AbstractProject.html" title="Ruber::AbstractProject (class)">Ruber::AbstractProject</a></span></tt>)</span>
+      
+      
+        <span class='name'>prj</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the project to add the extensions to</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <span class='name'>forbid_existing</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>whether to raise an exception or do nothing if</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'></span>
+      
+      
+      
+      
+        
+        <div class='inline'><p>ArgumentError if <em>forbid_existing</em> is <strong>true</strong> and the project already has</p></div>
+      
+    </li>
+  
+</ul>
+
+  <h3>See Also:</h3>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="AbstractProject.html#match_rule%3F-instance_method" title="Ruber::AbstractProject#match_rule? (method)">AbstractProject#match_rule?</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/plugin_like.rb', line 287</span>
+
+<span class='kw'>def</span> <span class='id add_extensions_to_project'>add_extensions_to_project</span> <span class='id prj'>prj</span><span class='comma'>,</span> <span class='id forbid_existing'>forbid_existing</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='ivar'>@plugin_description</span><span class='period'>.</span><span class='id extensions'>extensions</span><span class='period'>.</span><span class='id each_pair'>each_pair</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id name'>name</span><span class='comma'>,</span> <span class='id o'>o</span><span class='op'>|</span>
+    <span class='kw'>unless</span> <span class='id forbid_existing'>forbid_existing</span>
+      <span class='kw'>next</span> <span class='kw'>if</span> <span class='id prj'>prj</span><span class='period'>.</span><span class='id extension'>extension</span> <span class='id name'>name</span>
+    <span class='kw'>end</span>
+    <span class='id ext'>ext</span> <span class='op'>=</span> <span class='kw'>nil</span>
+    <span class='kw'>if</span> <span class='id o'>o</span><span class='period'>.</span><span class='id is_a?'>is_a?</span> <span class='const'>Array</span>
+      <span class='id o'>o</span> <span class='op'>=</span> <span class='id o'>o</span><span class='period'>.</span><span class='id find'>find</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span> <span class='id prj'>prj</span><span class='period'>.</span><span class='id match_rule?'>match_rule?</span> <span class='id i'>i</span><span class='rbrace'>}</span>
+      <span class='kw'>next</span> <span class='kw'>unless</span> <span class='id o'>o</span>
+      <span class='id ext'>ext</span> <span class='op'>=</span> <span class='id o'>o</span><span class='period'>.</span><span class='id class_obj'>class_obj</span><span class='period'>.</span><span class='id new'>new</span> <span class='id prj'>prj</span>
+    <span class='kw'>elsif</span> <span class='id prj'>prj</span><span class='period'>.</span><span class='id match_rule?'>match_rule?</span> <span class='id o'>o</span>
+      <span class='id ext'>ext</span> <span class='op'>=</span> <span class='id o'>o</span><span class='period'>.</span><span class='id class_obj'>class_obj</span><span class='period'>.</span><span class='id new'>new</span> <span class='id prj'>prj</span>
+    <span class='kw'>end</span>
+    <span class='kw'>if</span> <span class='id ext'>ext</span>
+      <span class='id ext'>ext</span><span class='period'>.</span><span class='id plugin'>plugin</span> <span class='op'>=</span> <span class='kw'>self</span>
+      <span class='id prj'>prj</span><span class='period'>.</span><span class='id add_extension'>add_extension</span> <span class='id name'>name</span><span class='comma'>,</span> <span class='id ext'>ext</span>
+      <span class='id emit'>emit</span> <span class='id extension_added'>extension_added</span><span class='lparen'>(</span><span class='id name'>name</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='comma'>,</span> <span class='id prj'>prj</span><span class='rparen'>)</span> <span class='kw'>rescue</span> <span class='kw'>nil</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="add_options_to_project-instance_method">
+  
+    - (<tt>nil</tt>) <strong>add_options_to_project</strong>(prj, forbid_existing = true) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Adds the project options provided by the plugin to a project</p>
+<p>Only the options whose rules match the project are added.</p>
+<p>If one of the options
+provided by the plugin (and whose rules matches the project) has already been
+inserted in the project, this method can either raise an exception or ignore the
+option. The first behaviour is desirable the first time the plugin&#8217;s options are
+added to the project, while the second is useful if this method has already been
+called for the project. In the first case, the existing option most likely belongs
+to another plugin, which may lead to conflict. In  the second case, instead, the
+option will belong to this plugin, so there&#8217;s no risk.</p>
+<p>an option already exists in the project.
+by the plugin already exists</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="AbstractProject.html" title="Ruber::AbstractProject (class)">Ruber::AbstractProject</a></span></tt>)</span>
+      
+      
+        <span class='name'>prj</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the project to add the options to</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <span class='name'>forbid_existing</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>whether to raise an exception or do nothing if</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'></span>
+      
+      
+      
+      
+        
+        <div class='inline'><p>ArgumentError if <em>forbid_existing</em> is <strong>true</strong> and one of the options provided</p></div>
+      
+    </li>
+  
+</ul>
+
+  <h3>See Also:</h3>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="AbstractProject.html#match_rule%3F-instance_method" title="Ruber::AbstractProject#match_rule? (method)">AbstractProject#match_rule?</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/plugin_like.rb', line 196</span>
+
+<span class='kw'>def</span> <span class='id add_options_to_project'>add_options_to_project</span> <span class='id prj'>prj</span><span class='comma'>,</span> <span class='id forbid_existing'>forbid_existing</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='ivar'>@plugin_description</span><span class='period'>.</span><span class='id project_options'>project_options</span><span class='period'>.</span><span class='id values'>values</span><span class='period'>.</span><span class='id sort_by'>sort_by</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span> <span class='id i'>i</span><span class='period'>.</span><span class='id order'>order</span> <span class='op'>||</span> <span class='int'>0</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id o'>o</span><span class='op'>|</span>
+    <span class='id o'>o</span> <span class='op'>=</span> <span class='id o'>o</span><span class='period'>.</span><span class='id to_os'>to_os</span><span class='lparen'>(</span><span class='id prj'>prj</span><span class='period'>.</span><span class='id obj_binding'>obj_binding</span><span class='rparen'>)</span>
+    <span class='kw'>begin</span> <span class='id prj'>prj</span><span class='period'>.</span><span class='id add_option'>add_option</span> <span class='id o'>o</span> <span class='kw'>if</span> <span class='id prj'>prj</span><span class='period'>.</span><span class='id match_rule?'>match_rule?</span><span class='lparen'>(</span><span class='id o'>o</span><span class='rparen'>)</span>
+    <span class='kw'>rescue</span> <span class='const'>ArgumentError</span>
+      <span class='id raise'>raise</span> <span class='kw'>if</span> <span class='id forbid_existing'>forbid_existing</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="add_widgets_to_project-instance_method">
+  
+    - (<tt>nil</tt>) <strong>add_widgets_to_project</strong>(prj) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Adds the project widgets provided by the plugin to a project</p>
+<p>Only the widgets matching the project will be added.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="AbstractProject.html" title="Ruber::AbstractProject (class)">Ruber::AbstractProject</a></span></tt>)</span>
+      
+      
+        <span class='name'>prj</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the project to adds the widgets to</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+246
+247
+248
+249
+250
+251</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/plugin_like.rb', line 246</span>
+
+<span class='kw'>def</span> <span class='id add_widgets_to_project'>add_widgets_to_project</span> <span class='id prj'>prj</span>
+  <span class='ivar'>@plugin_description</span><span class='period'>.</span><span class='id project_widgets'>project_widgets</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id w'>w</span><span class='op'>|</span> 
+    <span class='id prj'>prj</span><span class='period'>.</span><span class='id add_widget'>add_widget</span> <span class='id w'>w</span> <span class='kw'>if</span> <span class='id prj'>prj</span><span class='period'>.</span><span class='id match_rule?'>match_rule?</span> <span class='id w'>w</span>
+  <span class='kw'>end</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="create_tool_widget-instance_method">
+  
+    - (<tt>nil</tt>) <strong>create_tool_widget</strong>(data)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Creates a tool widget and inserts it in the main window</p>
+<p>It uses the data contained in the <span class="caps">PSF</span> to find out the characteristics of the tool
+widget. If the <span class="caps">PSF</span> contains a <code>var_name</code> entry for the tool widget, then an
+instance variable with that name will be created and set to the tool widget. If 
+the <span class="caps">PSF</span> contains a <code>name</code> entry for the tool widget, its <code>object_name</code> will be
+set to that value.</p>
+<p>If the tool widget object has a <code>load_settings</code> method, it&#8217;ll be connected with
+the <span class='object_link'><a href="ConfigManager.html" title="Ruber::ConfigManager (class)">configuration manager</a></span>&#8217;s <span class='object_link'><a href="ConfigManager.html#settings_changed-signalcode" title="Ruber::ConfigManager#settings_changed (signalcode)">settings_changed</a></span>
+signal</p>
+<p>plugin&#8217;s context, returns the tool widget. At least one between this entry and
+the <code>class_obj</code> entry must be not <strong>nil</strong>
+the <code>code</code> entry is not *nil*At least one between this entry and
+the <code>code</code> entry must be not <strong>nil</strong>
+the tool widget. It&#8217;s mandatory
+tool widget. The values <code>:left</code>, <code>:right</code> and <code>:bottom</code> are valid</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../OpenStruct.html" title="OpenStruct (class)">OpenStruct</a></span></tt>)</span>
+      
+      
+        <span class='name'>data</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the data from the <span class="caps">PSF</span> corresponding to the tool widget</p></div>
+      
+    </li>
+  
+</ul>
+
+  
+    
+    
+    <h3>Options Hash (<tt>data</tt>):</h3>
+    <ul class="option">
+      
+        <li>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="name">code</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>nil</tt>
+            
+          </span>
+          &mdash;<div class='inline'><p>a string of code which, when evaluated in the</p></div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt>Class</tt>)</span>
+          <span class="name">:class_obj</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>nil</tt>
+            
+          </span>
+          &mdash;<div class='inline'><p>the class of the tool widget. Ignored if</p></div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="name">pixmap</span>
+          <span class="default">
+            
+              <span class="na">N/A</span>
+            
+          </span>
+          &mdash;<div class='inline'><p>the name of the file containing the icon to use for</p></div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="name">caption</span>
+          <span class="default">
+            
+              <span class="na">N/A</span>
+            
+          </span>
+          &mdash;<div class='inline'><p>the caption for the tool widget. Mandatory</p></div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
+          <span class="name">position</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>:left</tt>
+            
+          </span>
+          &mdash;<div class='inline'><p>the side of the screen where to put the</p></div>
+        </tr>
+      
+    </ul>
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/plugin_like.rb', line 518</span>
+
+<span class='kw'>def</span> <span class='id create_tool_widget'>create_tool_widget</span> <span class='id data'>data</span>
+  <span class='id w'>w</span> <span class='op'>=</span> <span class='id data'>data</span><span class='period'>.</span><span class='id code'>code</span> <span class='op'>?</span> <span class='id eval'>eval</span><span class='lparen'>(</span><span class='id w'>w</span><span class='comma'>,</span> <span class='id binding'>binding</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='id data'>data</span><span class='period'>.</span><span class='id class_obj'>class_obj</span><span class='period'>.</span><span class='id new'>new</span>
+  <span class='id w'>w</span><span class='period'>.</span><span class='id object_name'>object_name</span> <span class='op'>=</span> <span class='id data'>data</span><span class='period'>.</span><span class='id name'>name</span> <span class='kw'>if</span> <span class='id data'>data</span><span class='period'>.</span><span class='id name'>name</span>
+  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id add_tool'>add_tool</span> <span class='id data'>data</span><span class='period'>.</span><span class='id position'>position</span><span class='comma'>,</span> <span class='id w'>w</span><span class='comma'>,</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Pixmap</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id data'>data</span><span class='period'>.</span><span class='id pixmap'>pixmap</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id data'>data</span><span class='period'>.</span><span class='id caption'>caption</span>
+  <span class='id instance_variable_set'>instance_variable_set</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>@</span><span class='embexpr_beg'>#{</span><span class='id data'>data</span><span class='period'>.</span><span class='id var_name'>var_name</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id w'>w</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id data'>data</span><span class='period'>.</span><span class='id var_name'>var_name</span>
+  <span class='kw'>if</span> <span class='id w'>w</span><span class='period'>.</span><span class='id respond_to?'>respond_to?</span> <span class='symbol'>:load_settings</span> <span class='kw'>and</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span>
+    <span class='id connect'>connect</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>settings_changed()</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id w'>w</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>load_settings()</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+    <span class='id w'>w</span><span class='period'>.</span><span class='id load_settings'>load_settings</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="delayed_initialize-instance_method">
+  
+    - (<tt>nil</tt>) <strong>delayed_initialize</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Performs delayed initialization</p>
+<p>This method is called by the component manager after the plugin object has been
+stored in the component manager (and thus made availlable through <span class='object_link'><a href="../Ruber.html#%5B%5D-class_method" title="Ruber.[] (method)">Ruber.[]</a></span>).
+Plugins only need to override this method (the base class version does nothing)
+if something which should happen during initialization requires to access the
+plugin using <span class='object_link'><a href="../Ruber.html#%5B%5D-class_method" title="Ruber.[] (method)">Ruber.[]</a></span></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+170
+171</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/plugin_like.rb', line 170</span>
+
+<span class='kw'>def</span> <span class='id delayed_initialize'>delayed_initialize</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="initialize_plugin-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::PluginLike (module)">PluginLike</a></span></tt>) <strong>initialize_plugin</strong>(pdf)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Initializes the plugin</p>
+<p>If this were a class rather than a module, this would be its initialize method.
+Since this is a module, it can&#8217;t have an initialize method in the sense classes
+do, therefore it&#8217;s up to classes including this module to call this method from
+their <code>initialize</code>, before using any functionality provided by this module.</p>
+<p>The most important things done here are (in order):</p>
+<ul>
+	<li>adding the plugin to the component manager, so that it can be accessed using
+<span class='object_link'><a href="../Ruber.html#%5B%5D-class_method" title="Ruber.[] (method)">Ruber.[]</a></span></li>
+	<li>connects the <span class='object_link'><a href="#load_settings-instance_method" title="Ruber::PluginLike#load_settings (method)">#load_settings</a></span> method with the <span class='object_link'><a href="ConfigManager.html" title="Ruber::ConfigManager (class)">configuration manager</a></span>&#8217;s
+<span class='object_link'><a href="ConfigManager.html#settings_changed-signalcode" title="Ruber::ConfigManager#settings_changed (signalcode)">settings_changed</a></span> signal</li>
+	<li>adds the options provided by the plugin to the configuration manager and loads
+the settings</li>
+	<li>creates the tool widgets provided by the plugin</li>
+</ul>
+<p><strong>Note:</strong> everything regarding the configuration manager is ignored  if it doesn&#8217;t
+exist</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Ruber::PluginLike (module)">PluginLike</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><strong>self</strong></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/plugin_like.rb', line 426</span>
+
+<span class='kw'>def</span> <span class='id initialize_plugin'>initialize_plugin</span> <span class='id pdf'>pdf</span>
+  <span class='ivar'>@plugin_description</span> <span class='op'>=</span> <span class='id pdf'>pdf</span>
+  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:components</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id add'>add</span> <span class='kw'>self</span>
+  <span class='kw'>if</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span>
+    <span class='id connect'>connect</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:settings_changed</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:load_settings</span><span class='rparen'>)</span>
+    <span class='id register_options'>register_options</span>
+    <span class='id load_settings'>load_settings</span>
+  <span class='kw'>end</span>
+  <span class='ivar'>@plugin_description</span><span class='period'>.</span><span class='id tool_widgets'>tool_widgets</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id w'>w</span><span class='op'>|</span> <span class='id create_tool_widget'>create_tool_widget</span> <span class='id w'>w</span><span class='rbrace'>}</span>
+  <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="load_settings-instance_method">
+  
+    - (<tt>nil</tt>) <strong>load_settings</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Applies the configuration settings</p>
+<p>This method is called when the plugin is created and whenever the global settings
+change. The base class implementation does nothing. Plugins which need to react
+to changes in the global settings must reimplement it.</p>
+<p><strong>Note:</strong> this method <strong>must</strong> be a slot, so any class which directly includes this
+module should have a line like</p>
+<p><code>slots :load_settings</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+471
+472</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/plugin_like.rb', line 471</span>
+
+<span class='kw'>def</span> <span class='id load_settings'>load_settings</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="plugin_name-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>) <strong>plugin_name</strong> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='component_name-instance_method'>component_name</span></span>
+    </span>
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The internal name of the plugin</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the internal name of the plugin</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+45
+46
+47</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/plugin_like.rb', line 45</span>
+
+<span class='kw'>def</span> <span class='id plugin_name'>plugin_name</span>
+  <span class='ivar'>@plugin_description</span><span class='period'>.</span><span class='id name'>name</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="query_close-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>query_close</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Whether or not the plugin allows the application to shut down</p>
+<p>If this method returns <strong>false</strong> for any plugin, the application won&#8217;t be closed.</p>
+<p>maybe depending on the status of the plugin itself. As an example, the Document
+List component checks whether there are unsaved documents and asks the user what
+to do. If the user decides not to close the appplication, the method will return
+<strong>false</strong>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><strong>true</strong>. Plugins may override this method and return something else,</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+108
+109
+110</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/plugin_like.rb', line 108</span>
+
+<span class='kw'>def</span> <span class='id query_close'>query_close</span>
+  <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="register_options-instance_method">
+  
+    - (<tt>nil</tt>) <strong>register_options</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Adds the global options and configuration widgets provided by the plugin to the
+configuration manager</p>
+<p>It does nothing if the configuration manager hasn&#8217;t as yet been created</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+481
+482
+483
+484
+485
+486
+487
+488
+489</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/plugin_like.rb', line 481</span>
+
+<span class='kw'>def</span> <span class='id register_options'>register_options</span>
+  <span class='id config'>config</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id config'>config</span>
+  <span class='ivar'>@plugin_description</span><span class='period'>.</span><span class='id config_options'>config_options</span><span class='period'>.</span><span class='id values'>values</span><span class='period'>.</span><span class='id sort_by'>sort_by</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id o'>o</span><span class='op'>|</span> <span class='id o'>o</span><span class='period'>.</span><span class='id order'>order</span> <span class='op'>||</span> <span class='int'>0</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id o'>o</span><span class='op'>|</span> 
+    <span class='id config'>config</span><span class='period'>.</span><span class='id add_option'>add_option</span> <span class='id o'>o</span><span class='period'>.</span><span class='id to_os'>to_os</span><span class='lparen'>(</span><span class='id binding'>binding</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+  <span class='ivar'>@plugin_description</span><span class='period'>.</span><span class='id config_widgets'>config_widgets</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id w'>w</span><span class='op'>|</span> <span class='id config'>config</span><span class='period'>.</span><span class='id add_widget'>add_widget</span> <span class='id w'>w</span><span class='rbrace'>}</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="register_with_project-instance_method">
+  
+    - (<tt>nil</tt>) <strong>register_with_project</strong>(prj) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Informs a project of the existance of the plugin</p>
+<p>The base class implemenetation adds all the known project options, poject widgets and project
+extensions to the project. If a plugin needs to do something fancy with projects,
+it can override this method and do it from here, after calling the base class
+implementation.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="AbstractProject.html" title="Ruber::AbstractProject (class)">Ruber::AbstractProject</a></span></tt>)</span>
+      
+      
+        <span class='name'>prj</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the project to register with</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+359
+360
+361
+362
+363</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/plugin_like.rb', line 359</span>
+
+<span class='kw'>def</span> <span class='id register_with_project'>register_with_project</span> <span class='id prj'>prj</span>
+  <span class='id add_options_to_project'>add_options_to_project</span> <span class='id prj'>prj</span><span class='comma'>,</span> <span class='kw'>true</span>
+  <span class='id add_widgets_to_project'>add_widgets_to_project</span> <span class='id prj'>prj</span>
+  <span class='id add_extensions_to_project'>add_extensions_to_project</span> <span class='id prj'>prj</span><span class='comma'>,</span> <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="remove_extensions_from_project-instance_method">
+  
+    - (<tt>nil</tt>) <strong>remove_extensions_from_project</strong>(prj, all = true) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Remove the extensions provided by the pluging from a project</p>
+<p>Depending on the value of <em>all</em>, all the extensions provided by the plugin or
+only the ones which dont&#8217; match the project are removed. In this case, a multi-class
+extension will only be removed if the class of the extension object is the same
+as the one specified in one of the entries which don&#8217;t match the project.</p>
+<p><strong>Note:</strong> to decide whether an extension belongs to the plugin or not, this method
+checks whether the object returned by the exension&#8217;s <code>plugin</code> method is the same
+as <code>self</code>.</p>
+<p>only those which don&#8217;t match the project</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="AbstractProject.html" title="Ruber::AbstractProject (class)">Ruber::AbstractProject</a></span></tt>)</span>
+      
+      
+        <span class='name'>prj</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the project to remove the extensions from</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <span class='name'>all</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>whether to remove all extensions provided by the plugin or</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+  <h3>See Also:</h3>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="AbstractProject.html#match_rule%3F-instance_method" title="Ruber::AbstractProject#match_rule? (method)">AbstractProject#match_rule?</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/plugin_like.rb', line 326</span>
+
+<span class='kw'>def</span> <span class='id remove_extensions_from_project'>remove_extensions_from_project</span> <span class='id prj'>prj</span><span class='comma'>,</span> <span class='id all'>all</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='kw'>if</span> <span class='id all'>all</span>
+    <span class='id prj'>prj</span><span class='period'>.</span><span class='id each_extension'>each_extension</span><span class='period'>.</span><span class='id select'>select</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id _'>_</span><span class='comma'>,</span> <span class='id v'>v</span><span class='op'>|</span> <span class='id v'>v</span><span class='period'>.</span><span class='id plugin'>plugin</span><span class='period'>.</span><span class='id same?'>same?</span> <span class='kw'>self</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id k'>k</span><span class='comma'>,</span> <span class='id _'>_</span><span class='op'>|</span>
+      <span class='id emit'>emit</span> <span class='id removing_extension'>removing_extension</span> <span class='id k'>k</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='comma'>,</span> <span class='id prj'>prj</span> <span class='kw'>rescue</span> <span class='kw'>nil</span>
+      <span class='id prj'>prj</span><span class='period'>.</span><span class='id remove_extension'>remove_extension</span> <span class='id k'>k</span>
+      <span class='id emit'>emit</span> <span class='id extension_removed'>extension_removed</span> <span class='id k'>k</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='comma'>,</span> <span class='id prj'>prj</span> <span class='kw'>rescue</span> <span class='kw'>nil</span>
+    <span class='kw'>end</span>
+  <span class='kw'>else</span>
+    <span class='id exts'>exts</span> <span class='op'>=</span> <span class='ivar'>@plugin_description</span><span class='period'>.</span><span class='id extensions'>extensions</span>
+    <span class='id prj'>prj</span><span class='period'>.</span><span class='id each_extension'>each_extension</span><span class='period'>.</span><span class='id select'>select</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id _'>_</span><span class='comma'>,</span> <span class='id v'>v</span><span class='op'>|</span> <span class='id v'>v</span><span class='period'>.</span><span class='id plugin'>plugin</span><span class='period'>.</span><span class='id same?'>same?</span> <span class='kw'>self</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id k'>k</span><span class='comma'>,</span> <span class='id o'>o</span><span class='op'>|</span>
+      <span class='id data'>data</span> <span class='op'>=</span> <span class='id exts'>exts</span><span class='lbracket'>[</span><span class='id k'>k</span><span class='rbracket'>]</span>
+      <span class='id data'>data</span> <span class='op'>=</span> <span class='id data'>data</span><span class='period'>.</span><span class='id find'>find</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span> <span class='id i'>i</span><span class='period'>.</span><span class='id class_obj'>class_obj</span> <span class='op'>==</span> <span class='id o'>o</span><span class='period'>.</span><span class='id class'>class</span><span class='rbrace'>}</span> <span class='kw'>if</span> <span class='id data'>data</span><span class='period'>.</span><span class='id is_a?'>is_a?</span> <span class='const'>Array</span>
+      <span class='kw'>if</span> <span class='op'>!</span><span class='id prj'>prj</span><span class='period'>.</span><span class='id match_rule?'>match_rule?</span> <span class='id data'>data</span>
+        <span class='id emit'>emit</span> <span class='id removing_extension'>removing_extension</span> <span class='id k'>k</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='comma'>,</span> <span class='id prj'>prj</span> <span class='kw'>rescue</span> <span class='kw'>nil</span>
+        <span class='id prj'>prj</span><span class='period'>.</span><span class='id remove_extension'>remove_extension</span> <span class='id k'>k</span>
+        <span class='id emit'>emit</span> <span class='id extension_removed'>extension_removed</span> <span class='id k'>k</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='comma'>,</span> <span class='id prj'>prj</span> <span class='kw'>rescue</span> <span class='kw'>nil</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="remove_from_project-instance_method">
+  
+    - (<tt>nil</tt>) <strong>remove_from_project</strong>(prj) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Removes all traces of the plugin from a project</p>
+<p>This method is called when the plugin is unloaded or when the project is closed
+and takes care of removeing all project options, project widgets and project extensions
+belonging to the plugin from the project.</p>
+<p>If a plugin needs to do some other cleanup when removed from a project, it can
+override this method and do what it needs here (usually before calling <strong>super</strong>)</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="AbstractProject.html" title="Ruber::AbstractProject (class)">Ruber::AbstractProject</a></span></tt>)</span>
+      
+      
+        <span class='name'>prj</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the project to remove the plugin from</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+377
+378
+379
+380
+381</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/plugin_like.rb', line 377</span>
+
+<span class='kw'>def</span> <span class='id remove_from_project'>remove_from_project</span> <span class='id prj'>prj</span>
+  <span class='id remove_options_from_project'>remove_options_from_project</span> <span class='id prj'>prj</span><span class='comma'>,</span> <span class='kw'>true</span>
+  <span class='id remove_widgets_from_project'>remove_widgets_from_project</span> <span class='id prj'>prj</span>
+  <span class='id remove_extensions_from_project'>remove_extensions_from_project</span> <span class='id prj'>prj</span><span class='comma'>,</span> <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="remove_options_from_project-instance_method">
+  
+    - (<tt>nil</tt>) <strong>remove_options_from_project</strong>(prj, matching = true) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Removes the project options provided by the plugin from a project</p>
+<p>This method can operate in two ways: it can remove from the project all the options
+it provides whose rules match or don&#8217;t match the project. The first behaviour is
+meant to be used when the plugin is unloaded or the project is closed; the second
+when the project characteristics change, to remove those options which used to
+match the project but don&#8217;t anymore.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="AbstractProject.html" title="Ruber::AbstractProject (class)">Ruber::AbstractProject</a></span></tt>)</span>
+      
+      
+        <span class='name'>prj</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the project to remove options from</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <span class='name'>matching</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>whether to remove only</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+  <h3>See Also:</h3>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="AbstractProject.html#match_rule%3F-instance_method" title="Ruber::AbstractProject#match_rule? (method)">AbstractProject#match_rule?</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/plugin_like.rb', line 221</span>
+
+<span class='kw'>def</span> <span class='id remove_options_from_project'>remove_options_from_project</span> <span class='id prj'>prj</span><span class='comma'>,</span> <span class='id matching'>matching</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='kw'>if</span> <span class='id matching'>matching</span>
+    <span class='ivar'>@plugin_description</span><span class='period'>.</span><span class='id project_options'>project_options</span><span class='period'>.</span><span class='id each_pair'>each_pair</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id _'>_</span><span class='comma'>,</span> <span class='id o'>o</span><span class='op'>|</span>
+      <span class='id o'>o</span> <span class='op'>=</span> <span class='id o'>o</span><span class='period'>.</span><span class='id to_os'>to_os</span><span class='lparen'>(</span><span class='id prj'>prj</span><span class='period'>.</span><span class='id obj_binding'>obj_binding</span><span class='rparen'>)</span>
+      <span class='id prj'>prj</span><span class='period'>.</span><span class='id remove_option'>remove_option</span> <span class='id o'>o</span><span class='period'>.</span><span class='id group'>group</span><span class='comma'>,</span> <span class='id o'>o</span><span class='period'>.</span><span class='id name'>name</span> <span class='kw'>if</span> <span class='id prj'>prj</span><span class='period'>.</span><span class='id match_rule?'>match_rule?</span> <span class='id o'>o</span>
+    <span class='kw'>end</span>
+  <span class='kw'>else</span>
+    <span class='ivar'>@plugin_description</span><span class='period'>.</span><span class='id project_options'>project_options</span><span class='period'>.</span><span class='id each_pair'>each_pair</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id _'>_</span><span class='comma'>,</span> <span class='id o'>o</span><span class='op'>|</span>
+      <span class='id o'>o</span> <span class='op'>=</span> <span class='id o'>o</span><span class='period'>.</span><span class='id to_os'>to_os</span><span class='lparen'>(</span><span class='id prj'>prj</span><span class='period'>.</span><span class='id obj_binding'>obj_binding</span><span class='rparen'>)</span>
+      <span class='kw'>if</span> <span class='id prj'>prj</span><span class='period'>.</span><span class='id has_option?'>has_option?</span><span class='lparen'>(</span><span class='id o'>o</span><span class='period'>.</span><span class='id group'>group</span><span class='comma'>,</span> <span class='id o'>o</span><span class='period'>.</span><span class='id name'>name</span><span class='rparen'>)</span> <span class='kw'>and</span> <span class='op'>!</span><span class='id prj'>prj</span><span class='period'>.</span><span class='id match_rule?'>match_rule?</span> <span class='id o'>o</span>
+        <span class='id prj'>prj</span><span class='period'>.</span><span class='id remove_option'>remove_option</span> <span class='id o'>o</span><span class='period'>.</span><span class='id group'>group</span><span class='comma'>,</span> <span class='id o'>o</span><span class='period'>.</span><span class='id name'>name</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="remove_widgets_from_project-instance_method">
+  
+    - (<tt>nil</tt>) <strong>remove_widgets_from_project</strong>(prj) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Removes the project widgets provided by the plugin from a project</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="AbstractProject.html" title="Ruber::AbstractProject (class)">Ruber::AbstractProject</a></span></tt>)</span>
+      
+      
+        <span class='name'>prj</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the project to remove the widgets from</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+259
+260
+261
+262
+263
+264</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/plugin_like.rb', line 259</span>
+
+<span class='kw'>def</span> <span class='id remove_widgets_from_project'>remove_widgets_from_project</span> <span class='id prj'>prj</span>
+  <span class='ivar'>@plugin_description</span><span class='period'>.</span><span class='id project_widgets'>project_widgets</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id w'>w</span><span class='op'>|</span> 
+    <span class='id prj'>prj</span><span class='period'>.</span><span class='id remove_widget'>remove_widget</span> <span class='id w'>w</span>
+  <span class='kw'>end</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="restore_session-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>restore_session</strong>(cfg) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Restores the state of the plugin from session management</p>
+<p>This method is called by the component manager when a session needs to be restored.
+Plugins need to override it if they have some state which needs to be restored
+(there&#8217;s no need to call <em>super</em> when overriding, since the base class method does
+nothing)</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <span class='name'>cfg</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>a hash containing the keys stored in the hash returned by <span class='object_link'><a href="#session_data-instance_method" title="Ruber::PluginLike#session_data (method)">#session_data</a></span></p></div>
+      
+    </li>
+  
+</ul>
+
+  <h3>See Also:</h3>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="ComponentManager.html#restore_session-instance_method" title="Ruber::ComponentManager#restore_session (method)">ComponentManager#restore_session</a></span></li>
+    
+      <li><span class='object_link'><a href="MainWindow.html#readProperties-instance_method" title="Ruber::MainWindow#readProperties (method)">MainWindow#readProperties</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+157
+158</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/plugin_like.rb', line 157</span>
+
+<span class='kw'>def</span> <span class='id restore_session'>restore_session</span> <span class='id cfg'>cfg</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="save_settings-instance_method">
+  
+    - (<tt>nil</tt>) <strong>save_settings</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Method called at application shutdown to allow plugins to save their settings</p>
+<p>Plugins which need to save some settings need to override this method, as
+the base class implementation does nothing.</p>
+<p><strong>Note:</strong> the plugin system calls this method for all plugins before starting
+unloading them. This means that it&#8217;s absolutely safe to access other plugins&#8217;
+methods, objects, options,&#8230; from here</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+123
+124
+125</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/plugin_like.rb', line 123</span>
+
+<span class='kw'>def</span> <span class='id save_settings'>save_settings</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="session_data-instance_method">
+  
+    - (<tt>Hash</tt>) <strong>session_data</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The data the plugin wants to store when the application is shut down by session
+management</p>
+<p>session manager. The hash returned by this method is empty, so plugin which need
+to store some information need to override it. Note that the hashes returned by
+this method from various plugins are merged. To avoid name clashes, you should use
+unique names for the keys in the hashes. The best way to do this is to return a
+hash with a single key, named after the plugin, and corresponding to an inner
+hash containing the information you actually need to store</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>a hash containing the information which should be stored by the</p></div>
+      
+    </li>
+  
+</ul>
+
+  <h3>See Also:</h3>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="MainWindow.html#query_close-instance_method" title="Ruber::MainWindow#query_close (method)">MainWindow#query_close</a></span></li>
+    
+      <li><span class='object_link'><a href="ComponentManager.html#session_data-instance_method" title="Ruber::ComponentManager#session_data (method)">ComponentManager#session_data</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+141
+142
+143</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/plugin_like.rb', line 141</span>
+
+<span class='kw'>def</span> <span class='id session_data'>session_data</span>
+  <span class='lbrace'>{</span><span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="setup_action-instance_method">
+  
+    - (<tt>KDE::Action</tt>) <strong>setup_action</strong>(data, coll)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Creates one of the actions described in the <span class="caps">PSF</span></p>
+<p>Besides creating the action and adddint it to the specified <code>KDE::ActionCollection</code>,
+it registers a state handler for the action in the main window, if the <span class="caps">PSF</span> entry
+for the action includes a <code>state</code> entry (the plugin iself is used as <code>extra_id</code>
+for the handler), and creates a signal-slot connection between
+the action and the receiver specified in the <code>receiver</code> <span class="caps">PSF</span> entry for the action,
+provided that the <code>slot</code> entry isn&#8217;t <strong>nil</strong>.</p>
+<p>action
+to
+<code>KDE::StandardAction</code> method to call to create the action. If this entry isn&#8217;t
+given, the action won&#8217;t be a standard action
+to create the action
+for the action
+If missing, no signal-slot connection is made.
+signal to connect to. Ignored unless the <code>slot</code> entry is given
+context of the plugin, returns the object the action should be connected to
+on. Note that this method doesn&#8217;t register a state handler for multiple states</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../OpenStruct.html" title="OpenStruct (class)">OpenStruct</a></span></tt>)</span>
+      
+      
+        <span class='name'>data</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the structure containing the data used to create the</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>KDE::ActionCollection</tt>)</span>
+      
+      
+        <span class='name'>cool</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the action collection the new action belongs</p></div>
+      
+    </li>
+  
+</ul>
+
+  
+    
+    
+    <h3>Options Hash (<tt>data</tt>):</h3>
+    <ul class="option">
+      
+        <li>
+          <span class="type">(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>, <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>nil</tt>)</span>
+          <span class="name">standard_action</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>nil</tt>
+            
+          </span>
+          &mdash;<div class='inline'><p>if not nil, the name of the</p></div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt>Class</tt>)</span>
+          <span class="name">action_class</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>KDE::Action</tt>
+            
+          </span>
+          &mdash;<div class='inline'><p>the class object to instantiate</p></div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="name">text</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>''</tt>
+            
+          </span>
+          &mdash;<div class='inline'><p>the text for the action</p></div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="name">help_text</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>''</tt>
+            
+          </span>
+          &mdash;<div class='inline'><p>the help text for the action</p></div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="name">shortcut</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>''</tt>
+            
+          </span>
+          &mdash;<div class='inline'><p>a string representing the default shortcut</p></div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="name">icon</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>''</tt>
+            
+          </span>
+          &mdash;<div class='inline'><p>the filename of the icon to use for the action</p></div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="name">slot</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>nil</tt>
+            
+          </span>
+          &mdash;<div class='inline'><p>the slot to connect a signal from the action to.</p></div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
+          <span class="name">signal</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>'triggered()'</tt>
+            
+          </span>
+          &mdash;<div class='inline'><p>the signature of the action</p></div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="name">receiver</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>'self'</tt>
+            
+          </span>
+          &mdash;<div class='inline'><p>a string which, when evalued in the</p></div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="name">state</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>nil</tt>
+            
+          </span>
+          &mdash;<div class='inline'><p>the name of a single <span class="caps">GUI</span> state the action depends</p></div>
+        </tr>
+      
+    </ul>
+  
+    
+    
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>KDE::Action</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the newly created action</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+563
+564
+565
+566
+567
+568
+569
+570
+571
+572
+573
+574
+575
+576
+577
+578
+579
+580
+581
+582
+583
+584</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/plugin_like.rb', line 563</span>
+
+<span class='kw'>def</span> <span class='id setup_action'>setup_action</span> <span class='id data'>data</span><span class='comma'>,</span> <span class='id coll'>coll</span>
+  <span class='id action'>action</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='id data'>data</span><span class='period'>.</span><span class='id standard_action'>standard_action</span>
+    <span class='kw'>if</span> <span class='id data'>data</span><span class='period'>.</span><span class='id standard_action'>standard_action</span><span class='period'>.</span><span class='id to_s'>to_s</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>open</span><span class='tstring_end'>'</span></span>
+      <span class='const'>KDE</span><span class='op'>::</span><span class='const'>StandardAction</span><span class='period'>.</span><span class='id open'>open</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='id coll'>coll</span>
+    <span class='kw'>else</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>StandardAction</span><span class='period'>.</span><span class='id send'>send</span> <span class='id data'>data</span><span class='period'>.</span><span class='id standard_action'>standard_action</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='id coll'>coll</span>
+    <span class='kw'>end</span>
+  <span class='kw'>else</span> <span class='id data'>data</span><span class='period'>.</span><span class='id action_class'>action_class</span><span class='period'>.</span><span class='id new'>new</span> <span class='id coll'>coll</span>
+  <span class='kw'>end</span>
+  <span class='id action'>action</span><span class='period'>.</span><span class='id text'>text</span> <span class='op'>=</span> <span class='id data'>data</span><span class='period'>.</span><span class='id text'>text</span> <span class='kw'>unless</span> <span class='id data'>data</span><span class='period'>.</span><span class='id text'>text</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+  <span class='id action'>action</span><span class='period'>.</span><span class='id help_text'>help_text</span> <span class='op'>=</span> <span class='id data'>data</span><span class='period'>.</span><span class='id help'>help</span> <span class='kw'>unless</span> <span class='id data'>data</span><span class='period'>.</span><span class='id help'>help</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+  <span class='id action'>action</span><span class='period'>.</span><span class='id shortcut'>shortcut</span> <span class='op'>=</span> <span class='id data'>data</span><span class='period'>.</span><span class='id shortcut'>shortcut</span> <span class='kw'>if</span> <span class='id data'>data</span><span class='period'>.</span><span class='id shortcut'>shortcut</span>
+  <span class='id action'>action</span><span class='period'>.</span><span class='id icon'>icon</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Icon</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id data'>data</span><span class='period'>.</span><span class='id icon'>icon</span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id data'>data</span><span class='period'>.</span><span class='id icon'>icon</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+  <span class='kw'>if</span> <span class='id data'>data</span><span class='period'>.</span><span class='id slot'>slot</span>
+    <span class='id rec'>rec</span> <span class='op'>=</span> <span class='id instance_eval'>instance_eval</span><span class='lparen'>(</span><span class='id data'>data</span><span class='period'>.</span><span class='id receiver'>receiver</span><span class='rparen'>)</span>
+    <span class='id connect'>connect</span> <span class='id action'>action</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='id data'>data</span><span class='period'>.</span><span class='id signal'>signal</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id rec'>rec</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='id data'>data</span><span class='period'>.</span><span class='id slot'>slot</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+  <span class='id state'>state</span> <span class='op'>=</span> <span class='id data'>data</span><span class='period'>.</span><span class='id state'>state</span>
+  <span class='kw'>if</span> <span class='id state'>state</span>
+    <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id register_action_handler'>register_action_handler</span> <span class='id action'>action</span><span class='comma'>,</span> <span class='id state'>state</span><span class='comma'>,</span> <span class='symbol'>:extra_id</span> <span class='op'>=&gt;</span> <span class='kw'>self</span>
+  <span class='kw'>end</span>
+  <span class='id action'>action</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="setup_actions-instance_method">
+  
+    - (<tt>nil</tt>) <strong>setup_actions</strong>(coll)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Creates the actions provided by the plugin</p>
+<p>Once created, the actions are stored in the <code>KDE::ActionCollection</code> given as 
+argument. If any UI handler is provided for an action in the <span class="caps">PSF</span>, it&#8217;s registered
+with the main window. If the <span class="caps">PSF</span> entry for an acton contains a <code>:slot</code>, a <code>:receiver</code> and a <code>:signal</code> entry,
+a signal-slot connection is made using those parameters.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>KDE::ActionCollection</tt>)</span>
+      
+      
+        <span class='name'>the</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>action collection to add the new actions to</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+  <h3>See Also:</h3>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#setup_action-instance_method" title="Ruber::PluginLike#setup_action (method)">#setup_action</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+450
+451
+452
+453
+454
+455
+456</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/plugin_like.rb', line 450</span>
+
+<span class='kw'>def</span> <span class='id setup_actions'>setup_actions</span> <span class='id coll'>coll</span>
+  <span class='ivar'>@plugin_description</span><span class='period'>.</span><span class='id actions'>actions</span><span class='period'>.</span><span class='id each_value'>each_value</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id a'>a</span><span class='op'>|</span>
+      <span class='id action'>action</span> <span class='op'>=</span> <span class='id setup_action'>setup_action</span> <span class='id a'>a</span><span class='comma'>,</span> <span class='id coll'>coll</span>
+      <span class='id coll'>coll</span><span class='period'>.</span><span class='id add_action'>add_action</span> <span class='id a'>a</span><span class='period'>.</span><span class='id name'>name</span><span class='comma'>,</span> <span class='id action'>action</span>
+  <span class='kw'>end</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="shutdown-instance_method">
+  
+    - (<tt>nil</tt>) <strong>shutdown</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Does the required cleanup before the application closes.</p>
+<p>This method is also called when the plugin is unloaded when the application is
+running (for example because the user deselects it from the Choose Plugin dialog).
+This happens because usually the <span class='object_link'><a href="#unload-instance_method" title="Ruber::PluginLike#unload (method)">#unload</a></span> method needs to do all <span class='object_link'><a href="#shutdown-instance_method" title="Ruber::PluginLike#shutdown (method)">#shutdown</a></span> does
+and more. In the rare eventuality you need to do something before closing the
+application which shouldn&#8217;t be done when unloading the plugin, you can check
+<span class='object_link'><a href="Application.html#status-instance_method" title="Ruber::Application#status (method)">Application#status</a></span> and see whether it&#8217;s set to <code>:running</code>, which
+means the plugin is being unloaded, or to <code>:quitting</code>, which means the application
+is being closed.</p>
+<p>The base class version of this method does nothing.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+65
+66</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/plugin_like.rb', line 65</span>
+
+<span class='kw'>def</span> <span class='id shutdown'>shutdown</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="unload-instance_method">
+  
+    - (<tt>nil</tt>) <strong>unload</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Method called before the plugin is unloaded. It is used to do any needed cleanup.</p>
+<p>This method should be overridden by any plugin which needs to do custom cleanup,
+but it&#8217;s important that the base class&#8217;s version of the method is called as well
+(most likely <em>after</em> the custom part).</p>
+<p>This basic implementation does the following:</p>
+<ul>
+	<li>calls <span class='object_link'><a href="#shutdown-instance_method" title="Ruber::PluginLike#shutdown (method)">#shutdown</a></span></li>
+	<li>disconnects the <span class='object_link'><a href="#load_settings-instance_method" title="Ruber::PluginLike#load_settings (method)">#load_settings</a></span> slot from the config manager
+  Config#settings_changed signal</li>
+	<li>removes all the options belonging to the plugin from the config manager</li>
+	<li>removes all tool widgets belonging to the plugin from the main window</li>
+</ul>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/plugin_like.rb', line 83</span>
+
+<span class='kw'>def</span> <span class='id unload'>unload</span>
+  <span class='id shutdown'>shutdown</span>
+  <span class='kw'>if</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span>
+    <span class='id disconnect'>disconnect</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>settings_changed()</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>load_settings()</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+    <span class='ivar'>@plugin_description</span><span class='period'>.</span><span class='id config_options'>config_options</span><span class='period'>.</span><span class='id each_key'>each_key</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id g'>g</span><span class='comma'>,</span> <span class='id n'>n</span><span class='op'>|</span> 
+      <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id remove_option'>remove_option</span><span class='lparen'>(</span><span class='id g'>g</span><span class='period'>.</span><span class='id to_sym'>to_sym</span><span class='comma'>,</span> <span class='id n'>n</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='ivar'>@plugin_description</span><span class='period'>.</span><span class='id tool_widgets'>tool_widgets</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id w'>w</span><span class='op'>|</span> 
+    <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id remove_tool'>remove_tool</span> <span class='id w'>w</span><span class='period'>.</span><span class='id name'>name</span> <span class='kw'>if</span> <span class='id w'>w</span><span class='period'>.</span><span class='id name'>name</span>
+  <span class='kw'>end</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="update_project-instance_method">
+  
+    - (<tt>nil</tt>) <strong>update_project</strong>(prj) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Ensures that all the project options, widgets and extensions which are provided
+by the plugin and match the project have been added to it and that none which
+doesn&#8217;t match it have been added</p>
+<p>This method is called when one of the characteristics of the project the rules
+take into account change, so that the plugin always add to the project all the
+pertinent content</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="AbstractProject.html" title="Ruber::AbstractProject (class)">Ruber::AbstractProject</a></span></tt>)</span>
+      
+      
+        <span class='name'>prj</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the project to check</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+394
+395
+396
+397
+398
+399
+400
+401</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/plugin_like.rb', line 394</span>
+
+<span class='kw'>def</span> <span class='id update_project'>update_project</span> <span class='id prj'>prj</span>
+  <span class='id remove_options_from_project'>remove_options_from_project</span> <span class='id prj'>prj</span><span class='comma'>,</span> <span class='kw'>false</span>
+  <span class='id add_options_to_project'>add_options_to_project</span> <span class='id prj'>prj</span><span class='comma'>,</span> <span class='kw'>false</span>
+  <span class='id remove_widgets_from_project'>remove_widgets_from_project</span> <span class='id prj'>prj</span>
+  <span class='id add_widgets_to_project'>add_widgets_to_project</span> <span class='id prj'>prj</span>
+  <span class='id remove_extensions_from_project'>remove_extensions_from_project</span> <span class='id prj'>prj</span><span class='comma'>,</span> <span class='kw'>false</span>
+  <span class='id add_extensions_to_project'>add_extensions_to_project</span> <span class='id prj'>prj</span><span class='comma'>,</span> <span class='kw'>false</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Fri Oct 29 12:52:52 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.1 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>

@@ -1,0 +1,1798 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>Class: Ruber::FindInFiles::FindReplaceInFilesDlg</title>
+<link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '../..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../_index.html">Index (F)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../../Ruber.html" title="Ruber (module)">Ruber</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../FindInFiles.html" title="Ruber::FindInFiles (module)">FindInFiles</a></span></span>
+     &raquo; 
+    <span class="title">FindReplaceInFilesDlg</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Ruber::FindInFiles::FindReplaceInFilesDlg
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">KDE::Dialog</span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next">KDE::Dialog</li>
+          
+            <li class="next">Ruber::FindInFiles::FindReplaceInFilesDlg</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">plugins/find_in_files/find_in_files_dlg.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>Dialog to set options for search/replace in files.</p>
+<p>A single dialog is used for both search and replace. The action performed depends on whether the user clicks the Find or the Replace button.
+This dialog can be used either as a modal or modeless dialog: if it is modal, use the value returned by #action to see whether the user chose find or replace; in modeless mode rely on the #find and #replace signals.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><h2>Defined Under Namespace</h2>
+<p class="children">
+   
+    
+   
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="FindReplaceInFilesDlg/Completer.html" title="Ruber::FindInFiles::FindReplaceInFilesDlg::Completer (class)">Completer</a></span>, <span class='object_link'><a href="FindReplaceInFilesDlg/Filter.html" title="Ruber::FindInFiles::FindReplaceInFilesDlg::Filter (class)">Filter</a></span>
+    
+  
+</p>
+
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="MODES-constant" class="">MODES =
+          <div class="docstring">
+  <div class="discussion">
+    <p>A list of possible matching modes</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbracket'>[</span><span class='symbol'>:regexp</span><span class='comma'>,</span> <span class='symbol'>:plain</span><span class='rbracket'>]</span></pre></dd>
+      
+        <dt id="PLACES-constant" class="">PLACES =
+          <div class="docstring">
+  <div class="discussion">
+    <p>A list of possible files where to search files</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbracket'>[</span><span class='symbol'>:project_files</span><span class='comma'>,</span> <span class='symbol'>:project_dir</span><span class='comma'>,</span> <span class='symbol'>:open_files</span><span class='comma'>,</span> <span class='symbol'>:custom_dir</span><span class='rbracket'>]</span></pre></dd>
+      
+        <dt id="FILE_TYPES-constant" class="">FILE_TYPES =
+          <div class="docstring">
+  <div class="discussion">
+    <p>A map between the text shown in the file type widget and rak options</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbrace'>{</span>
+  <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>C++ files</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='symbol'>:cpp</span><span class='comma'>,</span>
+  <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>C files</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='symbol'>:c</span><span class='comma'>,</span>
+  <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>C# files</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='symbol'>:csharp</span><span class='comma'>,</span>
+  <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>CSS files</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='symbol'>:css</span><span class='comma'>,</span>
+  <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Elisp files</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='symbol'>:elisp</span><span class='comma'>,</span>
+  <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Erlang files</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='symbol'>:erlang</span><span class='comma'>,</span>
+  <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Fortran files</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='symbol'>:fortran</span><span class='comma'>,</span>
+  <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Haskell files</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='symbol'>:haskell</span><span class='comma'>,</span>
+  <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>hh files</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='symbol'>:hh</span><span class='comma'>,</span>
+  <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>HTML files</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='symbol'>:html</span><span class='comma'>,</span>
+  <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Java files</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='symbol'>:java</span><span class='comma'>,</span>
+  <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Javascript file</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='symbol'>:js</span><span class='comma'>,</span>
+  <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>jsp files</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='symbol'>:jsp</span><span class='comma'>,</span>
+  <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Lisp files</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='symbol'>:lisp</span><span class='comma'>,</span>
+  <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Makefiles</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='symbol'>:make</span><span class='comma'>,</span>
+  <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Mason files</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='symbol'>:mason</span><span class='comma'>,</span>
+  <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>OCaml files</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='symbol'>:ocaml</span><span class='comma'>,</span>
+  <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Parrot files</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='symbol'>:parrot</span><span class='comma'>,</span>
+  <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Perl files</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='symbol'>:perl</span><span class='comma'>,</span>
+  <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>PHP files</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='symbol'>:php</span><span class='comma'>,</span>
+  <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Prolog files</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='symbol'>:prolog</span><span class='comma'>,</span>
+  <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Python files</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='symbol'>:python</span><span class='comma'>,</span>
+  <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Ruby files</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='symbol'>:ruby</span><span class='comma'>,</span>
+  <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Scheme files</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='symbol'>:scheme</span><span class='comma'>,</span>
+  <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Shell files</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='symbol'>:shell</span><span class='comma'>,</span>
+  <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>SQL files</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='symbol'>:sql</span><span class='comma'>,</span>
+  <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>TCL files</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='symbol'>:tcl</span><span class='comma'>,</span>
+  <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>TeX files</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='symbol'>:tex</span><span class='comma'>,</span>
+  <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Text files</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='symbol'>:text</span><span class='comma'>,</span>
+  <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>tt files</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='symbol'>:tt</span><span class='comma'>,</span>
+  <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Visual Basic files</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='symbol'>:vb</span><span class='comma'>,</span>
+  <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Vim files</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='symbol'>:vim</span><span class='comma'>,</span>
+  <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>XML files</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='symbol'>:xml</span><span class='comma'>,</span>
+  <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>YAML files</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='symbol'>:yaml</span>
+<span class='rbrace'>}</span></pre></dd>
+      
+    </dl>
+  
+
+
+  
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#action-instance_method" title="#action (instance method)">- (Symbol<sup>?</sup>) <strong>action</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title readonly">readonly</span>
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The action chosen by the user when closing the dialog
+he chose the Replace button and <strong>nil</strong> if he pressed the Cancel button or if the
+dialog hasn???t been closed as yet.</p></div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#add_completions-instance_method" title="#add_completions (instance method)">- (nil) <strong>add_completions</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Adds the values in the various line edit widgets to the respective completers.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#all_files%3F-instance_method" title="#all_files? (instance method)">- (Boolean) <strong>all_files?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Whether the search should be made on all files or only on some file types.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#allow_project%3D-instance_method" title="#allow_project= (instance method)">- (Boolean) <strong>allow_project</strong>(val) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Whether the &#8220;Project files&#8221; and &#8220;Project directory&#8221; entries should be shown
+in the <em>Search in</em> widget or not.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#case_sensitive%3F-instance_method" title="#case_sensitive? (instance method)">- (Boolean) <strong>case_sensitive?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Whether the search should be case sensitive or not.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#clear-instance_method" title="#clear (instance method)">- (Object) <strong>clear</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Sets the contents of the dialog???s widgets to their default values.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#create_filter_text-instance_method" title="#create_filter_text (instance method)">- (nil) <strong>create_filter_text</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Fills the text of the File type widget with a string according to the selected entries.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#custom_filter-instance_method" title="#custom_filter (instance method)">- (String<sup>?</sup>) <strong>custom_filter</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The regexp to pass to rak -g option.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#directory-instance_method" title="#directory (instance method)">- (String<sup>?</sup>) <strong>directory</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The contents of the Directory widget
+is disabled (because the user chose something else than <em>Custom directory</em> in the
+<em>Search in</em> widget).</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#eventFilter-instance_method" title="#eventFilter (instance method)">- (Boolean) <strong>eventFilter</strong>(obj, e) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Event filter to make the Predefined filters combo box be checkable.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#filters-instance_method" title="#filters (instance method)">- (&lt;Symbol&gt;<sup>?</sup>) <strong>filters</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The file types the search should be restricted to
+types combo box (converted so they match the name of the options rak accepts) or
+nil if the user checked the <em>All files</em> radio button.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#find_text-instance_method" title="#find_text (instance method)">- (String) <strong>find_text</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The text in the Find widget.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (FindReplaceInFilesDlg) <strong>initialize</strong>(parent = Ruber[:main_window]) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>A new instance of FindReplaceInFilesDlg.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#mode-instance_method" title="#mode (instance method)">- (Symbol) <strong>mode</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The mode chosen by the user.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#places-instance_method" title="#places (instance method)">- (Symbol) <strong>places</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Where to find the files to search:.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#replacement_text-instance_method" title="#replacement_text (instance method)">- (String) <strong>replacement_text</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The text in the Replace widget.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#whole_words%3F-instance_method" title="#whole_words? (instance method)">- (Boolean) <strong>whole_words?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Whether the search should be performed only in whole words or not.</p></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+
+  <h2>Signal Summary</h2>
+  <ul class="summary" >
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#find-signalcode" title="find (signalcode)">- <strong>find</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted when the user presses the Find button.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#replace-signalcode" title="replace (signalcode)">- <strong>replace</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted when the user presses the Replace button.</p></div></span>
+    </li>
+  
+  </ul>
+
+
+
+
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::FindInFiles::FindReplaceInFilesDlg (class)">FindReplaceInFilesDlg</a></span></tt>) <strong>initialize</strong>(parent = Ruber[:main_window]) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>A new instance of FindReplaceInFilesDlg</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>Qt::Widget</tt>, <tt>nil</tt>)</span>
+      
+      
+        <span class='name'>parent</span>
+      
+      
+        <em class="default">(defaults to: <tt>Ruber[:main_window]</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>the parent widget</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/find_in_files/find_in_files_dlg.rb', line 135</span>
+
+<span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id parent'>parent</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span>
+  <span class='ivar'>@operation</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='kw'>super</span>
+  <span class='id set_buttons'>set_buttons</span> <span class='const'>User1</span><span class='op'>|</span><span class='const'>User2</span><span class='op'>|</span><span class='const'>Cancel</span>
+  <span class='id set_button_text'>set_button_text</span> <span class='const'>User1</span><span class='comma'>,</span> <span class='const'>KDE</span><span class='period'>.</span><span class='id i18n'>i18n</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Replace</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+  <span class='id set_button_text'>set_button_text</span> <span class='const'>User2</span><span class='comma'>,</span> <span class='const'>KDE</span><span class='period'>.</span><span class='id i18n'>i18n</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Find</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+  <span class='id set_default_button'>set_default_button</span> <span class='const'>User2</span>
+  <span class='id enable_button'>enable_button</span> <span class='const'>User1</span><span class='comma'>,</span> <span class='kw'>false</span>
+  <span class='id enable_button'>enable_button</span> <span class='const'>User2</span><span class='comma'>,</span> <span class='kw'>false</span>
+  
+  <span class='ivar'>@ui</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'>Ui</span><span class='op'>::</span><span class='const'>FindReplaceInFilesWidget</span><span class='period'>.</span><span class='id new'>new</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id setupUi'>setupUi</span> <span class='id main_widget'>main_widget</span>
+  
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id find_text'>find_text</span><span class='period'>.</span><span class='id completer'>completer</span> <span class='op'>=</span> <span class='const'>Completer</span><span class='period'>.</span><span class='id new'>new</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id find_text'>find_text</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id replace_text'>replace_text</span><span class='period'>.</span><span class='id completer'>completer</span> <span class='op'>=</span> <span class='const'>Completer</span><span class='period'>.</span><span class='id new'>new</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id replace_text'>replace_text</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id custom_filter'>custom_filter</span><span class='period'>.</span><span class='id completer'>completer</span> <span class='op'>=</span> <span class='const'>Completer</span><span class='period'>.</span><span class='id new'>new</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id custom_filter'>custom_filter</span>
+  
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id directory'>directory</span><span class='period'>.</span><span class='id mode'>mode</span> <span class='op'>=</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>File</span><span class='op'>::</span><span class='const'>Directory</span>
+  
+  
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id find_text'>find_text</span><span class='period'>.</span><span class='id connect'>connect</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>textChanged(QString)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span> <span class='kw'>do</span>
+    <span class='id enable'>enable</span> <span class='op'>=</span> <span class='op'>!</span><span class='ivar'>@ui</span><span class='period'>.</span><span class='id find_text'>find_text</span><span class='period'>.</span><span class='id text'>text</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+    <span class='id enable_button'>enable_button</span> <span class='const'>User1</span><span class='comma'>,</span> <span class='id enable'>enable</span>
+    <span class='id enable_button'>enable_button</span> <span class='const'>User2</span><span class='comma'>,</span> <span class='id enable'>enable</span>
+  <span class='kw'>end</span>
+  
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id replace_text'>replace_text</span><span class='period'>.</span><span class='id connect'>connect</span><span class='lparen'>(</span><span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>textChanged(QString)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='kw'>do</span>
+    <span class='kw'>self</span><span class='period'>.</span><span class='id default_button'>default_button</span> <span class='op'>=</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id replace_text'>replace_text</span><span class='period'>.</span><span class='id text'>text</span><span class='period'>.</span><span class='id empty?'>empty?</span> <span class='op'>?</span> <span class='const'>User2</span> <span class='op'>:</span> <span class='const'>User1</span>
+  <span class='kw'>end</span>
+  
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id places'>places</span><span class='period'>.</span><span class='id connect'>connect</span><span class='lparen'>(</span><span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>currentIndexChanged(int)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span> 
+    <span class='ivar'>@ui</span><span class='period'>.</span><span class='id directory'>directory</span><span class='period'>.</span><span class='id enabled'>enabled</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id i'>i</span> <span class='op'>==</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id places'>places</span><span class='period'>.</span><span class='id count'>count</span> <span class='op'>-</span> <span class='int'>1</span><span class='rparen'>)</span> 
+  <span class='kw'>end</span>
+  
+  <span class='id button'>button</span><span class='lparen'>(</span><span class='const'>User1</span><span class='rparen'>)</span><span class='period'>.</span><span class='id connect'>connect</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:clicked</span><span class='rparen'>)</span> <span class='kw'>do</span>
+    <span class='ivar'>@action</span> <span class='op'>=</span> <span class='symbol'>:replace</span>
+    <span class='id add_completions'>add_completions</span>
+    <span class='id accept'>accept</span>
+    <span class='id emit'>emit</span> <span class='id replace'>replace</span>
+  <span class='kw'>end</span>
+  
+  <span class='id button'>button</span><span class='lparen'>(</span><span class='const'>User2</span><span class='rparen'>)</span><span class='period'>.</span><span class='id connect'>connect</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:clicked</span><span class='rparen'>)</span> <span class='kw'>do</span>
+    <span class='ivar'>@action</span> <span class='op'>=</span> <span class='symbol'>:find</span>
+    <span class='id add_completions'>add_completions</span>
+    <span class='id accept'>accept</span>
+    <span class='id emit'>emit</span> <span class='id find'>find</span>
+  <span class='kw'>end</span>
+  
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id use_predefined_filters'>use_predefined_filters</span><span class='period'>.</span><span class='id connect'>connect</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>toggled(bool)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id b'>b</span><span class='op'>|</span>
+    <span class='ivar'>@ui</span><span class='period'>.</span><span class='id types'>types</span><span class='period'>.</span><span class='id enabled'>enabled</span> <span class='op'>=</span> <span class='id b'>b</span>
+  <span class='kw'>end</span>
+  
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id all_files'>all_files</span><span class='period'>.</span><span class='id connect'>connect</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>toggled(bool)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id b'>b</span><span class='op'>|</span>
+    <span class='ivar'>@ui</span><span class='period'>.</span><span class='id types'>types</span><span class='period'>.</span><span class='id enabled'>enabled</span> <span class='op'>=</span> <span class='op'>!</span><span class='id b'>b</span>
+  <span class='kw'>end</span>
+  
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id types'>types</span><span class='period'>.</span><span class='id line_edit'>line_edit</span><span class='period'>.</span><span class='id read_only'>read_only</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id types'>types</span><span class='period'>.</span><span class='id view'>view</span><span class='period'>.</span><span class='id install_event_filter'>install_event_filter</span> <span class='const'>Filter</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='rparen'>)</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id types'>types</span><span class='period'>.</span><span class='id view'>view</span><span class='period'>.</span><span class='id viewport'>viewport</span><span class='period'>.</span><span class='id install_event_filter'>install_event_filter</span> <span class='const'>Filter</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='rparen'>)</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id types'>types</span><span class='period'>.</span><span class='id add_items'>add_items</span> <span class='const'>FILE_TYPES</span><span class='period'>.</span><span class='id keys'>keys</span><span class='period'>.</span><span class='id sort'>sort</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id types'>types</span><span class='period'>.</span><span class='id model'>model</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span>
+    <span class='id i'>i</span><span class='period'>.</span><span class='id checkable'>checkable</span> <span class='op'>=</span> <span class='kw'>true</span>
+    <span class='id i'>i</span><span class='period'>.</span><span class='id checked'>checked</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id i'>i</span><span class='period'>.</span><span class='id text'>text</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Ruby files</span><span class='tstring_end'>'</span></span> <span class='op'>||</span> <span class='id i'>i</span><span class='period'>.</span><span class='id text'>text</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>YAML files</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+  <span class='id create_filter_text'>create_filter_text</span>
+  
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <span id="action-instance_method"></span>
+      <div class="method_details first">
+  <p class="signature first" id="action-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Symbol.html" title="Symbol (class)">Symbol</a></span></tt><sup>?</sup>) <strong>action</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The action chosen by the user when closing the dialog
+he chose the Replace button and <strong>nil</strong> if he pressed the Cancel button or if the
+dialog hasn???t been closed as yet</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><code>:find</code> if the user pressed the Find button, <code>:replace</code> if</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+130
+131
+132</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/find_in_files/find_in_files_dlg.rb', line 130</span>
+
+<span class='kw'>def</span> <span class='id action'>action</span>
+  <span class='ivar'>@action</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="add_completions-instance_method">
+  
+    - (<tt>nil</tt>) <strong>add_completions</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Adds the values in the various line edit widgets to the respective completers</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+373
+374
+375
+376
+377</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/find_in_files/find_in_files_dlg.rb', line 373</span>
+
+<span class='kw'>def</span> <span class='id add_completions'>add_completions</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id find_text'>find_text</span><span class='period'>.</span><span class='id completer'>completer</span><span class='period'>.</span><span class='id add_entry'>add_entry</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id find_text'>find_text</span><span class='period'>.</span><span class='id text'>text</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id replace_text'>replace_text</span><span class='period'>.</span><span class='id completer'>completer</span><span class='period'>.</span><span class='id add_entry'>add_entry</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id replace_text'>replace_text</span><span class='period'>.</span><span class='id text'>text</span> <span class='kw'>unless</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id replace_text'>replace_text</span><span class='period'>.</span><span class='id text'>text</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id custom_filter'>custom_filter</span><span class='period'>.</span><span class='id completer'>completer</span><span class='period'>.</span><span class='id add_entry'>add_entry</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id custom_filter'>custom_filter</span><span class='period'>.</span><span class='id text'>text</span> <span class='kw'>unless</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id custom_filter'>custom_filter</span><span class='period'>.</span><span class='id text'>text</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="all_files?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>all_files?</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Whether the search should be made on all files or only on some file types</p>
+<p>those with file type matching the entries selected in the File type combo box</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>whether the search should be performed on all files or only in</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+290
+291
+292</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/find_in_files/find_in_files_dlg.rb', line 290</span>
+
+<span class='kw'>def</span> <span class='id all_files?'>all_files?</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id all_files'>all_files</span><span class='period'>.</span><span class='id checked?'>checked?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="allow_project=-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>allow_project=</strong>(val) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Whether the &#8220;Project files&#8221; and &#8220;Project directory&#8221; entries should be shown
+in the <em>Search in</em> widget or not.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <span class='name'>val</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>whether to show the entries or not</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><em>val</em></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+209
+210
+211
+212
+213
+214
+215</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/find_in_files/find_in_files_dlg.rb', line 209</span>
+
+<span class='kw'>def</span> <span class='id allow_project='>allow_project=</span> <span class='id val'>val</span>
+  <span class='kw'>if</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id places'>places</span><span class='period'>.</span><span class='id count'>count</span> <span class='op'>==</span> <span class='int'>4</span> <span class='kw'>and</span> <span class='op'>!</span><span class='id val'>val</span>
+    <span class='int'>2</span><span class='period'>.</span><span class='id times'>times</span><span class='lbrace'>{</span><span class='ivar'>@ui</span><span class='period'>.</span><span class='id places'>places</span><span class='period'>.</span><span class='id remove_item'>remove_item</span> <span class='int'>0</span><span class='rbrace'>}</span>
+  <span class='kw'>elsif</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id places'>places</span><span class='period'>.</span><span class='id count'>count</span> <span class='op'>==</span> <span class='int'>2</span> <span class='kw'>and</span> <span class='id val'>val</span>
+    <span class='ivar'>@ui</span><span class='period'>.</span><span class='id places'>places</span><span class='period'>.</span><span class='id insert_items'>insert_items</span> <span class='int'>0</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Project files</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Project directory</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="case_sensitive?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>case_sensitive?</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Whether the search should be case sensitive or not</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>whether or not the user chose to perform a case sensitive search</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+256
+257
+258</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/find_in_files/find_in_files_dlg.rb', line 256</span>
+
+<span class='kw'>def</span> <span class='id case_sensitive?'>case_sensitive?</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id case_sensitive'>case_sensitive</span><span class='period'>.</span><span class='id checked?'>checked?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="clear-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>clear</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Sets the contents of the dialog???s widgets to their default values</p>
+<p>This method doesn&#8217;t erase the completers and is usually called before showing the dialog.
+<strong>Note:</strong> this also sets allow_project to true</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/find_in_files/find_in_files_dlg.rb', line 326</span>
+
+<span class='kw'>def</span> <span class='id clear'>clear</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id allow_project'>allow_project</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='ivar'>@action</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id find_text'>find_text</span><span class='period'>.</span><span class='id text'>text</span><span class='op'>=</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id replace_text'>replace_text</span><span class='period'>.</span><span class='id clear'>clear</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id mode'>mode</span><span class='period'>.</span><span class='id current_index'>current_index</span> <span class='op'>=</span> <span class='int'>0</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id whole_words'>whole_words</span><span class='period'>.</span><span class='id checked'>checked</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id case_sensitive'>case_sensitive</span><span class='period'>.</span><span class='id checked'>checked</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id use_predefined_filters'>use_predefined_filters</span><span class='period'>.</span><span class='id checked'>checked</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id custom_filter'>custom_filter</span><span class='period'>.</span><span class='id clear'>clear</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id places'>places</span><span class='period'>.</span><span class='id current_index'>current_index</span> <span class='op'>=</span> <span class='int'>0</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id find_text'>find_text</span><span class='period'>.</span><span class='id set_focus'>set_focus</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id directory'>directory</span><span class='period'>.</span><span class='id enabled'>enabled</span> <span class='op'>=</span> <span class='kw'>false</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="create_filter_text-instance_method">
+  
+    - (<tt>nil</tt>) <strong>create_filter_text</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Fills the text of the File type widget with a string according to the selected entries</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+384
+385
+386
+387
+388</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/find_in_files/find_in_files_dlg.rb', line 384</span>
+
+<span class='kw'>def</span> <span class='id create_filter_text'>create_filter_text</span>
+  <span class='id text'>text</span> <span class='op'>=</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id types'>types</span><span class='period'>.</span><span class='id model'>model</span><span class='period'>.</span><span class='id select'>select</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span> <span class='id i'>i</span><span class='period'>.</span><span class='id checked?'>checked?</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id map'>map</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span> <span class='id i'>i</span><span class='period'>.</span><span class='id text'>text</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id join'>join</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>; </span><span class='tstring_end'>'</span></span>
+  <span class='id text'>text</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>All files</span><span class='tstring_end'>'</span></span> <span class='kw'>if</span> <span class='id text'>text</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id types'>types</span><span class='period'>.</span><span class='id edit_text'>edit_text</span> <span class='op'>=</span> <span class='id text'>text</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="custom_filter-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt><sup>?</sup>) <strong>custom_filter</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The regexp to pass to rak -g option</p>
+<p>the <em>Custom filter</em> widget</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the source of the regexp or <strong>nil</strong> if the user didn???t fill</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+279
+280
+281
+282</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/find_in_files/find_in_files_dlg.rb', line 279</span>
+
+<span class='kw'>def</span> <span class='id custom_filter'>custom_filter</span>
+  <span class='id text'>text</span> <span class='op'>=</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id custom_filter'>custom_filter</span><span class='period'>.</span><span class='id text'>text</span>
+  <span class='id text'>text</span><span class='period'>.</span><span class='id empty?'>empty?</span> <span class='op'>?</span> <span class='kw'>nil</span> <span class='op'>:</span> <span class='id text'>text</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="directory-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt><sup>?</sup>) <strong>directory</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The contents of the Directory widget
+is disabled (because the user chose something else than <em>Custom directory</em> in the
+<em>Search in</em> widget)</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the contents of the Directory widget or nil if the wigdet</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+316
+317
+318</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/find_in_files/find_in_files_dlg.rb', line 316</span>
+
+<span class='kw'>def</span> <span class='id directory'>directory</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id directory'>directory</span><span class='period'>.</span><span class='id enabled?'>enabled?</span> <span class='op'>?</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id directory'>directory</span><span class='period'>.</span><span class='id text'>text</span> <span class='op'>:</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="eventFilter-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>eventFilter</strong>(obj, e) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Event filter to make the Predefined filters combo box be checkable.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><strong>true</strong> if the event should be blocked and <strong>false</strong> if it should be propagated</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/find_in_files/find_in_files_dlg.rb', line 346</span>
+
+<span class='kw'>def</span> <span class='id eventFilter'>eventFilter</span> <span class='id obj'>obj</span><span class='comma'>,</span> <span class='id e'>e</span>
+  <span class='kw'>if</span> <span class='id e'>e</span><span class='period'>.</span><span class='id type'>type</span> <span class='op'>==</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Event</span><span class='op'>::</span><span class='const'>MouseButtonRelease</span>
+    <span class='id obj'>obj</span><span class='op'>=</span><span class='id obj'>obj</span><span class='period'>.</span><span class='id parent'>parent</span> <span class='kw'>unless</span> <span class='id obj'>obj</span><span class='period'>.</span><span class='id is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Qt</span><span class='op'>::</span><span class='const'>ListView</span><span class='rparen'>)</span>
+    <span class='id idx'>idx</span> <span class='op'>=</span> <span class='id obj'>obj</span><span class='period'>.</span><span class='id index_at'>index_at</span> <span class='id e'>e</span><span class='period'>.</span><span class='id pos'>pos</span>
+    <span class='kw'>if</span> <span class='id idx'>idx</span><span class='period'>.</span><span class='id valid?'>valid?</span>
+      <span class='id op'>op</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>StyleOption</span><span class='period'>.</span><span class='id new'>new</span>
+      <span class='id op'>op</span><span class='period'>.</span><span class='id initFrom'>initFrom</span> <span class='id obj'>obj</span>
+      <span class='id op'>op</span><span class='period'>.</span><span class='id rect'>rect</span> <span class='op'>=</span> <span class='id obj'>obj</span><span class='period'>.</span><span class='id visual_rect'>visual_rect</span><span class='lparen'>(</span><span class='id idx'>idx</span><span class='rparen'>)</span>
+      <span class='id r'>r</span> <span class='op'>=</span> <span class='id obj'>obj</span><span class='period'>.</span><span class='id style'>style</span><span class='period'>.</span><span class='id sub_element_rect'>sub_element_rect</span><span class='lparen'>(</span><span class='const'>Qt</span><span class='op'>::</span><span class='const'>Style</span><span class='op'>::</span><span class='const'>SE_ViewItemCheckIndicator</span><span class='comma'>,</span> <span class='id op'>op</span><span class='rparen'>)</span>
+      <span class='kw'>if</span> <span class='id r'>r</span><span class='period'>.</span><span class='id contains'>contains</span><span class='lparen'>(</span><span class='id e'>e</span><span class='period'>.</span><span class='id pos'>pos</span><span class='rparen'>)</span>
+        <span class='id it'>it</span> <span class='op'>=</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id types'>types</span><span class='period'>.</span><span class='id model'>model</span><span class='period'>.</span><span class='id item_from_index'>item_from_index</span> <span class='id idx'>idx</span>
+        <span class='id it'>it</span><span class='period'>.</span><span class='id checked'>checked</span> <span class='op'>=</span> <span class='op'>!</span><span class='id it'>it</span><span class='period'>.</span><span class='id checked?'>checked?</span>
+        <span class='id create_filter_text'>create_filter_text</span>
+        <span class='kw'>return</span> <span class='kw'>true</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='kw'>false</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="filters-instance_method">
+  
+    - (<tt>&lt;<span class='object_link'><a href="../../Symbol.html" title="Symbol (class)">Symbol</a></span>&gt;</tt><sup>?</sup>) <strong>filters</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The file types the search should be restricted to
+types combo box (converted so they match the name of the options rak accepts) or
+nil if the user checked the <em>All files</em> radio button</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>&lt;<span class='object_link'><a href="../../Symbol.html" title="Symbol (class)">Symbol</a></span>&gt;</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>an array containing the file types the user chose in the</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+266
+267
+268
+269
+270
+271</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/find_in_files/find_in_files_dlg.rb', line 266</span>
+
+<span class='kw'>def</span> <span class='id filters'>filters</span>
+  <span class='kw'>if</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id use_predefined_filters'>use_predefined_filters</span><span class='period'>.</span><span class='id checked?'>checked?</span>
+    <span class='ivar'>@ui</span><span class='period'>.</span><span class='id types'>types</span><span class='period'>.</span><span class='id model'>model</span><span class='period'>.</span><span class='id map'>map</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span> <span class='id i'>i</span><span class='period'>.</span><span class='id checked?'>checked?</span> <span class='op'>?</span> <span class='const'>FILE_TYPES</span><span class='lbracket'>[</span><span class='id i'>i</span><span class='period'>.</span><span class='id text'>text</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='kw'>nil</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id compact'>compact</span>
+  <span class='kw'>else</span> <span class='kw'>nil</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="find_text-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>) <strong>find_text</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The text in the Find widget</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the text in the Find widget</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+221
+222
+223</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/find_in_files/find_in_files_dlg.rb', line 221</span>
+
+<span class='kw'>def</span> <span class='id find_text'>find_text</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id find_text'>find_text</span><span class='period'>.</span><span class='id text'>text</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="mode-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>) <strong>mode</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The mode chosen by the user.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the mode chosen by the user. It can be either <code>:regexp</code> or <code>:plain</code></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+237
+238
+239</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/find_in_files/find_in_files_dlg.rb', line 237</span>
+
+<span class='kw'>def</span> <span class='id mode'>mode</span>
+  <span class='const'>MODES</span><span class='lbracket'>[</span><span class='ivar'>@ui</span><span class='period'>.</span><span class='id mode'>mode</span><span class='period'>.</span><span class='id current_index'>current_index</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="places-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>) <strong>places</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Where to find the files to search:</p>
+<p>in the <em>Search in</em> combo box:</p>
+<ul>
+	<li><code>:project_files</code> perform the search only among the files belonging to the current project</li>
+	<li><code>:project_directory</code> perform the search among all the files in the current proejct???s directory</li>
+	<li><code>:open_files</code> perform the search only in files corresponding to open documents (note that the search will be performed in the files, not in the text in the documents)</li>
+	<li><code>:custom_dir</code> perform the search among all the files in the directory selected by the user in the Directory widget</li>
+</ul>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>one of the following symbols, according to what the user chose</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+304
+305
+306
+307
+308</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/find_in_files/find_in_files_dlg.rb', line 304</span>
+
+<span class='kw'>def</span> <span class='id places'>places</span>
+  <span class='id idx'>idx</span> <span class='op'>=</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id places'>places</span><span class='period'>.</span><span class='id current_index'>current_index</span> 
+  <span class='id idx'>idx</span> <span class='op'>+=</span><span class='int'>2</span> <span class='kw'>if</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id places'>places</span><span class='period'>.</span><span class='id count'>count</span> <span class='op'>==</span> <span class='int'>2</span>
+  <span class='const'>PLACES</span><span class='lbracket'>[</span><span class='id idx'>idx</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="replacement_text-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>) <strong>replacement_text</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The text in the Replace widget</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the text in the Replace widget</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+229
+230
+231</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/find_in_files/find_in_files_dlg.rb', line 229</span>
+
+<span class='kw'>def</span> <span class='id replacement_text'>replacement_text</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id replace_text'>replace_text</span><span class='period'>.</span><span class='id text'>text</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="whole_words?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>whole_words?</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Whether the search should be performed only in whole words or not</p>
+<p>or also in the middle of a word</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>whether the user chose to perform a search only on whole words</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+247
+248
+249</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/find_in_files/find_in_files_dlg.rb', line 247</span>
+
+<span class='kw'>def</span> <span class='id whole_words?'>whole_words?</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id whole_words'>whole_words</span><span class='period'>.</span><span class='id checked?'>checked?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Signal Details</h2>
+    
+      <div class="method_details first">
+  <p class="signature first" id="find-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>find</strong> 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted when the user presses the Find button.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="replace-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>replace</strong> 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted when the user presses the Replace button.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Fri Oct 29 12:53:06 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.1 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>

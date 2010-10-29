@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="description" content="Your description goes here" />
+    <meta name="keywords" content="your,keywords,goes,here" />
+    <meta name="author" content="Stefano Crocco / Original design: Andreas Viklund - http://andreasviklund.com/" />
+    <meta name="generator" content="webgen - http://webgen.rubyforge.org" />
+    <link rel="stylesheet" type="text/css" href="default.css" media="screen,projection" />
+    <link rel="icon" href="images/ruber-small.png"/>
+    <title>Ruber &ndash; Features</title>
+  </head>
+
+  <body>
+    <div id="wrap">
+      <div id="header">
+        <h1><a href="index.html">Ruber IDE</a></h1>
+        <p id="slogan"><strong>A Ruby IDE written in Ruby</strong></p>
+      </div>
+
+      <div id="avmenu">
+        <h2 class="hide">Site menu:</h2>
+        <ul><li class="webgen-menu-level1"><a href="index.html">Home</a></li><li class="webgen-menu-level1"><a href="news.html">News</a></li><li class="webgen-menu-level1 webgen-menu-item-selected"><span>Features</span></li><li class="webgen-menu-level1"><a href="status.html">Status</a></li><li class="webgen-menu-level1"><a href="screenshots.html">Screenshots</a></li><li class="webgen-menu-level1"><a href="install.html">Installing</a></li><li class="webgen-menu-level1 webgen-menu-submenu"><a href="user_manual/index.html">User manual</a></li><li class="webgen-menu-level1"><a href="plugin_developer_manual.html">Developer Manual</a></li><li class="webgen-menu-level1 webgen-menu-submenu"><a href="apidoc/_index.html">API documentation</a></li><li class="webgen-menu-level1"><a href="contacts.html">Contacts</a></li><li class="webgen-menu-level1"><a href="http://github.com/stcrocco/ruber">Ruber page on github</a></li></ul>
+
+        <div class="announce">
+          <h2>Latest news:</h2>
+          
+            <p><a href="news.html#Ruber-0-0-1-released-2010-10-29">Ruber 0.0.1 released</a></p>
+          
+        </div>
+      </div>
+
+      <div id="contentwide">
+        <h2>Ruber core features</h2>
+<ul>
+	<li>Modular <span class="caps">IDE</span>, can be easily extended with user-written plugins</li>
+	<li>The Kate part is used for editors, providing out of the box very good syntax
+  highlighting, and a lot of other functionality</li>
+	<li>Automatically manage plugin dependencies</li>
+	<li>Can be used for editing stand-alone files or projects containing multiple files</li>
+	<li>Many convenience classes to use in your plugins so they integrate well with the
+  rest of Ruber</li>
+	<li>Ability to save preferences globally, project-wide or file-wide</li>
+</ul>
+<h2>Ruber plugins features</h2>
+<h3>Ruby development plugin</h3>
+<ul>
+	<li>Runs a ruby script specified in the project configuration, the file in the current
+  editor window or a file chosen by the user</li>
+	<li>Allows you to pass options both to ruby and your script</li>
+	<li>Displays the output from ruby in a tool widget</li>
+	<li>Ability to run a script in an external Konsole window (useful if your script needs input from
+  standard input). In this case the output isn&#8217;t sent to the tool widget</li>
+	<li>Ability to choose the ruby interpreter to use among those installed on the system.
+  The choice can be made per project, per file or temporarily using a menu (useful,
+  for example, to test that your program works with more than one version of ruby)</li>
+	<li>Ability to easily jump from an error line to the corresponding line of code</li>
+</ul>
+<h3>RSpec plugin</h3>
+<ul>
+	<li>Runs specs for the whole project or for the current file or current line</li>
+	<li>Displays the output from RSpec in a tool widget</li>
+	<li>Ability to jump from RSpec output to the corresponding spec</li>
+	<li>Ability to switch from a source file to the corresponding spec and vice-versa</li>
+	<li>Works with both RSpec 1 and RSpec 2</li>
+</ul>
+<h3>Rake plugin</h3>
+<ul>
+	<li>Runs the default task with a single keyboard shortcut</li>
+	<li>Retrieves list of tasks from rake</li>
+	<li>Ability to assign keyboard shortcuts to any task, both globally and per-project</li>
+	<li>Displays the output from rake in a tool widget</li>
+</ul>
+<h3>Find in files plugin</h3>
+<ul>
+	<li>Searches for a string or regexp in the project files or in a directory specified
+  by the user</li>
+	<li>Ability to specify filters to restrict the files to search</li>
+	<li>Performs replacement of searched text</li>
+	<li>Displays replacements in a tool widget before performing them</li>
+</ul>
+<h3>Syntax checker plugin</h3>
+<ul>
+	<li>Checks the syntax of the current ruby or yaml file (according to ruby/<span class="caps">YAML</span> syntax,
+  not english), displaying the output in a widget</li>
+	<li>Can be extended to support other languages</li>
+	<li>Carries out the syntax check when the document is saved or after one second
+  of inactivity: it doesn&#8217;t interfere with typing</li>
+	<li>Uses <code>ruby -c</code> to check ruby syntax and <code>YAML.load</code> to check Yaml syntax, so it&#8217;s
+  always correct</li>
+	<li>Ability to chose the ruby interpreter to use to check ruby sytnax</li>
+</ul>
+<h3>State plugin</h3>
+<ul>
+	<li>Preserve cursor position in documents between sessions</li>
+	<li>Re-open the last opened project or documents at startup</li>
+	<li>Customize what exactly you want to preserve between sessions</li>
+</ul>
+<h2 id="todo">Todo</h2>
+<p>This is a list of the features I&#8217;ve planned to add (sooner or later) to Ruber.
+They&#8217;re listed in no particular order.</p>
+<h3>Core</h3>
+<ul>
+	<li>Ability to have more than one project open at the same time</li>
+	<li>Project templates</li>
+	<li>Ability to associate plugins with projects</li>
+	<li>Ability to open/save remote files</li>
+	<li>Add toolbars</li>
+	<li>Ability to have non-editor windows (for example, allow to display html or <span class="caps">PDF</span>
+  documentation)</li>
+	<li>Split views</li>
+</ul>
+<h3>Plugins</h3>
+<ul>
+	<li>Class browser</li>
+	<li>File system browser</li>
+	<li>irb plugin</li>
+	<li>ri plugin</li>
+	<li><code>Test::Unit</code> plugin</li>
+	<li>Debugging plugin</li>
+	<li>Autocompletion</li>
+	<li><span class="caps">VCS</span> plugins</li>
+	<li>Ruby beautifier plugin</li>
+	<li>Sinppets plugin</li>
+	<li>Editing helper plugin (for example, to automatically insert end keywords)</li>
+</ul>
+      </div>
+
+      <div id="footer">
+        <p>Copyright &copy; 2010 Stefano Crocco | Generated by <a href="http://webgen.rubyforge.org">webgen</a> | Original design by <a href="http://andreasviklund.com">Andreas Viklund</a>
+| Ruby picture on banner by <a href="http://en.wikipedia.org/wiki/User:Humanfeather">Michelle Jo</a></p>
+      </div>
+    </div>
+  </body>
+</html>

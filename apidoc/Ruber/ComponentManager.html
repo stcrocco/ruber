@@ -1,0 +1,2158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>Class: Ruber::ComponentManager</title>
+<link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (C)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../Ruber.html" title="Ruber (module)">Ruber</a></span></span>
+     &raquo; 
+    <span class="title">ComponentManager</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Ruber::ComponentManager
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName"><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next">Ruber::ComponentManager</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+      <dt class="r2">Extended by:</dt>
+      <dd class="r2">Forwardable</dd>
+      
+    
+  
+    
+      <dt class="r1">Includes:</dt>
+      <dd class="r1"><span class='object_link'><a href="../Enumerable.html" title="Enumerable (module)">Enumerable</a></span></dd>
+      
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/ruber/component_manager.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Defined Under Namespace</h2>
+<p class="children">
+   
+    
+   
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="ComponentManager/CircularDep.html" title="Ruber::ComponentManager::CircularDep (class)">CircularDep</a></span>, <span class='object_link'><a href="ComponentManager/DependencyError.html" title="Ruber::ComponentManager::DependencyError (class)">DependencyError</a></span>, <span class='object_link'><a href="ComponentManager/DepsSolver.html" title="Ruber::ComponentManager::DepsSolver (class)">DepsSolver</a></span>, <span class='object_link'><a href="ComponentManager/InvalidPDF.html" title="Ruber::ComponentManager::InvalidPDF (class)">InvalidPDF</a></span>, <span class='object_link'><a href="ComponentManager/MissingPlugins.html" title="Ruber::ComponentManager::MissingPlugins (class)">MissingPlugins</a></span>, <span class='object_link'><a href="ComponentManager/PluginSorter.html" title="Ruber::ComponentManager::PluginSorter (class)">PluginSorter</a></span>, <span class='object_link'><a href="ComponentManager/UnresolvedDep.html" title="Ruber::ComponentManager::UnresolvedDep (class)">UnresolvedDep</a></span>
+    
+  
+</p>
+
+
+  
+  
+  
+  
+  
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#plugin_description-instance_method" title="#plugin_description (instance method)">- (Object) <strong>plugin_description</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title readonly">readonly</span>
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the <tt>PluginSpecification</tt> describing the <ins>ComponentManager</ins>.</p></div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+  
+    <h2>
+      Class Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#fill_dependencies-class_method" title="fill_dependencies (class method)">+ (Object) <strong>fill_dependencies</strong>(to_load, availlable) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Finds all the dependencies for the given plugins choosing among a list.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#find_plugins-class_method" title="find_plugins (class method)">+ (Object) <strong>find_plugins</strong>(dirs, info = false) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Looks in the directories specified in the <em>dirs</em> array for plugins and returns.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#resolve_features-class_method" title="resolve_features (class method)">+ (Object) <strong>resolve_features</strong>(pdfs, extra = []) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Replaces features in plugin dependencies with the names of the plugin providing.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#sort_plugins-class_method" title="sort_plugins (class method)">+ (Object) <strong>sort_plugins</strong>(pdfs, known = []) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Sorts the plugins in the <em>pdfs</em> array, according with their dependencies .</p></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#add-instance_method" title="#add (instance method)">- (Object) <strong>add</strong>(comp) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p><b>For internal use only</b>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#component_name-instance_method" title="#component_name (instance method)">- (Object) <strong>component_name</strong> </a>
+    
+
+    
+      (also: #plugin_name)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns <tt>:components</tt>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#components-instance_method" title="#components (instance method)">- (Object) <strong>components</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns an array containing all the loaded components, in loading order.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#create_plugins_info-instance_method" title="#create_plugins_info (instance method)">- (Object) <strong>create_plugins_info</strong>(plugins, files, dirs) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Attempts to create <tt>Ruber::PluginSpecification</tt>s for each plugin in the <em>plugins</em>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#each_component-instance_method" title="#each_component (instance method)">- (Object) <strong>each_component</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Calls the block for each component, passing it as argument to the block.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#each_plugin-instance_method" title="#each_plugin (instance method)">- (Object) <strong>each_plugin</strong> </a>
+    
+
+    
+      (also: #each)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Calls the block for each plugin (that is, for every component of class 
+ <tt>Ruber::Plugin</tt> or derived), passing it as argument to the block.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (ComponentManager) <strong>initialize</strong> </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Creates a new <ins>ComponentManager</ins>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#load_component-instance_method" title="#load_component (instance method)">- (Object) <strong>load_component</strong>(name) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Loads the component with name <em>name</em>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#load_plugin-instance_method" title="#load_plugin (instance method)">- (Object) <strong>load_plugin</strong>(dir) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Loads the plugin in the directory <em>dir</em>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#load_plugins-instance_method" title="#load_plugins (instance method)">- (Object) <strong>load_plugins</strong>(plugins, dirs) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Makes the <ins>ComponentManager</ins> load the given plugins.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#locate_plugins-instance_method" title="#locate_plugins (instance method)">- (Object) <strong>locate_plugins</strong>(dirs) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Searches the directories in the <em>dirs</em> array for all the subdirectories containing.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#plugins-instance_method" title="#plugins (instance method)">- (Object) <strong>plugins</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns an array containing all the loaded plugins (but not the components), in loading order.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#query_close-instance_method" title="#query_close (instance method)">- (Object) <strong>query_close</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Calls the <tt>query_close</tt> method of all the components (in arbitrary order).</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#register_with_project-instance_method" title="#register_with_project (instance method)">- (Object) <strong>register_with_project</strong>(prj) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Method required for the Plugin interface.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#remove_from_project-instance_method" title="#remove_from_project (instance method)">- (Object) <strong>remove_from_project</strong>(prj) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Method required for the Plugin interface.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#restore_session-instance_method" title="#restore_session (instance method)">- (Object) <strong>restore_session</strong>(data) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#session_data-instance_method" title="#session_data (instance method)">- (Object) <strong>session_data</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#shutdown-instance_method" title="#shutdown (instance method)">- (Object) <strong>shutdown</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Prepares the application for being cleanly closed.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#unload_plugin-instance_method" title="#unload_plugin (instance method)">- (Object) <strong>unload_plugin</strong>(name) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Unloads the plugin called <em>name</em> (<em>name</em> must be a symbol) by doing the following:.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#update_project-instance_method" title="#update_project (instance method)">- (Object) <strong>update_project</strong>(prj) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Method required for the Plugin interface.</p></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="../Enumerable.html" title="Enumerable (module)">Enumerable</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../Enumerable.html#find%21-instance_method" title="Enumerable#find! (method)">#find!</a></span></p>
+
+
+  <h2>Signal Summary</h2>
+  <ul class="summary" >
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#loading_component-signalcode" title="loading_component (signalcode)">- <strong>loading_component</strong>(QObject* arg1) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#component_loaded-signalcode" title="component_loaded (signalcode)">- <strong>component_loaded</strong>(QObject* arg1) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#feature_loaded-signalcode" title="feature_loaded (signalcode)">- <strong>feature_loaded</strong>(QString arg1, QObject* arg2) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#unloading_component-signalcode" title="unloading_component (signalcode)">- <strong>unloading_component</strong>(QObject* arg1) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
+  
+  </ul>
+
+
+
+
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::ComponentManager (class)">ComponentManager</a></span></tt>) <strong>initialize</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Creates a new <ins>ComponentManager</ins></p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+524
+525
+526
+527
+528
+529</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 524</span>
+
+<span class='kw'>def</span> <span class='id initialize'>initialize</span>
+  <span class='kw'>super</span>
+  <span class='ivar'>@components</span> <span class='op'>=</span> <span class='const'>Dictionary</span><span class='lbracket'>[</span><span class='symbol'>:components</span><span class='comma'>,</span> <span class='kw'>self</span><span class='rbracket'>]</span>
+  <span class='ivar'>@features</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='symbol'>:components</span> <span class='op'>=&gt;</span> <span class='kw'>self</span><span class='rbrace'>}</span>
+  <span class='ivar'>@plugin_description</span> <span class='op'>=</span> <span class='const'>PluginSpecification</span><span class='period'>.</span><span class='id full'>full</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='symbol'>:name</span> <span class='op'>=&gt;</span> <span class='symbol'>:components</span><span class='comma'>,</span> <span class='symbol'>:class</span> <span class='op'>=&gt;</span> <span class='kw'>self</span><span class='period'>.</span><span class='id class'>class</span><span class='rbrace'>}</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <span id="plugin_description-instance_method"></span>
+      <div class="method_details first">
+  <p class="signature first" id="plugin_description-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>plugin_description</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the <tt>PluginSpecification</tt> describing the <ins>ComponentManager</ins></p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+521
+522
+523</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 521</span>
+
+<span class='kw'>def</span> <span class='id plugin_description'>plugin_description</span>
+  <span class='ivar'>@plugin_description</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="fill_dependencies-class_method">
+  
+    + (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>fill_dependencies</strong>(to_load, availlable) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Finds all the dependencies for the given plugins choosing among a list.
+  <i>to_load</i> is an array containing the <ins>PluginSpecification</ins> for the plugins to load,
+  while <em>availlable</em> is an array containing the plugins which can be used to satisfy
+  the dependencies.</p>
+This method uses <tt>DepsSolver#solve</tt>, so see the documentation for it for
+a more complete description.
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+486
+487
+488
+489</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 486</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id fill_dependencies'>fill_dependencies</span> <span class='id to_load'>to_load</span><span class='comma'>,</span> <span class='id availlable'>availlable</span>
+  <span class='id solver'>solver</span> <span class='op'>=</span> <span class='const'>DepsSolver</span><span class='period'>.</span><span class='id new'>new</span> <span class='id to_load'>to_load</span><span class='comma'>,</span> <span class='id availlable'>availlable</span>
+  <span class='id solver'>solver</span><span class='period'>.</span><span class='id solve'>solve</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="find_plugins-class_method">
+  
+    + (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>find_plugins</strong>(dirs, info = false) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Looks in the directories specified in the <em>dirs</em> array for plugins and returns
+  a hash having the directory of each found plugin as keys and either the name
+  or the PluginSpecification for each plugin as values, depending on the value of the
+  <em>info</em> parameter.</p>
+<b>Note:</b> if more than one directory contains a plugin with the given name,
+only the first (according to the order in which directories are in <em>dirs</em>) will
+be taken into account.
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 429</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id find_plugins'>find_plugins</span> <span class='id dirs'>dirs</span><span class='comma'>,</span> <span class='id info'>info</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='id res'>res</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='id dirs'>dirs</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id dir'>dir</span><span class='op'>|</span>
+    <span class='const'>Dir</span><span class='period'>.</span><span class='id entries'>entries</span><span class='lparen'>(</span><span class='id dir'>dir</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>2</span><span class='op'>..</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id name'>name</span><span class='op'>|</span>
+      <span class='kw'>next</span> <span class='kw'>if</span> <span class='id res'>res</span><span class='lbracket'>[</span><span class='id name'>name</span><span class='period'>.</span><span class='id to_sym'>to_sym</span><span class='rbracket'>]</span>
+      <span class='id d'>d</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span> <span class='id dir'>dir</span><span class='comma'>,</span> <span class='id name'>name</span>
+      <span class='kw'>if</span> <span class='const'>File</span><span class='period'>.</span><span class='id directory?'>directory?</span><span class='lparen'>(</span><span class='id d'>d</span><span class='rparen'>)</span> <span class='kw'>and</span> <span class='const'>File</span><span class='period'>.</span><span class='id exist?'>exist?</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span> <span class='id d'>d</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>plugin.yaml</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+        <span class='kw'>if</span> <span class='id info'>info</span> <span class='kw'>then</span> 
+          <span class='id res'>res</span><span class='lbracket'>[</span><span class='id name'>name</span><span class='period'>.</span><span class='id to_sym'>to_sym</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'>PluginSpecification</span><span class='period'>.</span><span class='id intro'>intro</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span> <span class='id d'>d</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>plugin.yaml</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+        <span class='kw'>else</span> <span class='id res'>res</span><span class='lbracket'>[</span><span class='id name'>name</span><span class='period'>.</span><span class='id to_sym'>to_sym</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id d'>d</span>
+        <span class='kw'>end</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='id res'>res</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="resolve_features-class_method">
+  
+    + (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>resolve_features</strong>(pdfs, extra = []) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Replaces features in plugin dependencies with the names of the plugin providing
+  them. <em>pdfs</em> is an array containing the <tt>Ruber::PluginSpecification</tt>s of plugins whose dependencies should
+  be changed, while <em>extra</em> is an array containing the <tt>PluginSpecification</tt>s of plugins
+  which should be used to look up features, but which should not be changed. For
+  example, <em>extra</em> may contain descriptions for plugins which are already loaded.</p>
+It returns an array containing a copy of the <tt>Ruber::PluginSpecification</tt>s whith the dependencies
+correctly changed. If a dependency is unknown, <tt>Ruber::ComponentManager::UnresolvedDep</tt>
+will be raised.
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 458</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id resolve_features'>resolve_features</span> <span class='id pdfs'>pdfs</span><span class='comma'>,</span> <span class='id extra'>extra</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='id features'>features</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id pdfs'>pdfs</span><span class='op'>+</span><span class='id extra'>extra</span><span class='rparen'>)</span><span class='period'>.</span><span class='id inject'>inject</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id res'>res</span><span class='comma'>,</span> <span class='id pl'>pl</span><span class='op'>|</span>
+    <span class='id pl'>pl</span><span class='period'>.</span><span class='id features'>features</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id f'>f</span><span class='op'>|</span> <span class='id res'>res</span><span class='lbracket'>[</span><span class='id f'>f</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id pl'>pl</span><span class='period'>.</span><span class='id name'>name</span><span class='rbrace'>}</span>
+    <span class='id res'>res</span>
+  <span class='kw'>end</span>
+  <span class='id missing'>missing</span> <span class='op'>=</span> <span class='const'>Hash</span><span class='period'>.</span><span class='id new'>new</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id h'>h</span><span class='comma'>,</span> <span class='id k'>k</span><span class='op'>|</span> <span class='id h'>h</span><span class='lbracket'>[</span><span class='id k'>k</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
+  <span class='id new_pdfs'>new_pdfs</span> <span class='op'>=</span> <span class='id pdfs'>pdfs</span><span class='period'>.</span><span class='id map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id pl'>pl</span><span class='op'>|</span>
+    <span class='id res'>res</span> <span class='op'>=</span> <span class='id pl'>pl</span><span class='period'>.</span><span class='id deep_copy'>deep_copy</span>
+    <span class='id res'>res</span><span class='period'>.</span><span class='id deps'>deps</span> <span class='op'>=</span> <span class='id pl'>pl</span><span class='period'>.</span><span class='id deps'>deps</span><span class='period'>.</span><span class='id map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id d'>d</span><span class='op'>|</span> 
+      <span class='id f'>f</span> <span class='op'>=</span> <span class='id features'>features</span><span class='lbracket'>[</span><span class='id d'>d</span><span class='rbracket'>]</span>
+      <span class='id missing'>missing</span><span class='lbracket'>[</span><span class='id pl'>pl</span><span class='period'>.</span><span class='id name'>name</span><span class='rbracket'>]</span> <span class='op'>&lt;&lt;</span> <span class='id d'>d</span> <span class='kw'>unless</span> <span class='id f'>f</span>
+      <span class='id f'>f</span>
+    <span class='kw'>end</span><span class='period'>.</span><span class='id uniq'>uniq</span><span class='period'>.</span><span class='id compact'>compact</span>
+    <span class='id res'>res</span>
+  <span class='kw'>end</span>
+  <span class='id raise'>raise</span> <span class='const'>UnresolvedDep</span><span class='period'>.</span><span class='id new'>new</span> <span class='const'>Hash</span><span class='lbracket'>[</span><span class='id missing'>missing</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='id missing'>missing</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+  <span class='id new_pdfs'>new_pdfs</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="sort_plugins-class_method">
+  
+    + (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>sort_plugins</strong>(pdfs, known = []) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Sorts the plugins in the <em>pdfs</em> array, according with their dependencies 
+  and returns an array containing the plugin descriptions sorted in dependence order,
+  from the dependence to the dependent.</p>
+<em>known</em> is an array of either symbols or <tt>Ruber::PluginSpecification</tt>s corresponding
+to plugins which can be depended upon but which shouldn&#8217;t be sorted with the
+others (for example, because they&#8217;re already loaded).
+If some of the plugins have dependency which doesn&#8217;t correspond neither to another
+plugin nor to one of the knonw plugins, <tt>Ruber::ComponentManager::UnresolvedDep</tt>
+will be raised.
+If there&#8217;s a circular dependency among the plugins, <tt>Ruber::ComponentManager::CircularDep</tt>
+will be raised.
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+507
+508
+509</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 507</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id sort_plugins'>sort_plugins</span> <span class='id pdfs'>pdfs</span><span class='comma'>,</span> <span class='id known'>known</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='const'>PluginSorter</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span> <span class='id pdfs'>pdfs</span><span class='comma'>,</span> <span class='id known'>known</span> <span class='rparen'>)</span><span class='period'>.</span><span class='id sort_plugins'>sort_plugins</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="add-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>add</strong>(comp) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p><b>For internal use only</b></p>
+Adds the given component to the list of components and at the end of the list
+of sorted components.
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+600
+601
+602
+603</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 600</span>
+
+<span class='kw'>def</span> <span class='id add'>add</span> <span class='id comp'>comp</span>
+  <span class='ivar'>@components</span><span class='op'>&lt;&lt;</span> <span class='lbracket'>[</span><span class='id comp'>comp</span><span class='period'>.</span><span class='id component_name'>component_name</span><span class='comma'>,</span> <span class='id comp'>comp</span><span class='rbracket'>]</span>
+  <span class='id comp'>comp</span><span class='period'>.</span><span class='id plugin_description'>plugin_description</span><span class='period'>.</span><span class='id features'>features</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id f'>f</span><span class='op'>|</span> <span class='ivar'>@features</span><span class='lbracket'>[</span><span class='id f'>f</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id comp'>comp</span><span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="component_name-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>component_name</strong> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='plugin_name-instance_method'>plugin_name</span></span>
+    </span>
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns <tt>:components</tt></p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+532
+533
+534</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 532</span>
+
+<span class='kw'>def</span> <span class='id component_name'>component_name</span>
+  <span class='ivar'>@plugin_description</span><span class='period'>.</span><span class='id name'>name</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="components-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>components</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns an array containing all the loaded components, in loading order</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+568
+569
+570</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 568</span>
+
+<span class='kw'>def</span> <span class='id components'>components</span>
+  <span class='ivar'>@components</span><span class='period'>.</span><span class='id inject'>inject</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id res'>res</span><span class='comma'>,</span> <span class='id i'>i</span><span class='op'>|</span> <span class='id res'>res</span> <span class='op'>&lt;&lt;</span> <span class='id i'>i</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="create_plugins_info-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>create_plugins_info</strong>(plugins, files, dirs)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Attempts to create <tt>Ruber::PluginSpecification</tt>s for each plugin in the <em>plugins</em>
+  array. The path for the PDFs is taken from <em>files</em>, which is an hash with the
+  plugin names as keys and the PDFs paths as values.</p>
+If some PDFs are missing, <tt>MissingPlugins</tt> is raised. If some PDFs are
+invalid, <ins>InvalidPDF</ins> is raised. Otherwise, an array containing the <tt>PluginSpecification</tt>s
+for the plugins is returned.
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+879
+880
+881
+882
+883
+884
+885
+886
+887
+888
+889
+890
+891
+892
+893
+894
+895</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 879</span>
+
+<span class='kw'>def</span> <span class='id create_plugins_info'>create_plugins_info</span> <span class='id plugins'>plugins</span><span class='comma'>,</span> <span class='id files'>files</span><span class='comma'>,</span> <span class='id dirs'>dirs</span>
+  <span class='id missing'>missing</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='id errors'>errors</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='id res'>res</span> <span class='op'>=</span> <span class='id plugins'>plugins</span><span class='period'>.</span><span class='id map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id pl'>pl</span><span class='op'>|</span> 
+    <span class='id file'>file</span> <span class='op'>=</span> <span class='id files'>files</span><span class='lbracket'>[</span><span class='id pl'>pl</span><span class='rbracket'>]</span>
+    <span class='kw'>if</span> <span class='id file'>file</span> 
+      <span class='kw'>begin</span> <span class='const'>PluginSpecification</span><span class='period'>.</span><span class='id new'>new</span> <span class='id file'>file</span>
+      <span class='kw'>rescue</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='const'>PluginSpecification</span><span class='op'>::</span><span class='const'>PSFError</span>
+        <span class='id errors'>errors</span> <span class='op'>&lt;&lt;</span> <span class='id file'>file</span>
+      <span class='kw'>end</span>
+    <span class='kw'>else</span> <span class='id missing'>missing</span> <span class='op'>&lt;&lt;</span> <span class='id pl'>pl</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='id raise'>raise</span> <span class='const'>MissingPlugins</span><span class='period'>.</span><span class='id new'>new</span> <span class='id missing'>missing</span><span class='comma'>,</span> <span class='id dirs'>dirs</span> <span class='kw'>unless</span> <span class='id missing'>missing</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+  <span class='id raise'>raise</span> <span class='const'>InvalidPDF</span><span class='period'>.</span><span class='id new'>new</span> <span class='id errors'>errors</span> <span class='kw'>unless</span> <span class='id errors'>errors</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+  <span class='id res'>res</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="each_component-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>each_component</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Calls the block for each component, passing it as argument to the block. The
+ components are passed in reverse loading order (i.e., the last loaded component
+ will be the first passed to the block.)</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+577
+578
+579</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 577</span>
+
+<span class='kw'>def</span> <span class='id each_component'>each_component</span> <span class='comment'>#:yields: comp
+</span>  <span class='ivar'>@components</span><span class='period'>.</span><span class='id reverse_each'>reverse_each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id k'>k</span><span class='comma'>,</span> <span class='id v'>v</span><span class='op'>|</span> <span class='kw'>yield</span> <span class='id v'>v</span><span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="each_plugin-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>each_plugin</strong> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='each-instance_method'>each</span></span>
+    </span>
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Calls the block for each plugin (that is, for every component of class 
+ <tt>Ruber::Plugin</tt> or derived), passing it as argument to the block. The
+ plugins are passed in reverse loading order (i.e., the last loaded plugin
+ will be the first passed to the block.)</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+587
+588
+589
+590
+591</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 587</span>
+
+<span class='kw'>def</span> <span class='id each_plugin'>each_plugin</span> <span class='comment'>#:yields: plug
+</span>  <span class='ivar'>@components</span><span class='period'>.</span><span class='id reverse_each'>reverse_each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id k'>k</span><span class='comma'>,</span> <span class='id v'>v</span><span class='op'>|</span> 
+    <span class='kw'>yield</span> <span class='id v'>v</span> <span class='kw'>if</span> <span class='id v'>v</span><span class='period'>.</span><span class='id is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Ruber</span><span class='op'>::</span><span class='const'>Plugin</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="load_component-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>load_component</strong>(name) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Loads the component with name <em>name</em>.</p>
+<em>name</em> is the name of a subdirectory (called the <i>component directory</i>
+in the directory where <tt>component_manager.rb</tt>
+is. That directory should contain the <span class="caps">PDF</span> file for the component to load.
+
+The loading process works as follows:
+<ul>
+	<li>the component directory is added to the <span class="caps">KDE</span> resource dirs for the <ins>pixmap</ins>,
+    <ins>data</ins> and <ins>appdata</ins> resource types.</li>
+	<li>A full <tt>Ruber::PluginSpecification</tt> is generated from the <span class="caps">PDF</span>
+    (see <tt>Ruber::PluginSpecification.full</tt>). If the file can&#8217;t
+    be read, <ins>SystemCallError</ins> is raised; if it isn&#8217;t a valid <span class="caps">PDF</span>, 
+    <tt>Ruber::PluginSpecification::PSFError</tt> is raised. In both cases, a message box
+    warning the user is shown.</li>
+	<li>the component object (that is, an instance of the class specified in the <ins>class</ins>
+    entry of the <span class="caps">PDF</span>) is created</li>
+	<li>the <tt>component_loaded(QObject*)</tt> signal is emitted, passing the component
+    object as argument</li>
+	<li>the component object is returned.</li>
+</ul>
+<b>Note:</b> this method doesn&#8217;t insert the component object in the components
+list: the component should take care to do it itself, using the <ins>add</ins> method.
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+629
+630
+631
+632
+633
+634
+635
+636
+637
+638
+639
+640
+641
+642</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 629</span>
+
+<span class='kw'>def</span> <span class='id load_component'>load_component</span> <span class='id name'>name</span>
+  <span class='id dir'>dir</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id expand_path'>expand_path</span> <span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id name'>name</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Application</span><span class='period'>.</span><span class='id instance'>instance</span>
+    <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Global</span><span class='period'>.</span><span class='id dirs'>dirs</span><span class='period'>.</span><span class='id add_resource_dir'>add_resource_dir</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>pixmap</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='id dir'>dir</span>
+    <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Global</span><span class='period'>.</span><span class='id dirs'>dirs</span><span class='period'>.</span><span class='id add_resource_dir'>add_resource_dir</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>data</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='id dir'>dir</span>
+    <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Global</span><span class='period'>.</span><span class='id dirs'>dirs</span><span class='period'>.</span><span class='id add_resource_dir'>add_resource_dir</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>appdata</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='id dir'>dir</span>
+  <span class='kw'>end</span>
+  <span class='id file'>file</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span> <span class='id dir'>dir</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>plugin.yaml</span><span class='tstring_end'>'</span></span>
+  <span class='id pdf'>pdf</span> <span class='op'>=</span> <span class='const'>PluginSpecification</span><span class='period'>.</span><span class='id full'>full</span> <span class='id file'>file</span>
+  <span class='id parent'>parent</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:app</span><span class='rbracket'>]</span> <span class='kw'>rescue</span> <span class='kw'>self</span>
+  <span class='id comp'>comp</span> <span class='op'>=</span> <span class='id pdf'>pdf</span><span class='period'>.</span><span class='id class_obj'>class_obj</span><span class='period'>.</span><span class='id new'>new</span> <span class='id parent'>parent</span><span class='comma'>,</span> <span class='id pdf'>pdf</span>
+  <span class='id emit'>emit</span> <span class='id component_loaded'>component_loaded</span><span class='lparen'>(</span><span class='id comp'>comp</span><span class='rparen'>)</span>
+  <span class='id comp'>comp</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="load_plugin-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>load_plugin</strong>(dir) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Loads the plugin in the directory <em>dir</em>.</p>
+The directory <em>dir</em> should contain the <span class="caps">PDF</span> for the plugin, and its last part
+should correspond to the plugin name.
+
+The loading process works as follows:
+<ul>
+	<li>the plugin directory is added to the <span class="caps">KDE</span> resource dirs for the <ins>pixmap</ins>,
+    <ins>data</ins> and <ins>appdata</ins> resource types.</li>
+	<li>A full <tt>Ruber::PluginSpecification</tt> is generated from the <span class="caps">PDF</span>
+    (see <tt>Ruber::PluginSpecification.full</tt>). If the file can&#8217;t
+    be read, <ins>SystemCallError</ins> is raised; if it isn&#8217;t a valid <span class="caps">PDF</span>, 
+    <tt>Ruber::PluginSpecification::PSFError</tt> is raised.</li>
+	<li>the plugin object (that is, an instance of the class specified in the <ins>class</ins>
+    entry of the <span class="caps">PDF</span>) is created</li>
+	<li>the <tt>component_loaded(QObject*)</tt> signal is emitted, passing the component
+    object as argument</li>
+	<li>for each feature provided by the plugin, the signal <tt>feature_loaded(QString, QObject*)</tt>
+    is emitted, passing the name of the feature (as string) and the plugin object
+    as arguments</li>
+	<li>for each feature <em>f</em> provided by the plugin, a signal &#8220;unloading_f(QObject*)&#8221;
+    is defined</li>
+	<li>the plugin object is returned.</li>
+</ul>
+<b>Note:</b> this method doesn&#8217;t insert the plugin object in the components
+list: the plugin should take care to do it itself, using the <ins>add</ins> method.
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+671
+672
+673
+674
+675
+676
+677
+678
+679
+680
+681
+682
+683
+684
+685
+686</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 671</span>
+
+<span class='kw'>def</span> <span class='id load_plugin'>load_plugin</span> <span class='id dir'>dir</span>
+  <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Global</span><span class='period'>.</span><span class='id dirs'>dirs</span><span class='period'>.</span><span class='id add_resource_dir'>add_resource_dir</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>pixmap</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='id dir'>dir</span>
+  <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Global</span><span class='period'>.</span><span class='id dirs'>dirs</span><span class='period'>.</span><span class='id add_resource_dir'>add_resource_dir</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>data</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='id dir'>dir</span>
+  <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Global</span><span class='period'>.</span><span class='id dirs'>dirs</span><span class='period'>.</span><span class='id add_resource_dir'>add_resource_dir</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>appdata</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='id dir'>dir</span>
+  <span class='id file'>file</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span> <span class='id dir'>dir</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>plugin.yaml</span><span class='tstring_end'>'</span></span>
+  <span class='id pdf'>pdf</span> <span class='op'>=</span> <span class='const'>PluginSpecification</span><span class='period'>.</span><span class='id full'>full</span> <span class='const'>YAML</span><span class='period'>.</span><span class='id load'>load</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id read'>read</span><span class='lparen'>(</span><span class='id file'>file</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id dir'>dir</span>
+  <span class='id pdf'>pdf</span><span class='period'>.</span><span class='id directory'>directory</span> <span class='op'>=</span> <span class='id dir'>dir</span>
+  <span class='id plug'>plug</span> <span class='op'>=</span> <span class='id pdf'>pdf</span><span class='period'>.</span><span class='id class_obj'>class_obj</span><span class='period'>.</span><span class='id new'>new</span> <span class='id pdf'>pdf</span>
+  <span class='id emit'>emit</span> <span class='id component_loaded'>component_loaded</span><span class='lparen'>(</span><span class='id plug'>plug</span><span class='rparen'>)</span>
+  <span class='id pdf'>pdf</span><span class='period'>.</span><span class='id features'>features</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id f'>f</span><span class='op'>|</span> 
+    <span class='kw'>self</span><span class='period'>.</span><span class='id class'>class</span><span class='period'>.</span><span class='id class_eval'>class_eval</span><span class='lbrace'>{</span><span class='id signals'>signals</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>unloading_</span><span class='embexpr_beg'>#{</span><span class='id f'>f</span><span class='rbrace'>}</span><span class='tstring_content'>(QObject*)</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span>
+    <span class='id emit'>emit</span> <span class='id feature_loaded'>feature_loaded</span><span class='lparen'>(</span><span class='id f'>f</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='comma'>,</span> <span class='id plug'>plug</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+  <span class='id plug'>plug</span><span class='period'>.</span><span class='id send'>send</span> <span class='symbol'>:delayed_initialize</span>
+  <span class='id plug'>plug</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="load_plugins-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>load_plugins</strong>(plugins, dirs) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Makes the <ins>ComponentManager</ins> load the given plugins. It is the standard method
+  to load plugins, because it takes into account dependency order and features.</p>
+For each plugin, a directory with the same name and containing a file
+<tt>plugin.yaml</tt> is searched in the directories in the <em>dirs</em> array.
+Directories near the beginning of the array have the precedence with respect
+to those near the end of the array (that is, if a plugin is found both in the
+second and in the fourth directories of <em>dir</em>, the one in the second directory
+is used). If the directory for some plugins can&#8217;t be found, <ins>MissingPlugins</ins> is
+raised.
+
+This method attempts to resolve the features for the plugins (see
+<tt>Ruber::ComponentManager.resolve_features</tt>) and to sort them, using also
+the already loaded plugins, if any. If it fails, it raises <ins>UnresolvedDep</ins> or
+<ins>CircularDep</ins>.
+
+Once the plugins have been sorted, it attempts to load each one, according to
+the dependency order. The order in which independent plugins are loaded is
+arbitrary (but consistent: the order will be the same every time). If a plugin
+fails to load, there are several behaviours:
+<ul>
+	<li>if no block has been given, the exception raised by the plugin is propagated
+  otherwise, the block is passed with the exception as argument. Depending on the
+  value returned by the block, the following happens:</li>
+	<li>if the block returns <tt>:skip</tt>, all remaining plugins are skipped and
+    the method returns <strong>true</strong></li>
+	<li>if the block returns <tt>:silent</tt>, an attempt to load the remaining plugins
+    is made. Other loading failures will be ignored</li>
+	<li>if the block any other true value, then the failed plugin is ignored and an
+    attempt to load the remaining plugins is made.</li>
+	<li>if the block returns <strong>false</strong> or <strong>nil</strong>, the method immediately returns <strong>false</strong></li>
+</ul>
+<tt>load_plugins</tt> returns <strong>true</strong> if all the plugins were successfully loaded
+(or if some failed but the block always returned a true value) and false otherwise.
+
+= Notes
+<ul>
+	<li>After a failure, dependencies aren&#8217;t recomputed. This means that most likely
+    all the plugins dependent on the failed one will fail, too</li>
+	<li>This method can be conceptually divided into two phases: plugin ordering and
+    plugin loading. The first part doesn&#8217;t change any state. This means that, if
+    it fails, the caller is free to attempt to solve the problem (for example,
+    to remove the missing plugins and the ones with invalid PDFs from the list)
+    and call again <tt>load_plugins</tt>. The part which actually <em>does</em> something
+    is the second. If called twice with the same arguments, it can cause trouble,
+    since no attempt to skip already-loaded plugins is made. If the caller wants
+    to correct errors caused in the second phase, it should put the logic to do
+    so in the block.</li>
+</ul>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+736
+737
+738
+739
+740
+741
+742
+743
+744
+745
+746
+747
+748
+749
+750
+751
+752
+753
+754
+755
+756
+757
+758
+759</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 736</span>
+
+<span class='kw'>def</span> <span class='id load_plugins'>load_plugins</span><span class='lparen'>(</span> <span class='id plugins'>plugins</span><span class='comma'>,</span> <span class='id dirs'>dirs</span> <span class='rparen'>)</span> <span class='comment'>#:yields: ex
+</span>  <span class='id plugins'>plugins</span> <span class='op'>=</span> <span class='id plugins'>plugins</span><span class='period'>.</span><span class='id map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:to_s</span><span class='rparen'>)</span>
+  <span class='id plugin_files'>plugin_files</span> <span class='op'>=</span> <span class='id locate_plugins'>locate_plugins</span> <span class='id dirs'>dirs</span>
+  <span class='id plugins'>plugins</span> <span class='op'>=</span> <span class='id create_plugins_info'>create_plugins_info</span> <span class='id plugins'>plugins</span><span class='comma'>,</span> <span class='id plugin_files'>plugin_files</span><span class='comma'>,</span> <span class='id dirs'>dirs</span>
+  <span class='id plugins'>plugins</span> <span class='op'>=</span> <span class='const'>ComponentManager</span><span class='period'>.</span><span class='id resolve_features'>resolve_features</span> <span class='id plugins'>plugins</span><span class='comma'>,</span> <span class='kw'>self</span><span class='period'>.</span><span class='id plugins'>plugins</span><span class='period'>.</span><span class='id map'>map</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id pl'>pl</span><span class='op'>|</span> <span class='id pl'>pl</span><span class='period'>.</span><span class='id plugin_description'>plugin_description</span><span class='rbrace'>}</span>
+  <span class='id plugins'>plugins</span> <span class='op'>=</span> <span class='const'>ComponentManager</span><span class='period'>.</span><span class='id sort_plugins'>sort_plugins</span> <span class='id plugins'>plugins</span><span class='comma'>,</span> <span class='ivar'>@features</span><span class='period'>.</span><span class='id keys'>keys</span>
+  <span class='id silent'>silent</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='id plugins'>plugins</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id pl'>pl</span><span class='op'>|</span> 
+    <span class='kw'>begin</span> <span class='id load_plugin'>load_plugin</span> <span class='const'>File</span><span class='period'>.</span><span class='id dirname'>dirname</span><span class='lparen'>(</span><span class='id plugin_files'>plugin_files</span><span class='lbracket'>[</span><span class='id pl'>pl</span><span class='period'>.</span><span class='id name'>name</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+    <span class='kw'>rescue</span> <span class='const'>Exception</span> <span class='op'>=&gt;</span> <span class='id e'>e</span>
+      <span class='ivar'>@components</span><span class='period'>.</span><span class='id delete'>delete</span> <span class='id pl'>pl</span><span class='period'>.</span><span class='id name'>name</span>
+      <span class='kw'>if</span> <span class='id silent'>silent</span> <span class='kw'>then</span> <span class='kw'>next</span>
+      <span class='kw'>elsif</span> <span class='id block_given?'>block_given?</span> 
+        <span class='id res'>res</span> <span class='op'>=</span> <span class='kw'>yield</span> <span class='id pl'>pl</span><span class='comma'>,</span> <span class='id e'>e</span>
+        <span class='kw'>if</span> <span class='id res'>res</span> <span class='op'>==</span> <span class='symbol'>:skip</span> <span class='kw'>then</span> <span class='kw'>break</span>
+        <span class='kw'>elsif</span> <span class='id res'>res</span> <span class='op'>==</span> <span class='symbol'>:silent</span> <span class='kw'>then</span> <span class='id silent'>silent</span> <span class='op'>=</span> <span class='kw'>true</span>
+        <span class='kw'>elsif</span> <span class='op'>!</span><span class='id res'>res</span> <span class='kw'>then</span> <span class='kw'>return</span> <span class='kw'>false</span>
+        <span class='kw'>end</span>
+      <span class='kw'>else</span> <span class='id raise'>raise</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="locate_plugins-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>locate_plugins</strong>(dirs)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Searches the directories in the <em>dirs</em> array for all the subdirectories containing
+  a plugin.yaml file and returns the paths of the files. Returns a hash with keys
+  corresponding to plugin names and values corresponding to the path of the <span class="caps">PDF</span>
+  for the plugin.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+856
+857
+858
+859
+860
+861
+862
+863
+864
+865
+866
+867</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 856</span>
+
+<span class='kw'>def</span> <span class='id locate_plugins'>locate_plugins</span> <span class='id dirs'>dirs</span>
+  <span class='id plugin_files'>plugin_files</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='id dirs'>dirs</span><span class='period'>.</span><span class='id reverse'>reverse</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id d'>d</span><span class='op'>|</span>
+    <span class='const'>Dir</span><span class='period'>.</span><span class='id entries'>entries</span><span class='lparen'>(</span><span class='id d'>d</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>2</span><span class='op'>..</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id f'>f</span><span class='op'>|</span> 
+      <span class='id full_dir'>full_dir</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span> <span class='id d'>d</span><span class='comma'>,</span> <span class='id f'>f</span>
+      <span class='kw'>if</span> <span class='const'>File</span><span class='period'>.</span><span class='id directory?'>directory?</span><span class='lparen'>(</span><span class='id full_dir'>full_dir</span><span class='rparen'>)</span> <span class='kw'>and</span> <span class='const'>File</span><span class='period'>.</span><span class='id exist?'>exist?</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span><span class='lparen'>(</span><span class='id full_dir'>full_dir</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>plugin.yaml</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
+        <span class='id plugin_files'>plugin_files</span><span class='lbracket'>[</span><span class='id f'>f</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span> <span class='id full_dir'>full_dir</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>plugin.yaml</span><span class='tstring_end'>'</span></span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='id plugin_files'>plugin_files</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="plugins-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>plugins</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns an array containing all the loaded plugins (but not the components), in loading order</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+558
+559
+560
+561
+562
+563</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 558</span>
+
+<span class='kw'>def</span> <span class='id plugins'>plugins</span>
+  <span class='ivar'>@components</span><span class='period'>.</span><span class='id inject'>inject</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id res'>res</span><span class='comma'>,</span> <span class='id i'>i</span><span class='op'>|</span> 
+    <span class='id res'>res</span> <span class='op'>&lt;&lt;</span> <span class='id i'>i</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id i'>i</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id is_a?'>is_a?</span> <span class='const'>Ruber</span><span class='op'>::</span><span class='const'>Plugin</span>
+    <span class='id res'>res</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="query_close-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>query_close</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Calls the <tt>query_close</tt> method of all the components (in arbitrary order).
+  As soon as one of them returns a false value, it stops and returns <strong>false</strong>. If all
+  the calls to <tt>query_close</tt> return a true value, <strong>true</strong> is returned.</p>
+This method is intented to be called from <tt>MainWindow#queryClose</tt>.
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+824
+825
+826
+827
+828
+829
+830
+831</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 824</span>
+
+<span class='kw'>def</span> <span class='id query_close'>query_close</span> 
+  <span class='id res'>res</span> <span class='op'>=</span> <span class='id each_component'>each_component</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id c'>c</span><span class='op'>|</span> 
+    <span class='kw'>unless</span> <span class='id c'>c</span><span class='period'>.</span><span class='id equal?'>equal?</span> <span class='kw'>self</span>
+      <span class='kw'>break</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='id c'>c</span><span class='period'>.</span><span class='id query_close'>query_close</span> 
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='id res'>res</span><span class='period'>.</span><span class='id to_bool'>to_bool</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="register_with_project-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>register_with_project</strong>(prj) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Method required for the Plugin interface. Does nothing</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+540
+541</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 540</span>
+
+<span class='kw'>def</span> <span class='id register_with_project'>register_with_project</span> <span class='id prj'>prj</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="remove_from_project-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>remove_from_project</strong>(prj) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Method required for the Plugin interface. Does nothing</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+546
+547</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 546</span>
+
+<span class='kw'>def</span> <span class='id remove_from_project'>remove_from_project</span> <span class='id prj'>prj</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="restore_session-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>restore_session</strong>(data) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+841
+842
+843
+844
+845</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 841</span>
+
+<span class='kw'>def</span> <span class='id restore_session'>restore_session</span> <span class='id data'>data</span>
+  <span class='id each_component'>each_component</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id c'>c</span><span class='op'>|</span>
+    <span class='id c'>c</span><span class='period'>.</span><span class='id restore_session'>restore_session</span> <span class='id data'>data</span> <span class='kw'>unless</span> <span class='id c'>c</span><span class='period'>.</span><span class='id same?'>same?</span> <span class='kw'>self</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="session_data-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>session_data</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+833
+834
+835
+836
+837
+838
+839</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 833</span>
+
+<span class='kw'>def</span> <span class='id session_data'>session_data</span>
+  <span class='id res'>res</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='id each_component'>each_component</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id c'>c</span><span class='op'>|</span>
+    <span class='id res'>res</span><span class='period'>.</span><span class='id merge!'>merge!</span> <span class='id c'>c</span><span class='period'>.</span><span class='id session_data'>session_data</span> <span class='kw'>unless</span> <span class='id c'>c</span><span class='period'>.</span><span class='id same?'>same?</span> <span class='kw'>self</span>
+  <span class='kw'>end</span>
+  <span class='id res'>res</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="shutdown-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>shutdown</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Prepares the application for being cleanly closed. To do so, it:</p>
+<ul>
+	<li>asks each plugin to save its settings</li>
+	<li>emits the signal <tt>unloading_component(QObject*)</tt> for each component,
+    in reverse loading order</li>
+	<li>calls the shutdown method for each component (in their shutdown methods,
+    plugins should emit the &#8220;closing(QObject*)&#8221; signal)</li>
+	<li>calls the delete_later method of the plugins (not of the components)</li>
+	<li>deletes all the features provided by plugins from the list of features</li>
+	<li>delete all the plugins from the list of loaded components.</li>
+</ul>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+772
+773
+774
+775
+776
+777
+778
+779
+780
+781
+782
+783
+784
+785
+786
+787
+788
+789</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 772</span>
+
+<span class='kw'>def</span> <span class='id shutdown'>shutdown</span>
+  <span class='id each_component'>each_component</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id c'>c</span><span class='op'>|</span> <span class='id c'>c</span><span class='period'>.</span><span class='id save_settings'>save_settings</span> <span class='kw'>unless</span> <span class='id c'>c</span><span class='period'>.</span><span class='id equal?'>equal?</span><span class='lparen'>(</span><span class='kw'>self</span><span class='rparen'>)</span><span class='rbrace'>}</span>
+  <span class='ivar'>@components</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id write'>write</span>
+  <span class='id each_component'>each_component</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id c'>c</span><span class='op'>|</span> <span class='id c'>c</span><span class='period'>.</span><span class='id shutdown'>shutdown</span> <span class='kw'>unless</span> <span class='id c'>c</span><span class='period'>.</span><span class='id equal?'>equal?</span> <span class='kw'>self</span><span class='rbrace'>}</span>
+<span class='comment'>#       @components[:config].write
+</span><span class='comment'>#       each_component do |c|
+</span><span class='comment'>#         unless c.equal? self
+</span><span class='comment'>#           if c.is_a? Plugin
+</span><span class='comment'>#             c.plugin_description.features.each{|f| emit method(&quot;unloading_#{f}&quot;).call( c)}
+</span><span class='comment'>#           end
+</span><span class='comment'>#           emit unloading_component(c)
+</span><span class='comment'>#           c.shutdown
+</span><span class='comment'>#         end
+</span><span class='comment'>#       end
+</span><span class='comment'>#       each_plugin {|pl| pl.delete_later}
+</span><span class='comment'>#       @features.delete_if{|f, pl| pl.is_a? Plugin}
+</span><span class='comment'>#       @components.delete_if{|_, pl| pl.is_a?(Plugin)}      
+</span><span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="unload_plugin-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>unload_plugin</strong>(name) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Unloads the plugin called <em>name</em> (<em>name</em> must be a symbol) by doing the following:</p>
+<ul>
+	<li>emit the signal &#8220;unloading_*(QObject*)&#8221; for each feature provided by the plugin</li>
+	<li>emit the signal &#8220;unloading_component(QObject*)&#8221;</li>
+	<li>call the <ins>shutdown</ins> method of the plugin</li>
+	<li>call the <tt>delete_later</tt> method of the plugin</li>
+	<li>remove the features provided by the plugin from the list of features</li>
+	<li>remove the plugin from the list of components</li>
+</ul>
+If <em>name</em> corresponds to a basic component and not to a plugin, <ins>ArgumentError</ins>
+will be raised (you can&#8217;t unload a basic component).
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'>(<tt>ArgumentError</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+803
+804
+805
+806
+807
+808
+809
+810
+811
+812
+813
+814
+815</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 803</span>
+
+<span class='kw'>def</span> <span class='id unload_plugin'>unload_plugin</span> <span class='id name'>name</span>
+  <span class='id plug'>plug</span> <span class='op'>=</span> <span class='ivar'>@components</span><span class='lbracket'>[</span><span class='id name'>name</span><span class='rbracket'>]</span>
+  <span class='id raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>A component can't be unloaded</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id plug'>plug</span><span class='period'>.</span><span class='id is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Plugin</span><span class='rparen'>)</span>
+<span class='comment'>#       plug.save_settings
+</span>  <span class='id plug'>plug</span><span class='period'>.</span><span class='id plugin_description'>plugin_description</span><span class='period'>.</span><span class='id features'>features</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id f'>f</span><span class='op'>|</span>
+    <span class='id emit'>emit</span> <span class='id method'>method</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>unloading_</span><span class='embexpr_beg'>#{</span><span class='id f'>f</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id call'>call</span><span class='lparen'>(</span> <span class='id plug'>plug</span> <span class='rparen'>)</span>
+  <span class='kw'>end</span>
+  <span class='id emit'>emit</span> <span class='id unloading_component'>unloading_component</span> <span class='id plug'>plug</span>
+  <span class='id plug'>plug</span><span class='period'>.</span><span class='id unload'>unload</span>
+  <span class='id plug'>plug</span><span class='period'>.</span><span class='id delete_later'>delete_later</span>
+  <span class='id plug'>plug</span><span class='period'>.</span><span class='id plugin_description'>plugin_description</span><span class='period'>.</span><span class='id features'>features</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id f'>f</span><span class='op'>|</span> <span class='ivar'>@features</span><span class='period'>.</span><span class='id delete'>delete</span> <span class='id f'>f</span><span class='rbrace'>}</span>
+  <span class='ivar'>@components</span><span class='period'>.</span><span class='id delete'>delete</span> <span class='id plug'>plug</span><span class='period'>.</span><span class='id plugin_name'>plugin_name</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="update_project-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>update_project</strong>(prj) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Method required for the Plugin interface. Does nothing</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+552
+553</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 552</span>
+
+<span class='kw'>def</span> <span class='id update_project'>update_project</span> <span class='id prj'>prj</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Signal Details</h2>
+    
+      <div class="method_details first">
+  <p class="signature first" id="loading_component-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>loading_component</strong>(QObject* arg1) 
+</p>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="component_loaded-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>component_loaded</strong>(QObject* arg1) 
+</p>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="feature_loaded-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>feature_loaded</strong>(QString arg1, QObject* arg2) 
+</p>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="unloading_component-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>unloading_component</strong>(QObject* arg1) 
+</p>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Fri Oct 29 12:52:57 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.1 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>

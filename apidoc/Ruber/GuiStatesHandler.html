@@ -1,0 +1,669 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>Module: Ruber::GuiStatesHandler</title>
+<link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (G)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../Ruber.html" title="Ruber (module)">Ruber</a></span></span>
+     &raquo; 
+    <span class="title">GuiStatesHandler</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Module: Ruber::GuiStatesHandler
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+  
+    
+  
+  
+    <dt class="r1">Included in:</dt>
+    <dd class="r1"><span class='object_link'><a href="MainWindow.html" title="Ruber::MainWindow (class)">MainWindow</a></span>, <span class='object_link'><a href="OutputWidget.html" title="Ruber::OutputWidget (class)">OutputWidget</a></span></dd>
+    
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/ruber/gui_states_handler.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>Module which provides a mechanism to enable/disable actions basing on whether
+some &#8216;states&#8217; are <strong>true</strong> or <strong>false</strong>. This functionality is similar to that provided
+by the <span class="caps">KDE</span> <span class="caps">XML</span> <span class="caps">GUI</span> framework, but much more flexible.</p>
+<p>A state is simply a string to which a <strong>true</strong> or <strong>false</strong> value is associated. For
+example, the value associated with a state called <tt>&#8220;current_document_modified&#8221;</tt> 
+should be set to <strong>true</strong> whenever the current document becomes modified and to
+<strong>false</strong> when it&#8217;s saved. Through the rest of this documentation, the expression
+<i>the value of the state</i> will mean <i>the true or false value associated with
+the state</i>.</p>
+<p>The system works this way: an action
+is registered using the <tt>register_action_handler</tt> method. To do
+so, a block (called a <em>handler</em>) and a list of states the action depends on are
+supplied.</p>
+<p>The value of a state is modified using the <tt>change_state</tt> method. That method
+will call the handlers of every action depending on the changed state, passing it
+a list of all known states, and enables or disable them according to the value
+returned by the block.</p>
+<p>Whenever this module is included in a class derived from <tt>Qt::Object</tt>, it
+will define a signal with the following signature <tt>ui_state_changed(QString, bool)</tt>,
+which will be emitted from the <tt>state_changed</tt> method. The signal won&#8217;t be
+defined if the module <em>extends</em> an object (even if it is <tt>Qt::Object</tt>).</p>
+<p><b>Note:</b> before using any of the functionality provided by this module, you
+must call the <tt>initialize_states_handler</tt> method. This is usually done in
+the <ins>initialize</ins> method of the including class.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+
+
+
+<h2>Defined Under Namespace</h2>
+<p class="children">
+   
+    
+   
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="GuiStatesHandler/Data.html" title="Ruber::GuiStatesHandler::Data (class)">Data</a></span>
+    
+  
+</p>
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#included-class_method" title="included (class method)">+ (Object) <strong>included</strong>(other) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Override of <ins>Module#included</ins> which is called whenever the module is included in
+another module or class.</p></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#change_state-instance_method" title="#change_state (instance method)">- (Object) <strong>change_state</strong>(state, value) </a>
+    
+
+    
+      (also: #set_state)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Sets the value associated with the state <em>state</em> to <em>value</em>, then calls the
+handlers of all actions depending on <em>state</em> and enables or disables them according
+to the returned value.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#initialize_states_handler-instance_method" title="#initialize_states_handler (instance method)">- (Object) <strong>initialize_states_handler</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Initializes the instance variables used by the module.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#register_action_handler-instance_method" title="#register_action_handler (instance method)">- (Object) <strong>register_action_handler</strong>(action, states, options = {:check =&gt; true}, &amp;blk) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Makes an action known to the system, telling it on which states it depends and
+which handler should be used to decide whether the action should be enabled or
+not.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#remove_action_handler_for-instance_method" title="#remove_action_handler_for (instance method)">- (Object) <strong>remove_action_handler_for</strong>(action, extra_id = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Remove the existing handlers for actions matching <em>action</em> and <i>extra_id</i>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#state-instance_method" title="#state (instance method)">- (Object) <strong>state</strong>(name) </a>
+    
+
+    
+      (also: #gui_state)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value associated with the state <em>name</em>.</p></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="included-class_method">
+  
+    + (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>included</strong>(other) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Override of <ins>Module#included</ins> which is called whenever the module is included in
+another module or class.</p>
+<p>If <em>other</em> is a class derived from <tt>Qt::Object</tt>, it defines the <tt>ui_state_changed(QString, bool)</tt>
+signal.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+67
+68
+69</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/gui_states_handler.rb', line 67</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id included'>included</span> <span class='id other'>other</span>
+  <span class='id other'>other</span><span class='period'>.</span><span class='id send'>send</span> <span class='symbol'>:signals</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>ui_state_changed(QString, bool)</span><span class='tstring_end'>'</span></span> <span class='kw'>if</span> <span class='id other'>other</span><span class='period'>.</span><span class='id ancestors'>ancestors</span><span class='period'>.</span><span class='id include?'>include?</span><span class='lparen'>(</span><span class='const'>Qt</span><span class='op'>::</span><span class='const'>Object</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="change_state-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>change_state</strong>(state, value) 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='set_state-instance_method'>set_state</span></span>
+    </span>
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Sets the value associated with the state <em>state</em> to <em>value</em>, then calls the
+handlers of all actions depending on <em>state</em> and enables or disables them according
+to the returned value. If <strong>self</strong> is an instance of <tt>Qt::Object</tt>, it also
+emits the <tt>ui_state_changed(QString, bool)</tt> signal, passing <em>state</em> and 
+<em>value</em> (converted to bool) as arguments.</p>
+<p><em>state</em> can be either a string or symbol (in this case, it&#8217;ll be converted to string).
+<em>value</em> can be any value. It will be converted to <strong>true</strong> or <strong>false</strong> according to
+the usual ruby rules before being used.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+198
+199
+200
+201
+202
+203
+204
+205
+206</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/gui_states_handler.rb', line 198</span>
+
+<span class='kw'>def</span> <span class='id change_state'>change_state</span> <span class='id state'>state</span><span class='comma'>,</span> <span class='id value'>value</span>
+  <span class='id state'>state</span> <span class='op'>=</span> <span class='id state'>state</span><span class='period'>.</span><span class='id to_s'>to_s</span>
+  <span class='id value'>value</span> <span class='op'>=</span> <span class='id value'>value</span><span class='period'>.</span><span class='id to_bool'>to_bool</span>
+  <span class='ivar'>@gui_state_handler_states</span><span class='lbracket'>[</span><span class='id state'>state</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id value'>value</span>
+  <span class='ivar'>@gui_state_handler_handlers</span><span class='lbracket'>[</span><span class='id state'>state</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id d'>d</span><span class='op'>|</span> 
+    <span class='id d'>d</span><span class='period'>.</span><span class='id action'>action</span><span class='period'>.</span><span class='id enabled'>enabled</span> <span class='op'>=</span> <span class='id d'>d</span><span class='period'>.</span><span class='id handler'>handler</span><span class='period'>.</span><span class='id call'>call</span> <span class='ivar'>@gui_state_handler_states</span>
+  <span class='kw'>end</span>
+  <span class='id emit'>emit</span> <span class='id ui_state_changed'>ui_state_changed</span> <span class='id state'>state</span><span class='comma'>,</span> <span class='id value'>value</span> <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Qt</span><span class='op'>::</span><span class='const'>Object</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="initialize_states_handler-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>initialize_states_handler</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Initializes the instance variables used by the module. It must be called before
+any other method in the module is used.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+224
+225
+226
+227</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/gui_states_handler.rb', line 224</span>
+
+<span class='kw'>def</span> <span class='id initialize_states_handler'>initialize_states_handler</span>
+  <span class='ivar'>@gui_state_handler_states</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='ivar'>@gui_state_handler_handlers</span> <span class='op'>=</span> <span class='const'>Hash</span><span class='period'>.</span><span class='id new'>new</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id h'>h</span><span class='comma'>,</span> <span class='id k'>k</span><span class='op'>|</span> <span class='id h'>h</span><span class='lbracket'>[</span><span class='id k'>k</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="register_action_handler-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>register_action_handler</strong>(action, states, options = {:check =&gt; true}, &amp;blk) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Makes an action known to the system, telling it on which states it depends and
+which handler should be used to decide whether the action should be enabled or
+not.</p>
+<p><em>action</em> is a <tt>Qt::Action</tt> or derived object. <em>states</em> is an array of strings
+and/or symbols or a single string or symbol. Each string/symbol represents the
+name of a state <em>action</em> depends on (that is, a state whose value concurs in
+deciding whether <em>action</em> should be enabled or not).</p>
+<p><em>blk</em> is the handler associated with <em>action</em>. It takes a single argument, which
+will be a hash having the names of the states as keys and their values as values,
+and returns a true value if, basing on the values of the states, <em>action</em> should
+be enabled and a false value if it shouldn&#8217;t.</p>
+<p><em>option</em> contains some options. One is <tt>:check</tt>: if <strong>true</strong>, the handler
+will be called (and the action enabled or disabled) immediately after registering
+it; if it&#8217;s false, nothing will be done until one of the states in <em>states</em> 
+changes. The other option is <tt>:extra_id</tt>. If not <strong>nil</strong>, it is an extra value
+used to identify the action (see <tt>remove_action_handler_for</tt> for more information).</p>
+<p>If the block is not given and <em>states</em> is a string, a symbol or an array with only
+one element, then a default handler is generated (if <em>states</em> is an array with
+more than one element, <ins>ArgumentError</ins> is raised). The default handler returns the
+same value as the state value. If the only state starts with a <tt>!</tt>, instead,
+the leading exclamation mark is removed from the name of the state and the generated
+handler returns the opposite of the state value (that is, returns <strong>true</strong> if the
+state is <strong>false</strong> and vice versa).</p>
+<p><b>Note:</b> even if states can be specified as symbols, they&#8217;re actually always
+converted to strings.</p>
+<p>====Examples</p>
+<p>In all the following examples, <tt>action_handler</tt> is an instance of a class
+which includes this module.</p>
+<p>This registers an handler for an action which depends on the two states &#8216;a&#8217; and
+&#8216;b&#8217;. The action should be enabled when &#8216;a&#8217; is <strong>true</strong> and &#8216;b&#8217; is <strong>false</strong> or when
+&#8216;a&#8217; is <strong>false</strong>, regardless of &#8216;b&#8217;.</p>
+action_handler.register_action_handler <span class="caps">KDE</span>::Action.new(nil), [&#8216;a&#8217;, &#8216;b&#8217;] do |states|
+if states[&#8216;a&#8217;] and !states[&#8216;b&#8217;] then true
+elsif !states[&#8216;a&#8217;] then true
+else false
+end
+end
+
+<p>This registers an action depending only on the state &#8216;a&#8217; which should be enabled
+when &#8216;a&#8217; is <strong>true</strong> and disabled when &#8216;a&#8217; is <strong>false</strong>.</p>
+action_handler.register_action_handler <span class="caps">KDE</span>::Action.new(nil), [&#8216;a&#8217;] do |states|
+states[&#8216;a&#8217;]
+end
+<p>Here we could also have passed simply the string &#8216;a&#8217; as second argument. Even easier,
+we could have omitted the block, relying on the default handler that would have
+been generated:
+  action_handler.register_action_handler <span class="caps">KDE</span>::Action.new(nil), &#8216;a&#8217;</p>
+<p>Here, still using the default handler, register an handler for an action which
+depends only on the state &#8216;a&#8217; but needs to be enabled when &#8216;a&#8217; is <strong>false</strong> and 
+disabled when it&#8217;s <strong>true</strong>.
+  action_handler.register_action_handler <span class="caps">KDE</span>::Action.new(nil), &#8216;!a&#8217;</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/gui_states_handler.rb', line 136</span>
+
+<span class='kw'>def</span> <span class='id register_action_handler'>register_action_handler</span> <span class='id action'>action</span><span class='comma'>,</span> <span class='id states'>states</span><span class='comma'>,</span> <span class='id options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='symbol'>:check</span> <span class='op'>=&gt;</span> <span class='kw'>true</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id blk'>blk</span>
+  <span class='id states'>states</span> <span class='op'>=</span> <span class='const'>Array</span><span class='lparen'>(</span><span class='id states'>states</span><span class='rparen'>)</span>
+  <span class='id states'>states</span> <span class='op'>=</span> <span class='id states'>states</span><span class='period'>.</span><span class='id map'>map</span> <span class='op'>&amp;</span><span class='symbol'>:to_s</span>
+  <span class='kw'>if</span> <span class='op'>!</span><span class='id blk'>blk</span> <span class='kw'>and</span> <span class='id states'>states</span><span class='period'>.</span><span class='id size'>size</span> <span class='op'>&gt;</span> <span class='int'>1</span>
+    <span class='id raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>If more than one state is supplied, a block is needed</span><span class='tstring_end'>&quot;</span></span> 
+  <span class='kw'>elsif</span> <span class='op'>!</span><span class='id blk'>blk</span>
+    <span class='kw'>if</span> <span class='id states'>states</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id start_with?'>start_with?</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>!</span><span class='tstring_end'>'</span></span>
+      <span class='id states'>states</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id states'>states</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='int'>1</span><span class='op'>..</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span>
+      <span class='id blk'>blk</span> <span class='op'>=</span> <span class='const'>Proc</span><span class='period'>.</span><span class='id new'>new</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id s'>s</span><span class='op'>|</span> <span class='op'>!</span><span class='id s'>s</span><span class='lbracket'>[</span><span class='id states'>states</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
+    <span class='kw'>else</span> <span class='id blk'>blk</span> <span class='op'>=</span> <span class='const'>Proc</span><span class='period'>.</span><span class='id new'>new</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id s'>s</span><span class='op'>|</span> <span class='id s'>s</span><span class='lbracket'>[</span><span class='id states'>states</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='id data'>data</span> <span class='op'>=</span> <span class='const'>Data</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id action'>action</span><span class='comma'>,</span> <span class='id blk'>blk</span><span class='comma'>,</span> <span class='id options'>options</span><span class='lbracket'>[</span><span class='symbol'>:extra_id</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='id states'>states</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id s'>s</span><span class='op'>|</span> <span class='ivar'>@gui_state_handler_handlers</span><span class='lbracket'>[</span><span class='id s'>s</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='rbracket'>]</span> <span class='op'>&lt;&lt;</span> <span class='id data'>data</span><span class='rbrace'>}</span>
+  <span class='kw'>if</span> <span class='id options'>options</span><span class='lbracket'>[</span><span class='symbol'>:check</span><span class='rbracket'>]</span>
+    <span class='id action'>action</span><span class='period'>.</span><span class='id enabled'>enabled</span> <span class='op'>=</span> <span class='id blk'>blk</span><span class='period'>.</span><span class='id call'>call</span> <span class='ivar'>@gui_state_handler_states</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="remove_action_handler_for-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>remove_action_handler_for</strong>(action, extra_id = nil) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Remove the existing handlers for actions matching <em>action</em> and <i>extra_id</i>.</p>
+<p><em>action</em> may be either a <tt>Qt::Action</tt> or a string. If it is a <tt>Qt::Action</tt>,
+then only the handlers for that object will be removed (actually, there usually
+is only one handler).</p>
+<p>If <em>action</em> is a string, all handlers for actions whose
+<tt>object_name</tt> is <em>action</em> will be removed. In this case, the <i>extra_id</i>
+parameter can be used narrow the list of actions to remove (for example, if there
+are more than one action with the same name but different <tt>extra_id</tt>s). If
+<tt>extra_id</tt> isn&#8217;t <strong>nil</strong>, then only actions whose <tt>object_name</tt> is
+<em>action</em> and which were given an <tt>extra_id</tt> equal to <i>extra_id</i> will
+be removed.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/gui_states_handler.rb', line 170</span>
+
+<span class='kw'>def</span> <span class='id remove_action_handler_for'>remove_action_handler_for</span> <span class='id action'>action</span><span class='comma'>,</span> <span class='id extra_id'>extra_id</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='kw'>if</span> <span class='id action'>action</span><span class='period'>.</span><span class='id is_a?'>is_a?</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Action</span>
+    <span class='ivar'>@gui_state_handler_handlers</span><span class='period'>.</span><span class='id each_value'>each_value</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id v'>v</span><span class='op'>|</span>
+      <span class='id v'>v</span><span class='period'>.</span><span class='id delete_if'>delete_if</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id d'>d</span><span class='op'>|</span> <span class='id d'>d</span><span class='period'>.</span><span class='id action'>action</span><span class='period'>.</span><span class='id same?'>same?</span> <span class='id action'>action</span><span class='rbrace'>}</span>
+    <span class='kw'>end</span>
+  <span class='kw'>elsif</span> <span class='id extra_id'>extra_id</span>
+    <span class='ivar'>@gui_state_handler_handlers</span><span class='period'>.</span><span class='id each_value'>each_value</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id v'>v</span><span class='op'>|</span>
+      <span class='id v'>v</span><span class='period'>.</span><span class='id delete_if'>delete_if</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id d'>d</span><span class='op'>|</span> <span class='id d'>d</span><span class='period'>.</span><span class='id action'>action</span><span class='period'>.</span><span class='id object_name'>object_name</span> <span class='op'>==</span> <span class='id action'>action</span> <span class='kw'>and</span> <span class='id d'>d</span><span class='period'>.</span><span class='id extra_id'>extra_id</span> <span class='op'>==</span> <span class='id extra_id'>extra_id</span><span class='rbrace'>}</span>
+    <span class='kw'>end</span>
+  <span class='kw'>else</span>
+    <span class='ivar'>@gui_state_handler_handlers</span><span class='period'>.</span><span class='id each_value'>each_value</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id v'>v</span><span class='op'>|</span>
+      <span class='id v'>v</span><span class='period'>.</span><span class='id delete_if'>delete_if</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id d'>d</span><span class='op'>|</span> <span class='id d'>d</span><span class='period'>.</span><span class='id action'>action</span><span class='period'>.</span><span class='id object_name'>object_name</span> <span class='op'>==</span> <span class='id action'>action</span><span class='rbrace'>}</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='ivar'>@gui_state_handler_handlers</span><span class='period'>.</span><span class='id delete_if'>delete_if</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id k'>k</span><span class='comma'>,</span> <span class='id v'>v</span><span class='op'>|</span> <span class='id v'>v</span><span class='period'>.</span><span class='id empty?'>empty?</span><span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="state-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>state</strong>(name) 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='gui_state-instance_method'>gui_state</span></span>
+    </span>
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value associated with the state <em>name_. If the value of the state
+has never been set using <tt>change</em>state</tt>, <strong>nil</strong> will be returned.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+213
+214
+215</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/gui_states_handler.rb', line 213</span>
+
+<span class='kw'>def</span> <span class='id state'>state</span> <span class='id name'>name</span>
+  <span class='ivar'>@gui_state_handler_states</span><span class='lbracket'>[</span><span class='id name'>name</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Fri Oct 29 12:52:58 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.1 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>

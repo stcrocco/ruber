@@ -1,0 +1,1051 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>Class: Ruber::ProjectFilesList</title>
+<link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (P)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../Ruber.html" title="Ruber (module)">Ruber</a></span></span>
+     &raquo; 
+    <span class="title">ProjectFilesList</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Ruber::ProjectFilesList
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName"><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next">Ruber::ProjectFilesList</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+      <dt class="r2">Includes:</dt>
+      <dd class="r2"><span class='object_link'><a href="../Enumerable.html" title="Enumerable (module)">Enumerable</a></span>, <span class='object_link'><a href="Extension.html" title="Ruber::Extension (module)">Extension</a></span></dd>
+      
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">lib/ruber/projects/project_files_list.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>Project extension to access the name of the files belonging to the project.</p>
+<p>The file belonging to the projects are determined using the contents of the <code>general/project_files</code>
+project option. This option is a hash which contains rules (in the form of hashes)
+telling which files are part of the project and which aren&#8217;t.</p>
+<p>Files are kept up to date, both regarding the contents of the filesystem (using a
+<span class="caps">KDE</span>::DirWatch) and the rules specified in the project.</p>
+<p>To avoid needlessly freezing the application in case projects with a large number of files,
+this class only scans the project directory when a list of project files is actually
+requested, that is when one of the methods <span class='object_link'><a href="#each-instance_method" title="Ruber::ProjectFilesList#each (method)">ProjectFilesList#each</a></span>, <span class='object_link'><a href="#abs-instance_method" title="Ruber::ProjectFilesList#abs (method)">ProjectFilesList#abs</a></span>, <span class='object_link'><a href="#rel-instance_method" title="Ruber::ProjectFilesList#rel (method)">ProjectFilesList#rel</a></span> and <span class='object_link'><a href="#project_files-instance_method" title="Ruber::ProjectFilesList#project_files (method)">ProjectFilesList#project_files</a></span>
+is called. Even in that case, the project directory is only scanned if a file has
+been added or removed since the last scan, or if the rules have changed since then.
+A scan can be forced by using the ProjectFilesList#update method, but you usually don&#8217;t need this.</p>
+<h3>Rules</h3>
+<p>The <code>general/project_files</code> setting is a hash containing the rules to use to decide
+whether a given file belongs to the project or not. There are two groups of rules:
+inclusive rules and exclusive rules. Inclusive rules specify files which belong
+to the project, while exclusive rules specify files which do not belong to the 
+project. Exclusive rules have precedence on inclusive rules, meaning that if a
+file matches both an inclusive and an exclusive rule, it&#8217;s excluded from the project.</p>
+<p>There are three kinds of rules:</p>
+<p>Project extension which scans the project directory and finds out which files belong
+to the project and which don&#8217;t (according to rules specified by the user in the
+project options), returning an array of the former.</p>
+<p>It also watches the project directory to update the list of project files when a
+file in the project directory is added or removed.</p>
+<p>This class provides an <span class='object_link'><a href="#each-instance_method" title="Ruber::ProjectFilesList#each (method)">ProjectFilesList#each</a></span> method, which yields all the project files to the
+block or, if called without a block, returns an <tt>Enumerable::Enumerator</tt>
+which does the same.</p>
+<p><b>Note:</b> the list of project files is created lazily, only when a method
+explicitly needs it and a file or directory (or the rules) have changed since
+the last time it was generated. A <tt><span class="caps">KDE</span>::DirWatch</tt> object is used to find
+out when a file or directory changes. Also, after a file has changed, the watcher
+is stopped until the list is updated again (a single change is enough to rebuild
+the whole list, so there&#8217;s no point in keeping watching).</p>
+<p>The methods which can cause the list to be rebuild are: <ins>each</ins>, <ins>abs</ins>, <ins>rel</ins> and 
+<tt>project_files</tt>.</p>
+<p>===Rules
+To decide whether a file belongs to the project or not, ProjectFilesList uses
+the general/project_files project option. It is a hash made of three keys, each
+specifying a rule telling whether a file is part of the project or not. In application
+order, they are
+<tt>extensions</tt>::
+  an array of shell globs. Any file matching one of them (according to <tt>File.fnmatch</tt>)
+  will be considered a project file, unless another rule says otherwise
+<tt>include</tt>::
+  an array of strings and/or regexps corresponding to files which belong to the
+  project. Each string entry is the name (relative to the project directory) of
+  a file which belongs to the project. Each regexp is a pattern which should be
+  tested against all the names (still relative to the project directory) of the
+  files in the project directory (and its subdirectories). Each matching file will
+  be a project file (unless another rule says otherwise).
+<tt>exclude</tt>::
+  as the <tt>include</tt> entry, but the matching files will <strong>not</strong> be project
+  files. This entry has the precedence with respect to the other two. This means
+  that if a file is a project file according to one of them but also matches a
+  rule here, it <i>won&#8217;t</i> be considered a project file.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#abs-instance_method" title="#abs (instance method)">- (Object) <strong>abs</strong> </a>
+    
+
+    
+      (also: #absolute_paths)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns an enumerator as that yields the absolute names of the project files.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#each-instance_method" title="#each (instance method)">- (Object) <strong>each</strong>(abs = true) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>If called with a block, calls the block yielding the names of the files in the
+project.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#file_in_project%3F-instance_method" title="#file_in_project? (instance method)">- (Boolean) <strong>file_in_project?</strong>(file) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Tells whether the given file belongs to the project or not.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (ProjectFilesList) <strong>initialize</strong>(prj) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Creates a new ProjectFilesList for the Project <em>prj</em>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#make_rules-instance_method" title="#make_rules (instance method)">- (Object) <strong>make_rules</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Creates an internal version of the rules from the values in the
+<tt>general/project_files</tt> project option.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#project_files-instance_method" title="#project_files (instance method)">- (Object) <strong>project_files</strong>(abs = true) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns an array with the name of the files in the project (in arbitrary order).</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#refresh-instance_method" title="#refresh (instance method)">- (Object) <strong>refresh</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Updates the list, so that it reflects the current status of the project directory.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#rel-instance_method" title="#rel (instance method)">- (Object) <strong>rel</strong> </a>
+    
+
+    
+      (also: #relative_paths)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns an enumerator as that yields the names of the project files relative to
+the project directory.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#scan_project-instance_method" title="#scan_project (instance method)">- (Object) <strong>scan_project</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Applies the rules stored in the <tt>general/project_files</tt> project option
+to all the files in the project directory and fills the internal cache with the
+project files.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#up_to_date%3F-instance_method" title="#up_to_date? (instance method)">- (Boolean) <strong>up_to_date?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Tells whether the list is up to date or needs to be rebuilt.</p></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="Extension.html" title="Ruber::Extension (module)">Extension</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Extension.html#query_close-instance_method" title="Ruber::Extension#query_close (method)">#query_close</a></span>, <span class='object_link'><a href="Extension.html#remove_from_project-instance_method" title="Ruber::Extension#remove_from_project (method)">#remove_from_project</a></span>, <span class='object_link'><a href="Extension.html#save_settings-instance_method" title="Ruber::Extension#save_settings (method)">#save_settings</a></span>, <span class='object_link'><a href="Extension.html#shutdown-instance_method" title="Ruber::Extension#shutdown (method)">#shutdown</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="../Enumerable.html" title="Enumerable (module)">Enumerable</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../Enumerable.html#find%21-instance_method" title="Enumerable#find! (method)">#find!</a></span></p>
+
+
+
+
+
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::ProjectFilesList (class)">ProjectFilesList</a></span></tt>) <strong>initialize</strong>(prj) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Creates a new ProjectFilesList for the Project <em>prj</em>.</p>
+<p>The new object will read the <tt>general/project_files</tt> option from the project
+and immediately scan the project directory to find the all the project files.
+Besides, it will start monitoring the directory for changes, so as to be
+able to update the list of project files when a new file is created or a file
+is deleted.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_files_list.rb', line 115</span>
+
+<span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id prj'>prj</span>
+  <span class='kw'>super</span>
+  <span class='ivar'>@lock</span> <span class='op'>=</span> <span class='const'>Mutex</span><span class='period'>.</span><span class='id new'>new</span>
+  <span class='ivar'>@project</span> <span class='op'>=</span> <span class='id prj'>prj</span>
+  <span class='ivar'>@project_files</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='ivar'>@watcher</span> <span class='op'>=</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>DirWatch</span><span class='period'>.</span><span class='id new'>new</span> <span class='kw'>self</span>
+  <span class='ivar'>@watcher</span><span class='period'>.</span><span class='id add_dir'>add_dir</span> <span class='ivar'>@project</span><span class='period'>.</span><span class='id project_dir'>project_dir</span><span class='comma'>,</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>DirWatch</span><span class='op'>::</span><span class='const'>WatchSubDirs</span>
+  <span class='ivar'>@up_to_date</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='id make_rules'>make_rules</span>
+  <span class='ivar'>@project_files</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='ivar'>@watcher</span><span class='period'>.</span><span class='id connect'>connect</span><span class='lparen'>(</span><span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>dirty(QString)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='kw'>do</span>
+    <span class='ivar'>@up_to_date</span> <span class='op'>=</span> <span class='kw'>false</span>
+    <span class='ivar'>@watcher</span><span class='period'>.</span><span class='id stop_scan'>stop_scan</span>
+  <span class='kw'>end</span>
+  <span class='ivar'>@project</span><span class='period'>.</span><span class='id connect'>connect</span><span class='lparen'>(</span><span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>option_changed(QString, QString)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id g'>g</span><span class='comma'>,</span> <span class='id n'>n</span><span class='op'>|</span>
+    <span class='kw'>if</span> <span class='id g'>g</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>general</span><span class='tstring_end'>'</span></span> <span class='kw'>and</span> <span class='id n'>n</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>project_files</span><span class='tstring_end'>'</span></span>
+      <span class='kw'>if</span> <span class='ivar'>@project</span><span class='lbracket'>[</span><span class='symbol'>:general</span><span class='comma'>,</span> <span class='symbol'>:project_files</span><span class='rbracket'>]</span> <span class='op'>!=</span> <span class='ivar'>@rules</span>
+        <span class='ivar'>@up_to_date</span> <span class='op'>=</span> <span class='kw'>false</span>
+        <span class='id make_rules'>make_rules</span>
+        <span class='id scan_project'>scan_project</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='ivar'>@watcher</span><span class='period'>.</span><span class='id start_scan'>start_scan</span> <span class='kw'>false</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="abs-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>abs</strong> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='absolute_paths-instance_method'>absolute_paths</span></span>
+    </span>
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns an enumerator as that yields the absolute names of the project files.
+It&#8217;s just a shortcut for <tt>each(true)</tt>.</p>
+<p><b>Note:</b> if the list isn&#8217;t up to date, the project will be re-scanned when
+any enumerable method returned by the object is called</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+201
+202
+203</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_files_list.rb', line 201</span>
+
+<span class='kw'>def</span> <span class='id abs'>abs</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="each-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>each</strong>(abs = true) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>If called with a block, calls the block yielding the names of the files in the
+project. If <em>abs</em> is true, absolute file names will be used, otherwise the file
+names will be relative to the project directory.</p>
+<p>If called without a block, returns an <tt>Enumerable::Enumerator</tt> which does
+the same as above.</p>
+<p><b>Note:</b> when called with a block and the list isn&#8217;t up to date, 
+the project will be re-scanned</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_files_list.rb', line 169</span>
+
+<span class='kw'>def</span> <span class='id each'>each</span> <span class='id abs'>abs</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='kw'>if</span> <span class='id block_given?'>block_given?</span>
+    <span class='id refresh'>refresh</span> <span class='kw'>unless</span> <span class='ivar'>@up_to_date</span>
+    <span class='id dir'>dir</span> <span class='op'>=</span> <span class='ivar'>@project</span><span class='period'>.</span><span class='id project_dir'>project_dir</span>
+    <span class='ivar'>@project_files</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id f'>f</span><span class='op'>|</span>
+      <span class='kw'>yield</span> <span class='id abs'>abs</span> <span class='op'>?</span> <span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span><span class='lparen'>(</span> <span class='id dir'>dir</span><span class='comma'>,</span> <span class='id f'>f</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='id f'>f</span>
+    <span class='kw'>end</span>
+    <span class='kw'>self</span>
+  <span class='kw'>else</span>
+    <span class='kw'>return</span> <span class='kw'>self</span><span class='period'>.</span><span class='id to_enum'>to_enum</span><span class='lparen'>(</span><span class='symbol'>:each</span><span class='comma'>,</span> <span class='id abs'>abs</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="file_in_project?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>file_in_project?</strong>(file) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Tells whether the given file belongs to the project or not. If <em>file</em> is a relative
+path, it is considered relative to the project directory.</p>
+<p>Returns <strong>true</strong> if <em>file</em> belongs to the project and <strong>false</strong> otherwise. As this method
+doesn&#8217;t access the filesystem, the behaviour in the case <em>file</em> is a directory will
+be undefined. If <em>file</em> ends with a slash (which makes it clear it represents a
+directory) then <strong>nil</strong> will be returned
+<b>Note:</b> this method doesn&#8217;t use the file list to tell whether the file is in
+the project. Rather, it compares the file name with the include and exclude rules
+and the extensions.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_files_list.rb', line 238</span>
+
+<span class='kw'>def</span> <span class='id file_in_project?'>file_in_project?</span> <span class='id file'>file</span>
+  <span class='id file'>file</span> <span class='op'>=</span> <span class='id file'>file</span><span class='period'>.</span><span class='id sub'>sub</span> <span class='tstring'><span class='regexp_beg'>%r[</span><span class='tstring_content'>^</span><span class='embexpr_beg'>#{</span><span class='const'>Regexp</span><span class='period'>.</span><span class='id quote'>quote</span><span class='lparen'>(</span><span class='ivar'>@project</span><span class='period'>.</span><span class='id project_directory'>project_directory</span><span class='rparen'>)</span><span class='rbrace'>}</span><span class='tstring_content'>/</span><span class='regexp_end'>]</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span>
+  <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>if</span> <span class='id file'>file</span><span class='period'>.</span><span class='id start_with?'>start_with?</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/</span><span class='tstring_end'>'</span></span>
+  <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id file'>file</span><span class='period'>.</span><span class='id end_with?'>end_with?</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/</span><span class='tstring_end'>'</span></span>
+<span class='comment'># I don't know why I added the following line
+</span><span class='comment'>#       file = File.basename(file)
+</span>  
+  <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>if</span> <span class='ivar'>@exclude_files</span><span class='period'>.</span><span class='id include?'>include?</span> <span class='id file'>file</span>
+  <span class='kw'>return</span> <span class='kw'>true</span> <span class='kw'>if</span> <span class='ivar'>@include_files</span><span class='period'>.</span><span class='id any?'>any?</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id f'>f</span><span class='op'>|</span> <span class='id f'>f</span> <span class='op'>==</span> <span class='id file'>file</span><span class='rbrace'>}</span>
+
+  <span class='kw'>if</span> <span class='ivar'>@exclude_regexp</span><span class='period'>.</span><span class='id match'>match</span><span class='lparen'>(</span><span class='id file'>file</span><span class='rparen'>)</span> <span class='kw'>then</span> <span class='kw'>false</span>
+  <span class='kw'>elsif</span> <span class='ivar'>@include_regexp</span><span class='period'>.</span><span class='id match'>match</span> <span class='id file'>file</span> <span class='kw'>then</span> <span class='kw'>true</span>
+  <span class='kw'>elsif</span> <span class='ivar'>@extensions</span><span class='period'>.</span><span class='id any?'>any?</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id e'>e</span><span class='op'>|</span> <span class='const'>File</span><span class='period'>.</span><span class='id fnmatch?'>fnmatch?</span><span class='lparen'>(</span><span class='id e'>e</span><span class='comma'>,</span> <span class='id file'>file</span><span class='comma'>,</span> <span class='const'>File</span><span class='op'>::</span><span class='const'>FNM_DOTMATCH</span><span class='rparen'>)</span><span class='rbrace'>}</span> <span class='kw'>then</span> <span class='kw'>true</span>
+  <span class='kw'>else</span> <span class='kw'>false</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="make_rules-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>make_rules</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Creates an internal version of the rules from the values in the
+<tt>general/project_files</tt> project option</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_files_list.rb', line 298</span>
+
+<span class='kw'>def</span> <span class='id make_rules'>make_rules</span>
+  <span class='id rules'>rules</span> <span class='op'>=</span> <span class='ivar'>@project</span><span class='lbracket'>[</span><span class='symbol'>:general</span><span class='comma'>,</span> <span class='symbol'>:project_files</span><span class='rbracket'>]</span>
+  <span class='ivar'>@include_regexp</span> <span class='op'>=</span> <span class='const'>Regexp</span><span class='period'>.</span><span class='id union'>union</span><span class='lparen'>(</span><span class='op'>*</span><span class='lparen'>(</span><span class='id rules'>rules</span><span class='lbracket'>[</span><span class='symbol'>:include</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id select'>select</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id r'>r</span><span class='op'>|</span> <span class='id r'>r</span><span class='period'>.</span><span class='id is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Regexp</span><span class='rparen'>)</span><span class='rbrace'>}</span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='ivar'>@exclude_regexp</span> <span class='op'>=</span> <span class='const'>Regexp</span><span class='period'>.</span><span class='id union'>union</span><span class='lparen'>(</span><span class='op'>*</span><span class='lparen'>(</span><span class='id rules'>rules</span><span class='lbracket'>[</span><span class='symbol'>:exclude</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id select'>select</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id r'>r</span><span class='op'>|</span> <span class='id r'>r</span><span class='period'>.</span><span class='id is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Regexp</span><span class='rparen'>)</span><span class='rbrace'>}</span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='ivar'>@exclude_files</span> <span class='op'>=</span> <span class='id rules'>rules</span><span class='lbracket'>[</span><span class='symbol'>:exclude</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id select'>select</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id rule'>rule</span><span class='op'>|</span> <span class='id rule'>rule</span><span class='period'>.</span><span class='id is_a?'>is_a?</span> <span class='const'>String</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id map'>map</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id f'>f</span><span class='op'>|</span> <span class='id f'>f</span><span class='period'>.</span><span class='id sub'>sub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>%r{</span><span class='tstring_content'>^\./</span><span class='regexp_end'>}</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='rbrace'>}</span>
+  <span class='ivar'>@include_files</span> <span class='op'>=</span> <span class='id rules'>rules</span><span class='lbracket'>[</span><span class='symbol'>:include</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id select'>select</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id rule'>rule</span><span class='op'>|</span> <span class='id rule'>rule</span><span class='period'>.</span><span class='id is_a?'>is_a?</span> <span class='const'>String</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id map'>map</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id f'>f</span><span class='op'>|</span> <span class='id f'>f</span><span class='period'>.</span><span class='id sub'>sub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>%r{</span><span class='tstring_content'>^\./</span><span class='regexp_end'>}</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='rbrace'>}</span>
+  <span class='ivar'>@include_files</span><span class='op'>-=</span> <span class='ivar'>@exclude_files</span>
+  <span class='ivar'>@extensions</span> <span class='op'>=</span> <span class='id rules'>rules</span><span class='lbracket'>[</span><span class='symbol'>:extensions</span><span class='rbracket'>]</span>
+  <span class='ivar'>@rules</span> <span class='op'>=</span> <span class='const'>YAML</span><span class='period'>.</span><span class='id load'>load</span><span class='lparen'>(</span><span class='const'>YAML</span><span class='period'>.</span><span class='id dump'>dump</span> <span class='id rules'>rules</span><span class='rparen'>)</span>
+<span class='comment'># TODO Uncomment the following line and remove the previous when found out why Marshal
+</span><span class='comment'># fails
+</span><span class='comment'>#       @rules = rules.deep_copy
+</span><span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="project_files-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>project_files</strong>(abs = true) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns an array with the name of the files in the project (in arbitrary order).
+If <em>abs</em> is <strong>false</strong>, the file names will be relative to the project directory;
+if it is <strong>true</strong> they&#8217;ll be absolute. It is the same as calling <tt>list.abs.to_a</tt>
+or <tt>list.rel.to_a</tt></p>
+<p><b>Note:</b> if the list isn&#8217;t up to date, the project will be re-scanned</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+149
+150
+151
+152
+153
+154
+155
+156</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_files_list.rb', line 149</span>
+
+<span class='kw'>def</span> <span class='id project_files'>project_files</span> <span class='id abs'>abs</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='id refresh'>refresh</span> <span class='kw'>unless</span> <span class='ivar'>@up_to_date</span>
+  <span class='kw'>if</span> <span class='id abs'>abs</span>
+    <span class='id dir'>dir</span> <span class='op'>=</span> <span class='ivar'>@project</span><span class='period'>.</span><span class='id project_dir'>project_dir</span>
+    <span class='ivar'>@project_files</span><span class='period'>.</span><span class='id map'>map</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id f'>f</span><span class='op'>|</span> <span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span> <span class='id dir'>dir</span><span class='comma'>,</span> <span class='id f'>f</span><span class='rbrace'>}</span>
+  <span class='kw'>else</span> <span class='ivar'>@project_files</span><span class='period'>.</span><span class='id deep_copy'>deep_copy</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="refresh-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>refresh</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Updates the list, so that it reflects the current status of the project directory.</p>
+<p>Usually you don&#8217;t need to call this method, as it&#8217;s automatically called as needed.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+211
+212
+213
+214
+215</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_files_list.rb', line 211</span>
+
+<span class='kw'>def</span> <span class='id refresh'>refresh</span>
+  <span class='id scan_project'>scan_project</span>
+  <span class='ivar'>@up_to_date</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='ivar'>@watcher</span><span class='period'>.</span><span class='id start_scan'>start_scan</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="rel-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>rel</strong> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='relative_paths-instance_method'>relative_paths</span></span>
+    </span>
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns an enumerator as that yields the names of the project files relative to
+the project directory. It&#8217;s just a shortcut for <tt>each(false)</tt>.</p>
+<p><b>Note:</b> if the list isn&#8217;t up to date, the project will be re-scanned when
+any enumerable method returned by the object is called</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+189
+190
+191</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_files_list.rb', line 189</span>
+
+<span class='kw'>def</span> <span class='id rel'>rel</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>false</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="scan_project-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>scan_project</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Applies the rules stored in the <tt>general/project_files</tt> project option
+to all the files in the project directory and fills the internal cache with the
+project files.</p>
+<hr />
+<p>The <tt>@lock</tt> instance variable is used to (hopefully) avoid issues with
+two threads calling this method together, since Dir.chdir doesn&#8217;t nest inside
+threads. This created problems with syntax checker, for example.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_files_list.rb', line 267</span>
+
+<span class='kw'>def</span> <span class='id scan_project'>scan_project</span>
+  <span class='ivar'>@lock</span><span class='period'>.</span><span class='id synchronize'>synchronize</span> <span class='kw'>do</span>
+    <span class='const'>Dir</span><span class='period'>.</span><span class='id chdir'>chdir</span><span class='lparen'>(</span><span class='ivar'>@project</span><span class='period'>.</span><span class='id project_dir'>project_dir</span><span class='rparen'>)</span> <span class='kw'>do</span>
+      <span class='id res'>res</span> <span class='op'>=</span> <span class='ivar'>@include_files</span><span class='period'>.</span><span class='id select'>select</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id f'>f</span><span class='op'>|</span> <span class='const'>File</span><span class='period'>.</span><span class='id exist?'>exist?</span><span class='lparen'>(</span><span class='id f'>f</span><span class='rparen'>)</span> <span class='kw'>and</span> <span class='const'>File</span><span class='period'>.</span><span class='id file?'>file?</span><span class='lparen'>(</span><span class='id f'>f</span><span class='rparen'>)</span><span class='rbrace'>}</span>
+      <span class='comment'># remove the leading ./ from the names of the files
+</span>      <span class='id res'>res</span><span class='period'>.</span><span class='id map!'>map!</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id f'>f</span><span class='op'>|</span> <span class='id f'>f</span><span class='period'>.</span><span class='id sub'>sub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>%r{</span><span class='tstring_content'>^./</span><span class='regexp_end'>}</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='rbrace'>}</span>
+      <span class='const'>Find</span><span class='period'>.</span><span class='id find'>find</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>.</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id f'>f</span><span class='op'>|</span>
+      <span class='comment'># let's skip the current directory, least it somehow matches one of
+</span>      <span class='comment'># the exclude rules
+</span>      <span class='kw'>next</span> <span class='kw'>if</span> <span class='id f'>f</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>.</span><span class='tstring_end'>'</span></span>
+        <span class='kw'>if</span> <span class='const'>File</span><span class='period'>.</span><span class='id directory?'>directory?</span><span class='lparen'>(</span><span class='id f'>f</span><span class='rparen'>)</span>
+          <span class='id f'>f</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span><span class='lparen'>(</span><span class='id f'>f</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+          <span class='const'>Find</span><span class='period'>.</span><span class='id prune'>prune</span> <span class='kw'>if</span> <span class='id f'>f</span><span class='period'>.</span><span class='id match'>match</span> <span class='ivar'>@exclude_regexp</span>
+        <span class='kw'>else</span>
+          <span class='comment'># We remove the leading ./
+</span>          <span class='id f'>f</span> <span class='op'>=</span> <span class='id f'>f</span><span class='lbracket'>[</span><span class='int'>2</span><span class='op'>..</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span>
+          <span class='kw'>next</span> <span class='kw'>if</span> <span class='id f'>f</span><span class='period'>.</span><span class='id match'>match</span> <span class='ivar'>@exclude_regexp</span> <span class='kw'>or</span> <span class='ivar'>@exclude_files</span><span class='period'>.</span><span class='id include?'>include?</span><span class='lparen'>(</span><span class='id f'>f</span><span class='rparen'>)</span>
+          <span class='id res'>res</span> <span class='op'>&lt;&lt;</span> <span class='id f'>f</span> <span class='kw'>if</span> <span class='ivar'>@extensions</span><span class='period'>.</span><span class='id any?'>any?</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id ext'>ext</span><span class='op'>|</span> <span class='const'>File</span><span class='period'>.</span><span class='id fnmatch?'>fnmatch?</span><span class='lparen'>(</span><span class='id ext'>ext</span><span class='comma'>,</span> <span class='id f'>f</span><span class='comma'>,</span> <span class='const'>File</span><span class='op'>::</span><span class='const'>FNM_DOTMATCH</span><span class='rparen'>)</span><span class='rbrace'>}</span> <span class='kw'>or</span>
+              <span class='id f'>f</span><span class='period'>.</span><span class='id match'>match</span><span class='lparen'>(</span><span class='ivar'>@include_regexp</span><span class='rparen'>)</span>
+        <span class='kw'>end</span>
+      <span class='kw'>end</span>
+      <span class='id res'>res</span><span class='period'>.</span><span class='id uniq!'>uniq!</span>
+      <span class='ivar'>@project_files</span> <span class='op'>=</span> <span class='id res'>res</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="up_to_date?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>up_to_date?</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Tells whether the list is up to date or needs to be rebuilt.</p>
+<p>Usually you don&#8217;t need this method, as the list is automatically updated when needed.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+222
+223
+224</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_files_list.rb', line 222</span>
+
+<span class='kw'>def</span> <span class='id up_to_date?'>up_to_date?</span>
+  <span class='ivar'>@up_to_date</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+
+</div>
+    
+    <div id="footer">
+  Generated on Fri Oct 29 12:53:05 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.1 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>

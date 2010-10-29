@@ -1,0 +1,606 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="description" content="Your description goes here" />
+    <meta name="keywords" content="your,keywords,goes,here" />
+    <meta name="author" content="Stefano Crocco / Original design: Andreas Viklund - http://andreasviklund.com/" />
+    <meta name="generator" content="webgen - http://webgen.rubyforge.org" />
+    <link rel="stylesheet" type="text/css" href="default.css" media="screen,projection" />
+    <link rel="icon" href="images/ruber-small.png"/>
+    <title>Ruber &ndash; User manual</title>
+  </head>
+
+  <body>
+    <div id="wrap">
+      <div id="header">
+        <h1><a href="index.html">Ruber IDE</a></h1>
+        <p id="slogan"><strong>A Ruby IDE written in Ruby</strong></p>
+      </div>
+
+      <div id="avmenu">
+        <h2 class="hide">Site menu:</h2>
+        <ul><li class="webgen-menu-level1"><a href="index.html">Home</a></li><li class="webgen-menu-level1"><a href="features.html">Features</a></li><li class="webgen-menu-level1"><a href="status.html">Status</a></li><li class="webgen-menu-level1"><a href="screenshots.html">Screenshots</a></li><li class="webgen-menu-level1"><a href="install.html">Installing</a></li><li class="webgen-menu-level1 webgen-menu-item-selected"><span>User manual</span></li></ul>
+
+        <div class="announce">
+          <h2>Latest news:</h2>
+          <p><strong>09.09.2009:</strong><br />
+          Something will have happened by then.</p>
+          <p class="textright"><a href="#TODO">Read more &raquo;</a></p>
+        </div>
+      </div>
+
+      <!-- The following div was not in the original template but was inserted to display the breadcrumb trail
+           and language links -->
+<!--      <div id="contentwide">
+        <p class="textright">Location: <a href="index.html">/</a> / <span>User manual</span></p>
+      </div>-->
+
+<!--      <div id="extras">
+        <h2>Information:</h2>
+        <p>This template has a lot of additional styles and layout variations built into the stylesheet! Have a look at the homepage for this template!</p>
+        <h2>Links:</h2>
+        <ul>
+          <li><a href="http://webgen.rubyforge.org">webgen homepage</a></li>
+          <li><a href="http://andreasviklund.com/templates">More templates</a></li>
+          <li><a href="http://openwebdesign.org/">Open Web Design</a></li>
+          <li><a href="http://oswd.org/">OSWD.org</a></li>
+        </ul>
+      </div>-->
+
+      <div id="contentwide">
+        <h2>User manual</h2>
+<h3>Basic usage</h3>
+<p>By design, Ruber can be used to work on both stand-alone files (for example, a
+small ruby script) or projects containing multiple files.</p>
+<h4>Editing stand-alone files</h4>
+<p>The basic operations to work with a single file are those common to most editors:
+use the <code>File/New</code> menu entry to create a new file or the <code>File/Open</code> menu entry
+to open an existing file and <code>File/Save</code> or <code>File/Save As</code> menu entries to save it.</p>
+<p>Like other editors, Ruber allows you to change settings for a single file. To do
+so, use the <code>Document/Configure Document</code> menu entry. Using this functionality
+you can, for example, tell Ruber to always use a particular ruby interpreter to
+execute that file, without changing the default global interpreter. Note that this
+only works for ruby settings. For settings used by the editor component, you&#8217;ll
+need to use modelines. See the <a href="http://docs.kde.org/development/en/kdesdk/kate/config-variables.html">Kate documentation</a>.</p>
+<p>Note that some of the functionality provided by plugins only works for projects.
+This is because stand-alone files are meant to truly be stand-alone. For example,
+the rake plugin provides no functionality for single files, because usually a
+Rakefile is used together with other files.</p>
+<h4>Working with projects</h4>
+<p>In Ruber, a project consists of a directory (called <em>project directory</em>_)
+containing a file with extension
+<code>.ruprj</code> and possibly one or two oteher files, one with extension <code>.ruusr</code> and one
+with extension <code>.ruses</code>. The first file is called <em>project file</em>, the second is
+called <em>user file</em> and the third <em>session file</em>.</p>
+<p>The project files contains settings which are intrinsic to the project (for example,
+the name of the project, which files belong to the project, or the patterns
+associating each file with its spec file).</p>
+<p>The user file, instead, contains settings which are specific for a user (for example,
+the path of the ruby interpreter to use, which may vary on different systems,
+or the shortcuts to associate to rake tasks, which each developers chooses
+according to his own preferences).</p>
+<p>The session file contains settings which are not only specific to a user, but also
+to the current status of the environment. For example, the list of open files
+in the project (used to restore them when Ruber is next started) is stored here.
+Usually, settings in this file are created automatically and don&#8217;t appear in the
+project configuration dialog.</p>
+<p>Of these files, the project file is the only one which defines the identity of the
+project and the only one which is meant to be shared among developers working
+on the project; the other two files are optional and not meant to be shared. If
+your project is under version control, you usually want to version control only
+the project file (unless you&#8217;re working alone, in which case you may also want to
+version control the user file).</p>
+<p>To open an existing project, use the <code>Projects/Open Project</code> menu entry, or
+the <code>Projects/Open Recent Project</code>.</p>
+<p>To create a new project, use the <code>Projects/New Project</code> menu entry. You&#8217;ll be
+shown a dialog where you must enter the project name and choose a location where
+to create it (the default location is controlled by a global setting). Pressing
+the OK button will create a directory named as the project in the location you
+chose and containing a project, user file and sessions file having the same name
+as the directory.</p>
+<p>After creating a new project, one of the first things to do is setup the list
+of files which Ruber should consider as belonging to the project.</p>
+<p>To decide whether or not a file belongs to the project, Ruber uses <em>include rules</em>
+and <em>exclude rules</em>:</p>
+<ul>
+	<li>a file belongs to the project if it matches at least one include rule and no
+  exclude rule;</li>
+	<li>a file doesn&#8217;t belong to the project if it matches at least an exclude rule or
+  if it doesn&#8217;t match any rule.</li>
+</ul>
+<p>There are three kinds of rules:</p>
+<dl>
+	<dt>file rules</dt>
+	<dd>strings which specify a single file in the project directory.
+  They only match that file</dd>
+	<dt>regexp rules</dt>
+	<dd>regexps to match files in the project directory. The names of
+  the files will be relative to the project directory (without any leading <code>./</code>).</dd>
+	<dt>shell glob rules</dt>
+	<dd>shell globs which match files in the project directory.</dd>
+</dl>
+<p>File rules and regexp rules can be used to specify either include or exclude rules,
+while shell glob rules can only be used for include rules.</p>
+<p>To create the list of files belonging to the project, use
+the <code>Project/Configure Project</code> menu entry and go to the General page of the
+dialog. It&#8217;s aspect will be similar to the following.</p>
+<p><a href="images/project_files_dialog.png">
+  <img src="images/project_files_dialog.png" style="width:95%;height:auto;display:block;margin-left:auto;margin-right:auto;" alt="General page of the Project Settings dialog"/>
+</a></p>
+<p>Write the shell glob rules in the <code>Extensions</code> line edit, separate by either spaces
+or commas, or both (note that you can&#8217;t have spaces in the globs). This is usually
+done so that files with certain extensions belong to the project without having
+to add them explicitly.</p>
+<p>To add a file or regexp include rule, use the corresponding buttons in the <code>Files
+to include</code> box, while to add file and regexp exclude rules use the buttons in
+the <code>Files to exclude</code> box. To remove a rule, select it and click on the <code>Remove
+rule</code> button in the appropriate section. Note that you can only add a file rule
+for an existing file.</p>
+<p>In the project configuration dialog, you can also set various project-wide options
+provided by the plugins you have loaded. You can&#8217;t change the project name, however
+(if you really want to, you can do so opening the project file in any editor (after
+making sure the project is not open in Ruber), and look for an entry called <code>project_name</code> under a <code>general</code> entry.
+The value after the colon is the name of the project. Change it and close the file.</p>
+<p>Currently, in Ruber you can only have one open project at a time. Opening a project
+(or creating a new one) will close the current project (if any).</p>
+<h3>Ruber user interface</h3>
+<p>Ruber&#8217;s UI comprises:</p>
+<dl>
+	<dt>an editor</dt>
+	<dd>located in the centre of the Ruber window, this is where you
+  edit the current file.</dd>
+	<dt>a tab bar</dt>
+	<dd>placed above the editor, it has a tab for each open file. Clicking
+  on a tab you activate the corresponding file, making it visible in the editor</dd>
+	<dt>three tool widget bars</dt>
+	<dd>located left, right and below the editor, they contain
+  a button for each tool widget. Clicking on the button makes the corresponding
+  tool widget become visible.</dd>
+</dl>
+<h4>Tool widgets</h4>
+<p>When a tool widget has focus, you can press F2 to switch back to the editor
+(without closing the tool widget). Pressing Shift+F2, instead, moves the focus
+to the editor and close the tool widget. Pressing Shift+F2 when the focus is in
+the editor, instead, will reopen (and give focus to) the last closed tool widget.</p>
+<p>All the tool widget displaying the output from external programs share some
+functionality. In particular:</p>
+<ul>
+	<li>left clicking on a line containing a file name hides the tool widget and opens the
+  file in the editor. If the line also contained a line number associated with
+  the file (with the syntax <code>file_name:line_number</code>, then the cursor will be moved
+  to that line</li>
+	<li>left clicking on a line containing a file name while keeping the Meta keyboard button
+  pressed will cause the same effect but won&#8217;t close the tool widget</li>
+	<li>left clicking on several lines while keeping the Ctrl or the Shift keyboard
+  buttons pressed will select multiple lines according to the usual conventions</li>
+	<li>right clicking on the tool widget will display a context menu. In the menu
+  you&#8217;ll find several entries, among which: Clear, which empties the tool widget,
+  Copy and Copy Selection which copy respectively the whole content of the tool
+  widget or the selected lines in the clipboard. Note that some tool widgets
+  may organize the output in complex way, maybe using a tree (for an example,
+  see the RSpec plugin) and may implement copying to clipboard in an unexpected
+  way (or not implement it at all)</li>
+</ul>
+<p>Some tool widgets also provide a filtering functionality. To use it, choose the
+&#8220;Create Filter&#8221; entry from the context menu, enter the desired regular expression
+in the line edit which becomes visible and (with focus in the line edit) press
+Enter. Now only the lines matching the regexp you entered will be visible. You
+can remove the filter using the Clear Filter context menu entry. If you want to
+remove the filter but be able to apply it without writing it again, check the 
+Ignore Filter entry. Uncheking it will make the filter active again.</p>
+<h4>The Quick Open File dialog</h4>
+<p>When you have a project open, you can quickly open a file belonging to the project
+by using the Quick Open File menu entry in the Project menu. It&#8217;l display a dialog
+with a list of all files in the project and a line edit above it. In the line edit,
+you can enter a regular exrpession to restrict the list of files. If the regexp
+contains the path separator (<code>/</code>), the regexp will match both the file name and
+the directory name (relative to the project directory). If the regexp doesn&#8217;t
+contain a path separator, only the file name will be matched.</p>
+<p>For example, suppose the list of files is:</p>
+<pre><code>lib/plugins.rb
+plugins/x.rb
+plugins/y.rb</code></pre>
+<p>If the regexp is <code>plug</code>, then the list will only contain <code>plugins.rb</code>. If the regexp
+is <code>plugins/</code>, then all three files will be listed.</p>
+<p>Pressing the up and down keys on your keyboard will navigate the list of files
+even if the focus is in the line edit.</p>
+<h3>Configuring Ruber</h3>
+<h4>Choosing the plugins</h4>
+<p>You can choose the plugins using the <code>Settings/Choose Plugins</code> menu entry. It&#8217;ll
+display a dialog like the one in the following picture
+<a href="images/choose_plugins_dialog.png">
+  <img src="images/choose_plugins_dialog.png" style="width:95%;height:auto;display:block;margin-left:auto;margin-right:auto;" alt="General page of the Project Settings dialog"/>
+</a></p>
+<p>The list at the top of the widget contains all the plugins availlable on your system,
+together with a description (second column) and their plugin directory (third column).</p>
+<p>Checked plugins are the ones you have enabled (or which are enabled in the default
+Ruber configuration, if you didn&#8217;t change it).</p>
+<p>Plugins which are partially checked (like Ruby runner and Autosave in the picture)
+are plugins which you didn&#8217;t choose, but are needed because some of the plugins
+you&#8217;ve enabled need them. You can click again on them to choose them, but can&#8217;t
+disable them.</p>
+<p>The lower part of the dialog contains a list of directories which are searched
+for plugins. By default, the <code>plugins</code> subdirectory Ruber installation directory
+and a directory in your <span class="caps">KDE</span> configuration directory. You can add other directories
+by inserting it in the <span class="caps">URL</span> widget above the list, then pressing the Add button.
+To remove a directory, select it, then press the Remove button. You can move the
+selected directory up and down with the corresponding buttons. Plugins in directories
+higher in the list have priority over those in directories below them.</p>
+<p>If changing the plugin directories causes problems, such as some selected plugins
+being missing, or some dependencies among plugins being unsatisfied, you&#8217;ll be
+warned with a message box.</p>
+<h4>Configuring the editor component</h4>
+<p>To configure the editor, use the <code>Settings/Configure Editor</code> menu entry. The dialog
+is the same as the <code>Editor component</code> page in the Kate Settings dialog.</p>
+<h4>Configuring Ruber</h4>
+<p>To change options related to Ruber, use the <code>Settings/Configure Ruber</code> menu entry.</p>
+<p>The Ruber core provides two pages in this dialog, General and Colors (the other
+pages you may see are associated with plugins and will be described in each
+plugin&#8217;s section).</p>
+<p>In the General page, you can configure:</p>
+<ul>
+	<li>The font to be used in all the tool widgets which display output from command
+  line programs, such as ruby or rspec. You&#8217;re advised (but not forced) to
+  choose a fixed-with font like Courier or Monospace.</li>
+	<li>Wether or no to apply word wrapping to tool widgets displaying output from
+  command line programs. Note that some plugins may force or forbid word-wrapping:
+  this option won&#8217;t affect them</li>
+	<li>The default path for scripts (stand-alone files). This is the path where the
+  Open and Save As dialog will start if no project is open (if a project is open,
+  the dialog will always start in the project&#8217;s directory).</li>
+	<li>The default path for project. This is the path where the Open Project will
+  start in and the path used as location by the New Project dialog.</li>
+</ul>
+<p>In the Colors page, you can configure the colors commonly used by various tool
+widgets, in particular those displaying output from external programs.</p>
+<p>Each line of text in these tool widget is of one of four categories:</p>
+<dl>
+	<dt>output</dt>
+	<dd>text displayed by the external program on standard output</dd>
+	<dt>errors</dt>
+	<dd>text displayed by the external program on standard error and referring to
+errors (for example, uncaught exceptions raised by ruby)</dd>
+	<dt>warnings</dt>
+	<dd>text displayed by the external program on standard error and containing
+warnings (for example those messages output by ruby when called with the <code>-w</code> flag)</dd>
+	<dt>message</dt>
+	<dd>text which doesn&#8217;t belong to any of the other categories. Usually, this
+is text produced by Ruber itself (either the core or, more often, the plugin the
+tool widget belongs to).</dd>
+</dl>
+<p>Beside each of the Output, Error and Warning label there are three color selectors,
+labeled &#8220;Default&#8221;, &#8220;Variant 1&#8221; and &#8220;Variant 2&#8221;. Variants can be used by plugins
+to display text belonging to the same category but with somewhat different meaning
+in different colors (for example, a plugin which runs two programs in sequence
+can use the default color to display the output of the first one and the &#8220;variant 1&#8221;
+color for the output of the second).</p>
+<p>Also beside the Message label there are color selectors, labeled with &#8220;Default&#8221;,
+&#8220;Good&#8221; and &#8220;Bad&#8221;. The meaning is similar to those of the variants: the color
+associated with &#8220;Good&#8221; is used to display messages which the user will consider
+good (for example, the success of a given operation). Conversely, the color associated
+with &#8220;Bad&#8221; is used to inform of bad news (for example, that something has failed),
+while the &#8220;Default&#8221; color is used for messages which are neither good nor bad.</p>
+<h2>Plugins</h2>
+<h3>Autosave</h3>
+<p>The autosave plugin is used by other plugins to automatically save some files
+(which files depends on the plugin) before running certain actions, according to
+the settings chosen by the user (for example, the Ruby development plugin saves
+all project files before running the script associated with the project). As user,
+you don&#8217;t interact with the plugin, except to choose how it should behave.</p>
+<p>In the Genral page of the Ruber configuration dialog there&#8217;s a section for the
+Autosave plugin. It contains a check box, which allows you to turn autosaving on
+or off for all plugin, and a checkable list of plugins under the Exceptions label.
+When autsaving is globally enabled, you can disable it for a plugin by unchecking
+the corresponding item from the list. Note that, if autosave is disabled globally,
+there&#8217;s no way to enable it only for some plugins. You need to enable it globally
+and manually disable it for the plugins you don&#8217;t want.</p>
+<h3>Command</h3>
+<p>The Command plugin allows you to directly interact with Ruber internals. It provides
+a tool widget containing a text editor and an Execute button. Any ruby code written
+in the text editor is executed in the Ruber environment (in the context of the
+toplevel object) by using <code>eval</code>. All exceptions produced by your code are caught
+and displayed in a message box, so Ruber won&#8217;t crash even if your code here is
+incorrect.</p>
+<p>This plugin gives you access to all of Ruber power, just as if you were writing a
+new plugin.</p>
+<h3>Find in files</h3>
+<p>The Find in files plugin is a frontend for <a href="http://rak.rubyforge.org">rak</a>, which,
+according to the author, is <i>a grep replacement in pure Ruby</i> which 
+<i>accepts Ruby syntax regular expressions and automatically recurses directories</i>.</p>
+<p>To use this plugin, choose the <code>Find and Replace in Files</code> entry from the Edit menu.
+This displays a dialog similar to the one in the following picture.
+<a href="images/find_in_files_dialog.png">
+  <img src="images/find_in_files_dialog.png" style="display:block;margin-left:auto;margin-right:auto;" alt="Find in files dialog"/>
+</a></p>
+<p>In the Find line edit, enter the text you want to find. It will be interpreted
+as a regular expression or as plain text according to the value set in the Mode
+combo box. If you want to replace the found occcurrences of the text with something
+else, insert the replacement string in the Replace with line edit. You can use
+back references here (<code>\1</code>, <code>\2</code> and so on).</p>
+<p>Under the Options caption, you find widgets to control how the search is performed:
+besides changing the mode as described above, you can decide whether the search
+should be case sensitive and whether only whole words should match.</p>
+<p>The entries under the Filter label can be used to restrict the files to search.
+Checking the All Files radio button will cause the search to be carried out in
+all files; checking the File type button, and then one or more of the entries in
+the combo box next to it will cause the search to be performed only on files of the
+selected kind. Finally, the Custom filter line edit can be used to enter a regexp
+(not a shell glob) to add another filter in addition to the one provided by the
+file type.</p>
+<p>Under the Path entry there are the widgets to choose the set of files to search.
+In the Search in combo box there are two or four entries (depending on whether or not
+you have an open project):</p>
+<dl>
+	<dt>open files</dt>
+	<dd>the search will be done among all files corresponding to documents
+  opened in the editor (editor tabs with documents not corresponding to open files
+  will be ignored)</dd>
+	<dt>custom directory</dt>
+	<dd>choosing this entry will enable the Directory <span class="caps">URL</span> widget next
+  to the combo box: the search will be done in all the files in the directory chosen
+  here</dd>
+	<dt>project files</dt>
+	<dd>the search will be performed on all files belonging to the current
+  project</dd>
+	<dt>project directory</dt>
+	<dd>the search will be performed on all files in the current
+  project&#8217;s directory</dd>
+</dl>
+<p>Obviously the last two entries will only be present if there&#8217;s an open project.</p>
+<p>The list of files to search is restricted according to the filters defined in
+the Filters section.</p>
+<p>Once you filled the dialog according to your needs, press the Find or the Replace
+button depending on what you want to do (note that the Replace button becomes the
+default if the Replace with line edit contains some text).</p>
+<h4>Finding text</h4>
+<p>In response to the Find button, the dialog will be closed and the Find in Files
+tool widget becomes visible. It contains a tree with the names of the file wehere
+the text was found, having as children the list of matches. The numbers left to
+the matches are the corresponding line numbers.</p>
+<h4>Replacing text</h4>
+<p>If you clicked the Replace button, instead, the Replace in Files tool widget will
+be shown. It contains a tree somewhat similar to the one described above, with
+some important differences. Each match has two columns, labelled
+&#8220;Original text&#8221; and &#8220;Replacement text&#8221; as the names imply, the first contains the
+text found in the file; the second shows the text as it would be modified. To the
+left of each entry (both those with the file name and those with the match)
+there&#8217;s a check box. Unchecking the box will exclude that entry from the replacement.
+Note that unchecking a file entry will exclude all the matches in that file from
+replacement.</p>
+<p>After having inspected the results produced by the match and chosen which replacements
+you actually want to carry out, you can press the Replace button in the tool widget
+to perform the changes. Note that, if the contents of a file change between the
+time it was searched and the time you click this button, the corresponding entries
+in the tool widget will become disabled, and you won&#8217;t be able to do the replacements
+in it.</p>
+<p>If you decide that you don&#8217;t want to perform this replacement, you can use the
+Clear button in the tool widget to empty it. This isn&#8217;t actually needed, but it
+can avoid to press the Replace button by mistake.</p>
+<p>If any files on which the replacement was carried is modified in the editor, the
+plugin will attempt to save it (using the autosave plugin). If you chose not to
+save them, they won&#8217;t be included in the replacement.</p>
+<p>The plugin takes care of updating files open in the editor in which replacements
+have been performed.</p>
+<h3>Project browser</h3>
+<p>This plugin provides a tool widget which lists the files in the project directory
+in a tree. You can choose whether to display only the files belonging to the project
+or all the files in the directory by right-clicking in the tool widget and checking
+or unchecking the Show Only Project Files entry.</p>
+<p>Left-clicking on a file will close the tool widget and display the file in the
+editor; doing so while pressing the Meta key will live the tool widget open.</p>
+<p>If no project is open, will disable the tree view.</p>
+<h3>Rake</h3>
+<p>This plugin allows to run rake tasks for the current project from within Ruber.
+It provides the following functionality:</p>
+<ul>
+	<li>Run rake task for the current project from a dialog or menu</li>
+	<li>Associate shortcuts to rake task for current project</li>
+	<li>Associate shortcuts to rake task globally (quick tasks)</li>
+</ul>
+<p>In the Rake page in the Ruber configuration dialog, you can choose the rake
+program to use and whether standard output from rake should be synchronized or
+not (this is implemented passing <code>-E '$stdout.sync=true'</code> to rake). You can also
+setup quick tasks there (see <a href="#rake-quick-tasks">below</a>).</p>
+<p>In the Rake page in the project configuration dialog, you can set several options
+related to rake for the project itself:</p>
+<ul>
+	<li>the options to give to ruby when running rake</li>
+	<li>the rake program to use (override the option set globally)</li>
+	<li>the rakefile to use for the project. If left empty, rake will be left free to
+  find out the rakefile by itself (from the project directory)</li>
+	<li>the environment variables to pass to rake. It must be a list of strings of the
+  form <code>VAR1=value1 VAR2=value2 VAR3="value 3" VAR4='value 4'</code>. If you need space
+  in values, you need to quote the value. Note that the parsing of such strings
+  may fail in unusual cases</li>
+	<li>the maximum time allowed to rake to retrieve the list of tasks from a rakefile.
+  In several circumstances, this plugin needs to find out from rake which tasks
+  are defined in the rakefile. If the rakefile is improperly written this can freeze
+  Ruber (for example, in case of an endless loop). To avoid this, the Rake plugin
+  gives rake a maximum time to obtain the list of tasks. If you know that the
+  rakefile for a given project needs more time than the default allowed to generate
+  the list of tasks, you can increase the time</li>
+	<li>whether standard output from rake should be synchronized or not. This overrides
+  the global setting</li>
+	<li>configure the tasks for the project (see <a href="#rake-project-tasks">below</a>)</li>
+</ul>
+<h4 id="rake-tasks-for-current-project">Run rake tasks for current project</h4>
+<p>To run tasks for the current project, you can use either the <code>Ruby/Rake/Run Rake Task</code>
+or the <code>Ruby/Rake/Project Tasks</code> menu entries. The former will display a dialog
+with a list of tasks defined in the rakefile associated with the project; the
+second displays a submenu with the same tasks.</p>
+<p>Since retrieving tasks from rake takes some time, this list is not update every
+time the menu or the dialog are displayed (in particular, the first time you display
+the dialog or the menu, the list may be empty). To update the list, you need to press
+the Refresh Tasks button in the dialog or choose the Refresh Tasks entry from the
+submenu.</p>
+<p>To run a task from the dialog, select it from the list, then click the Ok button.
+You can use the line edit above the list to search for a task in the list.</p>
+<p>To run a task from the submenu, simply choose the correspoding entry.</p>
+<p>Note that you can&#8217;t run the default task from either the menu or the dialog. To
+do so, use the <code>Ruby/Rake/Run Default Task</code> menu entry.</p>
+<h4 id="rake-project-tasks">Associate shortcuts to tasks for project</h4>
+<p>You can associate a keyboard shortcut to tasks in the current project. To do so,
+open the project configuration dialog and go to the Rake page. Under the Tasks
+caption, you&#8217;ll find a list of tasks defined in the rakefile. As described
+<a href="#rake-tasks-for-current-project">above</a>, the list of tasks may not be up-to-date.
+Use the Refresh task button below to update it. Double-clicking on the Shortcut
+column of the list will bring up a shortcut editor, where you can choose the shortcut
+for the corresponding task. You can also add or remove tasks manually by using the
+Add Tasks and Remove Tasks button.</p>
+<h4 id="rake-quick-tasks">Quick tasks</h4>
+<p>Quick tasks are task which you configure globally and are availlable for all projects.
+They&#8217;re meant to be used for tasks you have in each project, so that you don&#8217;t have
+to configure them each time (for example, almost of my projects have a <code>doc</code> task.
+Defining a quick task with that name and assigning a shortcut to it, I can execute
+the task with a single key press for any project).</p>
+<p>You can execute quick tasks either by using the associated keyboard shortcut or
+using the <code>Ruby/Rake/Quick Tasks</code> submenu.</p>
+<p>You manage quick tasks from the Rake page of the Ruber configuration dialog. You
+can add tasks using the Add Task dialog and remove them using the Remove Task dialog.
+Double clicking on the task name or shortcut, you can edit them.</p>
+<h3>RSpec</h3>
+<p>The RSpec plugin allows to run rspec examples from within Ruber. It will only work
+from within a project.</p>
+<p>This plugin should work with both RSpec 1 and RSpec 2 (although the former is more
+tested). It will use RSpec 2 if <code>`which rspec`</code> returns finds something and RSpec
+1 otherwise.</p>
+<p>The <code>Ruby/Tests</code> menu contains entries to run RSpec for the current project, the
+current file or the current line.</p>
+<p>To run the spec in the current line, open the spec file, move the cursor to the
+line of the example you want to run, then use the <code>Ruby/Tests/Run Current Spec</code>
+menu entry.</p>
+<p>To run the all tests in the current project, you first need to configure the project.
+From the project configuration dialog, go to the RSpec page and choose the directory
+where the spec files are (Spec Directory) and the shell glob matching spec files.
+Then, use the <code>Ruby/Tests/Run Project Specs</code> menu entry to run all the files
+contained in the spec directory and matching the chosen glob.</p>
+<p>Running the spec associated with the current file works differently according to
+whether the current file is a spec file (that is, it&#8217;s in the spec directory and
+matches the spec filter as chosen in the project configuration dialog) or not. In
+the first case, all the spec in the current file are executed. In the second case,
+the plugin looks for a spec associated with it and runs it. By default this means looking in
+the spec directory for a file called as the current file but with a <code>_spec</code> inserted
+before the <code>.rb</code> extension. You can configure how to associate a file with the
+corresponding spec in the RSpec page of the project configuration dialog by changing
+the contents of the Pattern line edit (use %f to indicate the base name of the
+file).</p>
+<p>When you&#8217;re working on a file, you can quickly switch to the corresponding spec
+file by using the <code>Ruby/Tests/Switch to Spec</code> menu entry. When you&#8217;re working on
+a spec, you can switch to the corresponding code file by using the <code>Ruby/Tests/Switch to Spec</code>
+menu entry. Both entries associate code files and spec files as described above.</p>
+<p>From the RSpec page of the project configuration dialog, you can change several
+other parameters: the options to pass ruby when running rspec, the path of the
+RSpec executable to use, options to be passed to RSpec and whether to instruct
+RSpec to generate full backtraces (which is the same as passing the <code>-b</code> option
+to RSpec).</p>
+<h3>Ruby Development</h3>
+<p>The Ruby Development plugin allows you to run the program associated to your project,
+the file corresponding to the current document or any other file from within
+Ruber and to display the output in a tool widget.</p>
+<p>The <code>Ruby/Run Current File</code> menu entry will run the file associated to the current document
+in ruby, while the <code>Ruby/Run Current File</code> will show a dialog where you can choose
+the file to run.</p>
+<p>The <code>Ruby/Run</code> menu entry will work as <code>Run Current File</code> if there&#8217;s no open project
+and there&#8217;s an open ruby file and as <code>Run File</code> if there is neither an open project
+nor an open file. If there&#8217;s an open project, instead, it will run the script
+associated with the project. By default, it&#8217;s a file with the same name as the
+project and located in the <code>bin</code> subdirectory of the project directory. You can
+change it In the ruby page of the project configuration dialog by entering another
+file name in the Path line edit.</p>
+<p>This plugin also allows to run scripts in a terminal, rather than in Ruber. This
+is mostly useful for scripts which read from standard input, as it (currently)
+can&#8217;t be done from within Ruber. You can enable this by checking the
+<code>Ruby/Run Programs in Terminal</code> menu entry or through the project or document
+configuration dialog. Note that, for the time being, this needs the <code>konsole</code>
+program (part of <code>kdebase-applications</code>) to work.</p>
+<p>There are several global settings for this plugin, which you can change in the
+Ruby page of the Ruber configuration dialog. They are:</p>
+<ul>
+	<li>the list of availlable ruby interpreters. By default this plugin looks for programs
+  called <code>ruby</code>, <code>ruby19</code>, <code>ruby18</code>, <code>ruby1.9</code> and <code>ruby1.8</code> in your <span class="caps">PATH</span> (using
+  the <code>which</code> program). To add other interpreters, remove the ones you don&#8217;t want
+  to see listed or change the order, use the Availlable interpreters widget</li>
+	<li>the default ruby interpreter to use. Among the interpreters listed in the
+  Availlable Interpreters widget, you can choose which one to use by default by
+  setting it in the Default Interpreter widget</li>
+	<li>the default options to pass to ruby. Set them in the Ruby options widget</li>
+</ul>
+<p>Some parameters used by this plugin can also be configured on a per project base
+from the Ruby page of the project configuration dialog. They are:</p>
+<ul>
+	<li>the path of the project script (as described above)</li>
+	<li>the options to pass to the project script</li>
+	<li>the working directory of the project script (which defaults to the project directory)</li>
+	<li>whether the project script should be run from a terminal or not</li>
+	<li>the ruby interpreter to use (overrides the global setting)</li>
+	<li>the options to pass to the ruby interpreter (overrides the global setting)</li>
+</ul>
+<p>Most of the above options can also be set on a per document base (except, of course,
+for the project script and the working directory).</p>
+<p>The ruby interpreter to use can also be changed temporarily by selecting another
+interpreter from the <code>Ruby/Ruby Interpreter</code> menu. This overrides both the global
+setting and the setting for the current document or project.</p>
+<h3>State</h3>
+<p>The State plugin allows to save the state of Ruber, of each project and each document
+between sessions, so that it can be restored when Ruber, the project, or the file
+is next reopened.</p>
+<p>By <i>state</i>, this plugin mean:</p>
+<dl>
+	<dt>for Ruber</dt>
+	<dd>the list of open projects and files not belonging to any project</dd>
+	<dt>for a project</dt>
+	<dd>the list of files belonging to the project</dd>
+	<dt>for a file</dt>
+	<dd>the cursor position in the file.</dd>
+</dl>
+<p>As a user, you don&#8217;t interact with this plugin, except to configure its behaviour
+in the Ruber configuration dialog. The options you can change are:</p>
+<ul>
+	<li>when opening a document, whether to move the cursor to the position it was when
+  the document was last closed</li>
+	<li>when opening a project, whether to open the files which were opened when the project
+  was last closed</li>
+	<li>what to do when Ruber starts up. You can decide to:
+	<ul>
+		<li>Restore all the open projects and documents</li>
+		<li>Open all the projects which were open last time, but don&#8217;t open any file</li>
+		<li>Open all the files which were open last time, but don&#8217;t open any project</li>
+		<li>Restore nothing (this will start Ruber with no open project and a single, empty
+   document</li>
+	</ul></li>
+</ul>
+<h3>Syntax Checker</h3>
+<p>The sytnax checker plugin allows to check the syntax of a ruby or <span class="caps">YAML</span> file.</p>
+<p>The syntax check is done every time the file is saved and after a pause of at least
+1 second while editing the document (that is, if you don&#8217;t change the text for at
+least one second). You can disable this automatic checking from the Ruber configuration
+dialog in the Syntax page.</p>
+<p>The plugin only works for documents associated with a file (it&#8217;s not smart enough
+to find out whether the contents of the document are ruby or <span class="caps">YAML</span> code and needs
+to relay on the extension of the file).</p>
+<p>The plugin shows the result of the last syntax check in a <span class="caps">LED</span> widget at the right
+end of the status bar: if it&#8217;s green, then there aren&#8217;t syntax errors; if it&#8217;s red,
+there are syntax errors. Finally, if it&#8217;s gray it means that no syntax check has
+been done, either because the document isn&#8217;t associated with a <span class="caps">YAML</span> or ruby file
+or because the conditions for the check haven&#8217;t already happened.</p>
+<p>In case of syntax errors, hovering with the mouse over the <span class="caps">LED</span> will display a tool
+tip with the error message of the first error; left-clicking on the <span class="caps">LED</span> will move
+the cursor to the corresponding line. Right-clicking on the <span class="caps">LED</span> will display a
+menu listing all the errors: clicking on an item in the menu moves the cursor to
+the position of the corresponding error.</p>
+<p>The syntax check for ruby files is done using <code>ruby -c</code>, while the <span class="caps">YAML</span> syntax
+chek is done passing the contents of the file to <code>YAML.load</code> and seeing whether
+it raises exceptions.</p>
+<p>In the case of ruby files, you can choose the interpreter to use for the syntax
+check as explained in the description of the Ruby Developer plugin.</p>
+      </div>
+
+      <div id="footer">
+        <p>Copyright &copy; 2010 Stefano Crocco | Generated by <a href="http://webgen.rubyforge.org">webgen</a> | Original design by <a href="http://andreasviklund.com">Andreas Viklund</a>
+| Ruby picture on banner by <a href="http://en.wikipedia.org/wiki/User:Humanfeather">Michelle Jo</a></p>
+      </div>
+    </div>
+  </body>
+</html>

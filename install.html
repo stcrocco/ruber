@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="description" content="Your description goes here" />
+    <meta name="keywords" content="your,keywords,goes,here" />
+    <meta name="author" content="Stefano Crocco / Original design: Andreas Viklund - http://andreasviklund.com/" />
+    <meta name="generator" content="webgen - http://webgen.rubyforge.org" />
+    <link rel="stylesheet" type="text/css" href="default.css" media="screen,projection" />
+    <link rel="icon" href="images/ruber-small.png"/>
+    <title>Ruber &ndash; Installing</title>
+  </head>
+
+  <body>
+    <div id="wrap">
+      <div id="header">
+        <h1><a href="index.html">Ruber IDE</a></h1>
+        <p id="slogan"><strong>A Ruby IDE written in Ruby</strong></p>
+      </div>
+
+      <div id="avmenu">
+        <h2 class="hide">Site menu:</h2>
+        <ul><li class="webgen-menu-level1"><a href="index.html">Home</a></li><li class="webgen-menu-level1"><a href="news.html">News</a></li><li class="webgen-menu-level1"><a href="features.html">Features</a></li><li class="webgen-menu-level1"><a href="status.html">Status</a></li><li class="webgen-menu-level1"><a href="screenshots.html">Screenshots</a></li><li class="webgen-menu-level1 webgen-menu-item-selected"><span>Installing</span></li><li class="webgen-menu-level1 webgen-menu-submenu"><a href="user_manual/index.html">User manual</a></li><li class="webgen-menu-level1"><a href="plugin_developer_manual.html">Developer Manual</a></li><li class="webgen-menu-level1 webgen-menu-submenu"><a href="apidoc/_index.html">API documentation</a></li><li class="webgen-menu-level1"><a href="contacts.html">Contacts</a></li><li class="webgen-menu-level1"><a href="http://github.com/stcrocco/ruber">Ruber page on github</a></li></ul>
+
+        <div class="announce">
+          <h2>Latest news:</h2>
+          
+            <p><a href="news.html#Ruber-0-0-1-released-2010-10-29">Ruber 0.0.1 released</a></p>
+          
+        </div>
+      </div>
+
+      <div id="contentwide">
+        <h2>Dependencies</h2>
+<p>To run Ruber, you need to have the following installed</p>
+<ul>
+	<li>Ruby 1.8.7 <span class="caps">MRI</span> or later (<a href="http://www.ruby-lang.org">www.ruby-lang.org</a>)</li>
+	<li>Korundum (<span class="caps">KDE</span> Ruby bindings) version 4.5.2 (<a href="http://rubyforge.org/projects/korundum/">rubyforge.org/projects/korundum</a>).
+  Version 4.5.0 and 4.5.1 will likely not work, while the 4.4 releases
+  may or may not work (some bugs have been fixed since these versions, so earlier
+  versions may lead to crashes).</li>
+	<li>The Facets gem (<a href="http://rubyworks.github.com/facets">rubyworks.github.com/facets/</a>),
+  version 2.7 or later</li>
+	<li>The Dictionary gem (<a href="http://death.rubyforge.org/dictionary/">death.rubyforge.org/dictionary</a>)</li>
+</ul>
+<h2>Plugin dependencies</h2>
+<p>Some plugins need external libraries and/or programs to work. If you don&#8217;t have
+these requirements, then some of the plugins won&#8217;t work. Ruber itself and the
+other plugins will still work correctly, however. The programs needed by the plugins
+are:</p>
+<ul>
+	<li>rak (<a href="http://rak.rubyforge.org/">rak.rubyforge.org</a>), needed by the Find in Files plugin</li>
+	<li>rake (<a href="http://rake.rubyforge.org/">rake.rubyforge.org</a>), needed by the Rake plugin (already included in ruby 1.9.x)</li>
+	<li>rspec, either the <a href="http://rspec.info/">1.x series</a> or the <a href="github.com/rspec/rspec/wiki">2.x series</a>, needed by the RSpec plugin</li>
+</ul>
+<h2>Installing Ruber and its dependencies</h2>
+<h3>The easy way</h3>
+<p>The easiest way to install Ruber is to use the packages provided by your distribution
+and rubygems to install any gem your distribution doesn&#8217;t package:</p>
+<ul>
+	<li>Install Ruby using your package manager</li>
+	<li>Install the <span class="caps">KDE</span> Ruby bindings using your package manager (usually, the name of the package
+  will be something like <code>korundum</code>, <code>korundum4</code> or <code>kdebindings-ruby</code>). Depending
+  on the packages you have already installed on your system, other packages
+  may also be installed.</li>
+	<li>Install Facets and Dictionary using your package manager or rubygems if there are
+  no packages for them: <code>gem install facets dictionary</code></li>
+	<li>Install Ruber: <code>gem install ruber</code></li>
+</ul>
+<h3>The hard way</h3>
+<p>The hard way to install ruber is to install the needed dependencies by hand. In particular
+(depending on what you have already installed) this may mean installing ruby, the <span class="caps">KDE</span>
+libraries and the <span class="caps">KDE</span> Ruby bindings. If you want, you can also mix the easy and
+the hard way, installing some of the above programs using your package manager and
+some other by hand.</p>
+<h4>Installing Ruby by hand</h4>
+<ul>
+	<li>Download ruby from <a href="http://www.ruby-lang.org/en/downloads/">the Ruby home page</a></li>
+	<li>Unpack the tarball</li>
+	<li><code>cd</code> in the directory created by unpacking the tarball</li>
+	<li>Run <code>./configure</code>, passing it any argument you want. In particular, you may want
+  to change the installation directory (which by default is <code>/usr/local</code>) and
+  add a prefix or suffix to the executable name (this is useful if you want two)
+  versions of ruby installed at the same time. To change the installation directory,
+  pass the <code>--prefix DIR</code> argument to configure, where <code>DIR</code> is the directory you
+  want to install ruby into. To add a prefix or a suffix to the executables, use
+  the <code>--program-prefix</code> or <code>--program-suffix</code> options, followed by the prefix or
+  suffix you want. Use <code>./configure --help</code> to see all the options accepted by
+  <code>configure</code></li>
+	<li>Run <code>make</code></li>
+	<li>Run <code>make install</code>. Unless you changed the installation directory to a directory
+  you have write access to, this command must be run as superuser.</li>
+</ul>
+<h4>Installing the <span class="caps">KDE</span> libraries by hand</h4>
+<p>I strongly discourage from building the <span class="caps">KDE</span> libraries by hand, given the large
+number of dependencies they have and the fact that every distribution has packages
+for them. To install using a package manager, simply install the <code>kdelibs</code> package.</p>
+<p>If you really want to install by hand, here&#8217;s what to do</p>
+<ul>
+	<li>Install the needed dependencies. They&#8217;re listed on the <a href="http://techbase.kde.org/Build_requirements"><span class="caps">KDE</span> techbase site</a>,
+  with instructions for different distributions. However, not all the dependencies
+  listed here are required to install Ruber. You can try skipping this section for
+  now and return to it after running cmake (see below).</li>
+	<li>Download the <span class="caps">KDE</span> libraries from the <a href="http://www.kde.org/download"><span class="caps">KDE</span> home page</a>.
+  Choose the version marked as <em>recommended for end users</em>, then, following the
+  link, download the <code>kdelibs</code> tarball. Do not follow the instructions linked on
+  the download page, as they&#8217;re for people developing <span class="caps">KDE</span> itself</li>
+	<li>Unpack the tarball</li>
+	<li><code>cd</code> in the directory created unpacking the tarball</li>
+	<li>Create a build directory: <code>mkdir build</code></li>
+	<li><code>cd build</code></li>
+	<li><code>cmake ..</code> This will fail if you&#8217;re missing a required library. In this case,
+  it&#8217;ll tell you which it is and you&#8217;ll be able to install it</li>
+	<li>Run <code>ccmake .</code> This will give you a pseudo-graphical interface where to set
+  some options. In particular, look at the <code>CMAKE_INSTALL_PREFIX</code> option, which controls
+  the directory <span class="caps">KDE</span> will be installed into, and change it as you like. After changing
+  the options you need, press <code>c</code> to configure and <code>g</code> to generate. Then <code>e</code> to
+  exit</li>
+	<li><code>make</code></li>
+	<li><code>make install</code>. Unless you changed the installation directory to a directory
+  you have write access to, this command must be run as superuser.</li>
+</ul>
+<h4>Installation of the <span class="caps">KDE</span> Ruby bindings</h4>
+<ul>
+	<li>Make sure you have both the Ruby and <span class="caps">KDE</span> headers installed. If you installed 
+  Ruby or the <span class="caps">KDE</span> libraries using the package manager, depending on your distribution, 
+  you may not have installed the header files needed by the compiler. Using your
+  package manager, see if there are packages called something like <code>ruby-devel</code>
+  and <code>kdelibs-devel</code> (or <code>ruby-headers</code> and <code>kdelibs-headers</code>). If so, install
+  them. If you installed Ruby and the <span class="caps">KDE</span> libraries by hand, the header files are
+  already installed</li>
+	<li>Download the <code>kdebindings</code> tarball from the <a href="http://www.kde.org/download"><span class="caps">KDE</span> home page</a>.
+  Choose the same version as your <span class="caps">KDE</span> libraries.</li>
+	<li>Unpack the tarball.</li>
+	<li><code>cd</code> in the directory created unpacking the tarball</li>
+	<li>Create a build directory: <code>mkdir build</code></li>
+	<li><code>cd build</code></li>
+	<li><code>cmake ..</code></li>
+	<li>If you had a <span class="caps">KDE</span> environment installed before deciding to install Ruber, check,
+  using your package manager, whether you also have a package called <code>smoke</code> installed</li>
+	<li>run <code>cmake ..</code> This will give you a pseudo-graphical interface where to set
+  some options. In particular, you may want to change the installation directory
+  by setting the <code>CMAKE_INSTALL_PREFIX</code> option. Most likely, you&#8217;ll also want to
+  avoid building the bindings for languages other than Ruby, so set the corresponding <code>BUILD_*</code>
+  options (for example, <code>BUILD_perl</code>) to <code>OFF</code>. If you already have <code>smoke</code> installed,
+  also set <code>BUILD_smoke</code> to <code>OFF</code>. After changing
+  the options you need, press <code>c</code> to configure and <code>g</code> to generate. Then <code>e</code> to
+  exit</li>
+	<li><code>make</code></li>
+	<li><code>make install</code>. Unless you changed the installation directory to a directory
+  you have write access to, this command must be run as superuser.</li>
+</ul>
+<h2>Installing plugin dependencies</h2>
+<ul>
+	<li><code>rake</code>: <code>gem install rake</code> (you don&#8217;t need this if using ruby 1.9, unless you want
+  to install a newer version of rake)</li>
+	<li><code>rspec</code>: <code>gem install rspec</code></li>
+	<li><code>rak</code>: <code>gem install rak</code></li>
+</ul>
+<h2>Building the <span class="caps">API</span> documentation</h2>
+<p>Ruber&#8217;s documentation is written in <span class="caps">YARD</span> format, using Textile as markup format.
+If you truly want, you can use RDoc to generate the documentation, but you&#8217;ll miss
+some information (in particular regarding signals and slots) and the formatting 
+will be missing or wrong.</p>
+<h3>Building the documentation using <span class="caps">YARD</span></h3>
+<ul>
+	<li>Install Ruber</li>
+	<li>Install <span class="caps">YARD</span> e RedCloth: <code>gem install yard rdoc</code> (or use your package manager
+  to install them)</li>
+	<li><code>cd</code> to the directory you installed Ruber into (to find out where this is, look
+  at the output <code>gem environment</code>, in particular at the <code>GEM_PATHS</code> entry. Ruber
+  will be installed under the <code>gems/ruber-x.y.z</code> subdirectory of one of the
+  directories listed there)</li>
+	<li>Issue the command <code>rake doc OUTPUT_DIR=/path/to/output/dir</code> command. <code>OUTPUT_DIR</code>
+  is the directory where you want to install the documentation. If you don&#8217;t specify
+  it, it&#8217;ll be installed under the <code>doc</code> directory in the Ruber installation directory.</li>
+</ul>
+<h3>Building the documentation using rdoc</h3>
+<ul>
+	<li>Install Ruber</li>
+	<li><code>cd</code> to the directory you installed Ruber into (see above how to find it)</li>
+	<li>Issue the command <code>rake rdoc OUTPUT_DIR=/path/to/output/dir</code> command. <code>OUTPUT_DIR</code>
+  is the directory where you want to install the documentation. If you don&#8217;t specify
+  it, it&#8217;ll be installed under the <code>rdoc</code> directory in the Ruber installation directory.</li>
+</ul>
+<h3>Installing other plugins</h3>
+<p>Currently, the only way to install a plugin is to download the tarball and extract
+it in one of the directories where Ruber looks for plugins( by default, they are
+the <code>plugins</code> subdirectory of the Ruber installation directory and
+<code>$KDEHOME/share/apps/ruber/plugins</code>). This should create a subdirectory named as
+the plugin in that directory.</p>
+      </div>
+
+      <div id="footer">
+        <p>Copyright &copy; 2010 Stefano Crocco | Generated by <a href="http://webgen.rubyforge.org">webgen</a> | Original design by <a href="http://andreasviklund.com">Andreas Viklund</a>
+| Ruby picture on banner by <a href="http://en.wikipedia.org/wiki/User:Humanfeather">Michelle Jo</a></p>
+      </div>
+    </div>
+  </body>
+</html>

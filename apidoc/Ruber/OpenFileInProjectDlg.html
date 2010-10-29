@@ -1,0 +1,574 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>Class: Ruber::OpenFileInProjectDlg</title>
+<link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (O)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../Ruber.html" title="Ruber (module)">Ruber</a></span></span>
+     &raquo; 
+    <span class="title">OpenFileInProjectDlg</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Ruber::OpenFileInProjectDlg
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Qt::Dialog</span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next">Qt::Dialog</li>
+          
+            <li class="next">Ruber::OpenFileInProjectDlg</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/ruber/main_window/open_file_in_project_dlg.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>This class is a dialog where the user can choose a file to open among the
+ files of the project.</p>
+The dialog is made by two widgets: a <tt><span class="caps">KDE</span>::LineEdit</tt>, where the user
+can enter a file pattern, and a <tt>Qt::ListView</tt>, where all files in
+the project matching the
+given regexp are shown. The user can choose the file either by pressing the
+Return key or by activating an item in the list.
+
+The pattern is interpreted as a regexp and is checked against the whole path
+of the file if it contains a pattern separator character (the &#8216;/&#8217; character
+on <span class="caps">UNIX</span>) and only
+against the name of the file otherwise. When the user changes the pattern,
+the file list is changed accordingly. This is achieved using a
+filter model derived from <tt>Qt::SortFilterProxyModel</tt>.
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><h2>Defined Under Namespace</h2>
+<p class="children">
+   
+    
+   
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="OpenFileInProjectDlg/FilterModel.html" title="Ruber::OpenFileInProjectDlg::FilterModel (class)">FilterModel</a></span>
+    
+  
+</p>
+
+
+  
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#change_filter-instance_method" title="#change_filter (instance method)">- (Object) <strong>change_filter</strong>(text) </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Changes the pattern used by the filter model applied to the view so that it is.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#chosen_file-instance_method" title="#chosen_file (instance method)">- (Object) <strong>chosen_file</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the file chosen by the user or <ins>nil</ins> if no file has been chosen.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#eventFilter-instance_method" title="#eventFilter (instance method)">- (Object) <strong>eventFilter</strong>(obj, e) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Reimplements Qt::Object.eventFilter.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (OpenFileInProjectDlg) <strong>initialize</strong>(parent = nil) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns a new <ins>OpenFileInProjectDlg</ins>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#item_activated-instance_method" title="#item_activated (instance method)">- (Object) <strong>item_activated</strong>(idx) </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Closes the dialog with the <tt>Qt::Dialog::Accepted</tt> status and selects the.</p></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+
+
+
+
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::OpenFileInProjectDlg (class)">OpenFileInProjectDlg</a></span></tt>) <strong>initialize</strong>(parent = nil) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns a new <ins>OpenFileInProjectDlg</ins>.
+ =Arguments
+ <em>parent</em>:: the widget parent of the dialog</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/open_file_in_project_dlg.rb', line 113</span>
+
+<span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id parent'>parent</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='kw'>super</span>
+  <span class='id files'>files</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='period'>.</span><span class='id current_project'>current_project</span><span class='period'>.</span><span class='id project_files'>project_files</span><span class='period'>.</span><span class='id to_a'>to_a</span>
+  <span class='ivar'>@base_dir</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='period'>.</span><span class='id current_project'>current_project</span><span class='period'>.</span><span class='id project_directory'>project_directory</span>
+  <span class='ivar'>@ui</span> <span class='op'>=</span> <span class='const'>Ui</span><span class='op'>::</span><span class='const'>OpenFileInProjectDlg</span><span class='period'>.</span><span class='id new'>new</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id setupUi'>setupUi</span> <span class='kw'>self</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id regexp_error'>regexp_error</span><span class='period'>.</span><span class='id hide'>hide</span>
+  <span class='id filter'>filter</span> <span class='op'>=</span> <span class='const'>FilterModel</span><span class='period'>.</span><span class='id new'>new</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id file_list'>file_list</span>
+  <span class='id model'>model</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>StandardItemModel</span><span class='period'>.</span><span class='id new'>new</span> <span class='id filter'>filter</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id file_list'>file_list</span><span class='period'>.</span><span class='id model'>model</span> <span class='op'>=</span> <span class='id filter'>filter</span>
+  <span class='id filter'>filter</span><span class='period'>.</span><span class='id source_model'>source_model</span> <span class='op'>=</span> <span class='id model'>model</span>
+  <span class='id files'>files</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id f'>f</span><span class='op'>|</span>
+    <span class='id path'>path</span> <span class='op'>=</span> <span class='id f'>f</span><span class='period'>.</span><span class='id sub'>sub</span> <span class='tstring'><span class='regexp_beg'>%r{</span><span class='tstring_content'>\A</span><span class='embexpr_beg'>#{</span><span class='const'>Regexp</span><span class='period'>.</span><span class='id quote'>quote</span><span class='lparen'>(</span><span class='ivar'>@base_dir</span><span class='rparen'>)</span><span class='rbrace'>}</span><span class='tstring_content'>/</span><span class='regexp_end'>}</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span>
+    <span class='id it'>it</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>StandardItem</span><span class='period'>.</span><span class='id new'>new</span> <span class='id path'>path</span>
+    <span class='id it'>it</span><span class='period'>.</span><span class='id set_data'>set_data</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Variant</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id basename'>basename</span><span class='lparen'>(</span><span class='id path'>path</span><span class='rparen'>)</span><span class='rparen'>)</span>
+    <span class='id it'>it</span><span class='period'>.</span><span class='id editable'>editable</span> <span class='op'>=</span> <span class='kw'>false</span>
+    <span class='id model'>model</span><span class='period'>.</span><span class='id append_row'>append_row</span> <span class='id it'>it</span>
+  <span class='kw'>end</span>      
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id pattern'>pattern</span><span class='period'>.</span><span class='id install_event_filter'>install_event_filter</span> <span class='kw'>self</span>
+  <span class='id connect'>connect</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id pattern'>pattern</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>textChanged(const QString &amp;)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>change_filter(const QString &amp;)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+  <span class='id connect'>connect</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id file_list'>file_list</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>activated(const QModelIndex &amp;)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>item_activated(const QModelIndex &amp;)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id file_list'>file_list</span><span class='period'>.</span><span class='id selection_model'>selection_model</span><span class='period'>.</span><span class='id select'>select</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id file_list'>file_list</span><span class='period'>.</span><span class='id model'>model</span><span class='period'>.</span><span class='id index'>index</span><span class='lparen'>(</span><span class='int'>0</span><span class='comma'>,</span><span class='int'>0</span><span class='rparen'>)</span><span class='comma'>,</span> 
+    <span class='const'>Qt</span><span class='op'>::</span><span class='const'>ItemSelectionModel</span><span class='op'>::</span><span class='const'>ClearAndSelect</span><span class='op'>|</span><span class='const'>Qt</span><span class='op'>::</span><span class='const'>ItemSelectionModel</span><span class='op'>::</span><span class='const'>Rows</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id file_list'>file_list</span><span class='period'>.</span><span class='id current_index'>current_index</span> <span class='op'>=</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id file_list'>file_list</span><span class='period'>.</span><span class='id model'>model</span><span class='period'>.</span><span class='id index'>index</span><span class='lparen'>(</span><span class='int'>0</span><span class='comma'>,</span><span class='int'>0</span><span class='rparen'>)</span>
+<span class='comment'>#       @ui.file_list.header.resize_sections Qt::HeaderView::ResizeToContents
+</span><span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="change_filter-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>change_filter</strong>(text)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Changes the pattern used by the filter model applied to the view so that it is
+ equal to the text currently in the pattern widget and selects the first item in
+ the view (if any). If the list is empty, it also disables the Ok button.
+ =Arguments
+ <em>text</em>:: the new pattern</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/open_file_in_project_dlg.rb', line 183</span>
+
+<span class='kw'>def</span> <span class='id change_filter'>change_filter</span> <span class='id text'>text</span>
+  <span class='kw'>begin</span>
+    <span class='id reg'>reg</span> <span class='op'>=</span> <span class='id text'>text</span><span class='period'>.</span><span class='id empty?'>empty?</span> <span class='op'>?</span> <span class='kw'>nil</span> <span class='op'>:</span> <span class='const'>Regexp</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span> <span class='id text'>text</span> <span class='rparen'>)</span>
+    <span class='ivar'>@ui</span><span class='period'>.</span><span class='id file_list'>file_list</span><span class='period'>.</span><span class='id model'>model</span><span class='period'>.</span><span class='id filter'>filter</span><span class='op'>=</span> <span class='id reg'>reg</span>
+    <span class='ivar'>@ui</span><span class='period'>.</span><span class='id file_list'>file_list</span><span class='period'>.</span><span class='id selection_model'>selection_model</span><span class='period'>.</span><span class='id select'>select</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id file_list'>file_list</span><span class='period'>.</span><span class='id model'>model</span><span class='period'>.</span><span class='id index'>index</span><span class='lparen'>(</span><span class='int'>0</span><span class='comma'>,</span><span class='int'>0</span><span class='rparen'>)</span><span class='comma'>,</span> 
+      <span class='const'>Qt</span><span class='op'>::</span><span class='const'>ItemSelectionModel</span><span class='op'>::</span><span class='const'>ClearAndSelect</span><span class='op'>|</span><span class='const'>Qt</span><span class='op'>::</span><span class='const'>ItemSelectionModel</span><span class='op'>::</span><span class='const'>Rows</span>
+    <span class='ivar'>@ui</span><span class='period'>.</span><span class='id file_list'>file_list</span><span class='period'>.</span><span class='id current_index'>current_index</span> <span class='op'>=</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id file_list'>file_list</span><span class='period'>.</span><span class='id model'>model</span><span class='period'>.</span><span class='id index'>index</span><span class='lparen'>(</span><span class='int'>0</span><span class='comma'>,</span><span class='int'>0</span><span class='rparen'>)</span>
+    <span class='ivar'>@ui</span><span class='period'>.</span><span class='id buttons'>buttons</span><span class='period'>.</span><span class='id button'>button</span><span class='lparen'>(</span><span class='const'>Qt</span><span class='op'>::</span><span class='const'>DialogButtonBox</span><span class='op'>::</span><span class='const'>Ok</span><span class='rparen'>)</span><span class='period'>.</span><span class='id enabled'>enabled</span> <span class='op'>=</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id file_list'>file_list</span><span class='period'>.</span><span class='id model'>model</span><span class='period'>.</span><span class='id row_count'>row_count</span> <span class='op'>&gt;</span> <span class='int'>0</span>
+    <span class='ivar'>@ui</span><span class='period'>.</span><span class='id regexp_error'>regexp_error</span><span class='period'>.</span><span class='id hide'>hide</span>
+  <span class='kw'>rescue</span> <span class='const'>RegexpError</span> 
+    <span class='ivar'>@ui</span><span class='period'>.</span><span class='id regexp_error'>regexp_error</span><span class='period'>.</span><span class='id show'>show</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>change_filter(const QString &)</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="chosen_file-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>chosen_file</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the file chosen by the user or <ins>nil</ins> if no file has been chosen. The
+ chosen file is the file last selected in the file list.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+144
+145
+146
+147
+148
+149</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/open_file_in_project_dlg.rb', line 144</span>
+
+<span class='kw'>def</span> <span class='id chosen_file'>chosen_file</span>
+  <span class='id selection'>selection</span> <span class='op'>=</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id file_list'>file_list</span><span class='period'>.</span><span class='id selection_model'>selection_model</span><span class='period'>.</span><span class='id selected_indexes'>selected_indexes</span>
+  <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id selection'>selection</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+  <span class='id idx'>idx</span> <span class='op'>=</span> <span class='id selection'>selection</span><span class='period'>.</span><span class='id first'>first</span>
+  <span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span><span class='lparen'>(</span><span class='ivar'>@base_dir</span><span class='comma'>,</span> <span class='id idx'>idx</span><span class='period'>.</span><span class='id data'>data</span><span class='period'>.</span><span class='id to_string'>to_string</span><span class='period'>.</span><span class='id gsub'>gsub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\A\.</span><span class='regexp_end'>/</span></span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="eventFilter-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>eventFilter</strong>(obj, e) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Reimplements Qt::Object.eventFilter. It blocks the <ins>KeyPress</ins> events for the 
+ up and down keys (but only if there&#8217;s no modifier) and redirects them to the 
+ file list widget. All other events are allowed to pass. This allows to scroll
+ the list without taking the focus from the pattern widget.
+ =Arguments
+ <em>obj</em>:: the object whose events should be filtered
+ <em>e</em>:: the event</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/open_file_in_project_dlg.rb', line 160</span>
+
+<span class='kw'>def</span> <span class='id eventFilter'>eventFilter</span> <span class='id obj'>obj</span><span class='comma'>,</span> <span class='id e'>e</span>
+  <span class='kw'>if</span> <span class='id e'>e</span><span class='period'>.</span><span class='id type'>type</span> <span class='op'>!=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Event</span><span class='op'>::</span><span class='const'>KeyPress</span> <span class='kw'>then</span> <span class='kw'>return</span> <span class='kw'>false</span>
+  <span class='kw'>else</span>
+    <span class='kw'>if</span> <span class='lparen'>(</span><span class='id e'>e</span><span class='period'>.</span><span class='id key'>key</span> <span class='op'>==</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Key_Down</span> <span class='op'>||</span> <span class='id e'>e</span><span class='period'>.</span><span class='id key'>key</span> <span class='op'>==</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Key_Up</span><span class='rparen'>)</span> <span class='kw'>and</span> <span class='id e'>e</span><span class='period'>.</span><span class='id modifiers'>modifiers</span> <span class='op'>==</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>NoModifier</span>
+<span class='comment'># TODO: reintroduce the last parameter when it stops giving errors
+</span>      <span class='id new_ev'>new_ev</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>KeyEvent</span><span class='period'>.</span><span class='id new'>new</span> <span class='id e'>e</span><span class='period'>.</span><span class='id type'>type</span><span class='comma'>,</span> <span class='id e'>e</span><span class='period'>.</span><span class='id key'>key</span><span class='comma'>,</span> <span class='id e'>e</span><span class='period'>.</span><span class='id modifiers'>modifiers</span><span class='comma'>,</span> <span class='id e'>e</span><span class='period'>.</span><span class='id text'>text</span><span class='comma'>,</span> 
+<span class='id e'>e</span><span class='period'>.</span><span class='id is_auto_repeat'>is_auto_repeat</span><span class='comma'>,</span> <span class='id e'>e</span><span class='period'>.</span><span class='id count'>count</span>
+      <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:app</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id post_event'>post_event</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id file_list'>file_list</span><span class='comma'>,</span> <span class='id new_ev'>new_ev</span>
+      <span class='kw'>true</span>
+    <span class='kw'>else</span> <span class='kw'>false</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="item_activated-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>item_activated</strong>(idx)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Closes the dialog with the <tt>Qt::Dialog::Accepted</tt> status and selects the
+ index passed as argument.
+ =Arguments
+ <em>idx</em>:: the index of the activated item.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+203
+204
+205
+206
+207
+208</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/open_file_in_project_dlg.rb', line 203</span>
+
+<span class='kw'>def</span> <span class='id item_activated'>item_activated</span> <span class='id idx'>idx</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id file_list'>file_list</span><span class='period'>.</span><span class='id selection_model'>selection_model</span><span class='period'>.</span><span class='id select'>select</span> <span class='id idx'>idx</span><span class='comma'>,</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>ItemSelectionModel</span><span class='op'>::</span><span class='const'>ClearAndSelect</span><span class='op'>|</span>
+      <span class='const'>Qt</span><span class='op'>::</span><span class='const'>ItemSelectionModel</span><span class='op'>::</span><span class='const'>Rows</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id file_list'>file_list</span><span class='period'>.</span><span class='id current_index'>current_index</span> <span class='op'>=</span> <span class='id idx'>idx</span>
+  <span class='id accept'>accept</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>item_activated(const QModelIndex &)</tt></p>
+
+    
+  </div>
+
+
+
+</div>
+    
+    <div id="footer">
+  Generated on Fri Oct 29 12:53:10 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.1 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>
