@@ -29,4 +29,5 @@ Gem::Specification.new do |s|
   s.bindir = 'bin'
   s.executables = 'ruber'
   s.files = FileList['lib/**/*.*', 'plugins/**/*.*', 'spec/**/*', 'data/**/*', 'ruber.desktop', 'outsider_files', 'icons/*.*', 'COPYING', 'INSTALL', 'LICENSE']
+  s.homepage = 'http://stcrocco.github.com/ruber'
 end
