@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>RubyRunnerProjectWidget</class>
+ <widget class="QWidget" name="RubyRunnerProjectWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>414</width>
+    <height>34</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>&amp;Ruby interpreter</string>
+     </property>
+     <property name="buddy">
+      <cstring>_ruby__ruby</cstring>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="KComboBox" name="_ruby__ruby">
+     <property name="read" stdset="0">
+      <string>$interpreter=</string>
+     </property>
+     <property name="store" stdset="0">
+      <string>current_text</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

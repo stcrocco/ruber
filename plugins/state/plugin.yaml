@@ -1,0 +1,28 @@
+name: state
+version: 0.0.1
+about:
+ authors: [Stefano Crocco, stefano.crocco@alice.it]
+ license: gpl
+ description: Saves and restores open windows and projects and cursor positions between sessions
+ bug_address: http://github.com/stcrocco/ruber/issues
+class: Ruber::State::Plugin
+require: state
+config_options:
+ state:
+  open_documents: {default: []}
+  open_projects: {default: []}
+  active_document: {default: nil}
+  restore_cursor_position: {default: true}
+  restore_project_files: {default: true}
+  startup_behaviour: {default: :restore_all}
+project_options:
+ state:
+  open_documents: {default: [], type: session, scope: global}
+  active_document: {default: ~, type: session, scope: global}
+  cursor_position: {default: [0, 0], type: session, scope: document}
+config_widgets:
+ - {class: Ruber::State::ConfigWidget, caption: General}
+extensions:
+ state:
+  - {class: Ruber::State::DocumentExtension, scope: document}
+  - {class: Ruber::State::ProjectExtension, scope: global}

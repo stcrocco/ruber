@@ -1,0 +1,10 @@
+name: project_browser
+version: 0.0.1
+about:
+ authors: [Stefano Crocco, stefano.crocco@alice.it]
+ license: gpl
+ description: A tool widget displaying the contents of the project directory
+ bug_address: http://github.com/stcrocco/ruber/issues
+ icon: project-development.png
+require: project_browser.rb
+tool_widgets: {class: Ruber::ProjectBrowser::ToolWidget, caption: Project browser, position: left, name: project_browser}

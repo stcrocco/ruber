@@ -1,0 +1,7 @@
+<% tools = object.tags :tool_widget %>
+<% unless tools.empty? %>
+<h4>Tool Widgets API</h4>
+  <% tools.each_index do |i| %>
+    <%= yieldall :index => i %>
+  <% end %>
+<% end %>

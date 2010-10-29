@@ -1,0 +1,39 @@
+name: rake
+version: 0.0.1
+about:
+ authors: [Stefano Crocco, stefano.crocco@alice.it]
+ license: :gpl
+ description: A Ruber interface to rake
+ bug_address: http://github.com/stcrocco/ruber/issues
+ icon: rake.png
+deps: ruby_runner
+require: [rake, rake_extension]
+class: Ruber::Rake::Plugin
+ui_file: rakeui.rc
+actions: 
+ rake-run: {text: Run Rake &Task..., shortcut: 'Alt+Shift+K, T', slot: choose_and_run_task(), states: [rake_running, rake_has_target]}
+ rake-run_default: {text: Run Default Rake Task, shortcut: 'Alt+Shift+K, D', slot: run_default_task(), states: [rake_running, rake_has_target]}
+ rake-refresh: {text: Refresh Tasks, slot: refresh_tasks(), state: rake_has_target}
+ rake-stop: {text: Stop, shortcut: Esc, icon: process-stop, slot: stop_process(), state: rake_running}
+config_options:
+ rake:
+  quick_tasks: {default: {}}
+  rake: {default: `which rake`.strip, relative_path: false}
+  sync_stdout: {default: true}
+config_widgets:
+ - {class: Ruber::Rake::ConfigWidget, pixmap: rake.png, caption: Rake}
+project_options:
+ rake:
+  rake: {default: `which rake`.strip, scope: all, type: user}
+  rakefile: {default: ~, relative_path: true}
+  options: {default: [], scope: all}
+  environment: {default: [], scope: all}
+  tasks: {type: user, default: {}, scope: all, file_extension: [Rakefile, rakefile, Rakefile.rb, rakefile.rb]}
+  sync_stdout: {default: 'Ruber[:config][:rake, :sync_stdout]', scope: all}
+  timeout: {default: 30, scope: all}
+tool_widgets:
+ - {class: Ruber::FilteredOutputWidget, caption: Rake, pixmap: rake.png}
+extensions:
+ rake: {class: Ruber::Rake::ProjectExtension, scope: all, file_extension: [Rakefile, rakefile, Rakefile.rb, rakefile.rb]}
+project_widgets:
+ - {class: Ruber::Rake::ProjectWidget, pixmap: rake.png, caption: Rake, scope: all, file_extension: [Rakefile, rakefile, Rakefile.rb, rakefile.rb]}

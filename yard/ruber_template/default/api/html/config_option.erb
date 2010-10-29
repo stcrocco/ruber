@@ -1,0 +1,8 @@
+<% opt_tag = object.tags(:config_option)[@index] %>
+<% title_style = 'margin-bottom:0;' %>
+<% title_style << ' padding-top: 5px; border-top: 1px dotted #bbb;' if @index > 0 %>
+<h5 style="<%= title_style %> " ><tt><%= opt_tag.group + '/' + opt_tag.name %> &ndash; <%= format_types opt_tag.types, false %></tt></h5>
+<div>
+<%= make_html opt_tag.text %>
+</div>
+

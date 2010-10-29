@@ -1,0 +1,11 @@
+<!DOCTYPE kpartgui SYSTEM 'kpartgui.dtd'>
+<kpartplugin version="1" name="ruber-find_in_files" >
+ <MenuBar>
+  <Menu name="edit" >
+   <text>&amp;Edit</text>
+   <Action group="edit_find_plugins" name="find_in_files-find_replace" />
+   <Separator group="edit_find_plugins" />
+  </Menu>
+ </MenuBar>
+ <ActionProperties/>
+</kpartplugin>

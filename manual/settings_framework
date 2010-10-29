@@ -1,0 +1,20 @@
+h1. The Ruber Settings Framework
+
+h2(#backends). The backend
+
+The backend is the responsible for writing the options to file and reading them
+from there. It should provide the following methods:
+A constructor:: it should read all the contents of the file and store it. The file
+                shouldn't be read anymore from that point, unless explicitly
+                requested.
+<tt>[opt]</tt>:: returns the value of the option _opt_. See add_option for an
+                 explaination of what _opt_ is. Additional methods provided by
+                 _opt_ may be used to determine its value. If no value for _opt_
+                 is included in the file, the default value should be returned.
+                 Note that, while the backend is free to store the values for the
+                 different options however it wants, it _must_ make sure that
+                 options with the same names, but belonging to different groups
+                 don't clash.
+<tt>write(data)</tt>:: writes the options back to file. _data_ is an hash whose
+                       keys are the objects describing the options (see add_option)
+                       and whose values are the actual values of the options.

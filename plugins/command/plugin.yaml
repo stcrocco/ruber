@@ -1,0 +1,11 @@
+name: command
+version: 0.0.1
+about:
+ authors: [Stefano Crocco, stefano.crocco@alice.it]
+ license: gpl
+ description: Allow to give commands to Ruber using ruby
+ bug_address: http://github.com/stcrocco/ruber/issues
+ icon: command.png
+require: command
+tool_widgets:
+ - {class: Ruber::CommandPlugin::ToolWidget, caption: Command}

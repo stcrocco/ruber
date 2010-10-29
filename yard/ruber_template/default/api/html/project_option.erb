@@ -1,0 +1,17 @@
+<% opt_tag = object.tags(:project_option)[@index] %>
+<% title_style = 'margin-bottom:0;' %>
+<% title_style << ' padding-top: 5px; border-top: 1px dotted #bbb;' if @index > 0 %>
+<% opt_group, opt_name = opt_tag.name.split %r|/| %>
+<% project_options = SymbolHash.new(false).merge object.plugin_spec[:project_options] rescue {} %>
+<% group = SymbolHash.new(false).merge project_options[opt_group] rescue {} %>
+<% data = SymbolHash.new(false).merge(group[opt_name]) rescue {} %>
+<% data.merge! opt_tag.data if opt_tag.data %>
+<h5 style="<%= title_style %> " ><tt><%= opt_tag.group + '/' + opt_tag.name %> &ndash; <%= format_types opt_tag.types, false %></tt></h5>
+<div>
+  <%= htmlify opt_tag.description %>
+  <dl>
+    <% raw_rules = {:scope => data[:scope], :file_extension => data[:file_extension], :mimetype => data[:mimetype]} %>
+    <%= format_rules raw_rules %>
+  </dl>
+</div>
+

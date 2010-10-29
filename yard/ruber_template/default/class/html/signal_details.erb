@@ -1,0 +1,9 @@
+<% signals = object.children.select{|c| c.class == SignalCodeObject} %>
+<% unless signals.empty? %>
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Signal Details</h2>
+    <% signals.each_with_index do |s, i| %>
+      <%= yieldall :object => s, :index => i %>
+    <% end %>
+  </div>
+<% end %>

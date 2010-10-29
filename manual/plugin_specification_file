@@ -1,0 +1,320 @@
+h1. The Plugin Specification File
+
+The Plugin Specification File (PSF) is a file which describes the contents and the
+characteristics of a plugin. It's written in YAML format, must be called @plugin.yaml@
+and be placed inside the plugin's directory.
+
+The PSF contains a single hash, whose entries can be divided in two logical sections:
+an introduction which only contains generic information, such as the plugin name,
+its description, which plugins it depends on and so on, and a detailed description
+containing, for example, the files to require before loading the plugin, the options
+provided by the plugin and so on.
+
+Here's a complete list of the PSF entries. Keys can be either symbols or strings,
+and will be converted to strings upon reading (the same is true wherever the following
+description says that something can be either a string or symbol)[1]. All entries,
+except those explicitly marked as mandatory, are optional. The default values are
+given in the description of each entry.
+
+h2. PSF Introduction
+
+h4. @name@ [Mandatory]
+
+The name of the plugin. It can be either a string or symbol
+and is the name Ruber uses to make the plugin availlable to other components. It's
+mostly invisible to users. In theory, it can contain any character, but in practice
+it's better to use a symbol which can be entered using the ruby symbol literal
+syntax (@:something@). This means it should abide the same restrictions as a method
+name. The plugin name **must** be unique.
+
+h4. @version@ [Mandatory]
+
+The plugin version. It's a string and can have any format, but the @x.y.z@ format
+is recomanded.
+
+h4. @about@
+
+A hash with some information about the plugin which can be useful to the user. If
+missing, an empty hash is used. The following keys are recognized:
+
+* *human_name*: a string or symbol with a human friendly name for the plugin. Unlike
+the @name@ entry, this has no meaning for Ruber itself (in particular, there's
+no need for uniqueness, even if it's still suggested) and so it can be anything the
+plugin author likes. If missing, the human name is derived from the @name@ entry
+by replacing all underscores with spaces and making the first character upcase.
+
+* *authors*: an array of pairs. Each pair corresponds to one of the
+plugin's authors. The first element of the pair is the author's name, while the
+second is his e-mail address. The second entry of a pair may also be omitted, in
+which case an empty string is used. If the plugin has only one author, then the
+external array may be omitted. If this entry is missing, an empty array will be
+used.
+
+* *license*: a symbol or string specifying the license under which the plugin is
+released. The following values are recognized: @unknown@, @gpl@, @gpl2@, @lgpl@,
+@lgpl2@, @bsd@, @artistic@, @qpl@, @qpl1@, @gpl3@, @lgpl3@. The licenses ending
+with a number mean that the plugin is released under that exact version of the
+license, while if the number is missing it means any version of the license. If
+the value is a string different from the values just listed, Ruber assumes the
+string contains the text of a custom license. A symbol different from those values,
+instead, produces an invalid PSF. If omitted, @unknown@ is used.
+
+* *description*: a string with a short description of what the plugin does. If
+omitted, an empty string is used.
+
+* *bug_address*: a string containing the e-mail address to report bugs for the
+plugin. If missing, an empty string is used.
+
+* *icon*: a string containing the path of the file with the icon associated with
+the plugin, relative to the plugin directory. If the file can't be found there,
+an attempt is made to find it using @KDE::IconLoader@.
+
+h4. @deps@
+
+An array of strings or symbols with the names of other plugins this one depends
+from. If the plugin depends only one other plugin, the array can be omitted and
+this entry can directly contain the name of the dependency. If omitted, Ruber
+assumes the plugin doesn't depend on other plugins.
+
+Note that only direct dependencies need to be listed here. If the plugin depends
+on another plugin _A_, which in turn depends on the plugin _B_, you only need to
+list _A_ here.
+
+h2. PSF Details
+
+h4. @require@ [Mandatory]
+
+An array of strings containing the names of the files to be required before loading
+the plugin, relative to the plugin directory. In particular, these files must
+contain all the classes mentioned in other sections of the PSF.
+
+If only one file needs to be required, it doesn't need to be enclosed in the array.
+
+h4. @class@
+
+The full name of the class of the plugin object. It must be a class which is 
+availlable after having required all files listed in the _require_ section.
+
+If omitted, it defaults to {Ruber::Plugin}. This usually only happens if the
+plugin only needs to add extensions to documents and projects.
+
+h4. @ui_file@
+
+The path (relative to the plugin directory) of the XML file to be used with
+@KDE::XMLGuiClient@ to describe the ui of the plugin (in particular, menu entries
+and toolbars). If the plugin class derives (maybe indirectly) from {Ruber::GuiPlugin},
+this entry is *mandatory*, otherwise it *must* not be given.
+
+h4. @actions@
+
+A hash containing data describing the actions associated with the plugin. It is
+ignored if the <i>ui_file</i> is missing (that is, for plugins which do not derive
+from {Ruber::GuiPlugin}).
+
+The keys of the hash are the names of the actions as they appear in the UI file,
+while the values are hashes which can have the following entries:
+* @text@: a string with the text to display in the menu
+* @shortcut@: a string with the default shortcut to associate with the action. If
+missing, the action will have no default shortcut
+* @icon@: the icon to associate with the action. It can be either a filename relative
+to the plugin directory or an icon which can be loaded using @KDE::IconLoader@.
+If omitted, no icon will be associated with the action. It's best to specify it
+if the action should be inserted in a toolbar
+* @standard_action@: a string with the name of the method in @KDE::StandardActions@
+to call to create the action. This entry should only be present if the action
+should actually be a standard action.
+* @class@: a string with the full name of the class of the action. If missing,
+the action will be a @KDE::Action@. This entry is only needed to create actions
+of a special class (for example, toggle actions or recent files actions). This
+entry is also not needed for standard action.
+* @receiver@: a string which, after having been evaluated in the context of the
+plugin object will return the object to connect the action's signal to. If missing,
+it defaults to *self*, that is the plugin object
+* @signal@: a string with the signal of the actions to connect with the receiver
+(including the signal signature).
+If missing, it defaults to @triggered()@
+* @slot@: the slot of the receiver to connect with the signal of the action, as
+specified in the _receiver_ and _signal_ entries (including the signal signature).
+If missing, the action's signal won't be connected with anything (in this case,
+of course, the _receiver_ and _signal_ entries are ignored).
+* @state@: a string with a single state the action depends on (see {Ruber::GuiStatesHandler}).
+If given, then a handler for that action will be created
+* @states@: an array of string representing the states the action depends upon.
+Unlike for the _state_ entry, no action handler is created for these states. This
+entry is used by the {Ruber::GuiPlugin#register_handler} convenience method.
+
+h4. @config_options@
+
+This entry contains the settings that the plugin adds to the configuration manager
+and which will be shown in the _Configure Ruber_ dialog.
+
+See "Option entries":#common_options_entries below for a description of the entry.
+
+If this entry is missing, then the plugin will add no global option.
+
+h4. @config_widgets@
+
+An array of hashes, where each hash describes a widget which should be put in the
+_Configure Ruber_ dialog. See "below":#common_widget_entries
+for a description of these hashes, keeping in mind that the _caption_ entry of
+each hash is required. See also {SettingsDialog} for more information.
+
+If the plugin has only one configuration widget, the array can be omitted and this
+entry may simply contain the hash describing the widget.
+
+If this entry is omitted, the plugin will have no configuration widget.
+
+h4. @project_options@
+
+This entry contains the settings which the plugin adds to projects and documents.
+
+See "Option entries":#common_options_entries below for a description of the entry,
+keeping in mind that each inner hash can also have the entries described in the
+"Rules entries section":#common_rules_entries.
+
+If this entry is missing the plugin will add no option to projects and documents.
+
+h4. @project_widgets@
+
+An array of hashes, where each hash describes a widget which should be put in the
+_Configure Project_ and/or _Configure Document_ dialogs. See "below":#common_widget_entries
+for a description of these hashes, keeping in mind that the _caption_ entry of
+each hash is required and that each hash can also contain the entries described in the
+"Rules entries section":#common_rules_entries. See also {SettingsDialog} for
+more information.
+
+h4. @tool_widgets@
+
+An array of hashes, where each hash represents one of the tool widget provided
+by the plugin. The hash as the format described in the "widget entries section":#common_widget_entries,
+with both caption and icon mandatory. In addition, it can contain the following
+entries:
+* @side@: a string or symbol which can take the values @left@, @right@ or @bottom@.
+It tells on which side of the editor the tool widget should be put. If it isn't
+specified, it defaults to @bottom@.
+* @name@: a string or symbol with an unique name which can be used to identify the
+tool widget. If not given, the caption will be used
+* @variable_name@: if given and not *nil*, after the tool widget has been created
+it will be stored in an instance variable with this name inside the plugin object.
+If this entry is missing, the instance variable will be @@widget@. If this entry
+is explicitly set to *nil*, the tool widget won't be stored in an instance variable.
+Note that the leading @@@ shouldn't be included in this entry.
+
+If this entry is missing, the plugin will provide no tool widget.
+
+h4. @extensions@
+
+A hash describing the extensions provided by the plugin. The hash's keys are strings
+or symbols representing the extensions names (which should be uinque), while the
+values are hashes which describe the extension.
+
+Each hash can have the entries described in the "Rules entries section":#common_rules_entries
+and a mandatory @class@ entry, which is a string with the full name of the class
+of the extension.
+
+In some situations, it can be useful to use different classes for the same extension,
+depending on which rule matches (for example, the extension for a document and that
+for a project may provide the same API, but use different implementations, and thus
+be of different classes). In this case, the value associated to the extension should
+be an array containing the hashes for the different rules. For each document or
+project, the first entry with a matching rule will be used.
+
+If this entry is missing, the plugin will provide no extensions.
+
+h2. Common entries
+
+h4(#common_options_entries). Option entries
+
+An options entry is a series of nested hashes. The outer one represents the groups
+the options are divided into. It has the group names as keys and hashes as values.
+
+Each hash in a group represents an option. It has the names of the options as keys
+and hashes describing each option as values.
+
+Each inner hash describes an option. The recognized entries are:
+* @default@: it represents the value the option has if the configuration file
+doesn't specify a value for it. This option can have any value (if the entry is
+missing, the default value will be an empty string). For convenience,
+if it is a string, it's treated in a special way:
+** an attempt is made to evaluate the string in a context which depends on the
+specific entry. If the attempt succeeds (that is, if @eval@ doesn't raise exceptions),
+the value returned by @eval@ is used as default value
+** if @eval@ raised an exception, the literal value of the string is used as default
+value
+** if the <i>eval_default</i> entry is *false*, the listeral value of the string
+is always used and no attempt to evaluate it is made.
+* @order@: the order in which options should be created. Usually, the order in which
+options are created doesn't matter. However, there are situations when the default
+value of an option depends on the value of another option. In this case, the _order_
+parameter for the two options should be set to a number, with the option to be
+created earlier having a lower number. Options for which this entry is missing are
+created in an arbitrary order
+* @eval_default@: whether or not to attempt to evaluate the content of the _default_
+entry if it is a string. This should be set to false if the _default_ entry is a
+string which can be successfully evaluated but needs to be treated as string instead
+(for example, if the default value should be the string "Object", you need to set
+this entry to *false*, otherwise you'd get the object @Object@ as default value).
+If not given, this entry is *true*.
+
+Besides the above ones, each inner hash can also contain other entries, depending
+on the exact entry.
+
+h4(#common_widget_entries). Widget entries
+
+A widget entry is a hash which describes a widget. The following entries are recognized:
+* @class@: a string with the full name of the widget's class
+* @code@: a string which, when evaluated, returns the widget object
+* @caption@: a text to display for the widget (depending on the use of the widget
+entry, the exact way the caption is shown varies. For a tool widget, for example,
+it is displayed near the icon when the tool widget is visible). If missing, it
+defaults to an empty string
+* @pixmap@: a string with the name of the file of a pixmap to display for the widget
+(as for the _caption_, here also the exact way the pixmap is displayed may vary).
+The icon may be either in the plugin's directory or be obtain using @KDE::IconLoader@.
+
+The _caption_ and _pixmap_ entries may be or not mandatory depending on the exact
+entry (for example, only the caption entry is mandatory for the <i>config_widgets</i>
+entry, but are mandatory for the _tool_widgets_ entry).
+
+One and *only* one of the _class_ and _code_ entries *must* be specified.
+
+The _code_ entry is useful, for example, to avoid creating a class when the same
+effect can be obtained with a line of two of code (for instance, if a configuration
+widget is a single check box, you can set the _code_ entry to @Qt::CheckBox.new{|w| w.text = "Something"}@
+instead of creating a new widget class just to set the text of the checkbox)
+
+h4(#common_rules_entries). Rules entries
+
+A rule is a series of properties which tells whether an extension, project option
+or project widget (which here we'll call "objects") should be added to a project or
+document or not (see {Ruber::AbstractProject.match_rule?} for more). As described
+above, extensions, project options and project widgets are represented in the PSF
+by hashes. A rule is made by several standard entries in those hashes. The entries
+are:
+* @scope@: tells whether the object should be added only to global projects,
+only to documents or to both. It is an array containing strings or symbols, which
+should match the scope of the global project or document project (see {Ruber::Project#scope}
+and {Ruber::DocumentProject#scope}). For convenience, if the array contains a single
+entry, it can be avoided. Also, this entry can be @all@, which matches all scopes.
+If this entry is missing, it defaults to @project@
+* @file_extension@: an array of strings, where each string is a shell glob. For
+the object to be added to a document, its file name must match at least one of the
+globs. A single string doesn't need to be put an array. If this entry is missing,
+the name of the file associated with the document isn't taken into account when
+deciding whether to add the object to the document or not. Note that if at least
+a glob is specified, the object will never be added to documents not associated
+with a file
+* @mimetype@: an array of strings, each containing the name of a mimetype. The
+object will be added to a document only if its mimetype matches at least one of
+the ones given here (see {Ruber::Document#file_type_match?} for details). If
+a single mimetype is specified, there's no need to include it in an array. If
+this entry isn't given, the mimetype won't be taken into account.
+
+fn1. This is one of many examples where the contents of the PSF differ from the
+internal representation which Ruber uses for them. In the PSF, some entries can
+be written in a concise way to make life easier for plugin writers, but they're
+converted to another format when the {Ruber::PluginSpecification PluginSpecification}
+object corresponding to the PSF is created. This also allows to have alternative
+ways to specify an entry in the PSF while retaining a single internal representation.
+See <a href="file.plugin_specification_object">the plugin specification object</a>
+for details about such differences.

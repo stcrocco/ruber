@@ -1,0 +1,7 @@
+<% opts = object.tags :project_option %>
+<% unless opts.empty? %>
+<h4>Project Settings</h4>
+  <% opts.each_index do |i| %>
+    <%= yieldall :index => i %>
+  <% end %>
+<% end %>

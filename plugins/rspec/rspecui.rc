@@ -1,0 +1,20 @@
+<!DOCTYPE kpartgui SYSTEM 'kpartgui.dtd'>
+<kpartgui version="1" name="ruber-rspec_plugin" >
+ <MenuBar>
+  <Menu noMerge="1" name="ruby" >
+   <text>&amp;Ruby</text>
+   <Separator/>
+   <Menu noMerge="1" name="rspec">
+    <text>&amp;Tests</text>
+    <Action name="rspec-go_to_spec"/>
+    <Action name="rspec-go_to_file"/>
+    <Separator/>
+    <Action name="rspec-run_all" />
+    <Action name="rspec-run_current"/>
+    <Action name="rspec-run_current_line"/>
+    <Separator/>
+    <Action name="rspec-stop"/>
+   </Menu>
+  </Menu>
+ </MenuBar>
+</kpartgui>

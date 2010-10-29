@@ -1,0 +1,58 @@
+name: main_window
+require: [main_window, output_color_widget]
+class: Ruber::MainWindow
+config_options:
+ general:
+  default_script_directory: {type: path, default: 'KDE::GlobalSettings.document_path'}
+  default_project_directory: {type: path, default: 'KDE::GlobalSettings.document_path'}
+  output_font: {default: 'Qt::Font.new("Courier",10)'}
+  auto_annotations: {type: bool, default: 'true'}
+  wrap_output: {type: bool, default: 'true'}
+ output_colors: 
+  message: {default: 'Qt::Color.new(Qt.black)'}
+  message_good: {default: 'Qt::Color.new(Qt.blue)'}
+  message_bad: {default: 'Qt::Color.new(Qt.dark_magenta)'}
+  error: {default: 'Qt::Color.new(Qt.red)'}
+  error1: {default: 'Qt::Color.new(Qt.dark_red)'}
+  error2: {default: 'Qt::Color.new(Qt.magenta)'}
+  output: {default: 'Qt::Color.new(Qt.dark_green)'}
+  output1: {default: 'Qt::Color.new(Qt.dark_cyan)'}
+  output2: {default: 'Qt::Color.new(Qt.dark_yellow)'}
+  warning: {default: 'Qt::Color.new(Qt.gray)'}
+  warning1: {default: 'Qt::Color.new(Qt.dark_gray)'}
+  warning2: {default: 'Qt::Color.new(Qt.light_gray)'}
+ main_window:
+  widget_size: {key: Central widget size, default: "Qt::Size.new"}
+  window_size: {key: Size, default: 'Qt::Size.new(400,500)'}
+  h_splitter: {key: Horizontal splitter, type: string list, default: "['20', '60', '20']"}
+  v_splitter: {key: Vertical splitter, type: string list, default: "['80', '20']"}
+ workspace:
+  tools_sizes: {default: {}}
+config_widgets:
+ - {caption: General, pixmap: configure, class: Ruber::MainWindowSettingsWidget}
+ - {caption: Colors, pixmap: fill-color, class: Ruber::OutputColorWidget}
+actions:
+ file_new: {standard_action: open_new, slot: new_file()}
+ file_open: {standard_action: open, slot: open_file()}
+ file_open_recent: {standard_action: open_recent, signal: urlSelected(KUrl), slot: open_recent_file(KUrl)}
+ file-save_all: {text: Save &All, icon: document-save-all, slot: save_all()}
+ file_close: {standard_action: close, slot: close_current_editor()}
+ file-close_all: {text: Clos&e All, slot: close_all_views()}
+ file-close_other: {text: Close All O&ther, slot: close_other_views()}
+ file_quit: {standard_action: quit, receiver: 'Ruber[:app]', slot: closeAllWindows()}
+ go_back: {standard_action: back, slot: previous_document(), shortcut: Alt+Left}
+ go_forward: {standard_action: forward, slot: next_document(), shortcut: Alt+Right}
+ view-activate_editor: {text: Activate &Editor, shortcut: F2, slot: focus_on_editor()}
+ view-toggle_left_tool_widget: {text: Toggle &Left Tool Widgets, slot: toggle_tool_widget()}
+ view-toggle_right_tool_widget: {text: Toggle &Right Tool Widgets, slot: toggle_tool_widget()}
+ view-toggle_bottom_tool_widget: {text: Toggle &Bottom Tool Widgets, slot: toggle_tool_widget()}
+ project-new: {text: '&New Project...', icon: document-new, slot: new_project()}
+ project-open: {text: '&Open Project...', icon: project-open, shortcut: Ctrl+Shift+O, slot: open_project()}
+ project-open_recent: {text: Open &Recent Project, icon: project-open, class: KDE::RecentFilesAction, signal: urlSelected(KUrl), slot: open_recent_project(KUrl)}
+ project-close: {text: '&Close Project', slot: close_current_project(), state: active_project_exists}
+ project-quick_open_file: {text: '&Quick Open File', icon: document-open, shortcut: Alt+Ctrl+O, slot: open_file_in_project(), state: active_project_exists}
+ project-configure: {text: Co&nfigure Project..., icon: configure, slot: configure_project(), state: active_project_exists}
+ options-choose_plugins: {text: C&hoose Plugins..., icon: preferences-plugin, slot: choose_plugins()}
+ options_configure: {standard_action: preferences, slot: preferences()}
+ configure_document: {text: Configure &Document, icon: configure, slot: configure_document(), state: current_document}
+ help_user_manual: {text: Ruber User &Manual, icon: help-contents, slot: show_user_manual()}

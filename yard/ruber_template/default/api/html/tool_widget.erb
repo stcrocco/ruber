@@ -1,0 +1,19 @@
+<% tool_tag = object.tags(:tool_widget)[@index] %>
+<% name = tool_tag.name %>
+<% all_tool_widgets = Array(object.plugin_spec[:tool_widgets]).map{|w| SymbolHash.new(false).merge w} %>
+<% data = all_tool_widgets.find{|w| (w[:name] || w[:caption]).to_s == name} %>
+<% data.merge! tool_tag.data if tool_tag.data %>
+<h5 <%= @index > 0 ? 'style="padding-top: 5px; border-top: 1px dotted #bbb;"' : '' %> ><%= tool_tag.name %></h5>
+<dl>
+<% if tool_tag.description %>
+  <dt style="font-weight: bold;">Description</dt>
+  <dd><%= htmlify tool_tag.description %></dd>
+<% end %>
+<% if data[:api] or data[:class] %>
+  <dt style="font-weight: bold;">API</dt>
+  <% ap = '' %>
+  <% if data[:api] then ap = htmlify(data[:api]) %>
+  <% else ap = "See API for #{resolve_links '{' + data[:class] + '}' }" %>
+  <% end %>
+  <dd><%= ap %></dd>
+<% end %>

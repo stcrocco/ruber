@@ -1,0 +1,15 @@
+ruber.desktop: 
+ - "<%= `kde4-config --path xdgdata-apps`.strip.split(':').find{|path| !path.start_with?(ENV['HOME'])} %>"
+ - "<%= `kde4-config --path xdgdata-apps`.strip.split(':').find{|path| path.start_with?(ENV['HOME'])} %>"
+icons/ruber-48.png:
+ - "<%= File.join `kde4-config --path xdgdata-icon`.strip.split(':').find{|path| !path.start_with?(ENV['HOME'])}, 'hicolor', '48x48', 'apps', 'ruber.png' %>"
+ - "<%= File.join `kde4-config --path xdgdata-icon`.strip.split(':').find{|path| path.start_with?(ENV['HOME'])}, 'hicolor', '48x48', 'apps', 'ruber.png' %>"
+icons/ruber-32.png:
+ - "<%= File.join `kde4-config --path xdgdata-icon`.strip.split(':').find{|path| !path.start_with?(ENV['HOME'])}, 'hicolor', '32x32', 'apps', 'ruber.png' %>"
+ - "<%= File.join `kde4-config --path xdgdata-icon`.strip.split(':').find{|path| path.start_with?(ENV['HOME'])}, 'hicolor', '32x32', 'apps', 'ruber.png' %>"
+icons/ruber-16.png:
+ - "<%= File.join `kde4-config --path xdgdata-icon`.strip.split(':').find{|path| !path.start_with?(ENV['HOME'])}, 'hicolor', '16x16', 'apps', 'ruber.png' %>"
+ - "<%= File.join `kde4-config --path xdgdata-icon`.strip.split(':').find{|path| path.start_with?(ENV['HOME'])}, 'hicolor', '16x16', 'apps', 'ruber.png' %>"
+icons/ruber-8.png:
+ - "<%= File.join `kde4-config --path xdgdata-icon`.strip.split(':').find{|path| !path.start_with?(ENV['HOME'])}, 'hicolor', '8x8', 'apps', 'ruber.png' %>"
+ - "<%= File.join `kde4-config --path xdgdata-icon`.strip.split(':').find{|path| path.start_with?(ENV['HOME'])}, 'hicolor', '8x8', 'apps', 'ruber.png' %>"

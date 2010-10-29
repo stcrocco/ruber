@@ -1,0 +1,58 @@
+--- 
+:general: 
+  :project_name: Ruber
+  :project_files: 
+    :include: 
+    - COPYING
+    - INSTALL
+    - Rakefile.rb
+    - !ruby/regexp /share\/.*/
+    - TODO
+    - ./bin/ruber
+    - !ruby/regexp /manual\/.*/
+    - ./ruber.gemspec
+    - ./ruber.ruprj
+    - ruber.desktop
+    - outsider_files
+    :exclude: 
+    - !ruby/regexp /^_darcs\/.*/
+    - !ruby/regexp /^doc\/.*/
+    - !ruby/regexp /^old\/.*/
+    - !ruby/regexp /ui\/.*\.rb/
+    :extensions: 
+    - "*.rb"
+    - "*.ui"
+    - "*.yaml"
+    - "*.rc"
+    - "*.erb"
+:rspec: 
+  :full_backtraces: false
+  :ruby_options: 
+  - -I.
+:ruby: 
+  :main_program: bin/ruber
+  :ruby_options: 
+  - -Ilib
+:rake: 
+  :rakefile: Rakefile.rb
+  :ruby_options: []
+
+  :tasks: 
+    clean: 
+    - Removes documentation and intermediate files
+    - 
+    kruby: 
+    - Creates all the files needed to run KRuby
+    - 
+    manuals: 
+    - Build all the manuals and the RDoc API
+    - 
+    programmer-manual: 
+    - Create the programmer's manual
+    - 
+    rdoc: 
+    - Build the rdoc HTML Files
+    - 
+    spec: 
+    - Run all examples
+    - 

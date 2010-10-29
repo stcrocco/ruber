@@ -1,0 +1,137 @@
+h1. Installation instructions
+
+h2. Dependencies
+
+To run Ruber, you need to have the following installed
+* Ruby 1.8.7 MRI or later 
+* Korundum (KDE Ruby bindings) version 4.5.0 or greater. The 4.4 releases
+  may or may not work (some bugs have been fixed since these versions, so earlier
+  versions may lead to crashes).
+* The Facets gem ("http://rubyworks.github.com/facets/":http://rubyworks.github.com/facets/),
+  version 2.7 or later
+* The Dictionary gem ("http://death.rubyforge.org/dictionary/":http://death.rubyforge.org/dictionary/)
+
+h2. Plugin dependencies
+
+Some plugins need external libraries and/or programs to work. If you don't have
+these requirements, then some of the plugins won't work. Ruber itself and the
+other plugins will still work correctly, however. The programs needed by the plugins
+are:
+
+* rak ("http://rak.rubyforge.org/":http://rak.rubyforge.org/), needed by the Find in Files plugin
+* rake ("http://rake.rubyforge.org/":http://rake.rubyforge.org/), needed by the Rake plugin (already included in ruby 1.9.x)
+* rspec ("RSpec 1":http://rspec.info/, "RSpec 2":http://github.com/rspec/rspec/wiki), needed by the RSpec plugin
+
+h2. Installing Ruber and its dependencies
+
+h3. The easy way
+
+The easiest way to install Ruber is to use the packages provided by your distribution
+and rubygems to install any gem your distribution doesn't package:
+* Install Ruby using your package manager
+* Install the KDE Ruby bindings using your package manager (usually, the name of the package
+  will be something like @korundum@, @korundum4@ or @kdebindings-ruby@). Depending
+  on the packages you have already installed on your system, this other packages
+  may also be installed.
+* Install Facets and Dictionary using your package manager or rubygems there are
+  no packages for them:
+  
+bc. gem install facets
+gem install dictionary
+
+* Install Ruber:
+
+bc. gem install ruber
+
+h3. The hard way
+
+The hard way to install ruber is to install the needed dependencies by hand. In particular
+(depending on what you have already installed) this may mean installing ruby, the KDE
+libraries and the KDE Ruby bindings. If you want, you can also mix the easy and
+the hard way, installing some of the above programs using your package manager and
+some other by hand.
+
+h4. Installing Ruby by hand
+
+* Download ruby from "the Ruby home page":http://www.ruby-lang.org/en/downloads/
+* Unpack the tarball
+* @cd@ in the directory created by unpacking the tarball
+* Run @./configure@, passing it any argument you want. In particular, you may want
+  to change the installation directory (which by default is @/usr/local@) and
+  add a prefix or suffix to the executable name (this is useful if you want two)
+  versions of ruby installed at the same time. To change the installation directory,
+  pass the @--prefix DIR@ argument to configure, where @DIR@ is the directory you
+  want to install ruby into. To add a prefix or a suffix to the executables, use
+  the @--program-prefix@ or @--program-suffix@ options, followed by the prefix or
+  suffix you want. Use @./configure --help@ to see all the options accepted by
+  @configure@
+* Run @make@
+* Run @make install@. Unless you changed the installation directory to a directory
+  you have write access to, this command must be run as superuser.
+  
+h4. Installing the KDE libraries by hand
+
+I strongly discourage from building the KDE libraries by hand, given the large
+number of dependencies they have and the fact that every distribution has packages
+for them. To install using a package manager, simply install the @kdelibs@ package.
+
+If you really want to install by hand, here's what to do
+* Install the needed dependencies. They're listed on the "KDE techbase site":http://techbase.kde.org/Build_requirements,
+  with instructions for different distributions. However, not all the dependencies
+  listed here are required to install Ruber. You can try skipping this section for
+  now and return to it after running cmake (see below).
+* Download the KDE libraries from the "KDE home page":http://www.kde.org/download.
+  Choose the version marked as _recommended for end users_, then, following the
+  link, download the @kdelibs@ tarball. Do not follow the instructions linked on
+  the download page, as they're for people developing KDE itself
+* Unpack the tarball
+* @cd@ in the directory created unpacking the tarball
+* Create a build directory: @mkdir build@
+* @cd build@
+* @cmake ..@ This will fail if you're missing a required library. In this case,
+  it'll tell you which it is and you'll be able to install it
+* Run @ccmake .@ This will give you a pseudo-graphical interface where to set
+  some options. In particular, look at the @CMAKE_INSTALL_PREFIX@ option, which controls
+  the directory KDE will be installed into, and change it as you like. After changing
+  the options you need, press @c@ to configure and @g@ to generate. Then @e@ to
+  exit
+* @make@
+* @make install@. Unless you changed the installation directory to a directory
+  you have write access to, this command must be run as superuser.
+  
+h4. Installation of the KDE Ruby bindings
+
+* Make sure you have both the Ruby and KDE headers installed. If you installed 
+  Ruby or the KDE libraries using the package manager, depending on your distribution, 
+  you may not have installed the header files needed by the compiler. Using your
+  package manager, see if there are packages called something like @ruby-devel@
+  and @kdelibs-devel@ (or @ruby-headers@ and @kdelibs-headers@). If so, install
+  them. If you installed Ruby and the KDE libraries by hand, the header files are
+  already installed
+* Download the @kdebindings@ tarball from the "KDE home page":http://www.kde.org/download.
+  Choose the same version as your KDE libraries.
+* Unpack the tarball.
+* @cd@ in the directory created unpacking the tarball
+* Create a build directory: @mkdir build@
+* @cd build@
+* @cmake ..@
+* If you had a KDE environment installed before deciding to install Ruber, check,
+  using your package manager, whether you also have a package called @smoke@ installed
+* run @cmake ..@ This will give you a pseudo-graphical interface where to set
+  some options. In particular, you may want to change the installation directory
+  by setting the @CMAKE_INSTALL_PREFIX@ option. Most likely, you'll also want to
+  avoid building the bindings for languages other than Ruby, so set the corresponding @BUILD_*@
+  options (for example, @BUILD_perl@) to @OFF@. If you already have @smoke@ installed,
+  also set @BUILD_smoke@ to @OFF@. After changing
+  the options you need, press @c@ to configure and @g@ to generate. Then @e@ to
+  exit
+* @make@
+* @make install@. Unless you changed the installation directory to a directory
+  you have write access to, this command must be run as superuser.
+
+h2. Installing plugin dependencies
+
+* @rake@: @gem install rake@ (you don't need this if using ruby 1.9, unless you want
+  to install a newer version of rake)
+* @rspec@: @gem install rspec@
+* @rak@: @gem install rak@

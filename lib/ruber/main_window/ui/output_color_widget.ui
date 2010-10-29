@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>OutputColorWidget</class>
+ <widget class="QWidget" name="OutputColorWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>392</width>
+    <height>189</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="1">
+      <widget class="QLabel" name="label_9">
+       <property name="text">
+        <string>Default</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QLabel" name="label_8">
+       <property name="text">
+        <string>Good</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_7">
+       <property name="text">
+        <string>Message</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="KColorButton" name="_output_colors__message"/>
+     </item>
+     <item row="1" column="2">
+      <widget class="KColorButton" name="_output_colors__message_good"/>
+     </item>
+     <item row="1" column="3">
+      <widget class="KColorButton" name="_output_colors__message_bad"/>
+     </item>
+     <item row="0" column="3">
+      <widget class="QLabel" name="label_10">
+       <property name="text">
+        <string>Bad</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QGridLayout" name="gridLayout_2">
+     <item row="0" column="1">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Default</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Variant 1</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="3">
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Variant 2</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>Output</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="KColorButton" name="_output_colors__output"/>
+     </item>
+     <item row="1" column="2">
+      <widget class="KColorButton" name="_output_colors__output1"/>
+     </item>
+     <item row="1" column="3">
+      <widget class="KColorButton" name="_output_colors__output2"/>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_6">
+       <property name="text">
+        <string>Error</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="KColorButton" name="_output_colors__error"/>
+     </item>
+     <item row="2" column="2">
+      <widget class="KColorButton" name="_output_colors__error1"/>
+     </item>
+     <item row="2" column="3">
+      <widget class="KColorButton" name="_output_colors__error2"/>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>Warning</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="KColorButton" name="_output_colors__warning"/>
+     </item>
+     <item row="3" column="2">
+      <widget class="KColorButton" name="_output_colors__warning1"/>
+     </item>
+     <item row="3" column="3">
+      <widget class="KColorButton" name="_output_colors__warning2"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+  <zorder>label</zorder>
+  <zorder>label_2</zorder>
+  <zorder>label_3</zorder>
+  <zorder>label_5</zorder>
+  <zorder>_output_colors__output</zorder>
+  <zorder>_output_colors__output1</zorder>
+  <zorder>_output_colors__output2</zorder>
+  <zorder>label_6</zorder>
+  <zorder>_output_colors__error</zorder>
+  <zorder>_output_colors__error1</zorder>
+  <zorder>_output_colors__error2</zorder>
+  <zorder>_output_colors__warning2</zorder>
+  <zorder>label_4</zorder>
+  <zorder>_output_colors__warning1</zorder>
+  <zorder>_output_colors__warning</zorder>
+  <zorder>line</zorder>
+  <zorder>_output_colors__message</zorder>
+  <zorder>_output_colors__message_bad</zorder>
+  <zorder>label_7</zorder>
+  <zorder>label_8</zorder>
+  <zorder>label_9</zorder>
+  <zorder>label_10</zorder>
+  <zorder>_output_colors__message_good</zorder>
+  <zorder>label_10</zorder>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KColorButton</class>
+   <extends>QPushButton</extends>
+   <header>kcolorbutton.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

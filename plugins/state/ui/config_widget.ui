@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>StateConfigWidget</class>
+ <widget class="QWidget" name="StateConfigWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>128</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>State</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <widget class="QCheckBox" name="_state__restore_cursor_position">
+        <property name="text">
+         <string>Restore cursor position when opening documents</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QCheckBox" name="_state__restore_project_files">
+        <property name="text">
+         <string>Restore open files when opening a project</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>On startup</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="KComboBox" name="_state__startup_behaviour">
+          <property name="access" stdset="0">
+           <string>$startup_behaviour</string>
+          </property>
+          <item>
+           <property name="text">
+            <string>Restore open project and files</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Restore open files only</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Restore open project only</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Keep empty workspace</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

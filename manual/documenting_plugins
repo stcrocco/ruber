@@ -1,0 +1,170 @@
+h1. Documenting Plugins
+
+After writing a plugin, you need to make sure other plugin writers can know about
+the functionality it provides, both to use it or to create alternative plugins
+which can be used in place of yours. This means documenting the plugin API.
+
+This documentation is written as normal source code documentation, formatted for
+YARD and using the extensions included by Ruber (in the yard subdirectory of the
+gem).
+
+The API documentation for a plugin is made of two main parts: the API documentation
+for the the feature the plugin provides and the API documentation for specific
+parts of the plugin (the plugin object, extensions objects and tool widgets). Most
+of the times, a plugin API only contains the feature API and the API for the plugin
+objects, since extensions and tool widgets are usually implementation details which
+other plugins don't need to know.
+
+The API documentation for the feature, together with a description of what the
+plugin does, should be written as documentation for the module or class which
+acts as namespace for the plugin (if the plugin doesn't use a namespace, any class
+or module can be used for this, the use of a namespace is strongly suggested).
+Documentation for tool widgets and extensions should be written as normal source
+code documentation for the class which implements the tool widget or extension.
+
+Although conceptually different, the feature API documentation and the documentation
+for the individual parts of the plugin are in practice quite similar. They all make
+use of the following YARD tags (the feature API documentation also uses the
+the plugin's specification file to retrieve some information about the plugin).
+
+h2. Tags to document a plugin's API
+
+h4. @api@
+
+Tells YARD to write an API feature in the documentation. It takes two
+or three parameters. The first two parameters are the kind of object the API is
+for (@feature@, @extension@, @tool_widget@) and the name Ruber uses to refer to
+it (the internal name for features, the name for extension and the name or caption
+for tool widgets, as in the PSF). The third parameter (which is everything after
+the second one) is additional text to display.
+
+If the first parameter is @feature@, the presence of this tag also causes the PSF
+to be read to look for information to be used with other tags. The PSF must be in
+the same directory as the file where this tag is and be called @plugin.yaml@.
+
+*Examples:*
+
+bc. @api feature xxx
+
+bc. @api tool_widget abc extra description for tool widget abc
+
+h4. @plugin@
+
+A description of the API for the plugin object. If no parameter is
+given, the class of the plugin object is read from the PSF and a line saying "See
+API for _clsname_" is inserted. If the tag contains some text, that text is used
+instead.
+
+Usully, you don't need to specify a parameter here, as any documentation should
+most likely go into the documentation of the plugin class itself. In special situations,
+however, it may be useful to write custom text here (note that no automatic text
+is inserted if the parameter is specified, so you should mention the plugin class
+by yourself)
+
+*Examples:*
+
+bc. @plugin
+
+bc. @plugin some description
+
+h4. @extension@
+
+An extension which plugins providing this feature must also provide. It can take
+one or two argument. The first is the name of the extension, as in the PSF. The
+second (not required) can be either a description of what the extension does
+or a YAML hash (in the short form \{key: value...\})which can contain the same
+entries allowed for an extension entry
+in the PSF plus an @api@ entry and a @description@ entry.
+
+If the second argument is a hash, its contents will be merged with those contained
+in the corresponding entr in the PSF (with the hash in the documentation having
+the precedence on the one in the PSF).
+
+The @description@ entry in the hash contains a general description of the extension
+(just as if the second parameter hadn't been a hash).
+
+If the hash doesn't contain an @api@ entry, then a line specifying the class to
+look for for the extension API is inserted automatically (the class is read from
+the @class@ entry of the hash or from the PSF). If the @api@ entry exists, then
+its contents are used for the @api@ section.
+
+The @scope@, @file_extension@ and @mimetype@ entries, either in the hash or the
+PSF are used to format messages saying to which kind of projects the extension
+is applied.
+
+If the entry corresponding to the extension in the PSF is an array, the text contains
+sections for the various cases. However, if the second parameter to the tag is a
+hash, then the PSF entry for the extension is completely ignored.
+
+*Examples*
+
+bc. @extension xyz
+
+bc. @extension xyz a description of the extension
+
+bc. @extension xyz {api: some strange api, scope: global}
+
+
+h4. @tool_widget@
+
+A tool widget which plugins providing this feature must also provide. Its syntax
+is exactly that for the @extension@ tag.
+
+*Examples*
+
+bc. @tool_widget xyz
+
+bc. @tool_widget xyz a description of the tool widget
+
+bc. @tool_widget xyz {api: some strange api, scope: global}
+
+h4. @config_option@
+
+A global option which is part of the public API. It takes three arguments:
+the first two are the group and name of the option. The third is the type of its
+value (using the YARD syntax to specify types).
+
+*Examples*
+
+bc. @config_option grp opt [String]
+
+bc. @config_option grp opt [String, nil]
+
+bc. @config_option grp opt [<Qt::Color>]
+
+h4. @project_option@
+
+A project or document option which is part of the public API. It takes three or four
+arguments: the first three are equal to the arguments of the @config_option@ tag,
+while the last is as the last parameter of the @extension@ tag, except that the
+@api@ and @class@ entries of the hash aren't used
+
+*Examples*
+
+bc. @project_option grp opt [String, nil] {scope: global}
+
+bc. @project_option grp opt [String, nil] {scope: document, file_extension: '*.rb'}
+
+h4. @api_method@, @api_signal@, @api_slot@, @api_class@, @api_constant@
+
+Tags which specify that a given method, signal, slot, class or constant is part
+of the API. They all take a single argument, which is the name of the item. A link
+will be created (if the target is found) to that item.
+
+These tags are the most common part of the API of plugin objects, extensions or
+tool widget, but should rarely appear in the API of the feature itself.
+
+Note that, since you can't create a class or constant which is part of the API in
+the usual way but only using @const_set@, the content of the @@api_class@ and
+@@api_constant@ tags should specify both the internal constant and the name which
+users of the api should use.
+
+*Examples*
+
+bc. @api_method SomeClass#some_method
+
+bc. @api_signal SomeClass#some_signal
+
+bc. @api_slot SomeClass#some_slot
+
+bc. @api_constant SomeClass::InternalName SomeClass::SomeConstant

@@ -1,0 +1,30 @@
+name: rspec
+version: 0.0.1
+about:
+ authors: [Stefano Crocco, stefano.crocco@alice.it]
+ license: :gpl
+ description: Frontend to RSpec
+ bug_address: http://github.com/stcrocco/ruber/issues
+ icon: rspec.png
+class: Ruber::RSpec::Plugin
+require: rspec
+deps: [ruby_development, autosave]
+ui_file: rspecui.rc
+project_widgets:
+ - {caption: RSpec, class: 'Ruber::RSpec::ProjectWidget', pixmap: rspec.png}
+project_options:
+ rspec:
+  executable: {default: 'Ruber::RSpec::Plugin.find_default_executable'}
+  options: {default: []}
+  spec_directory: {relative_path: true, default: spec}
+  spec_files: {default: '*_spec.rb'}
+  spec_pattern: {default: ['%f_spec.rb']}
+  full_backtraces: {default: true}
+tool_widgets: {class: 'Ruber::RSpec::ToolWidget', pixmap: rspec.png, caption: RSpec}
+actions: 
+ rspec-go_to_spec: {text: Switch to &Spec, shortcut: 'Alt+Shift+R, S', slot: go_to_spec(), states: [active_project_exists, current_document]}
+ rspec-go_to_file: {text: Switch to &File, shortcut: 'Alt+Shift+R, F', slot: go_to_file(), states: [active_project_exists, current_document]}
+ rspec-run_all: {text: Run &Project Specs, shortcut: 'Alt+Shift+R, P', slot: run_all(), states: [active_project_exists, rspec_running]}
+ rspec-run_current: {text: Run Specs for &Current File, shortcut: 'Alt+Shift+R, C', slot: run_current(), states: [active_project_exists, current_document, rspec_running]}
+ rspec-run_current_line: {text: Run Current Spec, shortcut: 'Alt+Shift+R, L', slot: run_current_line(), states: [active_project_exists, current_document, rspec_running]}
+ rspec-stop: {text: S&top, shortcut: Esc, icon: process-stop, slot: stop_process(), state: rspec_running}

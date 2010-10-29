@@ -1,0 +1,27 @@
+<!DOCTYPE kpartgui SYSTEM 'kpartgui.dtd'>
+<kpartgui version="1" name="ruber-rake_plugin" >
+ <MenuBar>
+  <Menu noMerge="1" name="ruby" >
+   <text>&amp;Ruby</text>
+   <Separator/>
+   <Menu noMerge="1" name="rake">
+    <text>Ra&amp;ke</text>
+    <Action name="rake-run"/>
+    <Action name="rake-run_default"/>
+    <Separator/>
+    <Action name="rake-stop"/>
+    <Menu name="rake-quick_tasks">
+      <text>&amp;Quick Tasks</text>
+      <ActionList name="rake-quick_tasks_list"/>
+    </Menu>
+    <Menu name="rake-project_tasks">
+      <text>&amp;Project Tasks</text>
+      <Action name="rake-refresh"/>
+      <Separator/>
+      <ActionList name="rake-project_tasks_list"/>
+    </Menu>
+   </Menu>
+  </Menu>
+ </MenuBar>
+ <ActionProperties/>
+</kpartgui>

@@ -1,0 +1,109 @@
+<!DOCTYPE kpartgui SYSTEM 'kpartgui.dtd'>
+<kpartgui version="10" name="ruber" >
+ <MenuBar>
+  <Menu name="file" >
+   <text>&amp;File</text>
+   <Action name="file_new" />
+   <DefineGroup name="new_merge" />
+   <Separator/>
+   <Action name="file_open" />
+   <Action name="file_open_recent" />
+   <DefineGroup name="open_merge" />
+   <Separator/>
+   <DefineGroup name="save_merge" />
+   <Action name="file-save_all" />
+   <Separator/>
+   <DefineGroup name="revert_merge" />
+   <DefineGroup name="print_merge" />
+   <DefineGroup name="export_merge" />
+   <Separator/>
+   <Action name="file_close" />
+   <Action name="file-close_all" />
+   <Action name="file-close_other" />
+   <Separator/>
+   <Action name="file_quit" />
+  </Menu>
+  <Menu name="edit" >
+   <text>&amp;Edit</text>
+   <DefineGroup name="edit_undo_merge" />
+   <Separator group="edit_undo_merge" />
+   <DefineGroup name="edit_paste_merge" />
+   <Separator/>
+   <DefineGroup name="edit_select_merge" />
+   <Separator/>
+   <DefineGroup name="edit_find_merge" />
+   <Separator/>
+   <DefineGroup name="edit_find_plugins" />
+   <Separator/>
+  </Menu>
+  <Menu name="documents" >
+   <text>&amp;Document</text>
+   <Action name="go_back" />
+   <Action name="go_forward" />
+   <Separator/>
+   <Action name="configure_document"/>
+  </Menu>
+  <Menu name="view" >
+   <text>&amp;View</text>
+   <Action name="view-activate_editor" />
+   <Menu name="tool_widgets">
+    <text>&amp;Tool Widgets</text>
+    <Action name="view-toggle_left_tool_widget"/>
+    <Action name="view-toggle_right_tool_widget"/>
+    <Action name="view-toggle_bottom_tool_widget"/>
+   </Menu>
+   <Separator/>
+   <DefineGroup name="view_operations" />
+  </Menu>
+  <Menu noMerge="1" name="project" >
+   <text>&amp;Project</text>
+   <Action name="project-new"/>
+   <Separator/>
+   <Action name="project-open" />
+   <Action name="project-open_recent" />
+   <Separator/>
+   <Action name="project-close"/>
+   <Separator/>
+   <Action name="project-quick_open_file" />
+   <Separator/>
+   <Action name="project-configure"/>
+  </Menu>
+  <Merge/>
+  <Menu name="tools" >
+   <text>&amp;Tools</text>
+   <Action name="tools_external" />
+   <Separator/>
+   <DefineGroup name="tools_operations" />
+   <Action name="scripts" />
+  </Menu>
+  <Menu name="settings" >
+   <text>&amp;Settings</text>
+   <Action name="options_configure" />
+   <DefineGroup name="configure_merge" />
+   <Separator/>
+   <DefineGroup name="show_merge" />
+   <Action name="options-choose_plugins" />
+   <Separator/>
+   <Merge name="StandardToolBarMenuHandler"/>
+   <Action name="settings_show_statusbar"/>
+   <Separator/>
+   <Action name="options_configure_keybinding" />
+   <Action name="set_configure_toolbars" />
+  </Menu>
+  <Menu name="help" >
+   <text>&amp;Help</text>
+   <Action name="help_contents" />
+   <Action name="help_user_manual" />
+   <Action name="help_whats_this" />
+   <Separator/>
+   <Action name="help_report_bug" />
+   <Separator/>
+   <Menu name="about_plugins">
+    <text>About &amp;Plugins</text>
+    <ActionList name="about_plugins_list"/>
+   </Menu>
+   <Action name="help_about_app" />
+   <Action name="help_about_kde" />
+  </Menu>
+ </MenuBar>
+ </kpartgui>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AutosaveConfigWidget</class>
+ <widget class="QWidget" name="AutosaveConfigWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>279</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Autosave</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QCheckBox" name="_autosave__enable">
+          <property name="text">
+           <string>&amp;Enable autosave</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>&amp;Exceptions</string>
+          </property>
+          <property name="buddy">
+           <cstring>_autosave__plugins</cstring>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="AutosavePluginListView" name="_autosave__plugins">
+          <property name="access" stdset="0">
+           <string>$plugins</string>
+          </property>
+          <property name="signal" stdset="0">
+           <string>items_changed()</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>AutosavePluginListView</class>
+   <extends>QListView</extends>
+   <header>autosavepluginlistview.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

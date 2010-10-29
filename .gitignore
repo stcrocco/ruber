@@ -1,0 +1,11 @@
+
+spec_results
+/lib/ruber/*/ui/*.rb
+/plugins/*/ui/*.rb
+/doc/
+ruber.ruses
+ruber.ruusr
+old/
+.yardoc
+ruber-*.gem
+/rdoc/

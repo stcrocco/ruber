@@ -1,0 +1,4 @@
+<p class="signature <%= 'first' if @index == 0 %>" id="<%= anchor_for(object) %>">
+<!-- The sub is needed to remove the (Object) part -->
+  <%= signature(object, false).sub(/(-\s+).*<strong>/, '\\1<strong>').gsub('((', '(').gsub('))', ')') %>
+</p>

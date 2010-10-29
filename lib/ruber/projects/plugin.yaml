@@ -1,0 +1,11 @@
+name: projects
+require: [project_list, project_files_widget, project_files_list]
+class: Ruber::ProjectList
+project_options:
+ general:
+  project_files: {default: {:include: [], :exclude: [], :extensions: ["*.rb"]}}
+  open_documents: {default: [], type: session, scope: [global, document]}
+project_widgets:
+ - {class: Ruber::ProjectFilesWidget, caption: 'General', pixmap: configure}
+extensions:
+ project_files: {class: ProjectFilesList}

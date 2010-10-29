@@ -1,0 +1,20 @@
+h1. Ruber architecture
+
+Ruber is a plugin-based IDE. This means that the Ruber program itself only provides
+the core functionality: a system to load, unload, manage and access plugins, the
+main window, the document/editor and project system. Everything else is provided
+by plugins.
+
+By itself, the Ruber program does only the following
+* create some unique objects (such as the appplication and the main window) when
+the application starts. Objects of this kind are treated almost like plugins,
+only they are created before any other plugin is loaded and are hardcoded: the user
+can't (as yet) write a plugin which provides a different main window or application.
+These objects (of which only one is created during the application lifetime) are
+called *core components*
+* provide some frameworks for doing common operation (for example managing options,
+GUI states and similar), some of which take the place of those provided by KDE
+* provide a library of classes, such as the @Document@, @Project@ and @Plugin@
+classes which represent fundamental Ruber entities
+
+<a href="file.plugin_specification_file.html">The Plugin Specification File</a>

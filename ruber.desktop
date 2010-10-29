@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Ruber
+Comment=An IDE for the Ruby programming language written in Ruby
+Comment[it]=Un IDE per il linguaggio Ruby scritto in Ruby
+TryExec=ruber
+Exec=ruber %u
+Type=Application
+Categories=Development;IDE;Qt;KDE;
+Icon=ruber
+MimeType=application/x-ruby

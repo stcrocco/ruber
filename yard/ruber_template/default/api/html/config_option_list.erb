@@ -1,0 +1,7 @@
+<% opts = object.tags :config_option %>
+<% unless opts.empty? %>
+<h4>Global Settings</h4>
+  <% opts.each_index do |i| %>
+    <%= yieldall :index => i %>
+  <% end %>
+<% end %>

@@ -1,0 +1,7 @@
+<% exts = object.tags :extension %>
+<% unless exts.empty? %>
+<h4>Extensions API</h4>
+  <% exts.each_index do |i| %>
+    <%= yieldall :index => i %>
+  <% end %>
+<% end %>

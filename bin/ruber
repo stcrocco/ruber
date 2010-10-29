@@ -1,0 +1,65 @@
+#!/usr/bin/env ruby
+
+=begin rdoc
+Helper module to resolve the conflict between +Enumerable#count+ and the +count+
+methods a lot of Qt/KDE classes provide.
+
+It is essentially like +Enumerable+, but defines a <tt>count_items</tt> method
+rather than a +count+ method. Qt/KDE classes can then mix-in this module instead
+of +Enumerable+. The same effect could have been obtained by modifying +Enumerable+,
+but that could have interferred with other libraries
+=end
+module QtEnumerable
+  
+  include Enumerable
+  
+  begin
+    alias :count_items :count
+    undef_method :count
+  rescue NoMethodError
+  end
+  
+end
+
+require 'korundum4'
+require 'kio'
+require 'facets/kernel/require_relative'
+
+require 'ruber/qt_sugar'
+require 'ruber/kde_sugar'
+require 'ruber/utils'
+require 'ruber/exception_widgets'
+require 'ruber/component_manager.rb'
+
+data = KDE::AboutData.new "ruber", "", KDE::ki18n("Ruber"), "0.0.1",
+    KDE.ki18n('A Ruby IDE written in Ruby'), KDE::AboutData::License_GPL
+data.add_author KDE.ki18n('Stefano Crocco'), KDE::LocalizedString.new, 
+    Qt::ByteArray.new('stefano.crocco@alice.it')
+data.bug_address = Qt::ByteArray.new "http://github.com/stcrocco/ruber/issues"
+data.homepage = Qt::ByteArray.new 'http://stcrocco.github.com/ruber'
+    
+KDE::CmdLineArgs.init ARGV, data
+opts = KDE::CmdLineOptions.new
+opts.add("config-file <FILE>", KDE.ki18n("Use FILE instead of the default "\
+                                          "config file"), "")
+opts.add("file <FILE>", KDE.ki18n("Open the file FILE. This option may be"\
+                                  " repeated more than one times and is "\
+                                  "mostly useful to open files ending in "\
+                                  ".krprj as files instead of as projects"))
+opts.add("+[FILES]", KDE.ki18n("Open FILES. Files with extension .krprj will "\
+                              "be opened as projects. Only the more recent "\
+                              "project will be used"))
+KDE::CmdLineArgs.add_cmd_line_options opts
+
+
+manager = Ruber::ComponentManager.new
+manager.load_component 'application'
+begin Ruber[:app].exec
+rescue SystemExit, SignalException
+  raise
+rescue Exception => ex
+  dlg = Ruber::ExceptionDialog.new ex, nil, false
+  dlg.exec
+  Qt::Internal.application_terminated = true
+  raise
+end

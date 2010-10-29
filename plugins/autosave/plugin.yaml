@@ -1,0 +1,16 @@
+name: autosave
+version: 0.0.1
+about:
+ authors: [Stefano Crocco, stefano.crocco@alice.it]
+ license: gpl
+ description: Provides a central place to manage autosave settings for other plugins
+ bug_address: http://github.com/stcrocco/ruber/issues
+ icon: document-save.png
+require: autosave
+class: Ruber::Autosave::AutosavePlugin
+config_options: 
+ autosave:
+  enable: {default: true}
+  plugins: {default: {}}
+config_widgets:
+ - {caption: General, class: Ruber::Autosave::ConfigWidget}

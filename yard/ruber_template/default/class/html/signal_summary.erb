@@ -1,0 +1,15 @@
+<% signals = object.children.select{|c| c.class == SignalCodeObject} %>
+<% unless signals.empty? %>
+  <h2>Signal Summary</h2>
+  <ul class="summary" >
+  <% signals.each do |s| %>
+    <li class="public <%= @index == 0 ? 'first' : '' %>">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <%= signature(s).sub(/- \s*\([^)]+\)/, '-').gsub('((', '(').gsub('))', ')') %>
+      </span>
+      <span class="summary_desc"><%=htmlify_line s.docstring.summary%></span>
+    </li>
+  <% end %>
+  </ul>
+<% end %>

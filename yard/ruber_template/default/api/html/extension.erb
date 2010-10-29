@@ -1,0 +1,10 @@
+<% ext_tag = object.tags(:extension)[@index] %>
+<% data = read_extension_entry ext_tag, object %>
+<h5 <%= @index > 0 ? 'style="padding-top: 5px; border-top: 1px dotted #bbb;"' : '' %> ><%= ext_tag.name %></h5>
+<dl>
+  <% if ext_tag.description %>
+    <dt style="font-weight: bold;">Description</dt>
+    <dd><%= resolve_links htmlify(ext_tag.description) %></dd>
+  <% end %>
+  <%= format_extension_api data%>
+</dl>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>RubyRunnerConfigWidget</class>
+ <widget class="QWidget" name="RubyRunnerConfigWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>385</width>
+    <height>306</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="KEditListBox" name="_ruby__interpreters">
+     <property name="title">
+      <string>&amp;Availlable Interpreters</string>
+     </property>
+     <property name="signal" stdset="0">
+      <string>changed()</string>
+     </property>
+     <property name="read" stdset="0">
+      <string>$fill_interpreters</string>
+     </property>
+     <property name="store" stdset="0">
+      <string>items</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Interpreter</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>&amp;Default interpreter</string>
+          </property>
+          <property name="buddy">
+           <cstring>_ruby__ruby</cstring>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="KComboBox" name="_ruby__ruby">
+          <property name="read" stdset="0">
+           <string>$default_interpreter=</string>
+          </property>
+          <property name="store" stdset="0">
+           <string>current_text</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="RubyOptionsWidget" name="_ruby__ruby_options" native="true"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KEditListBox</class>
+   <extends>QGroupBox</extends>
+   <header>keditlistbox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>RubyOptionsWidget</class>
+   <extends>QWidget</extends>
+   <header>rubyoptionswidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

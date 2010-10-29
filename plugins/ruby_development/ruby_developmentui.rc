@@ -1,0 +1,19 @@
+<!DOCTYPE kpartgui SYSTEM 'kpartgui.dtd'>
+<kpartgui version="1" name="ruber-ruby_runner_plugin" >
+ <MenuBar>
+  <Menu noMerge="1" name="ruby" >
+   <text>&amp;Ruby</text>
+    <Separator/>
+    <Action name="ruby_runner-run" />
+    <Action name="ruby_runner-run_current_file" text="Run current file" />
+    <Action name="ruby_runner-run_file" />
+    <Separator/>
+    <Action name="ruby_runner-stop" />
+    <Separator/>
+    <Action name="ruby_runner-run_in_terminal"/>
+    <DefineGroup name="ruby_tools"/>
+    <Merge/>
+  </Menu>
+ </MenuBar>
+ <ActionProperties/>
+</kpartgui>
