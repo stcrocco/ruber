@@ -1,4 +1,4 @@
-YARD::Templates::Engine.register_template_path File.join(File.dirname(__FILE__), 'yard/ruber_template')
+YARD::Templates::Engine.register_template_path 'yard/ruber_template'
 
 # Substitute of htmlify when you don't want the extra <p>...</p> that RedCloth
 # introduces. It strips the resulting html string removing the extra <p>...</p>
