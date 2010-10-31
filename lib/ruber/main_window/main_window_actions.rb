@@ -27,10 +27,6 @@ require 'ruber/main_window/ui/new_project_widget'
 
 module Ruber
   
-=begin rdoc
-===Slots
-* <tt>new_file()</tt>
-=end
   class MainWindow < KParts::MainWindow
     
     slots 'open_recent_project(KUrl)', :close_current_project, :open_file,
@@ -45,19 +41,24 @@ module Ruber
    
 =begin rdoc
 Slot connected to the 'New File' action
+
+It creates and activates a new, empty file
+
+@return [nil]
 =end
     def new_file
       display_doc Ruber[:docs].new_document
+      nil
     end
     
 =begin rdoc
-Slot connected to the 'Open File' action. It displays an 'open file' dialog where
-the user can choose the file to open, then creates a new document for it, creates
-an editor for it and activates and gives focus to it. It also adds the url to the
-list of recently opened files.
+Slot connected to the 'Open File' action.
 
-The open file dialog is initially in the project directory of the current project,
-if there's a current project and in the default script thirectory otherwise.
+It opens in an editor and activates a document associated with a file chosen by the
+user with an OpenFile dialog (the document is created if needed). It also adds
+the file to the list of recently opened files.
+
+@return [nil]
 =end
     def open_file
       dir = KDE::Url.from_path(Ruber.current_project.project_directory) rescue KDE::Url.new
@@ -65,25 +66,44 @@ if there's a current project and in the default script thirectory otherwise.
       without_activating do
         filenames.each{|f| gui_open_file f}
       end
+      nil
     end
     
 =begin rdoc
 Slot connected to the 'Open Recent File' action
+
+It opens the file associated with the specified URL in an editor and gives it focus
+
+@param [KDE::Url] the url of the file to open
+@return [nil]
 =end
     def open_recent_file url
       gui_open_file url.path
+      nil
     end
     
 =begin rdoc
-Slot connected to the 'Close Current' action. It closes the current editor
+Slot connected to the 'Close Current' action
+
+It closes the current editor, if any. If the documents is modified,
+it allows the user to choose what to do via a dialog. If the user chooses to abort
+closing, nothing is done
+
+@return [nil]
 =end
     def close_current_editor
       close_editor active_editor if active_editor
+      nil
     end
 
 =begin rdoc
-Slot connected to the 'Close All Other' action. It closes all the editors except
-the current one
+Slot connected to the 'Close All Other' action
+    
+It closes all the editors except the current one. If some documents are modified,
+it allows the user to choose what to do via a dialog. If the user chooses to abort
+closing, nothing is done.
+
+@return [nil]
 =end
     def close_other_views
       to_close = @views.select{|w| w != @views.current_widget}.map{|w| w.document}
@@ -92,10 +112,17 @@ the current one
           to_close.dup.each{|d| d.close_view d.view, false}
         end
       end
+      nil
     end
     
 =begin rdoc
 Slot connected with the 'Close All' action
+
+It closes all the editors. If some documents are modified,
+it allows the user to choose what to do via a dialog. If the user chooses to abort
+closing, nothing is done.
+
+@return [nil]
 =end
     def close_all_views ask = true
       return if ask and !save_documents @views.map{|v| v.document}
@@ -104,18 +131,29 @@ Slot connected with the 'Close All' action
           close_editor w, false
         end
       end
+      nil
     end
     
 =begin rdoc
 Slot connected to the 'Open Recent Projet' action
+
+It opens a project and activates a project
+
+@param [KDE::Url] the url of the project file to open
+@return [nil]
 =end
     def open_recent_project url
       return unless safe_open_project url.path
       action_collection.action('project-open_recent').add_url url, url.file_name
+      nil
     end
 
 =begin rdoc
 Slot connected to the 'Open Project' action
+
+It opens the project chosen by the user using an open dialog
+
+@return [nil]
 =end
     def open_project
       filename = KDE::FileDialog.get_open_file_name KDE::Url.from_path( 
@@ -125,6 +163,7 @@ Slot connected to the 'Open Project' action
       prj = safe_open_project filename
       url = KDE::Url.new prj.project_file
       action_collection.action('project-open_recent').add_url url, url.file_name
+      nil
     end
     
 =begin rdoc
@@ -137,8 +176,11 @@ Slot connectedto the 'Close Current Project' action
     end
     
 =begin rdoc
-Slot connected to the 'Quick Open File' action. Displays the QuickOpenFile dialog
-TODO: MOVE? Changed name?
+Slot connected to the 'Quick Open File' action
+
+It opens the file chosen by the user in a quick open file dialog
+
+@retrun [nil]
 =end
     def open_file_in_project
       dlg = OpenFileInProjectDlg.new self
@@ -152,14 +194,25 @@ TODO: MOVE? Changed name?
 =begin rdoc
 Slot connected to the 'Configure Ruber' action
 
+It displays the configuration dialog
 
+@return [nil]
 =end
     def preferences
       Ruber[:config].dialog.exec
+      nil
     end
     
 =begin rdoc
-Slot connected with the 'Choose Plugins' action. Displays the Choose Plugin dialog
+Slot connected with the 'Choose Plugins' action
+    
+It displays the choose plugins dialog then (unless the user canceled  the dialog)
+unloads all plugins and reloads them.
+
+If there's a problem while reloading the plugins, the application is closed after
+informing the user
+
+@return [nil]
 =end
     def choose_plugins
       dlg = ChoosePluginsDlg.new self
@@ -172,20 +225,33 @@ Slot connected with the 'Choose Plugins' action. Displays the Choose Plugin dial
       loaded.each{|pl| Ruber[:components].unload_plugin pl}
       res = Ruber[:app].safe_load_plugins dlg.plugins.keys.map(&:to_s)
       close unless res
+      nil
     end
     
 =begin rdoc
-Slot connected with the 'Configure Project' action. It displays the Configure 
-Project dialog
+Slot connected with the 'Configure Project' action
+    
+It displays the configure project dialog for the current project. It does nothing
+if there's no active project
+
+@return [nil]
 =end
     def configure_project
       prj = Ruber.current_project
       raise "No project is selected" unless prj
       prj.dialog.exec
+      nil
     end
     
 =begin rdoc
-Slot connected with the 'New Project' action. It displays the New Project dialog.
+Slot connected with the 'New Project' action
+    
+It displays the new project dialog. Unless the user cancels the dialog, it creates
+the project directory and creates and saves a new project with the parameters chosen
+by the user. The new project is then activated. If there was another active project,
+it's closed
+
+@return [nil]
 =end
     def new_project
       dlg = NewProjectDialog.new self
@@ -197,31 +263,49 @@ Slot connected with the 'New Project' action. It displays the New Project dialog
       action_collection.action('project-open_recent').add_url KDE::Url.new(dlg.project_file)
       Ruber[:projects].close_current_project if Ruber[:projects].current
       Ruber[:projects].current_project = prj
+      nil
     end
     
 =begin rdoc
-Switches to the next document
+Slot connected with the 'Next Document' action
+
+Makes the editor to the right of the current one active. If there's no editor to
+the right, the first editor becomes active
+
+@return [nil]
 =end
     def next_document
       idx = @views.current_index
       new_idx = idx + 1 < @views.count ? idx + 1 : 0
       activate_editor new_idx
+      nil
     end
 
 =begin rdoc
-Switches to the previous document
+Slot connected with the 'Previous Document' action
+
+Makes the editor to the left of the current one active. If there's no editor to
+the left, the last editor becomes active
+
+@return [nil]
 =end
     def previous_document
       idx = @views.current_index
       new_idx = idx > 0 ? idx - 1 : @views.count - 1
       activate_editor new_idx
+      nil
     end
     
 =begin rdoc
+Slot connected to the 'Ruber User Manual' action
+
 Opens the user's browser and points it to the user manual
+
+@return [nil]
 =end
     def show_user_manual
       KDE::Run.run_url KDE::Url.new('http://stcrocco.github.com/ruber/user_manual'), 'text/html', self
+      nil
     end
     slots :show_user_manual
     
@@ -230,23 +314,28 @@ Slot connected to the actions in the "about_plugins_list" action list.
 
 Displays a dialog with the about data regarding a plugin. The plugin to use is
 determined from the triggered action
+
+@return [nil]
 =end
     def display_about_plugin_dlg
       name = sender.object_name.to_sym
       data = Ruber[name].about_data
       dlg = KDE::AboutApplicationDialog.new data, self
       dlg.exec
+      nil
     end
     
 =begin rdoc
-Adds an action to the "about_plugins_list" action list which displays the AboutData
-dialog for the plugin _comp_.
+Creates an About entry for a component in the "about plugins list" of the Help menu
 
-<b>Note:</b> if _comp_ is not a plugin (for example, it's a core component) this
-method does nothing
-<b>Note:</b> this method doesn't check whether such an action for the component
-_comp_ already exists. Usually, this is called in response to the <tt>component_loaded</tt>
-signal from the component manager, so things should work automatically.
+*Notes:* 
+# this method doesn't check whether the action already exists for the given
+  plugin. Since it's usually called in response to the {ComponentManager#component_loaded component_loaded}
+  signal of the component manager, there shouldn't be problems with this
+# this method does nothing for core components
+
+@param [Plugin] comp the plugin object of the plugin to create the action for
+@return [nil]
 =end
     def add_about_plugin_action comp
       name = comp.plugin_name
@@ -260,17 +349,20 @@ signal from the component manager, so things should work automatically.
       end
       @about_plugin_actions << a
       plug_action_list 'about_plugins_list', @about_plugin_actions
+      nil
     end
     
 =begin rdoc
-Removes from the "about_plugins_list" action list the action corresponding to the
-plugin _comp_.
+Removes the About entry for the given menu from the "about plugins list" of the Help menu
 
-<b>Note:</b> if _comp_ is not a plugin (for example, it's a core component) this
-method does nothing
-<b>Note:</b> this method doesn't check whether such an action for the component
-_comp_ actually exists. Usually, this is called in response to the <tt>unloading_component</tt>
-signal from the component manager, so things should work automatically.
+*Notes:* 
+# this method doesn't check whether the action for the given
+plugin actually exists. Since it's usually called in response to the {ComponentManager#unloading_component unloading_component}
+signal of the component manager, there shouldn't be problems with this
+# this method does nothing for core components
+
+@param [Plugin] comp the plugin object of the plugin to remove the action for
+@return [nil]
 =end
     def remove_about_plugin_action comp
       name = comp.plugin_name.to_s
@@ -283,23 +375,42 @@ signal from the component manager, so things should work automatically.
     end
     
 =begin rdoc
-Displays the configuration dialog for the current project, if it exists
+Slot associated with the Configure Document action
+
+Displays the configuration dialog for the current document, if it exists
+
+@return [nil]
 =end
     def configure_document
       current_document.own_project.dialog.exec
+      nil
     end
     
+=begin rdoc
+Slot associated with the Toggle * Tool Widget
+
+It identifies the tool widget to toggle basing on the name of the triggered action
+
+@return [nil]
+=end
     def toggle_tool_widget
       side = sender.object_name.match(/(left|right|bottom)/)[1].to_sym
       w = @workspace.current_widget(side)
       return unless w
       @workspace.toggle_tool w
+      nil
     end
     
   end
   
+=begin rdoc
+Class containing the settings associated with the main window
+=end
   class MainWindowSettingsWidget < Qt::Widget
     
+=begin rdoc
+@param [Qt::Widget,nil] parent the parent widget
+=end
     def initialize parent = nil
       super
       @ui = Ui::MainWindowSettingsWidget.new
@@ -308,20 +419,40 @@ Displays the configuration dialog for the current project, if it exists
       @ui._general__default_project_directory.mode = KDE::File::Directory
     end
     
+=begin rdoc
+Override of @Qt::Widget#sizeHint@
+
+@return [Qt::Size] the suggested size for the widget
+=end
     def sizeHint
       Qt::Size.new(380,150)
     end
     
   end
   
+=begin rdoc
+Dialog where the user enters the parameters to create a new project
+=end
   class NewProjectDialog < KDE::Dialog
     
+=begin rdoc
+Main widget for the {NewProjectDialog}
+=end
     class NewProjectWidget < Qt::Widget
       
+=begin rdoc
+Signal emitted when the user changes the data in the widget
+
+@param [Boolean] complete whether or not the user has filled all the necessary
+      fields with correct data
+=end
       signals 'complete_status_changed(bool)'
       
       slots 'data_changed()'
       
+=begin rdoc
+@param [Qt::Widget,nil] parent the parent widget
+=end
       def initialize parent = nil
         super
         @ui = Ui::NewProjectWidget.new
@@ -335,16 +466,31 @@ Displays the configuration dialog for the current project, if it exists
         self.focus_proxy = @ui.project_name
       end
       
+=begin rdoc
+@return [String] the name chosen by the user for the project
+=end
       def project_name
         @ui.project_name.text
       end
       
+=begin rdoc
+@return [String] the path of the project file
+=end
       def project_file
         @ui.final_location.text
       end
       
       private
       
+=begin rdoc
+Slot called whenever the user changes data in the widget
+
+It updates the Final location widget, displays the Invalid final location message
+if the project directory already exists and emit the {#complete_status_changed}
+signal
+
+@return [nil]
+=end
       def data_changed
         name = @ui.project_name.text
         container = @ui.container_dir.url.path || ''
@@ -355,10 +501,14 @@ Displays the configuration dialog for the current project, if it exists
                                         File.exist? File.join(container, file)))
         @ui.invalid_project.text = valid ? '' : 'Invalid final location'
         emit complete_status_changed(valid)
+        nil
       end
       
     end
     
+=begin rdoc
+@param [Qt::Widget,nil] parent the parent widget
+=end
     def initialize parent = Ruber[:main_window]
       super
       self.caption = 'New Project'
@@ -368,10 +518,16 @@ Displays the configuration dialog for the current project, if it exists
       connect main_widget, SIGNAL('complete_status_changed(bool)'), self, SLOT('enableButtonOk(bool)')
     end
     
+=begin rdoc
+@return [String] the path of the project file
+=end
     def project_file
       main_widget.project_file
     end
-    
+
+=begin rdoc
+@return [String] the name chosen by the user for the project
+=end
     def project_name
       main_widget.project_name
     end
