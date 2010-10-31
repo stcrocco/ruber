@@ -30,36 +30,45 @@ button.
   class ExceptionDialog < KDE::Dialog
  
 =begin rdoc
-Subclass of <tt>KDE::TextEdit</tt> specialized in displaying the backtrace of an
-exception. The differences with a standard <tt>KDE::TextEdit</tt> are:
+Subclass of @KDE::TextEdit@ specialized in displaying the backtrace of an
+exception.
+    
+The differences with a standard @KDE::TextEdit@ are:
 * automatically uses a fixed width font
 * doesn't use word wrapping
 * is always read-only
-* its <tt>size_hint</tt> method computes (or at least tries to compute) width
+* its {#size_hint} method computes (or at least tries to compute) width
   and height so that each line of the backtrace fits on a single line.
 * automatically extracts the message and the backtrace from the exception
 =end
     class ExceptionBacktraceWidget < KDE::TextEdit
             
 =begin rdoc
-Creates a new widget. _ex_ is the exception whose backtrace should be shown, while
-_parent_ is the widget's parent widget. The message and backtrace of _ex_ are displayed
+@param [Exception] ex the exception whose backtrace should be displayed
+@param [Qt::Widget, nil] parent the parent widget
 =end
       def initialize ex, parent = nil
         super parent
         self.line_wrap_mode = NoWrap
         self.read_only = true
+        #Replace < and > with the corresponding HTML entities in the message
         msg = ex.message.gsub(/[<>]/){|s| s == '<' ? '&lt;' : '&gt;'}
+        #Replace < and > with the corresponding HTML entities in the backtrace
         backtrace = ex.backtrace.map{|l| l.gsub(/[<>]/){|s| s == '<' ? '&lt;' : '&gt;'}}
-        text = "<tt>#{msg}<br/>#{backtrace.join '<br/>'}"
+        text = "<tt>#{msg}<br/>#{backtrace.join '<br/>'}</tt>"
         self.html = text
       end
       
 =begin rdoc
-Override of <tt>KDE::TextEdit</tt> which computes the width as the width required
-to display, using the fixed width font, the longest line. The height is the height
-of a single line multiplied by the number of lines. Both width and height are
-computed using <tt>Qt::FontMetrics</tt>.
+Override of @KDE::TextEdit#sizeHint@
+
+The width is computed as the size (using the fixed width font) of the longest line,
+while the height is computed as the height of a single line multiplied by the
+number of lines.
+
+Both width and height are computed using @Qt::FontMetrics@
+
+@return [Qt::Size] the suggested size of the widget
 =end
       def sizeHint
         font = Qt::TextCursor.new(document).char_format.font
@@ -72,14 +81,13 @@ computed using <tt>Qt::FontMetrics</tt>.
     end
     
 =begin rdoc
-Creates a new dialog. _ex_ is the exception whose contents will be shown. _parent_
-is the dialog's parent widget. _out_ tells whether to also print the exception's
-contents on standard error or not, when the widget is executed. _msg_ is a text
-to display in the dialog above the exception's message.
-
-<b>Note:</b> _msg_ will always be treated as rich text. A line break will always
-be inserted between _msg_ and the beginning of the exception's message (unless _msg_
-is empty).
+@param [Exception] ex the exception the dialog is for
+@param [Qt::Widget,nil] the parent widget
+@param [Boolean] out whether to display the exception to standard error when the
+        dialog is executed
+@param [String] msg the text to display in the dialog before the exception message.
+        Note that this will always be treated as rich text. Unless empty,
+        a line break will always be inserted after it
 =end
     def initialize ex, parent = nil, out = true, msg = 'Ruber raised the following exception:'
       super parent
@@ -87,9 +95,9 @@ is empty).
       self.buttons = Ok | Details
       set_button_text Ok, 'Quit Ruber'
       set_button_text Details, 'Backtrace'
-      error = ex.message.gsub(/\n/, '<br>')
+      error = ex.message.gsub(/\n/, '<br/>')
       error.gsub!(/[<>]/){|s| s == '<' ? '&lt;' : '&gt;'}
-      text = (!msg.empty? ? msg + '<br>' : '') + '<tt>' + error + '</tt>'
+      text = (!msg.empty? ? msg + '<br/>' : '') + '<tt>' + error + '</tt>'
       self.main_widget = Qt::Label.new text, self
       @backtrace_widget = ExceptionBacktraceWidget.new ex, self
       self.details_widget = @backtrace_widget
@@ -97,8 +105,11 @@ is empty).
     end
     
 =begin rdoc
-Override of <tt>KDE::Dialog#sizeHint</tt> which also takes into account the size
-of the Details widget, if shown.
+Override of @KDE::Dialog#sizeHint@
+
+It takes into account the size of the details widget, if shown.
+
+@return [Qt::Size] the suggested size for the dialog
 =end
     def sizeHint
       orig = super
@@ -113,8 +124,11 @@ of the Details widget, if shown.
     end
     
 =begin rdoc
-Override of <tt>KDE::Dialog#exec</tt> which also prints the exception's contents
-on standard error it the _out_ parameter passed to the constructor was *true*
+Override of @KDE::Dialog#exec@ 
+
+If the _out_ parameter passed to the constructor was *true*, displays the exception
+message and backtrace on standard error before displaying the dialog
+@return [Integer] the exit code of the dialog
 =end
     def exec
       if @out
@@ -124,8 +138,11 @@ on standard error it the _out_ parameter passed to the constructor was *true*
     end
     
 =begin rdoc
-Override of <tt>KDE::Dialog#show</tt> which also prints the exception's contents
-on standard error it the _out_ parameter passed to the constructor was *true*
+Override of @KDE::Dialog#show@
+
+If the _out_ parameter passed to the constructor was *true*, displays the exception
+message and backtrace on standard error before displaying the dialog
+@return [nil]
 =end
     def show
       if @out
@@ -138,29 +155,35 @@ on standard error it the _out_ parameter passed to the constructor was *true*
   
 =begin rdoc
 ExceptionDialog specialized to display failures when loading plugins and components.
-It differs from ExceptionDialog in the following aspects:
+
+It differs from {ExceptionDialog} in the following aspects:
 * it provides different buttons
-* it provides a check box to decide whether or not to warn of other errors while
+* it provides a check box to decide whether or not to warn of subsequent errors while
   loading plugins
-* its exec method provides values suitable to be returned from a block passed to
-  <tt>ComponentManager#load_plugins</tt>
+* its #{exec} method provides values suitable to be returned from a block passed to
+  {ComponentManager#load_plugins}
 * it provides an appropriate text
 
-The provided buttons are: 'Go on', 'Quit' and 'Skip remaining', which respectively
-mean: ignore the failure and attempt to load the remaining plugins, quit Ruber
-and go on without attempting to load other plugins.
+The buttons on the dialog are: 
 
-If the exception was raised while loading a core plugin, the dialog will behave
-exactly as an ExceptionDialog (since you can't start Ruber without one of the core
-components, the other buttons and the checkbox would be useless)
+- Go on::= ignore the failure and attempt to load the remaining plugins, hoping
+  everything goes well
+- Quit::= immediately quit Ruber
+- Skip remaining::= ignore the failure, but don't attempt to load any other plugin
+
+If the exception was raised while loading a core component, the dialog will behave
+exactly as an {ExceptionDialog} (since you can't start Ruber without one of the core
+components, the other buttons and the checkbox would be useless).
 =end
   class ComponentLoadingErrorDialog < ExceptionDialog
         
 =begin rdoc
-Creates a new dialog. _plugin_ is the name of the plugin loading which the error
-occurred. _ex_ is the exception describing the error. _parent_ is the dialog's
-parent widget and _core_ tells whether the failure occurred while loading a core
-component or a plugin (this affects which widgets will be shown in the dialog)
+
+@param [Symbol,String] plugin the name of the component which caused the exception
+@param [Exception] ex the exception which was raised
+@param [Qt::Widget,nil] the parent widget
+@param [Boolean] core whether the component which caused the failure is a core
+        component or a plugin
 =end
     def initialize plugin, ex, parent = nil, core = false
       msg = "An error occurred while loading the #{core ? 'component' : 'plugin' } #{plugin}. The error was:"
@@ -183,22 +206,29 @@ component or a plugin (this affects which widgets will be shown in the dialog)
     end
 
 =begin rdoc
-Tells whether the user decided to ignore other errors while loading plugins. If
-the dialog is shown for a core component (and so the check box isn't displayed),
-this method always returns *nil*
+Whether or not the user checked to ignore subsequent errors
+
+@return [Boolean,nil] *true* if the user checked the "Don't report other errors" check
+                  box and *false* otherwise. If the dialog is shown for a core
+                  component, this method always returns *nil*
 =end
     def silently?
       @silent.checked? rescue nil
     end
     
 =begin rdoc
-Override of <tt>ExceptionDialog#exec</tt> which, depending on the choices made by
-the user, returns a value suitable to be returned by the block passed to
-<tt>ComponentManager#load_plugins</tt>. In particular, it returns:
-*true*:: if the user pressed the "Go on" button and left the checkbox empty
-<tt>:silent</tt>:: if the user pressed the "Go on" button and checked the check box
-*false*:: if the user pressed the "Quit" button
-+:skip+:: if the user pressed the "Skip" button
+Override of {ExceptionDialog#exec}
+    
+It returns a different value according to the button pressed by the user and to
+whether he checked the "Don't report other errors" checkbox. The returned values
+are suitable for use by a block passed to {ComponentManager#load_plugins}.
+
+@return [Boolean,Symbol] 
+
+- *true*:= if the user pressed the "Go on" button without checking the checkbox
+- @:silent@:= if the user pressed the "Go on" button and checked the checkbox
+- *false*:= if the user pressed the "Quit" button
+- @:skip@:= if the user pressed the "Skip" button
 =end
     def exec
       res = super
