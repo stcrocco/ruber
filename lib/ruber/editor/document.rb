@@ -101,7 +101,7 @@ Creates a new Ruber::Document.
         begin
           emit text_inserted(r, self)
         rescue ArgumentError => e
-          puts e.message
+          ExceptionDialog.new e, nil, true, "An exception was raised when writing text. See issue number 6 at http://github.com/stcrocco/ruber/issues"
         end
       end
       
