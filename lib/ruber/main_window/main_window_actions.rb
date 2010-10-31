@@ -62,7 +62,7 @@ the file to the list of recently opened files.
 =end
     def open_file
       dir = KDE::Url.from_path(Ruber.current_project.project_directory) rescue KDE::Url.new
-      filenames = KDE::FileDialog.get_open_file_names(dir, OPEN_DLG_FILTERS.join("\n") , self)
+      filenames = KDE::FileDialog.get_open_urls(dir, OPEN_DLG_FILTERS.join("\n") , self)
       without_activating do
         filenames.each{|f| gui_open_file f}
       end
