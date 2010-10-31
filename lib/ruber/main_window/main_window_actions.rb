@@ -146,13 +146,16 @@ TODO: MOVE? Changed name?
         display_doc dlg.chosen_file
         action_collection.action( 'file_open_recent').add_url( KDE::Url.new(dlg.chosen_file) )
       end
+      nil
     end
 
 =begin rdoc
 Slot connected to the 'Configure Ruber' action
+
+
 =end
     def preferences
-      Ruber[:config].dialog.show
+      Ruber[:config].dialog.exec
     end
     
 =begin rdoc
