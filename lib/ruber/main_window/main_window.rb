@@ -179,21 +179,21 @@ is the plugin description for this object.
     def_delegators :@workspace, :tool_widgets
     
 =begin rdoc
-  Returns the editor view for the given document, or creates and returns a new
-  editor view if the document doesn't already have one.
-  
-  _doc_ specifies the document whose editor should be returned. It can be: a Document
-  or a string. If it is a string which represents an absolute filename, an editor
-  for the Document corresponding to that file is returned (creating the document
-  if it doesn't already exist and raising +ArgumentError+ if the file doesn't exist).
-  If _doc_ is a string not representing an absolute pathname (that is, not starting
-  with a /), an editor for the document with <tt>document_name</tt> 
-  _doc_ will be returned (or created). If a document with that <tt>document_name</tt>
-  doesn't exist, *nil* will be returned.
+Returns the editor view for the given document, creating it if needed
+
+@param [Document, String, KDE::Url] doc the document. If it is a string representing
+  an absolute path, the document will be obtained using {DocumentList#document},
+  while for other strings it will be obtained using {DocumentList#document_with_name}
+@return [EditorView,nil] an editor associated with the document or *nil* if _doc_
+  is interpreted as document name but no documents with that name exists
+@raise [ArgumentError] if _doc_ is an absolute path or a @KDE::Url@ but the file
+  doesn't exist
 =end
     def editor_for! doc
-      if doc.is_a? String and doc[0,1] == '/' then doc = Ruber[:documents].document doc
-      elsif doc.is_a? String then doc = Ruber[:documents].document_with_name doc
+      unless doc.is_a? Document
+        if doc.is_a? KDE::Url or doc.start_with? '/' then Ruber[:documents].document doc
+        else Ruber[:documents].document_with_name doc
+        end
       end
       return unless doc
       create_editor_if_needed doc
