@@ -49,12 +49,9 @@ was raised.
           eval code, TOPLEVEL_BINDING, 'COMMAND'
           true
         rescue Exception => ex
-          lines = ex.message.split_lines
-          msg = "<i></i>The command you issued raised the following Exception:<br/><pre>#{ex.message}</pre>"
-          details = "<pre>#{ex.message}\n\n#{ex.backtrace.join("\n")}"
-          KDE::MessageBox.detailed_sorry Ruber[:main_window], msg, details, 
-              "Command Error"
-          $stderr.puts "#{ex.message}\n#{ex.backtrace.join("\n")}"
+          dlg = ExceptionDialog.new ex, Ruber[:main_window], false, 
+              'The command you issued raised the following exception:'
+          dlg.exec
           false
         end
       end
