@@ -84,7 +84,8 @@ begin
   YARD::Rake::YardocTask.new(:doc) do |t|
     output_dir= File.expand_path(ENV['OUTPUT_DIR']) rescue 'doc'
     t.files   = ['lib/**/*.rb',  'lib/ruber/**/*.rb', 'plugins/**/*.rb', '-', 'TODO', 'manual/**/*', 'INSTALL']
-    t.options = ['-c', '--protected', '--private', '--backtrace', '-p', 'yard/ruber_template', '-e', 'yard/extensions', '--title', 'Ruber API', '--private', '-o', output_dir, '-m', 'textile', '--exclude', '/ui/[\w\d]+\.rb$']
+    t.options = ['-c', '--protected', '--private', '--backtrace', '-e', 'yard/extensions', '--title', 'Ruber API', '--private', '-o', output_dir, '-m', 'textile', '--exclude', '/ui/[\w\d]+\.rb$']
+#     t.options = ['-c', '--protected', '--private', '--backtrace', '-p', 'yard/ruber_template', '-e', 'yard/extensions', '--title', 'Ruber API', '--private', '-o', output_dir, '-m', 'textile', '--exclude', '/ui/[\w\d]+\.rb$']
   end
 rescue LoadError
 end
