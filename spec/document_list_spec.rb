@@ -38,39 +38,65 @@ describe Ruber::DocumentList do
   end
 
   describe 'Ruber::DocumentList#[]' do
-
-    it 'should return the document in the given position when called with an integer argument' do
-      docs = 4.times.map{@keeper.new_document}
-      res = []
-      4.times{|i| res[i] = @keeper[i]}
-      res.should == docs
-      @keeper[5].should be_nil
+    
+    context 'when called with an integer argument' do
+      
+      before do
+        @docs = 4.times.map{@keeper.new_document}
+      end
+      
+      it 'returns the document in the given position' do
+        res = []
+        4.times{|i| res[i] = @keeper[i]}
+        res.should == @docs
+      end
+      
+      it 'returns nil if the index is out of range' do
+        @keeper[5].should be_nil
+      end
+    
+    end
+    
+    context 'when called with a string representing an absolute path' do
+      
+      it 'returns the document associated with the path' do
+        doc = @keeper.document __FILE__
+        @keeper[File.expand_path(__FILE__)].should == doc
+      end
+    
+      it 'returns nil if a document for that file doesn\'t exist' do
+        @keeper[`which ruby`].should be_nil
+      end
+      
+    end
+    
+    context 'when called with a string which doensn\'t represent an absolute path' do
+      
+      it 'returns the document with the given document_name' do
+        doc = @keeper.document __FILE__
+        @keeper[doc.document_name].should == doc
+      end
+      
+      it 'returns nil if no document with the given document name exists' do
+        @keeper['abcd'].should be_nil
+      end
+      
     end
 
-    it 'should return the document associated with an absolute path or nil when called with an absolute path' do
-      doc = @keeper.document __FILE__
-      @keeper[File.expand_path(__FILE__)].should == doc
-      @keeper[`which ruby`].should be_nil
-    end
+    context 'when called with any other argument' do
 
-    it 'should return the document with the given document_name or nil if called with a string which is not an absolute path' do
-      doc = @keeper.document __FILE__
-      @keeper[doc.document_name].should == doc
-      @keeper['abcd'].should be_nil
-    end
-
-    it 'should raise TypeError if called with any other argument' do
-      doc = @keeper.document __FILE__
-      lambda{@keeper[1.2]}.should raise_error(TypeError)
-      lambda{@keeper[{}]}.should raise_error(TypeError)
-      lambda{@keeper[:xyz]}.should raise_error(TypeError)
+      it 'should raise TypeError' do
+        doc = @keeper.document __FILE__
+        lambda{@keeper[1.2]}.should raise_error(TypeError)
+        lambda{@keeper[{}]}.should raise_error(TypeError)
+        lambda{@keeper[:xyz]}.should raise_error(TypeError)
+      end
+    
     end
 
   end
 
   describe 'Ruber::Document#document_for_file' do
-
-
 
     it 'should return the document corresponding to the given absolute path or nil' do
       doc = @keeper.document __FILE__
@@ -87,8 +113,6 @@ describe Ruber::DocumentList do
   end
 
   describe 'Ruber::Document#document_with_name' do
-
-
     
     it 'should return the document with the given document_name or nil' do
       doc = @keeper.document __FILE__
@@ -100,47 +124,43 @@ describe Ruber::DocumentList do
 
   describe 'Ruber::Document#each' do
 
+    it 'should allow to iterate on all documents (in creation order) when called with a block' do
+      docs = 4.times.map{@keeper.new_document}
+      res = []
+      @keeper.each{|d| res << d}
+      res.should == docs
+    end
 
-
-  #   it 'should allow to iterate on all documents (in creation order) when called with a block' do
-  #     docs = 4.times.map{@keeper.new_document}
-  #     res = []
-  #     @keeper.each{|d| res << d}
-  #     res.should == docs
-  #   end
-
-  #   it 'should return an enumerator which allows to iterate on all documents in creation order when called without a block' do
-  #     docs = 4.times.map{@keeper.new_document}
-  #     e = @keeper.each
-  #     e.should be_an(Enumerable)
-  #     res = []
-  #     e.each{|d| res << d}
-  #     res.should == docs
-  #   end
+    it 'should return an enumerator which allows to iterate on all documents in creation order when called without a block' do
+      docs = 4.times.map{@keeper.new_document}
+      e = @keeper.each
+      e.should be_an(Enumerable)
+      res = []
+      e.each{|d| res << d}
+      res.should == docs
+    end
 
   end
 
-  # describe 'Ruber::Document#each_document' do
-  # 
-  #   it_should_behave_like 'a document_list method'
-  # 
-  #   it 'should allow to iterate on all documents (in creation order) when called with a block' do
-  #     docs = 4.times.map{@keeper.new_document}
-  #     res = []
-  #     @keeper.each_document{|d| res << d}
-  #     res.should == docs
-  #   end
-  # 
-  #   it 'should return an enumerator which allows to iterate on all documents in creation order when called without a block' do
-  #     docs = 4.times.map{@keeper.new_document}
-  #     e = @keeper.each_document
-  #     e.should be_an(Enumerable)
-  #     res = []
-  #     e.each{|d| res << d}
-  #     res.should == docs
-  #   end
-  # 
-  # end
+  describe 'Ruber::Document#each_document' do
+  
+    it 'should allow to iterate on all documents (in creation order) when called with a block' do
+      docs = 4.times.map{@keeper.new_document}
+      res = []
+      @keeper.each_document{|d| res << d}
+      res.should == docs
+    end
+  
+    it 'should return an enumerator which allows to iterate on all documents in creation order when called without a block' do
+      docs = 4.times.map{@keeper.new_document}
+      e = @keeper.each_document
+      e.should be_an(Enumerable)
+      res = []
+      e.each{|d| res << d}
+      res.should == docs
+    end
+  
+  end
 
   describe 'Ruber::Document#documents' do
 
@@ -154,8 +174,6 @@ describe Ruber::DocumentList do
   end
 
   describe 'Ruber::Document#to_a' do
-
-
 
     it 'should return an array with all the documents, in an arbitrary order' do
       docs = 4.times.map{@keeper.new_document}
@@ -272,8 +290,6 @@ describe Ruber::DocumentList do
   end
 
   describe 'Ruber::DocumentList#new_document' do
-    
-
     
     it 'should create and return a new empty document' do
       doc = @keeper.new_document
