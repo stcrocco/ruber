@@ -44,6 +44,10 @@ module KDE
       self.new str
     end
     
+    def local_file?
+      is_local_file
+    end
+    
   end
 
   class TabWidget

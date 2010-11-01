@@ -18,6 +18,14 @@ describe 'KDE::Url' do
     res.should_not equal(u)
   end
   
+  describe '#local_file?' do
+    it "calls is_local_file" do
+      u = KDE::Url.new 'http://www.kde.org'
+      flexmock(u).should_receive(:is_local_file).once
+      u.local_file?
+    end
+  end
+  
 end
 
 describe 'KDE::MimeType#=~' do
