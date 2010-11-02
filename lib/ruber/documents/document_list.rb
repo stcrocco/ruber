@@ -347,7 +347,7 @@ with local or remote files:
 @return [Array<Document>] a list of documents associated with files, and restricted
   according to the value of _which_
 =end
-    def documents_with_file which
+    def documents_with_file which = :any
       @docs.select do |d| 
         if d.has_file?
           case which

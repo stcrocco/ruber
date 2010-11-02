@@ -329,6 +329,12 @@ describe Ruber::DocumentList do
         @keeper.documents_with_file(:any).should == [@local_docs[0], @remote_docs[0], @remote_docs[1], @local_docs[1]]
       end
     end
+    
+    describe 'when called with no arguments' do
+      it 'returns an array containing the documents associated with any file' do
+        @keeper.documents_with_file.should == [@local_docs[0], @remote_docs[0], @remote_docs[1], @local_docs[1]]
+      end
+    end
 
   end
 
