@@ -169,23 +169,38 @@ describe Ruber::DocumentList do
     
   end
 
-  describe 'Ruber::Document#each' do
+  describe '#each' do
+    
+    context 'when called with a block' do
 
-    it 'should allow to iterate on all documents (in creation order) when called with a block' do
-      docs = 4.times.map{@keeper.new_document}
-      res = []
-      @keeper.each{|d| res << d}
-      res.should == docs
+      it 'allows to iterate on all documents (in creation order)' do
+        docs = 4.times.map{@keeper.new_document}
+        res = []
+        @keeper.each{|d| res << d}
+        res.should == docs
+      end
+      
+      it 'returns self' do
+        docs = 4.times.map{@keeper.new_document}
+        @keeper.each{|d| d}.should equal(@keeper)
+      end
+    
+    end
+    
+    context 'when called without a block' do
+      
+      it 'returns an enumerator which allows to iterate on all documents in creation order and returns the list' do
+        docs = 4.times.map{@keeper.new_document}
+        e = @keeper.each
+        e.should be_an(Enumerable)
+        res = []
+        obj = e.each{|d| res << d}
+        res.should == docs
+        obj.should == @keeper
+      end
+
     end
 
-    it 'should return an enumerator which allows to iterate on all documents in creation order when called without a block' do
-      docs = 4.times.map{@keeper.new_document}
-      e = @keeper.each
-      e.should be_an(Enumerable)
-      res = []
-      e.each{|d| res << d}
-      res.should == docs
-    end
 
   end
 
