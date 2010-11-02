@@ -74,6 +74,89 @@ describe Ruber::Document do
     
   end
   
+  describe "#has_file?" do
+    
+    context 'when called with :local' do
+      
+      it 'returns true if the document is associated with a local file' do
+        doc = Ruber::Document.new nil, __FILE__
+        doc.should have_file(:local)
+      end
+      
+      it 'returns false if the document is associated with a remote file' do
+        doc = Ruber::Document.new nil, KDE::Url.new('http://github.com/stcrocco/ruber/raw/master/ruber.gemspec')
+        doc.should_not have_file(:local)
+      end
+      
+      it 'returns false if the document isn\'t associated with any file' do
+        doc = Ruber::Document.new
+        doc.should_not have_file(:local)
+      end
+      
+    end
+    
+    context 'when called with :remote' do
+      
+      it 'returns false if the document is associated with a local file' do
+        doc = Ruber::Document.new nil, __FILE__
+        doc.should_not have_file(:remote)
+      end
+      
+      it 'returns true if the document is associated with a remote file' do
+        doc = Ruber::Document.new nil, KDE::Url.new('http://github.com/stcrocco/ruber/raw/master/ruber.gemspec')
+        doc.should have_file(:remote)
+      end
+      
+      it 'returns false if the document isn\'t associated with any file' do
+        doc = Ruber::Document.new
+        doc.should_not have_file(:remote)
+      end
+      
+    end
+    
+    context 'when called with :any or no arguments' do
+      
+      it 'returns true if the document is associated with a local file' do
+        doc = Ruber::Document.new nil, __FILE__
+        doc.should have_file(:any)
+        doc.should have_file
+      end
+      
+      it 'returns true if the document is associated with a remote file' do
+        doc = Ruber::Document.new nil, KDE::Url.new('http://github.com/stcrocco/ruber/raw/master/ruber.gemspec')
+        doc.should have_file(:any)
+        doc.should have_file
+      end
+      
+      it 'returns false if the document isn\'t associated with any file' do
+        doc = Ruber::Document.new
+        doc.should_not have_file(:any)
+        doc.should_not have_file
+      end
+      
+    end
+    
+  end
+  
+#   describe '#local_file?' do
+#     
+#     it 'returns true if the document is associated to a local file' do
+#       doc = Ruber::Document.new nil, __FILE__
+#       doc.local_file?.should be_true
+#     end
+#     
+#     it 'returns nil if the document isn\'t associated with any file' do
+#       doc = Ruber::Document.new
+#       doc.local_file?.should be_nil
+#     end
+#     
+#     it 'returns false if the document is associated with a remote URL' do
+#       doc = Ruber::Document.new nil, KDE::Url.new('http://github.com/stcrocco/ruber/raw/master/ruber.gemspec')
+#       doc.local_file?.should be_false
+#     end
+#     
+#   end
+  
   describe '#own_project' do
   
     it 'returns the DocumentProject associated with the document' do
@@ -234,11 +317,6 @@ describe Ruber::Document do
 
   it 'should return an empty string if the document is empty' do
     @doc.text.should_not be_nil
-  end
-
-  it 'should tell whether it\'s associated with a file or not' do
-    @doc.should_not have_file
-    Ruber::Document.new(nil, __FILE__).should have_file
   end
 
   it 'should tell whether it\'s a pristine document' do

@@ -174,17 +174,39 @@ status of the document.
       if @modified_on_disk then ICONS[:modified_on_disk]
       elsif @doc.modified? then ICONS[:modified]
       else
-        icon_name = KDE::MimeType.mime_type(@doc.mime_type).icon_name
+        if has_file? :remote
+          mime = KDE::MimeType.find_by_content Qt::ByteArray.new(@doc.text)
+        else mime = KDE::MimeType.mime_type(@doc.mime_type)
+        end
+        icon_name = mime.icon_name
         Qt::Icon.new(KDE::IconLoader.load_mime_type_pixmap icon_name)
       end
     end
 
 =begin rdoc
-Tells whether the document is associated with a file, that is if it has been
-saved to file before or not.
+Whether the document is associated with a file
+
+Depending on the value of _which_ this method can also return *true* only if the
+document is associated with a local file or with a remote file. In particular:
+* if it's @:local@ this method will return *true* only if the document is associated
+  with a local file
+* if it's @:remote@, this method will return *true* only if the document is associated
+  with a remote file
+* with any other value, this method will return *true* if the document is associated
+  with any file
+
+@param [Symbol, Object] which the kind of files which are acceptable
+@return [Boolean] *true* if the document is associated with a file of the kind
+  matching _which_ and *false* otherwise
 =end
-    def has_file?
-      !@doc.url.empty?
+    def has_file? which = :any
+      u = url
+      return false if u.empty?
+      case which
+      when :local then url.local_file?
+      when :remote then !url.local_file?
+      else true
+      end
     end
 
 =begin rdoc
