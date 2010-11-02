@@ -190,7 +190,7 @@ Returns the editor view for the given document, creating it if needed
   doesn't exist
 =end
     def editor_for! doc
-      unless doc.is_a? Document
+      doc = unless doc.is_a? Document
         if doc.is_a? KDE::Url or doc.start_with? '/' then Ruber[:documents].document doc
         else Ruber[:documents].document_with_name doc
         end
