@@ -42,7 +42,11 @@ describe Ruber::DocumentList do
     context 'when called with an integer argument' do
       
       before do
-        @docs = 4.times.map{@keeper.new_document}
+        @docs = 4.times.map do 
+          doc = Ruber::Document.new Ruber[:main_window]
+          @keeper.add_document doc
+          doc
+        end
       end
       
       it 'returns the document in the given position' do
@@ -60,7 +64,8 @@ describe Ruber::DocumentList do
     context 'when called with a string representing an absolute path' do
       
       it 'returns the document associated with the path' do
-        doc = @keeper.document __FILE__
+        doc = Ruber::Document.new Ruber[:main_window], __FILE__
+        @keeper.add_document doc
         @keeper[File.expand_path(__FILE__)].should == doc
       end
     
@@ -73,7 +78,8 @@ describe Ruber::DocumentList do
     context 'when called with a string which doensn\'t represent an absolute path' do
       
       it 'returns the document with the given document_name' do
-        doc = @keeper.document __FILE__
+        doc = Ruber::Document.new Ruber[:main_window], __FILE__
+        @keeper.add_document doc
         @keeper[doc.document_name].should == doc
       end
       
@@ -82,10 +88,26 @@ describe Ruber::DocumentList do
       end
       
     end
+    
+    context 'when called with a KDE::Url' do
+      
+      it 'returns the document associated with the url' do
+        url = KDE::Url.new 'http://github.com/stcrocco/ruber/raw/master/ruber.gemspec'
+        doc = Ruber::Document.new Ruber[:main_window], url
+        @keeper.add_document doc
+        @keeper[url].should == doc
+      end
+      
+      it 'returns nil if no document is associated with the given url' do
+        url = KDE::Url.new 'http://github.com/stcrocco/ruber/raw/master/ruber.gemspec'
+        @keeper[url].should be_nil
+      end
+      
+    end
 
     context 'when called with any other argument' do
 
-      it 'should raise TypeError' do
+      it 'raises TypeError' do
         doc = @keeper.document __FILE__
         lambda{@keeper[1.2]}.should raise_error(TypeError)
         lambda{@keeper[{}]}.should raise_error(TypeError)
@@ -98,13 +120,13 @@ describe Ruber::DocumentList do
 
   describe 'Ruber::Document#document_for_file' do
 
-    it 'should return the document corresponding to the given absolute path or nil' do
+    it 'returns the document corresponding to the given absolute path or nil' do
       doc = @keeper.document __FILE__
       @keeper.document_for_file( File.expand_path(__FILE__)).should == doc
       @keeper.document_for_file('/test').should be_nil
     end
 
-    it 'should return the document corresponding to the given relative path (expanding it) or nil' do
+    it 'returns the document corresponding to the given relative path (expanding it) or nil' do
       doc = @keeper.document __FILE__
       @keeper.document_for_file( __FILE__).should == doc
       @keeper.document_for_file('test').should be_nil
@@ -120,6 +142,31 @@ describe Ruber::DocumentList do
       @keeper.document_for_file('test').should be_nil
     end
 
+  end
+  
+  describe '#document_for_url' do
+    
+    it 'returns the document associated with the given KDE::Url' do
+      url = KDE::Url.new 'http://github.com/stcrocco/ruber/raw/master/ruber.gemspec'
+      doc = Ruber::Document.new Ruber[:main_window], url
+      @keeper.add_document doc
+      @keeper.document_for_url(url).should == doc
+    end
+    
+    it 'converts the argoment to a KDE::Url if it\'s a string' do
+      str = 'http://github.com/stcrocco/ruber/raw/master/ruber.gemspec'
+      url = KDE::Url.new str
+      doc = Ruber::Document.new Ruber[:main_window], url
+      @keeper.add_document doc
+      @keeper.document_for_url(str).should == doc
+    end
+    
+    it 'returns nil if no document corresponding to the url exists' do
+      url = 'http://github.com/stcrocco/ruber/raw/master/ruber.gemspec'
+      @keeper.document_for_url(KDE::Url.new(url)).should be_nil
+      @keeper.document_for_url(url).should be_nil
+    end
+    
   end
 
   describe 'Ruber::Document#each' do
@@ -186,8 +233,6 @@ describe Ruber::DocumentList do
 
   describe 'Ruber::Document#document_for_file?' do
 
-
-
     it 'should tell whether there\'s a document for the given filename if called with an absolute filename' do
       @keeper.document __FILE__
       @keeper.document_for_file?( File.expand_path(__FILE__) ).should be_true
@@ -201,10 +246,33 @@ describe Ruber::DocumentList do
     end
 
   end
+  
+  describe '#document_for_url?' do
+    
+    it 'returns true if a document associated with the given KDE::Url exists' do
+      url = KDE::Url.new 'http://github.com/stcrocco/ruber/raw/master/ruber.gemspec'
+      doc = Ruber::Document.new Ruber[:main_window], url
+      @keeper.add_document doc
+      @keeper.document_for_url?(url).should be_true
+    end
+    
+    it 'converts the argoment to a KDE::Url if it\'s a string' do
+      str = 'http://github.com/stcrocco/ruber/raw/master/ruber.gemspec'
+      url = KDE::Url.new str
+      doc = Ruber::Document.new Ruber[:main_window], url
+      @keeper.add_document doc
+      @keeper.document_for_url?(str).should be_true
+    end
+    
+    it 'returns false if no document corresponding to the url exists' do
+      url = 'http://github.com/stcrocco/ruber/raw/master/ruber.gemspec'
+      @keeper.document_for_url(KDE::Url.new(url)).should be_false
+      @keeper.document_for_url(url).should be_false
+    end
+
+  end
 
   describe 'Ruber::Document#document_with_name' do
-    
-
 
     it 'should tell whether there\'s a document with the given document_name' do
       @keeper.document __FILE__
@@ -215,13 +283,36 @@ describe Ruber::DocumentList do
   end
 
   describe 'Ruber::Document#documents_with_file' do
-
-
-
-    it 'should return an array containing only the documents associated with files' do
-      @keeper.document __FILE__
-      @keeper.new_document
-      @keeper.documents_with_file.should == [@keeper[0]]
+    
+    before do
+      @all_docs = []
+      @empty_docs = []
+      @local_docs = []
+      @remote_docs = []
+      @empty_docs << Ruber::Document.new << Ruber::Document.new
+      @local_docs << Ruber::Document.new(nil, __FILE__) << Ruber::Document.new(nil, File.join(File.dirname(__FILE__), 'common.rb'))
+      @remote_docs << Ruber::Document.new(nil, KDE::Url.new('http://github.com/stcrocco/ruber/raw/master/ruber.gemspec')) << Ruber::Document.new(nil,
+        KDE::Url.new('http://github.com/stcrocco/ruber/raw/master/bin/ruber'))
+      @all_docs << @empty_docs[0] << @local_docs[0] << @remote_docs[0] << @remote_docs[1] << @local_docs[1] << @empty_docs[1]
+      @all_docs.each{|d| @keeper.add_document d}
+    end
+    
+    describe 'when called with the :local argument' do
+      it 'returns an array containing only the documents associated with local files' do
+        @keeper.documents_with_file(:local).should == @local_docs
+      end
+    end
+    
+    describe 'when called with the :remote argument' do
+      it 'returns an array containing only the documents associated with remote files' do
+        @keeper.documents_with_file(:remote).should == @remote_docs
+      end
+    end
+    
+    describe 'when called with the :any argument' do
+      it 'returns an array containing the documents associated with any file' do
+        @keeper.documents_with_file(:any).should == [@local_docs[0], @remote_docs[0], @remote_docs[1], @local_docs[1]]
+      end
     end
 
   end
@@ -321,90 +412,115 @@ describe Ruber::DocumentList do
     
   end
 
-  describe 'Ruber::DocumentList#document' do
+  describe '#document' do
+    
+    context 'when a document for the given file or url already exists' do
 
-
-    
-    it 'should not create a new document but return the existing one if a document for the given file already exists in the list' do
-      doc1 = @keeper.document __FILE__
-      flexmock(Ruber::Document).should_receive(:new).never
-      doc2 = @keeper.document __FILE__
-      doc2.should equal(doc1)
-      doc3 = @keeper.document File.expand_path(__FILE__)
-      doc3.should equal(doc1)
+      it 'doesn\'t create a new document but return the existing one if a document for the given file or url already exists in the list' do
+        url = KDE::Url.new 'http://github.com/stcrocco/ruber/raw/ruber.gemspec'
+        doc1 = Ruber::Document.new nil, __FILE__
+        doc2 = Ruber::Document.new nil, url
+        @keeper.add_document doc1
+        @keeper.add_document doc2
+        flexmock(Ruber::Document).should_receive(:new).never
+        @keeper.document(__FILE__).should equal(doc1)
+        #Since the tests are run from the top directory, we need to prepend the spec directory
+        @keeper.document(File.expand_path(File.join('spec', File.basename(__FILE__)))).should equal(doc1)
+        @keeper.document(url).should equal(doc2)
+      end
+      
     end
     
-    it 'should create a document for the given file if the list doesn\'t already contain one and return it if the first argument is true' do
-      doc = @keeper.document File.expand_path(__FILE__)
-      doc.should be_kind_of( Ruber::Document)
-      doc.path.should == File.expand_path( __FILE__)
-      doc.text.should == File.read( __FILE__)
+    context 'when a document for the given file or url doesn\'t exist' do
+      
+      context 'and the second argument is false' do
+        
+        it 'returns nil' do
+          @keeper.document( File.expand_path(__FILE__), false).should be_nil
+          @keeper.document(KDE::Url.new('http://github.com/stcrocco/ruber/raw/ruber.gemspec'), false).should be_nil
+          @keeper.documents.should == []
+        end
+        
+      end
+      
+      context 'and the second argument is true' do
+        
+        it 'creates a new document for the given file or url' do
+          url = KDE::Url.new 'http://github.com/stcrocco/ruber/raw/ruber.gemspec'
+          doc = @keeper.document __FILE__
+          doc.should be_kind_of( Ruber::Document)
+          doc.path.should ==  __FILE__
+          doc.text.should == File.read( __FILE__)
+          doc = @keeper.document url
+          doc.url.should == url
+        end
+        
+        it 'raises ArgumentError if the argument is a string or local url and the corresponding file doesn\'t exist' do
+          lambda{@keeper.document 'test'}.should raise_error(ArgumentError, "File #{File.expand_path 'test'} doesn't exist")
+          lambda{@keeper.document File.expand_path('test')}.should raise_error(ArgumentError, "File #{File.expand_path 'test'} doesn't exist")
+          lambda{@keeper.document KDE::Url.new('file:///test')}.should raise_error(ArgumentError, "File #{'/test'} doesn't exist")
+        end
+        
+        it 'doesn\'t raise ArgumentError if the argument is a remote url which doesn\'t exist' do
+          lambda{@keeper.document KDE::Url.new('http://xyz/abc.def')}.should_not raise_error
+        end
+        
+        it 'adds the new document to the list of documents' do
+          doc = @keeper.document __FILE__
+          @keeper.documents.size.should == 1
+          @keeper.documents.include?(doc).should be_true
+        end
+        
+        it 'connects the "closing(QObject*)" signal of the new document to the "close_document(QObject*) slot' do
+          file = File.expand_path(__FILE__)
+          doc = Ruber::Document.new @keeper, file
+          flexmock(Ruber::Document).should_receive(:new).with(@mw, file).once.and_return(doc)
+          flexmock(@keeper).should_receive(:close_document).once
+          @keeper.document __FILE__
+          doc.close
+        end
+        
+        it 'emits the "document_created(QObject*)" signal passing the new document as argument' do
+          file = File.expand_path(__FILE__)
+          doc = Ruber::Document.new nil, file
+          exp = doc.object_id
+          flexmock(Ruber::Document).should_receive(:new).with(@mw, file).once.and_return(doc)
+          m = flexmock{|mk| mk.should_receive(:document_created).with(exp).once}
+          @keeper.connect(SIGNAL('document_created(QObject*)')){|d| m.document_created d.object_id}
+          @keeper.document __FILE__
+        end
+        
+        it 'closes the already-existing document when called with a path and the only existing document is pristine' do
+          old = @keeper.new_document
+          Qt::Object.connect old, SIGNAL('closing(QObject*)'), @keeper, SLOT('close_document(QObject*)')
+          doc = @keeper.document __FILE__
+          @keeper[0].should == doc
+          @keeper.size.should == 1
+        end
+        
+      end
+      
     end
     
-    it 'should return nil if a document for the given file doesn\'t exist and the second argument is false' do
-      @keeper.document( File.expand_path(__FILE__), false).should be_nil
-      @keeper.documents.should == []
-    end
-    
-    it 'should expand the given file name relative to the current directory if the file name is relative' do
+    it 'expands the given file name relative to the current directory if the file name is relative' do
       flexmock(Ruber::Document).should_receive(:new).with(@mw, File.expand_path(__FILE__))
       doc = @keeper.document __FILE__
       # this is necessary because otherwise the 'after' block fails (because the document list contains nil)
       @keeper.instance_variable_get(:@docs).clear
     end
-    
-    it 'should raise ArgumentError if the file doesn\'t exist' do
-      lambda{@keeper.document 'test'}.should raise_error(ArgumentError, "File #{File.expand_path 'test'} doesn't exist")
-      lambda{@keeper.document File.expand_path('test')}.should raise_error(ArgumentError, "File #{File.expand_path 'test'} doesn't exist")
-    end
-    
-    it 'should add the new document to the list of documents' do
-      doc = @keeper.document __FILE__
-      @keeper.documents.size.should == 1
-      @keeper.documents.include?(doc).should be_true
-    end
-    
-    it 'should connect the "closing(QObject*)" signal of the new document to the "close_document(QObject*) slot' do
-      file = File.expand_path(__FILE__)
-      doc = Ruber::Document.new @keeper, file
-      flexmock(Ruber::Document).should_receive(:new).with(@mw, file).once.and_return(doc)
-      flexmock(@keeper).should_receive(:close_document).once
-      @keeper.document __FILE__
-      doc.close
-    end
-
-    it 'should emit the "document_created(QObject*)" signal passing the new document as argument' do
-      file = File.expand_path(__FILE__)
-      doc = Ruber::Document.new nil, file
-      exp = doc.object_id
-      flexmock(Ruber::Document).should_receive(:new).with(@mw, file).once.and_return(doc)
-      m = flexmock{|mk| mk.should_receive(:document_created).with(exp).once}
-      @keeper.connect(SIGNAL('document_created(QObject*)')){|d| m.document_created d.object_id}
-      @keeper.document __FILE__
-    end
-    
-    it 'should close the already-existing document when called with a path and the only existing document is pristine' do
-      old = @keeper.new_document
-      Qt::Object.connect old, SIGNAL('closing(QObject*)'), @keeper, SLOT('close_document(QObject*)')
-      doc = @keeper.document __FILE__
-      @keeper[0].should == doc
-      @keeper.size.should == 1
-    end
 
   end
 
-  describe 'Ruber::DocumentList#add_document' do
-
-
+  describe '#add_document' do
     
-    it 'should add the given document to the list of documents' do
+    it 'adds the given document to the list of documents' do
       doc = Ruber::Document.new
       @keeper.add_document doc
       @keeper.documents.size.should == 1
       @keeper.documents.include?(doc).should be_true
     end
     
-    it 'should connect the "closing(QObject*)" signal of the given document to the "close_document(QObject*) slot' do
+    it 'connects the "closing(QObject*)" signal of the given document to the "close_document(QObject*) slot' do
       file = File.expand_path(__FILE__)
       doc = Ruber::Document.new @keeper, file
       flexmock(@keeper).should_receive(:close_document).once
@@ -414,39 +530,37 @@ describe Ruber::DocumentList do
     
   end
 
-  describe 'Ruber::DocumentList#save_documents' do
-    
-
+  describe '#save_documents' do
     
     before do
       @docs = [@keeper.document(__FILE__), @keeper.new_document, @keeper.new_document]
     end
     
-    it 'should save all the documents passed as argument' do
+    it 'saves all the documents passed as argument' do
       @docs.each{|d| flexmock(d).should_receive(:save).once}
       @keeper.save_documents @docs
     end
     
-    it 'should return an empty array if all the documents were saved successfully' do
+    it 'returns an empty array if all the documents were saved successfully' do
       @docs.each{|d| flexmock(d).should_receive(:save).once.and_return true}
       @keeper.save_documents( @docs).should == []
     end
     
-    it 'should return an array containing the documents for which save returned false, if the second argument is false' do
+    it 'returns an array containing the documents for which save returned false, if the second argument is false' do
       flexmock(@docs[0]).should_receive(:save).once.and_return true
       flexmock(@docs[2]).should_receive(:save).once.and_return true
       flexmock(@docs[1]).should_receive(:save).once.and_return false
       @keeper.save_documents( @docs, false).should == [@docs[1]]
     end
     
-    it 'should not call the save method on all remaining documents if one fails, if the second argument is true' do
+    it 'doesn\'t call the save method on all remaining documents if one fails, if the second argument is true' do
       flexmock(@docs[0]).should_receive(:save).once.and_return true
       flexmock(@docs[1]).should_receive(:save).once.and_return false
       flexmock(@docs[2]).should_receive(:save).never
       @keeper.save_documents( @docs, true)
     end
     
-    it 'should return an array containing the first document for which save returned false and all the documents which weren\'t saved if the second argument is true' do
+    it 'returns an array containing the first document for which save returned false and all the documents which weren\'t saved if the second argument is true' do
       flexmock(@docs[0]).should_receive(:save).once.and_return true
       flexmock(@docs[1]).should_receive(:save).once.and_return false
       flexmock(@docs[2]).should_receive(:save).never
@@ -454,44 +568,38 @@ describe Ruber::DocumentList do
     end
     
   end
-
-  describe Ruber::DocumentList do
-    
-
-    
-    describe '#save_settings' do
-    
-      it 'calls the save_settings method of each document\'s own project' do
-        docs = [@keeper.document(__FILE__), @keeper.new_document, @keeper.new_document]
-        docs.each{|d| flexmock(d).should_receive(:save_settings).once}
-        @keeper.save_settings
-      end
-      
-    end
-    
-    describe '#query_close' do
-      
-      before do
-        @docs = [@keeper.document(__FILE__), @keeper.new_document, @keeper.new_document]
-      end
-      
-      it 'calls the query_close method of each document\'s own project and returns false if one of them returns false' do
-        flexmock(@docs[0].own_project).should_receive(:query_close).once.and_return true
-        flexmock(@docs[1].own_project).should_receive(:query_close).once.and_return false
-        flexmock(@docs[2].own_project).should_receive(:query_close).never.and_return(true)
-        @keeper.query_close.should be_false
-      end
-      
-      it 'calls the main window\'s close_documents method and return its value' do
-        @docs.each{|d| flexmock(d.own_project).should_receive(:query_close).twice.and_return true}
-        flexmock(@mw).should_receive(:save_documents).once.with_no_args.and_return true
-        flexmock(@mw).should_receive(:save_documents).once.with_no_args.and_return false
-        @keeper.query_close.should be_true
-        @keeper.query_close.should be_false
-      end
-      
-    end
   
+  describe '#save_settings' do
+  
+    it 'calls the save_settings method of each document\'s own project' do
+      docs = [@keeper.document(__FILE__), @keeper.new_document, @keeper.new_document]
+      docs.each{|d| flexmock(d).should_receive(:save_settings).once}
+      @keeper.save_settings
+    end
+    
+  end
+  
+  describe '#query_close' do
+    
+    before do
+      @docs = [@keeper.document(__FILE__), @keeper.new_document, @keeper.new_document]
+    end
+    
+    it 'calls the query_close method of each document\'s own project and returns false if one of them returns false' do
+      flexmock(@docs[0].own_project).should_receive(:query_close).once.and_return true
+      flexmock(@docs[1].own_project).should_receive(:query_close).once.and_return false
+      flexmock(@docs[2].own_project).should_receive(:query_close).never.and_return(true)
+      @keeper.query_close.should be_false
+    end
+    
+    it 'calls the main window\'s close_documents method and return its value' do
+      @docs.each{|d| flexmock(d.own_project).should_receive(:query_close).twice.and_return true}
+      flexmock(@mw).should_receive(:save_documents).once.with_no_args.and_return true
+      flexmock(@mw).should_receive(:save_documents).once.with_no_args.and_return false
+      @keeper.query_close.should be_true
+      @keeper.query_close.should be_false
+    end
+    
   end
   
 end

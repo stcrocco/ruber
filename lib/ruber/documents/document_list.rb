@@ -95,16 +95,26 @@ new document is returned.
 If a new document has been created, the <tt>document_created</tt> signal is emitted.
 =end
     def document file, create_if_needed = true
-      file = File.expand_path(file)
-      doc = document_for_file file
-      return doc if doc or !create_if_needed
-      raise ArgumentError, "File #{file} doesn't exist" unless File.exist?(file)
-      doc = Document.new Ruber[:main_window], file
-      begin @docs[0].close if @docs.only.pristine?
-      rescue IndexError
+      if file.is_a? String
+        file = File.expand_path(file)
+        doc = document_for_file file
+        return doc if doc or !create_if_needed
+      elsif file.is_a? KDE::Url 
+        doc = document_for_url file
+        return doc if doc or !create_if_needed
       end
-      add_document doc
-      emit document_created(doc)
+      if !doc and create_if_needed
+        url = KDE::Url.new file
+        if url.local_file?
+          raise ArgumentError, "File #{url.path} doesn't exist" unless File.exist?(url.path)
+        end
+        doc = Document.new Ruber[:main_window], file
+        begin @docs[0].close if @docs.only.pristine?
+        rescue IndexError
+        end
+        add_document doc
+        emit document_created(doc)
+      end
       doc
     end
     
@@ -189,6 +199,8 @@ If _key_ is something else, +TypeError+ will be raised.
         if Pathname.new(key).absolute? then @docs.find{|d| d.path == key}
         else @docs.find{|d| d.document_name == key}
         end
+      when KDE::Url
+        @docs.find{|d| d.url == key}
       when Integer then @docs[key]
       else raise TypeError
       end
@@ -215,6 +227,10 @@ is returned.
       file = File.expand_path file
       @docs.find{|d| d.path == file}
     end
+    
+    def document_for_url url
+      @docs.find{|d| d.url == url}
+    end
 
 =begin rdoc
 Returns the document with <tt>document_name</tt> _name_, or *nil* if no such
@@ -227,8 +243,16 @@ document is found
 =begin rdoc
 Returns an array containing all the documents associated with a file.
 =end
-    def documents_with_file
-      @docs.select{|d| d.has_file?}
+    def documents_with_file which
+      @docs.select do |d| 
+        if d.has_file?
+          case which
+          when :local then d.url.local_file?
+          when :remote then !d.url.local_file?
+          when :any then true
+          end
+        end
+      end
     end
 
 #DOCUMENT QUERIES
@@ -241,6 +265,10 @@ otherwise.
     def document_for_file? file
       file = File.expand_path file
       @docs.any?{|d| d.path == file}
+    end
+    
+    def document_for_url? url
+      @docs.any?{|d| d.url == url}
     end
     
 =begin rdoc
