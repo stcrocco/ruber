@@ -273,11 +273,15 @@ Do you want to start the application without them or to quit Ruber?
   empty document if neither files nor projects have been specified.
 =end
     def open_command_line_files
-      args = @cmd_line_options.files
+      urls = @cmd_line_options.urls
       win = Ruber[:main_window]
-      projects, files = args.partition{|f| File.extname(f) == '.ruprj'}
-      prj = win.safe_open_project projects.last unless projects.empty?
-      files += @cmd_line_options.getOptionList('file')
+      projects, files = urls.partition{|u| File.extname(u.to_local_file || '') == '.ruprj'}
+      prj = win.safe_open_project projects.last.to_local_file unless projects.empty?
+      files += @cmd_line_options.getOptionList('file').map do |f|
+        url = KDE::Url.new f
+        url.path = File.expand_path(f) if url.protocol.empty?
+        url
+      end
       files.each do |f| 
         win.display_document f
       end
