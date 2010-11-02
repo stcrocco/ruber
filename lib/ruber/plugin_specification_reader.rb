@@ -439,7 +439,11 @@ One of the entries of the about hash in the PSF was nil. The corresponding value
         EOS
         KDE::MessageBox.information nil, deleted_value.inspect
       end
-      OpenStruct.new res
+      begin OpenStruct.new res
+      rescue Exception
+        puts "The following exception occurred while reading the About data for #{@plugin_info.plugin_name}.\nThe contents of the hash was: #{res.inspect}"
+        raise
+      end
     end
     
   end
