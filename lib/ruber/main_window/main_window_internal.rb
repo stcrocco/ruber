@@ -83,7 +83,7 @@ path of the file to open
       editor = editor_for! file
       return unless editor
       focus_on_editor editor
-      url = KDE::Url.from_path(file)
+      url = KDE::Url.new file
       action_collection.action('file_open_recent').add_url url, url.file_name
     end
 
