@@ -1,5 +1,9 @@
 h1. Changes
 
+h2. Ruber 0.0.5
+
+* Fixed a bug causing an error when opening files
+
 h2. Ruber 0.0.4
 
 * Fixed a bug causing Ruber to fail starting up if the @$KDEHOME/share/apps/ruber/plugins@
