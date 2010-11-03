@@ -1,4 +1,5 @@
 require 'rake'
+require './lib/ruber/version'
 
 Gem::Specification.new do |s|
 
@@ -19,7 +20,7 @@ Gem::Specification.new do |s|
   Ruber. For example, a user can create a plugin which replaces the default
   plugin to run ruby programs
   DESC
-  s.version = '0.0.1'
+  s.version = Ruber::VERSION
   s.required_ruby_version = '>=1.8.7'
   s.requirements << 'KDE 4.5' << 'korundum4'
   s.add_dependency 'facets', '>=2.7'
@@ -28,6 +29,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'outsider'
   s.bindir = 'bin'
   s.executables = 'ruber'
-  s.files = FileList['lib/**/*.*', 'plugins/**/*.*', 'spec/**/*', 'data/**/*', 'ruber.desktop', 'outsider_files', 'icons/*.*', 'COPYING', 'INSTALL', 'LICENSE']
+  s.files = FileList['lib/**/*.*', 'plugins/**/*.*', 'spec/**/*', 'data/**/*', 'ruber.desktop', 'outsider_files', 'icons/*.*', 'COPYING', 'INSTALL', 'LICENSE', 'CHANGES']
   s.homepage = 'http://stcrocco.github.com/ruber'
 end

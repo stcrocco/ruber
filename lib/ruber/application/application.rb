@@ -169,7 +169,7 @@ or sorting dependencies.
 =end
     def setup
       # Create $KDEHOME/share/apps/ruber/plugins if it's missing
-      begin FileUtils.mkdir DEFAULT_PLUGIN_PATHS[0]
+      begin FileUtils.mkdir_p DEFAULT_PLUGIN_PATHS[0]
       rescue Errno::EEXIST
       end
       chosen_plugins = Ruber[:config][:general, :plugins].map(&:to_sym)

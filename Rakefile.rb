@@ -46,7 +46,7 @@ else
   task :rdoc do |t|
     puts rdoc_warning
     output_dir= File.expand_path(ENV['OUTPUT_DIR']) rescue 'rdoc'
-    files = Rake::FileList['lib/ruber/**/*.rb','plugins/**/*.rb', 'TODO', 'INSTALL', 'LICENSE']
+    files = Rake::FileList['lib/ruber/**/*.rb','plugins/**/*.rb', 'TODO', 'INSTALL', 'LICENSE', 'CHANGES']
     options = %W[-o #{output_dir} -w 2 -x lib/ruber/ui -x plugins/.*/ui --title Ruber]
     args =  options + files
     RDoc::RDoc.new.document( args)
@@ -84,7 +84,7 @@ begin
   cache = ENV['YARD_NO_CACHE'] ? '' : '-c'
   YARD::Rake::YardocTask.new(:doc) do |t|
     output_dir= File.expand_path(ENV['OUTPUT_DIR']) rescue 'doc'
-    t.files   = ['lib/**/*.rb',  'lib/ruber/**/*.rb', 'plugins/**/*.rb', '-', 'TODO', 'manual/**/*', 'INSTALL']
+    t.files   = ['lib/**/*.rb',  'lib/ruber/**/*.rb', 'plugins/**/*.rb', '-', 'TODO', 'manual/**/*', 'INSTALL', 'CHANGES', 'LICENSE']
     t.options = [cache, '--protected', '--private', '--backtrace', '-e', 'yard/extensions', '--title', 'Ruber API', '--private', '-o', output_dir, '-m', 'textile', '--exclude', '/ui/[\w\d]+\.rb$']
   end
 rescue LoadError

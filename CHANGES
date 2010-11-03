@@ -1,0 +1,16 @@
+h1. Changes
+
+h2. Ruber 0.0.4
+
+* Fixed a bug causing Ruber to fail starting up if the @$KDEHOME/share/apps/ruber/plugins@
+  directory was missing
+* Fixed a bug preventing new documents being created
+
+h2. Ruber 0.0.3
+
+Version skipped for technical reasons
+
+h2. Ruber 0.0.2
+
+* Fixed a bug causing Ruber to fail starting up if the @$KDEHOME/share/apps/ruber/@
+  directory was missing
