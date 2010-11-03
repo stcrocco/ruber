@@ -28,6 +28,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'outsider'
   s.bindir = 'bin'
   s.executables = 'ruber'
-  s.files = FileList['lib/**/*.*', 'plugins/**/*.*', 'spec/**/*', 'data/**/*', 'ruber.desktop', 'outsider_files', 'icons/*.*', 'COPYING', 'INSTALL', 'LICENSE']
+  s.files = FileList['lib/**/*.*', 'plugins/**/*.*', 'spec/**/*', 'data/**/*', 'ruber.desktop', 'outsider_files', 'icons/*.*', 'COPYING', 'INSTALL', 'LICENSE', 'CHANGES']
   s.homepage = 'http://stcrocco.github.com/ruber'
 end
