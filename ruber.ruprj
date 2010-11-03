@@ -26,17 +26,6 @@
     - "*.yaml"
     - "*.rc"
     - "*.erb"
-:rspec: 
-  :full_backtraces: false
-  :ruby_options: 
-  - -I.
-:ruby: 
-  :main_program: bin/ruber
-  :options: 
-  - --file
-  - http://github.com/stcrocco/ruber/raw/master/ruber.gemspec
-  :ruby_options: 
-  - -Ilib
 :rake: 
   :rakefile: Rakefile.rb
   :ruby_options: []
@@ -60,3 +49,14 @@
     spec: 
     - Run all examples
     - 
+:ruby: 
+  :main_program: bin/ruber
+  :options: 
+  - --file
+  - http://github.com/stcrocco/ruber/raw/master/ruber.gemspec
+  :ruby_options: 
+  - -Ilib
+:rspec: 
+  :full_backtraces: false
+  :ruby_options: 
+  - -I.
