@@ -31,7 +31,7 @@ require 'ruber/utils'
 require 'ruber/exception_widgets'
 require 'ruber/component_manager.rb'
 
-data = KDE::AboutData.new "ruber", "", KDE::ki18n("Ruber"), "0.0.1",
+data = KDE::AboutData.new "ruber", "", KDE::ki18n("Ruber"), "0.0.1.1",
     KDE.ki18n('A Ruby IDE written in Ruby'), KDE::AboutData::License_GPL
 data.add_author KDE.ki18n('Stefano Crocco'), KDE::LocalizedString.new, 
     Qt::ByteArray.new('stefano.crocco@alice.it')

@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
   Ruber. For example, a user can create a plugin which replaces the default
   plugin to run ruby programs
   DESC
-  s.version = '0.0.1'
+  s.version = '0.0.1.1'
   s.required_ruby_version = '>=1.8.7'
   s.requirements << 'KDE 4.5' << 'korundum4'
   s.add_dependency 'facets', '>=2.7'
