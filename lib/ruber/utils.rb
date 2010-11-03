@@ -40,6 +40,7 @@ The directory where the Ruber core files are
 The Ruber @data@ directory 
 =end
   RUBER_DATA_DIR = File.expand_path File.join(RUBER_LIB_DIR, '..', 'data')
+  
 end
 
 module Kernel

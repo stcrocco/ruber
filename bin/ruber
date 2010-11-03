@@ -25,13 +25,14 @@ require 'korundum4'
 require 'kio'
 require 'facets/kernel/require_relative'
 
+require 'ruber/version'
 require 'ruber/qt_sugar'
 require 'ruber/kde_sugar'
 require 'ruber/utils'
 require 'ruber/exception_widgets'
 require 'ruber/component_manager.rb'
 
-data = KDE::AboutData.new "ruber", "", KDE::ki18n("Ruber"), "0.0.4",
+data = KDE::AboutData.new "ruber", "", KDE::ki18n("Ruber"), Ruber::VERSION,
     KDE.ki18n('A Ruby IDE written in Ruby'), KDE::AboutData::License_GPL
 data.add_author KDE.ki18n('Stefano Crocco'), KDE::LocalizedString.new, 
     Qt::ByteArray.new('stefano.crocco@alice.it')
