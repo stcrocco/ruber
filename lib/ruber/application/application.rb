@@ -50,7 +50,7 @@ The default path where to look for plugins. It only includes the _plugins_ direc
 in the Ruber installation path
 =end
     DEFAULT_PLUGIN_PATHS = [
-      File.join(KDE::Global.dirs.find_dirs( 'data', 'ruber')[0], 'plugins'),
+      File.join(KDE::Global.dirs.find_dirs( 'data', '')[0], File.join('ruber','plugins')),
       File.expand_path(File.join(RUBER_LIB_DIR, '..', '..', 'plugins'))
     ]
 =begin rdoc
