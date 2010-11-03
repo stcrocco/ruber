@@ -32,6 +32,9 @@
   - -I.
 :ruby: 
   :main_program: bin/ruber
+  :options: 
+  - --file
+  - http://github.com/stcrocco/ruber/raw/master/ruber.gemspec
   :ruby_options: 
   - -Ilib
 :rake: 
