@@ -15,6 +15,7 @@
     - ruber.desktop
     - outsider_files
     - README.textile
+    - CHANGES
     :exclude: 
     - !ruby/regexp /^_darcs\/.*/
     - !ruby/regexp /^doc\/.*/
