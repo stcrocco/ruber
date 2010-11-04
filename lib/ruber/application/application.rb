@@ -51,7 +51,7 @@ in the Ruber installation path
 =end
     DEFAULT_PLUGIN_PATHS = [
       File.join(KDE::Global.dirs.find_dirs( 'data', '')[0], File.join('ruber','plugins')),
-      File.expand_path(File.join(RUBER_LIB_DIR, '..', '..', 'plugins'))
+      RUBER_PLUGIN_DIR
     ]
 =begin rdoc
 The default plugins to load. They are: ruby_development, find_in_files, syntax_checker,
@@ -94,6 +94,18 @@ The status of the application. It can be: +:starting+, +:running+ or +:quitting+
       @status = :starting
       Qt::Timer.single_shot(0, self, SLOT(:setup))
     end
+    
+    def plugin_directories
+      @plugin_dirs.dup
+    end
+    alias :plugin_dirs :plugin_directories
+    
+    def plugin_directories= dirs
+      @plugin_directories = dirs
+      Ruber[:config][:general, :plugin_dirs] = @plugin_directories
+      Ruber[:config].write
+    end
+    alias :plugin_dirs= :plugin_directories=
     
     def quit_ruber
       @status = :quitting
@@ -158,6 +170,13 @@ or sorting dependencies.
 =end
     def load_settings
       @plugin_dirs = Ruber[:config][:general].plugin_dirs
+      ruber_base_dir = File.dirname(RUBER_DIR)
+      @plugin_dirs.map! do |d| 
+        if d =~ /#{File.join Regexp.quote(ruber_base_dir), 'ruber-\d+\.\d+\.\d+'}/
+          RUBER_PLUGIN_DIR
+        else d
+        end
+      end
       new_dirs = @plugin_dirs - $:
       new_dirs.each{|d| $:.unshift d}
     end

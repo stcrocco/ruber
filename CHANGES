@@ -2,7 +2,10 @@ h1. Changes
 
 h2. Ruber 0.0.6
 
-Fixed a bug causing a crash from the Choose Plugins dialog in case of an error
+* Fixed a bug causing a crash from the Choose Plugins dialog in case of an error
+* Fixed a bug causing Ruber to look for plugins in the directory installation of
+  a previous version if the plugin directories settings had been changed (even if
+  the default directory hadn't been changed)
 
 h2. Ruber 0.0.5
 
