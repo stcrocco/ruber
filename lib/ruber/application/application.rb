@@ -73,6 +73,16 @@ Currently, they are: ruby_development, find_in_files, syntax_checker, command an
     attr_reader :cmd_line_options
     
 =begin rdoc
+The state Ruber is in
+
+Ruber can be in three states:
+
+- *starting*:= from the time it's launched to when {#setup} returns
+- *running*:= from after {#setup} has returend to when the user chooses to quit
+  it (either with the @File/Quit@ menu entry or clicking on the button on the title
+  bar)
+- *quitting*:= from when the user chooses to quit Ruber onwards
+
 @return [Symbol] the status of the application. It can be: @:starting@, @:running@
   or @:quitting@
 =end
@@ -81,8 +91,8 @@ Currently, they are: ruby_development, find_in_files, syntax_checker, command an
 =begin rdoc
 Creates a new instance of {Application}
 
-It also sets up a single shot timer which calls {#setup} and is fired as soon
-as the event loop starts.
+It loads the core components and sets up a single shot timer which calls {#setup}
+and is fired as soon as the event loop starts.
 
 @param [ComponentManager] manager the component manager
 @param [PluginSpecification] psf the plugin specification object describing the
@@ -112,59 +122,102 @@ as the event loop starts.
       @plugin_dirs.dup
     end
     alias :plugin_dirs :plugin_directories
-    
+
+=begin rdoc
+Sets the list of directories where Ruber looks for plugins
+
+This also changes the setting in the global configuration object, but it *doesn't*
+write the change to file. It's up to whoever called this method to do so.
+
+@param [Array<String> dirs] the directories Ruber should search for plugins
+=end
     def plugin_directories= dirs
       @plugin_directories = dirs
       Ruber[:config][:general, :plugin_dirs] = @plugin_directories
     end
     alias :plugin_dirs= :plugin_directories=
     
+=begin rdoc
+Quits ruber
+
+Sets the application status to @:quitting@ and calls {ComponentManager#shutdown}
+@return [nil]
+=end
     def quit_ruber
       @status = :quitting
       @components.shutdown
+      nil
     end
     
 =begin rdoc
-  Returns *true* if the application is starting and *false* if it has already
-  started otherwise. The application is considered to have started after the 
-  application's +setup+ method has been called and has returned. Before that,
-  it is considered to be starting.
-    
-  This method is mostly useful for plugins which need to perform different actions
-  depending on whether they're loaded at application startup (in which case
-  <tt>starting?</tt> returns *true*) or later (when <tt>starting?</tt> returns
-  *false*)
+Whether the application is starting or has already started
+
+You should seldom need this method. It's mostly useful for plugins which need to
+erform different actions depending on whether they're loaded at application
+startup (in which case it'll return *true*) or later (when it'll return *false*)
+
+@return [Boolean] *true* if the application status is @starting@ and *false*
+  otherwise
+@see #status
 =end
     def starting?
       @status == :starting
     end
     
+=begin rdoc
+Whether the application is running or not
+
+@return [Boolean] *true* if the application status is @running@ and *false*
+otherwise
+@see #status
+=end 
     def running?
       @status == :running
     end
-    
+
+=begin rdoc
+Whether the application is quitting or not
+
+@return [Boolean] *true* if the application status is @quitting@ and *false*
+otherwise
+@see #status
+=end 
     def quitting?
       @status == :quitting
     end
 
 =begin rdoc
-It is a wrapper around ComponentManager#load_plugins which allows an easier handling
-of exceptions raised by the loaded plugins.
+Loads plugins handling the exceptions they may raise in the meanwhile
 
-If a block is given, it is passed to ComponentManager#load_plugins, to determine
-what to do if an exception is raised while loading a plugin. If no block is given
-and _silent_ is *false*, then a dialog displaying the error message is shown to
-the user, who has the following options: ignore the plugin which gave the error,
-skip all the remaining plugins, go on ignoring other errors or aborting. If no
-block is given and _silent_ is a true value, then all errors will be ignored.
+It is a wrapper around {ComponentManager#load_plugins}.
+    
+If it's given a block, it simply calls {ComponentManager#load_plugins} passing
+it the block.
 
-_plugins_ should be an array containing the names of the plugins to load
-(dependencies) will be computed automatically. _dirs_ is an array containing the
-directories where to look for plugins. If *nil*, the values stored in the
-"Plugin directories" entry in the configuration file will be used.
+If no block is given, the behaviour in case of an exception depends on the _silent_
+argument:
+* if *true*, then the error will be silently ignored and the component manager will
+  go on loading the remaining plugins. Errors caused by those will be ignored as
+  well
+* if *false*, the user will be shown a {ComponentLoadingErrorDialog}. According
+  to what the user chooses in the dialog, the component manager will behave in
+  a different way, as described in {ComponentManager#load_plugins}
 
-<b>Note:</b> this method doesn't attempt to handle exceptions raised while computing
+*Note:* this method doesn't attempt to handle exceptions raised while computing
 or sorting dependencies.
+@param [Array<Symbol>] plugins the names of the plugins to load. It doesn't need
+  to include dependencies, as they're computed automatically
+@param [Boolean] silent whether errors while loading plugins should be silently
+  ignored or not
+@param [Array<String>,nil] dirs the directories where to look for plugins. If *nil*,
+  then the value returned by {#plugin_directories} will be used
+@yield [pso, ex] block called when loading a plugin raises an exception
+@yieldparam [PluginSpecification] pso the plugin specification object associated
+  with the plugin which raised the exception
+@yieldparam [Exception] ex the exception raised while loading the plugin
+@return [Boolen] *true* if the plugins were loaded successfully and *false* otherwise
+@see ComponentManager#load_plugins
+@see ComponentLoadingErrorDialog
 =end
     def safe_load_plugins plugins, silent = false, dirs = nil, &blk
       if blk.nil? and silent then blk = proc{|_pl, _e| :silent}
@@ -172,13 +225,19 @@ or sorting dependencies.
         blk = Proc.new{|pl, e| ComponentLoadingErrorDialog.new(pl.name, e, nil).exec}
       end
       @components.load_plugins plugins, dirs || @plugin_dirs, &blk
+      
     end
 
     private
 
 =begin rdoc
-  Applies the application's configuration settings. It also adds any plugin directory
-  to the load path, unless it's already there.
+Override of {PluginLike#load_settings}
+
+It reads the list of plugin directories from the configuration object, replacing
+all mentions of the installation paths for a different version of Ruber with the
+installation path for the current version, and adds to the load path all missing
+directories
+@return [nil]
 =end
     def load_settings
       @plugin_dirs = Ruber[:config][:general].plugin_dirs
@@ -191,12 +250,24 @@ or sorting dependencies.
       end
       new_dirs = @plugin_dirs - $:
       new_dirs.each{|d| $:.unshift d}
+      nil
     end
 
 =begin rdoc
-  Loads the plugins in the configuration file and opens the files and/or
-  projects listed in the command line. At the end, marks the application
-  as _running_.
+Prepares the application for running
+
+It loads the plugins chosen by the user according to the configuration file. If
+an error occurs while finding plugin dependencies (either because of a missing
+dependency or a circular dependency), the user is shown a dialog asking what to
+do (quit ruber or load no plugin). If an exception is raised while loading a plugin,
+it's handled according to the behaviour specified in {#safe_load_plugins} with no
+block given.
+
+It also takes care of the command line options, opening the files and projects
+specified in it.
+
+At the end, the main window is shown
+@return [nil]
 =end
     def setup
       # Create $KDEHOME/share/apps/ruber/plugins if it's missing
@@ -246,17 +317,28 @@ Do you want to start the application without them or to quit Ruber?
       end
       @status = :running
       Ruber[:main_window].show
+      nil
     end
 
 
 =begin rdoc
-  Loads the core components. In order, they are:
-  * the configuration manager
-  * the document keeper
-  * the main window
+Loads the core components
   
-  After creating the configuration manager, the <tt>register_with_config</tt>
-  method is called
+In loading order, the core components are:
+* the configuration manager
+* the document list
+* the project list
+* the main window
+
+In case loading one of the core components raises an exception, the user is
+warned with a dialog and ruber is closed.
+
+After creating the configuration manager, {#register_with_config} is called.
+
+If a previous session is being restored, {MainWindow#restore} is called, otherwise
+an empty document is created (unless the user specified some files or project
+on the command line)
+@return [nil]
 =end
     def load_core_components
       begin
@@ -282,24 +364,30 @@ Do you want to start the application without them or to quit Ruber?
     end
 
 =begin rdoc
-  Registers the configuration options with the configuration manager, calls the
-  <tt>load_settings</tt> method and connects to the configuration manager's
-  <tt>settings_changed</tt> signal.
+Registers the configuration options with the configuration manager
     
-  This tasks are performed by the <tt>PluginLike#initialize_plugin</tt> method,
-  but as the config manager didn't exist when that method was called,  it is
-  necessary to to them here
+This means, calling {#load_settings} and connecting to the configuration manager's
+{ConfigurationManager#settings_changed settings_changed}signal.
+  
+This tasks are usually performed by {PluginLike#initialize_plugin},
+but as the config manager didn't exist when that method was called,  it is
+necessary to to them later
+@return [nil]
 =end
     def register_with_config
       config = Ruber[:config]
       @plugin_description.config_options.each_value{|o| config.add_option o}
       load_settings
       connect config, SIGNAL(:settings_changed), self, SLOT(:load_settings)
+      nil
     end
 
 =begin rdoc
-  Opens the files and/or project listed on the command line, or creates a single
-  empty document if neither files nor projects have been specified.
+  Opens the files and/or project listed on the command line
+    
+  If neither files nor projects have been specified on the command line, 
+  a single empty document is created.
+  @return [nil]
 =end
     def open_command_line_files
       args = @cmd_line_options.files
@@ -310,6 +398,7 @@ Do you want to start the application without them or to quit Ruber?
       files.each do |f| 
         win.display_document f
       end
+      nil
     end
 
   end

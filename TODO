@@ -95,6 +95,8 @@ h2. Ruber Core
 * Add a way to specify the order in which pages should be displayed in the
   configuration dialogs (maybe adding a priority attribute somewhere in the PSF)
 * Allow sorting tabs by D&D
+* ?Per-project recent file list. The behaviour should be very well thought,
+  to avoid the mistakes done by kate.
 
 
 h2. Plugins
