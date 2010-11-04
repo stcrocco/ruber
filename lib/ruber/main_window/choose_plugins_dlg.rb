@@ -337,7 +337,7 @@ happen.
       case e
       when ComponentManager::UnresolvedDep
         deps = e.missing.map do |p1, p2|
-          "#{d}, needed by #{pl.join ', '}"
+          "#{p2}, needed by #{pl.join ', '}"
         end
         "Some dependencies couldn't be satisifed:\n#{deps.join "\n"}"
       when ComponentManager::CircularDep

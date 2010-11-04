@@ -1,5 +1,9 @@
 h1. Changes
 
+h2. Ruber 0.0.6
+
+Fixed a bug causing a crash from the Choose Plugins dialog in case of an error
+
 h2. Ruber 0.0.5
 
 * Fixed a bug causing an error when opening files
