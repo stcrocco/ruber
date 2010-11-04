@@ -188,9 +188,7 @@ or sorting dependencies.
 =end
     def setup
       # Create $KDEHOME/share/apps/ruber/plugins if it's missing
-      begin FileUtils.mkdir_p DEFAULT_PLUGIN_PATHS[0]
-      rescue Errno::EEXIST
-      end
+      FileUtils.mkdir_p DEFAULT_PLUGIN_PATHS[0]
       chosen_plugins = Ruber[:config][:general, :plugins].map(&:to_sym)
       needed_plugins = []
       deps_problem_msg = Proc.new do |e|
