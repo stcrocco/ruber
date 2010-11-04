@@ -32,30 +32,34 @@ require 'ruber/exception_widgets'
 module Ruber
   
 =begin rdoc
-  Returns the component providing the feature _feature_
-  
-  <b>Note:</b> this method can only be used _after_ the application has been
-  created, otherwise +NoMethodError+ will be raised.
+The component providing a feature
+
+@param [Symbol] feature the feature the component should provide
+@return [PluginLike,nil] the component providing the given feature or *nil* if
+  no components provide it
+@raise [NoMethodError] if called before the application is created
 =end
   def self.[](feature)
 # This instance variable is initialized by the application's constructor
     @components[feature]
   end
 
-  
   class Application < KDE::Application
     
 =begin rdoc
-The default path where to look for plugins. It only includes the _plugins_ directory
-in the Ruber installation path
+The default paths where to look for plugins.
+
+It includes @$KDEHOME/share/apps/ruber/plugins@ and the @plugins@ subdirectory
+of the ruber installation directory
 =end
     DEFAULT_PLUGIN_PATHS = [
       File.join(KDE::Global.dirs.find_dirs( 'data', '')[0], File.join('ruber','plugins')),
       RUBER_PLUGIN_DIR
     ]
 =begin rdoc
-The default plugins to load. They are: ruby_development, find_in_files, syntax_checker,
-command and state
+The default plugins to load
+    
+Currently, they are: ruby_development, find_in_files, syntax_checker, command and state
 =end
     DEFAULT_PLUGINS = %w[ruby_development find_in_files rake command syntax_checker state]
     
@@ -63,27 +67,33 @@ command and state
     
     slots 'load_settings()', :setup
     
-# A hash containing the command line options
+=begin rdoc
+@return [Hash] the command line options passed to ruber (after they've been processed)
+=end
     attr_reader :cmd_line_options
     
 =begin rdoc
-The status of the application. It can be: +:starting+, +:running+ or +:quitting+
+@return [Symbol] the status of the application. It can be: @:starting@, @:running@
+  or @:quitting@
 =end
     attr_reader :status
 
 =begin rdoc
-  Creates a new application object.
-    
-  Besides creating the application, this method also loads the core components
-  and sets up a timer which will cause the application's _setup_ method to be
-  called as soon as <tt>Application#exec</tt> is called. 
+Creates a new instance of {Application}
+
+It also sets up a single shot timer which calls {#setup} and is fired as soon
+as the event loop starts.
+
+@param [ComponentManager] manager the component manager
+@param [PluginSpecification] psf the plugin specification object describing the
+  application component
 =end
-    def initialize manager, pdf
+    def initialize manager, psf
       super()
       @components = manager
       @components.parent = self
       Ruber.instance_variable_set :@components, @components
-      initialize_plugin pdf
+      initialize_plugin psf
       KDE::Global.dirs.addPrefix File.expand_path(File.join( RUBER_DATA_DIR, '..', '..', 'data'))
       icon_path = KDE::Global.dirs.find_resource('icon', 'ruber')
       self.window_icon = Qt::Icon.new icon_path
@@ -95,6 +105,9 @@ The status of the application. It can be: +:starting+, +:running+ or +:quitting+
       Qt::Timer.single_shot(0, self, SLOT(:setup))
     end
     
+=begin rdoc
+@return [Array<String>] a list of the directories where Ruber looks for plugins
+=end
     def plugin_directories
       @plugin_dirs.dup
     end
@@ -103,7 +116,6 @@ The status of the application. It can be: +:starting+, +:running+ or +:quitting+
     def plugin_directories= dirs
       @plugin_directories = dirs
       Ruber[:config][:general, :plugin_dirs] = @plugin_directories
-      Ruber[:config].write
     end
     alias :plugin_dirs= :plugin_directories=
     
