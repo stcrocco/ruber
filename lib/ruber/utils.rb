@@ -310,9 +310,9 @@ the block returned a true value, it returns the value returned by the block.
 @return [Object, nil] the first non-false value returned by the block or *nil*
 if the block returns *nil* or *false* for all elements
 
-@example
-[1, 2, 3, 4].find!{|i| 2*i if i > 2}
-=> 6 #(3*2)
+@example Using @find!@
+  [1, 2, 3, 4].find!{|i| 2*i if i > 2}
+  => 6 #(3*2)
 =end
   def find!
     each do |obj|
