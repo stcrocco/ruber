@@ -223,19 +223,19 @@ describe Ruber::DocumentProject do
       prj.parent.should equal(doc)
     end
     
-    it 'uses Ruber::DocumentProject::Backend as backend and the file associated with the document as project name, if needed' do
+    it 'uses Ruber::DocumentProject::Backend as backend and the string form of the URL associated with the document as project name, if needed' do
       doc = create_doc __FILE__
       prj = Ruber::DocumentProject.new doc
       prj.instance_variable_get(:@backend).should be_a(Ruber::DocumentProject::Backend)
-      prj.project_name.should == __FILE__
-      file = '/home/stefano/xyz/document_project_spec_data_.rb'
+      prj.project_name.should == "file://#{__FILE__}"
+      url = KDE::Url.new('/home/stefano/xyz/document_project_spec_data_.rb')
       md5 = Digest::MD5.new
-      md5 << file
+      md5 << url.url
       data_path = File.join ENV['HOME'], '.kde4/share/apps/test/documents', md5.hexdigest
-      File.open(data_path, 'w'){|f| YAML.dump( {:general => {:project_name => file}}, f)}
-      doc = create_doc file
+      File.open(data_path, 'w'){|f| YAML.dump( {:general => {:project_name => url.url}}, f)}
+      doc = create_doc url
       prj = Ruber::DocumentProject.new doc
-      prj.project_name.should == file
+      prj.project_name.should == url.url
       FileUtils.rm_rf data_path
     end
     
