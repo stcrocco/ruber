@@ -54,6 +54,7 @@ didn't exist. This means that it will be overwritten when the project is saved.
 The reason for this behaviour is that there should be no user file in the directory
 where document projects are saved.
 =end
+#       $CALLED = 0
       def initialize file
         @old_files = []
         begin super file_for(file)
@@ -127,12 +128,17 @@ will fail with an +ArgumentError+.
 
 If the path of the file associated with the document changes (usually because of
 a "Save As" action), the file associated with the backend is changed automatically
+
+@todo in classes derived from Qt::Object, korundum executes the code in initialize,
+up until the call to super twice. This means that two Backend items will be created.
+See if something can be done to avoid it. I don't know whether this has any bad
+consequence or not.
 =end
     def initialize doc
       @document = doc
-      path = doc.path
+      path = backend_file
       back = Backend.new path
-      back.instance_variable_get(:@data).empty? ? super(doc, back, doc.path) : super(doc, back)
+      !File.exist?(back.file) ? super(doc, back, path) : super(doc, back)
       connect doc, SIGNAL('document_url_changed(QObject*)'), self, SLOT(:change_file)
     end
     
@@ -190,7 +196,12 @@ Override of AbstractProject#files which returns an array with the path of the
 associated document, if it corresponds to a file, and an empty array otherwise
 =end
     def files
-      path = @document.path
+      url =  @document.url
+      if url.local_file?
+        path = url.path
+      else 
+        path = url.to_encoded(Qt::Url::RemoveUserInfo|Qt::Url::RemovePort|Qt::Url::RemoveFragment).to_s
+      end
       path.empty? ? [] : [path] 
     end
     
@@ -201,7 +212,14 @@ Updates the backend so that the associated file reflects the file associated wit
 the document.
 =end
     def change_file
-      @backend.document_path = @document.path
+      @backend.document_path = backend_file
+    end
+    
+    def backend_file
+      if @document.has_file?
+        @document.url.to_encoded(Qt::Url::RemoveUserInfo|Qt::Url::RemovePort|Qt::Url::RemoveFragment).to_s
+      else ''
+      end
     end
     
   end

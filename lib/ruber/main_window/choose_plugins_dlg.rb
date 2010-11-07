@@ -132,7 +132,7 @@ deselected.
       @chosen_plugins.delete_if{|i| !loaded.include? i}
       
       read_plugins dirs
-      res = find_deps(:warning) do |e| 
+      res = find_deps(:sorry) do |e| 
         "There were problems making dependencies. #{create_failure_message e}\nAll plugins will be deselected"
       end
       if res
@@ -188,7 +188,7 @@ dependency problem occurs, the user is warned and all plugins are deselected
       dirs = Ruber[:config].default :general, :plugin_dirs
       @chosen_plugins = Ruber[:config].default( :general, :plugins).split(',').map{|i| i.to_sym}
       read_plugins dirs
-      res = find_deps(:warning) do |e| 
+      res = find_deps(:sorry) do |e| 
         "There were problems making dependencies. #{create_failure_message e}\nAll plugins will be deselected"
       end
       if res
@@ -248,11 +248,11 @@ an error occurs and no block is passed, the exception is passed on.
 This method returns *nil* if no error occurs and the value returned by the
 message box otherwise.
 =end
-    def find_deps msg_type = :warning
+    def find_deps msg_type = :sorry
       chosen_data = @chosen_plugins.map{|i| @plugin_data[i]}
       begin @needed_plugins = ComponentManager.fill_dependencies chosen_data, @plugin_data.values
       rescue ComponentManager::UnresolvedDep, ComponentManager::CircularDep => e
-        if block_given? then KDE::MessageBox.send(msg_type, yield(e))
+        if block_given? then KDE::MessageBox.send msg_type, nil, yield(e)
         else raise
         end
       end
@@ -308,7 +308,7 @@ to the item _it_.
       if it.check_state == Qt::Checked then @chosen_plugins << name.to_sym
       else @chosen_plugins.delete name.to_sym
       end
-      find_deps{|e| create_failure_message( e) + "\nPlease, be sure to correct the problem before accepting changes" }
+      find_deps{|e| create_failure_message( e) + "\nPlease, be sure to correct the problem before pressing the OK or Apply button" }
       update_plugin_status
     end
     
@@ -320,7 +320,7 @@ If the dependencies aren't respected, the user is warned with a message box.
 =end
     def slot_directories_changed
       new_dirs = @ui.directories.items
-      find_deps{|e| create_failure_message( e) + "\nPlease, be sure to correct the problem before accepting changes" }
+      find_deps{|e| create_failure_message( e) + "\nPlease, be sure to correct the problem before pressing the OK or Apply button" }
       fill_plugin_list
       emit directories_changed
       nil
@@ -337,7 +337,7 @@ happen.
       case e
       when ComponentManager::UnresolvedDep
         deps = e.missing.map do |p1, p2|
-          "#{d}, needed by #{pl.join ', '}"
+          "#{p1}, needed by #{p2.join ', '}"
         end
         "Some dependencies couldn't be satisifed:\n#{deps.join "\n"}"
       when ComponentManager::CircularDep

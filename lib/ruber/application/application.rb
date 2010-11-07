@@ -32,30 +32,34 @@ require 'ruber/exception_widgets'
 module Ruber
   
 =begin rdoc
-  Returns the component providing the feature _feature_
-  
-  <b>Note:</b> this method can only be used _after_ the application has been
-  created, otherwise +NoMethodError+ will be raised.
+The component providing a feature
+
+@param [Symbol] feature the feature the component should provide
+@return [PluginLike,nil] the component providing the given feature or *nil* if
+  no components provide it
+@raise [NoMethodError] if called before the application is created
 =end
   def self.[](feature)
 # This instance variable is initialized by the application's constructor
     @components[feature]
   end
 
-  
   class Application < KDE::Application
     
 =begin rdoc
-The default path where to look for plugins. It only includes the _plugins_ directory
-in the Ruber installation path
+The default paths where to look for plugins.
+
+It includes @$KDEHOME/share/apps/ruber/plugins@ and the @plugins@ subdirectory
+of the ruber installation directory
 =end
     DEFAULT_PLUGIN_PATHS = [
       File.join(KDE::Global.dirs.find_dirs( 'data', '')[0], File.join('ruber','plugins')),
       File.expand_path(File.join(RUBER_LIB_DIR, '..', '..', 'plugins'))
     ]
 =begin rdoc
-The default plugins to load. They are: ruby_development, find_in_files, syntax_checker,
-command and state
+The default plugins to load
+    
+Currently, they are: ruby_development, find_in_files, syntax_checker, command and state
 =end
     DEFAULT_PLUGINS = %w[ruby_development find_in_files rake command syntax_checker state]
     
@@ -63,11 +67,14 @@ command and state
     
     slots 'load_settings()', :setup
     
-# A hash containing the command line options
+=begin rdoc
+@return [Hash] the command line options passed to ruber (after they've been processed)
+=end
     attr_reader :cmd_line_options
     
 =begin rdoc
-The status of the application. It can be: +:starting+, +:running+ or +:quitting+
+@return [Symbol] the status of the application. It can be: @:starting@, @:running@
+  or @:quitting@
 =end
     attr_reader :status
 
