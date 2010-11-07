@@ -125,7 +125,7 @@ deselected.
       @ui = Ui::ChoosePluginsWidget.new
       @ui.setupUi self
       
-      dirs = Ruber[:config][:general].plugin_dirs
+      dirs = Ruber[:app].plugin_dirs
       
       @chosen_plugins = Ruber[:config][:general, :plugins].map(&:to_sym)
       loaded = Ruber[:components].plugins.map(&:plugin_name)
@@ -170,7 +170,7 @@ deselected.
 =end
     def write_settings
       dirs = @ui.directories.items
-      Ruber[:config][:general,:plugin_dirs] = dirs
+      Ruber[:app].plugin_dirs = dirs
       plugins = []
       @ui.plugins.model.each_row do |r|
         plugins << r[0].data.to_string if  r[0].fully_checked?

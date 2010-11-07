@@ -594,24 +594,52 @@ describe Ruber::State::Plugin do
       @plug.restore_documents
     end
     
-    it 'activates the document corresponding to the file specified in the state/active_document setting' do
+    it 'doesn\'t attempt to open a document for an entry corresponding to a file whih doesn\'t exist anymore' do
       files = %w[/x/y/f1.rb /a/b/f2.rb /f3.rb]
       @config.should_receive(:[]).with(:state, :open_documents).once.and_return files
+      @config.should_receive(:[]).with(:state, :active_document)
+      @mw.should_receive(:editor_for!).once.with(files[0]).ordered
+      @mw.should_receive(:editor_for!).once.with(files[1]).ordered.and_raise(ArgumentError)
+      @mw.should_receive(:editor_for!).once.with(files[2]).ordered
+      @mw.should_receive(:without_activating).once.with(FlexMock.on{|a| a.call || a.is_a?(Proc)})
+      lambda{@plug.restore_documents}.should_not raise_error
+    end
+    
+    it 'activates the document corresponding to the file specified in the state/active_document setting' do
+      files = %w[/x/y/f1.rb /a/b/f2.rb /f3.rb]
+      docs = 3.times.map{|i| flexmock("doc#{i}", :path => files[i])}
+      views = 3.times.map{|i| flexmock("view#{i}", :document => docs[i])}
+      @config.should_receive(:[]).with(:state, :open_documents).once.and_return files
       @config.should_receive(:[]).with(:state, :active_document).once.and_return files[1]
-      3.times{|i| @mw.should_receive(:editor_for!).once.with(files[i])}
-      @mw.should_receive(:display_document).once.with(files[1])
+      3.times{|i| @mw.should_receive(:editor_for!).once.with(files[i]).and_return(views[i])}
+      @mw.should_receive(:display_document).once.with(docs[1])
       @mw.should_receive(:without_activating).once.with(FlexMock.on{|a| a.call || a.is_a?(Proc)})
       @plug.restore_documents
     end
     
-    it 'it activates the last document if the state/active_document setting is nil or if it doesn\'t correspond to an existing document' do
+    it 'activates the last document if the state/active_document setting is nil' do
       files = %w[/x/y/f1.rb /a/b/f2.rb /f3.rb]
-      @config.should_receive(:[]).with(:state, :open_documents).twice.and_return files
+      docs = 3.times.map{|i| flexmock("doc#{i}", :path => files[i])}
+      views = 3.times.map{|i| flexmock("view#{i}", :document => docs[i])}
+      @config.should_receive(:[]).with(:state, :open_documents).once.and_return files
       @config.should_receive(:[]).with(:state, :active_document).once.and_return nil
-      @config.should_receive(:[]).with(:state, :active_document).once.and_return random_string
-      @mw.should_receive(:display_document).twice.with(files[-1])
-      @mw.should_receive(:without_activating).twice.with(FlexMock.on{|a| a.call || a.is_a?(Proc)})
+      3.times{|i| @mw.should_receive(:editor_for!).once.with(files[i]).and_return(views[i])}
+      @mw.should_receive(:display_document).once.with(docs[-1])
+      @mw.should_receive(:without_activating).once.with(FlexMock.on{|a| a.call || a.is_a?(Proc)})
       @plug.restore_documents
+    end
+    
+    it 'activates the last document if the state/active_document setting is a file not corresponding to an open document' do
+      files = %w[/x/y/f1.rb /a/b/f2.rb /f3.rb]
+      @config.should_receive(:[]).with(:state, :open_documents).once.and_return files
+      @config.should_receive(:[]).with(:state, :active_document).once.and_return
+      docs = [flexmock('doc1', :path => files[0]), flexmock('doc2', :path => files[2])]
+      views = [flexmock('view1', :document=> docs[0]), flexmock('view2', :document=> docs[1])]
+      @mw.should_receive(:editor_for!).once.with(files[0]).ordered.and_return(views[0])
+      @mw.should_receive(:editor_for!).once.with(files[1]).ordered.and_raise(ArgumentError)
+      @mw.should_receive(:editor_for!).once.with(files[2]).ordered.and_return(views[1])
+      @mw.should_receive(:display_document).once.with(docs[1])
+      @mw.should_receive(:without_activating).once.with(FlexMock.on{|a| a.call || a.is_a?(Proc)})
       @plug.restore_documents
     end
     

@@ -215,8 +215,13 @@ for more information
         active_file = files[-1] unless files.include? active_file
         mw = Ruber[:main_window]
         mw.without_activating do
-          files.each{|f| ed = mw.editor_for! f}
-          mw.display_document active_file
+          docs = []
+          files.each do |f| 
+            ed = mw.editor_for! f rescue nil
+            docs << ed.document if ed
+          end
+          active_doc = docs.find{|d| d.path == active_file} || docs[-1]
+          mw.display_document active_doc
         end
         nil
       end

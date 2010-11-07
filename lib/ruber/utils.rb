@@ -30,17 +30,26 @@ require 'facets/boolean'
 require 'facets/enumerable/mash'
 
 module Ruber
+
+=begin rdoc
+The Ruber installation directory
+=end
+  RUBER_DIR = File.expand_path File.join(__FILE__, '..', '..', '..')
   
 =begin rdoc
 The directory where the Ruber core files are
 =end
-  RUBER_LIB_DIR = File.dirname(File.expand_path(__FILE__))
+  RUBER_LIB_DIR = File.join RUBER_DIR, 'lib/'
+  
+=begin rdoc
+The default directory for globally installed plugins
+=end
+  RUBER_PLUGIN_DIR = File.join RUBER_DIR, 'plugins'
   
 =begin rdoc
 The Ruber @data@ directory 
 =end
-  RUBER_DATA_DIR = File.expand_path File.join(RUBER_LIB_DIR, '..', 'data')
-  
+  RUBER_DATA_DIR = File.join RUBER_DIR, 'data'
 end
 
 module Kernel

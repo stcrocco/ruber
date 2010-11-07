@@ -5,7 +5,7 @@ class: 'Ruber::Application'
 config_options: 
  :general:
    :plugin_dirs: {:default: Ruber::Application::DEFAULT_PLUGIN_PATHS}
-   :plugins: {:default: 'Ruber::Application::DEFAULT_PLUGINS'}
+   :plugins: {:default: Ruber::Application::DEFAULT_PLUGINS}
    :auto_load_project: {:default: false }
 config_widgets:
  - {:caption: General, :pixmap: configure, :code: "w=Qt::CheckBox.new('&Open last project at startup');w.object_name='kcfg_general_auto_load_project';w"}

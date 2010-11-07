@@ -308,7 +308,7 @@ method (even if exceptions occur).
       begin
         @auto_activate_editors = false
         yield
-      ensure 
+      ensure
         @auto_activate_editors = true
         if @views.current_index < 0 then activate_editor nil
         elsif @views.current_widget != @active_editor
