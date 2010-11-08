@@ -293,7 +293,7 @@ must be an array, even if it only contains one entry
       def initialize pso, group, rules = {}, order = nil, line_buffered = true
         group = group.to_sym
         @group = group
-        default_rules = {:scope => [:global], :file_extension => [], :mimetype => []}
+        default_rules = {:scope => [:global], :file_extension => [], :mimetype => [], :place => [:local]}
         rules = default_rules.merge rules
         ruby_options_data = {
           :name => :ruby_options,
@@ -303,6 +303,7 @@ must be an array, even if it only contains one entry
           :mimetype => rules[:mimetype],
           :file_extension => rules[:file_extension],
           :order => order,
+          :place => rules[:place]
         }
         pso.project_options[[group, :ruby_options]] ||= PluginSpecificationReader::Option.new ruby_options_data
         super pso, line_buffered
