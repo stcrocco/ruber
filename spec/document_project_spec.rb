@@ -313,7 +313,7 @@ describe Ruber::DocumentProject do
     it 'returns false if the rule\'s scope doesn\'t include :document' do
       doc = create_doc __FILE__
       prj = Ruber::DocumentProject.new doc
-      o1 = OS.new(:file_extension => [], :scope => [:global], :mimetype => [])
+      o1 = OS.new(:file_extension => [], :scope => [:global], :mimetype => [], :place => [:local])
       flexmock(doc).should_receive(:file_type_match?).with([], []).and_return true
       prj.match_rule?(o1).should be_false
     end
@@ -321,17 +321,38 @@ describe Ruber::DocumentProject do
     it 'returns false if the document\'s file_type_match? method returns false' do
       doc = create_doc __FILE__
       prj = Ruber::DocumentProject.new doc
-      o1 = OS.new(:file_extension => ['*.rb'], :scope => [:document], :mimetype => [])
+      o1 = OS.new(:file_extension => ['*.rb'], :scope => [:document], :mimetype => [], :place => [:local])
       flexmock(doc).should_receive(:file_type_match?).once.with([], ['*.rb']).and_return false
+      prj.match_rule?(o1).should be_false
+    end
+    
+    it 'returns false if the document is associated with a remote file and the rule\'s place entry doesn\'t include :remote' do
+      doc = create_doc 'http:///xyz/abc.rb'
+      prj = Ruber::DocumentProject.new doc
+      o1 = OS.new(:file_extension => [], :scope => [:document], :mimetype => [], :place => [:local])
+      flexmock(doc).should_receive(:file_type_match?).with([], []).and_return true
+      prj.match_rule?(o1).should be_false
+    end
+    
+    it 'returns false if the document is associated with a local file and the rule\'s place entry doesn\'t include :local' do
+      doc = create_doc __FILE__
+      prj = Ruber::DocumentProject.new doc
+      o1 = OS.new(:file_extension => [], :scope => [:document], :mimetype => [], :place => [:remote])
+      flexmock(doc).should_receive(:file_type_match?).with([], []).and_return true
       prj.match_rule?(o1).should be_false
     end
     
     it 'returns true if both the mimetype and the file extension of the rule match those of the document and the rule\'s scope include :document' do
       doc = create_doc __FILE__
       prj = Ruber::DocumentProject.new doc
-      o1 = OS.new(:file_extension => ['*.rb'], :scope => [:document], :mimetype => [])
+      o1 = OS.new(:file_extension => ['*.rb'], :scope => [:document], :mimetype => [], :place => [:local])
       flexmock(doc).should_receive(:file_type_match?).once.with([], ['*.rb']).and_return true
       prj.match_rule?(o1).should be_true
+      doc = create_doc 'http:///xyz/abc.rb'
+      prj = Ruber::DocumentProject.new doc
+      o2 = OS.new(:file_extension => ['*.rb'], :scope => [:document], :mimetype => [], :place => [:remote])
+      flexmock(doc).should_receive(:file_type_match?).once.with([], ['*.rb']).and_return true
+      prj.match_rule?(o2).should be_true
     end
     
   end

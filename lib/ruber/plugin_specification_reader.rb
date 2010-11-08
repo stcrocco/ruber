@@ -410,6 +410,8 @@ can't be used if the application hasn't been created)
       scope = Array(get_value hash, :scope, [:global]).map &:to_sym
       scope = [:global, :document] if scope == [:all]
       res[:scope] = scope
+      place = Array(get_value hash, :place, [:local]).map &:to_sym
+      res[:place] = (place.include?(:all) ? [:local, :remote] : place)
       res[:mimetype] = Array(get_value(hash, :mimetype, []))
       res[:file_extension] = Array(get_value(hash, :file_extension, []))
       res

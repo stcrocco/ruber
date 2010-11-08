@@ -158,6 +158,8 @@ rule's scope includes +:document+
 =end
     def match_rule? obj
       if !super then false
+      elsif !obj.place.include?(@document.url.local_file? ? :local : :remote) 
+        false
       elsif !@document.file_type_match? obj.mimetype, obj.file_extension then false
       else true
       end
@@ -176,7 +178,7 @@ directory if the document isn't associated with a file.
 =begin rdoc
 Override of <tt>AbstractProject#write</tt> which prevents a Errno::ENOENT exception
 to be raised by the backend if the document isn't associated with a file. If the
-docuement is associated with a file, however, the exception will be raised as usual.
+document is associated with a file, however, the exception will be raised as usual.
 
 The reason for this kind of behaviour is that the backend is expected to raise
 the exception when the document isn't associated with a file: it simply means that
