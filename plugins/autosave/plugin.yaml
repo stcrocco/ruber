@@ -12,5 +12,6 @@ config_options:
  autosave:
   enable: {default: true}
   plugins: {default: {}}
+  remote_files: {default: :skip}
 config_widgets:
  - {caption: General, class: Ruber::Autosave::ConfigWidget}

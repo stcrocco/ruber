@@ -284,7 +284,7 @@ into account the enabled option and always attempt to save the documents.
       def save_files docs, opts, blk
         unsaved = []
         docs.each_with_index do |d, i|
-          unless d.save
+          unless save_doc d
             unsaved << d
             if opts[:stop_on_failure]
               unsaved += docs[(i+1)..-1]
@@ -314,12 +314,52 @@ The following documents couldn't be saved:
         false
       end
       
+      def load_settings
+        super
+        @remote_files_policy = Ruber[:config][:autosave, :remote_files]
+      end
+      
+      private
+      
+=begin rdoc
+Attempts to save a document
+
+If the document is associated with a remote file, the behaviour will change depending
+on the value of the @autosave/remote_files@ settings:
+* if it's @:skip@ then nothing will be done
+* if it's @:ignore@ then an attempt to save the document will be done, but any failures
+  will be ignored
+* if it's @:normal@ then the behaviour will be the same as for a local file
+
+@param [Document] doc the document to save
+@return [Boolean] *true* if the document was saved successfully and *false* otherwise.
+  in case of a remote document, it will always return *true* except when the
+  @autosave/remote_files@ option is set to @:normal@
+=end
+      def save_doc doc
+        if doc.url.local_file? or doc.url.relative? then doc.save
+        else
+          case @remote_files_policy
+          when :skip then true
+          when :ignore
+            doc.save
+            true
+          else doc.save
+          end
+        end
+      end
+      
     end
     
 =begin rdoc
 The configuration widget for the Autosave plugin
 =end
     class ConfigWidget < Qt::Widget
+      
+=begin rdoc
+Associations between remote files behaviour and entries in the Remote files widget
+=end
+      REMOTE_FILES_MODE = {:normal => 0, :skip => 1, :ignore => 2}
 
 =begin rdoc
 Creates a new instance
@@ -395,6 +435,27 @@ Fills the list view with the registered plugins
           m.append_row it
         end
         nil
+      end
+      
+=begin rdoc
+Selects the appropriate entry from the remote file combo box
+
+@param [Symbol] val the bheaviour with respect to remote files. It can be one of
+  @:normal@, @:skip@ or @:ignore@
+@return [nil]
+=end
+      def remote_files= val
+        mode = 
+        @ui._autosave__remote_files.current_index = REMOTE_FILES_MODE[val]
+        nil
+      end
+      
+=begin rdoc
+@return [Symbol] the symbol associated with the entry selected in the remote files
+  widget according to {REMOTE_FILES_MODE}
+=end
+      def remote_files
+        REMOTE_FILES_MODE.invert[@ui._autosave__remote_files.current_index]
       end
       
     end
