@@ -97,11 +97,11 @@ RSPEC::Matchers.define :have_entries do |hash|
   match do |obj|
     if obj.respond_to? :[]
       hash.each_pair do |k, v|
-        return false unless obj[k] == v
+         break false unless obj[k] == v
       end
     else
       hash.each_pair do |k, v|
-        return false unless obj.send(k) == v
+        break false unless obj.send(k) == v
       end
     end
   end
