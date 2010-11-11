@@ -45,7 +45,11 @@ module KDE
     end
     
     def local_file?
-      is_local_file
+      scheme == "file"
+    end
+    
+    def remote_file?
+      !(local_file? or relative?)
     end
     
   end
