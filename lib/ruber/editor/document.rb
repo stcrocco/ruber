@@ -40,13 +40,17 @@ module Ruber
     def_delegator :@doc, :documentSave, :save_document
     
     signal_data = { 
-        'text_changed' => ['KTextEditor::Document*', [nil]],
-        'about_to_close' => ['KTextEditor::Document*', [nil]],
-        'about_to_reload' => ['KTextEditor::Document*', [nil]],
-        'highlighting_mode_changed' => ['KTextEditor::Document*', [nil]],
-        'document_url_changed' => ['KTextEditor::Document*', [nil]],
-        'mode_changed' => ['KTextEditor::Document*', [nil]]
-      }
+      'text_changed' => ['KTextEditor::Document*', [nil]],
+      'about_to_close' => ['KTextEditor::Document*', [nil]],
+      'about_to_reload' => ['KTextEditor::Document*', [nil]],
+      'highlighting_mode_changed' => ['KTextEditor::Document*', [nil]],
+      'mode_changed' => ['KTextEditor::Document*', [nil]],
+      'sig_query_close' => ['bool*, bool*', [0,1]],
+      'canceled' => ['QString', [0]],
+      'started' => ['KIO::Job*', [0]],
+      'set_status_bar_text' => ['QString', [0]],
+      'setWindowCaption' => ['QString', [0]]
+    }
     
     @signal_table = KTextEditorWrapper.prepare_wrapper_connections self, signal_data
     
@@ -56,7 +60,9 @@ module Ruber
 'mode_changed(QObject*)', 'text_modified(KTextEditor::Range, KTextEditor::Range, QObject*)',
 'text_inserted(KTextEditor::Range, QObject*)', 'text_removed(KTextEditor::Range, QObject*)',
 'view_created(QObject*, QObject*)', 'closing(QObject*)', :activated, :deactivated,
-'modified_on_disk(QObject*, bool, KTextEditor::ModificationInterface::ModifiedOnDiskReason)'
+'modified_on_disk(QObject*, bool, KTextEditor::ModificationInterface::ModifiedOnDiskReason)',
+'sig_query_close(bool*, bool*)', 'canceled(QString)', 'completed()', 'completed1(bool)',
+'started(KIO::Job*)', 'set_status_bar_text(QString)', 'setWindowCaption(QString)'
     
     slots :document_save_as, :save
 
@@ -90,8 +96,21 @@ Creates a new Ruber::Document.
       @doc.connect(SIGNAL('modifiedChanged(KTextEditor::Document*)')) do |doc|
         emit modified_changed(@doc.modified?, self)
       end
-      @doc.connect(SIGNAL('documentNameChanged(KTextEditor::Document*)')) do |doc|
-        Ruber[:components].each_component{|c| c.update_project @project}
+      @doc.connect(SIGNAL('documentUrlChanged(KTextEditor::Document*)')) do |doc|
+        if !doc.url.remote_file?
+          Ruber[:components].each_component{|c| c.update_project @project}
+        end
+        emit document_url_changed self
+      end
+      
+      @doc.connect SIGNAL(:completed) do
+        if @doc.url.remote_file?
+          Ruber[:components].each_component{|c|c.update_project @project}
+        end
+        emit completed
+      end
+      
+      @doc.connect SIGNAL('documentNameChanged(KTextEditor::Document*)') do |doc|
         emit document_name_changed doc.document_name, self
       end
       
@@ -110,6 +129,7 @@ Creates a new Ruber::Document.
         @modified_on_disk = (reason != KTextEditor::ModificationInterface::OnDiskUnmodified)
         emit modified_on_disk(self, mod, reason)
       end
+      connect @doc, SIGNAL('completed(bool)'), self, SIGNAL('completed1(bool)')
 
     end
     
@@ -283,7 +303,7 @@ Return the project with wider scope the document belongs to. This is:
     def project
       prj = Ruber[:projects].current
       return @project if path.empty? or !prj
-      prj.project_files.file_in_project?(path) ? prj : @project
+      prj.project_files.file_in_project?(url.to_encoded.to_s) ? prj : @project
     end
     
 =begin rdoc

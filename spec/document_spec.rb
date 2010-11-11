@@ -34,7 +34,7 @@ describe Ruber::Document do
   
   describe ', when created' do
 
-    it 'should load a KTextEditor::Document' do
+    it 'loads a KTextEditor::Document' do
       @doc.instance_variable_get(:@doc).should be_instance_of(KTextEditor::Document)
     end
 
@@ -42,11 +42,11 @@ describe Ruber::Document do
       @doc.interface('annotation_interface').annotation_model.should_not be_nil
     end
     
-    it 'should not have a view' do
+    it 'doesn\'t have a view' do
       @doc.view.should be_nil
     end
 
-    it 'should open a given file if new is called with a string or KDE::Url second argument' do
+    it 'opens a given file if new is called with a string or KDE::Url second argument' do
       doc = Ruber::Document.new @app, __FILE__
       doc.text.should == File.read(__FILE__)
       doc.url.path.should == __FILE__
@@ -63,11 +63,10 @@ describe Ruber::Document do
       doc = Ruber::Document.new @app, __FILE__
       prj = doc.instance_variable_get(:@project)
       prj.should be_a(Ruber::DocumentProject)
-      prj.project_name.should == __FILE__
+      prj.project_name.should == KDE::Url.new(__FILE__).to_encoded.to_s
     end
     
-    
-    it 'should not be active' do
+    it 'isn\'t active' do
       doc = Ruber::Document.new @app, __FILE__
       doc.should_not be_active
     end
@@ -177,12 +176,12 @@ describe Ruber::Document do
     end
     
     it 'returns the current project if one exists and the document belongs to it' do
-      flexmock(@list).should_receive(:file_in_project?).with(__FILE__).and_return true
+      flexmock(@list).should_receive(:file_in_project?).with("file://#{__FILE__}").and_return true
       @doc.project.should == @prj
     end
     
     it 'returns the document project if the file associated with the document doesn\'t belong to the current project' do
-      flexmock(@list).should_receive(:file_in_project?).with(__FILE__).and_return false
+      flexmock(@list).should_receive(:file_in_project?).with("file://#{__FILE__}").and_return false
       @doc.project.should be_a(Ruber::DocumentProject)
     end
     
@@ -412,12 +411,12 @@ describe Ruber::Document do
     doc.close_url(false).should be_true
   end
   
-  it 'should call the update_project method of each component, passing it its project, when the name of the document changes, but before emitting the document_name_changed signal' do
+  it 'should call the update_project method of each component, passing it its project, when the url of the document changes, but before emitting the document_url_changed signal' do
     3.times{@comp << flexmock{|m| m.should_receive(:update_project).once.with(Ruber::DocumentProject).globally.ordered} }
-    name_changed_rec = flexmock{|m| m.should_receive(:name_changed).once.globally.ordered}
+    url_changed_rec = flexmock{|m| m.should_receive(:url_changed).once.globally.ordered}
     internal = @doc.send :internal
-    @doc.connect(SIGNAL('document_name_changed(QString,QObject*)')){name_changed_rec.name_changed}
-    internal.instance_eval{emit documentNameChanged(self)}
+    @doc.connect(SIGNAL('document_url_changed(QObject*)')){url_changed_rec.url_changed}
+    internal.instance_eval{emit documentUrlChanged(self)}
   end
 
   after do
