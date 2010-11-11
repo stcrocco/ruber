@@ -15,6 +15,9 @@ the file corresponding to the current document or another file specified by the
 user. The output of the program (both standard output and standard error) are
 displayied in a tool widget.
 
+To run a document associated with a remote file, the contents of the remote file
+are copied to a temporary local file.
+
 The interpreter to use can be set document- or project-wise using the Ruby runner
 plugin.
 
@@ -42,6 +45,8 @@ Plugin object for the Files runner plugn
 =end
     class Plugin < RubyRunner::RubyRunnerPlugin
       
+      FakeFileInfo = Struct.new :file, :url
+      
       slots :load_settings
       
 =begin rdoc
@@ -49,7 +54,7 @@ Plugin object for the Files runner plugn
 =end
       def initialize psf
         super psf, :ruby, :scope => [:document, :global], :file_extension => %w[*.rb Rakefile rakefile], 
-            :mimetype => ['application/x-ruby']
+            :mimetype => ['application/x-ruby'], :place => [:local, :remote]
         process.next_open_mode = Qt::IODevice::ReadOnly | Qt::IODevice::Unbuffered
         Ruber[:autosave].register_plugin self, true
         connect self, SIGNAL('process_finished(int, QString)'), self, SLOT('ruby_exited(int, QString)')
@@ -66,6 +71,7 @@ Plugin object for the Files runner plugn
           o.register_plugin self, true if f == 'autosave'
         end
         @output_widget = @widget
+        @fake_file = nil
       end
 
 =begin rdoc
@@ -206,6 +212,18 @@ successfully or not
         prj = doc.project
         file = File.basename(doc.path)
         dir = File.dirname(doc.path)
+        url = doc.url
+        if url.remote_file?
+          @fake_file = FakeFileInfo.new Tempfile.new('ruby_development'), url
+          @fake_file.file.write doc.text
+          @fake_file.file.flush
+          file = @fake_file.file.path
+          dir = ENV['HOME']
+        end
+        unless prj.has_setting?(:ruby, :options)
+          KDE::MessageBox.sorry nil, "The document #{url.pretty_url} doesn't seem to be a ruby file, so it can't be run"
+          return
+        end
         run_ruby_for prj, file, dir, prj[:ruby, :options], run_in_terminal?(doc.project),
             :files => [doc], :on_failure => :ask
       end
@@ -230,7 +248,7 @@ was started. If the user pressed the Cancel button of the dialog, *nil* is retur
 =end
       def run_file file = nil
         unless file
-          file = KDE::FileDialog.get_open_file_name KDE::Url.new(Ruber[:main_window].scripts_directory),
+          file = KDE::FileDialog.get_open_file_name KDE::Url.new(Ruber[:config][:general, :default_script_directory]),
               "*.rb|Ruby files (*.rb)", nil, "Choose file to run"
           return unless file
         end
@@ -295,7 +313,7 @@ started correctly
 @see #run_ruby
 @see RubyRunner::RubyRunnerPluginInternal#ruby_command_for
 =end
-      def run_ruby_for what, file, dir, prog_options, run_in_terminal, autosave_opts, &blk
+      def run_ruby_for what, file, dir, prog_options, run_in_terminal, autosave_opts={}, &blk
         ruby, *ruby_opts = ruby_command_for what, dir
         opts = {
           :dir => dir,
@@ -318,7 +336,8 @@ was started correctly and *nil* if no document exists
 =end
       def run_current_document
         doc =  Ruber[:main_window].current_document
-        run_document doc if doc
+        return unless doc        
+        run_document doc
       end
       slots :run_current_document
 
@@ -354,9 +373,60 @@ Resets the UI, scrolls the tool widget at the end and gives focus to the editor
         Ruber[:main_window].change_state 'ruby_running', false
         @widget.scroll_to -1
         Ruber[:main_window].focus_on_editor
+        if @fake_file
+          @fake_file.file.close true
+          @fake_file = nil
+        end
         nil
       end
       slots 'ruby_exited(int, QString)'
+      
+=begin rdoc
+Replaces the path of the fake file used for running remote documents with the URL
+of the document
+
+It does nothing if there's no fake file (that is, if we're not executing the document
+associated with a remote file).
+
+*Note:* for efficency reasons the replacement is performed in place, so create a
+duplicate of the array before calling this method if you need to preserve it.
+
+@param [Array<String>] the lines of text to perform the replacement into
+@return [Array<String>] the lines with all occurrences of the fake file path replaced
+with the url of the remote file. If no fake file is in use, _lines_ will be returned
+unchanged
+=end
+      def replace_fake_file lines
+        if @fake_file
+          lines.map!{|l| l.gsub(@fake_file.file.path, @fake_file.url.pretty_url)}
+        end
+        lines
+      end
+      
+=begin rdoc
+Override of {ExternalProgramPlugin#process_standard_output}
+
+It processes the lines using {#replace_fake_file} before passing it to the base
+class's method
+@param (see Ruber::ExternalProgramPlugin#process_standard_output)
+@return (see Ruber::ExternalProgramPlugin#process_standard_output)
+=end
+      def process_standard_output lines
+        super replace_fake_file(lines)
+      end
+
+=begin rdoc
+Override of {ExternalProgramPlugin#process_standard_error}
+
+It processes the lines using {#replace_fake_file} before passing it to the base
+class's method
+@param (see Ruber::ExternalProgramPlugin#process_standard_error)
+@return (see Ruber::ExternalProgramPlugin#process_standard_error)
+=end
+      def process_standard_error lines
+        super replace_fake_file(lines)
+      end
+      
 
     end
     
