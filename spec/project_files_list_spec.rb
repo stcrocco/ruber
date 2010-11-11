@@ -396,7 +396,12 @@ describe 'Ruber::ProjectFilesList' do
       
       it 'returns false if the path represents a remote URL' do
         @prj[:general, :project_files] = {:include => [], :exclude => [], :extensions => ['*.rb']}
-        @list.file_in_project?('http://abc.xyz.rb').should be_false
+        @list.file_in_project?("http://#{@dir}/abc.xyz.rb").should be_false
+      end
+      
+      it 'works normally if the path represents a local url' do
+        @prj[:general, :project_files] = {:include => [], :exclude => [], :extensions => ['*.rb']}
+        @list.file_in_project?("file://#{@dir}/abc.xyz.rb").should be_true
       end
       
     end

@@ -236,7 +236,12 @@ the project. Rather, it compares the file name with the include and exclude rule
 and the extensions.
 =end
     def file_in_project? file
-      return false if file.match %r{^[\w+-.]+://}
+      if file.match %r{^([\w+-.]+)://(.+)}
+        if $1 != 'file' then return false
+        else 
+          file = $2
+        end
+      end
       file = file.sub %r[^#{Regexp.quote(@project.project_directory)}/], ''
       return false if file.start_with? '/'
       return nil if file.end_with? '/'
