@@ -15,8 +15,8 @@ the file corresponding to the current document or another file specified by the
 user. The output of the program (both standard output and standard error) are
 displayied in a tool widget.
 
-To run a document associated with a remote file, the contents of the remote file
-are copied to a temporary local file.
+To allow ruby to run a remote file (or a document associated with a remote file),
+a temporary file is created and the contents of the remote file are copied in it.
 
 The interpreter to use can be set document- or project-wise using the Ruby runner
 plugin.
@@ -233,32 +233,48 @@ Runs a file in ruby.
       
 If the file is associated with a document, this method will work like {#run_document}.
 
-Ruby will be executed from the directory where the file is.
+The file can be local or remote.
+
+Ruby will be executed from the directory where the file is or from the user's
+home directory if the file is remote.
 
 The program will be run in a terminal if the corresponding action is checked.
 
 This method uses {#run_ruby_for}
 
 *Note:* it is not possible to specify command line options to be passed to _file_.
-@param [String, nil] file the path of the file to run. If *nil*, an "Open file"
+@param [String, nil] file the path or url of the file to run. If *nil*, an "Open file"
 dialog is shown to the user
 @return [Boolean, nil] *true* or *false* depending on whether the ruby process
 was started. If the user pressed the Cancel button of the dialog, *nil* is returned.
 @see #run_ruby_for
 =end
       def run_file file = nil
-        unless file
-          file = KDE::FileDialog.get_open_file_name KDE::Url.new(Ruber[:config][:general, :default_script_directory]),
+        if file then url = KDE::Url.new file
+        else
+          url = KDE::FileDialog.get_open_url KDE::Url.new(Ruber[:config][:general, :default_script_directory]),
               "*.rb|Ruby files (*.rb)", nil, "Choose file to run"
-          return unless file
+          return unless url
+          file = url.to_encoded.to_s
         end
         
-        if doc = Ruber[:docs].document_for_file(file)
+        if doc = Ruber[:docs].document_for_url(url)
          return run_document doc 
         end
         
-        dir = File.dirname(file)
-        file = File.basename(file)
+        if url.local_file?
+          dir = File.dirname(file)
+          file = File.basename(file)
+        else
+          @fake_file = FakeFileInfo.new Tempfile.new('ruby_development'), url
+          downloaded = KIO::NetAccess.download url, @fake_file.file.path, Ruber[:main_window]
+          unless downloaded
+            KDE::MessageBox.sorry Ruber[:main_window], KDE::NetAccess.last_error_string
+            return
+          end
+          file = @fake_file.file.path
+          dir = ENV['HOME']
+        end
         run_ruby_for nil, file, dir, [], run_in_terminal?
       end
       slots :run_file
