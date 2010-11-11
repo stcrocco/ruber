@@ -57,6 +57,7 @@ one
         connect view.document, SIGNAL('modified_changed(bool, QObject*)'), self, SLOT('document_modified_changed(bool)')
         connect view.document, SIGNAL('modified_on_disk(QObject*, bool, KTextEditor::ModificationInterface::ModifiedOnDiskReason)'), self, SLOT('update_document_icon(QObject*)')
         connect view.document, SIGNAL('document_url_changed(QObject*)'), self, SLOT(:document_url_changed)
+        connect view.document, SIGNAL(:completed), self, SLOT(:document_url_changed)
         @views.add_tab view, doc.icon, doc.document_name
         view
       end
