@@ -19,6 +19,7 @@
 =end
 
 require 'yaml'
+require 'facets/boolean'
 
 module KDE
   
@@ -28,6 +29,27 @@ module KDE
     
     def self.yaml_new cls, tag, val
       KDE::Url.new val
+    end
+    
+=begin rdoc
+Tells whether a string looks like an url pointing to a file
+
+An url is considered to _look like_ an url pointing to a file if it contains a
+scheme part and an authority part, that is, if it starts with a scheme followed
+by two slashes.
+
+If _abs_only_ is *true*, this method returns *true* only if the file path is absolute,
+that is if the scheme is followed by three slashes. If _abs_only_ is *false*, it'll
+return *true* for both absolute and relative paths.
+@param [String] str the string to test
+@param [Boolean] abs_only whether this method should return *true* only if the path
+  is absolute or also for relative paths
+@return [Boolean] *true* if _str_ looks like an URL pointing to a file (or pointing
+  to an absolute file if _abs_only_ is *true*) and *false* otherwise
+=end
+    def self.file_url? str, abs_only = true
+      slash_number = abs_only ? 3 : 2
+      str.match(%r|[\w+.-]+:/{#{slash_number},3}|).to_b
     end
     
     def to_yaml opts = {}

@@ -4,18 +4,56 @@ require 'ruber/kde_sugar'
 
 describe 'KDE::Url' do
   
-  it 'should be serializable using YAML' do
+  it 'is serializable using YAML' do
     u = KDE::Url.new 'http:///xyz.org/a%20file%20with%20spaces.txt'
     res = YAML.load(YAML.dump(u))
     res.should == u
     res.should_not equal(u)
   end
   
-  it 'should be marshallable' do
+  it 'is marshallable' do
     u = KDE::Url.new 'http:///xyz.org/a%20file%20with%20spaces.txt'
     res = Marshal.load(Marshal.dump(u))
     res.should == u
     res.should_not equal(u)
+  end
+  
+  describe '.file_url?' do
+    
+    it 'returns false if the first argument doesn\'t start with a scheme followed by //' do
+      KDE::Url.file_url?('http:xyz/abc', true).should be_false
+      KDE::Url.file_url?('http:xyz/abc', false).should be_false
+      KDE::Url.file_url?('http:/xyz/abc', true).should be_false
+      KDE::Url.file_url?('http:/xyz/abc', false).should be_false
+    end
+    
+    context 'when the second argument is true or missing' do
+    
+      it 'returns true if the first argument looks like an absolute URL with authority' do
+        KDE::Url.file_url?('http:///xyz/abc', true).should be_true
+        KDE::Url.file_url?('http:///xyz/abc').should be_true
+      end
+      
+      it 'returns false if the path isn\'t absolute' do
+        KDE::Url.file_url?('http://xyz/abc', true).should be_false
+        KDE::Url.file_url?('http://xyz/abc').should be_false
+      end
+      
+    end
+    
+    context 'when the second argument is false' do
+      
+      it 'returns true if the first argument looks like an absolute URL with authority' do
+        KDE::Url.file_url?('http:///xyz/abc', false).should be_true
+      end
+      
+      it 'returns true if the first argument looks like a relative URL with authority' do
+        KDE::Url.file_url?('http://xyz/abc', false).should be_true
+      end
+
+
+    end
+    
   end
   
   describe '#local_file?' do
