@@ -6,7 +6,7 @@ about:
  description: A Ruber interface to rake
  bug_address: http://github.com/stcrocco/ruber/issues
  icon: rake.png
-deps: ruby_runner
+deps: [ruby_runner, autosave]
 require: [rake, rake_extension]
 class: Ruber::Rake::Plugin
 ui_file: rakeui.rc
