@@ -1,4 +1,4 @@
-require 'spec/common'
+require './spec/common'
 require 'ruber/output_widget'
 
 describe Ruber::OutputWidget::ActionList do
@@ -1067,135 +1067,151 @@ describe Ruber::OutputWidget do
   
   describe '#find_filename_in_string' do
     
+    module FindFilenameInStringMacros
+      
+      def recognizes_file file, line = nil, exp_file = file, &blk
+        
+        it "recognizes the file when it is the whole line" do
+          instance_eval &blk if blk
+          str = line ? "#{file}:#{line}" : file 
+          res = @ow.send :find_filename_in_string, str
+          res.should == (line ? [exp_file, line] : [exp_file])
+        end
+        
+        it 'recognizes the file at the end of the line' do
+          instance_eval &blk if blk
+          str = "#{random_string 5} #{line ? "#{file}:#{line}" : file }"
+          res = @ow.send :find_filename_in_string, str
+          res.should == (line ? [exp_file, line] : [exp_file])
+        end
+        
+        it 'recognizes the file at the beginning of the line' do
+          instance_eval &blk if blk
+          str = "#{line ? "#{file}:#{line}" : file } #{random_string 5}"
+          res = @ow.send :find_filename_in_string, str
+          res.should == (line ? [exp_file, line] : [exp_file])
+        end
+        
+        it 'recognizes the file in the middle of the line' do
+          instance_eval &blk if blk
+          str = "#{random_string 5} #{line ? "#{file}:#{line}" : file } #{random_string 5}"
+          res = @ow.send :find_filename_in_string, str
+          res.should == (line ? [exp_file, line] : [exp_file])
+        end
+        
+        it 'recognizes the file when it\'s quoted' do
+          instance_eval &blk if blk
+          str = "#{random_string 5} <#{line ? "#{file}:#{line}" : file }> #{random_string 5}"
+          res = @ow.send :find_filename_in_string, str
+          res.should == (line ? [exp_file, line] : [exp_file])
+        end
+        
+      end
+      
+      def does_not_recognize_file cond, file, line = nil
+        
+        it "doesn't recognize the file if #{cond}" do
+          str = line ? "#{file}:#{line}" : file 
+          res = @ow.send :find_filename_in_string, str
+          res.should be_nil
+        end
+        
+      end
+      
+    end
+    
     before do
       @ow = Ruber::OutputWidget.new
     end
     
-    it 'recognizes an absolute path without line numbers' do
-      str = random_string( 1 + rand(10))+ " #{__FILE__} " + random_string(1 + rand(10))
-      res = @ow.send :find_filename_in_string, str
-      res[0].should == __FILE__
-      str = random_string( 1 + rand(10))+ " #{__FILE__}"
-      res = @ow.send :find_filename_in_string, str
-      res[0].should == __FILE__
-      str = "#{__FILE__} " + random_string( 1 + rand(10))
-      res = @ow.send :find_filename_in_string, str
-      res[0].should == __FILE__
+    extend FindFilenameInStringMacros
+    
+    context 'when the line contains an absolute path without line number' do
+      recognizes_file '/abc/def/ghi.rb'
+      does_not_recognize_file 'if it ends with a slash', '/abc/def/ghi/'
+    end
+      
+    context 'when the line contains an absolute path with line number' do
+      recognizes_file '/abc/def/ghi.rb', 45
+      does_not_recognize_file 'if it ends with a slash', '/abc/def/ghi/'
     end
     
-    it 'recognizes and expands an absolute path starting with ~/ without line numbers' do
-      file = '/test/yxz.rb'
-      exp = File.join ENV['HOME'], file
-      str = random_string( 1 + rand(10))+ " ~#{file} " + random_string(1 + rand(10))
-      res = @ow.send :find_filename_in_string, str
-      res[0].should == exp
-      str = random_string( 1 + rand(10))+ " ~#{file}"
-      res = @ow.send :find_filename_in_string, str
-      res[0].should == exp
-      str = "~#{file} " + random_string( 1 + rand(10))
-      res = @ow.send :find_filename_in_string, str
-      res[0].should == exp
+    context 'when the line contains an absolute path referring to the user\'s home directory without line numbers' do
+      recognizes_file '~/abc/def/ghi.rb', nil, "#{ENV['HOME']}/abc/def/ghi.rb"
+      does_not_recognize_file 'if it ends with a slash', '~/abc/def/ghi.rb/'
     end
     
-    it 'recognizes and expands an absolute path starting with ~user/ without line numbers' do
-      file = '/test/yxz.rb'
-      exp = File.join ENV['HOME'], file
-      str = random_string( 1 + rand(10))+ " ~#{ENV['USER']}#{file} " + random_string(1 + rand(10))
-      res = @ow.send :find_filename_in_string, str
-      res[0].should == exp
-      str = random_string( 1 + rand(10))+ " ~#{ENV['USER']}#{file}"
-      res = @ow.send :find_filename_in_string, str
-      res[0].should == exp
-      str = "~#{ENV['USER']}#{file} " + random_string( 1 + rand(10))
-      res = @ow.send :find_filename_in_string, str
-      res[0].should == exp
+    context 'when the line contains an absolute path referring to the user\'s home directory with line numbers' do
+      recognizes_file '~/abc/def/ghi.rb', 45, "#{ENV['HOME']}/abc/def/ghi.rb"
+      does_not_recognize_file 'if it ends with a slash', '~/abc/def/ghi.rb/', 45
+    end
+
+    context 'when the line contains an absolute path referring to another user\'s home directory and no line numbers' do
+      prc = proc{flexmock(File).should_receive(:expand_path).with('~xyz/abc/def/ghi.rb').and_return('/home/xyz/abc/def/ghi.rb')}
+      recognizes_file '~xyz/abc/def/ghi.rb', nil, "/home/xyz/abc/def/ghi.rb", &prc
+      does_not_recognize_file 'if it ends with a slash', '~xyz/abc/def/ghi.rb/'
     end
     
-    it 'recognizes a relative path starting with a single dot and doesn\'t expand it' do
-      str = random_string( 1 + rand(10))+ " .#{__FILE__} " + random_string(1 + rand(10))
-      res = @ow.send :find_filename_in_string, str
-      res[0].should == '.' + __FILE__
-      str = random_string( 1 + rand(10))+ " .#{__FILE__}"
-      res = @ow.send :find_filename_in_string, str
-      res[0].should == '.' + __FILE__
-      str = ".#{__FILE__} " + random_string( 1 + rand(10))
-      res = @ow.send :find_filename_in_string, str
-      res[0].should == '.' + __FILE__
+    context 'when the line contains an absolute path referring to another user\'s home directory with line numbers' do
+      prc = proc{flexmock(File).should_receive(:expand_path).with('~xyz/abc/def/ghi.rb').and_return('/home/xyz/abc/def/ghi.rb')}
+      recognizes_file '~xyz/abc/def/ghi.rb', 45, "/home/xyz/abc/def/ghi.rb", &prc
+      does_not_recognize_file 'if it ends with a slash', '~xyz/abc/def/ghi.rb/', 45
+    end
+
+    context 'when the line contains a filename starting with ./ and no line numbers' do
+      recognizes_file './abc/def/ghi.rb'
+      does_not_recognize_file 'if it ends with a slash', './abc/def/ghi/'
     end
     
-    it 'recognizes a relative path starting with two dots and doesn\'t expand it' do
-      str = random_string( 1 + rand(10))+ " ..#{__FILE__} " + random_string(1 + rand(10))
-      res = @ow.send :find_filename_in_string, str
-      res[0].should == '..' + __FILE__
-      str = random_string( 1 + rand(10))+ " ..#{__FILE__}"
-      res = @ow.send :find_filename_in_string, str
-      res[0].should == '..' + __FILE__
-      str = "..#{__FILE__} " + random_string( 1 + rand(10))
-      res = @ow.send :find_filename_in_string, str
-      res[0].should == '..' + __FILE__
+    context 'when the line contains a filename starting with ./ and line numbers' do
+      recognizes_file './abc/def/ghi.rb', 12
+      does_not_recognize_file 'if it ends with a slash', './abc/def/ghi/', 12
     end
     
-    it 'recognizes a relative path not starting with a dot but containing slashes' do
-      file = "test/xyz"
-      str = random_string( 1 + rand(10))+ " #{file} " + random_string(1 + rand(10))
-      res = @ow.send :find_filename_in_string, str
-      res[0].should == file
-      str = random_string( 1 + rand(10))+ " #{file}"
-      res = @ow.send :find_filename_in_string, str
-      res[0].should == file
-      str = "#{file} " + random_string( 1 + rand(10))
-      res = @ow.send :find_filename_in_string, str
-      res[0].should == file
+    context 'when the line contains a filename starting with ../ and no line numbers' do
+      recognizes_file '../abc/def/ghi.rb'
+      does_not_recognize_file 'if it ends with a slash', '../abc/def/ghi/'
     end
     
-    it 'doesn\'t recognize sequences ending with a slash' do
-      strs = ["#{__FILE__}/", "~#{__FILE__}/", "~#{ENV['USER']}#{__FILE__}/", ".#{__FILE__}/", "..#{__FILE__}/"]
-      strs.map!{|s| random_string(rand(10)) + ' ' + s + ' ' + random_string(rand(10))}
-      strs.each{|s| res = @ow.send(:find_filename_in_string, s).should be_nil}
+    context 'when the line contains a filename starting with ../ and line numbers' do
+      recognizes_file '../abc/def/ghi.rb', 12
+      does_not_recognize_file 'if it ends with a slash', '../abc/def/ghi/', 12
     end
     
-    it 'recognizes filenames ending in a colon followd by digits, which are interpreted as line numbers' do
-      strs = ["#{__FILE__}", "~#{__FILE__}", "~#{ENV['USER']}#{__FILE__}", ".#{__FILE__}", "..#{__FILE__}"]
-      strs.map!{|s| random_string(rand(10)) + ' ' + s + ":10#{rand > 0.5 ? ' ' : ''}" + random_string(rand(10))}
-      @ow.send(:find_filename_in_string, strs[0]).should == [__FILE__, 10]
-      @ow.send(:find_filename_in_string, strs[1]).should == [File.join(ENV['HOME'], __FILE__), 10]
-      @ow.send(:find_filename_in_string, strs[2]).should == [File.join(ENV['HOME'], __FILE__), 10]
-      @ow.send(:find_filename_in_string, strs[3]).should == ['.' + __FILE__, 10]
-      @ow.send(:find_filename_in_string, strs[4]).should == ['..' + __FILE__, 10]
+    context 'when the line contains a filename starting with a dot not followed by a slash and no numbers' do
+      recognizes_file '.abc/def/ghi.rb'
+      does_not_recognize_file 'if it ends with a slash', '.abc/def/ghi/'
     end
     
-    it 'recognizes any string not containing spaces and ending in a slash followed by a colon and digits, which are interpreted as line numbers' do
-      file = 'xyz'
-      str = random_string( 1 + rand(10))+ " #{file}:16 " + random_string(1 + rand(10))
-      res = @ow.send :find_filename_in_string, str
-      res.should == [file, 16]
-      str = random_string( 1 + rand(10))+ " #{file}:16"
-      res = @ow.send :find_filename_in_string, str
-      res.should == [file, 16]
-      str = "#{file}:16 " + random_string( 1 + rand(10))
-      res = @ow.send :find_filename_in_string, str
-      res.should == [file, 16]
-      #In the following tests, there's no space between the last digit and the following character
-      str = random_string( 1 + rand(10))+ " #{file}:16" + random_string(1 + rand(10))
-      res = @ow.send :find_filename_in_string, str
-      res.should == [file, 16]
-      str = "#{file}:16" + random_string( 1 + rand(10))
-      res = @ow.send :find_filename_in_string, str
-      res.should == [file, 16]
+    context 'when the line contains a filename starting with a dot not followed by a slash and line numbers' do
+      recognizes_file '.abc/def/ghi.rb', 34
+      does_not_recognize_file 'if it ends with a slash', '.abc/def/ghi/', 34
     end
     
-    it 'recognizes the file names enclosed in quotes, double quotes, backticks, all brackets and angular brackets' do
-      quotes = %w|' " ` ( [ { < |
-      quotes.each do |q|
-        @ow.send(:find_filename_in_string, random_string( 1 + rand(10))+ ' ' + q + "#{__FILE__}").should == [__FILE__]
-        @ow.send(:find_filename_in_string, random_string( 1 + rand(10))+ ' ' + q + "~#{__FILE__}").should == [File.join(ENV['HOME'], __FILE__)]
-        @ow.send(:find_filename_in_string, random_string( 1 + rand(10))+ ' ' + q + "~#{ENV['USER']}#{__FILE__}").should == [File.join(ENV['HOME'], __FILE__)]
-        @ow.send(:find_filename_in_string, random_string( 1 + rand(10))+ ' ' + q + ".#{__FILE__}").should == [File.join('.', __FILE__)]
-        @ow.send(:find_filename_in_string, random_string( 1 + rand(10))+ ' ' + q + "..#{__FILE__}").should == [File.join('..', __FILE__)]
-        @ow.send(:find_filename_in_string, random_string( 1 + rand(10))+ ' ' + q + "abc/xyz").should == ['abc/xyz']
-        @ow.send(:find_filename_in_string, random_string( 1 + rand(10))+ ' ' + q + "abc:12").should == ['abc', 12]
-      end
+    context 'when the line contains a relative path not starting with ./ and containing slashes with no line numbers' do
+      recognizes_file 'abc/def/ghi.rb'
+      does_not_recognize_file 'if it ends with a slash', 'abc/def/ghi/'
     end
+    
+    context 'when the line contains a relative path not starting with ./ and containing slashes with line numbers' do
+      recognizes_file 'abc/def/ghi.rb', 29
+      does_not_recognize_file 'if it ends with a slash', 'abc/def/ghi/', 29
+    end    
+
+    context 'when the line contains a relative filename without slash or leading dots with line numbers' do
+      recognizes_file 'abc.rb', 132
+      does_not_recognize_file 'if it ends with a slash', 'abc/', 12
+    end
+
+    context 'when the line contains an absolute URL with no line numbers' do
+      recognizes_file 'http:///abc/def/ghi.rb'
+      does_not_recognize_file 'if it ends with a slash', 'http:///abc/def/ghi/'
+    end    
+    
+    context 'when the line contains an absolute URL with line numbers' do
+      recognizes_file 'http:///abc/def/ghi.rb', 456
+      does_not_recognize_file 'if it ends with a slash', 'http:///abc/def/ghi/', 456
+    end    
     
     it 'only considers the first match' do
       str = "#{__FILE__.upcase} #{__FILE__}"
