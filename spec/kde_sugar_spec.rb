@@ -27,28 +27,28 @@ describe 'KDE::Url' do
       KDE::Url.file_url?('http:/xyz/abc', false).should be_false
     end
     
-    context 'when the second argument is true or missing' do
+    context 'when the second argument is true' do
     
       it 'returns true if the first argument looks like an absolute URL with authority' do
         KDE::Url.file_url?('http:///xyz/abc', true).should be_true
-        KDE::Url.file_url?('http:///xyz/abc').should be_true
       end
       
       it 'returns false if the path isn\'t absolute' do
         KDE::Url.file_url?('http://xyz/abc', true).should be_false
-        KDE::Url.file_url?('http://xyz/abc').should be_false
       end
       
     end
     
-    context 'when the second argument is false' do
+    context 'when the second argument is false or missing' do
       
       it 'returns true if the first argument looks like an absolute URL with authority' do
         KDE::Url.file_url?('http:///xyz/abc', false).should be_true
+        KDE::Url.file_url?('http:///xyz/abc').should be_true
       end
       
       it 'returns true if the first argument looks like a relative URL with authority' do
         KDE::Url.file_url?('http://xyz/abc', false).should be_true
+        KDE::Url.file_url?('http://xyz/abc').should be_true
       end
 
 

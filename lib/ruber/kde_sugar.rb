@@ -47,7 +47,7 @@ return *true* for both absolute and relative paths.
 @return [Boolean] *true* if _str_ looks like an URL pointing to a file (or pointing
   to an absolute file if _abs_only_ is *true*) and *false* otherwise
 =end
-    def self.file_url? str, abs_only = true
+    def self.file_url? str, abs_only = false
       slash_number = abs_only ? 3 : 2
       str.match(%r|[\w+.-]+:/{#{slash_number},3}|).to_b
     end
