@@ -40,13 +40,17 @@ module Ruber
     def_delegator :@doc, :documentSave, :save_document
     
     signal_data = { 
-        'text_changed' => ['KTextEditor::Document*', [nil]],
-        'about_to_close' => ['KTextEditor::Document*', [nil]],
-        'about_to_reload' => ['KTextEditor::Document*', [nil]],
-        'highlighting_mode_changed' => ['KTextEditor::Document*', [nil]],
-        'document_url_changed' => ['KTextEditor::Document*', [nil]],
-        'mode_changed' => ['KTextEditor::Document*', [nil]]
-      }
+      'text_changed' => ['KTextEditor::Document*', [nil]],
+      'about_to_close' => ['KTextEditor::Document*', [nil]],
+      'about_to_reload' => ['KTextEditor::Document*', [nil]],
+      'highlighting_mode_changed' => ['KTextEditor::Document*', [nil]],
+      'mode_changed' => ['KTextEditor::Document*', [nil]],
+      'sig_query_close' => ['bool*, bool*', [0,1]],
+      'canceled' => ['QString', [0]],
+      'started' => ['KIO::Job*', [0]],
+      'set_status_bar_text' => ['QString', [0]],
+      'setWindowCaption' => ['QString', [0]]
+    }
     
     @signal_table = KTextEditorWrapper.prepare_wrapper_connections self, signal_data
     
@@ -56,7 +60,9 @@ module Ruber
 'mode_changed(QObject*)', 'text_modified(KTextEditor::Range, KTextEditor::Range, QObject*)',
 'text_inserted(KTextEditor::Range, QObject*)', 'text_removed(KTextEditor::Range, QObject*)',
 'view_created(QObject*, QObject*)', 'closing(QObject*)', :activated, :deactivated,
-'modified_on_disk(QObject*, bool, KTextEditor::ModificationInterface::ModifiedOnDiskReason)'
+'modified_on_disk(QObject*, bool, KTextEditor::ModificationInterface::ModifiedOnDiskReason)',
+'sig_query_close(bool*, bool*)', 'canceled(QString)', 'completed()', 'completed1(bool)',
+'started(KIO::Job*)', 'set_status_bar_text(QString)', 'setWindowCaption(QString)'
     
     slots :document_save_as, :save
 
@@ -90,8 +96,21 @@ Creates a new Ruber::Document.
       @doc.connect(SIGNAL('modifiedChanged(KTextEditor::Document*)')) do |doc|
         emit modified_changed(@doc.modified?, self)
       end
-      @doc.connect(SIGNAL('documentNameChanged(KTextEditor::Document*)')) do |doc|
-        Ruber[:components].each_component{|c| c.update_project @project}
+      @doc.connect(SIGNAL('documentUrlChanged(KTextEditor::Document*)')) do |doc|
+        if !doc.url.remote_file?
+          Ruber[:components].each_component{|c| c.update_project @project}
+        end
+        emit document_url_changed self
+      end
+      
+      @doc.connect SIGNAL(:completed) do
+        if @doc.url.remote_file?
+          Ruber[:components].each_component{|c|c.update_project @project}
+        end
+        emit completed
+      end
+      
+      @doc.connect SIGNAL('documentNameChanged(KTextEditor::Document*)') do |doc|
         emit document_name_changed doc.document_name, self
       end
       
@@ -110,6 +129,7 @@ Creates a new Ruber::Document.
         @modified_on_disk = (reason != KTextEditor::ModificationInterface::OnDiskUnmodified)
         emit modified_on_disk(self, mod, reason)
       end
+      connect @doc, SIGNAL('completed(bool)'), self, SIGNAL('completed1(bool)')
 
     end
     
@@ -174,17 +194,39 @@ status of the document.
       if @modified_on_disk then ICONS[:modified_on_disk]
       elsif @doc.modified? then ICONS[:modified]
       else
-        icon_name = KDE::MimeType.mime_type(@doc.mime_type).icon_name
+        if has_file? :remote
+          mime = KDE::MimeType.find_by_content Qt::ByteArray.new(@doc.text)
+        else mime = KDE::MimeType.mime_type(@doc.mime_type)
+        end
+        icon_name = mime.icon_name
         Qt::Icon.new(KDE::IconLoader.load_mime_type_pixmap icon_name)
       end
     end
 
 =begin rdoc
-Tells whether the document is associated with a file, that is if it has been
-saved to file before or not.
+Whether the document is associated with a file
+
+Depending on the value of _which_ this method can also return *true* only if the
+document is associated with a local file or with a remote file. In particular:
+* if it's @:local@ this method will return *true* only if the document is associated
+  with a local file
+* if it's @:remote@, this method will return *true* only if the document is associated
+  with a remote file
+* with any other value, this method will return *true* if the document is associated
+  with any file
+
+@param [Symbol, Object] which the kind of files which are acceptable
+@return [Boolean] *true* if the document is associated with a file of the kind
+  matching _which_ and *false* otherwise
 =end
-    def has_file?
-      !@doc.url.empty?
+    def has_file? which = :any
+      u = url
+      return false if u.empty?
+      case which
+      when :local then url.local_file?
+      when :remote then !url.local_file?
+      else true
+      end
     end
 
 =begin rdoc
@@ -261,7 +303,7 @@ Return the project with wider scope the document belongs to. This is:
     def project
       prj = Ruber[:projects].current
       return @project if path.empty? or !prj
-      prj.project_files.file_in_project?(path) ? prj : @project
+      prj.project_files.file_in_project?(url.to_encoded.to_s) ? prj : @project
     end
     
 =begin rdoc

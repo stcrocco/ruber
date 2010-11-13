@@ -182,8 +182,8 @@ is the plugin description for this object.
 Returns the editor view for the given document, creating it if needed
 
 @param [Document, String, KDE::Url] doc the document. If it is a string representing
-  an absolute path, the document will be obtained using {DocumentList#document},
-  while for other strings it will be obtained using {DocumentList#document_with_name}
+  a relative path, it'll be considered relative to the current directory. If the
+  string is an Url, it'll be interpreted as such
 @return [EditorView,nil] an editor associated with the document or *nil* if _doc_
   is interpreted as document name but no documents with that name exists
 @raise [ArgumentError] if _doc_ is an absolute path or a @KDE::Url@ but the file
@@ -191,9 +191,15 @@ Returns the editor view for the given document, creating it if needed
 =end
     def editor_for! doc
       unless doc.is_a? Document
-        if doc.is_a? KDE::Url or doc.start_with? '/' then doc = Ruber[:documents].document doc
-        else doc = Ruber[:documents].document_with_name doc
+        url = doc
+        if url.is_a? String
+          url = KDE::Url.new url
+          if url.relative?
+            path = File.expand_path url.path
+            url.path = path
+          end
         end
+        doc = Ruber[:documents].document url
       end
       return unless doc
       create_editor_if_needed doc

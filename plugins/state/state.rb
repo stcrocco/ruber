@@ -217,10 +217,12 @@ for more information
         mw.without_activating do
           docs = []
           files.each do |f| 
-            ed = mw.editor_for! f rescue nil
+            ed = mw.editor_for! KDE::Url.new(f) rescue nil
             docs << ed.document if ed
           end
-          active_doc = docs.find{|d| d.path == active_file} || docs[-1]
+          active_url = KDE::Url.new active_file
+          active_doc = docs.find{|d| d.url == active_url} 
+          active_doc ||= docs[-1]
           mw.display_document active_doc
         end
         nil
@@ -323,9 +325,9 @@ Creates a hash with all the data needed to restore Ruber's state
           projects.unshift projects.delete(active_prj.project_file) if active_prj
         end
         res[:open_projects] = projects
-        docs = Ruber[:docs].documents.map{|doc| doc.path}.select{|path| !path.empty?}
+        docs = Ruber[:docs].documents.map{|doc| doc.url.to_encoded.to_s}.select{|path| !path.empty?}
         res[:open_documents] = docs
-        current_doc = Ruber[:main_window].current_document.path rescue ''
+        current_doc = Ruber[:main_window].current_document.url.to_encoded.to_s rescue ''
         res[:active_document] = current_doc.empty? ? nil : current_doc
         res
       end

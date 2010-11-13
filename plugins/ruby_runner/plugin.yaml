@@ -19,7 +19,7 @@ config_options:
   ruby_options: {:default: [-w]}
 project_options:
  ruby:
-   ruby: {default: 'Ruber[:config][:ruby, :ruby]', scope: [global, document], mimetype: 'application/x-ruby', file_extension: [*.rb, Rakefile, rakefile]}
+   ruby: {default: 'Ruber[:config][:ruby, :ruby]', scope: [global, document], mimetype: 'application/x-ruby', file_extension: [*.rb, Rakefile, rakefile], place: all}
 project_widgets:
  - {caption: Ruby, pixmap: ruby.png, class: 'Ruber::RubyRunner::ProjectWidget', scope: [global, document], mimetype: 'application/x-ruby', file_extension: [*.rb, Rakefile, rakefile]}
 actions:

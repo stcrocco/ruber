@@ -278,7 +278,7 @@ which, most likely, will cause it to fail.
 @return [Boolean] *true* if the spec program is started and *false* otherwise
 (including the case when the process was already running or autosaving failed)
 =end
-      def run_current
+      def run_current what = :all
         prj = Ruber[:projects].current_project
         unless prj
           KDE::MessageBox.error nil, "You must have an open project to choose this entry.\nYOU SHOULD NEVER SEE THIS MESSAGE"
@@ -286,6 +286,10 @@ which, most likely, will cause it to fail.
         end
         opts = options prj
         doc = Ruber[:main_window].current_document
+        unless doc.url.local_file?
+          KDE::MessageBox.sorry nil, 'You can\'t run rspec for remote files'
+          return
+        end
         unless doc
           KDE::MessageBox.error nil, "You must have an open document to choose this entry.\nYOU SHOULD NEVER SEE THIS MESSAGE"
           return
@@ -293,6 +297,10 @@ which, most likely, will cause it to fail.
         files = specs_for_file opts, doc.path
         files.reject!{|f| !File.exist? f}
         opts[:files] = files.empty? ? [doc.path] : files
+        if what == :current_line
+          line = line = doc.view.cursor_position.line + 1
+          opts[:spec_options] += ["-l", line.to_s]
+        end
         run_rspec_for prj, opts, :files => :documents_with_file, :on_failure => :ask,
             :message => 'Do you want to run the tests all the same?'
       end
@@ -309,26 +317,9 @@ current file is the example file, not the source.
 (including the case when the process was already running or autosaving failed)
 =end
       def run_current_line
-        prj = Ruber[:projects].current_project
-        unless prj
-          KDE::MessageBox.error nil, "You must have an open project to choose this entry.\nYOU SHOULD NEVER SEE THIS MESSAGE"
-          return
-        end
-        opts = options prj
-        doc = Ruber[:main_window].current_document
-        unless doc
-          KDE::MessageBox.error nil, "You must have an open document to choose this entry.\nYOU SHOULD NEVER SEE THIS MESSAGE"
-          return
-        end
-        line = doc.view.cursor_position.line + 1
-        files = specs_for_file opts, doc.path
-        files.reject!{|f| !File.exist? f}
-        opts[:files] = files.empty? ? [doc.path] : files
-        opts[:spec_options] += ["-l", line.to_s]
-        run_rspec_for prj, opts, :files => :documents_with_file, :on_failure => :ask,
-            :message => 'Do you want to run the tests all the same?'
+        run_current :current_line
       end
-
+      
 =begin rdoc
 Runs the spec command for the given object
 

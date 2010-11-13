@@ -14,9 +14,9 @@ tool_widgets: {:class: Ruber::FilesRunner::OutputWidget, :caption: Ruby output, 
 project_options:
  ruby:
   main_program: {default: "''", relative_path: true}
-  options: {default: [], scope: [document, global]}
+  options: {default: [], scope: [document, global], place: all}
   working_dir: {default: '.', relative_path: true}
-  run_in_terminal: {default: false, scope: [document, global]}
+  run_in_terminal: {default: false, scope: [document, global], place: all}
 project_widgets:
  - {caption: Ruby, class: Ruber::FilesRunner::ProjectWidget, scope: [document, global]}
 actions:

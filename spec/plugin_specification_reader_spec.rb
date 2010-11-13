@@ -1651,6 +1651,33 @@ describe Ruber::PluginSpecificationReader do
     
     end
     
+    context ', when reading the place' do
+    
+      it 'puts the contents of the place entry of the argument in the :place entry of the returned hash' do
+        @reader.send(:read_rules, {:place => [:local]})[:place].should == [:local]
+        @reader.send(:read_rules, {'place' => [:remote]})[:place].should == [:remote]
+      end
+      
+      it 'converts the values :all and all to [:local, :remote]' do
+        @reader.send(:read_rules, {:place => ['all']})[:place].should == [:local, :remote]
+        @reader.send(:read_rules, {'place' => [:all]})[:place].should == [:local, :remote]
+      end
+      
+      it 'encloses the place entry of the argument in a array, unless it\'s already an array' do
+        @reader.send(:read_rules, {:place => :local})[:place].should == [:local]
+      end
+      
+      it 'converts each entry of the place array to a symbol' do
+        @reader.send(:read_rules, {:place => %w[local remote]})[:place].should == [:local, :remote]
+      end
+      
+      it 'uses [:local] as default value' do
+        @reader.send(:read_rules, {})[:place].should == [:local]
+      end
+    
+    end
+
+    
     describe ', when reading the mimetype' do
       
       it 'stores the contents of the mimetype entry of the argument in the returned value' do

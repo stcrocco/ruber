@@ -73,6 +73,8 @@ Currently, they are: ruby_development, find_in_files, syntax_checker, command an
     attr_reader :cmd_line_options
     
 =begin rdoc
+<<<<<<< HEAD
+=======
 The state Ruber is in
 
 Ruber can be in three states:
@@ -83,6 +85,7 @@ Ruber can be in three states:
   bar)
 - *quitting*:= from when the user chooses to quit Ruber onwards
 
+>>>>>>> master
 @return [Symbol] the status of the application. It can be: @:starting@, @:running@
   or @:quitting@
 =end
@@ -390,11 +393,15 @@ necessary to to them later
   @return [nil]
 =end
     def open_command_line_files
-      args = @cmd_line_options.files
+      urls = @cmd_line_options.urls
       win = Ruber[:main_window]
-      projects, files = args.partition{|f| File.extname(f) == '.ruprj'}
-      prj = win.safe_open_project projects.last unless projects.empty?
-      files += @cmd_line_options.getOptionList('file')
+      projects, files = urls.partition{|u| File.extname(u.to_local_file || '') == '.ruprj'}
+      prj = win.safe_open_project projects.last.to_local_file unless projects.empty?
+      files += @cmd_line_options.getOptionList('file').map do |f|
+        url = KDE::Url.new f
+        url.path = File.expand_path(f) if url.protocol.empty?
+        url
+      end
       files.each do |f| 
         win.display_document f
       end

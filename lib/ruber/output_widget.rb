@@ -720,14 +720,21 @@ method with one which always returns *nil*.
       else idx.data.to_string
       end
       res = find_filename_in_string str
+      d res
       return unless res
       res = Array res
       res << 0 if res.size == 1
-      unless Pathname.new(res[0]).absolute?
-        res[0] = File.join @working_dir, res[0]
+      #if res[0] is an url with scheme file:, transform it into a regular file
+      #name by removing the scheme and the two following slash
+      res[0].sub! %r{^file://}, ''
+      if KDE::Url.file_url?(res[0]) then res
+      else
+        res[0] = File.join @working_dir, res[0] unless Pathname.new(res[0]).absolute?
+        if File.exist?(res[0]) and !File.directory?(res[0])
+          res
+        else nil
+        end
       end
-      return nil unless File.exist?(res[0]) and !File.directory?(res[0])
-      res
     end
     
 =begin rdoc
@@ -739,50 +746,49 @@ What is a file name and what isn't is a bit arbitrary. Here's what this method
 recognizes as a filename:
 * an absolute path not containing spaces and colons starting with '/'
 * an absolute path not containing spaces and colons starting with '~' or '~user'
-(they're expanded using <tt>File.expand_path</tt>)
-* a relative path starting with . or .. (either followed by a slash or not)
+(they're expanded using @File.expand_path@)
+* a relative path starting with @./@ or @../@ (either followed by a slash or not)
+* a relative path of the form @.filename@ or @.dirname/dir/file@
 * any string not containing spaces or colons followed by a colon and a line number
+* absolute URLs with an authority component
+
+File names enclosed in quotes or parentheses are recognized.
 
 The first three entries of the previous list can be followed by a colon and a line
 number; for the last one they're mandatory
 =end
-    def find_filename_in_string str\
+    def find_filename_in_string str
       #This ensures that file names inside quotes or brackets are found. It's
       #easier replacing quotes and brackets with spaces than to modify the main
       #regexp to take them into account
       str = str.gsub %r|['"`<>\(\)\[\]\{\}]|, ' '
-      reg = %r{(?: #This is the grouping for the big or operator
-              (?:\s|^) #Here starts the first alternative. The filename must either
-                       #come after a whitespace or at the beginning of the string
-              ( #Here starts the capturing group for the filename
-              (?: #We have to consider separately strings with a known start (the
-                  # first branch of the |) and files without a definite start
-                  # containing a slash (the second branch)
-              (?:/|~|\.\.?) # This non-capturing group is for the beginning of
-                             # the file. It may start with a slash (absolute path),
-                             # a tilde (absolute path for the home directory)
-                             # or a dot (relative path)
-              [^\s:]* # The start of the filename is followed by any number of
-                      # non-space, non-colon character
-              |[^\s:/]+/[^\s:/]*) #here we deal with files starting with any other
-                                  #character and containing at least one slash
-              [^\s:/]) # and by at least one non-colon, non-space and non-slash
-                       # character (to attempt to avoid directories, which may
-                       # end with a slash)
-              (?:\s|$|(?::(\d+)))) # the file name can be followed by either a
-                                   # space, the end of the string or a colon and
-                                   # some digits (the line number)
-              |(?:([^\s]+):(\d+) # Here's the second alternative: anything except
-                                 # a space followed by a colon and at least one
-                                 # digit (the line number)
-              ) #The end of the large group}x
-      match = reg.match str
+      matches = []
+      attempts = [
+        %r{(?:^|\s)([\w+.-]+:/{1,2}(?:/[^/:\s]+)+)(?::(\d+))?(?:$|[,.;:\s])}, #URLS
+        %r{(?:^|\s)((?:/[^/\s:]+)+)(?::(\d+))?(?:$|[,.;:\s])}, #absolute files
+        #absolute files referring to user home directory: ~/xyz or ~user/xyz
+        %r{(?:^|\s)(~[\w_-]*(?:/[^/\s:]+)+)(?::(\d+))?(?:$|[,.;:\s])},
+        #relative files starting with ./ and ../
+        %r{(?:^|\s)(\.{1,2}(?:/[^/\s:]+)+)(?::(\d+))?(?:$|[,.;:\s])},
+        #hidden files or directories (.filename or .dir/filename)
+        %r{(?:^|\s)(\.[^/\s:]+(?:/[^/\s:]+)*)(?::(\d+))?(?:$|[,.;:\s])},
+        #relative files containing, but not ending with a slash
+        %r{(?:^|\s)([^/\s:]+/[^\s:]*[^\s/:])(?::(\d+))?(?:$|[,.;:\s])},
+        #relative files not containing slashes but ending with the line number
+        %r{(?:^|\s)([^/\s:]+):(\d+)(?:$|[,.;:\s])}
+      ]
+      attempts.each do |a|
+        m = str.match a
+        matches << [m.begin(0),[$1,$2]] if m
+      end
+      d str
+      d matches
+      match = matches.sort_by{|i| i[0]}[0]
       return unless match
-      file = match[1] || match[3]
-      ln = match[1] ? match[2] : match[4]
+      file, line = *match[1]
       file = File.expand_path(file) if file.start_with? '~'
       res = [file]
-      res << ln.to_i if ln
+      res << line.to_i if line
       res
     end
     

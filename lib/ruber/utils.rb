@@ -50,7 +50,6 @@ The default directory for globally installed plugins
 The Ruber @data@ directory 
 =end
   RUBER_DATA_DIR = File.join RUBER_DIR, 'data'
- 
 end
 
 module Kernel

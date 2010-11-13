@@ -265,6 +265,9 @@ want to call *super*)
 _lines_ is an array where each entry corresponds to a line of output from the
 program. If buffering is on, each entry is a complete line (or should be considered
 such). If buffering is off, you'll have to take care of newlines by yourself.
+
+@param [Array<String>] lines the output lines
+@return [nil]
 =end
     def process_standard_output lines
       return unless @output_widget
@@ -276,6 +279,7 @@ such). If buffering is off, you'll have to take care of newlines by yourself.
         mod.set_data idx, Qt::Variant.new(l)
         @output_widget.set_output_type idx, :output
       end
+      nil
     end
  
 =begin rdoc
@@ -290,6 +294,9 @@ want to call *super*)
 _lines_ is an array where each entry corresponds to a line of output from the
 program. If buffering is on, each entry is a complete line (or should be considered
 such). If buffering is off, you'll have to take care of newlines by yourself.
+
+@param [Array<String>] lines the lines on standard error
+@return [nil]
 =end
     def process_standard_error lines
       return unless @output_widget
@@ -301,6 +308,7 @@ such). If buffering is off, you'll have to take care of newlines by yourself.
         mod.set_data idx, Qt::Variant.new(l)
         @output_widget.set_output_type idx, :error
       end
+      nil
     end
     
 =begin rdoc
