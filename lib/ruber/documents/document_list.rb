@@ -94,9 +94,10 @@ the value of _create_if_needed_ a new document associated with the file or url
 will be created. In this case, the {#document_created} signal will be emitted.
 
 @param [String, KDE::Url] file the file name or URL associated with the document.
-  A relative file name will be expanded with respect to the current directory. If
-  it is a string, it will _always_ be interpreted as a filename. If you want it
-  to be considered an URL, you need to create a @KDE::Url@ for it
+  A relative file name will be expanded with respect to the current directory. A
+  string containing a url will be interpreted as an url, not as a filename. If you
+  need a document with a name which looks like an url, you can create an empty
+  @KDE::Url@, then using @path=@ to set its path
 @param [Boolean] create_if_needed whether or not to create a document associated
   with _file_ if there isn't one
 @return [Document,nil] the document associated with _file_. If no such document
@@ -107,15 +108,13 @@ will be created. In this case, the {#document_created} signal will be emitted.
 =end
     def document file, create_if_needed = true
       if file.is_a? String
-        file = File.expand_path(file)
-        doc = document_for_file file
-        return doc if doc or !create_if_needed
-      elsif file.is_a? KDE::Url 
-        doc = document_for_url file
-        return doc if doc or !create_if_needed
-      end
-      if !doc and create_if_needed
         url = KDE::Url.new file
+        url.path = File.expand_path(file) if url.relative?
+      else url = file
+      end
+      doc = document_for_url file
+      return doc if doc or !create_if_needed
+      if !doc and create_if_needed
         if url.local_file?
           raise ArgumentError, "File #{url.path} doesn't exist" unless File.exist?(url.path)
         end

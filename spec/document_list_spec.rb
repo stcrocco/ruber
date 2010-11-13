@@ -529,6 +529,14 @@ describe Ruber::DocumentList do
       # this is necessary because otherwise the 'after' block fails (because the document list contains nil)
       @keeper.instance_variable_get(:@docs).clear
     end
+    
+    it 'treats strings containing URLs as URLs rather than as relative files' do
+      url_str = 'http://xyz/abc.rb'
+      flexmock(Ruber::Document).should_receive(:new).with(@mw, KDE::Url.new(url_str))
+      doc = @keeper.document url_str
+      # this is necessary because otherwise the 'after' block fails (because the document list contains nil)
+      @keeper.instance_variable_get(:@docs).clear
+    end
 
   end
 
