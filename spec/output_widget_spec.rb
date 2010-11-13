@@ -1039,23 +1039,31 @@ describe Ruber::OutputWidget do
       @ow.send :find_filename_in_index, @mod.index(0,0)
     end
     
-    describe ', when the string or the first element of the array returned by find_filename_in_string is not an absolute path' do
+    describe ', when the string or the first element of the array returned by find_filename_in_string is not an absolute path and not an url' do
       
       it 'considers the path relative to the working_dir and transforms it into an absolute path' do
         @ow.working_dir = File.dirname(__FILE__)
         flexmock(@ow).should_receive(:find_filename_in_string).once.with('').and_return [File.basename(__FILE__), 6]
         flexmock(@ow).should_receive(:find_filename_in_string).once.with('').and_return [File.basename(__FILE__)]
         flexmock(@ow).should_receive(:find_filename_in_string).once.with('').and_return File.basename(__FILE__)
+        url = 'http:///xyz/abc.rb'
+        flexmock(@ow).should_receive(:find_filename_in_string).once.with('').and_return [url]
         @ow.send(:find_filename_in_index, @mod.index(0,0)).should == [__FILE__, 6]
         @ow.send(:find_filename_in_index, @mod.index(0,0)).should == [__FILE__, 0]
         @ow.send(:find_filename_in_index, @mod.index(0,0)).should == [__FILE__, 0]
+        @ow.send(:find_filename_in_index, @mod.index(0,0)).should == [url, 0]
       end
       
     end
     
-    it 'returns nil if the file doesn\'t exist' do
+    it 'returns nil if the file is a local file which doesn\'t exist' do
       flexmock(@ow).should_receive(:find_filename_in_string).once.with('').and_return '/' + random_string
       @ow.send(:find_filename_in_index, @mod.index(0,0)).should be_nil
+    end
+    
+    it 'returns the pair [url, line] even if the url doesn\'t exist when it represents a remote file' do
+      flexmock(@ow).should_receive(:find_filename_in_string).once.with('').and_return ['http://xyz/abc', 12]
+      @ow.send(:find_filename_in_index, @mod.index(0,0)).should == ['http://xyz/abc', 12]
     end
     
     it 'returns nil if the file is a directory' do
@@ -1128,89 +1136,81 @@ describe Ruber::OutputWidget do
     
     context 'when the line contains an absolute path without line number' do
       recognizes_file '/abc/def/ghi.rb'
-      does_not_recognize_file 'if it ends with a slash', '/abc/def/ghi/'
     end
       
     context 'when the line contains an absolute path with line number' do
       recognizes_file '/abc/def/ghi.rb', 45
-      does_not_recognize_file 'if it ends with a slash', '/abc/def/ghi/'
     end
     
     context 'when the line contains an absolute path referring to the user\'s home directory without line numbers' do
       recognizes_file '~/abc/def/ghi.rb', nil, "#{ENV['HOME']}/abc/def/ghi.rb"
-      does_not_recognize_file 'if it ends with a slash', '~/abc/def/ghi.rb/'
     end
     
     context 'when the line contains an absolute path referring to the user\'s home directory with line numbers' do
       recognizes_file '~/abc/def/ghi.rb', 45, "#{ENV['HOME']}/abc/def/ghi.rb"
-      does_not_recognize_file 'if it ends with a slash', '~/abc/def/ghi.rb/', 45
     end
 
     context 'when the line contains an absolute path referring to another user\'s home directory and no line numbers' do
       prc = proc{flexmock(File).should_receive(:expand_path).with('~xyz/abc/def/ghi.rb').and_return('/home/xyz/abc/def/ghi.rb')}
       recognizes_file '~xyz/abc/def/ghi.rb', nil, "/home/xyz/abc/def/ghi.rb", &prc
-      does_not_recognize_file 'if it ends with a slash', '~xyz/abc/def/ghi.rb/'
     end
     
     context 'when the line contains an absolute path referring to another user\'s home directory with line numbers' do
       prc = proc{flexmock(File).should_receive(:expand_path).with('~xyz/abc/def/ghi.rb').and_return('/home/xyz/abc/def/ghi.rb')}
       recognizes_file '~xyz/abc/def/ghi.rb', 45, "/home/xyz/abc/def/ghi.rb", &prc
-      does_not_recognize_file 'if it ends with a slash', '~xyz/abc/def/ghi.rb/', 45
     end
 
     context 'when the line contains a filename starting with ./ and no line numbers' do
       recognizes_file './abc/def/ghi.rb'
-      does_not_recognize_file 'if it ends with a slash', './abc/def/ghi/'
     end
     
     context 'when the line contains a filename starting with ./ and line numbers' do
       recognizes_file './abc/def/ghi.rb', 12
-      does_not_recognize_file 'if it ends with a slash', './abc/def/ghi/', 12
     end
     
     context 'when the line contains a filename starting with ../ and no line numbers' do
       recognizes_file '../abc/def/ghi.rb'
-      does_not_recognize_file 'if it ends with a slash', '../abc/def/ghi/'
     end
     
     context 'when the line contains a filename starting with ../ and line numbers' do
       recognizes_file '../abc/def/ghi.rb', 12
-      does_not_recognize_file 'if it ends with a slash', '../abc/def/ghi/', 12
     end
     
     context 'when the line contains a filename starting with a dot not followed by a slash and no numbers' do
       recognizes_file '.abc/def/ghi.rb'
-      does_not_recognize_file 'if it ends with a slash', '.abc/def/ghi/'
     end
     
     context 'when the line contains a filename starting with a dot not followed by a slash and line numbers' do
       recognizes_file '.abc/def/ghi.rb', 34
-      does_not_recognize_file 'if it ends with a slash', '.abc/def/ghi/', 34
     end
     
     context 'when the line contains a relative path not starting with ./ and containing slashes with no line numbers' do
       recognizes_file 'abc/def/ghi.rb'
-      does_not_recognize_file 'if it ends with a slash', 'abc/def/ghi/'
     end
     
     context 'when the line contains a relative path not starting with ./ and containing slashes with line numbers' do
       recognizes_file 'abc/def/ghi.rb', 29
-      does_not_recognize_file 'if it ends with a slash', 'abc/def/ghi/', 29
     end    
 
     context 'when the line contains a relative filename without slash or leading dots with line numbers' do
       recognizes_file 'abc.rb', 132
-      does_not_recognize_file 'if it ends with a slash', 'abc/', 12
     end
+    
+    context 'when the line contains an URL representing a relative file with no line numbers' do
+      recognizes_file 'http://abc/def/ghi.rb'
+    end    
+    
+    context 'when the line contains an URL representing a relative file with line numbers' do
+      recognizes_file 'http://abc/def/ghi.rb', 456
+    end    
+    
 
     context 'when the line contains an absolute URL with no line numbers' do
       recognizes_file 'http:///abc/def/ghi.rb'
-      does_not_recognize_file 'if it ends with a slash', 'http:///abc/def/ghi/'
     end    
     
     context 'when the line contains an absolute URL with line numbers' do
       recognizes_file 'http:///abc/def/ghi.rb', 456
-      does_not_recognize_file 'if it ends with a slash', 'http:///abc/def/ghi/', 456
     end    
     
     it 'only considers the first match' do
@@ -1220,22 +1220,22 @@ describe Ruber::OutputWidget do
 
   end
   
-  describe '#keyReleaseEvent' do
-
-    before do
-      @ow = Ruber::OutputWidget.new
-      @mw = flexmock('main window'){|m| m.should_ignore_missing}
-      @ev = Qt::KeyEvent.new Qt::Event::KeyRelease, Qt::Key_A, Qt::NoModifier, 'a'
-      flexmock(Ruber).should_receive(:[]).with(:main_window).and_return(@mw).by_default
-    end
-    
-    it 'gives focus to the current editor' do
-      ed = flexmock('editor'){|m| m.should_receive(:set_focus).once}
-      ed.should_ignore_missing
-      @mw.should_receive(:active_editor).once.and_return ed
-      @ow.send :keyReleaseEvent, @ev
-    end
-    
+#   describe '#keyReleaseEvent' do
+# 
+#     before do
+#       @ow = Ruber::OutputWidget.new
+#       @mw = flexmock('main window'){|m| m.should_ignore_missing}
+#       @ev = Qt::KeyEvent.new Qt::Event::KeyRelease, Qt::Key_A, Qt::NoModifier, 'a'
+#       flexmock(Ruber).should_receive(:[]).with(:main_window).and_return(@mw).by_default
+#     end
+#     
+#     it 'gives focus to the current editor' do
+#       ed = flexmock('editor'){|m| m.should_receive(:set_focus).once}
+#       ed.should_ignore_missing
+#       @mw.should_receive(:active_editor).once.and_return ed
+#       @ow.send :keyReleaseEvent, @ev
+#     end
+#     
 #     it 'inserts the text corresponding to the released key in the editor' do
 #       ed = flexmock('editor'){|m| m.should_receive(:insert_text).once.with('a')}
 #       ed.should_ignore_missing
@@ -1243,21 +1243,21 @@ describe Ruber::OutputWidget do
 #       @ow.send :keyReleaseEvent, @ev
 #     end
     
-    it 'does nothing if there\'s no active editor' do
-      @mw.should_receive(:active_editor).once.and_return nil
-      lambda{@ow.send :keyReleaseEvent, @ev}.should_not raise_error
-    end
-    
-    it 'returns nil' do
+#     it 'does nothing if there\'s no active editor' do
+#       @mw.should_receive(:active_editor).once.and_return nil
+#       lambda{@ow.send :keyReleaseEvent, @ev}.should_not raise_error
+#     end
+#     
+#     it 'returns nil' do
 #       ed = flexmock('editor'){|m| m.should_receive(:insert_text).once.with('a')}
-      ed = flexmock('editor'){|m| m.should_ignore_missing}
-      @mw.should_receive(:active_editor).once.and_return ed
-      @mw.should_receive(:active_editor).once.and_return nil
-      @ow.send(:keyReleaseEvent, @ev).should be_nil
-      @ow.send(:keyReleaseEvent, @ev).should be_nil
-    end
+#       ed = flexmock('editor'){|m| m.should_ignore_missing}
+#       @mw.should_receive(:active_editor).once.and_return ed
+#       @mw.should_receive(:active_editor).once.and_return nil
+#       @ow.send(:keyReleaseEvent, @ev).should be_nil
+#       @ow.send(:keyReleaseEvent, @ev).should be_nil
+#     end
     
-  end
+#   end
   
 end
 

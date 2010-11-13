@@ -720,14 +720,21 @@ method with one which always returns *nil*.
       else idx.data.to_string
       end
       res = find_filename_in_string str
+      d res
       return unless res
       res = Array res
       res << 0 if res.size == 1
-      unless Pathname.new(res[0]).absolute?
-        res[0] = File.join @working_dir, res[0]
+      #if res[0] is an url with scheme file:, transform it into a regular file
+      #name by removing the scheme and the two following slash
+      res[0].sub! %r{^file://}, ''
+      if KDE::Url.file_url?(res[0]) then res
+      else
+        res[0] = File.join @working_dir, res[0] unless Pathname.new(res[0]).absolute?
+        if File.exist?(res[0]) and !File.directory?(res[0])
+          res
+        else nil
+        end
       end
-      return nil unless File.exist?(res[0]) and !File.directory?(res[0])
-      res
     end
     
 =begin rdoc
@@ -745,9 +752,6 @@ recognizes as a filename:
 * any string not containing spaces or colons followed by a colon and a line number
 * absolute URLs with an authority component
 
-In all cases, names ending with a slash aren't recognized because they're taken to
-be directories.
-
 File names enclosed in quotes or parentheses are recognized.
 
 The first three entries of the previous list can be followed by a colon and a line
@@ -760,23 +764,25 @@ number; for the last one they're mandatory
       str = str.gsub %r|['"`<>\(\)\[\]\{\}]|, ' '
       matches = []
       attempts = [
-        %r{(?:^|\s)([\w+.-]+://(?:/[^/:\s]+)+)(?::(\d+))?(?:$|[,.;]?\s)}, #URLS
-        %r{(?:^|\s)((?:/[^/\s:]+)+)(?::(\d+))?(?:$|[,.;]?\s)}, #absolute files
+        %r{(?:^|\s)([\w+.-]+:/{1,2}(?:/[^/:\s]+)+)(?::(\d+))?(?:$|[,.;:\s])}, #URLS
+        %r{(?:^|\s)((?:/[^/\s:]+)+)(?::(\d+))?(?:$|[,.;:\s])}, #absolute files
         #absolute files referring to user home directory: ~/xyz or ~user/xyz
-        %r{(?:^|\s)(~[\w_-]*(?:/[^/\s:]+)+)(?::(\d+))?(?:$|[,.;]?\s)},
+        %r{(?:^|\s)(~[\w_-]*(?:/[^/\s:]+)+)(?::(\d+))?(?:$|[,.;:\s])},
         #relative files starting with ./ and ../
-        %r{(?:^|\s)(\.{1,2}(?:/[^/\s:]+)+)(?::(\d+))?(?:$|[,.;]?\s)},
+        %r{(?:^|\s)(\.{1,2}(?:/[^/\s:]+)+)(?::(\d+))?(?:$|[,.;:\s])},
         #hidden files or directories (.filename or .dir/filename)
-        %r{(?:^|\s)(\.[^/\s:]+(?:/[^/\s:]+)*)(?::(\d+))?(?:$|[,.;]?\s)},
+        %r{(?:^|\s)(\.[^/\s:]+(?:/[^/\s:]+)*)(?::(\d+))?(?:$|[,.;:\s])},
         #relative files containing, but not ending with a slash
-        %r{(?:^|\s)([^/\s:]+/[^\s:]*[^\s/:])(?::(\d+))?(?:$|[,.;]?\s)},
+        %r{(?:^|\s)([^/\s:]+/[^\s:]*[^\s/:])(?::(\d+))?(?:$|[,.;:\s])},
         #relative files not containing slashes but ending with the line number
-        %r{(?:^|\s)([^/\s:]+):(\d+)(?:$|[,.;]?\s)}
+        %r{(?:^|\s)([^/\s:]+):(\d+)(?:$|[,.;:\s])}
       ]
       attempts.each do |a|
         m = str.match a
         matches << [m.begin(0),[$1,$2]] if m
       end
+      d str
+      d matches
       match = matches.sort_by{|i| i[0]}[0]
       return unless match
       file, line = *match[1]
