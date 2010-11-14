@@ -74,7 +74,9 @@
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">lib/ruber/kde_sugar.rb</dd>
+    <dd class="r2 last">lib/ruber/kde_sugar.rb<span class="defines">,<br />
+  lib/ruber/kde_sugar.rb,<br /> lib/ruber/kde_sugar.rb</span>
+</dd>
   
 </dl>
 <div class="clear"></div>
@@ -95,6 +97,28 @@
   <span class="summary_signature">
     
       <a href="#files-instance_method" title="#files (instance method)">- (Object) <strong>files</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#urls-instance_method" title="#urls (instance method)">- (Object) <strong>urls</strong> </a>
     
 
     
@@ -140,19 +164,55 @@
       <pre class="lines">
 
 
-116
-117
-118
-119
-120</pre>
+120
+121
+122
+123
+124</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/kde_sugar.rb', line 116</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/kde_sugar.rb', line 120</span>
 
 <span class='kw'>def</span> <span class='id files'>files</span>
   <span class='id res'>res</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
   <span class='id count'>count</span><span class='period'>.</span><span class='id times'>times</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span> <span class='id res'>res</span> <span class='op'>&lt;&lt;</span> <span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id expand_path'>expand_path</span><span class='lparen'>(</span><span class='id arg'>arg</span><span class='lparen'>(</span><span class='id i'>i</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rbrace'>}</span>
   <span class='id res'>res</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="urls-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>urls</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+126
+127
+128
+129
+130
+131
+132</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/kde_sugar.rb', line 126</span>
+
+<span class='kw'>def</span> <span class='id urls'>urls</span>
+  <span class='id count'>count</span><span class='period'>.</span><span class='id times'>times</span><span class='period'>.</span><span class='id inject'>inject</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id res'>res</span><span class='comma'>,</span> <span class='id i'>i</span><span class='op'>|</span>
+    <span class='id url'>url</span> <span class='op'>=</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Url</span><span class='period'>.</span><span class='id new'>new</span> <span class='id u'>u</span>
+    <span class='id url'>url</span><span class='period'>.</span><span class='id path'>path</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id expand_path'>expand_path</span><span class='lparen'>(</span><span class='id u'>u</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id url'>url</span><span class='period'>.</span><span class='id protocol'>protocol</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+    <span class='id res'>res</span> <span class='op'>&lt;&lt;</span> <span class='id url'>url</span>
+  <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -166,7 +226,7 @@
 </div>
     
     <div id="footer">
-  Generated on Fri Oct 29 12:52:49 2010 by 
+  Generated on Sat Nov 13 18:00:48 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.1 (ruby-1.9.2).
 </div>

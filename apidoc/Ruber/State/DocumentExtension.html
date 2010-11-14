@@ -78,7 +78,9 @@
   
   
     <dt class="r1 last">Defined in:</dt>
-    <dd class="r1 last">plugins/state/state.rb</dd>
+    <dd class="r1 last">plugins/state/state.rb<span class="defines">,<br />
+  plugins/state/state.rb,<br /> plugins/state/state.rb</span>
+</dd>
   
 </dl>
 <div class="clear"></div>
@@ -446,20 +448,16 @@ own project</p>
 377
 378
 379
-380
-381
-382</pre>
+380</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 373</span>
 
 <span class='kw'>def</span> <span class='id save_settings'>save_settings</span>
   <span class='id view'>view</span> <span class='op'>=</span> <span class='ivar'>@document</span><span class='period'>.</span><span class='id view'>view</span> 
-  <span class='id pos'>pos</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='id view'>view</span>
-    <span class='id cur'>cur</span> <span class='op'>=</span> <span class='id view'>view</span><span class='period'>.</span><span class='id cursor_position'>cursor_position</span>
-    <span class='lbracket'>[</span><span class='id cur'>cur</span><span class='period'>.</span><span class='id line'>line</span><span class='comma'>,</span> <span class='id cur'>cur</span><span class='period'>.</span><span class='id column'>column</span><span class='rbracket'>]</span>
-  <span class='kw'>else</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span><span class='int'>0</span><span class='rbracket'>]</span>
-  <span class='kw'>end</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id view'>view</span>
+  <span class='id cur'>cur</span> <span class='op'>=</span> <span class='id view'>view</span><span class='period'>.</span><span class='id cursor_position'>cursor_position</span>
+  <span class='id pos'>pos</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id cur'>cur</span><span class='period'>.</span><span class='id line'>line</span><span class='comma'>,</span> <span class='id cur'>cur</span><span class='period'>.</span><span class='id column'>column</span><span class='rbracket'>]</span>
   <span class='ivar'>@project</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='comma'>,</span> <span class='symbol'>:cursor_position</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id pos'>pos</span>
   <span class='kw'>nil</span>
 <span class='kw'>end</span></pre>
@@ -475,7 +473,7 @@ own project</p>
 </div>
     
     <div id="footer">
-  Generated on Fri Oct 29 12:52:50 2010 by 
+  Generated on Sun Nov 14 17:10:00 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.1 (ruby-1.9.2).
 </div>

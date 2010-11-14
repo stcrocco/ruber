@@ -191,7 +191,7 @@
 
       
         <!-- Provides the  slot annotation -->
-<li class="public ">
+<li class="private ">
   <span class="summary_signature">
     
       <a href="#load_settings-instance_method" title="#load_settings (instance method)">- (void) <strong>load_settings</strong> </a>
@@ -202,7 +202,7 @@
   
   
   
-  
+  <span class="note title private">private</span>
   
   
 
@@ -252,6 +252,28 @@
 
   
     <span class="summary_desc"><div class='inline'><p>Removes a plugin from the list of registered plugins.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#save_doc-instance_method" title="#save_doc (instance method)">- (Boolean) <strong>save_doc</strong>(doc) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Attempts to save a document.</p></div></span>
   
 </li>
 
@@ -741,7 +763,7 @@ if the user chose Yes in the message box and <strong>false</strong> otherwise.</
       <div class="method_details ">
   <p class="signature " id="load_settings-instance_method">
   
-    - (<tt>void</tt>) <strong>load_settings</strong> 
+    - (<tt>void</tt>) <strong>load_settings</strong>  <span class="extras">(private)</span>
   
 
   
@@ -762,16 +784,14 @@ if the user chose Yes in the message box and <strong>false</strong> otherwise.</
 150
 151
 152
-153
-154</pre>
+153</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'plugins/autosave/autosave.rb', line 150</span>
 
 <span class='kw'>def</span> <span class='id load_settings'>load_settings</span>
-  <span class='ivar'>@enabled</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:autosave</span><span class='comma'>,</span> <span class='symbol'>:enable</span><span class='rbracket'>]</span>
-  <span class='ivar'>@settings</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:autosave</span><span class='comma'>,</span> <span class='symbol'>:plugins</span><span class='rbracket'>]</span>
-  <span class='kw'>nil</span>
+  <span class='kw'>super</span>
+  <span class='ivar'>@remote_files_policy</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:autosave</span><span class='comma'>,</span> <span class='symbol'>:remote_files</span><span class='rbracket'>]</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -916,6 +936,104 @@ removed using this method.</p>
 <span class='kw'>def</span> <span class='id remove_plugin'>remove_plugin</span> <span class='id plug'>plug</span>
   <span class='id plug'>plug</span> <span class='op'>=</span> <span class='id plug'>plug</span><span class='period'>.</span><span class='id plugin_name'>plugin_name</span> <span class='kw'>if</span> <span class='id plug'>plug</span><span class='period'>.</span><span class='id is_a?'>is_a?</span> <span class='const'>PluginLike</span>
   <span class='ivar'>@registered_plugins</span><span class='period'>.</span><span class='id delete'>delete</span> <span class='id plug'>plug</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="save_doc-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>save_doc</strong>(doc)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Attempts to save a document</p>
+<p>If the document is associated with a remote file, the behaviour will change depending
+on the value of the <code>autosave/remote_files</code> settings:</p>
+<ul>
+	<li>if it&#8217;s <code>:skip</code> then nothing will be done</li>
+	<li>if it&#8217;s <code>:ignore</code> then an attempt to save the document will be done, but any failures
+  will be ignored</li>
+	<li>if it&#8217;s <code>:normal</code> then the behaviour will be the same as for a local file</li>
+</ul>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Document.html" title="Ruber::Document (class)">Document</a></span></tt>)</span>
+      
+      
+        <span class='name'>doc</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the document to save</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><strong>true</strong> if the document was saved successfully and <strong>false</strong> otherwise.
+in case of a remote document, it will always return <strong>true</strong> except when the
+<code>autosave/remote_files</code> option is set to <code>:normal</code></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/autosave/autosave.rb', line 339</span>
+
+<span class='kw'>def</span> <span class='id save_doc'>save_doc</span> <span class='id doc'>doc</span>
+  <span class='kw'>if</span> <span class='id doc'>doc</span><span class='period'>.</span><span class='id url'>url</span><span class='period'>.</span><span class='id local_file?'>local_file?</span> <span class='kw'>or</span> <span class='id doc'>doc</span><span class='period'>.</span><span class='id url'>url</span><span class='period'>.</span><span class='id relative?'>relative?</span> <span class='kw'>then</span> <span class='id doc'>doc</span><span class='period'>.</span><span class='id save'>save</span>
+  <span class='kw'>else</span>
+    <span class='kw'>case</span> <span class='ivar'>@remote_files_policy</span>
+    <span class='kw'>when</span> <span class='symbol'>:skip</span> <span class='kw'>then</span> <span class='kw'>true</span>
+    <span class='kw'>when</span> <span class='symbol'>:ignore</span>
+      <span class='id doc'>doc</span><span class='period'>.</span><span class='id save'>save</span>
+      <span class='kw'>true</span>
+    <span class='kw'>else</span> <span class='id doc'>doc</span><span class='period'>.</span><span class='id save'>save</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1132,7 +1250,7 @@ into account the enabled option and always attempt to save the documents.</p>
 <span class='kw'>def</span> <span class='id save_files'>save_files</span> <span class='id docs'>docs</span><span class='comma'>,</span> <span class='id opts'>opts</span><span class='comma'>,</span> <span class='id blk'>blk</span>
   <span class='id unsaved'>unsaved</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
   <span class='id docs'>docs</span><span class='period'>.</span><span class='id each_with_index'>each_with_index</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id d'>d</span><span class='comma'>,</span> <span class='id i'>i</span><span class='op'>|</span>
-    <span class='kw'>unless</span> <span class='id d'>d</span><span class='period'>.</span><span class='id save'>save</span>
+    <span class='kw'>unless</span> <span class='id save_doc'>save_doc</span> <span class='id d'>d</span>
       <span class='id unsaved'>unsaved</span> <span class='op'>&lt;&lt;</span> <span class='id d'>d</span>
       <span class='kw'>if</span> <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:stop_on_failure</span><span class='rbracket'>]</span>
         <span class='id unsaved'>unsaved</span> <span class='op'>+=</span> <span class='id docs'>docs</span><span class='lbracket'>[</span><span class='lparen'>(</span><span class='id i'>i</span><span class='op'>+</span><span class='int'>1</span><span class='rparen'>)</span><span class='op'>..</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span>
@@ -1351,7 +1469,7 @@ into account the enabled option and always attempt to save the documents.</p>
 </div>
     
     <div id="footer">
-  Generated on Fri Oct 29 12:52:55 2010 by 
+  Generated on Thu Nov 11 12:12:08 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.1 (ruby-1.9.2).
 </div>

@@ -1087,6 +1087,14 @@ permanently changing the autoscrolling setting.</p></div></span>
       <span class="summary_desc"><div class='inline'></div></span>
     </li>
   
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#about_to_fill_menu-signalcode" title="about_to_fill_menu (signalcode)">- <strong>about_to_fill_menu</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
+  
   </ul>
 
 
@@ -1940,7 +1948,14 @@ method with one which always returns <strong>nil</strong>.</p>
 728
 729
 730
-731</pre>
+731
+732
+733
+734
+735
+736
+737
+738</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/output_widget.rb', line 716</span>
@@ -1952,14 +1967,21 @@ method with one which always returns <strong>nil</strong>.</p>
   <span class='kw'>else</span> <span class='id idx'>idx</span><span class='period'>.</span><span class='id data'>data</span><span class='period'>.</span><span class='id to_string'>to_string</span>
   <span class='kw'>end</span>
   <span class='id res'>res</span> <span class='op'>=</span> <span class='id find_filename_in_string'>find_filename_in_string</span> <span class='id str'>str</span>
+  <span class='id d'>d</span> <span class='id res'>res</span>
   <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id res'>res</span>
   <span class='id res'>res</span> <span class='op'>=</span> <span class='const'>Array</span> <span class='id res'>res</span>
   <span class='id res'>res</span> <span class='op'>&lt;&lt;</span> <span class='int'>0</span> <span class='kw'>if</span> <span class='id res'>res</span><span class='period'>.</span><span class='id size'>size</span> <span class='op'>==</span> <span class='int'>1</span>
-  <span class='kw'>unless</span> <span class='const'>Pathname</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id res'>res</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id absolute?'>absolute?</span>
-    <span class='id res'>res</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span> <span class='ivar'>@working_dir</span><span class='comma'>,</span> <span class='id res'>res</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
+  <span class='comment'>#if res[0] is an url with scheme file:, transform it into a regular file
+</span>  <span class='comment'>#name by removing the scheme and the two following slash
+</span>  <span class='id res'>res</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id sub!'>sub!</span> <span class='tstring'><span class='regexp_beg'>%r{</span><span class='tstring_content'>^file://</span><span class='regexp_end'>}</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span>
+  <span class='kw'>if</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Url</span><span class='period'>.</span><span class='id file_url?'>file_url?</span><span class='lparen'>(</span><span class='id res'>res</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>then</span> <span class='id res'>res</span>
+  <span class='kw'>else</span>
+    <span class='id res'>res</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span> <span class='ivar'>@working_dir</span><span class='comma'>,</span> <span class='id res'>res</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='const'>Pathname</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id res'>res</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id absolute?'>absolute?</span>
+    <span class='kw'>if</span> <span class='const'>File</span><span class='period'>.</span><span class='id exist?'>exist?</span><span class='lparen'>(</span><span class='id res'>res</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>and</span> <span class='op'>!</span><span class='const'>File</span><span class='period'>.</span><span class='id directory?'>directory?</span><span class='lparen'>(</span><span class='id res'>res</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+      <span class='id res'>res</span>
+    <span class='kw'>else</span> <span class='kw'>nil</span>
+    <span class='kw'>end</span>
   <span class='kw'>end</span>
-  <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>unless</span> <span class='const'>File</span><span class='period'>.</span><span class='id exist?'>exist?</span><span class='lparen'>(</span><span class='id res'>res</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>and</span> <span class='op'>!</span><span class='const'>File</span><span class='period'>.</span><span class='id directory?'>directory?</span><span class='lparen'>(</span><span class='id res'>res</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='rparen'>)</span>
-  <span class='id res'>res</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1983,10 +2005,13 @@ recognizes as a filename:</p>
 <ul>
 	<li>an absolute path not containing spaces and colons starting with &#8216;/&#8217;</li>
 	<li>an absolute path not containing spaces and colons starting with &#8216;~&#8217; or &#8216;~user&#8217;
-(they&#8217;re expanded using <tt>File.expand_path</tt>)</li>
-	<li>a relative path starting with . or .. (either followed by a slash or not)</li>
+(they&#8217;re expanded using <code>File.expand_path</code>)</li>
+	<li>a relative path starting with <code>./</code> or <code>../</code> (either followed by a slash or not)</li>
+	<li>a relative path of the form <code>.filename</code> or <code>.dirname/dir/file</code></li>
 	<li>any string not containing spaces or colons followed by a colon and a line number</li>
+	<li>absolute URLs with an authority component</li>
 </ul>
+<p>File names enclosed in quotes or parentheses are recognized.</p>
 <p>The first three entries of the previous list can be followed by a colon and a line
 number; for the last one they&#8217;re mandatory</p>
 
@@ -2033,53 +2058,43 @@ number; for the last one they&#8217;re mandatory</p>
 779
 780
 781
-782
-783
-784
-785
-786
-787</pre>
+782</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/output_widget.rb', line 749</span>
 
-<span class='kw'>def</span> <span class='id find_filename_in_string'>find_filename_in_string</span> <span class='id str'>str</span>\
+<span class='kw'>def</span> <span class='id find_filename_in_string'>find_filename_in_string</span> <span class='id str'>str</span>
   <span class='comment'>#This ensures that file names inside quotes or brackets are found. It's
 </span>  <span class='comment'>#easier replacing quotes and brackets with spaces than to modify the main
 </span>  <span class='comment'>#regexp to take them into account
 </span>  <span class='id str'>str</span> <span class='op'>=</span> <span class='id str'>str</span><span class='period'>.</span><span class='id gsub'>gsub</span> <span class='tstring'><span class='regexp_beg'>%r|</span><span class='tstring_content'>['&quot;`&lt;&gt;\(\)\[\]\{\}]</span><span class='regexp_end'>|</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'> </span><span class='tstring_end'>'</span></span>
-  <span class='id reg'>reg</span> <span class='op'>=</span> <span class='tstring'><span class='regexp_beg'>%r{</span><span class='tstring_content'>(?: #This is the grouping for the big or operator
-          (?:\s|^) #Here starts the first alternative. The filename must either
-                   #come after a whitespace or at the beginning of the string
-          ( #Here starts the capturing group for the filename
-          (?: #We have to consider separately strings with a known start (the
-              # first branch of the |) and files without a definite start
-              # containing a slash (the second branch)
-          (?:/|~|\.\.?) # This non-capturing group is for the beginning of
-                         # the file. It may start with a slash (absolute path),
-                         # a tilde (absolute path for the home directory)
-                         # or a dot (relative path)
-          [^\s:]* # The start of the filename is followed by any number of
-                  # non-space, non-colon character
-          |[^\s:/]+/[^\s:/]*) #here we deal with files starting with any other
-                              #character and containing at least one slash
-          [^\s:/]) # and by at least one non-colon, non-space and non-slash
-                   # character (to attempt to avoid directories, which may
-                   # end with a slash)
-          (?:\s|$|(?::(\d+)))) # the file name can be followed by either a
-                               # space, the end of the string or a colon and
-                               # some digits (the line number)
-          |(?:([^\s]+):(\d+) # Here's the second alternative: anything except
-                             # a space followed by a colon and at least one
-                             # digit (the line number)
-</span><span class='tstring_content'>          ) #The end of the large group</span><span class='regexp_end'>}x</span></span>
-  <span class='id match'>match</span> <span class='op'>=</span> <span class='id reg'>reg</span><span class='period'>.</span><span class='id match'>match</span> <span class='id str'>str</span>
+  <span class='id matches'>matches</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='id attempts'>attempts</span> <span class='op'>=</span> <span class='lbracket'>[</span>
+    <span class='tstring'><span class='regexp_beg'>%r{</span><span class='tstring_content'>(?:^|\s)([\w+.-]+:/{1,2}(?:/[^/:\s]+)+)(?::(\d+))?(?:$|[,.;:\s])</span><span class='regexp_end'>}</span></span><span class='comma'>,</span> <span class='comment'>#URLS
+</span>    <span class='tstring'><span class='regexp_beg'>%r{</span><span class='tstring_content'>(?:^|\s)((?:/[^/\s:]+)+)(?::(\d+))?(?:$|[,.;:\s])</span><span class='regexp_end'>}</span></span><span class='comma'>,</span> <span class='comment'>#absolute files
+</span>    <span class='comment'>#absolute files referring to user home directory: ~/xyz or ~user/xyz
+</span>    <span class='tstring'><span class='regexp_beg'>%r{</span><span class='tstring_content'>(?:^|\s)(~[\w_-]*(?:/[^/\s:]+)+)(?::(\d+))?(?:$|[,.;:\s])</span><span class='regexp_end'>}</span></span><span class='comma'>,</span>
+    <span class='comment'>#relative files starting with ./ and ../
+</span>    <span class='tstring'><span class='regexp_beg'>%r{</span><span class='tstring_content'>(?:^|\s)(\.{1,2}(?:/[^/\s:]+)+)(?::(\d+))?(?:$|[,.;:\s])</span><span class='regexp_end'>}</span></span><span class='comma'>,</span>
+    <span class='comment'>#hidden files or directories (.filename or .dir/filename)
+</span>    <span class='tstring'><span class='regexp_beg'>%r{</span><span class='tstring_content'>(?:^|\s)(\.[^/\s:]+(?:/[^/\s:]+)*)(?::(\d+))?(?:$|[,.;:\s])</span><span class='regexp_end'>}</span></span><span class='comma'>,</span>
+    <span class='comment'>#relative files containing, but not ending with a slash
+</span>    <span class='tstring'><span class='regexp_beg'>%r{</span><span class='tstring_content'>(?:^|\s)([^/\s:]+/[^\s:]*[^\s/:])(?::(\d+))?(?:$|[,.;:\s])</span><span class='regexp_end'>}</span></span><span class='comma'>,</span>
+    <span class='comment'>#relative files not containing slashes but ending with the line number
+</span>    <span class='tstring'><span class='regexp_beg'>%r{</span><span class='tstring_content'>(?:^|\s)([^/\s:]+):(\d+)(?:$|[,.;:\s])</span><span class='regexp_end'>}</span></span>
+  <span class='rbracket'>]</span>
+  <span class='id attempts'>attempts</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id a'>a</span><span class='op'>|</span>
+    <span class='id m'>m</span> <span class='op'>=</span> <span class='id str'>str</span><span class='period'>.</span><span class='id match'>match</span> <span class='id a'>a</span>
+    <span class='id matches'>matches</span> <span class='op'>&lt;&lt;</span> <span class='lbracket'>[</span><span class='id m'>m</span><span class='period'>.</span><span class='id begin'>begin</span><span class='lparen'>(</span><span class='int'>0</span><span class='rparen'>)</span><span class='comma'>,</span><span class='lbracket'>[</span><span class='backref'>$1</span><span class='comma'>,</span><span class='backref'>$2</span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id m'>m</span>
+  <span class='kw'>end</span>
+  <span class='id d'>d</span> <span class='id str'>str</span>
+  <span class='id d'>d</span> <span class='id matches'>matches</span>
+  <span class='id match'>match</span> <span class='op'>=</span> <span class='id matches'>matches</span><span class='period'>.</span><span class='id sort_by'>sort_by</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span> <span class='id i'>i</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
   <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id match'>match</span>
-  <span class='id file'>file</span> <span class='op'>=</span> <span class='id match'>match</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id match'>match</span><span class='lbracket'>[</span><span class='int'>3</span><span class='rbracket'>]</span>
-  <span class='id ln'>ln</span> <span class='op'>=</span> <span class='id match'>match</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>?</span> <span class='id match'>match</span><span class='lbracket'>[</span><span class='int'>2</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='id match'>match</span><span class='lbracket'>[</span><span class='int'>4</span><span class='rbracket'>]</span>
+  <span class='id file'>file</span><span class='comma'>,</span> <span class='id line'>line</span> <span class='op'>=</span> <span class='op'>*</span><span class='id match'>match</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span>
   <span class='id file'>file</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id expand_path'>expand_path</span><span class='lparen'>(</span><span class='id file'>file</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id file'>file</span><span class='period'>.</span><span class='id start_with?'>start_with?</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>~</span><span class='tstring_end'>'</span></span>
   <span class='id res'>res</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id file'>file</span><span class='rbracket'>]</span>
-  <span class='id res'>res</span> <span class='op'>&lt;&lt;</span> <span class='id ln'>ln</span><span class='period'>.</span><span class='id to_i'>to_i</span> <span class='kw'>if</span> <span class='id ln'>ln</span>
+  <span class='id res'>res</span> <span class='op'>&lt;&lt;</span> <span class='id line'>line</span><span class='period'>.</span><span class='id to_i'>to_i</span> <span class='kw'>if</span> <span class='id line'>line</span>
   <span class='id res'>res</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -2861,12 +2876,19 @@ permanently changing the autoscrolling setting.</p>
 </p>
 </div>
     
+      <div class="method_details ">
+  <p class="signature " id="about_to_fill_menu-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>about_to_fill_menu</strong> 
+</p>
+</div>
+    
   </div>
 
 </div>
     
     <div id="footer">
-  Generated on Fri Oct 29 12:52:53 2010 by 
+  Generated on Sat Nov 13 18:00:49 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.1 (ruby-1.9.2).
 </div>

@@ -646,6 +646,8 @@ was according to the user preferences.</p>
 	<li><code>:open_documents</code>: an array with the name of the file corresponding to each
  open document (documents without an associated file can&#8217;t be restored and aren&#8217;t
  included). The order is that of opening</li>
+	<li><code>:visible_documents</code>: an array with the name of the files corresponding to the
+ documents associated with a file and having a view</li>
 	<li><code>:active_document</code>: the name of the file associated with the active document or
  <strong>nil</strong> if there&#8217;s no open document</li>
 </ul></div>
@@ -673,7 +675,9 @@ was according to the user preferences.</p>
 323
 324
 325
-326</pre>
+326
+327
+328</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 313</span>
@@ -686,9 +690,11 @@ was according to the user preferences.</p>
     <span class='id projects'>projects</span><span class='period'>.</span><span class='id unshift'>unshift</span> <span class='id projects'>projects</span><span class='period'>.</span><span class='id delete'>delete</span><span class='lparen'>(</span><span class='id active_prj'>active_prj</span><span class='period'>.</span><span class='id project_file'>project_file</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id active_prj'>active_prj</span>
   <span class='kw'>end</span>
   <span class='id res'>res</span><span class='lbracket'>[</span><span class='symbol'>:open_projects</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id projects'>projects</span>
-  <span class='id docs'>docs</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:docs</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id documents'>documents</span><span class='period'>.</span><span class='id map'>map</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id doc'>doc</span><span class='op'>|</span> <span class='id doc'>doc</span><span class='period'>.</span><span class='id path'>path</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id select'>select</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id path'>path</span><span class='op'>|</span> <span class='op'>!</span><span class='id path'>path</span><span class='period'>.</span><span class='id empty?'>empty?</span><span class='rbrace'>}</span>
-  <span class='id res'>res</span><span class='lbracket'>[</span><span class='symbol'>:open_documents</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id docs'>docs</span>
-  <span class='id current_doc'>current_doc</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current_document'>current_document</span><span class='period'>.</span><span class='id path'>path</span> <span class='kw'>rescue</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span>
+  <span class='id docs'>docs</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:docs</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id documents'>documents</span><span class='period'>.</span><span class='id select'>select</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id d'>d</span><span class='op'>|</span> <span class='id d'>d</span><span class='period'>.</span><span class='id has_file?'>has_file?</span><span class='rbrace'>}</span>
+  <span class='id res'>res</span><span class='lbracket'>[</span><span class='symbol'>:open_documents</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id docs'>docs</span><span class='period'>.</span><span class='id map'>map</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id doc'>doc</span><span class='op'>|</span> <span class='id doc'>doc</span><span class='period'>.</span><span class='id url'>url</span><span class='period'>.</span><span class='id to_encoded'>to_encoded</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='rbrace'>}</span>
+  <span class='id visible_docs'>visible_docs</span> <span class='op'>=</span> <span class='id docs'>docs</span><span class='period'>.</span><span class='id select'>select</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id d'>d</span><span class='op'>|</span> <span class='id d'>d</span><span class='period'>.</span><span class='id view'>view</span><span class='rbrace'>}</span>
+  <span class='id res'>res</span><span class='lbracket'>[</span><span class='symbol'>:visible_documents</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id visible_docs'>visible_docs</span><span class='period'>.</span><span class='id map'>map</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id d'>d</span><span class='op'>|</span> <span class='id d'>d</span><span class='period'>.</span><span class='id url'>url</span><span class='period'>.</span><span class='id to_encoded'>to_encoded</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='rbrace'>}</span>
+  <span class='id current_doc'>current_doc</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current_document'>current_document</span><span class='period'>.</span><span class='id url'>url</span><span class='period'>.</span><span class='id to_encoded'>to_encoded</span><span class='period'>.</span><span class='id to_s'>to_s</span> <span class='kw'>rescue</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span>
   <span class='id res'>res</span><span class='lbracket'>[</span><span class='symbol'>:active_document</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id current_doc'>current_doc</span><span class='period'>.</span><span class='id empty?'>empty?</span> <span class='op'>?</span> <span class='kw'>nil</span> <span class='op'>:</span> <span class='id current_doc'>current_doc</span>
   <span class='id res'>res</span>
 <span class='kw'>end</span></pre>
@@ -968,7 +974,18 @@ up (if the user chose so).</p>
 219
 220
 221
-222</pre>
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 210</span>
@@ -980,9 +997,20 @@ up (if the user chose so).</p>
   <span class='id active_file'>active_file</span> <span class='op'>=</span> <span class='id config'>config</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='comma'>,</span> <span class='symbol'>:active_document</span><span class='rbracket'>]</span>
   <span class='id active_file'>active_file</span> <span class='op'>=</span> <span class='id files'>files</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='id files'>files</span><span class='period'>.</span><span class='id include?'>include?</span> <span class='id active_file'>active_file</span>
   <span class='id mw'>mw</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span>
+  <span class='id docs'>docs</span> <span class='op'>=</span> <span class='id files'>files</span><span class='period'>.</span><span class='id map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id f'>f</span><span class='op'>|</span>
+    <span class='lbracket'>[</span><span class='id f'>f</span><span class='comma'>,</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:docs</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id document'>document</span><span class='lparen'>(</span><span class='id f'>f</span><span class='rparen'>)</span><span class='rbracket'>]</span> <span class='kw'>rescue</span> <span class='kw'>nil</span>
+  <span class='kw'>end</span>
+  <span class='id docs'>docs</span> <span class='op'>=</span> <span class='id docs'>docs</span><span class='period'>.</span><span class='id compact'>compact</span><span class='period'>.</span><span class='id to_h'>to_h</span>
+  <span class='id visible_files'>visible_files</span> <span class='op'>=</span> <span class='id config'>config</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='comma'>,</span> <span class='symbol'>:visible_documents</span><span class='rbracket'>]</span>
+  <span class='id visible_files'>visible_files</span> <span class='op'>&amp;=</span> <span class='id docs'>docs</span><span class='period'>.</span><span class='id keys'>keys</span>
+  <span class='id editors'>editors</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
   <span class='id mw'>mw</span><span class='period'>.</span><span class='id without_activating'>without_activating</span> <span class='kw'>do</span>
-    <span class='id files'>files</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id f'>f</span><span class='op'>|</span> <span class='id ed'>ed</span> <span class='op'>=</span> <span class='id mw'>mw</span><span class='period'>.</span><span class='id editor_for!'>editor_for!</span> <span class='id f'>f</span><span class='rbrace'>}</span>
-    <span class='id mw'>mw</span><span class='period'>.</span><span class='id display_document'>display_document</span> <span class='id active_file'>active_file</span>
+    <span class='id visible_files'>visible_files</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id f'>f</span><span class='op'>|</span> 
+      <span class='id editors'>editors</span> <span class='op'>&lt;&lt;</span> <span class='id mw'>mw</span><span class='period'>.</span><span class='id editor_for!'>editor_for!</span><span class='lparen'>(</span><span class='id docs'>docs</span><span class='lbracket'>[</span><span class='id f'>f</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+    <span class='id active_url'>active_url</span> <span class='op'>=</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Url</span><span class='period'>.</span><span class='id new'>new</span> <span class='id active_file'>active_file</span>
+    <span class='id active_doc'>active_doc</span> <span class='op'>=</span> <span class='id docs'>docs</span><span class='lbracket'>[</span><span class='id active_file'>active_file</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id editors'>editors</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id document'>document</span>
+    <span class='id mw'>mw</span><span class='period'>.</span><span class='id display_document'>display_document</span> <span class='id active_doc'>active_doc</span>
   <span class='kw'>end</span>
   <span class='kw'>nil</span>
 <span class='kw'>end</span></pre>
@@ -1608,7 +1636,7 @@ files in projects should be restored, regardless of what the user chose</p>
 </div>
     
     <div id="footer">
-  Generated on Fri Oct 29 12:52:50 2010 by 
+  Generated on Sun Nov 14 17:10:00 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.1 (ruby-1.9.2).
 </div>

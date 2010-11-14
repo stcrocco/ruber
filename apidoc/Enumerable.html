@@ -63,7 +63,9 @@
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">lib/ruber/utils.rb</dd>
+    <dd class="r2 last">lib/ruber/utils.rb<span class="defines">,<br />
+  lib/ruber/utils.rb</span>
+</dd>
   
 </dl>
 <div class="clear"></div>
@@ -135,13 +137,20 @@ value of the block</p>
 <p>It works like <code>Enumerable#find</code>, but, instead of returning the element for which
 the block returned a true value, it returns the value returned by the block.
 if the block returns <strong>nil</strong> or <strong>false</strong> for all elements</p>
-<p>[1, 2, 3, 4].find!{|i| 2*i if i &gt; 2}
-=&gt; 6 #(3*2)</p>
 
   </div>
 </div>
 <div class="tags">
-  <h3>Yields:</h3>
+  
+  <div class="examples">
+    <h3>Examples:</h3>
+    
+      <h4><div class='inline'><p>Using <code>find!</code></p></div></h4>
+      <pre class="example code">[1, 2, 3, 4].find!{|i| 2*i if i &gt; 2}
+=&gt; 6 #(3*2)</pre>
+    
+  </div>
+<h3>Yields:</h3>
 <ul class="yield">
   
     <li>
@@ -180,16 +189,16 @@ if the block returns <strong>nil</strong> or <strong>false</strong> for all elem
       <pre class="lines">
 
 
-306
 307
 308
 309
 310
 311
-312</pre>
+312
+313</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/utils.rb', line 306</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/utils.rb', line 307</span>
 
 <span class='kw'>def</span> <span class='id find!'>find!</span>
   <span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id obj'>obj</span><span class='op'>|</span>
@@ -208,7 +217,7 @@ if the block returns <strong>nil</strong> or <strong>false</strong> for all elem
 </div>
     
     <div id="footer">
-  Generated on Fri Oct 29 12:52:46 2010 by 
+  Generated on Thu Nov 11 12:12:04 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.1 (ruby-1.9.2).
 </div>

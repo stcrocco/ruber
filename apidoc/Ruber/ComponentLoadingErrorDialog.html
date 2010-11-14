@@ -85,22 +85,29 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p>ExceptionDialog specialized to display failures when loading plugins and components.
-It differs from ExceptionDialog in the following aspects:</p>
+    <p>ExceptionDialog specialized to display failures when loading plugins and components.</p>
+<p>It differs from <span class='object_link'><a href="ExceptionDialog.html" title="Ruber::ExceptionDialog (class)">ExceptionDialog</a></span> in the following aspects:</p>
 <ul>
 	<li>it provides different buttons</li>
-	<li>it provides a check box to decide whether or not to warn of other errors while
+	<li>it provides a check box to decide whether or not to warn of subsequent errors while
   loading plugins</li>
-	<li>its exec method provides values suitable to be returned from a block passed to
-  <tt>ComponentManager#load_plugins</tt></li>
+	<li>its #ComponentLoadingErrorDialog.exec method provides values suitable to be returned from a block passed to
+  <span class='object_link'><a href="ComponentManager.html#load_plugins-instance_method" title="Ruber::ComponentManager#load_plugins (method)">ComponentManager#load_plugins</a></span></li>
 	<li>it provides an appropriate text</li>
 </ul>
-<p>The provided buttons are: &#8216;Go on&#8217;, &#8216;Quit&#8217; and &#8216;Skip remaining&#8217;, which respectively
-mean: ignore the failure and attempt to load the remaining plugins, quit Ruber
-and go on without attempting to load other plugins.</p>
-<p>If the exception was raised while loading a core plugin, the dialog will behave
-exactly as an ExceptionDialog (since you can&#8217;t start Ruber without one of the core
-components, the other buttons and the checkbox would be useless)</p>
+<p>The buttons on the dialog are:</p>
+<dl>
+	<dt>Go on:</dt>
+	<dd>ignore the failure and attempt to load the remaining plugins, hoping
+  everything goes well</dd>
+	<dt>Quit:</dt>
+	<dd>immediately quit Ruber</dd>
+	<dt>Skip remaining:</dt>
+	<dd>ignore the failure, but don&#8217;t attempt to load any other plugin</dd>
+</dl>
+<p>If the exception was raised while loading a core component, the dialog will behave
+exactly as an <span class='object_link'><a href="ExceptionDialog.html" title="Ruber::ExceptionDialog (class)">ExceptionDialog</a></span> (since you can&#8217;t start Ruber without one of the core
+components, the other buttons and the checkbox would be useless).</p>
 
   </div>
 </div>
@@ -126,7 +133,7 @@ components, the other buttons and the checkbox would be useless)</p>
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#exec-instance_method" title="#exec (instance method)">- (Object) <strong>exec</strong> </a>
+      <a href="#exec-instance_method" title="#exec (instance method)">- (Boolean, Symbol) <strong>exec</strong> </a>
     
 
     
@@ -139,9 +146,7 @@ components, the other buttons and the checkbox would be useless)</p>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Override of <tt>ExceptionDialog#exec</tt> which, depending on the choices made by
-the user, returns a value suitable to be returned by the block passed to
-<tt>ComponentManager#load_plugins</tt>.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Override of <span class='object_link'><a href="ExceptionDialog.html#exec-instance_method" title="Ruber::ExceptionDialog#exec (method)">ExceptionDialog#exec</a></span>.</p></div></span>
   
 </li>
 
@@ -165,7 +170,7 @@ the user, returns a value suitable to be returned by the block passed to
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Creates a new dialog.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>A new instance of ComponentLoadingErrorDialog.</p></div></span>
   
 </li>
 
@@ -174,7 +179,7 @@ the user, returns a value suitable to be returned by the block passed to
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#silently%3F-instance_method" title="#silently? (instance method)">- (Boolean) <strong>silently?</strong> </a>
+      <a href="#silently%3F-instance_method" title="#silently? (instance method)">- (Boolean<sup>?</sup>) <strong>silently?</strong> </a>
     
 
     
@@ -187,7 +192,7 @@ the user, returns a value suitable to be returned by the block passed to
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Tells whether the user decided to ignore other errors while loading plugins.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Whether or not the user checked to ignore subsequent errors.</p></div></span>
   
 </li>
 
@@ -224,43 +229,103 @@ the user, returns a value suitable to be returned by the block passed to
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Creates a new dialog. <em>plugin</em> is the name of the plugin loading which the error
-occurred. <em>ex</em> is the exception describing the error. <em>parent</em> is the dialog&#8217;s
-parent widget and <em>core</em> tells whether the failure occurred while loading a core
-component or a plugin (this affects which widgets will be shown in the dialog)</p>
+    <p>A new instance of ComponentLoadingErrorDialog</p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
   
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>, <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>plugin</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the name of the component which caused the exception</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Exception</tt>)</span>
+      
+      
+        <span class='name'>ex</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the exception which was raised</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Qt::Widget</tt>, <tt>nil</tt>)</span>
+      
+      
+        <span class='name'>the</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>parent widget</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <span class='name'>core</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>whether the component which caused the failure is a core
+component or a plugin</p></div>
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-165
-166
-167
-168
-169
-170
-171
-172
-173
-174
-175
-176
-177
-178
-179
-180
-181
-182
-183</pre>
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/exception_widgets.rb', line 165</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/exception_widgets.rb', line 188</span>
 
 <span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id plugin'>plugin</span><span class='comma'>,</span> <span class='id ex'>ex</span><span class='comma'>,</span> <span class='id parent'>parent</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id core'>core</span> <span class='op'>=</span> <span class='kw'>false</span>
   <span class='id msg'>msg</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>An error occurred while loading the </span><span class='embexpr_beg'>#{</span><span class='id core'>core</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>component</span><span class='tstring_end'>'</span></span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>plugin</span><span class='tstring_end'>'</span></span> <span class='rbrace'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id plugin'>plugin</span><span class='rbrace'>}</span><span class='tstring_content'>. The error was:</span><span class='tstring_end'>&quot;</span></span>
@@ -296,42 +361,62 @@ component or a plugin (this affects which widgets will be shown in the dialog)</
       <div class="method_details first">
   <p class="signature first" id="exec-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>exec</strong> 
+    - (<tt>Boolean</tt>, <tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>) <strong>exec</strong> 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Override of <tt>ExceptionDialog#exec</tt> which, depending on the choices made by
-the user, returns a value suitable to be returned by the block passed to
-<tt>ComponentManager#load_plugins</tt>. In particular, it returns:
-<strong>true</strong>:: if the user pressed the &#8220;Go on&#8221; button and left the checkbox empty
-<tt>:silent</tt>:: if the user pressed the &#8220;Go on&#8221; button and checked the check box
-<strong>false</strong>:: if the user pressed the &#8220;Quit&#8221; button
-<ins>:skip</ins>:: if the user pressed the &#8220;Skip&#8221; button</p>
+    <p>Override of <span class='object_link'><a href="ExceptionDialog.html#exec-instance_method" title="Ruber::ExceptionDialog#exec (method)">ExceptionDialog#exec</a></span></p>
+<p>It returns a different value according to the button pressed by the user and to
+whether he checked the &#8220;Don&#8217;t report other errors&#8221; checkbox. The returned values
+are suitable for use by a block passed to <span class='object_link'><a href="ComponentManager.html#load_plugins-instance_method" title="Ruber::ComponentManager#load_plugins (method)">Ruber::ComponentManager#load_plugins</a></span>.</p>
+<dl>
+	<dt><strong>true</strong></dt>
+	<dd>if the user pressed the &#8220;Go on&#8221; button without checking the checkbox</dd>
+	<dt><code>:silent</code></dt>
+	<dd>if the user pressed the &#8220;Go on&#8221; button and checked the checkbox</dd>
+	<dt><strong>false</strong></dt>
+	<dd>if the user pressed the &#8220;Quit&#8221; button</dd>
+	<dt><code>:skip</code></dt>
+	<dd>if the user pressed the &#8220;Skip&#8221; button</dd>
+</dl>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
   
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>, <tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-203
-204
-205
-206
-207
-208
-209
-210
-211</pre>
+233
+234
+235
+236
+237
+238
+239
+240
+241</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/exception_widgets.rb', line 203</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/exception_widgets.rb', line 233</span>
 
 <span class='kw'>def</span> <span class='id exec'>exec</span>
   <span class='id res'>res</span> <span class='op'>=</span> <span class='kw'>super</span>
@@ -350,15 +435,13 @@ the user, returns a value suitable to be returned by the block passed to
       <div class="method_details ">
   <p class="signature " id="silently?-instance_method">
   
-    - (<tt>Boolean</tt>) <strong>silently?</strong> 
+    - (<tt>Boolean</tt><sup>?</sup>) <strong>silently?</strong> 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Tells whether the user decided to ignore other errors while loading plugins. If
-the dialog is shown for a core component (and so the check box isn&#8217;t displayed),
-this method always returns <strong>nil</strong></p>
+    <p>Whether or not the user checked to ignore subsequent errors</p>
 
   </div>
 </div>
@@ -368,10 +451,15 @@ this method always returns <strong>nil</strong></p>
   
     <li>
       
-        <span class='type'>(<tt>Boolean</tt>)</span>
+        <span class='type'>(<tt>Boolean</tt>, <tt>nil</tt>)</span>
       
       
       
+      
+        &mdash;
+        <div class='inline'><p><strong>true</strong> if the user checked the &#8220;Don&#8217;t report other errors&#8221; check
+box and <strong>false</strong> otherwise. If the dialog is shown for a core
+component, this method always returns <strong>nil</strong></p></div>
       
     </li>
   
@@ -383,12 +471,12 @@ this method always returns <strong>nil</strong></p>
       <pre class="lines">
 
 
-190
-191
-192</pre>
+215
+216
+217</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/exception_widgets.rb', line 190</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/exception_widgets.rb', line 215</span>
 
 <span class='kw'>def</span> <span class='id silently?'>silently?</span>
   <span class='ivar'>@silent</span><span class='period'>.</span><span class='id checked?'>checked?</span> <span class='kw'>rescue</span> <span class='kw'>nil</span>
@@ -405,7 +493,7 @@ this method always returns <strong>nil</strong></p>
 </div>
     
     <div id="footer">
-  Generated on Fri Oct 29 12:52:56 2010 by 
+  Generated on Sat Nov  6 13:29:07 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.1 (ruby-1.9.2).
 </div>

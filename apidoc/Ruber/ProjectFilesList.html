@@ -680,12 +680,24 @@ and the extensions.</p>
 250
 251
 252
-253</pre>
+253
+254
+255
+256
+257
+258
+259</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_files_list.rb', line 238</span>
 
 <span class='kw'>def</span> <span class='id file_in_project?'>file_in_project?</span> <span class='id file'>file</span>
+  <span class='kw'>if</span> <span class='id file'>file</span><span class='period'>.</span><span class='id match'>match</span> <span class='tstring'><span class='regexp_beg'>%r{</span><span class='tstring_content'>^([\w+-.]+)://(.+)</span><span class='regexp_end'>}</span></span>
+    <span class='kw'>if</span> <span class='backref'>$1</span> <span class='op'>!=</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>file</span><span class='tstring_end'>'</span></span> <span class='kw'>then</span> <span class='kw'>return</span> <span class='kw'>false</span>
+    <span class='kw'>else</span> 
+      <span class='id file'>file</span> <span class='op'>=</span> <span class='backref'>$2</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
   <span class='id file'>file</span> <span class='op'>=</span> <span class='id file'>file</span><span class='period'>.</span><span class='id sub'>sub</span> <span class='tstring'><span class='regexp_beg'>%r[</span><span class='tstring_content'>^</span><span class='embexpr_beg'>#{</span><span class='const'>Regexp</span><span class='period'>.</span><span class='id quote'>quote</span><span class='lparen'>(</span><span class='ivar'>@project</span><span class='period'>.</span><span class='id project_directory'>project_directory</span><span class='rparen'>)</span><span class='rbrace'>}</span><span class='tstring_content'>/</span><span class='regexp_end'>]</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span>
   <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>if</span> <span class='id file'>file</span><span class='period'>.</span><span class='id start_with?'>start_with?</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/</span><span class='tstring_end'>'</span></span>
   <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='id file'>file</span><span class='period'>.</span><span class='id end_with?'>end_with?</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/</span><span class='tstring_end'>'</span></span>
@@ -1042,7 +1054,7 @@ threads. This created problems with syntax checker, for example.</p>
 </div>
     
     <div id="footer">
-  Generated on Fri Oct 29 12:53:05 2010 by 
+  Generated on Sat Nov 13 18:00:52 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.1 (ruby-1.9.2).
 </div>

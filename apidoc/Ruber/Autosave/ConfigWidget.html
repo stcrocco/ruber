@@ -76,7 +76,9 @@
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">plugins/autosave/autosave.rb</dd>
+    <dd class="r2 last">plugins/autosave/autosave.rb<span class="defines">,<br />
+  plugins/autosave/autosave.rb</span>
+</dd>
   
 </dl>
 <div class="clear"></div>
@@ -90,6 +92,26 @@
 <div class="tags">
   
 </div>
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="REMOTE_FILES_MODE-constant" class="">REMOTE_FILES_MODE =
+          <div class="docstring">
+  <div class="discussion">
+    <p>Associations between remote files behaviour and entries in the Remote files widget</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbrace'>{</span><span class='symbol'>:normal</span> <span class='op'>=&gt;</span> <span class='int'>0</span><span class='comma'>,</span> <span class='symbol'>:skip</span> <span class='op'>=&gt;</span> <span class='int'>1</span><span class='comma'>,</span> <span class='symbol'>:ignore</span> <span class='op'>=&gt;</span> <span class='int'>2</span><span class='rbrace'>}</span></pre></dd>
+      
+    </dl>
+  
+
 
   
 
@@ -187,6 +209,51 @@
 
   
     <span class="summary_desc"><div class='inline'><p>Changes the status of the Plugins widget according to the given value.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#remote_files-instance_method" title="#remote_files (instance method)">- (Symbol) <strong>remote_files</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The symbol associated with the entry selected in the remote files
+widget according to <span class='object_link'><a href="#REMOTE_FILES_MODE-constant" title="Ruber::Autosave::ConfigWidget::REMOTE_FILES_MODE (constant)">ConfigWidget::REMOTE_FILES_MODE</a></span>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#remote_files%3D-instance_method" title="#remote_files= (instance method)">- (nil) <strong>remote_files</strong>(val) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Selects the appropriate entry from the remote file combo box.</p></div></span>
   
 </li>
 
@@ -489,6 +556,132 @@ to plugins without a corresponding entry in the wigdet are added</p>
 </table>
 </div>
     
+      <div class="method_details ">
+  <p class="signature " id="remote_files-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>) <strong>remote_files</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The symbol associated with the entry selected in the remote files
+widget according to <span class='object_link'><a href="#REMOTE_FILES_MODE-constant" title="Ruber::Autosave::ConfigWidget::REMOTE_FILES_MODE (constant)">REMOTE_FILES_MODE</a></span></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the symbol associated with the entry selected in the remote files
+widget according to <span class='object_link'><a href="#REMOTE_FILES_MODE-constant" title="Ruber::Autosave::ConfigWidget::REMOTE_FILES_MODE (constant)">REMOTE_FILES_MODE</a></span></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+457
+458
+459</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/autosave/autosave.rb', line 457</span>
+
+<span class='kw'>def</span> <span class='id remote_files'>remote_files</span>
+  <span class='const'>REMOTE_FILES_MODE</span><span class='period'>.</span><span class='id invert'>invert</span><span class='lbracket'>[</span><span class='ivar'>@ui</span><span class='period'>.</span><span class='id _autosave__remote_files'>_autosave__remote_files</span><span class='period'>.</span><span class='id current_index'>current_index</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="remote_files=-instance_method">
+  
+    - (<tt>nil</tt>) <strong>remote_files=</strong>(val)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Selects the appropriate entry from the remote file combo box</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
+      
+      
+        <span class='name'>val</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the bheaviour with respect to remote files. It can be one of
+<code>:normal</code>, <code>:skip</code> or <code>:ignore</code></p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+447
+448
+449
+450
+451</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/autosave/autosave.rb', line 447</span>
+
+<span class='kw'>def</span> <span class='id remote_files='>remote_files=</span> <span class='id val'>val</span>
+  <span class='id mode'>mode</span> <span class='op'>=</span> 
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id _autosave__remote_files'>_autosave__remote_files</span><span class='period'>.</span><span class='id current_index'>current_index</span> <span class='op'>=</span> <span class='const'>REMOTE_FILES_MODE</span><span class='lbracket'>[</span><span class='id val'>val</span><span class='rbracket'>]</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
   </div>
 
 
@@ -496,7 +689,7 @@ to plugins without a corresponding entry in the wigdet are added</p>
 </div>
     
     <div id="footer">
-  Generated on Fri Oct 29 12:52:55 2010 by 
+  Generated on Thu Nov 11 12:12:08 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.1 (ruby-1.9.2).
 </div>

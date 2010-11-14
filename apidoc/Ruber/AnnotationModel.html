@@ -80,7 +80,9 @@
   
   
     <dt class="r1 last">Defined in:</dt>
-    <dd class="r1 last">lib/ruber/editor/document.rb</dd>
+    <dd class="r1 last">lib/ruber/editor/document.rb<span class="defines">,<br />
+  lib/ruber/editor/document.rb</span>
+</dd>
   
 </dl>
 <div class="clear"></div>
@@ -431,6 +433,38 @@
       <span class="summary_desc"><div class='inline'></div></span>
     </li>
   
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#annotations_changed-signalcode" title="annotations_changed (signalcode)">- <strong>annotations_changed</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#annotation_changed-signalcode" title="annotation_changed (signalcode)">- <strong>annotation_changed</strong>(int arg1) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#annotations_changed-signalcode" title="annotations_changed (signalcode)">- <strong>annotations_changed</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#annotation_changed-signalcode" title="annotation_changed (signalcode)">- <strong>annotation_changed</strong>(int arg1) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
+  
   </ul>
 
 
@@ -461,15 +495,15 @@
       <pre class="lines">
 
 
-434
-435
-436
-437
-438
-439</pre>
+456
+457
+458
+459
+460
+461</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/editor/document.rb', line 434</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/editor/document.rb', line 456</span>
 
 <span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id doc'>doc</span>
   <span class='kw'>super</span><span class='lparen'>(</span><span class='rparen'>)</span>
@@ -511,12 +545,12 @@
       <pre class="lines">
 
 
-425
-426
-427</pre>
+447
+448
+449</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/editor/document.rb', line 425</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/editor/document.rb', line 447</span>
 
 <span class='kw'>def</span> <span class='id annotation_types'>annotation_types</span>
   <span class='ivar'>@annotation_types</span>
@@ -567,14 +601,14 @@
       <pre class="lines">
 
 
-428
-429
-430
-431
-432</pre>
+450
+451
+452
+453
+454</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/editor/document.rb', line 428</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/editor/document.rb', line 450</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id register_annotation_type'>register_annotation_type</span> <span class='id type'>type</span><span class='comma'>,</span> <span class='id back'>back</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id fore'>fore</span> <span class='op'>=</span> <span class='kw'>nil</span>
   <span class='id raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Annotation type </span><span class='embexpr_beg'>#{</span><span class='id type'>type</span><span class='rbrace'>}</span><span class='tstring_content'> has already been added</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> 
@@ -605,25 +639,25 @@
       <pre class="lines">
 
 
-441
-442
-443
-444
-445
-446
-447
-448
-449
-450
-451
-452
-453
-454
-455
-456</pre>
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/editor/document.rb', line 441</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/editor/document.rb', line 463</span>
 
 <span class='kw'>def</span> <span class='id add_annotation'>add_annotation</span> <span class='op'>*</span><span class='id args'>args</span>
   <span class='id a'>a</span> <span class='op'>=</span> <span class='id args'>args</span><span class='period'>.</span><span class='id size'>size</span> <span class='op'>==</span> <span class='int'>1</span> <span class='op'>?</span> <span class='id args'>args</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='const'>Annotation</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span> <span class='op'>*</span><span class='id args'>args</span> <span class='rparen'>)</span>
@@ -663,12 +697,12 @@
       <pre class="lines">
 
 
-470
-471
-472</pre>
+492
+493
+494</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/editor/document.rb', line 470</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/editor/document.rb', line 492</span>
 
 <span class='kw'>def</span> <span class='id annotation'>annotation</span> <span class='id line'>line</span>
   <span class='ivar'>@annotations</span><span class='lbracket'>[</span><span class='id line'>line</span><span class='rbracket'>]</span>
@@ -691,14 +725,14 @@
       <pre class="lines">
 
 
-487
-488
-489
-490
-491</pre>
+509
+510
+511
+512
+513</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/editor/document.rb', line 487</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/editor/document.rb', line 509</span>
 
 <span class='kw'>def</span> <span class='id clear'>clear</span>
   <span class='ivar'>@annotations</span><span class='period'>.</span><span class='id clear'>clear</span>
@@ -723,20 +757,20 @@
       <pre class="lines">
 
 
-458
-459
-460
-461
-462
-463
-464
-465
-466
-467
-468</pre>
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/editor/document.rb', line 458</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/editor/document.rb', line 480</span>
 
 <span class='kw'>def</span> <span class='id data'>data</span> <span class='id line'>line</span><span class='comma'>,</span> <span class='id role'>role</span>
   <span class='id a'>a</span> <span class='op'>=</span> <span class='ivar'>@annotations</span><span class='lbracket'>[</span><span class='id line'>line</span><span class='rbracket'>]</span>
@@ -767,12 +801,12 @@
       <pre class="lines">
 
 
-500
-501
-502</pre>
+522
+523
+524</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/editor/document.rb', line 500</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/editor/document.rb', line 522</span>
 
 <span class='kw'>def</span> <span class='id each'>each</span>
   <span class='ivar'>@annotations</span><span class='period'>.</span><span class='id each_pair'>each_pair</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id k'>k</span><span class='comma'>,</span> <span class='id v'>v</span><span class='op'>|</span> <span class='kw'>yield</span> <span class='id v'>v</span><span class='rbrace'>}</span>
@@ -816,12 +850,12 @@
       <pre class="lines">
 
 
-483
-484
-485</pre>
+505
+506
+507</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/editor/document.rb', line 483</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/editor/document.rb', line 505</span>
 
 <span class='kw'>def</span> <span class='id empty?'>empty?</span>
   <span class='ivar'>@annotations</span><span class='period'>.</span><span class='id empty?'>empty?</span>
@@ -865,12 +899,12 @@
       <pre class="lines">
 
 
-475
-476
-477</pre>
+497
+498
+499</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/editor/document.rb', line 475</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/editor/document.rb', line 497</span>
 
 <span class='kw'>def</span> <span class='id has_annotation?'>has_annotation?</span> <span class='id line'>line</span>
   <span class='ivar'>@annotations</span><span class='period'>.</span><span class='id has_key?'>has_key?</span> <span class='id line'>line</span>
@@ -914,12 +948,12 @@
       <pre class="lines">
 
 
-479
-480
-481</pre>
+501
+502
+503</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/editor/document.rb', line 479</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/editor/document.rb', line 501</span>
 
 <span class='kw'>def</span> <span class='id has_annotations?'>has_annotations?</span>
   <span class='op'>!</span><span class='ivar'>@annotations</span><span class='period'>.</span><span class='id empty?'>empty?</span>
@@ -942,15 +976,15 @@
       <pre class="lines">
 
 
-493
-494
-495
-496
-497
-498</pre>
+515
+516
+517
+518
+519
+520</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/editor/document.rb', line 493</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/editor/document.rb', line 515</span>
 
 <span class='kw'>def</span> <span class='id remove_annotation'>remove_annotation</span> <span class='id line'>line</span>
   <span class='kw'>if</span> <span class='ivar'>@annotations</span><span class='period'>.</span><span class='id delete'>delete</span> <span class='id line'>line</span>
@@ -984,12 +1018,40 @@
 </p>
 </div>
     
+      <div class="method_details ">
+  <p class="signature " id="annotations_changed-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>annotations_changed</strong> 
+</p>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="annotation_changed-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>annotation_changed</strong>(int arg1) 
+</p>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="annotations_changed-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>annotations_changed</strong> 
+</p>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="annotation_changed-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>annotation_changed</strong>(int arg1) 
+</p>
+</div>
+    
   </div>
 
 </div>
     
     <div id="footer">
-  Generated on Fri Oct 29 12:52:56 2010 by 
+  Generated on Sat Nov 13 18:00:50 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.1 (ruby-1.9.2).
 </div>

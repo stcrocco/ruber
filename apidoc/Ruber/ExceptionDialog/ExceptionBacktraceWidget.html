@@ -83,13 +83,14 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p>Subclass of <tt><span class="caps">KDE</span>::TextEdit</tt> specialized in displaying the backtrace of an
-exception. The differences with a standard <tt><span class="caps">KDE</span>::TextEdit</tt> are:</p>
+    <p>Subclass of <code>KDE::TextEdit</code> specialized in displaying the backtrace of an
+exception.</p>
+<p>The differences with a standard <code>KDE::TextEdit</code> are:</p>
 <ul>
 	<li>automatically uses a fixed width font</li>
 	<li>doesn&#8217;t use word wrapping</li>
 	<li>is always read-only</li>
-	<li>its <tt>size_hint</tt> method computes (or at least tries to compute) width
+	<li>its ExceptionBacktraceWidget#size_hint method computes (or at least tries to compute) width
   and height so that each line of the backtrace fits on a single line.</li>
 	<li>automatically extracts the message and the backtrace from the exception</li>
 </ul>
@@ -129,7 +130,7 @@ exception. The differences with a standard <tt><span class="caps">KDE</span>::Te
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Creates a new widget.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>A new instance of ExceptionBacktraceWidget.</p></div></span>
   
 </li>
 
@@ -138,7 +139,7 @@ exception. The differences with a standard <tt><span class="caps">KDE</span>::Te
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#sizeHint-instance_method" title="#sizeHint (instance method)">- (Object) <strong>sizeHint</strong> </a>
+      <a href="#sizeHint-instance_method" title="#sizeHint (instance method)">- (Qt::Size) <strong>sizeHint</strong> </a>
     
 
     
@@ -151,8 +152,7 @@ exception. The differences with a standard <tt><span class="caps">KDE</span>::Te
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Override of <tt><span class="caps">KDE</span>::TextEdit</tt> which computes the width as the width required
-to display, using the fixed width font, the longest line.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Override of <code>KDE::TextEdit#sizeHint</code>.</p></div></span>
   
 </li>
 
@@ -179,39 +179,76 @@ to display, using the fixed width font, the longest line.</p></div></span>
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Creates a new widget. <em>ex</em> is the exception whose backtrace should be shown, while
-<em>parent</em> is the widget&#8217;s parent widget. The message and backtrace of <em>ex</em> are displayed</p>
+    <p>A new instance of ExceptionBacktraceWidget</p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
   
+    <li>
+      
+        <span class='type'>(<tt>Exception</tt>)</span>
+      
+      
+        <span class='name'>ex</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the exception whose backtrace should be displayed</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Qt::Widget</tt>, <tt>nil</tt>)</span>
+      
+      
+        <span class='name'>parent</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>the parent widget</p></div>
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-48
-49
 50
 51
 52
 53
 54
 55
-56</pre>
+56
+57
+58
+59
+60</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/exception_widgets.rb', line 48</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/exception_widgets.rb', line 50</span>
 
 <span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id ex'>ex</span><span class='comma'>,</span> <span class='id parent'>parent</span> <span class='op'>=</span> <span class='kw'>nil</span>
   <span class='kw'>super</span> <span class='id parent'>parent</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id line_wrap_mode'>line_wrap_mode</span> <span class='op'>=</span> <span class='const'>NoWrap</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id read_only'>read_only</span> <span class='op'>=</span> <span class='kw'>true</span>
-  <span class='id msg'>msg</span> <span class='op'>=</span> <span class='id ex'>ex</span><span class='period'>.</span><span class='id message'>message</span><span class='period'>.</span><span class='id gsub'>gsub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>[&lt;&gt;]</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id s'>s</span><span class='op'>|</span> <span class='id s'>s</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>&lt;</span><span class='tstring_end'>'</span></span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>&amp;lt;</span><span class='tstring_end'>'</span></span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>&amp;gt;</span><span class='tstring_end'>'</span></span><span class='rbrace'>}</span>
-  <span class='id backtrace'>backtrace</span> <span class='op'>=</span> <span class='id ex'>ex</span><span class='period'>.</span><span class='id backtrace'>backtrace</span><span class='period'>.</span><span class='id map'>map</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id l'>l</span><span class='op'>|</span> <span class='id l'>l</span><span class='period'>.</span><span class='id gsub'>gsub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>[&lt;&gt;]</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id s'>s</span><span class='op'>|</span> <span class='id s'>s</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>&lt;</span><span class='tstring_end'>'</span></span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>&amp;lt;</span><span class='tstring_end'>'</span></span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>&amp;gt;</span><span class='tstring_end'>'</span></span><span class='rbrace'>}</span><span class='rbrace'>}</span>
-  <span class='id text'>text</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>&lt;tt&gt;</span><span class='embexpr_beg'>#{</span><span class='id msg'>msg</span><span class='rbrace'>}</span><span class='tstring_content'>&lt;br/&gt;</span><span class='embexpr_beg'>#{</span><span class='id backtrace'>backtrace</span><span class='period'>.</span><span class='id join'>join</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>&lt;br/&gt;</span><span class='tstring_end'>'</span></span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='comment'>#Replace &lt; and &gt; with the corresponding HTML entities in the message
+</span>  <span class='id msg'>msg</span> <span class='op'>=</span> <span class='id ex'>ex</span><span class='period'>.</span><span class='id message'>message</span><span class='period'>.</span><span class='id gsub'>gsub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>[&lt;&gt;]</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id s'>s</span><span class='op'>|</span> <span class='id s'>s</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>&lt;</span><span class='tstring_end'>'</span></span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>&amp;lt;</span><span class='tstring_end'>'</span></span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>&amp;gt;</span><span class='tstring_end'>'</span></span><span class='rbrace'>}</span>
+  <span class='comment'>#Replace &lt; and &gt; with the corresponding HTML entities in the backtrace
+</span>  <span class='id backtrace'>backtrace</span> <span class='op'>=</span> <span class='id ex'>ex</span><span class='period'>.</span><span class='id backtrace'>backtrace</span><span class='period'>.</span><span class='id map'>map</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id l'>l</span><span class='op'>|</span> <span class='id l'>l</span><span class='period'>.</span><span class='id gsub'>gsub</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>[&lt;&gt;]</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id s'>s</span><span class='op'>|</span> <span class='id s'>s</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>&lt;</span><span class='tstring_end'>'</span></span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>&amp;lt;</span><span class='tstring_end'>'</span></span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>&amp;gt;</span><span class='tstring_end'>'</span></span><span class='rbrace'>}</span><span class='rbrace'>}</span>
+  <span class='id text'>text</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>&lt;tt&gt;</span><span class='embexpr_beg'>#{</span><span class='id msg'>msg</span><span class='rbrace'>}</span><span class='tstring_content'>&lt;br/&gt;</span><span class='embexpr_beg'>#{</span><span class='id backtrace'>backtrace</span><span class='period'>.</span><span class='id join'>join</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>&lt;br/&gt;</span><span class='tstring_end'>'</span></span><span class='rbrace'>}</span><span class='tstring_content'>&lt;/tt&gt;</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id html'>html</span> <span class='op'>=</span> <span class='id text'>text</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -229,37 +266,54 @@ to display, using the fixed width font, the longest line.</p></div></span>
       <div class="method_details first">
   <p class="signature first" id="sizeHint-instance_method">
   
-    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>sizeHint</strong> 
+    - (<tt><span class='object_link'><a href="../../Qt/Size.html" title="Qt::Size (class)">Qt::Size</a></span></tt>) <strong>sizeHint</strong> 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Override of <tt><span class="caps">KDE</span>::TextEdit</tt> which computes the width as the width required
-to display, using the fixed width font, the longest line. The height is the height
-of a single line multiplied by the number of lines. Both width and height are
-computed using <tt>Qt::FontMetrics</tt>.</p>
+    <p>Override of <code>KDE::TextEdit#sizeHint</code></p>
+<p>The width is computed as the size (using the fixed width font) of the longest line,
+while the height is computed as the height of a single line multiplied by the
+number of lines.</p>
+<p>Both width and height are computed using <code>Qt::FontMetrics</code></p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
   
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Qt/Size.html" title="Qt::Size (class)">Qt::Size</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the suggested size of the widget</p></div>
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-64
-65
-66
-67
-68
-69
-70</pre>
+73
+74
+75
+76
+77
+78
+79</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/exception_widgets.rb', line 64</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/exception_widgets.rb', line 73</span>
 
 <span class='kw'>def</span> <span class='id sizeHint'>sizeHint</span>
   <span class='id font'>font</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>TextCursor</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id document'>document</span><span class='rparen'>)</span><span class='period'>.</span><span class='id char_format'>char_format</span><span class='period'>.</span><span class='id font'>font</span>
@@ -280,7 +334,7 @@ computed using <tt>Qt::FontMetrics</tt>.</p>
 </div>
     
     <div id="footer">
-  Generated on Fri Oct 29 12:52:56 2010 by 
+  Generated on Sat Nov  6 13:29:07 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.1 (ruby-1.9.2).
 </div>

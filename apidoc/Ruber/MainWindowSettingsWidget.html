@@ -81,7 +81,15 @@
 </dl>
 <div class="clear"></div>
 
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>Class containing the settings associated with the main window</p>
 
+  </div>
+</div>
+<div class="tags">
+  
+</div>
 
   
 
@@ -121,7 +129,7 @@
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#sizeHint-instance_method" title="#sizeHint (instance method)">- (Object) <strong>sizeHint</strong> </a>
+      <a href="#sizeHint-instance_method" title="#sizeHint (instance method)">- (Qt::Size) <strong>sizeHint</strong> </a>
     
 
     
@@ -134,7 +142,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'><p>Override of <code>Qt::Widget#sizeHint</code>.</p></div></span>
   
 </li>
 
@@ -166,23 +174,43 @@
   </div>
 </div>
 <div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
   
+    <li>
+      
+        <span class='type'>(<tt>Qt::Widget</tt>, <tt>nil</tt>)</span>
+      
+      
+        <span class='name'>parent</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>the parent widget</p></div>
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-300
-301
-302
-303
-304
-305
-306</pre>
+414
+415
+416
+417
+418
+419
+420</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 300</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 414</span>
 
 <span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id parent'>parent</span> <span class='op'>=</span> <span class='kw'>nil</span>
   <span class='kw'>super</span>
@@ -206,22 +234,46 @@
       <div class="method_details first">
   <p class="signature first" id="sizeHint-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>sizeHint</strong> 
+    - (<tt><span class='object_link'><a href="../Qt/Size.html" title="Qt::Size (class)">Qt::Size</a></span></tt>) <strong>sizeHint</strong> 
   
 
   
-</p><table class="source_code">
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Override of <code>Qt::Widget#sizeHint</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Qt/Size.html" title="Qt::Size (class)">Qt::Size</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the suggested size for the widget</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-308
-309
-310</pre>
+427
+428
+429</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 308</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 427</span>
 
 <span class='kw'>def</span> <span class='id sizeHint'>sizeHint</span>
   <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Size</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='int'>380</span><span class='comma'>,</span><span class='int'>150</span><span class='rparen'>)</span>
@@ -238,7 +290,7 @@
 </div>
     
     <div id="footer">
-  Generated on Fri Oct 29 12:53:07 2010 by 
+  Generated on Sat Nov  6 13:29:19 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.1 (ruby-1.9.2).
 </div>

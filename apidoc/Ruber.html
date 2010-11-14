@@ -60,7 +60,7 @@
   
     <dt class="r1 last">Defined in:</dt>
     <dd class="r1 last">lib/ruber/plugin_like.rb<span class="defines">,<br />
-  lib/ruber/utils.rb,<br /> lib/ruber/utils.rb,<br /> lib/ruber/plugin.rb,<br /> plugins/rake/rake.rb,<br /> lib/ruber/project.rb,<br /> plugins/state/state.rb,<br /> plugins/rspec/rspec.rb,<br /> lib/ruber/output_widget.rb,<br /> plugins/command/command.rb,<br /> lib/ruber/config/config.rb,<br /> plugins/rake/rake_widgets.rb,<br /> lib/ruber/settings_dialog.rb,<br /> lib/ruber/project_backend.rb,<br /> plugins/autosave/autosave.rb,<br /> lib/ruber/editor/document.rb,<br /> lib/ruber/document_project.rb,<br /> lib/ruber/exception_widgets.rb,<br /> plugins/rake/rake_extension.rb,<br /> lib/ruber/component_manager.rb,<br /> lib/ruber/settings_container.rb,<br /> lib/ruber/editor/editor_view.rb,<br /> lib/ruber/gui_states_handler.rb,<br /> lib/ruber/yaml_option_backend.rb,<br /> lib/ruber/plugin_specification.rb,<br /> lib/ruber/projects/project_list.rb,<br /> plugins/ruby_runner/ruby_runner.rb,<br /> lib/ruber/main_window/workspace.rb,<br /> lib/ruber/filtered_output_widget.rb,<br /> lib/ruber/main_window/status_bar.rb,<br /> lib/ruber/external_program_plugin.rb,<br /> lib/ruber/main_window/main_window.rb,<br /> lib/ruber/documents/document_list.rb,<br /> lib/ruber/settings_dialog_manager.rb,<br /> lib/ruber/application/application.rb,<br /> plugins/ruby_runner/config_widget.rb,<br /> plugins/ruby_runner/project_widget.rb,<br /> lib/ruber/kde_config_option_backend.rb,<br /> plugins/rspec/ruber_rspec_formatter.rb,<br /> plugins/find_in_files/find_in_files.rb,<br /> lib/ruber/editor/ktexteditor_wrapper.rb,<br /> lib/ruber/plugin_specification_reader.rb,<br /> lib/ruber/projects/project_files_list.rb,<br /> plugins/syntax_checker/syntax_checker.rb,<br /> plugins/find_in_files/find_in_files_dlg.rb,<br /> lib/ruber/projects/project_files_widget.rb,<br /> plugins/project_browser/project_browser.rb,<br /> lib/ruber/main_window/choose_plugins_dlg.rb,<br /> lib/ruber/main_window/main_window_actions.rb,<br /> lib/ruber/main_window/output_color_widget.rb,<br /> plugins/ruby_development/ruby_development.rb,<br /> lib/ruber/main_window/main_window_internal.rb,<br /> plugins/find_in_files/find_in_files_widgets.rb,<br /> lib/ruber/main_window/save_modified_files_dlg.rb,<br /> lib/ruber/main_window/open_file_in_project_dlg.rb</span>
+  lib/ruber/utils.rb,<br /> lib/ruber/utils.rb,<br /> lib/ruber/plugin.rb,<br /> plugins/rake/rake.rb,<br /> lib/ruber/version.rb,<br /> lib/ruber/project.rb,<br /> plugins/rspec/rspec.rb,<br /> plugins/state/state.rb,<br /> plugins/command/command.rb,<br /> lib/ruber/output_widget.rb,<br /> lib/ruber/config/config.rb,<br /> plugins/rake/rake_widgets.rb,<br /> lib/ruber/project_backend.rb,<br /> lib/ruber/editor/document.rb,<br /> plugins/autosave/autosave.rb,<br /> lib/ruber/settings_dialog.rb,<br /> lib/ruber/document_project.rb,<br /> plugins/rake/rake_extension.rb,<br /> lib/ruber/exception_widgets.rb,<br /> lib/ruber/component_manager.rb,<br /> lib/ruber/editor/editor_view.rb,<br /> lib/ruber/settings_container.rb,<br /> lib/ruber/gui_states_handler.rb,<br /> lib/ruber/yaml_option_backend.rb,<br /> lib/ruber/plugin_specification.rb,<br /> plugins/ruby_runner/ruby_runner.rb,<br /> lib/ruber/projects/project_list.rb,<br /> lib/ruber/main_window/workspace.rb,<br /> lib/ruber/main_window/status_bar.rb,<br /> lib/ruber/filtered_output_widget.rb,<br /> lib/ruber/main_window/main_window.rb,<br /> lib/ruber/external_program_plugin.rb,<br /> lib/ruber/settings_dialog_manager.rb,<br /> plugins/ruby_runner/config_widget.rb,<br /> lib/ruber/documents/document_list.rb,<br /> lib/ruber/application/application.rb,<br /> plugins/ruby_runner/project_widget.rb,<br /> lib/ruber/kde_config_option_backend.rb,<br /> plugins/rspec/ruber_rspec_formatter.rb,<br /> plugins/find_in_files/find_in_files.rb,<br /> lib/ruber/editor/ktexteditor_wrapper.rb,<br /> lib/ruber/plugin_specification_reader.rb,<br /> lib/ruber/projects/project_files_list.rb,<br /> plugins/syntax_checker/syntax_checker.rb,<br /> plugins/find_in_files/find_in_files_dlg.rb,<br /> lib/ruber/projects/project_files_widget.rb,<br /> plugins/project_browser/project_browser.rb,<br /> lib/ruber/main_window/choose_plugins_dlg.rb,<br /> lib/ruber/main_window/main_window_actions.rb,<br /> lib/ruber/main_window/output_color_widget.rb,<br /> plugins/ruby_development/ruby_development.rb,<br /> lib/ruber/main_window/main_window_internal.rb,<br /> plugins/find_in_files/find_in_files_widgets.rb,<br /> lib/ruber/main_window/save_modified_files_dlg.rb,<br /> lib/ruber/main_window/open_file_in_project_dlg.rb,<br /> lib/ruber/utils.rb</span>
 </dd>
   
 </dl>
@@ -121,7 +121,7 @@ Free Software Foundation, Inc.,
   
 </div>
         </dt>
-        <dd><pre class="code"><span class='const'>File</span><span class='period'>.</span><span class='id dirname'>dirname</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id expand_path'>expand_path</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='rparen'>)</span></pre></dd>
+        <dd><pre class="code"><span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span> <span class='const'>RUBER_DIR</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>lib/</span><span class='tstring_end'>'</span></span></pre></dd>
       
         <dt id="RUBER_DATA_DIR-constant" class="">RUBER_DATA_DIR =
           <div class="docstring">
@@ -134,7 +134,38 @@ Free Software Foundation, Inc.,
   
 </div>
         </dt>
-        <dd><pre class="code"><span class='const'>File</span><span class='period'>.</span><span class='id expand_path'>expand_path</span> <span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span><span class='lparen'>(</span><span class='const'>RUBER_LIB_DIR</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>..</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>data</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span></pre></dd>
+        <dd><pre class="code"><span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span> <span class='const'>RUBER_DIR</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>data</span><span class='tstring_end'>'</span></span></pre></dd>
+      
+        <dt id="VERSION-constant" class="">VERSION =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>0.0.6</span><span class='tstring_end'>'</span></span></pre></dd>
+      
+        <dt id="RUBER_DIR-constant" class="">RUBER_DIR =
+          <div class="docstring">
+  <div class="discussion">
+    <p>The Ruber installation directory</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+        </dt>
+        <dd><pre class="code"><span class='const'>File</span><span class='period'>.</span><span class='id expand_path'>expand_path</span> <span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>..</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>..</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>..</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span></pre></dd>
+      
+        <dt id="RUBER_PLUGIN_DIR-constant" class="">RUBER_PLUGIN_DIR =
+          <div class="docstring">
+  <div class="discussion">
+    <p>The default directory for globally installed plugins</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+        </dt>
+        <dd><pre class="code"><span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span> <span class='const'>RUBER_DIR</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>plugins</span><span class='tstring_end'>'</span></span></pre></dd>
       
     </dl>
   
@@ -153,7 +184,7 @@ Free Software Foundation, Inc.,
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#%5B%5D-class_method" title="[] (class method)">+ (Object) <strong>[]</strong>(feature) </a>
+      <a href="#%5B%5D-class_method" title="[] (class method)">+ (PluginLike<sup>?</sup>) <strong>[]</strong>(feature) </a>
     
 
     
@@ -166,7 +197,7 @@ Free Software Foundation, Inc.,
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Returns the component providing the feature <em>feature</em>.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>The component providing a feature.</p></div></span>
   
 </li>
 
@@ -205,33 +236,82 @@ Free Software Foundation, Inc.,
       <div class="method_details first">
   <p class="signature first" id="[]-class_method">
   
-    + (<tt><span class='object_link'><a href="Object.html" title="Object (class)">Object</a></span></tt>) <strong>[]</strong>(feature) 
+    + (<tt><span class='object_link'><a href="Ruber/PluginLike.html" title="Ruber::PluginLike (module)">PluginLike</a></span></tt><sup>?</sup>) <strong>[]</strong>(feature) 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Returns the component providing the feature <em>feature</em></p>
-<b>Note:</b> this method can only be used <em>after</em> the application has been
-created, otherwise <ins>NoMethodError</ins> will be raised.
+    <p>The component providing a feature</p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
   
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
+      
+      
+        <span class='name'>feature</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the feature the component should provide</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Ruber/PluginLike.html" title="Ruber::PluginLike (module)">PluginLike</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the component providing the given feature or <strong>nil</strong> if
+no components provide it</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'>(<tt>NoMethodError</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>if called before the application is created</p></div>
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-40
-41
 42
-43</pre>
+43
+44
+45</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 40</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 42</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='op'>[]</span><span class='lparen'>(</span><span class='id feature'>feature</span><span class='rparen'>)</span>
 <span class='comment'># This instance variable is initialized by the application's constructor
@@ -299,7 +379,7 @@ created, otherwise <ins>NoMethodError</ins> will be raised.
 </div>
     
     <div id="footer">
-  Generated on Fri Oct 29 12:52:45 2010 by 
+  Generated on Sun Nov 14 17:10:00 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.1 (ruby-1.9.2).
 </div>

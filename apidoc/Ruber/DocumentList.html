@@ -68,35 +68,30 @@
   
   
     
-      <dt class="r2">Extended by:</dt>
-      <dd class="r2">Forwardable</dd>
-      
-    
   
     
-      <dt class="r1">Includes:</dt>
-      <dd class="r1"><span class='object_link'><a href="../Enumerable.html" title="Enumerable (module)">Enumerable</a></span>, <span class='object_link'><a href="PluginLike.html" title="Ruber::PluginLike (module)">PluginLike</a></span></dd>
+      <dt class="r2">Includes:</dt>
+      <dd class="r2"><span class='object_link'><a href="../Enumerable.html" title="Enumerable (module)">Enumerable</a></span>, <span class='object_link'><a href="PluginLike.html" title="Ruber::PluginLike (module)">PluginLike</a></span></dd>
       
     
   
   
   
-    <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">lib/ruber/documents/document_list.rb</dd>
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">lib/ruber/documents/document_list.rb</dd>
   
 </dl>
 <div class="clear"></div>
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p>Class which contains a list of all open documents</p>
-<p>===Signals
-<tt>document_created(QObject* doc)</tt>::
-  signal emitted when a new document has been created/. <em>doc</em> is the document
-  itself (of class Document)
-<tt>closing_document(QObject* doc)</tt>::
-  signal emitted before a document is closed. <em>doc</em> is the document (of class
-  Document)</p>
+    <p>List of all open documents</p>
+<p>It contains convenience methods to iterate on the open documents and to create
+them. Whenever possible, you should use them. In particular, when you need a document
+associated with a given file or <span class="caps">URL</span>, you should always use <span class='object_link'><a href="#document-instance_method" title="Ruber::DocumentList#document (method)">DocumentList#document</a></span>, so that
+if a document for that file is already installed, no new document will be created.</p>
+<p>If, for any reason, you need to create a document using Document.new, please
+don&#8217;t forget to add the document to the list using <span class='object_link'><a href="#add_document-instance_method" title="Ruber::DocumentList#add_document (method)">DocumentList#add_document</a></span>.</p>
 
   </div>
 </div>
@@ -104,7 +99,6 @@
   
 </div>
 
-  
   
   
   
@@ -126,7 +120,7 @@
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#%5B%5D-instance_method" title="#[] (instance method)">- (Object) <strong>[]</strong>(key) </a>
+      <a href="#%5B%5D-instance_method" title="#[] (instance method)">- (Document<sup>?</sup>) <strong>[]</strong>(key) </a>
     
 
     
@@ -139,7 +133,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>If <em>key</em> is an integer, returns the document at position <em>key</em> in the list.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>The document corresponding to the given key.</p></div></span>
   
 </li>
 
@@ -148,7 +142,7 @@
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#add_document-instance_method" title="#add_document (instance method)">- (Object) <strong>add_document</strong>(doc) </a>
+      <a href="#add_document-instance_method" title="#add_document (instance method)">- (Document<sup>?</sup>) <strong>add_document</strong>(doc) </a>
     
 
     
@@ -170,7 +164,7 @@
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#close_all-instance_method" title="#close_all (instance method)">- (Object) <strong>close_all</strong>(ask = true) </a>
+      <a href="#close_all-instance_method" title="#close_all (instance method)">- (Boolean) <strong>close_all</strong>(ask = true) </a>
     
 
     
@@ -189,10 +183,10 @@
 
       
         <!-- Provides the  slot annotation -->
-<li class="public ">
+<li class="private ">
   <span class="summary_signature">
     
-      <a href="#close_document-instance_method" title="#close_document (instance method)">- (Object) <strong>close_document</strong>(doc) </a>
+      <a href="#close_document-instance_method" title="#close_document (instance method)">- (nil) <strong>close_document</strong>(doc) </a>
     
 
     
@@ -202,13 +196,12 @@
   
     <span class="note title"><strong>slot</strong></span>
   
-  
+  <span class="note title private">private</span>
   
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Removes the document <em>doc</em> from the list and emits the <tt>closing_document</tt>
-signal.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Removes a document from the list.</p></div></span>
   
 </li>
 
@@ -217,7 +210,7 @@ signal.</p></div></span>
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#document-instance_method" title="#document (instance method)">- (Object) <strong>document</strong>(file, create_if_needed = true) </a>
+      <a href="#document-instance_method" title="#document (instance method)">- (Document<sup>?</sup>) <strong>document</strong>(file, create_if_needed = true) </a>
     
 
     
@@ -230,7 +223,7 @@ signal.</p></div></span>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Returns the document associated with the file <em>file</em>.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>The document for a given file or url.</p></div></span>
   
 </li>
 
@@ -239,7 +232,7 @@ signal.</p></div></span>
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#document_for_file-instance_method" title="#document_for_file (instance method)">- (Object) <strong>document_for_file</strong>(file) </a>
+      <a href="#document_for_file-instance_method" title="#document_for_file (instance method)">- (Document<sup>?</sup>) <strong>document_for_file</strong>(file) </a>
     
 
     
@@ -252,7 +245,7 @@ signal.</p></div></span>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Returns the document with filename <em>file</em>.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>The document associated with a given file.</p></div></span>
   
 </li>
 
@@ -274,9 +267,7 @@ signal.</p></div></span>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Returns <strong>true</strong> if there&#8217;s a document associated with the file <em>file</em>, which can
-be an absolute filename or a filename relative to the current directory, and <strong>false</strong>
-otherwise.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Whether there&#8217;s a document associated with a given file.</p></div></span>
   
 </li>
 
@@ -285,7 +276,7 @@ otherwise.</p></div></span>
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#document_with_name-instance_method" title="#document_with_name (instance method)">- (Object) <strong>document_with_name</strong>(name) </a>
+      <a href="#document_for_url-instance_method" title="#document_for_url (instance method)">- (Document<sup>?</sup>) <strong>document_for_url</strong>(url) </a>
     
 
     
@@ -298,8 +289,51 @@ otherwise.</p></div></span>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Returns the document with <tt>document_name</tt> <em>name</em>, or <strong>nil</strong> if no such
-document is found.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>The document associated with a given <span class="caps">URL</span>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#document_for_url%3F-instance_method" title="#document_for_url? (instance method)">- (Boolean) <strong>document_for_url?</strong>(url) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Whether there&#8217;s a document associated with a given <span class="caps">URL</span>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#document_with_name-instance_method" title="#document_with_name (instance method)">- (Document<sup>?</sup>) <strong>document_with_name</strong>(name) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The document with a given name.</p></div></span>
   
 </li>
 
@@ -321,8 +355,7 @@ document is found.</p></div></span>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Returns <strong>true</strong> if there&#8217;s a file with <tt>document_name</tt> <em>name</em> and <strong>false</strong>
-otherwise.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Whether there&#8217;s a document with a given name.</p></div></span>
   
 </li>
 
@@ -331,7 +364,31 @@ otherwise.</p></div></span>
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#documents_with_file-instance_method" title="#documents_with_file (instance method)">- (Object) <strong>documents_with_file</strong> </a>
+      <a href="#documents-instance_method" title="#documents (instance method)">- (Array&lt;Document&gt;) <strong>documents</strong> </a>
+    
+
+    
+      (also: #to_a)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>A list of open documents.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#documents_with_file-instance_method" title="#documents_with_file (instance method)">- (Array&lt;Document&gt;) <strong>documents_with_file</strong>(which = :any) </a>
     
 
     
@@ -344,7 +401,7 @@ otherwise.</p></div></span>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Returns an array containing all the documents associated with a file.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>The documents which are associated with a file.</p></div></span>
   
 </li>
 
@@ -353,7 +410,7 @@ otherwise.</p></div></span>
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#each_document-instance_method" title="#each_document (instance method)">- (Object) <strong>each_document</strong> </a>
+      <a href="#each_document-instance_method" title="#each_document (instance method)">- (DocumentList, Enumerator) <strong>each_document</strong> {|Document| ... }</a>
     
 
     
@@ -368,8 +425,8 @@ otherwise.</p></div></span>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>If passed a block, calls the block for each document, otherwise returns an
-<tt>Enumerable::Enumerator</tt> which does the same.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Calls the block for each document
+otherwise.</p></div></span>
   
 </li>
 
@@ -378,7 +435,29 @@ otherwise.</p></div></span>
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">- (DocumentList) <strong>initialize</strong>(_manager, pdf) </a>
+      <a href="#empty%3F-instance_method" title="#empty? (instance method)">- (Boolean) <strong>empty?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Whether the document list is empty or not.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (DocumentList) <strong>initialize</strong>(_manager, psf) </a>
     
 
     
@@ -393,7 +472,7 @@ otherwise.</p></div></span>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Creates a new DocumentList.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>A new instance of DocumentList.</p></div></span>
   
 </li>
 
@@ -402,7 +481,7 @@ otherwise.</p></div></span>
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#new_document-instance_method" title="#new_document (instance method)">- (Object) <strong>new_document</strong> </a>
+      <a href="#new_document-instance_method" title="#new_document (instance method)">- (Ruber::Document) <strong>new_document</strong> </a>
     
 
     
@@ -415,8 +494,7 @@ otherwise.</p></div></span>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Adds a new empty document to the list and emits the <tt>document_created</tt>
-signal.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Creates a new empty document.</p></div></span>
   
 </li>
 
@@ -425,7 +503,7 @@ signal.</p></div></span>
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#query_close-instance_method" title="#query_close (instance method)">- (Object) <strong>query_close</strong> </a>
+      <a href="#query_close-instance_method" title="#query_close (instance method)">- (Boolean) <strong>query_close</strong> </a>
     
 
     
@@ -438,7 +516,7 @@ signal.</p></div></span>
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'><p>Override of <span class='object_link'><a href="PluginLike.html#query_close-instance_method" title="Ruber::PluginLike#query_close (method)">PluginLike#query_close</a></span>.</p></div></span>
   
 </li>
 
@@ -447,7 +525,7 @@ signal.</p></div></span>
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#save_documents-instance_method" title="#save_documents (instance method)">- (Object) <strong>save_documents</strong>(docs, stop_on_failure = false) </a>
+      <a href="#save_documents-instance_method" title="#save_documents (instance method)">- (Array&lt;Document&gt;) <strong>save_documents</strong>(docs, stop_on_failure = false) </a>
     
 
     
@@ -460,8 +538,7 @@ signal.</p></div></span>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Attempts to save all the documents in the array <em>docs</em>, returning an array with
-those documents which couldn&#8217;t be saved.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Attempts to save the given documents.</p></div></span>
   
 </li>
 
@@ -470,7 +547,7 @@ those documents which couldn&#8217;t be saved.</p></div></span>
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#save_settings-instance_method" title="#save_settings (instance method)">- (Object) <strong>save_settings</strong> </a>
+      <a href="#save_settings-instance_method" title="#save_settings (instance method)">- (nil) <strong>save_settings</strong> </a>
     
 
     
@@ -483,7 +560,31 @@ those documents which couldn&#8217;t be saved.</p></div></span>
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'><p>Saves the settings for all open documents.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#size-instance_method" title="#size (instance method)">- (Integer) <strong>size</strong> </a>
+    
+
+    
+      (also: #length)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The number of documents in the list.</p></div></span>
   
 </li>
 
@@ -492,7 +593,6 @@ those documents which couldn&#8217;t be saved.</p></div></span>
   
 
 
-  
   
   
   
@@ -520,17 +620,33 @@ those documents which couldn&#8217;t be saved.</p></div></span>
     <li class="public ">
       <span class="summary_signature">
 <!-- The sub is needed to remove the (Object) part -->
-      <a href="#document_created-signalcode" title="document_created (signalcode)">- <strong>document_created</strong>(QObject* arg1) </a>
+      <a href="#document_created-signalcode" title="document_created (signalcode)">- <strong>document_created</strong>(QObject* doc) </a>
       </span>
-      <span class="summary_desc"><div class='inline'></div></span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted when a new document is created.</p></div></span>
     </li>
   
     <li class="public ">
       <span class="summary_signature">
 <!-- The sub is needed to remove the (Object) part -->
-      <a href="#closing_document-signalcode" title="closing_document (signalcode)">- <strong>closing_document</strong>(QObject* arg1) </a>
+      <a href="#closing_document-signalcode" title="closing_document (signalcode)">- <strong>closing_document</strong>(QObject* doc) </a>
       </span>
-      <span class="summary_desc"><div class='inline'></div></span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted before a document is closed.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#document_created-signalcode" title="document_created (signalcode)">- <strong>document_created</strong>(QObject* doc) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted when a new document is created.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#closing_document-signalcode" title="closing_document (signalcode)">- <strong>closing_document</strong>(QObject* doc) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted before a document is closed.</p></div></span>
     </li>
   
   </ul>
@@ -545,18 +661,50 @@ those documents which couldn&#8217;t be saved.</p></div></span>
     <div class="method_details first">
   <p class="signature first" id="initialize-instance_method">
   
-    - (<tt><span class='object_link'><a href="" title="Ruber::DocumentList (class)">DocumentList</a></span></tt>) <strong>initialize</strong>(_manager, pdf) 
+    - (<tt><span class='object_link'><a href="" title="Ruber::DocumentList (class)">DocumentList</a></span></tt>) <strong>initialize</strong>(_manager, psf) 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Creates a new DocumentList</p>
+    <p>A new instance of DocumentList</p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
   
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="ComponentManager.html" title="Ruber::ComponentManager (class)">ComponentManager</a></span></tt>)</span>
+      
+      
+        <span class='name'>_manager</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the component manager (unused)</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="PluginSpecification.html" title="Ruber::PluginSpecification (class)">PluginSpecification</a></span></tt>)</span>
+      
+      
+        <span class='name'>psf</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the plugin specification object</p></div>
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -572,9 +720,9 @@ those documents which couldn&#8217;t be saved.</p></div></span>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 67</span>
 
-<span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id _manager'>_manager</span><span class='comma'>,</span> <span class='id pdf'>pdf</span>
+<span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id _manager'>_manager</span><span class='comma'>,</span> <span class='id psf'>psf</span>
   <span class='kw'>super</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:app</span><span class='rbracket'>]</span>
-  <span class='id initialize_plugin'>initialize_plugin</span> <span class='id pdf'>pdf</span>
+  <span class='id initialize_plugin'>initialize_plugin</span> <span class='id psf'>psf</span>
   <span class='ivar'>@docs</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -592,42 +740,100 @@ those documents which couldn&#8217;t be saved.</p></div></span>
       <div class="method_details first">
   <p class="signature first" id="[]-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>[]</strong>(key) 
+    - (<tt><span class='object_link'><a href="Document.html" title="Ruber::Document (class)">Document</a></span></tt><sup>?</sup>) <strong>[]</strong>(key) 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>If <em>key</em> is an integer, returns the document at position <em>key</em> in the list. If
-<em>key</em> is an absolute path, returns the document associated with that file (or
-<strong>nil</strong> if no document is associated with the file). If <em>file</em> is a string which
-isn&#8217;t an absolute path, it&#8217;s interpreted as the <tt>document_name</tt> of a document
-and the document with that <tt>document_name</tt> (or <strong>nil</strong>) will be returned.
-If <em>key</em> is something else, <ins>TypeError</ins> will be raised.</p>
+    <p>The document corresponding to the given key</p>
+<p>How <em>key</em> is interpreted depends on its class:</p>
+<ul>
+	<li>if it&#8217;s an <code>Integer</code>, the document in the corresponding position in the list will
+  be returned</li>
+	<li>if it&#8217;s a <code>KDE::Url</code>, then the document associated with that url will be returned</li>
+	<li>if it&#8217;s a <code>String</code> starting with a <code>/</code> (that is, an absolute path) then the
+  document associated with that file will be returned</li>
+	<li>if it&#8217;s a string not startng with a <code>/</code>, then the document with that
+  <code>document_name</code> will be returned</li>
+</ul>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
   
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>, <tt><span class='object_link'><a href="../KDE/Url.html" title="KDE::Url (class)">KDE::Url</a></span></tt>)</span>
+      
+      
+        <span class='name'>key</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the key for the document</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Document.html" title="Ruber::Document (class)">Document</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the document corresponding to <em>key</em> or <strong>nil</strong> if no document
+corresponds to it</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'>(<tt>TypeError</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>if <em>key</em> is not a <code>String</code>, <code>Integer</code> or <code>KDE::Url</code></p></div>
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-186
-187
-188
-189
-190
-191
-192
-193
-194
-195</pre>
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 186</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 274</span>
 
 <span class='kw'>def</span> <span class='op'>[]</span> <span class='id key'>key</span>
   <span class='kw'>case</span> <span class='id key'>key</span>
@@ -635,6 +841,8 @@ If <em>key</em> is something else, <ins>TypeError</ins> will be raised.</p>
     <span class='kw'>if</span> <span class='const'>Pathname</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id key'>key</span><span class='rparen'>)</span><span class='period'>.</span><span class='id absolute?'>absolute?</span> <span class='kw'>then</span> <span class='ivar'>@docs</span><span class='period'>.</span><span class='id find'>find</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id d'>d</span><span class='op'>|</span> <span class='id d'>d</span><span class='period'>.</span><span class='id path'>path</span> <span class='op'>==</span> <span class='id key'>key</span><span class='rbrace'>}</span>
     <span class='kw'>else</span> <span class='ivar'>@docs</span><span class='period'>.</span><span class='id find'>find</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id d'>d</span><span class='op'>|</span> <span class='id d'>d</span><span class='period'>.</span><span class='id document_name'>document_name</span> <span class='op'>==</span> <span class='id key'>key</span><span class='rbrace'>}</span>
     <span class='kw'>end</span>
+  <span class='kw'>when</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Url</span>
+    <span class='ivar'>@docs</span><span class='period'>.</span><span class='id find'>find</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id d'>d</span><span class='op'>|</span> <span class='id d'>d</span><span class='period'>.</span><span class='id url'>url</span> <span class='op'>==</span> <span class='id key'>key</span><span class='rbrace'>}</span>
   <span class='kw'>when</span> <span class='const'>Integer</span> <span class='kw'>then</span> <span class='ivar'>@docs</span><span class='lbracket'>[</span><span class='id key'>key</span><span class='rbracket'>]</span>
   <span class='kw'>else</span> <span class='id raise'>raise</span> <span class='const'>TypeError</span>
   <span class='kw'>end</span>
@@ -647,33 +855,72 @@ If <em>key</em> is something else, <ins>TypeError</ins> will be raised.</p>
       <div class="method_details ">
   <p class="signature " id="add_document-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>add_document</strong>(doc) 
+    - (<tt><span class='object_link'><a href="Document.html" title="Ruber::Document (class)">Document</a></span></tt><sup>?</sup>) <strong>add_document</strong>(doc) 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
     <p>Adds a new document to the list</p>
+<p>If you use <span class='object_link'><a href="#new_document-instance_method" title="Ruber::DocumentList#new_document (method)">#new_document</a></span> and <span class='object_link'><a href="#document-instance_method" title="Ruber::DocumentList#document (method)">#document</a></span> to create documents, you don&#8217;t need to
+call this method.</p>
+<p><strong>Note:</strong> this method doesn&#8217;t check whether the document has already been added to
+the list. If so, the results may cause errors. Please, always make sure the document
+isn&#8217;t already in the list before calling this.</p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
   
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Document.html" title="Ruber::Document (class)">Document</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+        <span class='name'>doc</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the document to add. If <strong>nil</strong>, nothing is done</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Document.html" title="Ruber::Document (class)">Document</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><em>doc</em></p></div>
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-114
-115
-116
-117
-118
-119</pre>
+168
+169
+170
+171
+172
+173</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 114</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 168</span>
 
 <span class='kw'>def</span> <span class='id add_document'>add_document</span> <span class='id doc'>doc</span>
   <span class='kw'>if</span> <span class='id doc'>doc</span>
@@ -689,37 +936,75 @@ If <em>key</em> is something else, <ins>TypeError</ins> will be raised.</p>
       <div class="method_details ">
   <p class="signature " id="close_all-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>close_all</strong>(ask = true) 
+    - (<tt>Boolean</tt>) <strong>close_all</strong>(ask = true) 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Closes all the documents. If <em>ask</em> is <ins>true</ins> the user is displayed a dialog
-  to choose which documents he wants to save (see MainWindow#save_documents for
-  more information).</p>
+    <p>Closes all the documents</p>
+<p>If there are modified files and <em>ask</em> is <strong>true</strong>, the user will be asked whether
+he wants to save them (see <span class='object_link'><a href="MainWindow.html#save_documents-instance_method" title="Ruber::MainWindow#save_documents (method)">MainWindow#save_documents</a></span>). If he chooses to abort
+closing, nothing will be done</p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
   
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <span class='name'>ask</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>if <strong>true</strong>, in case some files are modified, the user will
+be asked whether to save them. If <strong>false</strong>, no file will be saved</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><strong>true</strong> if the documents were closed and <strong>false</strong> otherwise</p></div>
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-167
-168
-169
-170
-171
-172
-173
-174</pre>
+247
+248
+249
+250
+251
+252
+253
+254</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 167</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 247</span>
 
 <span class='kw'>def</span> <span class='id close_all'>close_all</span> <span class='id ask'>ask</span> <span class='op'>=</span> <span class='kw'>true</span>
   <span class='id docs'>docs</span> <span class='op'>=</span> <span class='ivar'>@docs</span><span class='period'>.</span><span class='id dup'>dup</span>
@@ -737,71 +1022,43 @@ If <em>key</em> is something else, <ins>TypeError</ins> will be raised.</p>
       <div class="method_details ">
   <p class="signature " id="close_document-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>close_document</strong>(doc) 
+    - (<tt>nil</tt>) <strong>close_document</strong>(doc)  <span class="extras">(private)</span>
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Removes the document <em>doc</em> from the list and emits the <tt>closing_document</tt>
-signal</p>
+    <p>Removes a document from the list</p>
+<p>The <span class='object_link'><a href="#closing_document-signalcode" title="Ruber::DocumentList#closing_document (signalcode)">#closing_document</a></span> signal is emitted before removing the document.</p>
 
   </div>
 </div>
 <div class="tags">
-  
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-157
-158
-159
-160</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 157</span>
-
-<span class='kw'>def</span> <span class='id close_document'>close_document</span> <span class='id doc'>doc</span>
-  <span class='id emit'>emit</span> <span class='id closing_document'>closing_document</span><span class='lparen'>(</span><span class='id doc'>doc</span><span class='rparen'>)</span>
-  <span class='ivar'>@docs</span><span class='period'>.</span><span class='id delete'>delete</span> <span class='id doc'>doc</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
-      <p style="margin-top: 5pt;"><tt>close_document(QObject*)</tt></p>
-
-    
-      <div class="method_details ">
-  <p class="signature " id="document-instance_method">
-  
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>document</strong>(file, create_if_needed = true) 
-  
-
-  
-</p><div class="docstring">
-  <div class="discussion">
-    <p>Returns the document associated with the file <em>file</em>. <em>file</em> can be an absolute
-or relative pathname (if it&#8217;s relative, it will be considered relative to the
-current directory). If a document associated with <em>file</em> doesn&#8217;t exist, and
-<i>create_if_needed</i> is <strong>true</strong>, a new document is created and added to the list,
-raising <ins>ArgumentError</ins> if the file doesn&#8217;t exist. If a document for <em>file</em> doesn&#8217;t
-exist and <i>create_if_needed</i> is <strong>false</strong>, <strong>nil</strong> is returned; otherwise the
-new document is returned.</p>
-<p>If a new document has been created, the <tt>document_created</tt> signal is emitted.</p>
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Raises:</h3>
-<ul class="raise">
+  <h3>Parameters:</h3>
+<ul class="param">
   
     <li>
       
-        <span class='type'>(<tt>ArgumentError</tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="Document.html" title="Ruber::Document (class)">Document</a></span></tt>)</span>
+      
+      
+        <span class='name'>doc</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the document to remove. It must have been added to the list
+using <span class='object_link'><a href="#add_document-instance_method" title="Ruber::DocumentList#add_document (method)">#add_document</a></span> (which is automatically called by <span class='object_link'><a href="#document-instance_method" title="Ruber::DocumentList#document (method)">#document</a></span> and <span class='object_link'><a href="#new_document-instance_method" title="Ruber::DocumentList#new_document (method)">#new_document</a></span>)</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -816,34 +1073,169 @@ new document is returned.</p>
       <pre class="lines">
 
 
-97
-98
-99
-100
-101
-102
-103
-104
-105
-106
-107
-108
-109</pre>
+229
+230
+231
+232
+233</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 97</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 229</span>
+
+<span class='kw'>def</span> <span class='id close_document'>close_document</span> <span class='id doc'>doc</span>
+  <span class='id emit'>emit</span> <span class='id closing_document'>closing_document</span><span class='lparen'>(</span><span class='id doc'>doc</span><span class='rparen'>)</span>
+  <span class='ivar'>@docs</span><span class='period'>.</span><span class='id delete'>delete</span> <span class='id doc'>doc</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>close_document(QObject*)</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="document-instance_method">
+  
+    - (<tt><span class='object_link'><a href="Document.html" title="Ruber::Document (class)">Document</a></span></tt><sup>?</sup>) <strong>document</strong>(file, create_if_needed = true) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The document for a given file or url</p>
+<p>If there&#8217;s no open document associated with the given file or url, depending on
+the value of <em>create_if_needed</em> a new document associated with the file or url
+will be created. In this case, the <span class='object_link'><a href="#document_created-signalcode" title="Ruber::DocumentList#document_created (signalcode)">#document_created</a></span> signal will be emitted.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../KDE/Url.html" title="KDE::Url (class)">KDE::Url</a></span></tt>)</span>
+      
+      
+        <span class='name'>file</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the file name or <span class="caps">URL</span> associated with the document.
+A relative file name will be expanded with respect to the current directory. A
+string containing a url will be interpreted as an url, not as a filename. If you
+need a document with a name which looks like an url, you can create an empty
+<code>KDE::Url</code>, then using <code>path=</code> to set its path</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <span class='name'>create_if_needed</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>whether or not to create a document associated
+with <em>file</em> if there isn&#8217;t one</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Document.html" title="Ruber::Document (class)">Document</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the document associated with <em>file</em>. If no such document
+exists and <em>create_if_needed</em> is <strong>false</strong>, <strong>nil</strong> will be returned</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'>(<tt>ArgumentError</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>if <em>file</em> is a local file, there&#8217;s
+no document for it, it doesn&#8217;t exist and <em>create_if_needed</em> is <strong>true</strong>. Note that
+this won&#8217;t happen if <em>file</em> is a remote file, even if it doesn&#8217;t exist</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 108</span>
 
 <span class='kw'>def</span> <span class='id document'>document</span> <span class='id file'>file</span><span class='comma'>,</span> <span class='id create_if_needed'>create_if_needed</span> <span class='op'>=</span> <span class='kw'>true</span>
-  <span class='id file'>file</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id expand_path'>expand_path</span><span class='lparen'>(</span><span class='id file'>file</span><span class='rparen'>)</span>
-  <span class='id doc'>doc</span> <span class='op'>=</span> <span class='id document_for_file'>document_for_file</span> <span class='id file'>file</span>
-  <span class='kw'>return</span> <span class='id doc'>doc</span> <span class='kw'>if</span> <span class='id doc'>doc</span> <span class='kw'>or</span> <span class='op'>!</span><span class='id create_if_needed'>create_if_needed</span>
-  <span class='id raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>File </span><span class='embexpr_beg'>#{</span><span class='id file'>file</span><span class='rbrace'>}</span><span class='tstring_content'> doesn't exist</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='const'>File</span><span class='period'>.</span><span class='id exist?'>exist?</span><span class='lparen'>(</span><span class='id file'>file</span><span class='rparen'>)</span>
-  <span class='id doc'>doc</span> <span class='op'>=</span> <span class='const'>Document</span><span class='period'>.</span><span class='id new'>new</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id file'>file</span>
-  <span class='kw'>begin</span> <span class='ivar'>@docs</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id close'>close</span> <span class='kw'>if</span> <span class='ivar'>@docs</span><span class='period'>.</span><span class='id only'>only</span><span class='period'>.</span><span class='id pristine?'>pristine?</span>
-  <span class='kw'>rescue</span> <span class='const'>IndexError</span>
+  <span class='kw'>if</span> <span class='id file'>file</span><span class='period'>.</span><span class='id is_a?'>is_a?</span> <span class='const'>String</span>
+    <span class='id url'>url</span> <span class='op'>=</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Url</span><span class='period'>.</span><span class='id new'>new</span> <span class='id file'>file</span>
+    <span class='id url'>url</span><span class='period'>.</span><span class='id path'>path</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id expand_path'>expand_path</span><span class='lparen'>(</span><span class='id file'>file</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id url'>url</span><span class='period'>.</span><span class='id relative?'>relative?</span>
+  <span class='kw'>else</span> <span class='id url'>url</span> <span class='op'>=</span> <span class='id file'>file</span>
   <span class='kw'>end</span>
-  <span class='id add_document'>add_document</span> <span class='id doc'>doc</span>
-  <span class='id emit'>emit</span> <span class='id document_created'>document_created</span><span class='lparen'>(</span><span class='id doc'>doc</span><span class='rparen'>)</span>
+  <span class='id doc'>doc</span> <span class='op'>=</span> <span class='id document_for_url'>document_for_url</span> <span class='id file'>file</span>
+  <span class='kw'>return</span> <span class='id doc'>doc</span> <span class='kw'>if</span> <span class='id doc'>doc</span> <span class='kw'>or</span> <span class='op'>!</span><span class='id create_if_needed'>create_if_needed</span>
+  <span class='kw'>if</span> <span class='op'>!</span><span class='id doc'>doc</span> <span class='kw'>and</span> <span class='id create_if_needed'>create_if_needed</span>
+    <span class='kw'>if</span> <span class='id url'>url</span><span class='period'>.</span><span class='id local_file?'>local_file?</span>
+      <span class='id raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>File </span><span class='embexpr_beg'>#{</span><span class='id url'>url</span><span class='period'>.</span><span class='id path'>path</span><span class='rbrace'>}</span><span class='tstring_content'> doesn't exist</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='const'>File</span><span class='period'>.</span><span class='id exist?'>exist?</span><span class='lparen'>(</span><span class='id url'>url</span><span class='period'>.</span><span class='id path'>path</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+    <span class='id doc'>doc</span> <span class='op'>=</span> <span class='const'>Document</span><span class='period'>.</span><span class='id new'>new</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id file'>file</span>
+    <span class='kw'>begin</span> <span class='ivar'>@docs</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id close'>close</span> <span class='kw'>if</span> <span class='ivar'>@docs</span><span class='period'>.</span><span class='id only'>only</span><span class='period'>.</span><span class='id pristine?'>pristine?</span>
+    <span class='kw'>rescue</span> <span class='const'>IndexError</span>
+    <span class='kw'>end</span>
+    <span class='id add_document'>add_document</span> <span class='id doc'>doc</span>
+    <span class='id emit'>emit</span> <span class='id document_created'>document_created</span><span class='lparen'>(</span><span class='id doc'>doc</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
   <span class='id doc'>doc</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -854,34 +1246,67 @@ new document is returned.</p>
       <div class="method_details ">
   <p class="signature " id="document_for_file-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>document_for_file</strong>(file) 
+    - (<tt><span class='object_link'><a href="Document.html" title="Ruber::Document (class)">Document</a></span></tt><sup>?</sup>) <strong>document_for_file</strong>(file) 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Returns the document with filename <em>file</em>. <em>file</em> can be an absolute
-or relative pathname (if it&#8217;s relative, it will be considered relative to the
-current directory). If no document associated with file <em>file</em> exists, <strong>nil</strong>
-is returned.</p>
+    <p>The document associated with a given file</p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
   
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>file</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the name of the file. If it&#8217;s relative, it will be considered
+relative to the current directory</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Document.html" title="Ruber::Document (class)">Document</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the document associated with <em>file</em> or <strong>nil</strong> if no such
+document exists</p></div>
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-214
-215
-216
-217</pre>
+310
+311
+312
+313</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 214</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 310</span>
 
 <span class='kw'>def</span> <span class='id document_for_file'>document_for_file</span> <span class='id file'>file</span>
   <span class='id file'>file</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id expand_path'>expand_path</span> <span class='id file'>file</span>
@@ -901,14 +1326,31 @@ is returned.</p>
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Returns <strong>true</strong> if there&#8217;s a document associated with the file <em>file</em>, which can
-be an absolute filename or a filename relative to the current directory, and <strong>false</strong>
-otherwise.</p>
+    <p>Whether there&#8217;s a document associated with a given file</p>
 
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>file</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the name of the file (absolute or relative to the current
+directory)</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
@@ -917,6 +1359,10 @@ otherwise.</p>
       
       
       
+      
+        &mdash;
+        <div class='inline'><p><strong>true</strong> if there&#8217;s a document associated with <em>file</em> and <strong>false</strong>
+otherwise</p></div>
       
     </li>
   
@@ -928,13 +1374,13 @@ otherwise.</p>
       <pre class="lines">
 
 
-241
-242
-243
-244</pre>
+372
+373
+374
+375</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 241</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 372</span>
 
 <span class='kw'>def</span> <span class='id document_for_file?'>document_for_file?</span> <span class='id file'>file</span>
   <span class='id file'>file</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id expand_path'>expand_path</span> <span class='id file'>file</span>
@@ -946,33 +1392,209 @@ otherwise.</p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="document_with_name-instance_method">
+  <p class="signature " id="document_for_url-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>document_with_name</strong>(name) 
+    - (<tt><span class='object_link'><a href="Document.html" title="Ruber::Document (class)">Document</a></span></tt><sup>?</sup>) <strong>document_for_url</strong>(url) 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Returns the document with <tt>document_name</tt> <em>name</em>, or <strong>nil</strong> if no such
-document is found</p>
+    <p>The document associated with a given <span class="caps">URL</span></p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
   
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../KDE/Url.html" title="KDE::Url (class)">KDE::Url</a></span></tt>)</span>
+      
+      
+        <span class='name'>url</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the url</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Document.html" title="Ruber::Document (class)">Document</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the document associated with <em>url</em> or <strong>nil</strong> if no such
+document exists</p></div>
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-223
-224
-225</pre>
+322
+323
+324</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 223</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 322</span>
+
+<span class='kw'>def</span> <span class='id document_for_url'>document_for_url</span> <span class='id url'>url</span>
+  <span class='ivar'>@docs</span><span class='period'>.</span><span class='id find'>find</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id d'>d</span><span class='op'>|</span> <span class='id d'>d</span><span class='period'>.</span><span class='id url'>url</span> <span class='op'>==</span> <span class='id url'>url</span><span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="document_for_url?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>document_for_url?</strong>(url) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Whether there&#8217;s a document associated with a given <span class="caps">URL</span></p>
+<p>otherwise</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>@<span class='object_link'><a href="../KDE/Url.html" title="KDE::Url (class)">KDE::Url</a></span>@</tt>)</span>
+      
+      
+        <span class='name'>url</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the url</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><strong>true</strong> if there&#8217;s a document associated with <em>url</em> and <strong>false</strong></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+384
+385
+386</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 384</span>
+
+<span class='kw'>def</span> <span class='id document_for_url?'>document_for_url?</span> <span class='id url'>url</span>
+  <span class='ivar'>@docs</span><span class='period'>.</span><span class='id any?'>any?</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id d'>d</span><span class='op'>|</span> <span class='id d'>d</span><span class='period'>.</span><span class='id url'>url</span> <span class='op'>==</span> <span class='id url'>url</span><span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="document_with_name-instance_method">
+  
+    - (<tt><span class='object_link'><a href="Document.html" title="Ruber::Document (class)">Document</a></span></tt><sup>?</sup>) <strong>document_with_name</strong>(name) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The document with a given name</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>name</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the name of the document</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Document.html" title="Ruber::Document (class)">Document</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the document with <code>document_name</code> <em>name</em> or <strong>nil</strong> if no
+document with that name exists</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+333
+334
+335</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 333</span>
 
 <span class='kw'>def</span> <span class='id document_with_name'>document_with_name</span> <span class='id name'>name</span>
   <span class='ivar'>@docs</span><span class='period'>.</span><span class='id find'>find</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id d'>d</span><span class='op'>|</span> <span class='id d'>d</span><span class='period'>.</span><span class='id document_name'>document_name</span> <span class='op'>==</span> <span class='id name'>name</span><span class='rbrace'>}</span>
@@ -991,8 +1613,312 @@ document is found</p>
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Returns <strong>true</strong> if there&#8217;s a file with <tt>document_name</tt> <em>name</em> and <strong>false</strong>
-otherwise.</p>
+    <p>Whether there&#8217;s a document with a given name</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>name</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>of the document</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><strong>true</strong> if there&#8217;s a document associated with <em>name</em> and <strong>false</strong>
+otherwise</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+395
+396
+397</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 395</span>
+
+<span class='kw'>def</span> <span class='id document_with_name?'>document_with_name?</span> <span class='id name'>name</span>
+  <span class='ivar'>@docs</span><span class='period'>.</span><span class='id any?'>any?</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id d'>d</span><span class='op'>|</span> <span class='id d'>d</span><span class='period'>.</span><span class='id document_name'>document_name</span> <span class='op'>==</span> <span class='id name'>name</span><span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="documents-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="Document.html" title="Ruber::Document (class)">Document</a></span>&gt;</tt>) <strong>documents</strong> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='to_a-instance_method'>to_a</span></span>
+    </span>
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>A list of open documents</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="Document.html" title="Ruber::Document (class)">Document</a></span>&gt;</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>a list of open documents</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+135
+136
+137</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 135</span>
+
+<span class='kw'>def</span> <span class='id documents'>documents</span>
+  <span class='ivar'>@docs</span><span class='period'>.</span><span class='id dup'>dup</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="documents_with_file-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="Document.html" title="Ruber::Document (class)">Document</a></span>&gt;</tt>) <strong>documents_with_file</strong>(which = :any) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The documents which are associated with a file</p>
+<p><em>which</em> can be used to restrict the list of documents to only those associated
+with local or remote files:</p>
+<ul>
+	<li>if <em>which</em> is <code>:local</code> only documents associated with local files will be returned;</li>
+	<li>if <em>which</em> is <code>:remote</code> only documents associated with remoted files will be returned;</li>
+	<li>if <em>which</em> has any other value, both documents associated with local and with
+  remote files will be returned</li>
+</ul>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>)</span>
+      
+      
+        <span class='name'>which</span>
+      
+      
+        <em class="default">(defaults to: <tt>:any</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>which kind of documents should be included in the list</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="Document.html" title="Ruber::Document (class)">Document</a></span>&gt;</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>a list of documents associated with files, and restricted
+according to the value of <em>which</em></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 350</span>
+
+<span class='kw'>def</span> <span class='id documents_with_file'>documents_with_file</span> <span class='id which'>which</span> <span class='op'>=</span> <span class='symbol'>:any</span>
+  <span class='ivar'>@docs</span><span class='period'>.</span><span class='id select'>select</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id d'>d</span><span class='op'>|</span> 
+    <span class='kw'>if</span> <span class='id d'>d</span><span class='period'>.</span><span class='id has_file?'>has_file?</span>
+      <span class='kw'>case</span> <span class='id which'>which</span>
+      <span class='kw'>when</span> <span class='symbol'>:local</span> <span class='kw'>then</span> <span class='id d'>d</span><span class='period'>.</span><span class='id url'>url</span><span class='period'>.</span><span class='id local_file?'>local_file?</span>
+      <span class='kw'>when</span> <span class='symbol'>:remote</span> <span class='kw'>then</span> <span class='op'>!</span><span class='id d'>d</span><span class='period'>.</span><span class='id url'>url</span><span class='period'>.</span><span class='id local_file?'>local_file?</span>
+      <span class='kw'>else</span> <span class='kw'>true</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="each_document-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::DocumentList (class)">DocumentList</a></span></tt>, <tt>Enumerator</tt>) <strong>each_document</strong> {|Document| ... }
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='each-instance_method'>each</span></span>
+    </span>
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Calls the block for each document
+otherwise</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Yields:</h3>
+<ul class="yield">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Document.html" title="Ruber::Document (class)">Document</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>each document in turn</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Ruber::DocumentList (class)">DocumentList</a></span></tt>, <tt>Enumerator</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><code>self</code> if called with a block; an <code>Enumerable</code></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+293
+294
+295
+296
+297
+298
+299</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 293</span>
+
+<span class='kw'>def</span> <span class='id each_document'>each_document</span>
+  <span class='kw'>if</span> <span class='id block_given?'>block_given?</span> 
+    <span class='ivar'>@docs</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id d'>d</span><span class='op'>|</span> <span class='kw'>yield</span> <span class='id d'>d</span><span class='rbrace'>}</span>
+    <span class='kw'>self</span>
+  <span class='kw'>else</span> <span class='kw'>self</span><span class='period'>.</span><span class='id to_enum'>to_enum</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="empty?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>empty?</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Whether the document list is empty or not</p>
 
   </div>
 </div>
@@ -1007,6 +1933,9 @@ otherwise.</p>
       
       
       
+        &mdash;
+        <div class='inline'><p>whether the document list is empty or not</p></div>
+      
     </li>
   
 </ul>
@@ -1017,96 +1946,15 @@ otherwise.</p>
       <pre class="lines">
 
 
-250
-251
-252</pre>
+143
+144
+145</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 250</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 143</span>
 
-<span class='kw'>def</span> <span class='id document_with_name?'>document_with_name?</span> <span class='id name'>name</span>
-  <span class='ivar'>@docs</span><span class='period'>.</span><span class='id any?'>any?</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id d'>d</span><span class='op'>|</span> <span class='id d'>d</span><span class='period'>.</span><span class='id document_name'>document_name</span> <span class='op'>==</span> <span class='id name'>name</span><span class='rbrace'>}</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="documents_with_file-instance_method">
-  
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>documents_with_file</strong> 
-  
-
-  
-</p><div class="docstring">
-  <div class="discussion">
-    <p>Returns an array containing all the documents associated with a file.</p>
-
-  </div>
-</div>
-<div class="tags">
-  
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-230
-231
-232</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 230</span>
-
-<span class='kw'>def</span> <span class='id documents_with_file'>documents_with_file</span>
-  <span class='ivar'>@docs</span><span class='period'>.</span><span class='id select'>select</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id d'>d</span><span class='op'>|</span> <span class='id d'>d</span><span class='period'>.</span><span class='id has_file?'>has_file?</span><span class='rbrace'>}</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="each_document-instance_method">
-  
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>each_document</strong> 
-  
-
-  
-    <span class="aliases">Also known as:
-    <span class="names"><span id='each-instance_method'>each</span></span>
-    </span>
-  
-</p><div class="docstring">
-  <div class="discussion">
-    <p>If passed a block, calls the block for each document, otherwise returns an
-<tt>Enumerable::Enumerator</tt> which does the same.</p>
-
-  </div>
-</div>
-<div class="tags">
-  
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-201
-202
-203
-204
-205</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 201</span>
-
-<span class='kw'>def</span> <span class='id each_document'>each_document</span>
-  <span class='kw'>if</span> <span class='id block_given?'>block_given?</span> <span class='kw'>then</span> <span class='ivar'>@docs</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id d'>d</span><span class='op'>|</span> <span class='kw'>yield</span> <span class='id d'>d</span><span class='rbrace'>}</span>
-  <span class='kw'>else</span> <span class='ivar'>@docs</span><span class='period'>.</span><span class='id each'>each</span>
-  <span class='kw'>end</span>
+<span class='kw'>def</span> <span class='id empty?'>empty?</span>
+  <span class='ivar'>@docs</span><span class='period'>.</span><span class='id empty?'>empty?</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1116,34 +1964,51 @@ otherwise.</p>
       <div class="method_details ">
   <p class="signature " id="new_document-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>new_document</strong> 
+    - (<tt><span class='object_link'><a href="Document.html" title="Ruber::Document (class)">Ruber::Document</a></span></tt>) <strong>new_document</strong> 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Adds a new empty document to the list and emits the <tt>document_created</tt>
-signal. Returns the new document</p>
+    <p>Creates a new empty document</p>
+<p>The document is automatically added to the list and the <span class='object_link'><a href="#document_created-signalcode" title="Ruber::DocumentList#document_created (signalcode)">#document_created</a></span> signal
+is emitted</p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
   
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Document.html" title="Ruber::Document (class)">Ruber::Document</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the created document</p></div>
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-79
-80
-81
 82
 83
-84</pre>
+84
+85
+86
+87</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 79</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 82</span>
 
 <span class='kw'>def</span> <span class='id new_document'>new_document</span>
   <span class='id doc'>doc</span> <span class='op'>=</span> <span class='const'>Document</span><span class='period'>.</span><span class='id new'>new</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span>
@@ -1159,23 +2024,51 @@ signal. Returns the new document</p>
       <div class="method_details ">
   <p class="signature " id="query_close-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>query_close</strong> 
+    - (<tt>Boolean</tt>) <strong>query_close</strong> 
   
 
   
-</p><table class="source_code">
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Override of <span class='object_link'><a href="PluginLike.html#query_close-instance_method" title="Ruber::PluginLike#query_close (method)">PluginLike#query_close</a></span></p>
+<p>It first calls the query_close of each document&#8217;s
+own project, returning <strong>false</strong> as soon as one of them returns <strong>false</strong>, then 
+attempts to save each document</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><strong>true</strong> if it is all right to go on closing Ruber and <strong>false</strong>
+otherwise</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-254
-255
-256
-257</pre>
+409
+410
+411
+412</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 254</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 409</span>
 
 <span class='kw'>def</span> <span class='id query_close'>query_close</span>
   <span class='ivar'>@docs</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id d'>d</span><span class='op'>|</span> <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='id d'>d</span><span class='period'>.</span><span class='id own_project'>own_project</span><span class='period'>.</span><span class='id query_close'>query_close</span><span class='rbrace'>}</span>
@@ -1189,47 +2082,101 @@ signal. Returns the new document</p>
       <div class="method_details ">
   <p class="signature " id="save_documents-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>save_documents</strong>(docs, stop_on_failure = false) 
+    - (<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="Document.html" title="Ruber::Document (class)">Document</a></span>&gt;</tt>) <strong>save_documents</strong>(docs, stop_on_failure = false) 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Attempts to save all the documents in the array <em>docs</em>, returning an array with
-those documents which couldn&#8217;t be saved.</p>
-<p>If <i>stop_on_failure</i> is <strong>true</strong>, when a document can&#8217;t be saved the method
-doesn&#8217;t attempt to save other documents, and includes both the one which failed
-and the ones it didn&#8217;t try to save in the returned array. When <i>stop_on_failure</i>
-is <strong>false</strong>, instead, the method will try to save all documents, regardless of
-whether all the previous ones could be saved or not. In this case, only the ones
-for which saving failed will be put in the returned array.</p>
-<p>If all the documents were saved successfully, the returned array will be empty.</p>
+    <p>Attempts to save the given documents</p>
+<p>What happens if a document can&#8217;t be saved depends on the value of <em>stop_on_failure</em>:
+if it&#8217;s <strong>false</strong>, documents which can&#8217;t be saved are skipped, while if it&#8217;s true,
+this method will return as soon as one document fails to save.</p>
+<p><strong>Note:</strong> by can&#8217;t be saved, we mean that the user chose to save a document but,
+for any reason, it couldn&#8217;t be saved (for example this can happen if the user
+doesn&#8217;t have write permission on the file, or if the disk is full). If the user
+decides not to save the file, instead, it is considered a success.</p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
   
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="Document.html" title="Ruber::Document (class)">Document</a></span>&gt;</tt>)</span>
+      
+      
+        <span class='name'>docs</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>an array with the documents to save</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <span class='name'>stop_on_failure</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>what to do when a document fails to save. If <strong>true</strong>,
+return immediately; if <strong>false</strong>, attempt to save the remaining documents</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="Document.html" title="Ruber::Document (class)">Document</a></span>&gt;</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>an array with the documents which couldn&#8217;t be saved. If
+<em>stop_on_failure</em> is <strong>false</strong>, it contains only the documents for which saving failed;
+if <em>stop_on_failure</em> is <strong>true</strong> it also contains the documents for which saving
+wasn&#8217;t even attempted. If all documents were saved successfully, the array will
+be empty</p></div>
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-134
-135
-136
-137
-138
-139
-140
-141
-142
-143
-144
-145</pre>
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 134</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 196</span>
 
 <span class='kw'>def</span> <span class='id save_documents'>save_documents</span> <span class='id docs'>docs</span><span class='comma'>,</span> <span class='id stop_on_failure'>stop_on_failure</span> <span class='op'>=</span> <span class='kw'>false</span>
   <span class='id failed'>failed</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -1251,25 +2198,104 @@ for which saving failed will be put in the returned array.</p>
       <div class="method_details ">
   <p class="signature " id="save_settings-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>save_settings</strong> 
+    - (<tt>nil</tt>) <strong>save_settings</strong> 
   
 
   
-</p><table class="source_code">
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Saves the settings for all open documents</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-147
-148
-149</pre>
+214
+215
+216
+217</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 147</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 214</span>
 
 <span class='kw'>def</span> <span class='id save_settings'>save_settings</span>
   <span class='ivar'>@docs</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id d'>d</span><span class='op'>|</span> <span class='id d'>d</span><span class='period'>.</span><span class='id save_settings'>save_settings</span><span class='rbrace'>}</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="size-instance_method">
+  
+    - (<tt>Integer</tt>) <strong>size</strong> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='length-instance_method'>length</span></span>
+    </span>
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The number of documents in the list</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the number of documents in the list</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+150
+151
+152</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 150</span>
+
+<span class='kw'>def</span> <span class='id size'>size</span>
+  <span class='ivar'>@docs</span><span class='period'>.</span><span class='id size'>size</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1286,15 +2312,133 @@ for which saving failed will be put in the returned array.</p>
       <div class="method_details first">
   <p class="signature first" id="document_created-signalcode">
 <!-- The sub is needed to remove the (Object) part -->
-  - <strong>document_created</strong>(QObject* arg1) 
-</p>
+  - <strong>document_created</strong>(QObject* doc) 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted when a new document is created</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Document.html" title="Ruber::Document (class)">Document</a></span></tt>)</span>
+      
+      
+        <span class='name'>doc</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the new document</p></div>
+      
+    </li>
+  
+</ul>
+
+</div>
 </div>
     
       <div class="method_details ">
   <p class="signature " id="closing_document-signalcode">
 <!-- The sub is needed to remove the (Object) part -->
-  - <strong>closing_document</strong>(QObject* arg1) 
-</p>
+  - <strong>closing_document</strong>(QObject* doc) 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted before a document is closed</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Document.html" title="Ruber::Document (class)">Document</a></span></tt>)</span>
+      
+      
+        <span class='name'>doc</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the document which is being closed</p></div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="document_created-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>document_created</strong>(QObject* doc) 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted when a new document is created</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Document.html" title="Ruber::Document (class)">Document</a></span></tt>)</span>
+      
+      
+        <span class='name'>doc</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the new document</p></div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="closing_document-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>closing_document</strong>(QObject* doc) 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted before a document is closed</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Document.html" title="Ruber::Document (class)">Document</a></span></tt>)</span>
+      
+      
+        <span class='name'>doc</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the document which is being closed</p></div>
+      
+    </li>
+  
+</ul>
+
+</div>
 </div>
     
   </div>
@@ -1302,7 +2446,7 @@ for which saving failed will be put in the returned array.</p>
 </div>
     
     <div id="footer">
-  Generated on Fri Oct 29 12:53:02 2010 by 
+  Generated on Sat Nov 13 18:00:52 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.1 (ruby-1.9.2).
 </div>

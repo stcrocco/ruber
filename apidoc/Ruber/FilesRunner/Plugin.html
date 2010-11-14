@@ -76,7 +76,9 @@
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">plugins/ruby_development/ruby_development.rb</dd>
+    <dd class="r2 last">plugins/ruby_development/ruby_development.rb<span class="defines">,<br />
+  plugins/ruby_development/ruby_development.rb</span>
+</dd>
   
 </dl>
 <div class="clear"></div>
@@ -89,7 +91,17 @@
 </div>
 <div class="tags">
   
-</div>
+</div><h2>Defined Under Namespace</h2>
+<p class="children">
+   
+    
+   
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Plugin/FakeFileInfo.html" title="Ruber::FilesRunner::Plugin::FakeFileInfo (class)">FakeFileInfo</a></span>
+    
+  
+</p>
+
 
   
 
@@ -126,6 +138,50 @@
 
       
         <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#process_standard_error-instance_method" title="#process_standard_error (instance method)">- (nil) <strong>process_standard_error</strong>(lines) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Override of <span class='object_link'><a href="../ExternalProgramPlugin.html#process_standard_error-instance_method" title="Ruber::ExternalProgramPlugin#process_standard_error (method)">ExternalProgramPlugin#process_standard_error</a></span>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#process_standard_output-instance_method" title="#process_standard_output (instance method)">- (nil) <strong>process_standard_output</strong>(lines) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Override of <span class='object_link'><a href="../ExternalProgramPlugin.html#process_standard_output-instance_method" title="Ruber::ExternalProgramPlugin#process_standard_output (method)">ExternalProgramPlugin#process_standard_output</a></span>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
 <li class="public ">
   <span class="summary_signature">
     
@@ -143,6 +199,29 @@
 
   
     <span class="summary_desc"><div class='inline'><p>Override of <span class='object_link'><a href="../PluginLike.html#register_with_project-instance_method" title="Ruber::PluginLike#register_with_project (method)">Ruber::Plugin#register_with_project</a></span>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#replace_fake_file-instance_method" title="#replace_fake_file (instance method)">- (Array&lt;String&gt;) <strong>replace_fake_file</strong>(lines) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Replaces the path of the fake file used for running remote documents with the <span class="caps">URL</span>
+of the document.</p></div></span>
   
 </li>
 
@@ -336,7 +415,7 @@ displaying the output in the output tool widget.</p></div></span>
 <li class="private ">
   <span class="summary_signature">
     
-      <a href="#run_ruby_for-instance_method" title="#run_ruby_for (instance method)">- (Boolean) <strong>run_ruby_for</strong>(what, file, dir, prog_options, run_in_terminal, autosave_opts, &amp;blk) </a>
+      <a href="#run_ruby_for-instance_method" title="#run_ruby_for (instance method)">- (Boolean) <strong>run_ruby_for</strong>(what, file, dir, prog_options, run_in_terminal, autosave_opts = {}, &amp;blk) </a>
     
 
     
@@ -433,14 +512,15 @@ displaying the output in the output tool widget.</p></div></span>
 66
 67
 68
-69</pre>
+69
+70</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'plugins/ruby_development/ruby_development.rb', line 50</span>
 
 <span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id psf'>psf</span>
   <span class='kw'>super</span> <span class='id psf'>psf</span><span class='comma'>,</span> <span class='symbol'>:ruby</span><span class='comma'>,</span> <span class='symbol'>:scope</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='symbol'>:document</span><span class='comma'>,</span> <span class='symbol'>:global</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:file_extension</span> <span class='op'>=&gt;</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>*.rb</span><span class='words_sep'> </span><span class='tstring_content'>Rakefile</span><span class='words_sep'> </span><span class='tstring_content'>rakefile</span><span class='words_sep'>]</span><span class='comma'>,</span> 
-      <span class='symbol'>:mimetype</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>application/x-ruby</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
+      <span class='symbol'>:mimetype</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>application/x-ruby</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:place</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='symbol'>:local</span><span class='comma'>,</span> <span class='symbol'>:remote</span><span class='rbracket'>]</span>
   <span class='id process'>process</span><span class='period'>.</span><span class='id next_open_mode'>next_open_mode</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>IODevice</span><span class='op'>::</span><span class='const'>ReadOnly</span> <span class='op'>|</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>IODevice</span><span class='op'>::</span><span class='const'>Unbuffered</span>
   <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:autosave</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id register_plugin'>register_plugin</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='kw'>true</span>
   <span class='id connect'>connect</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>process_finished(int, QString)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>ruby_exited(int, QString)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
@@ -457,6 +537,7 @@ displaying the output in the output tool widget.</p></div></span>
     <span class='id o'>o</span><span class='period'>.</span><span class='id register_plugin'>register_plugin</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='kw'>true</span> <span class='kw'>if</span> <span class='id f'>f</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>autosave</span><span class='tstring_end'>'</span></span>
   <span class='kw'>end</span>
   <span class='ivar'>@output_widget</span> <span class='op'>=</span> <span class='ivar'>@widget</span>
+  <span class='ivar'>@fake_file</span> <span class='op'>=</span> <span class='kw'>nil</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -471,7 +552,145 @@ displaying the output in the output tool widget.</p></div></span>
     
     
       <div class="method_details first">
-  <p class="signature first" id="register_with_project-instance_method">
+  <p class="signature first" id="process_standard_error-instance_method">
+  
+    - (<tt>nil</tt>) <strong>process_standard_error</strong>(lines)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Override of <span class='object_link'><a href="../ExternalProgramPlugin.html#process_standard_error-instance_method" title="Ruber::ExternalProgramPlugin#process_standard_error (method)">ExternalProgramPlugin#process_standard_error</a></span></p>
+<p>It processes the lines using <span class='object_link'><a href="#replace_fake_file-instance_method" title="Ruber::FilesRunner::Plugin#replace_fake_file (method)">#replace_fake_file</a></span> before passing it to the base
+class&#8217;s method</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+      
+      
+        <span class='name'>lines</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the lines on standard error</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+423
+424
+425</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/ruby_development/ruby_development.rb', line 423</span>
+
+<span class='kw'>def</span> <span class='id process_standard_error'>process_standard_error</span> <span class='id lines'>lines</span>
+  <span class='kw'>super</span> <span class='id replace_fake_file'>replace_fake_file</span><span class='lparen'>(</span><span class='id lines'>lines</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="process_standard_output-instance_method">
+  
+    - (<tt>nil</tt>) <strong>process_standard_output</strong>(lines)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Override of <span class='object_link'><a href="../ExternalProgramPlugin.html#process_standard_output-instance_method" title="Ruber::ExternalProgramPlugin#process_standard_output (method)">ExternalProgramPlugin#process_standard_output</a></span></p>
+<p>It processes the lines using <span class='object_link'><a href="#replace_fake_file-instance_method" title="Ruber::FilesRunner::Plugin#replace_fake_file (method)">#replace_fake_file</a></span> before passing it to the base
+class&#8217;s method</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+      
+      
+        <span class='name'>lines</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the output lines</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+411
+412
+413</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/ruby_development/ruby_development.rb', line 411</span>
+
+<span class='kw'>def</span> <span class='id process_standard_output'>process_standard_output</span> <span class='id lines'>lines</span>
+  <span class='kw'>super</span> <span class='id replace_fake_file'>replace_fake_file</span><span class='lparen'>(</span><span class='id lines'>lines</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="register_with_project-instance_method">
   
     - (<tt>nil</tt>) <strong>register_with_project</strong>(prj) 
   
@@ -563,6 +782,89 @@ if the project has document scope</p>
 </div>
     
       <div class="method_details ">
+  <p class="signature " id="replace_fake_file-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>&gt;</tt>) <strong>replace_fake_file</strong>(lines)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Replaces the path of the fake file used for running remote documents with the <span class="caps">URL</span>
+of the document</p>
+<p>It does nothing if there&#8217;s no fake file (that is, if we&#8217;re not executing the document
+associated with a remote file).</p>
+<p><strong>Note:</strong> for efficency reasons the replacement is performed in place, so create a
+duplicate of the array before calling this method if you need to preserve it.</p>
+<p>with the url of the remote file. If no fake file is in use, <em>lines</em> will be returned
+unchanged</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+      
+      
+        <span class='name'>the</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>lines of text to perform the replacement into</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the lines with all occurrences of the fake file path replaced</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+396
+397
+398
+399
+400
+401</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/ruby_development/ruby_development.rb', line 396</span>
+
+<span class='kw'>def</span> <span class='id replace_fake_file'>replace_fake_file</span> <span class='id lines'>lines</span>
+  <span class='kw'>if</span> <span class='ivar'>@fake_file</span>
+    <span class='id lines'>lines</span><span class='period'>.</span><span class='id map!'>map!</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id l'>l</span><span class='op'>|</span> <span class='id l'>l</span><span class='period'>.</span><span class='id gsub'>gsub</span><span class='lparen'>(</span><span class='ivar'>@fake_file</span><span class='period'>.</span><span class='id file'>file</span><span class='period'>.</span><span class='id path'>path</span><span class='comma'>,</span> <span class='ivar'>@fake_file</span><span class='period'>.</span><span class='id url'>url</span><span class='period'>.</span><span class='id pretty_url'>pretty_url</span><span class='rparen'>)</span><span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+  <span class='id lines'>lines</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <p class="signature " id="ruby_exited-instance_method">
   
     - (<tt>nil</tt>) <strong>ruby_exited</strong>(code, reason)  <span class="extras">(private)</span>
@@ -602,7 +904,11 @@ if the project has document scope</p>
 355
 356
 357
-358</pre>
+358
+359
+360
+361
+362</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'plugins/ruby_development/ruby_development.rb', line 353</span>
@@ -611,6 +917,10 @@ if the project has document scope</p>
   <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id change_state'>change_state</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>ruby_running</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='kw'>false</span>
   <span class='ivar'>@widget</span><span class='period'>.</span><span class='id scroll_to'>scroll_to</span> <span class='op'>-</span><span class='int'>1</span>
   <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id focus_on_editor'>focus_on_editor</span>
+  <span class='kw'>if</span> <span class='ivar'>@fake_file</span>
+    <span class='ivar'>@fake_file</span><span class='period'>.</span><span class='id file'>file</span><span class='period'>.</span><span class='id close'>close</span> <span class='kw'>true</span>
+    <span class='ivar'>@fake_file</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='kw'>end</span>
   <span class='kw'>nil</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -746,14 +1056,16 @@ was started correctly and <strong>nil</strong> if no document exists</p>
 319
 320
 321
-322</pre>
+322
+323</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'plugins/ruby_development/ruby_development.rb', line 319</span>
 
 <span class='kw'>def</span> <span class='id run_current_document'>run_current_document</span>
   <span class='id doc'>doc</span> <span class='op'>=</span>  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current_document'>current_document</span>
-  <span class='id run_document'>run_document</span> <span class='id doc'>doc</span> <span class='kw'>if</span> <span class='id doc'>doc</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id doc'>doc</span>        
+  <span class='id run_document'>run_document</span> <span class='id doc'>doc</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -840,7 +1152,19 @@ run in a terminal window or not.</p>
 208
 209
 210
-211</pre>
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'plugins/ruby_development/ruby_development.rb', line 204</span>
@@ -850,6 +1174,18 @@ run in a terminal window or not.</p>
   <span class='id prj'>prj</span> <span class='op'>=</span> <span class='id doc'>doc</span><span class='period'>.</span><span class='id project'>project</span>
   <span class='id file'>file</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id basename'>basename</span><span class='lparen'>(</span><span class='id doc'>doc</span><span class='period'>.</span><span class='id path'>path</span><span class='rparen'>)</span>
   <span class='id dir'>dir</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id dirname'>dirname</span><span class='lparen'>(</span><span class='id doc'>doc</span><span class='period'>.</span><span class='id path'>path</span><span class='rparen'>)</span>
+  <span class='id url'>url</span> <span class='op'>=</span> <span class='id doc'>doc</span><span class='period'>.</span><span class='id url'>url</span>
+  <span class='kw'>if</span> <span class='id url'>url</span><span class='period'>.</span><span class='id remote_file?'>remote_file?</span>
+    <span class='ivar'>@fake_file</span> <span class='op'>=</span> <span class='const'>FakeFileInfo</span><span class='period'>.</span><span class='id new'>new</span> <span class='const'>Tempfile</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>ruby_development</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id url'>url</span>
+    <span class='ivar'>@fake_file</span><span class='period'>.</span><span class='id file'>file</span><span class='period'>.</span><span class='id write'>write</span> <span class='id doc'>doc</span><span class='period'>.</span><span class='id text'>text</span>
+    <span class='ivar'>@fake_file</span><span class='period'>.</span><span class='id file'>file</span><span class='period'>.</span><span class='id flush'>flush</span>
+    <span class='id file'>file</span> <span class='op'>=</span> <span class='ivar'>@fake_file</span><span class='period'>.</span><span class='id file'>file</span><span class='period'>.</span><span class='id path'>path</span>
+    <span class='id dir'>dir</span> <span class='op'>=</span> <span class='const'>ENV</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>HOME</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+  <span class='kw'>unless</span> <span class='id prj'>prj</span><span class='period'>.</span><span class='id has_setting?'>has_setting?</span><span class='lparen'>(</span><span class='symbol'>:ruby</span><span class='comma'>,</span> <span class='symbol'>:options</span><span class='rparen'>)</span>
+    <span class='const'>KDE</span><span class='op'>::</span><span class='const'>MessageBox</span><span class='period'>.</span><span class='id sorry'>sorry</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The document </span><span class='embexpr_beg'>#{</span><span class='id url'>url</span><span class='period'>.</span><span class='id pretty_url'>pretty_url</span><span class='rbrace'>}</span><span class='tstring_content'> doesn't seem to be a ruby file, so it can't be run</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>return</span>
+  <span class='kw'>end</span>
   <span class='id run_ruby_for'>run_ruby_for</span> <span class='id prj'>prj</span><span class='comma'>,</span> <span class='id file'>file</span><span class='comma'>,</span> <span class='id dir'>dir</span><span class='comma'>,</span> <span class='id prj'>prj</span><span class='lbracket'>[</span><span class='symbol'>:ruby</span><span class='comma'>,</span> <span class='symbol'>:options</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id run_in_terminal?'>run_in_terminal?</span><span class='lparen'>(</span><span class='id doc'>doc</span><span class='period'>.</span><span class='id project'>project</span><span class='rparen'>)</span><span class='comma'>,</span>
       <span class='symbol'>:files</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='id doc'>doc</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:on_failure</span> <span class='op'>=&gt;</span> <span class='symbol'>:ask</span>
 <span class='kw'>end</span></pre>
@@ -869,7 +1205,9 @@ run in a terminal window or not.</p>
   <div class="discussion">
     <p>Runs a file in ruby.</p>
 <p>If the file is associated with a document, this method will work like <span class='object_link'><a href="#run_document-instance_method" title="Ruber::FilesRunner::Plugin#run_document (method)">#run_document</a></span>.</p>
-<p>Ruby will be executed from the directory where the file is.</p>
+<p>The file can be local or remote.</p>
+<p>Ruby will be executed from the directory where the file is or from the user&#8217;s
+home directory if the file is remote.</p>
 <p>The program will be run in a terminal if the corresponding action is checked.</p>
 <p>This method uses <span class='object_link'><a href="#run_ruby_for-instance_method" title="Ruber::FilesRunner::Plugin#run_ruby_for (method)">#run_ruby_for</a></span></p>
 <p><strong>Note:</strong> it is not possible to specify command line options to be passed to <em>file</em>.
@@ -894,7 +1232,7 @@ was started. If the user pressed the Cancel button of the dialog, <strong>nil</s
       
       
         &mdash;
-        <div class='inline'><p>the path of the file to run. If <strong>nil</strong>, an &#8220;Open file&#8221;</p></div>
+        <div class='inline'><p>the path or url of the file to run. If <strong>nil</strong>, an &#8220;Open file&#8221;</p></div>
       
     </li>
   
@@ -943,24 +1281,50 @@ was started. If the user pressed the Cancel button of the dialog, <strong>nil</s
 242
 243
 244
-245</pre>
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'plugins/ruby_development/ruby_development.rb', line 231</span>
 
 <span class='kw'>def</span> <span class='id run_file'>run_file</span> <span class='id file'>file</span> <span class='op'>=</span> <span class='kw'>nil</span>
-  <span class='kw'>unless</span> <span class='id file'>file</span>
-    <span class='id file'>file</span> <span class='op'>=</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>FileDialog</span><span class='period'>.</span><span class='id get_open_file_name'>get_open_file_name</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Url</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id scripts_directory'>scripts_directory</span><span class='rparen'>)</span><span class='comma'>,</span>
+  <span class='kw'>if</span> <span class='id file'>file</span> <span class='kw'>then</span> <span class='id url'>url</span> <span class='op'>=</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Url</span><span class='period'>.</span><span class='id new'>new</span> <span class='id file'>file</span>
+  <span class='kw'>else</span>
+    <span class='id url'>url</span> <span class='op'>=</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>FileDialog</span><span class='period'>.</span><span class='id get_open_url'>get_open_url</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Url</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:general</span><span class='comma'>,</span> <span class='symbol'>:default_script_directory</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='comma'>,</span>
         <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>*.rb|Ruby files (*.rb)</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Choose file to run</span><span class='tstring_end'>&quot;</span></span>
-    <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id file'>file</span>
+    <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id url'>url</span>
+    <span class='id file'>file</span> <span class='op'>=</span> <span class='id url'>url</span><span class='period'>.</span><span class='id to_encoded'>to_encoded</span><span class='period'>.</span><span class='id to_s'>to_s</span>
   <span class='kw'>end</span>
   
-  <span class='kw'>if</span> <span class='id doc'>doc</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:docs</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id document_for_file'>document_for_file</span><span class='lparen'>(</span><span class='id file'>file</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id doc'>doc</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:docs</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id document_for_url'>document_for_url</span><span class='lparen'>(</span><span class='id url'>url</span><span class='rparen'>)</span>
    <span class='kw'>return</span> <span class='id run_document'>run_document</span> <span class='id doc'>doc</span> 
   <span class='kw'>end</span>
   
-  <span class='id dir'>dir</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id dirname'>dirname</span><span class='lparen'>(</span><span class='id file'>file</span><span class='rparen'>)</span>
-  <span class='id file'>file</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id basename'>basename</span><span class='lparen'>(</span><span class='id file'>file</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id url'>url</span><span class='period'>.</span><span class='id local_file?'>local_file?</span>
+    <span class='id dir'>dir</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id dirname'>dirname</span><span class='lparen'>(</span><span class='id file'>file</span><span class='rparen'>)</span>
+    <span class='id file'>file</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id basename'>basename</span><span class='lparen'>(</span><span class='id file'>file</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='ivar'>@fake_file</span> <span class='op'>=</span> <span class='const'>FakeFileInfo</span><span class='period'>.</span><span class='id new'>new</span> <span class='const'>Tempfile</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>ruby_development</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id url'>url</span>
+    <span class='id downloaded'>downloaded</span> <span class='op'>=</span> <span class='const'>KIO</span><span class='op'>::</span><span class='const'>NetAccess</span><span class='period'>.</span><span class='id download'>download</span> <span class='id url'>url</span><span class='comma'>,</span> <span class='ivar'>@fake_file</span><span class='period'>.</span><span class='id file'>file</span><span class='period'>.</span><span class='id path'>path</span><span class='comma'>,</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span>
+    <span class='kw'>unless</span> <span class='id downloaded'>downloaded</span>
+      <span class='const'>KDE</span><span class='op'>::</span><span class='const'>MessageBox</span><span class='period'>.</span><span class='id sorry'>sorry</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>NetAccess</span><span class='period'>.</span><span class='id last_error_string'>last_error_string</span>
+      <span class='kw'>return</span>
+    <span class='kw'>end</span>
+    <span class='id file'>file</span> <span class='op'>=</span> <span class='ivar'>@fake_file</span><span class='period'>.</span><span class='id file'>file</span><span class='period'>.</span><span class='id path'>path</span>
+    <span class='id dir'>dir</span> <span class='op'>=</span> <span class='const'>ENV</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>HOME</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
   <span class='id run_ruby_for'>run_ruby_for</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id file'>file</span><span class='comma'>,</span> <span class='id dir'>dir</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id run_in_terminal?'>run_in_terminal?</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -1442,7 +1806,7 @@ to the <code>:dir</code> entry of <em>opts</em>)</p></div>
       <div class="method_details ">
   <p class="signature " id="run_ruby_for-instance_method">
   
-    - (<tt>Boolean</tt>) <strong>run_ruby_for</strong>(what, file, dir, prog_options, run_in_terminal, autosave_opts, &amp;blk)  <span class="extras">(private)</span>
+    - (<tt>Boolean</tt>) <strong>run_ruby_for</strong>(what, file, dir, prog_options, run_in_terminal, autosave_opts = {}, &amp;blk)  <span class="extras">(private)</span>
   
 
   
@@ -1540,6 +1904,8 @@ started correctly</p>
         <span class='name'>autosave_opts</span>
       
       
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
       
         &mdash;
         <div class='inline'><p>has the same meaning as in <span class='object_link'><a href="#run_ruby-instance_method" title="Ruber::FilesRunner::Plugin#run_ruby (method)">#run_ruby</a></span></p></div>
@@ -1608,7 +1974,7 @@ started correctly</p>
     <td>
       <pre class="code"><span class="info file"># File 'plugins/ruby_development/ruby_development.rb', line 298</span>
 
-<span class='kw'>def</span> <span class='id run_ruby_for'>run_ruby_for</span> <span class='id what'>what</span><span class='comma'>,</span> <span class='id file'>file</span><span class='comma'>,</span> <span class='id dir'>dir</span><span class='comma'>,</span> <span class='id prog_options'>prog_options</span><span class='comma'>,</span> <span class='id run_in_terminal'>run_in_terminal</span><span class='comma'>,</span> <span class='id autosave_opts'>autosave_opts</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id blk'>blk</span>
+<span class='kw'>def</span> <span class='id run_ruby_for'>run_ruby_for</span> <span class='id what'>what</span><span class='comma'>,</span> <span class='id file'>file</span><span class='comma'>,</span> <span class='id dir'>dir</span><span class='comma'>,</span> <span class='id prog_options'>prog_options</span><span class='comma'>,</span> <span class='id run_in_terminal'>run_in_terminal</span><span class='comma'>,</span> <span class='id autosave_opts'>autosave_opts</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id blk'>blk</span>
   <span class='id ruby'>ruby</span><span class='comma'>,</span> <span class='op'>*</span><span class='id ruby_opts'>ruby_opts</span> <span class='op'>=</span> <span class='id ruby_command_for'>ruby_command_for</span> <span class='id what'>what</span><span class='comma'>,</span> <span class='id dir'>dir</span>
   <span class='id opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span>
     <span class='symbol'>:dir</span> <span class='op'>=&gt;</span> <span class='id dir'>dir</span><span class='comma'>,</span>
@@ -1631,7 +1997,7 @@ started correctly</p>
 </div>
     
     <div id="footer">
-  Generated on Fri Oct 29 12:53:08 2010 by 
+  Generated on Sat Nov 13 18:00:52 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.1 (ruby-1.9.2).
 </div>

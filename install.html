@@ -21,10 +21,18 @@
 
       <div id="avmenu">
         <h2 class="hide">Site menu:</h2>
-        <ul><li class="webgen-menu-level1"><a href="index.html">Home</a></li><li class="webgen-menu-level1"><a href="news.html">News</a></li><li class="webgen-menu-level1"><a href="features.html">Features</a></li><li class="webgen-menu-level1"><a href="status.html">Status</a></li><li class="webgen-menu-level1"><a href="screenshots.html">Screenshots</a></li><li class="webgen-menu-level1 webgen-menu-item-selected"><span>Installing</span></li><li class="webgen-menu-level1 webgen-menu-submenu"><a href="user_manual/index.html">User manual</a></li><li class="webgen-menu-level1"><a href="plugin_developer_manual.html">Developer Manual</a></li><li class="webgen-menu-level1 webgen-menu-submenu"><a href="apidoc/index.html">API documentation</a></li><li class="webgen-menu-level1"><a href="contacts.html">Contacts</a></li><li class="webgen-menu-level1"><a href="http://github.com/stcrocco/ruber">Ruber page on github</a></li></ul>
+        <ul><li class="webgen-menu-level1"><a href="index.html">Home</a></li><li class="webgen-menu-level1"><a href="news.html">News</a></li><li class="webgen-menu-level1"><a href="features.html">Features</a></li><li class="webgen-menu-level1"><a href="status.html">Status</a></li><li class="webgen-menu-level1"><a href="screenshots.html">Screenshots</a></li><li class="webgen-menu-level1 webgen-menu-item-selected"><span>Installing</span></li><li class="webgen-menu-level1 webgen-menu-submenu"><a href="user_manual/index.html">User manual</a></li><li class="webgen-menu-level1 webgen-menu-submenu"><a href="apidoc/index.html">API documentation</a></li><li class="webgen-menu-level1"><a href="plugin_developer_manual.html">Developer Manual</a></li><li class="webgen-menu-level1"><a href="contacts.html">Contacts</a></li><li class="webgen-menu-level1"><a href="http://github.com/stcrocco/ruber">Ruber page on github</a></li></ul>
 
         <div class="announce">
           <h2>Latest news:</h2>
+          
+            <p><a href="news.html#Ruber-0-0-6-released-2010-11-14">Ruber 0.0.6 released</a></p>
+          
+            <p><a href="news.html#Ruber-0-0-5-released-2010-11-03">Ruber 0.0.5 released</a></p>
+          
+            <p><a href="news.html#Ruber-0-0-4-released-2010-11-03">Ruber 0.0.4 released</a></p>
+          
+            <p><a href="news.html#Ruber-0-0-2-released-2010-11-03">Ruber 0.0.2 released</a></p>
           
             <p><a href="news.html#Ruber-0-0-1-released-2010-10-29">Ruber 0.0.1 released</a></p>
           
@@ -36,7 +44,7 @@
 <p>To run Ruber, you need to have the following installed</p>
 <ul>
 	<li>Ruby 1.8.7 <span class="caps">MRI</span> or later (<a href="http://www.ruby-lang.org">www.ruby-lang.org</a>)</li>
-	<li>Korundum (<span class="caps">KDE</span> Ruby bindings) version 4.5.2 (<a href="http://rubyforge.org/projects/korundum/">rubyforge.org/projects/korundum</a>).
+	<li>Korundum (<span class="caps">KDE</span> Ruby bindings) version 4.5.2 or later (<a href="http://rubyforge.org/projects/korundum/">rubyforge.org/projects/korundum</a>).
   Version 4.5.0 and 4.5.1 will likely not work, while the 4.4 releases
   may or may not work (some bugs have been fixed since these versions, so earlier
   versions may lead to crashes).</li>
@@ -121,7 +129,7 @@ for them. To install using a package manager, simply install the <code>kdelibs</
 	<li><code>make install</code>. Unless you changed the installation directory to a directory
   you have write access to, this command must be run as superuser.</li>
 </ul>
-<h4>Installation of the <span class="caps">KDE</span> Ruby bindings</h4>
+<h4>Installing the <span class="caps">KDE</span> Ruby bindings</h4>
 <ul>
 	<li>Make sure you have both the Ruby and <span class="caps">KDE</span> headers installed. If you installed 
   Ruby or the <span class="caps">KDE</span> libraries using the package manager, depending on your distribution, 
@@ -134,6 +142,14 @@ for them. To install using a package manager, simply install the <code>kdelibs</
   Choose the same version as your <span class="caps">KDE</span> libraries.</li>
 	<li>Unpack the tarball.</li>
 	<li><code>cd</code> in the directory created unpacking the tarball</li>
+	<li>If you&#8217;re using ruby 1.9.2 and are installing a version of korundum lesser than
+  4.5.3, run the following two commands:
+  <pre><code>
+    sed -i -e 's#STR2CSTR(rb_obj_as_string#RSTRING_PTR(rb_obj_as_string#'\
+      ruby/korundum/src/krubypluginfactory.cpp@
+    sed -i -e "s#STR2CSTR#StringValueCStr#"\
+      ruby/korundum/src/krubypluginfactory.cpp@
+  </code></pre></li>
 	<li>Create a build directory: <code>mkdir build</code></li>
 	<li><code>cd build</code></li>
 	<li><code>cmake ..</code></li>
@@ -190,6 +206,28 @@ it in one of the directories where Ruber looks for plugins( by default, they are
 the <code>plugins</code> subdirectory of the Ruber installation directory and
 <code>$KDEHOME/share/apps/ruber/plugins</code>). This should create a subdirectory named as
 the plugin in that directory.</p>
+<h2>Using development version</h2>
+<p>If you want to use a version of Ruber which hasn&#8217;t as yet been released, you can
+download the source code from the git repository and install it by hand. To do so,
+make sure you have all the prerequisites installed, then download the source code
+doing one of the following:</p>
+<ul>
+	<li>clone Ruber&#8217;s git repository: <code>git clone git://github.com/stcrocco/ruber.git</code>.
+  You need to have <a href="http://www.git-scm.com/">git</a> installed to do this.</li>
+	<li>go to the <a href="github.com/stcrocco/ruber">Ruber project page</a>, then press the download
+  button and choose either the <code>Download .tar.gz</code> or the <code>Download .zip</code> entry. 
+  This will download a compressed file with the appropriate extension on your computer.
+  Extract this file with the appropriate method.</li>
+</ul>
+<p>Now, enter the directory where you&#8217;ve downloaded the source code and issue <code>rake
+ruber</code>. This is needed to generate files describing the user interface (mainly
+dialogs) from files produced by the <code>Qt Designer</code> program. Once this is done,
+you can run Ruber from this directory with the following command: <code>ruby -Ilib bin/ruber</code>.
+If you only want to try the development version once or twice, or if you want to
+help developing Ruber, that&#8217;s all you need to do. If you want to go on using it,
+and want to run it with a simple <code>ruber</code>, you&#8217;ll have to build a gem with <code>gem build
+ruber.gemspec</code> followed by <code>gem install ruber-x.y.z.gem</code>, where <code>ruber-x.y.z</code> is
+the file generated by the previous command.</p>
       </div>
 
       <div id="footer">

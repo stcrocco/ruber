@@ -81,7 +81,15 @@
 </dl>
 <div class="clear"></div>
 
-<h2>Defined Under Namespace</h2>
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>Dialog where the user enters the parameters to create a new project</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><h2>Defined Under Namespace</h2>
 <p class="children">
    
     
@@ -131,7 +139,7 @@
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#project_file-instance_method" title="#project_file (instance method)">- (Object) <strong>project_file</strong> </a>
+      <a href="#project_file-instance_method" title="#project_file (instance method)">- (String) <strong>project_file</strong> </a>
     
 
     
@@ -144,7 +152,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'><p>The path of the project file.</p></div></span>
   
 </li>
 
@@ -153,7 +161,7 @@
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#project_name-instance_method" title="#project_name (instance method)">- (Object) <strong>project_name</strong> </a>
+      <a href="#project_name-instance_method" title="#project_name (instance method)">- (String) <strong>project_name</strong> </a>
     
 
     
@@ -166,7 +174,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'><p>The name chosen by the user for the project.</p></div></span>
   
 </li>
 
@@ -198,24 +206,44 @@
   </div>
 </div>
 <div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
   
+    <li>
+      
+        <span class='type'>(<tt>Qt::Widget</tt>, <tt>nil</tt>)</span>
+      
+      
+        <span class='name'>parent</span>
+      
+      
+        <em class="default">(defaults to: <tt>Ruber[:main_window]</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>the parent widget</p></div>
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-359
-360
-361
-362
-363
-364
-365
-366</pre>
+512
+513
+514
+515
+516
+517
+518
+519</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 359</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 512</span>
 
 <span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id parent'>parent</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span>
   <span class='kw'>super</span>
@@ -240,22 +268,46 @@
       <div class="method_details first">
   <p class="signature first" id="project_file-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>project_file</strong> 
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>project_file</strong> 
   
 
   
-</p><table class="source_code">
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The path of the project file</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the path of the project file</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-368
-369
-370</pre>
+524
+525
+526</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 368</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 524</span>
 
 <span class='kw'>def</span> <span class='id project_file'>project_file</span>
   <span class='id main_widget'>main_widget</span><span class='period'>.</span><span class='id project_file'>project_file</span>
@@ -268,22 +320,46 @@
       <div class="method_details ">
   <p class="signature " id="project_name-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>project_name</strong> 
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>project_name</strong> 
   
 
   
-</p><table class="source_code">
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The name chosen by the user for the project</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the name chosen by the user for the project</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-372
-373
-374</pre>
+531
+532
+533</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 372</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 531</span>
 
 <span class='kw'>def</span> <span class='id project_name'>project_name</span>
   <span class='id main_widget'>main_widget</span><span class='period'>.</span><span class='id project_name'>project_name</span>
@@ -300,7 +376,7 @@
 </div>
     
     <div id="footer">
-  Generated on Fri Oct 29 12:53:08 2010 by 
+  Generated on Sat Nov  6 13:29:19 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.1 (ruby-1.9.2).
 </div>

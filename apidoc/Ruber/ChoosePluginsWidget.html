@@ -208,7 +208,7 @@ the needed plugins or neither.</p></div></span>
 <li class="private ">
   <span class="summary_signature">
     
-      <a href="#find_deps-instance_method" title="#find_deps (instance method)">- (Object) <strong>find_deps</strong>(msg_type = :warning) </a>
+      <a href="#find_deps-instance_method" title="#find_deps (instance method)">- (Object) <strong>find_deps</strong>(msg_type = :sorry) </a>
     
 
     
@@ -441,6 +441,22 @@ widget.</p></div></span>
       <span class="summary_desc"><div class='inline'></div></span>
     </li>
   
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#directories_changed-signalcode" title="directories_changed (signalcode)">- <strong>directories_changed</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#plugins_changed-signalcode" title="plugins_changed (signalcode)">- <strong>plugins_changed</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
+  
   </ul>
 
 
@@ -525,14 +541,14 @@ deselected.</p>
   <span class='ivar'>@ui</span> <span class='op'>=</span> <span class='const'>Ui</span><span class='op'>::</span><span class='const'>ChoosePluginsWidget</span><span class='period'>.</span><span class='id new'>new</span>
   <span class='ivar'>@ui</span><span class='period'>.</span><span class='id setupUi'>setupUi</span> <span class='kw'>self</span>
   
-  <span class='id dirs'>dirs</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:general</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id plugin_dirs'>plugin_dirs</span>
+  <span class='id dirs'>dirs</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:app</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id plugin_dirs'>plugin_dirs</span>
   
   <span class='ivar'>@chosen_plugins</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:general</span><span class='comma'>,</span> <span class='symbol'>:plugins</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:to_sym</span><span class='rparen'>)</span>
   <span class='id loaded'>loaded</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:components</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id plugins'>plugins</span><span class='period'>.</span><span class='id map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:plugin_name</span><span class='rparen'>)</span>
   <span class='ivar'>@chosen_plugins</span><span class='period'>.</span><span class='id delete_if'>delete_if</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span> <span class='op'>!</span><span class='id loaded'>loaded</span><span class='period'>.</span><span class='id include?'>include?</span> <span class='id i'>i</span><span class='rbrace'>}</span>
   
   <span class='id read_plugins'>read_plugins</span> <span class='id dirs'>dirs</span>
-  <span class='id res'>res</span> <span class='op'>=</span> <span class='id find_deps'>find_deps</span><span class='lparen'>(</span><span class='symbol'>:warning</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id e'>e</span><span class='op'>|</span> 
+  <span class='id res'>res</span> <span class='op'>=</span> <span class='id find_deps'>find_deps</span><span class='lparen'>(</span><span class='symbol'>:sorry</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id e'>e</span><span class='op'>|</span> 
     <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>There were problems making dependencies. </span><span class='embexpr_beg'>#{</span><span class='id create_failure_message'>create_failure_message</span> <span class='id e'>e</span><span class='rbrace'>}</span><span class='tstring_content'>\nAll plugins will be deselected</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
   <span class='kw'>if</span> <span class='id res'>res</span>
@@ -615,7 +631,7 @@ dependency problem occurs, the user is warned and all plugins are deselected</p>
   <span class='id dirs'>dirs</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id default'>default</span> <span class='symbol'>:general</span><span class='comma'>,</span> <span class='symbol'>:plugin_dirs</span>
   <span class='ivar'>@chosen_plugins</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id default'>default</span><span class='lparen'>(</span> <span class='symbol'>:general</span><span class='comma'>,</span> <span class='symbol'>:plugins</span><span class='rparen'>)</span><span class='period'>.</span><span class='id split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>,</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id map'>map</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span> <span class='id i'>i</span><span class='period'>.</span><span class='id to_sym'>to_sym</span><span class='rbrace'>}</span>
   <span class='id read_plugins'>read_plugins</span> <span class='id dirs'>dirs</span>
-  <span class='id res'>res</span> <span class='op'>=</span> <span class='id find_deps'>find_deps</span><span class='lparen'>(</span><span class='symbol'>:warning</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id e'>e</span><span class='op'>|</span> 
+  <span class='id res'>res</span> <span class='op'>=</span> <span class='id find_deps'>find_deps</span><span class='lparen'>(</span><span class='symbol'>:sorry</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id e'>e</span><span class='op'>|</span> 
     <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>There were problems making dependencies. </span><span class='embexpr_beg'>#{</span><span class='id create_failure_message'>create_failure_message</span> <span class='id e'>e</span><span class='rbrace'>}</span><span class='tstring_content'>\nAll plugins will be deselected</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
   <span class='kw'>if</span> <span class='id res'>res</span>
@@ -680,7 +696,7 @@ happen.</p>
   <span class='kw'>case</span> <span class='id e'>e</span>
   <span class='kw'>when</span> <span class='const'>ComponentManager</span><span class='op'>::</span><span class='const'>UnresolvedDep</span>
     <span class='id deps'>deps</span> <span class='op'>=</span> <span class='id e'>e</span><span class='period'>.</span><span class='id missing'>missing</span><span class='period'>.</span><span class='id map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id p1'>p1</span><span class='comma'>,</span> <span class='id p2'>p2</span><span class='op'>|</span>
-      <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id d'>d</span><span class='rbrace'>}</span><span class='tstring_content'>, needed by </span><span class='embexpr_beg'>#{</span><span class='id pl'>pl</span><span class='period'>.</span><span class='id join'>join</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>, </span><span class='tstring_end'>'</span></span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+      <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id p1'>p1</span><span class='rbrace'>}</span><span class='tstring_content'>, needed by </span><span class='embexpr_beg'>#{</span><span class='id p2'>p2</span><span class='period'>.</span><span class='id join'>join</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>, </span><span class='tstring_end'>'</span></span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
     <span class='kw'>end</span>
     <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Some dependencies couldn't be satisifed:\n</span><span class='embexpr_beg'>#{</span><span class='id deps'>deps</span><span class='period'>.</span><span class='id join'>join</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>when</span> <span class='const'>ComponentManager</span><span class='op'>::</span><span class='const'>CircularDep</span>
@@ -820,7 +836,7 @@ size of the contents.</p>
       <div class="method_details ">
   <p class="signature " id="find_deps-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>find_deps</strong>(msg_type = :warning)  <span class="extras">(private)</span>
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>find_deps</strong>(msg_type = :sorry)  <span class="extras">(private)</span>
   
 
   
@@ -858,11 +874,11 @@ message box otherwise.</p>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/main_window/choose_plugins_dlg.rb', line 251</span>
 
-<span class='kw'>def</span> <span class='id find_deps'>find_deps</span> <span class='id msg_type'>msg_type</span> <span class='op'>=</span> <span class='symbol'>:warning</span>
+<span class='kw'>def</span> <span class='id find_deps'>find_deps</span> <span class='id msg_type'>msg_type</span> <span class='op'>=</span> <span class='symbol'>:sorry</span>
   <span class='id chosen_data'>chosen_data</span> <span class='op'>=</span> <span class='ivar'>@chosen_plugins</span><span class='period'>.</span><span class='id map'>map</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span> <span class='ivar'>@plugin_data</span><span class='lbracket'>[</span><span class='id i'>i</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
   <span class='kw'>begin</span> <span class='ivar'>@needed_plugins</span> <span class='op'>=</span> <span class='const'>ComponentManager</span><span class='period'>.</span><span class='id fill_dependencies'>fill_dependencies</span> <span class='id chosen_data'>chosen_data</span><span class='comma'>,</span> <span class='ivar'>@plugin_data</span><span class='period'>.</span><span class='id values'>values</span>
   <span class='kw'>rescue</span> <span class='const'>ComponentManager</span><span class='op'>::</span><span class='const'>UnresolvedDep</span><span class='comma'>,</span> <span class='const'>ComponentManager</span><span class='op'>::</span><span class='const'>CircularDep</span> <span class='op'>=&gt;</span> <span class='id e'>e</span>
-    <span class='kw'>if</span> <span class='id block_given?'>block_given?</span> <span class='kw'>then</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>MessageBox</span><span class='period'>.</span><span class='id send'>send</span><span class='lparen'>(</span><span class='id msg_type'>msg_type</span><span class='comma'>,</span> <span class='kw'>yield</span><span class='lparen'>(</span><span class='id e'>e</span><span class='rparen'>)</span><span class='rparen'>)</span>
+    <span class='kw'>if</span> <span class='id block_given?'>block_given?</span> <span class='kw'>then</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>MessageBox</span><span class='period'>.</span><span class='id send'>send</span> <span class='id msg_type'>msg_type</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='kw'>yield</span><span class='lparen'>(</span><span class='id e'>e</span><span class='rparen'>)</span>
     <span class='kw'>else</span> <span class='id raise'>raise</span>
     <span class='kw'>end</span>
   <span class='kw'>end</span>
@@ -912,7 +928,7 @@ to the item <em>it</em>.</p>
   <span class='kw'>if</span> <span class='id it'>it</span><span class='period'>.</span><span class='id check_state'>check_state</span> <span class='op'>==</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Checked</span> <span class='kw'>then</span> <span class='ivar'>@chosen_plugins</span> <span class='op'>&lt;&lt;</span> <span class='id name'>name</span><span class='period'>.</span><span class='id to_sym'>to_sym</span>
   <span class='kw'>else</span> <span class='ivar'>@chosen_plugins</span><span class='period'>.</span><span class='id delete'>delete</span> <span class='id name'>name</span><span class='period'>.</span><span class='id to_sym'>to_sym</span>
   <span class='kw'>end</span>
-  <span class='id find_deps'>find_deps</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id e'>e</span><span class='op'>|</span> <span class='id create_failure_message'>create_failure_message</span><span class='lparen'>(</span> <span class='id e'>e</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\nPlease, be sure to correct the problem before accepting changes</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span>
+  <span class='id find_deps'>find_deps</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id e'>e</span><span class='op'>|</span> <span class='id create_failure_message'>create_failure_message</span><span class='lparen'>(</span> <span class='id e'>e</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\nPlease, be sure to correct the problem before pressing the OK or Apply button</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span>
   <span class='id update_plugin_status'>update_plugin_status</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -1090,7 +1106,7 @@ instance variable the plugins whose <span class="caps">PDF</span> wasn&#8217;t f
 
 <span class='kw'>def</span> <span class='id slot_directories_changed'>slot_directories_changed</span>
   <span class='id new_dirs'>new_dirs</span> <span class='op'>=</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id directories'>directories</span><span class='period'>.</span><span class='id items'>items</span>
-  <span class='id find_deps'>find_deps</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id e'>e</span><span class='op'>|</span> <span class='id create_failure_message'>create_failure_message</span><span class='lparen'>(</span> <span class='id e'>e</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\nPlease, be sure to correct the problem before accepting changes</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span>
+  <span class='id find_deps'>find_deps</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id e'>e</span><span class='op'>|</span> <span class='id create_failure_message'>create_failure_message</span><span class='lparen'>(</span> <span class='id e'>e</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\nPlease, be sure to correct the problem before pressing the OK or Apply button</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span>
   <span class='id fill_plugin_list'>fill_plugin_list</span>
   <span class='id emit'>emit</span> <span class='id directories_changed'>directories_changed</span>
   <span class='kw'>nil</span>
@@ -1196,7 +1212,7 @@ widget. Emits the <tt>plugins_changed</tt> signal.</p>
 
 <span class='kw'>def</span> <span class='id write_settings'>write_settings</span>
   <span class='id dirs'>dirs</span> <span class='op'>=</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id directories'>directories</span><span class='period'>.</span><span class='id items'>items</span>
-  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:general</span><span class='comma'>,</span><span class='symbol'>:plugin_dirs</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id dirs'>dirs</span>
+  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:app</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id plugin_dirs'>plugin_dirs</span> <span class='op'>=</span> <span class='id dirs'>dirs</span>
   <span class='id plugins'>plugins</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
   <span class='ivar'>@ui</span><span class='period'>.</span><span class='id plugins'>plugins</span><span class='period'>.</span><span class='id model'>model</span><span class='period'>.</span><span class='id each_row'>each_row</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id r'>r</span><span class='op'>|</span>
     <span class='id plugins'>plugins</span> <span class='op'>&lt;&lt;</span> <span class='id r'>r</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id data'>data</span><span class='period'>.</span><span class='id to_string'>to_string</span> <span class='kw'>if</span>  <span class='id r'>r</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id fully_checked?'>fully_checked?</span>
@@ -1232,12 +1248,26 @@ widget. Emits the <tt>plugins_changed</tt> signal.</p>
 </p>
 </div>
     
+      <div class="method_details ">
+  <p class="signature " id="directories_changed-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>directories_changed</strong> 
+</p>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="plugins_changed-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>plugins_changed</strong> 
+</p>
+</div>
+    
   </div>
 
 </div>
     
     <div id="footer">
-  Generated on Fri Oct 29 12:53:07 2010 by 
+  Generated on Thu Nov 11 12:12:04 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.1 (ruby-1.9.2).
 </div>

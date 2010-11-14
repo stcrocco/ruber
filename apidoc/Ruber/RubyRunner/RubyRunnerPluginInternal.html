@@ -462,7 +462,8 @@ must be an array, even if it only contains one entry</p>
 306
 307
 308
-309</pre>
+309
+310</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'plugins/ruby_runner/ruby_runner.rb', line 293</span>
@@ -470,7 +471,7 @@ must be an array, even if it only contains one entry</p>
 <span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id pso'>pso</span><span class='comma'>,</span> <span class='id group'>group</span><span class='comma'>,</span> <span class='id rules'>rules</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='id order'>order</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id line_buffered'>line_buffered</span> <span class='op'>=</span> <span class='kw'>true</span>
   <span class='id group'>group</span> <span class='op'>=</span> <span class='id group'>group</span><span class='period'>.</span><span class='id to_sym'>to_sym</span>
   <span class='ivar'>@group</span> <span class='op'>=</span> <span class='id group'>group</span>
-  <span class='id default_rules'>default_rules</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='symbol'>:scope</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='symbol'>:global</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:file_extension</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:mimetype</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
+  <span class='id default_rules'>default_rules</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='symbol'>:scope</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='symbol'>:global</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:file_extension</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:mimetype</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:place</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='symbol'>:local</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
   <span class='id rules'>rules</span> <span class='op'>=</span> <span class='id default_rules'>default_rules</span><span class='period'>.</span><span class='id merge'>merge</span> <span class='id rules'>rules</span>
   <span class='id ruby_options_data'>ruby_options_data</span> <span class='op'>=</span> <span class='lbrace'>{</span>
     <span class='symbol'>:name</span> <span class='op'>=&gt;</span> <span class='symbol'>:ruby_options</span><span class='comma'>,</span>
@@ -480,6 +481,7 @@ must be an array, even if it only contains one entry</p>
     <span class='symbol'>:mimetype</span> <span class='op'>=&gt;</span> <span class='id rules'>rules</span><span class='lbracket'>[</span><span class='symbol'>:mimetype</span><span class='rbracket'>]</span><span class='comma'>,</span>
     <span class='symbol'>:file_extension</span> <span class='op'>=&gt;</span> <span class='id rules'>rules</span><span class='lbracket'>[</span><span class='symbol'>:file_extension</span><span class='rbracket'>]</span><span class='comma'>,</span>
     <span class='symbol'>:order</span> <span class='op'>=&gt;</span> <span class='id order'>order</span><span class='comma'>,</span>
+    <span class='symbol'>:place</span> <span class='op'>=&gt;</span> <span class='id rules'>rules</span><span class='lbracket'>[</span><span class='symbol'>:place</span><span class='rbracket'>]</span>
   <span class='rbrace'>}</span>
   <span class='id pso'>pso</span><span class='period'>.</span><span class='id project_options'>project_options</span><span class='lbracket'>[</span><span class='lbracket'>[</span><span class='id group'>group</span><span class='comma'>,</span> <span class='symbol'>:ruby_options</span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='const'>PluginSpecificationReader</span><span class='op'>::</span><span class='const'>Option</span><span class='period'>.</span><span class='id new'>new</span> <span class='id ruby_options_data'>ruby_options_data</span>
   <span class='kw'>super</span> <span class='id pso'>pso</span><span class='comma'>,</span> <span class='id line_buffered'>line_buffered</span>
@@ -945,7 +947,7 @@ to use and whose other elements are the options to pass to the interpreter.</p>
 </div>
     
     <div id="footer">
-  Generated on Fri Oct 29 12:53:00 2010 by 
+  Generated on Thu Nov 11 12:12:09 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.1 (ruby-1.9.2).
 </div>
