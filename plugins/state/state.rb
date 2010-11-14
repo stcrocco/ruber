@@ -214,15 +214,19 @@ for more information
         active_file = config[:state, :active_document]
         active_file = files[-1] unless files.include? active_file
         mw = Ruber[:main_window]
+        docs = files.map do |f|
+          [f, Ruber[:docs].document(f)] rescue nil
+        end
+        docs = docs.compact.to_h
+        visible_files = config[:state, :visible_documents]
+        visible_files &= docs.keys
+        editors = []
         mw.without_activating do
-          docs = []
-          files.each do |f| 
-            ed = mw.editor_for! KDE::Url.new(f) rescue nil
-            docs << ed.document if ed
+          visible_files.each do |f| 
+            editors << mw.editor_for!(docs[f])
           end
           active_url = KDE::Url.new active_file
-          active_doc = docs.find{|d| d.url == active_url} 
-          active_doc ||= docs[-1]
+          active_doc = docs[active_file] || editors[-1].document
           mw.display_document active_doc
         end
         nil
@@ -314,6 +318,8 @@ Creates a hash with all the data needed to restore Ruber's state
  * @:open_documents@: an array with the name of the file corresponding to each
   open document (documents without an associated file can't be restored and aren't
   included). The order is that of opening
+ * @:visible_documents@: an array with the name of the files corresponding to the
+  documents associated with a file and having a view
  * @:active_document@: the name of the file associated with the active document or
   *nil* if there's no open document
 =end
@@ -325,8 +331,10 @@ Creates a hash with all the data needed to restore Ruber's state
           projects.unshift projects.delete(active_prj.project_file) if active_prj
         end
         res[:open_projects] = projects
-        docs = Ruber[:docs].documents.map{|doc| doc.url.to_encoded.to_s}.select{|path| !path.empty?}
-        res[:open_documents] = docs
+        docs = Ruber[:docs].documents.select{|d| d.has_file?}
+        res[:open_documents] = docs.map{|doc| doc.url.to_encoded.to_s}
+        visible_docs = docs.select{|d| d.view}
+        res[:visible_documents] = visible_docs.map{|d| d.url.to_encoded.to_s}
         current_doc = Ruber[:main_window].current_document.url.to_encoded.to_s rescue ''
         res[:active_document] = current_doc.empty? ? nil : current_doc
         res
@@ -379,11 +387,9 @@ It does nothing if the document isn't associated with a view
 =end
       def save_settings
         view = @document.view 
-        pos = if view
-          cur = view.cursor_position
-          [cur.line, cur.column]
-        else [0,0]
-        end
+        return unless view
+        cur = view.cursor_position
+        pos = [cur.line, cur.column]
         @project[:state, :cursor_position] = pos
         nil
       end

@@ -154,7 +154,7 @@ describe Ruber::State::Plugin do
     end
     
     it 'stores a list of the URLs of the files associated with all open documents under the :open_files key' do
-      docs = 5.times.map{|i| flexmock(i.to_s){|m| m.should_receive(:url).and_return KDE::Url.new("file:///xyz/file #{i}")}}
+      docs = 5.times.map{|i| flexmock(i.to_s, :has_file? => true, :view => flexmock){|m| m.should_receive(:url).and_return KDE::Url.new("file:///xyz/file #{i}")}}
       @documents.should_receive(:documents).once.and_return(docs)
       exp = [
         'file:///xyz/file%200',
@@ -168,8 +168,9 @@ describe Ruber::State::Plugin do
     
     it 'ignores documents which aren\'t associated with a file' do
       docs = 5.times.map do |i| 
-        flexmock(i.to_s) do |m|
+        flexmock(i.to_s, :view => flexmock) do |m|
           m.should_receive(:url).and_return(i % 2 == 0 ? KDE::Url.new("file:///xyz/file #{i}") : KDE::Url.new)
+          m.should_receive(:has_file?).and_return(i % 2 == 0)
         end
       end
       @documents.should_receive(:documents).once.and_return(docs)
@@ -182,15 +183,63 @@ describe Ruber::State::Plugin do
     end
     
     it 'stores an empty array under the :open_files key if there are no open documents or if no open document is associated with a file' do
-      docs = 5.times.map{flexmock(:url => KDE::Url.new)}
+      docs = 5.times.map{flexmock(:url => KDE::Url.new, :has_file? => false)}
       @documents.should_receive(:documents).once.and_return(docs).once
       @documents.should_receive(:documents).once.and_return([]).once
       @plug.send(:gather_settings).should have_entries(:open_documents => [])
       @plug.send(:gather_settings).should have_entries(:open_documents => [])
     end
     
+    it 'stores a list of the URLs associated with all the documents with an editor under the :visible_documents key' do
+      docs = 5.times.map do |i| 
+        flexmock(i.to_s) do |m| 
+          m.should_receive(:url).and_return KDE::Url.new("file:///xyz/file #{i}")
+          m.should_receive(:view).and_return(i % 2 == 0 ? flexmock("view #{i}") : nil)
+          m.should_receive(:has_file?).and_return(i % 2 == 0)
+        end
+      end
+      @documents.should_receive(:documents).once.and_return(docs)
+      exp = [
+        'file:///xyz/file%200',
+        'file:///xyz/file%202',
+        'file:///xyz/file%204',
+        ]
+      @plug.send(:gather_settings).should have_entries(:visible_documents => exp)
+    end
+    
+    it 'doesn\'t insert files not associated with a file under the visible_documents key' do
+      docs = 5.times.map do |i| 
+        flexmock(i.to_s) do |m| 
+          m.should_receive(:url).and_return( i % 2 == 0 ? KDE::Url.new("file:///xyz/file #{i}") : KDE::Url.new)
+          m.should_receive(:view).and_return(flexmock)
+          m.should_receive(:has_file?).and_return(i % 2 == 0)
+        end
+      end
+      @documents.should_receive(:documents).once.and_return(docs)
+      exp = [
+        'file:///xyz/file%200',
+        'file:///xyz/file%202',
+        'file:///xyz/file%204',
+        ]
+      @plug.send(:gather_settings).should have_entries(:visible_documents => exp)
+    end
+    
+    it 'stores an empty array under the :open_files key if there is no open document with a view associated with a file' do
+      docs = 5.times.map do |i| 
+        flexmock(:url => KDE::Url.new, :has_file? => (i % 2 == 0), :view => (i % 2 == 0 ? nil : flexmock))
+      end
+      @documents.should_receive(:documents).once.and_return(docs).once
+      @documents.should_receive(:documents).once.and_return([]).once
+      @plug.send(:gather_settings).should have_entries(:visible_documents => [])
+      @plug.send(:gather_settings).should have_entries(:visible_documents => [])
+    end
+    
     it 'stores the path of the active document under the :active_document key' do
-      docs = 5.times.map{|i| flexmock(i.to_s){|m| m.should_receive(:url).and_return KDE::Url.new("file:///xyz/file #{i}")}}
+      docs = 5.times.map do |i| 
+        flexmock(i.to_s, :has_file? => true, :view => flexmock) do |m|
+          m.should_receive(:url).and_return KDE::Url.new("file:///xyz/file #{i}")
+        end
+      end
       @documents.should_receive(:documents).once.and_return(docs)
       @mw.should_receive(:current_document).once.and_return(docs[1])
       exp = "file:///xyz/file%201"
@@ -598,11 +647,24 @@ describe Ruber::State::Plugin do
       @plug.restore_documents
     end
     
-    it 'creates a new document for each entry in the state/open_documents from within a block passed to the main window\'s without_activating method' do
+    it 'creates a new document for each entry in the state/open_documents' do
       files = %w[/x/y/f1.rb /a/b/f2.rb /f3.rb].map{|f| "file://#{f}"}
       @config.should_receive(:[]).with(:state, :open_documents).once.and_return files
       @config.should_receive(:[]).with(:state, :active_document)
-      files.each{|f| @mw.should_receive(:editor_for!).once.with(KDE::Url.new(f)).ordered}
+      @config.should_receive(:[]).with(:state, :visible_documents).and_return []
+      files.each{|f| @docs.should_receive(:document).once.with(KDE::Url.new(f)).ordered}
+      @mw.should_receive(:without_activating) #.once.with(FlexMock.on{|a| a.call || a.is_a?(Proc)})
+      @plug.restore_documents
+    end
+    
+    it 'creates a new editor for each entry in the state/visible_documents from within a block passed to the main window\'s without_activating method' do
+      files = %w[/x/y/f1.rb /a/b/f2.rb /f3.rb].map{|f| "file://#{f}"}
+      @config.should_receive(:[]).with(:state, :open_documents).once.and_return files
+      @config.should_receive(:[]).with(:state, :visible_documents).once.and_return files
+      @config.should_receive(:[]).with(:state, :active_document)
+      docs = files.map{|f| flexmock("doc #{f}", :url => KDE::Url.new(f))}
+      files.each_with_index{|f, i| @docs.should_receive(:document).with(f).once.and_return docs[i]}
+      docs.each{|d| @mw.should_receive(:editor_for!).once.with(d).ordered}
       @mw.should_receive(:without_activating).once.with(FlexMock.on{|a| a.call || a.is_a?(Proc)})
       @plug.restore_documents
     end
@@ -611,20 +673,24 @@ describe Ruber::State::Plugin do
       files = %w[/x/y/f1.rb /a/b/f2.rb /f3.rb].map{|f| "file://#{f}"}
       @config.should_receive(:[]).with(:state, :open_documents).once.and_return files
       @config.should_receive(:[]).with(:state, :active_document)
-      @mw.should_receive(:editor_for!).once.with(KDE::Url.new(files[0])).ordered
-      @mw.should_receive(:editor_for!).once.with(KDE::Url.new(files[1])).ordered.and_raise(ArgumentError)
-      @mw.should_receive(:editor_for!).once.with(KDE::Url.new(files[2])).ordered
-      @mw.should_receive(:without_activating).once.with(FlexMock.on{|a| a.call || a.is_a?(Proc)})
+      @config.should_receive(:[]).with(:state, :visible_documents).once.and_return []
+      docs = files.map{|f| flexmock("doc #{f}", :url => KDE::Url.new(f))}
+      @docs.should_receive(:document).once.with(files[0]).ordered.and_return(docs[0])
+      @docs.should_receive(:document).once.with(files[1]).ordered.and_raise ArgumentError
+      @docs.should_receive(:document).once.with(files[2]).ordered.and_return(docs[2])
       lambda{@plug.restore_documents}.should_not raise_error
     end
     
     it 'activates the document corresponding to the file specified in the state/active_document setting' do
       files = %w[/x/y/f1.rb /a/b/f2.rb /f3.rb].map{|f| "file://#{f}"}
-      docs = 3.times.map{|i| flexmock("doc#{i}", :url => KDE::Url.new(files[i]))}
+      docs = 3.times.map{|i| flexmock("doc#{i}", :url => KDE::Url.new(files[i]), :has_file? => true)}
       views = 3.times.map{|i| flexmock("view#{i}", :document => docs[i])}
+      docs.each_with_index{|d, i| d.should_receive(:view).and_return views[i]}
       @config.should_receive(:[]).with(:state, :open_documents).once.and_return files
       @config.should_receive(:[]).with(:state, :active_document).once.and_return files[1]
-      3.times{|i| @mw.should_receive(:editor_for!).once.with(KDE::Url.new(files[i])).and_return(views[i])}
+      @config.should_receive(:[]).with(:state, :visible_documents).once.and_return files
+      3.times{|i| @docs.should_receive(:document).with(files[i]).once.and_return(docs[i])}
+      3.times{|i| @mw.should_receive(:editor_for!).once.with(docs[i]).and_return(views[i])}
       @mw.should_receive(:display_document).once.with(docs[1])
       @mw.should_receive(:without_activating).once.with(FlexMock.on{|a| a.call || a.is_a?(Proc)})
       @plug.restore_documents
@@ -635,8 +701,10 @@ describe Ruber::State::Plugin do
       docs = 3.times.map{|i| flexmock("doc#{i}", :url => KDE::Url.new(files[i]))}
       views = 3.times.map{|i| flexmock("view#{i}", :document => docs[i])}
       @config.should_receive(:[]).with(:state, :open_documents).once.and_return files
+      @config.should_receive(:[]).with(:state, :visible_documents).once.and_return files
+      3.times{|i| @mw.should_receive(:editor_for!).once.with(docs[i]).and_return(views[i])}
       @config.should_receive(:[]).with(:state, :active_document).once.and_return nil
-      3.times{|i| @mw.should_receive(:editor_for!).once.with(KDE::Url.new(files[i])).and_return(views[i])}
+      3.times{|i| @docs.should_receive(:document).with(files[i]).once.and_return(docs[i])}
       @mw.should_receive(:display_document).once.with(docs[-1])
       @mw.should_receive(:without_activating).once.with(FlexMock.on{|a| a.call || a.is_a?(Proc)})
       @plug.restore_documents
@@ -645,13 +713,19 @@ describe Ruber::State::Plugin do
     it 'activates the last document if the state/active_document setting is a file not corresponding to an open document' do
       files = %w[/x/y/f1.rb /a/b/f2.rb /f3.rb].map{|f| "file://#{f}"}
       @config.should_receive(:[]).with(:state, :open_documents).once.and_return files
-      @config.should_receive(:[]).with(:state, :active_document).once.and_return
-      docs = [flexmock('doc1', :url => KDE::Url.new(files[0])), flexmock('doc2', :url => KDE::Url.new(files[2]))]
-      views = [flexmock('view1', :document=> docs[0]), flexmock('view2', :document=> docs[1])]
-      @mw.should_receive(:editor_for!).once.with(KDE::Url.new(files[0])).ordered.and_return(views[0])
-      @mw.should_receive(:editor_for!).once.with(KDE::Url.new(files[1])).ordered.and_raise(ArgumentError)
-      @mw.should_receive(:editor_for!).once.with(KDE::Url.new(files[2])).ordered.and_return(views[1])
-      @mw.should_receive(:display_document).once.with(docs[1])
+      @config.should_receive(:[]).with(:state, :visible_documents).once.and_return files
+      @config.should_receive(:[]).with(:state, :active_document).once.and_return files[1]
+      docs = 3.times.map{|i| flexmock("doc#{i}", :url => KDE::Url.new(files[i]))}
+      views = 3.times.map{|i| flexmock("view#{i}", :document => docs[i])}
+      3.times do |i|
+        if i % 2 == 0
+          @docs.should_receive(:document).with(files[i]).once.and_return(docs[i])
+        else
+          @docs.should_receive(:document).with(files[i]).once.and_raise ArgumentError
+        end
+      end
+      [0, 2].each{|i| @mw.should_receive(:editor_for!).once.with(docs[i]).ordered.and_return(views[i])}
+      @mw.should_receive(:display_document).once.with(docs[-1])
       @mw.should_receive(:without_activating).once.with(FlexMock.on{|a| a.call || a.is_a?(Proc)})
       @plug.restore_documents
     end
@@ -664,9 +738,12 @@ describe Ruber::State::Plugin do
     it 'reads the settings from the argument, if given, rather than from the config object' do
       @config.should_receive(:[]).never
       files = %w[/x/y/f1.rb /a/b/f2.rb /f3.rb].map{|f| "file://#{f}"}
-      files.each{|f| @mw.should_receive(:editor_for!).once.with(KDE::Url.new(f)).ordered}
+      docs = 3.times.map{|i| flexmock("doc#{i}", :url => KDE::Url.new(files[i]))}
+      views = 3.times.map{|i| flexmock("view#{i}", :document => docs[i])}
+      files.each_with_index{|f, i| @docs.should_receive(:document).with(f).once.and_return(docs[i])}
+      docs.each{|d| @mw.should_receive(:editor_for!).once.with(d).ordered}
       @mw.should_receive(:without_activating).once.with(FlexMock.on{|a| a.call || a.is_a?(Proc)})
-      h = {[:state, :open_documents] => files, [:state, :active_document] => nil}
+      h = {[:state, :open_documents] => files, [:state, :active_document] => nil, [:state, :visible_documents] => files}
       def h.[] group, name
         super [group, name]
       end
@@ -815,10 +892,10 @@ describe Ruber::State::DocumentExtension do
       flexmock(@doc.view).should_receive(:cursor_position).once.and_return cur
       @ext.save_settings
     end
-    
-    it 'uses [0,0] as cursor position if the document doesn\'t have any view' do
-      flexmock(@doc.own_project).should_receive(:[]=).with(:state, :cursor_position, [0, 0]).once
-      lambda{@ext.save_settings}.should_not raise_error
+
+    it 'doesn\'t attempt to store the cursor position if the document has no view' do
+      flexmock(@doc.own_project).should_receive(:[]=).with(:state, :cursor_position, Array).never
+      @ext.save_settings
     end
     
   end

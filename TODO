@@ -18,7 +18,6 @@ h2. Ruber Core
   chooses not to save one of the file, maybe the project shouldn't be closed at
   all. It can be implemented having slots connecting to the signal raising an
   ad-hoc exception. The emitting code rescues that exception and proceeds accordingly
-* add support for working with remote files
 * Add mimetype rules to the ProjectFiles extension
 * Find out whether it's possible to remove the mnemonics from the main tab
   widget, as they overlap with other accelerators (menu and, most annoying for me,

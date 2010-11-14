@@ -405,9 +405,6 @@ because the document corresponding to the file was modified
         it.each_row do |line, _, repl|
           lines_to_replace[line.text.to_i] = repl.text if line.checked?
         end
-# TODO see what the line below did. In my opinion, it is the remainder of some line
-# I added for testing and forgot to remove
-#         path = file.sub( '/home/stefano/tmp/ruber', '').gsub('/', '_')
         lines = File.readlines(file)
         lines_to_replace.each_pair{|idx, text| lines[idx - 1] = text + "\n"}
         new_text = lines.join ''
@@ -421,6 +418,7 @@ because the document corresponding to the file was modified
             doc.text = new_text
           end
           doc.save
+          #If the document doesn't have a view, pos will be nil
           doc.view.go_to pos.line, pos.column if pos
         else
           Tempfile.open(File.basename(file)) do |f|

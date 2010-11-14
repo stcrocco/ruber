@@ -18,6 +18,7 @@ config_options:
 project_options:
  state:
   open_documents: {default: [], type: session, scope: global}
+  visible_documents: {default: [], type: session, scope: global}
   active_document: {default: ~, type: session, scope: global}
   cursor_position: {default: [0, 0], type: session, scope: document}
 config_widgets:
