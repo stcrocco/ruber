@@ -182,12 +182,12 @@ Slot called whenever the modified status of a document changes
 It updates the icon on the tab of the document's editor and (if the document is active)
 the window title accordingly.
 
-Nothing is done if the document isn't associated with a view
+Nothing is done if the document isn't associated with a visible view
 @return [nil]
 =end
     def document_modified_changed mod
       doc = self.sender
-      return unless doc.view
+      return unless doc.has_editor?
       make_title
 #This assumes that only one editor exists for each document
       update_document_icon doc
@@ -200,13 +200,13 @@ Slot called whenever the document url changes
 It changes the title and icon of the tab and changes the title of the window is
 the document is active.
 
-Nothing is done if the document isn't associated with a view
+Nothing is done if the document isn't associated with a visible view
 
 @return [nil]
 =end
     def document_url_changed
       doc = self.sender
-      return unless doc.view
+      return unless doc.has_editor?
       make_title
       idx = @views.index_of doc.view
       @views.set_tab_text idx, doc.document_name
