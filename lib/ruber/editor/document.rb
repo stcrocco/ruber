@@ -363,19 +363,24 @@ calls.
     end
     
 =begin rdoc
-Closes the document. If _ask_ is *true*, the <tt>query_close</tt> method is called,
-asking the user what to do if the document is modified. If the user confirms
-closing or if there's no need of confirmation, the following happens:
-* the <tt>closing(QObject*)</tt> signal is emitted
+Closes the document
+
+When a document is closed, the following happens (in order)
+* the signal {#closing} is emitted
 * the view (if it exists) is closed
-* the <tt>close_url</tt> method is called
+* the {#close_url} method is called
 * all the documnent extensions are removed
 * al singnals are disconnected from the document
 * the document is disposed of
+    
+If _ask_ is *true*, {#query_close} is called, asking the user what to do if the
+document is modified. The user can decide whether to save the changes, discard
+them or stop closing the document.
 
-Returns *true* if the document was closed and *false* otherwise
-
-TODO: maybe remove the argument, since this method is not called anymore at 
+@param [Boolean] ask whether or not to ask the user what to do in case the document is
+  modified
+@return [Boolean] *true* if the document was successfully closed and *false*
+    otherwise (including the case where the user decided to stop closing it)
 =end
     def close ask = true
       if !ask || query_close

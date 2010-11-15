@@ -332,6 +332,19 @@ will ask whether to save modifications, otherwise it won't
     end
     
 =begin rdoc
+Closes a document
+
+Closing the document automatically closes any views associated with it.
+
+@param [Document] doc the document to close
+@param ask (see Ruber::Document#close)
+@return (see Ruber::Document#close)
+=end
+    def close_document doc, ask = true
+      doc.close ask
+    end
+    
+=begin rdoc
   This method is meant to be called in situation where the user may want to save
   a number of documents, for example when the application is quitting, as it avoids
   displaying a dialog box for each modified document.
