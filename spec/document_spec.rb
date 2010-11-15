@@ -137,25 +137,6 @@ describe Ruber::Document do
     
   end
   
-#   describe '#local_file?' do
-#     
-#     it 'returns true if the document is associated to a local file' do
-#       doc = Ruber::Document.new nil, __FILE__
-#       doc.local_file?.should be_true
-#     end
-#     
-#     it 'returns nil if the document isn\'t associated with any file' do
-#       doc = Ruber::Document.new
-#       doc.local_file?.should be_nil
-#     end
-#     
-#     it 'returns false if the document is associated with a remote URL' do
-#       doc = Ruber::Document.new nil, KDE::Url.new('http://github.com/stcrocco/ruber/raw/master/ruber.gemspec')
-#       doc.local_file?.should be_false
-#     end
-#     
-#   end
-  
   describe '#own_project' do
   
     it 'returns the DocumentProject associated with the document' do
@@ -792,65 +773,27 @@ describe Ruber::Document do
     
   end
   
-#   describe '#shutdown' do
-#     
-#     before do
-#       @app = KDE::Application.instance
-#       @w = Qt::Widget.new
-#       @comp = DocumentSpecComponentManager.new
-#       flexmock(Ruber).should_receive(:[]).with(:components).and_return(@comp)
-#       @doc = Ruber::Document.new @app
-#     end
-#     
-#     it 'calls the close_url method passing false' do
-#       doc = Ruber::Document.new nil, __FILE__
-#       flexmock(doc).should_receive(:close_url).once.with(false)
-#       doc.shutdown
-#     end
-#     
-#     it 'emits the "closing(QObject*)" signal' do
-#       doc = Ruber::Document.new nil, __FILE__
-#       exp = doc.object_id
-#       m = flexmock('test'){|mk| mk.should_receive(:document_closing).once.with(exp)}
-#       doc.connect(SIGNAL('closing(QObject*)')){|d| m.document_closing d.object_id}
-#       doc.shutdown
-#     end
-#     
-#     it 'closes the view, if there\'s one, after emitting the closing signal' do
-#       doc = Ruber::Document.new nil, __FILE__
-#       v = doc.create_view
-#       exp = doc.object_id
-#       m = flexmock('test'){|mk| mk.should_receive(:document_closing).once.with(exp).ordered}
-#       flexmock(v).should_receive(:close).once.globally.ordered
-#       doc.connect(SIGNAL('closing(QObject*)')){|d| m.document_closing d.object_id}
-#       doc.shutdown
-#     end
-#     
-#     it 'calls the #shutdown method of the project' do
-#       doc = Ruber::Document.new nil
-#       exp = doc.object_id
-#       flexmock(doc).should_receive(:close_url)
-#       flexmock(doc.own_project).should_receive(:shutdown).once
-#       doc.shutdown
-#     end
-# 
-#     
-#     it 'disconnects any slot/block connected to it after emitting the closing signal' do
-#       doc = Ruber::Document.new nil, __FILE__
-#       exp = doc.object_id
-#       def doc.disconnect *args;end
-#       m = flexmock{|mk| mk.should_receive(:document_closing).with(exp).once.ordered}
-#       doc.connect(SIGNAL('closing(QObject*)')){|d| m.document_closing d.object_id}
-#       flexmock(doc).should_receive(:disconnect).with_no_args.once.ordered
-#       doc.shutdown
-#     end
-#       
-#     it 'disposes of itself after emitting the closing signal' do
-#       doc = Ruber::Document.new nil, __FILE__
-#       doc.shutdown
-#       doc.should be_disposed
-#     end
-#     
-#   end
+  describe "#has_editor?" do
+    
+    it 'returns false if the document has no view' do
+      doc = Ruber::Document.new nil
+      doc.should_not have_editor
+    end
+    
+    it 'returns false if the document has a view but it\'s not visible' do
+      doc = Ruber::Document.new nil
+      doc.create_view
+      doc.view.hide
+      doc.should_not have_editor
+    end
+    
+    it 'returns true if the document has a view and it\'s visible' do
+      doc = Ruber::Document.new nil
+      doc.create_view
+      doc.view.show
+      doc.should have_editor
+    end
+    
+  end
   
 end

@@ -271,6 +271,21 @@ This method is associated with the Save menu entry
 #         save_as KDE::Url.from_path(res)
 #       end
     end
+    
+=begin rdoc
+Whether the document has a visible view associated with it
+
+If you just want to know whether there's a view associated with the document and
+don't care about whether it's visible or hidden, use {#view} to retrieve the view
+and check whether it's *nil* or not.
+
+@return [Boolean] *true* if the document has a view associated with it and the view
+  is visible and *false* if the document doesn't have a view associated with it or
+  the view is hidden
+=end
+    def has_editor?
+      view and view.visible?
+    end
 
 =begin rdoc
 Creats a view for the document. _parent_ is the view's parent widget. Raises
