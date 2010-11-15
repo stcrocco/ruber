@@ -333,7 +333,7 @@ Creates a hash with all the data needed to restore Ruber's state
         res[:open_projects] = projects
         docs = Ruber[:docs].documents.select{|d| d.has_file?}
         res[:open_documents] = docs.map{|doc| doc.url.to_encoded.to_s}
-        visible_docs = docs.select{|d| d.view}
+        visible_docs = docs.select{|d| d.has_editor?}
         res[:visible_documents] = visible_docs.map{|d| d.url.to_encoded.to_s}
         current_doc = Ruber[:main_window].current_document.url.to_encoded.to_s rescue ''
         res[:active_document] = current_doc.empty? ? nil : current_doc
