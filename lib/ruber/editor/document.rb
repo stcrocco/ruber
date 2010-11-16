@@ -271,21 +271,6 @@ This method is associated with the Save menu entry
 #         save_as KDE::Url.from_path(res)
 #       end
     end
-    
-=begin rdoc
-Whether the document has a visible view associated with it
-
-If you just want to know whether there's a view associated with the document and
-don't care about whether it's visible or hidden, use {#view} to retrieve the view
-and check whether it's *nil* or not.
-
-@return [Boolean] *true* if the document has a view associated with it and the view
-  is visible and *false* if the document doesn't have a view associated with it or
-  the view is hidden
-=end
-    def has_editor?
-      view and view.visible?
-    end
 
 =begin rdoc
 Creats a view for the document. _parent_ is the view's parent widget. Raises
@@ -363,24 +348,19 @@ calls.
     end
     
 =begin rdoc
-Closes the document
-
-When a document is closed, the following happens (in order)
-* the signal {#closing} is emitted
+Closes the document. If _ask_ is *true*, the <tt>query_close</tt> method is called,
+asking the user what to do if the document is modified. If the user confirms
+closing or if there's no need of confirmation, the following happens:
+* the <tt>closing(QObject*)</tt> signal is emitted
 * the view (if it exists) is closed
-* the {#close_url} method is called
+* the <tt>close_url</tt> method is called
 * all the documnent extensions are removed
 * al singnals are disconnected from the document
 * the document is disposed of
-    
-If _ask_ is *true*, {#query_close} is called, asking the user what to do if the
-document is modified. The user can decide whether to save the changes, discard
-them or stop closing the document.
 
-@param [Boolean] ask whether or not to ask the user what to do in case the document is
-  modified
-@return [Boolean] *true* if the document was successfully closed and *false*
-    otherwise (including the case where the user decided to stop closing it)
+Returns *true* if the document was closed and *false* otherwise
+
+TODO: maybe remove the argument, since this method is not called anymore at 
 =end
     def close ask = true
       if !ask || query_close

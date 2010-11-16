@@ -154,7 +154,7 @@ describe Ruber::State::Plugin do
     end
     
     it 'stores a list of the URLs of the files associated with all open documents under the :open_files key' do
-      docs = 5.times.map{|i| flexmock(i.to_s, :has_file? => true, :has_editor? => true){|m| m.should_receive(:url).and_return KDE::Url.new("file:///xyz/file #{i}")}}
+      docs = 5.times.map{|i| flexmock(i.to_s, :has_file? => true, :view => flexmock){|m| m.should_receive(:url).and_return KDE::Url.new("file:///xyz/file #{i}")}}
       @documents.should_receive(:documents).once.and_return(docs)
       exp = [
         'file:///xyz/file%200',
@@ -168,7 +168,7 @@ describe Ruber::State::Plugin do
     
     it 'ignores documents which aren\'t associated with a file' do
       docs = 5.times.map do |i| 
-        flexmock(i.to_s, :has_editor? => true) do |m|
+        flexmock(i.to_s, :view => flexmock) do |m|
           m.should_receive(:url).and_return(i % 2 == 0 ? KDE::Url.new("file:///xyz/file #{i}") : KDE::Url.new)
           m.should_receive(:has_file?).and_return(i % 2 == 0)
         end
@@ -194,7 +194,7 @@ describe Ruber::State::Plugin do
       docs = 5.times.map do |i| 
         flexmock(i.to_s) do |m| 
           m.should_receive(:url).and_return KDE::Url.new("file:///xyz/file #{i}")
-          m.should_receive(:has_editor?).and_return(i % 2 == 0 ? flexmock("view #{i}") : nil)
+          m.should_receive(:view).and_return(i % 2 == 0 ? flexmock("view #{i}") : nil)
           m.should_receive(:has_file?).and_return(i % 2 == 0)
         end
       end
@@ -209,8 +209,9 @@ describe Ruber::State::Plugin do
     
     it 'doesn\'t insert files not associated with a file under the visible_documents key' do
       docs = 5.times.map do |i| 
-        flexmock(i.to_s, :has_editor? => true) do |m| 
+        flexmock(i.to_s) do |m| 
           m.should_receive(:url).and_return( i % 2 == 0 ? KDE::Url.new("file:///xyz/file #{i}") : KDE::Url.new)
+          m.should_receive(:view).and_return(flexmock)
           m.should_receive(:has_file?).and_return(i % 2 == 0)
         end
       end
@@ -223,9 +224,9 @@ describe Ruber::State::Plugin do
       @plug.send(:gather_settings).should have_entries(:visible_documents => exp)
     end
     
-    it 'stores an empty array under the :visible_documents key if there is no open document with a view associated with a file' do
+    it 'stores an empty array under the :open_files key if there is no open document with a view associated with a file' do
       docs = 5.times.map do |i| 
-        flexmock(:url => KDE::Url.new, :has_file? => (i % 2 == 0), :has_editor? => (i % 2 == 1))
+        flexmock(:url => KDE::Url.new, :has_file? => (i % 2 == 0), :view => (i % 2 == 0 ? nil : flexmock))
       end
       @documents.should_receive(:documents).once.and_return(docs).once
       @documents.should_receive(:documents).once.and_return([]).once
@@ -235,7 +236,7 @@ describe Ruber::State::Plugin do
     
     it 'stores the path of the active document under the :active_document key' do
       docs = 5.times.map do |i| 
-        flexmock(i.to_s, :has_file? => true, :has_editor? => true) do |m|
+        flexmock(i.to_s, :has_file? => true, :view => flexmock) do |m|
           m.should_receive(:url).and_return KDE::Url.new("file:///xyz/file #{i}")
         end
       end
@@ -652,7 +653,7 @@ describe Ruber::State::Plugin do
       @config.should_receive(:[]).with(:state, :active_document)
       @config.should_receive(:[]).with(:state, :visible_documents).and_return []
       files.each{|f| @docs.should_receive(:document).once.with(KDE::Url.new(f)).ordered}
-      @mw.should_receive(:without_activating)
+      @mw.should_receive(:without_activating) #.once.with(FlexMock.on{|a| a.call || a.is_a?(Proc)})
       @plug.restore_documents
     end
     
