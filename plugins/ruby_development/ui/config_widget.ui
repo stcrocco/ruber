@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>RubyDevelopmentConfigWidget</class>
+ <widget class="QWidget" name="RubyDevelopmentConfigWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>38</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="toolTip">
+      <string>The command to use to run a ruby script in a terminal</string>
+     </property>
+     <property name="whatsThis">
+      <string>In the command line, use %d to indicate the initial working directory for the terminal and %r to indicate where to put the ruby command line. The %r sequence should be either sourrounded by spaces or have a space before it and the end of the command after it.
+
+Note that you can't use arguments containing spaces in the command line.</string>
+     </property>
+     <property name="text">
+      <string>&amp;Terminal</string>
+     </property>
+     <property name="buddy">
+      <cstring>_ruby__run_in_terminal_cmd</cstring>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="KLineEdit" name="_ruby__run_in_terminal_cmd">
+     <property name="toolTip">
+      <string>The command to use to run a ruby script in a terminal</string>
+     </property>
+     <property name="whatsThis">
+      <string>In the command line, use %d to indicate the initial working directory for the terminal and %r to indicate where to put the ruby command line.
+
+Note that you can't use arguments containing spaces in the command line</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

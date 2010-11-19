@@ -11,6 +11,11 @@ class: Ruber::FilesRunner::Plugin
 require: ruby_development
 ui_file: ruby_developmentui.rc
 tool_widgets: {:class: Ruber::FilesRunner::OutputWidget, :caption: Ruby output, :position: :bottom, :name: ruby_output_widget, pixmap: ruby_development.png}
+config_options:
+ ruby:
+  run_in_terminal_cmd: {default: 'konsole --workdir %d --hold -e %r'}
+config_widgets:
+ - {caption: Ruby, class: Ruber::FilesRunner::ConfigWidget}
 project_options:
  ruby:
   main_program: {default: "''", relative_path: true}
