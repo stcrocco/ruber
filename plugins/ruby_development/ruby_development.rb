@@ -3,6 +3,7 @@ require 'ruber/filtered_output_widget'
 require 'ruby_runner/ruby_runner'
 
 require_relative 'ui/project_widget'
+require_relative 'ui/config_widget'
 
 module Ruber
   
@@ -132,8 +133,8 @@ as first argument to {Autosave::AutosavePlugin#autosave}
         Ruber[:main_window].show_tool @widget
         Ruber[:main_window].change_state 'ruby_running', true
         if opts[:run_in_terminal]
-          run_process 'konsole', opts[:dir], ['--workdir', opts[:dir], '--hold',
-                                              '-e', opts[:ruby]] + cmd
+          terminal, *term_opts = terminal_command opts[:dir], ([opts[:ruby]] + cmd)
+          run_process terminal, opts[:dir], term_opts
         else run_process opts[:ruby], opts[:dir], cmd
         end
         true
@@ -307,6 +308,30 @@ if the project has document scope
       end
       
       private
+      
+=begin rdoc
+The command line to use to run the given ruby command in a terminal
+
+This method replaces every instance of @%d@ in the @ruby/run_in_terminal_cmd@
+setting with the working directory and every instance of @%r@ with the ruby command.
+If @%r@ is sourrounded by spaces, it'll be replaced by _ruby_command_ as it is;
+it @%r@ is part of a string, it'll be replaced by the elements of _ruby_command_
+joined with spaces.
+
+@param [String] dir the working directory
+@param [Array<String>] ruby_command the ruby command to execute in the terminal
+@return [Array<String>] the command to run the terminal, in a form suitable to be
+  passed to {#run_process}
+=end
+      def terminal_command dir, ruby_command
+        cmd = Ruber[:config][:ruby, :run_in_terminal_cmd].split(/\s+/)
+        cmd.each do |c|
+          c.gsub!('%d', dir)
+          c.gsub!('%r', ruby_command.join(' ')) unless c == '%r'
+        end
+        cmd.each_with_index.find{|e, i| e == '%r'}.each_index{|i| cmd[i] = ruby_command}
+        cmd.flatten
+      end
       
 =begin rdoc
 Starts executing a given ruby program and displays the tool widget
@@ -530,6 +555,16 @@ project with document scope.
         @ui._ruby__main_program.hide
         @ui.working_dir_label.hide
         @ui._ruby__working_dir.hide
+      end
+      
+    end
+		
+    class ConfigWidget < Qt::Widget
+      
+      def initialize parent = nil
+        super
+        @ui = Ui::RubyDevelopmentConfigWidget.new
+        @ui.setupUi self
       end
       
     end
