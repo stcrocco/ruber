@@ -32,6 +32,7 @@ require 'ruber/main_window/main_window_actions'
 
 require 'ruber/main_window/status_bar'
 require 'ruber/main_window/workspace'
+require_relative 'ui/workspace_settings_widget'
 
 module Ruber
 
@@ -95,7 +96,7 @@ is the plugin description for this object.
       # We need the instance variable to use it with Forwardable
       @workspace = central_widget 
       @views = central_widget.instance_variable_get :@views
-      @views.tabs_closable = true
+      @views.tabs_closable = Ruber[:config][:workspace, :close_buttons]
       @current_view = nil
       @active_editor = nil
       @auto_activate_editors = true
@@ -474,6 +475,7 @@ default project directory)
       c = Ruber[:config][:general]
       @default_script_dir = KDE::Url.from_path c.default_script_directory
       @default_project_dir = KDE::Url.from_path c.default_project_directory
+      @views.tabs_closable = Ruber[:config][:workspace, :close_buttons] if @views
     end
     
 =begin rdoc
@@ -526,6 +528,20 @@ See <tt>GuiPlugin#execute_action</tt> for more details
         end
         true
       else false
+      end
+    end
+   
+=begin rdoc
+Settings widget for the workspace group
+=end
+    class WorkspaceSettingsWidget < Qt::Widget
+=begin rdoc
+@param [Qt::Widget,nil] parent the parent widget
+=end
+      def initialize parent = nil
+        super
+        @ui = Ui::WorkspaceSettingsWidgetBase.new
+        @ui.setup_ui self
       end
     end
     

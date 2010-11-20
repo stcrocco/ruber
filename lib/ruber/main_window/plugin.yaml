@@ -28,9 +28,11 @@ config_options:
   v_splitter: {key: Vertical splitter, type: string list, default: "['80', '20']"}
  workspace:
   tools_sizes: {default: {}}
+  close_buttons: {default: 'true', type: bool}
 config_widgets:
  - {caption: General, pixmap: configure, class: Ruber::MainWindowSettingsWidget}
  - {caption: Colors, pixmap: fill-color, class: Ruber::OutputColorWidget}
+ - {caption: Workspace, pixmap: workspace.png, class: Ruber::MainWindow::WorkspaceSettingsWidget}
 actions:
  file_new: {standard_action: open_new, slot: new_file()}
  file_open: {standard_action: open, slot: open_file()}
