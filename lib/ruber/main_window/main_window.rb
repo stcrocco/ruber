@@ -95,6 +95,7 @@ is the plugin description for this object.
       # We need the instance variable to use it with Forwardable
       @workspace = central_widget 
       @views = central_widget.instance_variable_get :@views
+      @views.tabs_closable = true
       @current_view = nil
       @active_editor = nil
       @auto_activate_editors = true
@@ -120,6 +121,9 @@ is the plugin description for this object.
       Ruber[:projects].connect( SIGNAL('current_project_changed(QObject*)') ) do |prj|
         change_state "active_project_exists", !prj.nil?
         make_title
+      end
+      @views.connect SIGNAL('tabCloseRequested(int)') do |i|
+        close_editor @views.widget(i)
       end
       connect Ruber[:projects], SIGNAL('closing_project(QObject*)'), self, SLOT('close_project_files(QObject*)')
       
