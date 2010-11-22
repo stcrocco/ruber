@@ -53,11 +53,20 @@ module Ruber
         @reader.process_pdf({}).should eql(@info)
       end
       
-      it 'should require all files obtained by joining the PluginSpecification\'s directory with the files returned by the read_required method, before calling the read_required method' do
+      it 'requires all files obtained by joining the PluginSpecification\'s directory with the files returned by the read_required method, before calling the read_required method' do
         @info.directory = '/xyz'
         flexmock(@reader).should_receive(:read_required).and_return %w[a b]
         flexmock(@reader).should_receive(:require).globally.ordered.once.with '/xyz/a'
         flexmock(@reader).should_receive(:require).globally.ordered.once.with '/xyz/b'
+        flexmock(@reader).should_receive(:read_ui_file).globally.ordered.once.and_return 'testui.rc'
+        @reader.process_pdf({})
+      end
+      
+      it 'loads files returned by the read_required method rather than require them if they end in .rb' do
+        @info.directory = '/xyz'
+        flexmock(@reader).should_receive(:read_required).and_return %w[a b.rb]
+        flexmock(@reader).should_receive(:require).globally.ordered.once.with '/xyz/a'
+        flexmock(@reader).should_receive(:load).globally.ordered.once.with '/xyz/b.rb'
         flexmock(@reader).should_receive(:read_ui_file).globally.ordered.once.and_return 'testui.rc'
         @reader.process_pdf({})
       end

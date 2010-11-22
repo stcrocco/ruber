@@ -26,7 +26,6 @@ h2. Ruber Core
   only if the tab text explicitly contains and &, apparently KDE::TabWidget inserts
   it automatically if it doesn't exist. However, looking at the corresponding
   documentation, I don't understand where the change comes from
-* Add optional close buttons to the tab bar (Qt::TabWidget#button_closeable=)
 * ? Make the initialize methods of all the widgets meant to be subclassed take a block
   and handle it as Qt::Widget does (relying on the underlying implementation doesn't
   work because the block is called by the parent widget's initialize method, before
@@ -42,11 +41,6 @@ h2. Ruber Core
 * Make the output widgets not autoscroll unless the scroll bar is at the end. This
   would allow the user to look at a certain line of output while other text is
   being added
-* Make files specified with the extension .rb in the require section of the PSF
-  be loaded instead of required. This, together with the recomandation of creating
-  classes which are part of a feature's API using Class.new or removing them in
-  the unload method should take care of the issue of classes/constants defined by
-  multiple plugins
 * !Do something so that saving a YamlOptionBackend is an atomic action (this means
   creating a temp file, writing to it then copying on the actual file. There might
   be permission problems)

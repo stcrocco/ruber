@@ -89,7 +89,12 @@ A list of valid licences
       @plugin_info.about = read_about hash
       @plugin_info.version = read_version hash
       @plugin_info.required = read_required hash
-      @plugin_info.required.each{|f| require File.join(@plugin_info.directory, f)}
+      @plugin_info.required.each do |f| 
+        file = File.join @plugin_info.directory, f
+        if file.end_with?('.rb') then load file
+        else require file
+        end
+      end
       @plugin_info.class_obj = read_class hash
       @plugin_info.features = read_features hash
       @plugin_info.deps = read_deps hash
