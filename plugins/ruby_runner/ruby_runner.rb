@@ -156,7 +156,6 @@ the plugin
       def initialize psf
         silently do
           Object.const_set :RubyOptionsWidget, RubyOptionsWidget
-          Ruber::RubyRunner.const_set :RubyRunnerPlugin, RubyRunnerPluginInternal
         end
         super
         @default_interpreter_action = action_collection.action('ruby_runner-configured_interpreter')
@@ -245,6 +244,18 @@ default entry is selected.
         nil
       end
       
+=begin rdoc
+Override of {PluginLike#unload}
+
+Besides doing the same as the base class method, it also removes the @Ruber::RubyRunner::RubyRunnerPlugin@
+constant, so that other plugins may reimplement it using another base class.
+@return [nil]
+=end
+      def unload
+        Ruber::RubyRunner.send :remove_const, :RubyRunnerPlugin
+        super
+      end
+      
     end
       
 =begin
@@ -266,7 +277,7 @@ plugin.
 @api_method #interpreter_for
 @api_method #ruby_command_for
 =end
-    class RubyRunnerPluginInternal < ExternalProgramPlugin
+    class RubyRunnerPlugin < ExternalProgramPlugin
 
 =begin rdoc
 Creates a new instance.

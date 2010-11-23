@@ -7,7 +7,7 @@ about:
  bug_address: http://github.com/stcrocco/ruber/issues
  icon: ruby.png
 class: Ruber::RubyRunner::RubyInterpretersPlugin
-require: ruby_runner
+require: ruby_runner.rb
 ui_file: ruby_interpretersui.rc
 features: [ruby_interpreters]
 config_widgets:
