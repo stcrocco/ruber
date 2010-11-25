@@ -292,7 +292,6 @@ Creats a view for the document. _parent_ is the view's parent widget. Raises
 +RuntimeError+ if the document already has a view.
 =end
     def create_view parent = nil
-      raise "Can't create a second view for this document" if @view
       @doc.create_view nil
       @view = EditorView.new self, @doc.views.first, parent
       @view.connect(SIGNAL('closing()')){@view = nil}
