@@ -682,6 +682,28 @@ will only be passed one time.
     include LayoutEach
   end
   
+  class Qt::Splitter
+    
+    include QtEnumerable
+  
+=begin rdoc
+Iterates on all items in the splitter
+
+The iteration order is from top to bottom and from left to right.
+
+@yield [w] block to call for each widget in the splitter
+@yieldparam [Qt::Widget] w each widget
+@return [Qt::Splitter,Enumerator] if no block is given, returns an enumerator, otherwise
+  returns *self*
+=end
+    def each
+      return to_enum unless block_given?
+      count.times{|i| yield widget(i)}
+      self
+    end
+    
+  end
+  
   
   class Qt::StackedWidget
    

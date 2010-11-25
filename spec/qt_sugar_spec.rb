@@ -555,3 +555,43 @@ describe Qt::GridLayout do
   end
   
 end
+
+describe Qt::Splitter do
+
+  it 'includes the QtEnumerable module' do
+    Qt::Splitter.ancestors.should include(QtEnumerable)
+  end
+  
+  describe '#each' do
+    
+    before do
+      @splitter = Qt::Splitter.new Qt::Vertical
+    end
+    
+    it 'calls the block each widget in the splitter' do
+      widgets = [Qt::LineEdit, Qt::PushButton, Qt::Label].map{|cls| cls.new}
+      widgets.reverse_each{|w| @splitter.add_widget w}
+      res = []
+      @splitter.each{|w| res << w}
+      res.should == widgets.reverse
+    end
+    
+    it 'returns an enumerator if no block is given' do
+      widgets = [Qt::LineEdit, Qt::PushButton, Qt::Label].map{|cls| cls.new}
+      widgets.reverse_each{|w| @splitter.add_widget w}
+      res = []
+      enum = @splitter.each
+      enum.should be_an(Enumerator)
+      enum.each{|w| res << w}
+      res.should == widgets.reverse
+    end
+    
+    it 'returns self if a block has been given' do
+      widgets = [Qt::LineEdit, Qt::PushButton, Qt::Label].map{|cls| cls.new}
+      widgets.reverse_each{|w| @splitter.add_widget w}
+      @splitter.each{}.should == @splitter
+    end
+    
+  end
+  
+end

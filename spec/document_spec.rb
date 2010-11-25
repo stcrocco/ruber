@@ -258,11 +258,6 @@ describe Ruber::Document do
     @doc.create_view(Qt::Widget.new).should_not be_nil
   end
 
-  it 'should not allow to create a view if one already exists' do
-    @doc.create_view(Qt::Widget.new)
-    lambda{@doc.create_view(Qt::Widget.new)}.should raise_error(RuntimeError)
-  end
-
   it 'should allow to get and change the text' do
     txt="test text"
     lambda{@doc.text="test text"}.should_not raise_error
