@@ -326,3 +326,232 @@ describe Qt::Variant, '#to_bool' do
   end
   
 end
+
+describe Qt::Layout do
+  
+  it 'includes QtEnumerable' do
+    Qt::Layout.ancestors.should include(QtEnumerable)
+  end
+  
+  describe '#each' do
+    
+    it 'passes to the block each widget in turn if called with a block' do
+      #Since Qt::Layout is an abstract class, we fake calls to count and item_at,
+      #which are pure virtual, with mocks
+      w = Qt::Widget.new
+      layout = Qt::Layout.new w
+      w.layout = layout
+      widgets = [Qt::PushButton, Qt::VBoxLayout, Qt::CheckBox].map{|c| c.new}
+      res = []
+      flexmock(layout).should_receive(:count).once.and_return(3)
+      flexmock(layout).should_receive(:item_at).with(0).once.and_return(Qt::WidgetItem.new(widgets[0]))
+      flexmock(layout).should_receive(:item_at).with(1).once.and_return(widgets[1])
+      flexmock(layout).should_receive(:item_at).with(2).once.and_return(Qt::WidgetItem.new(widgets[2]))
+      layout.each{|w| res << w}
+      res.should == widgets
+    end
+    
+    it 'returns an enumerator if no block is given' do
+      w = Qt::Widget.new
+      layout = Qt::Layout.new w
+      w.layout = layout
+      widgets = [Qt::PushButton, Qt::VBoxLayout, Qt::CheckBox].map{|c| c.new}
+      res = []
+      flexmock(layout).should_receive(:count).once.and_return(3)
+      flexmock(layout).should_receive(:item_at).with(0).once.and_return(Qt::WidgetItem.new(widgets[0]))
+      flexmock(layout).should_receive(:item_at).with(1).once.and_return(widgets[1])
+      flexmock(layout).should_receive(:item_at).with(2).once.and_return(Qt::WidgetItem.new(widgets[2]))
+      e = layout.each
+      e.each{|w| res << w}
+      res.should == widgets
+    end
+    
+  end
+  
+end
+
+shared_examples_for 'any box layout' do
+  
+  it 'includes QtEnumerable' do
+    @layout.class.ancestors.should include(QtEnumerable)
+  end
+  
+  it 'has an each method which passes to the block each widget in turn if called with a block' do
+    w = Qt::Widget.new
+    w.layout = @layout
+    widgets = [Qt::PushButton, Qt::VBoxLayout, Qt::CheckBox].map{|c| c.new}
+    widgets.each{|w| @layout.send w.is_a?(Qt::Widget) ? :add_widget : :add_layout, w}
+    res = []
+    @layout.each{|w| res << w}
+    res.should == widgets
+  end
+  
+  it 'has an each method which returns an enumerator if no block is given' do
+    w = Qt::Widget.new
+    w.layout = @layout
+    widgets = [Qt::PushButton, Qt::VBoxLayout, Qt::CheckBox].map{|c| c.new}
+    res = []
+    widgets.each{|w| @layout.send w.is_a?(Qt::Widget) ? :add_widget : :add_layout, w}
+    e = @layout.each
+    e.each{|w| res << w}
+    res.should == widgets
+  end
+    
+end
+
+describe Qt::BoxLayout do
+  
+  before do
+    @layout = Qt::BoxLayout.new(Qt::Horizontal)
+  end
+  
+  it_behaves_like 'any box layout'
+  
+end
+
+describe Qt::VBoxLayout do
+  
+  before do
+    @layout = Qt::VBoxLayout.new
+  end
+  
+  it_behaves_like 'any box layout'
+  
+end
+
+describe Qt::HBoxLayout do
+  
+  before do
+    @layout = Qt::HBoxLayout.new
+  end
+  
+  it_behaves_like 'any box layout'
+  
+end
+
+describe Qt::StackedLayout do
+
+  before do
+    @layout = Qt::StackedLayout.new
+  end
+  
+  it 'includes QtEnumerable' do
+    @layout.class.ancestors.should include(QtEnumerable)
+  end
+  
+  it 'has an each method which passes to the block each widget in turn if called with a block' do
+    w = Qt::Widget.new
+    w.layout = @layout
+    widgets = [Qt::PushButton, Qt::LineEdit, Qt::CheckBox].map{|c| c.new}
+    widgets.each{|w| @layout.add_widget w}
+    res = []
+    @layout.each{|w| res << w}
+    res.should == widgets
+  end
+  
+  it 'has an each method which returns an enumerator if no block is given' do
+    w = Qt::Widget.new
+    w.layout = @layout
+    widgets = [Qt::PushButton, Qt::LineEdit, Qt::CheckBox].map{|c| c.new}
+    res = []
+    widgets.each{|w| @layout.add_widget w}
+    e = @layout.each
+    e.each{|w| res << w}
+    res.should == widgets
+  end
+  
+end
+
+describe Qt::FormLayout do
+  
+  before do
+    @layout = Qt::FormLayout.new
+  end
+  
+  it 'includes QtEnumerable' do
+    @layout.class.ancestors.should include(QtEnumerable)
+  end
+  
+  it 'has an each method which passes to the block each widget in turn if called with a block' do
+    w = Qt::Widget.new
+    w.layout = @layout
+    widgets = [['l1', Qt::PushButton], ['l2', Qt::LineEdit], ['l3', Qt::CheckBox]].map{|c| [Qt::Label.new(c[0]), c[1].new]}
+    widgets.each{|w| @layout.add_row w[0], w[1]}
+    res = []
+    @layout.each{|w| res << w}
+    res.should == widgets.flatten
+  end
+  
+  it 'has an each method which returns an enumerator if no block is given' do
+    w = Qt::Widget.new
+    w.layout = @layout
+    widgets = [['l1', Qt::PushButton], ['l2', Qt::LineEdit], ['l3', Qt::CheckBox]].map{|c| [Qt::Label.new(c[0]), c[1].new]}
+    widgets.each{|w| @layout.add_row w[0], w[1]}
+    res = []
+    e = @layout.each
+    e.each{|w| res << w}
+    res.should == widgets.flatten
+  end
+  
+end
+
+describe Qt::GridLayout do
+  
+  before do
+    @layout = Qt::GridLayout.new
+  end
+  
+  it 'includes QtEnumerable' do
+    @layout.class.ancestors.should include(QtEnumerable)
+  end
+  
+  it 'has an each method which passes to the block each widget in turn if called with a block' do
+    w = Qt::Widget.new
+    w.layout = @layout
+    widgets = [[Qt::TextEdit, Qt::HBoxLayout], [Qt::Label, Qt::LineEdit], [Qt::VBoxLayout, Qt::CheckBox]].map{|c1, c2| [c1.new, c2.new]}
+    add = lambda{|w, r, c|w.is_a?(Qt::Widget) ? @layout.add_widget(w, r, c) : @layout.add_layout(w, r, c) }
+    widgets.each_with_index do |w, r| 
+      add.call w[0], r, 0
+      add.call w[1], r, 1
+    end
+    res = []
+    @layout.each{|w| res << w}
+    res.should == widgets.flatten
+  end
+  
+  it 'has an each method which returns an enumerator if no block is given' do
+    w = Qt::Widget.new
+    w.layout = @layout
+    widgets = [[Qt::TextEdit, Qt::HBoxLayout], [Qt::Label, Qt::LineEdit], [Qt::VBoxLayout, Qt::CheckBox]].map{|c1, c2| [c1.new, c2.new]}
+    add = lambda{|w, r, c|w.is_a?(Qt::Widget) ? @layout.add_widget(w, r, c) : @layout.add_layout(w, r, c) }
+    widgets.each_with_index do |w, r| 
+      add.call w[0], r, 0
+      add.call w[1], r, 1
+    end
+    res = []
+    e = @layout.each
+    e.each{|w| res << w}
+    res.should == widgets.flatten
+  end
+  
+  it 'passes widgets spanning more than one row or column only once' do
+    w = Qt::Widget.new
+    w.layout = @layout
+    widgets = [[Qt::TextEdit, Qt::HBoxLayout], [Qt::LineEdit], [Qt::VBoxLayout, Qt::CheckBox]].map do |c1, c2| 
+      c2 ? [c1.new, c2.new] : [c1.new]
+    end
+    add = lambda{|w, r, c, r1, c1|w.is_a?(Qt::Widget) ? @layout.add_widget(w, r, c, r1, c1) : @layout.add_layout(w, r, c, r1, c1) }
+    widgets.each_with_index do |w, r| 
+      if w.size == 1
+        add.call w[0], r, 0, r, 1
+      else
+        add.call w[0], r, 0, r, 0
+        add.call w[1], r, 1, r, 1
+      end
+    end
+    res = []
+    @layout.each{|w| res << w}
+    res.should == widgets.flatten
+  end
+  
+end
