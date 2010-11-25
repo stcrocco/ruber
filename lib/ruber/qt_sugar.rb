@@ -617,6 +617,72 @@ the problem is solved
     
   end
   
+=begin rdoc
+Module implementing the {#each} method used by all layout classes
+
+Ideally, this method should be implemented in {Qt::Layout} and other classes should
+inherit it. However, since QtRuby doesn't actually implements inheritance between
+it's classes, that doesn't happen.
+
+The {#each} method is then defined in this module which is included in all layout
+classes
+=end
+  module LayoutEach
+    
+    include QtEnumerable
+    
+=begin rdoc
+Iterates on all items in the layout
+
+The iteration order is from top to bottom and from left to right. In case of widgets
+which span multiple rows or columns (in case of a @Qt::GridLayout@), the widgets
+will only be passed one time.
+
+@yield [w] block to call for each widget in the layout
+@yieldparam [Qt::Widget] w each widget
+@return [Qt::Layout,Enumerator] if no block is given, returns an enumerator, otherwise
+  returns *self*
+=end
+    def each
+      return to_enum unless block_given?
+      count.times do |i| 
+        it = item_at i
+        yield it.widget || it.layout
+      end
+      self
+    end
+    
+  end
+  
+  class Layout
+    include LayoutEach
+  end
+  
+  class BoxLayout
+    include LayoutEach
+  end
+  
+  class VBoxLayout
+    include LayoutEach
+  end
+  
+  class HBoxLayout
+    include LayoutEach
+  end
+  
+  class StackedLayout
+    include LayoutEach
+  end
+  
+  class FormLayout
+    include LayoutEach
+  end
+  
+  class GridLayout
+    include LayoutEach
+  end
+  
+  
   class Qt::StackedWidget
    
     include QtEnumerable
