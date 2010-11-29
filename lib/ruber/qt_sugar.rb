@@ -50,12 +50,14 @@ module Qt
   +RuntimeError+ will be raised.
 =end
     def named_connect signal, name, &blk
-      old_children = find_children(Qt::SignalBlockInvocation)
-#       old_children = find_children(Qt::Object).select{|c| c.class == Qt::SignalBlockInvocation}
+      #It seems that find_children always return all children, regardless of 
+      #the class passed as argument
+#       old_children = find_children(Qt::SignalBlockInvocation)
+      old_children = find_children(Qt::Object).select{|c| c.class == Qt::SignalBlockInvocation}
       res = self.connect(signal, &blk)
       return nil unless res
-#       new_children = find_children(Qt::Object).select{|c| c.class == Qt::SignalBlockInvocation} - old_children
-      new_children = find_children(Qt::SignalBlockInvocation) - old_children
+      new_children = find_children(Qt::Object).select{|c| c.class == Qt::SignalBlockInvocation} - old_children
+#       new_children = find_children(Qt::SignalBlockInvocation) - old_children
       unless new_children.size == 1
         raise RuntimeError, "Wrong number of new children: #{new_children.size} instead of 1" 
       end
