@@ -35,9 +35,308 @@ describe Ruber::Pane do
     it 'inserts the view in the layout' do
       view = @doc.create_view nil
       pane = Ruber::Pane.new view
-      pane.layout.should
+      pane.layout.should include(view)
+    end
+    
+    it 'allows a parent to be specified' do
+      view = @doc.create_view nil
+      w = Qt::Widget.new
+      pane = Ruber::Pane.new view, w
+      pane.parent.should == w
     end
     
   end
   
+  context 'when created with two panes and an orientation' do
+    
+    before do
+      @panes = 2.times.map{Ruber::Pane.new @doc.create_view(nil)}
+    end
+    
+    it 'inserts the two panes in a splitter with the given orientation' do
+      pane = Ruber::Pane.new Qt::Horizontal, @panes[0], @panes[1]
+      splitter = pane.layout.find{|c| c.is_a? Qt::Splitter}
+      splitter.should_not be_nil
+      splitter.orientation.should == Qt::Horizontal
+      splitter.widget(0).should == @panes[0]
+      splitter.widget(1).should == @panes[1]
+    end
+    
+     it 'makes the panes child of the splitter' do
+       pane = Ruber::Pane.new Qt::Horizontal, @panes[0], @panes[1]
+       splitter = pane.find_child(Qt::Splitter)
+       @panes.each{|p| p.parent.should == splitter}
+     end
+     
+     it 'allows a parent to be specified' do
+       w = Qt::Widget.new
+       pane = Ruber::Pane.new Qt::Horizontal, @panes[0], @panes[1], w
+       pane.parent.should == w
+     end
+    
+  end
+  
+  describe '#single_view?' do
+    
+    it 'returns true if the pane only contains one view' do
+      pane = Ruber::Pane.new @doc.create_view(nil)
+      pane.single_view?.should be_true
+    end
+    
+    it 'returns false if the pane contains two views' do
+      views = 2.times.map{@doc.create_view(nil)}
+      pane = Ruber::Pane.new Qt::Vertical, views[0], views[1]
+      pane.single_view?.should be_false
+    end
+    
+  end
+  
+  describe '#orientation' do
+    
+    it 'returns nil if the pane contains a single view' do
+      pane = Ruber::Pane.new @doc.create_view(nil)
+      pane.orientation.should be_nil
+    end
+    
+    it 'returns the orientation of the splitter if the pain contains multiple panes' do
+      views = 2.times.map{@doc.create_view(nil)}
+      pane = Ruber::Pane.new Qt::Vertical, views[0], views[1]
+      pane.orientation.should == Qt::Vertical
+      pane = Ruber::Pane.new Qt::Horizontal, views[0], views[1]
+      pane.orientation.should == Qt::Horizontal
+    end
+    
+  end
+  
+  describe '#view' do
+    
+    it 'returns the view if the pane contains a single view' do
+      view = @doc.create_view(nil)
+      pane = Ruber::Pane.new view
+      pane.view.should == view
+    end
+    
+    it 'returns nil if the pane contains multiple panes' do
+      views = 2.times.map{@doc.create_view(nil)}
+      pane = Ruber::Pane.new Qt::Vertical, views[0], views[1]
+      pane.view.should be_nil
+    end
+    
+  end
+  
+  describe '#split' do
+    
+    context 'if the pane contains a single view' do
+      
+      before do
+        @view = @doc.create_view nil
+        @pane = Ruber::Pane.new @view
+      end
+      
+      shared_examples_for '#split when the pane contains a single view' do
+        
+        it 'inserts the pane containing each of the views in a splitter with the given orientation' do
+          view = @doc.create_view nil
+          @pane.split @view, view, Qt::Vertical, @pos
+          @pane.single_view?.should be_false
+          splitter = @pane.splitter
+          splitter.should be_a(Qt::Splitter)
+          splitter.orientation.should == Qt::Vertical
+          splitter.count.should == 2
+          splitter.each{|w| w.should be_a(Ruber::Pane)}
+          splitter.widget(@old_idx).view.should == @view
+          splitter.widget(@new_idx).view.should == view
+        end
+        
+        it 'returns an array with the pane containing the old view as first element and the pane containing the new view as second element' do
+          view = @doc.create_view nil
+          res = @pane.split @view, view, Qt::Horizontal, @pos
+          res[0].should be_a(Ruber::Pane)
+          res[0].view.should == @view
+          res[1].should be_a(Ruber::Pane)
+          res[1].view.should == view
+        end
+
+      end
+      
+      context 'and the last argument is :after or missing' do
+        before do
+          @old_idx = 0
+          @new_idx = 1
+          @pos = :after
+        end
+        it_behaves_like '#split when the pane contains a single view'
+      end
+      
+      context 'and the last argument is :after or missing' do
+        before do
+          @old_idx = 1
+          @new_idx = 0
+          @pos = :before
+        end
+        it_behaves_like '#split when the pane contains a single view'
+      end
+      
+    end
+    
+    context 'if the pane already contains a splitter and it has the same orientation passed to the method' do
+      
+      before do
+        @views = 2.times.map{@doc.create_view(nil)}
+        @panes = @views.map{|v| Ruber::Pane.new v}
+        @pane = Ruber::Pane.new Qt::Vertical, @panes[0], @panes[1]
+      end
+      
+      shared_examples_for '#split when there\'s already a splitter with the same orientation' do
+        
+        it 'puts the view in a new pane and adds the given view to the splitter after the one specified as second argument' do
+          view = @doc.create_view nil
+          @pane.split @views[0], view, Qt::Vertical, @pos
+          splitter = @pane.find_child(Qt::Splitter)
+          splitter.count.should == 3
+          pane = splitter.widget(@idx)
+          pane.should be_a(Ruber::Pane)
+          pane.find_child(Ruber::EditorView).should == view
+        end
+        
+        it 'makes the new pane child of the splitter' do
+          view = @doc.create_view nil
+          @pane.split @views[0], view, Qt::Vertical, @pos
+          splitter = @pane.find_child(Qt::Splitter)
+          pane = splitter.widget(@idx)
+          pane.parent.should == splitter
+        end
+        
+        it 'returns an array with the pane containing the old view as first element and the pane containing the new view as second element' do
+          view = @doc.create_view nil
+          res = @pane.split @views[0], view, Qt::Horizontal, @pos
+          res[0].should be_a(Ruber::Pane)
+          res[0].view.should == @views[0]
+          res[1].should be_a(Ruber::Pane)
+          res[1].view.should == view
+        end
+        
+      end
+      
+      context 'and the last argument is :after or missing' do
+        before do
+          @idx = 1
+          @pos = :after
+        end
+        it_behaves_like '#split when there\'s already a splitter with the same orientation'
+      end
+      
+      context 'and the last argument is :before' do
+        before do
+          @idx = 0
+          @pos = :before
+        end
+        it_behaves_like '#split when there\'s already a splitter with the same orientation'
+      end
+      
+    end
+    
+    context 'if the pane already contains a splitter but it has a different orientation' do
+      
+      before do
+        @views = 2.times.map{@doc.create_view(nil)}
+        @panes = @views.map{|v| Ruber::Pane.new v}
+        @pane = Ruber::Pane.new Qt::Horizontal, @panes[0], @panes[1]
+      end
+      
+      shared_examples_for '#split when there\'s already a splitter but it has a different orientation' do
+        
+        it 'puts the two views in a new pane in the position of the existing view' do
+          view = @doc.create_view nil
+          old_splitter = @pane.find_child(Qt::Splitter)
+          @pane.split @views[0], view, Qt::Vertical, @pos
+          @pane.find_children(Ruber::Pane).select{|c| c.is_a? Ruber::Pane}.size.should == 4
+          old_splitter.count.should == 2
+          new_pane = old_splitter.widget 0
+          new_pane.should be_a(Ruber::Pane)
+          new_pane.should_not be_single_view
+          inner_splitter = new_pane.find_child(Qt::Splitter)
+          inner_splitter.orientation.should == Qt::Vertical
+          inner_splitter.widget(@old_idx).view.should == @views[0]
+          inner_splitter.widget(@new_idx).view.should == view
+        end
+        
+        it 'returns an array with the pane containing the old view as first element and the pane containing the new view as second element' do
+          view = @doc.create_view nil
+          res = @pane.split @views[0], view, Qt::Horizontal, @pos
+          res[0].should be_a(Ruber::Pane)
+          res[0].view.should == @views[0]
+          res[1].should be_a(Ruber::Pane)
+          res[1].view.should == view
+        end
+        
+      end
+      
+      context 'and the last argument is :after or missing' do
+        before do
+          @old_idx = 0
+          @new_idx = 1
+          @pos = :after
+        end
+        it_behaves_like '#split when there\'s already a splitter but it has a different orientation'
+      end
+      
+      context 'and the last argument is :before' do
+        before do
+          @old_idx = 1
+          @new_idx = 0
+          @pos = :before
+        end
+        it_behaves_like '#split when there\'s already a splitter but it has a different orientation'
+      end
+      
+    end
+    
+    context 'if the given view is not directly contained in the pane' do
+      
+      it 'does nothing and returns nil if the view isn\'t contained in any of the children panes' do
+        doc = Ruber::Document.new
+        views = 5.times.map{doc.create_view}
+        pane = Ruber::Pane.new(views[0])
+        pane.split views[0], views[1], Qt::Horizontal, :after
+        panes = pane.split views[0], views[2], Qt::Vertical, :after
+        pane.split(views[3], views[4], Qt::Horizontal, :after).should be_nil
+        pane.find_children(Ruber::EditorView).find{|v| v == views[4]}.should be_nil
+      end
+      
+      it 'calls the same method of the pane containing the view' do
+        doc = Ruber::Document.new
+        views = 4.times.map{doc.create_view}
+        pane = Ruber::Pane.new(views[0])
+        pane.split views[0], views[1], Qt::Horizontal, :after
+        panes = pane.split views[0], views[2], Qt::Vertical, :after
+        flexmock(panes[1].parent.parent).should_receive(:split).with(views[2], views[3], Qt::Vertical, :after).once
+        pane.split views[2], views[3], Qt::Vertical, :after
+      end
+      
+    end
+    
+  end
+  
+  context 'when a view contained in it emits the closing signal' do
+    
+    it 'calls the remove_view method if the view is the single view contained in the pane' do
+      doc = Ruber::Document.new
+      view = doc.create_view nil
+      pane = Ruber::Pane.new view
+      flexmock(pane).should_receive(:remove_view).once.with(view)
+      view.instance_eval{emit closing}
+    end
+    
+    it 'does nothing if the pane contains more than one view' do
+      doc = Ruber::Document.new
+      views = 3.times.map{doc.create_view nil}
+      pane = Ruber::Pane.new views[0]
+      1.upto(2){|i| pane.split views[i-1], views[i], Qt::Vertical}
+      flexmock(pane).should_receive(:remove_view).never
+      views[0].instance_eval{emit closing}
+    end
+    
+  end
+    
 end
