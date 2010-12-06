@@ -338,5 +338,125 @@ describe Ruber::Pane do
     end
     
   end
+  
+  describe '#remove_view' do
+    
+    before do
+      @doc = Ruber::Document.new
+      @view = @doc.create_view nil
+      @pane = Ruber::Pane.new @view
+      flexmock(@pane).should_receive(:delete_later).by_default
+    end
+    
+    it 'emits the closing_last_view signal passing self as argument' do
+      mk = flexmock{|m| m.should_receive(:closing_last_view).once.with(@pane)}
+      @pane.connect(SIGNAL('closing_last_view(QWidget*)')){|w| mk.closing_last_view w}
+      @pane.send :remove_view, @view
+    end
+    
+    it 'sets the view\'s parent to nil' do
+      @pane.send :remove_view, @view
+      @view.parent.should be_nil
+    end
+    
+    it 'deletes the pane' do
+      flexmock(@pane).should_receive(:delete_later).once
+      @pane.send :remove_view, @view
+    end
+    
+  end
+  
+  context 'when a child pane emits the closing_last_view signal' do
+    
+    before do
+      @doc = Ruber::Document.new
+      @views = 3.times.map{@doc.create_view}
+    end
+    
+    it 'does nothing  if the pane isn\'t directly contained in the pane' do
+      @pane = Ruber::Pane.new Qt::Vertical, Ruber::Pane.new(@views[0]), Ruber::Pane.new(@views[1])
+      child_pane = @pane.split( @views[1], @views[2], Qt::Horizontal)[1]
+      flexmock(@pane).should_receive(:remove_pane).never
+      child_pane.instance_eval{emit closing_last_view(self)}
+    end
+    
+    context 'when only one pane remains' do
+      
+      context 'and that pane is contains a single view' do
+        
+        before do
+          @pane = Ruber::Pane.new @views[0]
+          @panes = @pane.split @views[0], @views[1], Qt::Vertical
+        end
+      
+        it 'switches to single view mode containing the view of the remaining pane if the latter is in single view mode' do
+          @panes[0].instance_eval{emit closing_last_view(self)}
+          @pane.should be_single_view
+          @pane.view.should == @views[1]
+        end
+        
+        it 'calls the delete_later method of the remaining pane' do
+          flexmock(@panes[1]).should_receive(:delete_later).once
+          @panes[0].instance_eval{emit closing_last_view(self)}
+        end
+        
+      end
+      
+      context 'and that pane contains more than one view' do
+        
+        before do
+          @views << @doc.create_view << @doc.create_view
+          @pane = Ruber::Pane.new @views[0]
+          @closing_pane, @remaining_pane = @pane.split @views[0], @views[1], Qt::Vertical
+          @remaining_pane.split @views[1], @views[2], Qt::Horizontal
+          @remaining_pane.split @views[2], @views[3], Qt::Horizontal
+        end
+        
+        it 'removes the remaining pane from the splitter' do
+          @closing_pane.instance_eval{emit closing_last_view self}
+          @pane.splitter.children.select{|c| c.is_a?(Ruber::Pane)}.should_not include(@remaining_pane)
+        end
+        
+        it 'makes all the children panes its own children' do
+          @closing_pane.instance_eval{emit closing_last_view self}
+          @pane.should_not be_single_view
+          @pane.splitter.count.should == 3
+          @pane.splitter.widget(0).view.should == @views[1]
+          @pane.splitter.widget(1).view.should == @views[2]
+          @pane.splitter.widget(2).view.should == @views[3]
+        end
+        
+        it 'calls the delete_later method of the remaining pane' do
+          flexmock(@remaining_pane).should_receive(:delete_later).once
+          @closing_pane.instance_eval{emit closing_last_view(self)}
+        end
+        
+      end
+      
+    end
+    
+    context 'when more than one pane remains' do
+      
+      it 'removes the pane from the splitter' do
+        @pane = Ruber::Pane.new @views[0]
+        @pane.split @views[0], @views[1], Qt::Vertical
+        pane_to_delete = @pane.split( @views[1], @views[2], Qt::Vertical)[1]
+        pane_to_delete.instance_eval{emit closing_last_view(self)}
+        pane_to_delete.parent.should be_nil
+      end
+      
+      it 'doesn\'t alter anything else' do
+        @pane = Ruber::Pane.new @views[0]
+        @pane.split @views[0], @views[1], Qt::Vertical
+        panes = @pane.split @views[1], @views[2], Qt::Vertical
+        panes[0].instance_eval{emit closing_last_view self}
+        @pane.splitter.count.should == 2
+        @pane.splitter.widget(0).view.should == @views[0]
+        @pane.splitter.widget(1).view.should == @views[2]
+      end
+    
+    end
+    
+  end
     
 end

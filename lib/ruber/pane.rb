@@ -48,19 +48,24 @@ module Ruber
         self.layout = Qt::VBoxLayout.new self
         layout.add_widget @view
         @splitter = nil
-        view.named_connect(SIGNAL(:closing), 'parent_pane_remove_view'){remove_view sender}
-        #, self, SLOT(:view_closing)
+        connect view, SIGNAL(:closing), self, SLOT(:view_closing)
       when 3..4
         super args[3]
         self.layout = Qt::VBoxLayout.new self
         orientation, pane1, pane2 = args[0..3]
         @splitter = Qt::Splitter.new orientation, self
         layout.add_widget @splitter
-        @splitter.add_widget pane1
-        @splitter.add_widget pane2
+        insert_widget 0, pane1
+        insert_widget 1, pane2
         @view = nil
       end
     end
+    
+=begin rdoc
+Signal emitted whenever the single view associated with the paned is about to be closed
+@param [Pane] pane the pane which emitted the signal
+=end
+    signals 'closing_last_view(QWidget*)'
     
 =begin rdoc
 @return [Qt::Splitter,nil] the splitter used by the pane or *nil* if the pane
@@ -125,57 +130,205 @@ pane for it will have been created.
   and with _new_view_. If _view_ wasn't contained in the pane, *nil* is returned
 =end
     def split view, new_view, orientation, pos = :after
-      if @splitter then idx = @splitter.find_index{|w| w.view == view}
-      elsif @view == view then idx = 0
-      else return nil
-      end
-      unless idx
-        @splitter.each do |w| 
-          res = w.split view, new_view, orientation, pos
-          return res if res
-        end
-        return nil
-      end
+      idx = index_of_contained_view view
+      return split_recursive view, new_view, orientation, pos unless idx
       new_pane = Pane.new(new_view)
-      unless @splitter
-        layout.remove_widget(@view)
-#         @view.disconnect SIGNAL(:closing), self, SLOT(:view_closing)
-        @view.named_disconnect 'parent_pane_remove_view'
-        @splitter = Qt::Splitter.new orientation, self
-        layout.add_widget @splitter
-        pane = Pane.new @view, @splitter
-        @splitter.add_widget pane
-        @view = nil
-      end
+      multiple_view_mode orientation
       old_pane = @splitter.widget idx
       if @splitter.orientation == orientation
         idx += 1 if pos == :after
-        @splitter.insert_widget idx, new_pane
+        insert_widget idx, new_pane
       else
-        if pos == :after 
-          splitter_pane = Pane.new orientation, old_pane, new_pane, @splitter
-        else
-          splitter_pane = Pane.new orientation, new_pane, old_pane, @splitter
-        end
-        @splitter.insert_widget idx, splitter_pane
+        take_pane old_pane
+        panes = [old_pane, new_pane]
+        pane1, pane2 = pos == :after ? panes : panes.reverse
+        splitter_pane = Pane.new orientation, pane1, pane2, @splitter
+        insert_widget idx, splitter_pane
       end
       [old_pane, new_pane]
     end
     
+    protected
+    
+=begin rdoc
+Prepares the pane for a contained pane to be moved elsewhere
+
+In practice, this makes the pane to remove parentless and disconnects the {#closing_last_view}
+signal from *self*.
+@param [Pane] the pane which will be removed
+@return [nil]
+=end
+    def take_pane pane
+      pane.parent = nil
+      pane.disconnect SIGNAL('closing_last_view(QWidget*)'), self, SLOT('remove_pane(QWidget*)')
+      nil
+    end
+    
+=begin rdoc
+Inserts a widget in the splitter
+
+If the widget is not a pane, it'll be enclosed in the pane (and become a child of
+it). The {#closing_last_view} signal of the pane will be connected with the {#remove_pane}
+slot of *self*.
+
+This method assumes that the pane is not in single view mode
+@param [Integer] idx the index to insert the widget at
+@param [Qt::Widget] widget the widget to insert. If it's not a {Pane}, it'll be
+  enclosed in a new pane
+@return [Pane] the pane inserted in the splitter. It'll be _widget_ if it's already
+  a {Pane} or the new pane enclosing it if it isn't
+=end
+    def insert_widget idx, widget
+      widget = Pane.new widget, @splitter unless widget.is_a? Pane
+      @splitter.insert_widget idx, widget
+      connect widget, SIGNAL('closing_last_view(QWidget*)'), self, SLOT('remove_pane(QWidget*)')
+      widget
+    end
+    
     private
     
+=begin rdoc
+Returns the index of the pane containing given view in the splitter
+
+If the pane is in single view mode, it returns 0 if the single view is _view_
+and *nil* otherwise.
+
+If the pane is in multiple view mode, it returns the index of the pane directly
+containing the view in the splitter or *nil* none of the panes in the splitter
+directly contain _view_.
+
+*Note:* this method is not recursive. This means that if the splitter of *self*
+contains the pane @A@, whose splitter contains the pane @B@ which contains _view_,
+this method returns *nil*.
+
+@param [EditorView] view the view whose index should be returned
+@return [Integer,nil] the index in the splitter corresponding to the pane containing
+  _view_ or *nil* if none of the panes contain it
+=end
+    def index_of_contained_view view
+      if @splitter then @splitter.find_index{|w| w.view == view}
+      elsif @view == view then 0
+      else nil
+      end
+    end
+    
+=begin rdoc
+Redirects the call to {#split} to the pane which actually contains the pane
+containing the given view
+
+It calls {#split} with the arguments passed to it to all panes contained in the splitter
+until one of them returns non-nil, then stops
+@param (see #split)
+@return [Array(Pane, Pane),nil] an array containing the panes associated with _view_
+and with _new_view_. If _view_ wasn't contained in any of the children panes, *nil*
+is returned
+=end
+    def split_recursive view, new_view, orientation, pos
+      return nil unless @splitter
+      @splitter.each do |w|
+        res = w.split view, new_view, orientation, pos
+        return res if res
+      end
+      nil
+    end
+    
+=begin rdoc
+Switches the pane to multiple view mode
+
+It disconnects the view's {#closing} signal from *self*, creates a new splitter
+and inserts a new pane for the view in it.
+
+It does nothing if the pane is already in multiple view mode
+@param [Integer] orientation the orientation of the new splitter. It can be
+  @Qt::Vertical@ or @Qt::Horizontal@
+@return [Pane] the new pane associated with the view
+=end
+    def multiple_view_mode orientation
+      return if @splitter
+      layout.remove_widget @view
+      @view.disconnect SIGNAL(:closing), self, SLOT(:view_closing)
+      @splitter = Qt::Splitter.new orientation, self
+      layout.add_widget @splitter
+      pane = insert_widget 0, @view
+      @view = nil
+      pane
+    end
+    
+    def single_view_mode view
+      return unless @splitter
+      @view = view
+      layout.remove_widget @splitter
+      layout.add_widget @view
+      connect @view, SIGNAL(:closing), self, SLOT(:view_closing)
+    end
+
+=begin rdoc
+Slot called when the single view contained in the pane is closed
+
+It emis the {#closing_last_view} signal passing *self* as argument, makes the
+view parentless and schedules *self* for deletion.
+
+*Note:* this method assumes the {Pane} is in single view mode
+@param [EditorView] view the view which is being closed
+@return [nil]
+=end
     def remove_view view
+      emit closing_last_view(self)
+      @view.parent = nil
+      delete_later
+      nil
     end
     slots 'remove_view(QWidget*)'
    
 =begin rdoc
-Slot called when a view associ
+Slot called when the view associated with the pane is closed
+
+This slot is only called if the pane is associated with a single view
+
+*Note:* this method relies on @Qt::Object#sender@ to determine the view which emitted
+  the signal, so don't call it manually
+@return [nil]
 =end
     def view_closing
       view = sender
-      remove_view 
+      remove_view view
+      nil
     end
     slots :view_closing
+
+=begin rdoc
+Removes the given pane from the pane
+
+Depending on the situation, removing a pane causes different steps to be taken:
+* the pane is always removed from the splitter
+* if only one pane remains and it's in single view mode, it'll be deleted and the
+  widget it contain will be displayed in this pane, which will be switched to single
+  view mode
+* if only one pane remains and it's in multiple view mode, the pane it contains
+  will be moved to this pane instead. The remaining one will be removed
+*Note:* this method is usually called in response to the {#closing_last_view} signal
+emitted by a chid pane, so it assumes the pane is in single view mode.
+@param [Pane] the pane to remove
+@return [nil]
+=end
+    def remove_pane pane
+      pane.parent = nil
+      if @splitter.count == 1
+        remaining_pane = @splitter.widget(0)
+        if remaining_pane.single_view?
+          single_view_mode remaining_pane.view
+        else
+          take_pane remaining_pane
+          remaining_pane.splitter.to_a.each_with_index do |w, i|
+            remaining_pane.take_pane w
+            insert_widget i, w
+          end
+        end
+        remaining_pane.delete_later
+      end
+      nil
+    end
+    slots 'remove_pane(QWidget*)'
     
   end
   
