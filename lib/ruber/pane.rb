@@ -24,6 +24,8 @@ module Ruber
   
   class Pane < Qt::Widget
     
+    include Enumerable
+    
 =begin rdoc
 @overload initialize(view, parent = nil)
   Creates a {Pane} containing a single view
@@ -139,14 +141,42 @@ pane for it will have been created.
         idx += 1 if pos == :after
         insert_widget idx, new_pane
       else
-        take_pane old_pane
-        panes = [old_pane, new_pane]
-        pane1, pane2 = pos == :after ? panes : panes.reverse
-        splitter_pane = Pane.new orientation, pane1, pane2, @splitter
-        insert_widget idx, splitter_pane
+        pane = old_pane.multiple_view_mode orientation
+        new_idx = pos == :after ? 1 : 0
+        old_pane.insert_widget new_idx, new_pane
+        old_pane = pane
       end
       [old_pane, new_pane]
     end
+    
+=begin rdoc
+Iterates on child panes
+
+@overload each_pane
+  Iterates only on panes which are directly contained in this pane. Does nothing
+  if the pane is in single view mode.
+  @yieldparam [Pane] pane a child pane
+@overload each_pane(:recursive)
+  Iterates on all contained panes (recursively). Does nothing if the pane is in
+  single view mode.
+  @yieldparam [Pane] pane a child pane
+@return [Pane,Enumerator] if called with a block returns *self*, otherwise an Enumerator
+  which iterates on the contained panes, acting recursively or not according to
+  which of the two forms is called
+=end
+    def each_pane mode = :flat, &blk
+      return to_enum(:each_pane, mode) unless block_given?
+      return self unless @splitter
+      if mode == :flat then @splitter.each{|w| yield w}
+      else
+        @splitter.each do |w|
+          yield w
+          w.each_pane :recursive, &blk
+        end
+      end
+      self
+    end
+    alias_method :each, :each_pane
     
     protected
     
@@ -184,6 +214,49 @@ This method assumes that the pane is not in single view mode
       connect widget, SIGNAL('closing_last_view(QWidget*)'), self, SLOT('remove_pane(QWidget*)')
       widget
     end
+    
+=begin rdoc
+Switches the pane to multiple view mode
+
+It disconnects the view's {#closing} signal from *self*, creates a new splitter
+and inserts a new pane for the view in it.
+
+It does nothing if the pane is already in multiple view mode
+@param [Integer] orientation the orientation of the new splitter. It can be
+  @Qt::Vertical@ or @Qt::Horizontal@
+@return [Pane] the new pane associated with the view
+=end
+    def multiple_view_mode orientation
+      return if @splitter
+      layout.remove_widget @view
+      @view.disconnect SIGNAL(:closing), self, SLOT(:view_closing)
+      @splitter = Qt::Splitter.new orientation, self
+      layout.add_widget @splitter
+      pane = insert_widget 0, @view
+      @view = nil
+      pane
+    end
+
+=begin rdoc
+Switches the pane to single view mode
+
+It disconnects the {#closing_last_view} signal of each pane in the splitter from
+self, deletes the splitter then sets the given view as single view for *self*.
+
+It does nothing if the splitter is already in single view mode
+@param [EditorView] view the single view to insert in the pane
+@return [Pane] self
+=end
+    def single_view_mode view
+      return unless @splitter
+      @view = view
+      @splitter.each{|w| w.disconnect SIGNAL('closing_last_view(QWidget*)'), self, SLOT('remove_pane(QWidget*)')}
+      layout.remove_widget @splitter
+      layout.add_widget @view
+      connect @view, SIGNAL(:closing), self, SLOT(:view_closing)
+      self
+    end
+
     
     private
     
@@ -232,36 +305,6 @@ is returned
       nil
     end
     
-=begin rdoc
-Switches the pane to multiple view mode
-
-It disconnects the view's {#closing} signal from *self*, creates a new splitter
-and inserts a new pane for the view in it.
-
-It does nothing if the pane is already in multiple view mode
-@param [Integer] orientation the orientation of the new splitter. It can be
-  @Qt::Vertical@ or @Qt::Horizontal@
-@return [Pane] the new pane associated with the view
-=end
-    def multiple_view_mode orientation
-      return if @splitter
-      layout.remove_widget @view
-      @view.disconnect SIGNAL(:closing), self, SLOT(:view_closing)
-      @splitter = Qt::Splitter.new orientation, self
-      layout.add_widget @splitter
-      pane = insert_widget 0, @view
-      @view = nil
-      pane
-    end
-    
-    def single_view_mode view
-      return unless @splitter
-      @view = view
-      layout.remove_widget @splitter
-      layout.add_widget @view
-      connect @view, SIGNAL(:closing), self, SLOT(:view_closing)
-    end
-
 =begin rdoc
 Slot called when the single view contained in the pane is closed
 

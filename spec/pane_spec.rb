@@ -24,6 +24,10 @@ describe Ruber::Pane do
     @doc = Ruber::Document.new
   end
   
+  it 'is enumerable' do
+    Ruber::Pane.ancestors.should include(Enumerable)
+  end
+  
   context 'when created with one view' do
     
     it 'makes the view child of itself' do
@@ -455,6 +459,99 @@ describe Ruber::Pane do
         @pane.splitter.widget(1).view.should == @views[2]
       end
     
+    end
+    
+  end
+  
+  describe '#each_pane' do
+    
+    before do
+      @doc = Ruber::Document.new
+      @views = 5.times.map{@doc.create_view}
+      @pane = Ruber::Pane.new @views[0]
+    end
+    
+    context 'when called with no argument' do
+      
+      it 'iterates on all panes which are direct child of the pane' do
+        panes = []
+        panes += @pane.split @views[0], @views[1], Qt::Vertical
+        panes += @pane.split @views[1], @views[2], Qt::Vertical
+        @pane.split @views[1], @views[3], Qt::Horizontal
+        panes.uniq!
+        res = []
+        @pane.each_pane{|i| res << i}
+        res.should == panes
+      end
+      
+      it 'does nothing if the pane is in single view mode' do
+        res = []
+        @pane.each_pane{|w| res << w}
+        res.should be_empty
+      end
+      
+      it 'returns self if called with a block' do
+        @pane.each_pane{|w| w}.should == @pane
+        @pane.split @views[0], @views[1], Qt::Vertical
+        @pane.each_pane{|w| w}.should == @pane
+      end
+      
+      it 'returns an enumerable if called without a block' do
+        panes = @pane.split @views[0], @views[1], Qt::Vertical
+        res = []
+        en = @pane.each_pane
+        en.should be_an(Enumerator)
+        en.each{|w| res << w}
+        res.should == panes
+      end
+      
+    end
+    
+    context 'when called with the :recursive argument' do
+      
+      it 'iterates on all panes, recursively' do
+        panes = []
+        panes += @pane.split @views[0], @views[1], Qt::Vertical
+        panes += @pane.split @views[1], @views[2], Qt::Vertical
+        panes.uniq!
+        temp = @pane.split @views[1], @views[3], Qt::Horizontal
+        panes.insert 2, temp[0]
+        panes.insert 3, temp[1]
+        panes.uniq!
+        res = []
+        @pane.each_pane(:recursive){|i| res << i}
+        res.should == panes
+      end
+      
+      it 'does nothing if the pane is in single view mode' do
+        res = []
+        @pane.each_pane(:recursive){|w| res << w}
+        res.should be_empty
+      end
+      
+      it 'returns self if called with a block' do
+        @pane.each_pane(:recursive){|w| w}.should == @pane
+        @pane.split @views[0], @views[1], Qt::Vertical
+        @pane.each_pane(:recursive){|w| w}.should == @pane
+      end
+
+      it 'returns an enumerator which iterates on all child panes recursively if called without a block' do
+        panes = []
+        panes += @pane.split @views[0], @views[1], Qt::Vertical
+        panes += @pane.split @views[1], @views[2], Qt::Vertical
+        panes.uniq!
+        temp = @pane.split @views[1], @views[3], Qt::Horizontal
+        panes.insert 2, temp[0]
+        panes.insert 3, temp[1]
+        panes.uniq!
+        res = []
+        en = @pane.each_pane(:recursive)
+        en.should be_an(Enumerator)
+        en.each{|i| res << i}
+        res.should == panes
+      end
+
+      
     end
     
   end
