@@ -178,6 +178,29 @@ Iterates on child panes
     end
     alias_method :each, :each_pane
     
+=begin rdoc
+Iterates on all views contained in the pane
+
+This method always acts recursively, meaning that views indirectly contained in
+the pane are returned. 
+
+If the pane is in single view mode, that only view is passed to the block.
+
+@yieldparam [EditorView] view a view contained (directly) in the pane
+@return [Pane,Enumerator] if a block is given then *self*, otherwise an Enumerator
+  which iterates on all the views
+=end
+    def each_view &blk
+      return to_enum(:each_view) unless block_given?
+      if single_view? then yield @view
+      else
+        each_pane(:recursive) do |pn|
+          yield pn.view if pn.single_view?
+        end
+      end
+      self
+    end
+    
     protected
     
 =begin rdoc

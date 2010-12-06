@@ -467,7 +467,7 @@ describe Ruber::Pane do
     
     before do
       @doc = Ruber::Document.new
-      @views = 5.times.map{@doc.create_view}
+      @views = 4.times.map{@doc.create_view}
       @pane = Ruber::Pane.new @views[0]
     end
     
@@ -550,8 +550,56 @@ describe Ruber::Pane do
         en.each{|i| res << i}
         res.should == panes
       end
-
       
+    end
+    
+  end
+  
+  describe '#each_view' do
+    
+    before do
+      @doc = Ruber::Document.new
+      @views = 4.times.map{@doc.create_view}
+      @pane = Ruber::Pane.new @views[0]
+    end
+    
+    it 'calls iterates over all views contained in the pane' do
+      @pane.split @views[0], @views[1], Qt::Vertical
+      @pane.split @views[1], @views[2], Qt::Vertical
+      @pane.split @views[1], @views[3], Qt::Horizontal
+      res = []
+      @pane.each_view{|v| res << v}
+      res.should == [@views[0], @views[1], @views[3], @views[2]]
+    end
+    
+    it 'yields the single view contained in the pane if the pane is in single view mode' do
+      res = []
+      @pane.each_view{|v| res << v}
+      res.should == [@views[0]]
+    end
+    
+    it 'returns self' do
+      @pane.each_view{}.should == @pane
+      @pane.split @views[0], @views[1], Qt::Vertical
+      @pane.split @views[1], @views[2], Qt::Vertical
+      @pane.split @views[1], @views[3], Qt::Horizontal
+      @pane.each_view{}.should == @pane
+    end
+    
+    it 'returns an enumerator which iterates on all views if no block is given' do
+      en = @pane.each_view
+      en.should be_an(Enumerator)
+      res_single = []
+      en.each{|v| res_single << v}
+      @pane.split @views[0], @views[1], Qt::Vertical
+      @pane.split @views[1], @views[2], Qt::Vertical
+      @pane.split @views[1], @views[3], Qt::Horizontal
+      en = @pane.each_view
+      en.should be_an(Enumerator)
+      res_multi = []
+      en.each{|v| res_multi << v}
+      res_single.should == [@views[0]]
+      res_multi.should == [@views[0], @views[1], @views[3], @views[2]]
     end
     
   end
