@@ -65,11 +65,6 @@ module Ruber
 'started(KIO::Job*)', 'set_status_bar_text(QString)', 'setWindowCaption(QString)'
     
     slots :document_save_as, :save
-
-=begin rdoc
-The view associated with the document. If a view hasn't been created, this is *nil*
-=end
-    attr_reader :view
     
     def inspect
       if disposed? then "< #{self.class} #{object_id}DISPOSED >"
@@ -85,7 +80,7 @@ Creates a new Ruber::Document.
       @active = false
       @doc = KTextEditor::EditorChooser.editor('katepart').create_document( self)
       initialize_wrapper @doc, self.class.instance_variable_get(:@signal_table)
-      @view = nil
+      @views = []
       @doc.openUrl(file.is_a?(String) ? KDE::Url.from_path(file) : file) if file
       @annotation_model = AnnotationModel.new self
       interface('annotation_interface').annotation_model = @annotation_model
@@ -131,6 +126,13 @@ Creates a new Ruber::Document.
       end
       connect @doc, SIGNAL('completed(bool)'), self, SIGNAL('completed1(bool)')
 
+    end
+    
+=begin rdoc
+@return [Array<EditorView>] a list of the views assciated with the document
+=end
+    def views
+      @views.dup
     end
     
 =begin rdoc
@@ -263,13 +265,6 @@ This method is associated with the Save menu entry
         @project.save
         res
       end
-#       unless url.empty? then save_document
-#       else document_save_as
-#         res = KDE::FileDialog.get_save_file_name KDE::Url.new, "*.rb|Ruby files (*.rb)\n*|All files", nil,
-#           KDE::i18n("Save \"#{@doc.document_name}\" as")
-#         return false unless res
-#         save_as KDE::Url.from_path(res)
-#       end
     end
 
 =begin rdoc
@@ -277,19 +272,20 @@ Creats a view for the document. _parent_ is the view's parent widget. Raises
 +RuntimeError+ if the document already has a view.
 =end
     def create_view parent = nil
-      @doc.create_view nil
-      @view = EditorView.new self, @doc.views.first, parent
-      @view.connect(SIGNAL('closing()')){@view = nil}
-      @view.connect(SIGNAL('destroyed(QObject*)')){@view = nil}
-      gui = @view.send(:internal)
+      inner_view = @doc.create_view nil
+      view = EditorView.new self, inner_view, parent
+      @views << view
+      view.connect(SIGNAL('closing(QWidget*)')){|v| @views.delete v}
+      view.connect(SIGNAL('destroyed(QObject*)')){|v| @views.delete v}
+      gui = view.send(:internal)
       action = gui.action_collection.action('file_save_as')
       disconnect action, SIGNAL(:triggered), @doc, SLOT('documentSaveAs()')
       connect action, SIGNAL(:triggered), self, SLOT(:document_save_as)
       action = gui.action_collection.action('file_save')
       disconnect action, SIGNAL(:triggered), @doc, SLOT('documentSave()')
       connect action, SIGNAL(:triggered), self, SLOT(:save)
-      emit view_created(@view, self)
-      @view
+      emit view_created(view, self)
+      view
     end
     
 =begin rdoc
@@ -365,7 +361,7 @@ TODO: maybe remove the argument, since this method is not called anymore at
       if !ask || query_close
         emit closing(self)
         @project.save unless path.empty?
-        @view.close if @doc.views.size > 0
+        @views.to_a.each{|v| v.close}
         return false unless close_url false
         @project.close false
         self.disconnect
@@ -374,17 +370,7 @@ TODO: maybe remove the argument, since this method is not called anymore at
       else false
       end
     end
-    
-=begin rdoc
-Closes the view _view_ associated with the document.
-
-Currently, the _view_ parameter is unused, as a document can only have one view,
-and all this method does is to call the <tt>close</tt> method with _ask_ as argument.
-=end
-    def close_view view, ask = true
-      close ask
-    end
-    
+        
 =begin rdoc
 The <tt>KParts::Part</tt> associated with the document
 =end
