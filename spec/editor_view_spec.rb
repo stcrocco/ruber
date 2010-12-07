@@ -1,4 +1,4 @@
-require 'spec/common'
+require './spec/common'
 
 require 'tempfile'
 require 'fileutils'
@@ -33,7 +33,7 @@ describe Ruber::EditorView do
       res += ($1 || '')+')'
       res
     end
-    it "should emit the \"#{sig}\" signal in response to the underlying KTextEditor::View #{o_sig} signal" do
+    it "emits the \"#{sig}\" signal in response to the underlying KTextEditor::View #{o_sig} signal" do
       prc = lambda do 
         mock = flexmock('mock')
         if has_view_arg
@@ -87,7 +87,7 @@ describe Ruber::EditorView do
   test_auto_signal 'text_inserted(KTextEditor::Cursor, QString, @)', ['KTextEditor::Cursor.new(0,0)', '"test text"']
   test_auto_signal 'vertical_scroll_position_changed(KTextEditor::Cursor, @)', 'KTextEditor::Cursor.new()'
     
-  it "should emit the \"selection_mode_changed(bool, QWidget*)\" signal when the selection mode changes" do
+  it "emits the \"selection_mode_changed(bool, QWidget*)\" signal when the selection mode changes" do
     mock = flexmock('mock')
     mock.should_receive(:block_mode_on).globally.ordered.once.with(@view.object_id)
     mock.should_receive(:block_mode_off).globally.ordered.once.with(@view.object_id)
@@ -98,7 +98,7 @@ describe Ruber::EditorView do
     @view.block_selection = false
   end
 
-  it "should emit the \"edit_mode_changed(KTextEditor::View::EditoMode, QWidget*)\" signal in response to the underlying KTextEditor::View viewEditModeChanged(KTextEditor::View, KTextEditor::View::EditMode) signal" do
+  it "emits the \"edit_mode_changed(KTextEditor::View::EditoMode, QWidget*)\" signal in response to the underlying KTextEditor::View viewEditModeChanged(KTextEditor::View, KTextEditor::View::EditMode) signal" do
     mock = flexmock('mock')
     mock.should_receive(:test).globally.ordered.once.with(1, @view.object_id)
     mock.should_receive(:test).globally.ordered.once.with(0, @view.object_id)
@@ -110,7 +110,7 @@ describe Ruber::EditorView do
     v.instance_eval{emit viewEditModeChanged(self, KTextEditor::View::EditInsert)}
   end
 
-  it "should emit the \"view_mode_changed(QString, QWidget*)\" signal in response to the underlying KTextEditor::View viewModeChanged(KTextEditor::View*) signal" do
+  it "emits the \"view_mode_changed(QString, QWidget*)\" signal in response to the underlying KTextEditor::View viewModeChanged(KTextEditor::View*) signal" do
     mock = flexmock('mock')
     mock.should_receive(:test).once.with("INS", @view.object_id)
     @view.connect(SIGNAL('view_mode_changed(QString, QWidget*)')) do |m, v|
@@ -118,6 +118,15 @@ describe Ruber::EditorView do
     end
     v = @view.instance_variable_get(:@view)
     v.instance_eval{emit viewModeChanged(self)}
+  end
+  
+  it 'emits the closing(QWidget*) signal passing self as argument when the close method is called' do
+    mock = flexmock('mock')
+    mock.should_receive(:test).once.with(@view)
+    @view.connect(SIGNAL('closing(QWidget*)')) do |v|
+      mock.test v
+    end
+    @view.close
   end
   
   describe '#internal' do

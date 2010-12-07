@@ -42,7 +42,7 @@ module Ruber
     
     @signal_table = KTextEditorWrapper.prepare_wrapper_connections self, signal_data
     
-    signals 'closing()', 'cursor_position_changed(KTextEditor::Cursor, QWidget*)', 
+    signals 'closing(QWidget*)', 'cursor_position_changed(KTextEditor::Cursor, QWidget*)', 
     'view_mode_changed(QString, QWidget*)', 'edit_mode_changed(KTextEditor::View::EditMode, QWidget*)',
     'selection_mode_changed(bool, QWidget*)', 'mouse_position_changed(KTextEditor::Cursor, QWidget*)',
     'selection_changed(QWidget*)'
@@ -124,7 +124,7 @@ module Ruber
     end
 
     def close
-      emit closing
+      emit closing self
       super
     end
 
