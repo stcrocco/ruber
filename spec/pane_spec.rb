@@ -329,7 +329,7 @@ describe Ruber::Pane do
       view = doc.create_view nil
       pane = Ruber::Pane.new view
       flexmock(pane).should_receive(:remove_view).once.with(view)
-      view.instance_eval{emit closing}
+      view.instance_eval{emit closing self}
     end
     
     it 'does nothing if the pane contains more than one view' do
@@ -600,6 +600,38 @@ describe Ruber::Pane do
       en.each{|v| res_multi << v}
       res_single.should == [@views[0]]
       res_multi.should == [@views[0], @views[1], @views[3], @views[2]]
+    end
+    
+  end
+  
+  describe '#parent_pane' do
+    
+    before do
+      @doc = Ruber::Document.new
+      @views = 4.times.map{@doc.create_view}
+      @pane = Ruber::Pane.new @views[0]
+    end
+    
+    it 'returns nil if the pane is a toplevel widget' do
+      @pane.parent_pane.should be_nil
+    end
+    
+    it 'returns nil if the pane\'s parent is not a Qt::Splitter' do
+      w = Qt::Widget.new
+      @pane.parent = w
+      @pane.parent_pane.should be_nil
+    end
+    
+    it 'returns nil if the pane\'s gandparent is not a Pane' do
+      w = Qt::Widget.new
+      s = Qt::Splitter.new w
+      s.add_widget @pane
+      @pane.parent_pane.should be_nil
+    end
+    
+    it 'returns the pane\'s grandparent if it\'s a Pane' do
+      panes = @pane.split @views[0], @views[1], Qt::Horizontal
+      panes[0].parent_pane.should == @pane
     end
     
   end

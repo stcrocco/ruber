@@ -22,6 +22,37 @@ require 'facets/boolean'
 
 module Ruber
   
+=begin rdoc
+Container used to organize multiple editor views in a tab
+
+A pane can either contain a single non-{Pane} widget (usually an {EditorView})
+or multiple {Pane}s in a @Qt::Splitter@. In the first case, the {Pane} is said
+to be in _single view mode_, while in the second it's said to be in _multiple view
+mode_.
+
+A {Pane} is said to be a direct child of (or directly contained in) another {Pane}
+if it is one of the widgets contained in the second {Pane}'s splitter. A non-{Pane}
+widget is said to be a direct child of (or directly contained in) a {Pane} if the
+pane is in single view mode and contains that widget or if it is in multiple view
+mode and one of the widgets in the splitter is in single view mode and contains
+that widget.
+
+The most important method provided by this class is {#split}, which allows a view
+to be split either horizontally or vertically.
+
+Whenever a view is closed, it is automatically removed from the pane, and panes
+are automatically rearranged. The only situation you should care for this is when
+the last view of a top-level pane is closed. In this case, the pane emits the {#closing_last_view}
+signal.
+
+*Note*: the pane containing a given view (or pane) can change without warning, so
+never store them. To access the pane directly containing another pane, use {#parent_pane}
+on the child pane; to access the pane directly containing another widget, call
+the widget's @parent@ method.
+
+*Note:* this class allows to access the splitter widget. This is only meant to
+allow to resize it. It *must not* be used to add or remove widgets to or from it.
+=end
   class Pane < Qt::Widget
     
     include QtEnumerable
@@ -50,7 +81,7 @@ module Ruber
         self.layout = Qt::VBoxLayout.new self
         layout.add_widget @view
         @splitter = nil
-        connect view, SIGNAL(:closing), self, SLOT(:view_closing)
+        connect view, SIGNAL('closing(QWidget*)'), self, SLOT('remove_view(QWidget*)')
       when 3..4
         super args[3]
         self.layout = Qt::VBoxLayout.new self
@@ -60,6 +91,16 @@ module Ruber
         insert_widget 0, pane1
         insert_widget 1, pane2
         @view = nil
+      end
+    end
+    
+=begin rdoc
+@return [Pane] this pane's containing pane
+=end
+    def parent_pane
+      if parent.is_a?(Qt::Splitter)
+        pane = parent.parent
+        pane.is_a?(Pane) ? pane : nil
       end
     end
     
@@ -252,7 +293,7 @@ It does nothing if the pane is already in multiple view mode
     def multiple_view_mode orientation
       return if @splitter
       layout.remove_widget @view
-      @view.disconnect SIGNAL(:closing), self, SLOT(:view_closing)
+      @view.disconnect SIGNAL('closing(QWidget*)'), self, SLOT('remove_view(QWidget*)')
       @splitter = Qt::Splitter.new orientation, self
       layout.add_widget @splitter
       pane = insert_widget 0, @view
@@ -276,7 +317,7 @@ It does nothing if the splitter is already in single view mode
       @splitter.each{|w| w.disconnect SIGNAL('closing_last_view(QWidget*)'), self, SLOT('remove_pane(QWidget*)')}
       layout.remove_widget @splitter
       layout.add_widget @view
-      connect @view, SIGNAL(:closing), self, SLOT(:view_closing)
+      connect @view, SIGNAL('closing(QWidget*)'), self, SLOT('remove_view(QWidget*)')
       self
     end
 
@@ -346,22 +387,6 @@ view parentless and schedules *self* for deletion.
     end
     slots 'remove_view(QWidget*)'
    
-=begin rdoc
-Slot called when the view associated with the pane is closed
-
-This slot is only called if the pane is associated with a single view
-
-*Note:* this method relies on @Qt::Object#sender@ to determine the view which emitted
-  the signal, so don't call it manually
-@return [nil]
-=end
-    def view_closing
-      view = sender
-      remove_view view
-      nil
-    end
-    slots :view_closing
-
 =begin rdoc
 Removes the given pane from the pane
 
