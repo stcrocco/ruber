@@ -24,7 +24,7 @@ module Ruber
   
   class Pane < Qt::Widget
     
-    include Enumerable
+    include QtEnumerable
     
 =begin rdoc
 @overload initialize(view, parent = nil)

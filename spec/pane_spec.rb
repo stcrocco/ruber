@@ -25,7 +25,7 @@ describe Ruber::Pane do
   end
   
   it 'is enumerable' do
-    Ruber::Pane.ancestors.should include(Enumerable)
+    Ruber::Pane.ancestors.should include(QtEnumerable)
   end
   
   context 'when created with one view' do
@@ -603,5 +603,5 @@ describe Ruber::Pane do
     end
     
   end
-    
+  
 end
