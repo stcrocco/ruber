@@ -135,6 +135,10 @@ Creates a new Ruber::Document.
       @views.dup
     end
     
+    def has_view?
+      !@views.empty?
+    end
+    
 =begin rdoc
 Executes the action with name _name_ contained in document's view's action
 collection. This is made by having the action emit the <tt>triggered()</tt> or

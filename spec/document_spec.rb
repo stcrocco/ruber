@@ -755,4 +755,21 @@ describe Ruber::Document do
     
   end
   
+  describe '#has_view?' do
+    
+    it 'returns true if there\'s at least one view associated with the document' do
+      doc = Ruber::Document.new nil
+      doc.create_view
+      doc.should have_view
+      doc.create_view
+      doc.should have_view
+    end
+    
+    it 'returns false if there are no views associated with the document' do
+      doc = Ruber::Document.new nil
+      doc.should_not have_view
+    end
+    
+  end
+  
 end
