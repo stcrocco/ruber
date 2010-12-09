@@ -636,4 +636,91 @@ describe Ruber::Pane do
     
   end
   
+  describe '#contains?' do
+    
+    before do
+      @doc = Ruber::Document.new
+      @views = 4.times.map{@doc.create_view}
+      @pane = Ruber::Pane.new @views[0]
+    end
+    
+    context 'when called with one argument' do
+      
+      context 'and the argument is a pane' do
+        
+        it 'returns true if this pane contains, directly or not, the one given as argument' do
+          panes = @pane.split @views[0], @views[1], Qt::Vertical
+          @pane.contain?(panes[0]).should be_true
+          panes = @pane.split @views[1], @views[2], Qt::Horizontal
+          @pane.contain?(panes[1]).should be_true
+        end
+        
+        it 'returns false if this pane doesn\'t contain the one given as argument' do
+          pane = Ruber::Pane.new @views[2]
+          @pane.contain?(pane).should be_false
+        end
+        
+      end
+      
+      context 'and the argument is a view' do
+        
+        it 'returns true if the pane contains, directly or not, the view' do
+          @pane.contain?(@views[0]).should be_true
+          @pane.split @views[0], @views[1], Qt::Vertical
+          @pane.split @views[1], @views[2], Qt::Horizontal
+          @pane.contain?(@views[2]).should be_true
+        end
+        
+        it 'returns vale if this pane doesn\'t contain the view' do
+          @pane.contain?(@views[2]).should be_false
+        end
+        
+      end
+      
+    end
+    
+    context 'when called with two arguments' do
+      
+      context 'and the first argument is a pane' do
+        
+        it 'returns true if this pane directly contains the one given as argument' do
+          panes = @pane.split @views[0], @views[1], Qt::Vertical
+          @pane.contain?(panes[0], :directly).should be_true
+        end
+        
+        it 'returns false if this pane doesn\'t contain the one given as argument' do
+          pane = Ruber::Pane.new @views[2]
+          @pane.contain?(pane, :directly).should be_false
+        end
+        
+        it 'returns false if this pane contains the one given as argument indirectly' do
+          panes = @pane.split @views[0], @views[1], Qt::Vertical
+          panes = @pane.split @views[1], @views[2], Qt::Horizontal
+          @pane.contain?(panes[1], :directly).should be_false
+        end
+        
+      end
+      
+    end
+    
+    context 'and the second argument is a view' do
+      
+      it 'returns true if this pane directly contains the view' do
+        @pane.contain?(@views[0], :directly).should be_true
+      end
+      
+      it 'returns false if this pane doesn\'t contain the view' do
+        @pane.contain?(@views[1], :directly).should be_false
+      end
+      
+      it 'returns false if this pane contains the one given as argument indirectly' do
+        panes = @pane.split @views[0], @views[1], Qt::Vertical
+        panes = @pane.split @views[1], @views[2], Qt::Horizontal
+        @pane.contain?(@views[2], :directly).should be_false
+      end
+        
+    end
+    
+  end
+  
 end

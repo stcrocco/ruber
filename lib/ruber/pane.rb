@@ -105,6 +105,30 @@ allow to resize it. It *must not* be used to add or remove widgets to or from it
     end
     
 =begin rdoc
+Whether the pane contains another pane or widget
+
+@overload contain? widget
+  Whether the pane contains, directly or indirectly, another pane or widget
+  @param [Pane,Qt::Widget] widget the {Pane} or widget to look for
+  @return [Boolean] *true* if _widget_ is directly or indirectly contained in this
+    pane and *false* if it isn't contained in it
+
+@overload contain? widget, :directly
+  Whether the pane directly contains another pane or widget
+  @param [Pane,Qt::Widget] widget the {Pane} or widget to look for
+  @return [Boolean] *true* if _widget_ is directly contained in this
+    pane and *false* if it isn't contained in it or it's contained indirectly
+=end
+    def contain? widget, mode = nil
+      if mode
+        if @splitter then @splitter.any?{|w| w == widget}
+        else @view == widget
+        end
+      else find_children(Pane).include? widget
+      end
+    end
+    
+=begin rdoc
 Signal emitted whenever the single view associated with the paned is about to be closed
 @param [Pane] pane the pane which emitted the signal
 =end
