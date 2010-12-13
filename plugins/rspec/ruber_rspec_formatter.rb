@@ -272,7 +272,10 @@ by newlines
         hash = {}
         hash[:type] = :failure
         hash[:description] = ex.metadata[:full_description]
-        exception = ex.metadata[:execution_result][:exception_encountered]
+        # It seems that rspec up tp 2.2 uses :exception_encountered, while from
+        # 2.3 it uses :exception. This should work for both
+        exception = ex.metadata[:execution_result][:exception]
+        exception ||= ex.metadata[:execution_result][:exception_encountered]
         hash[:exception] = exception.class.name
         hash[:message] = exception.message
         hash[:location] = ex.metadata[:location]
