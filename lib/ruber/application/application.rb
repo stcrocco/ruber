@@ -107,7 +107,7 @@ and is fired as soon as the event loop starts.
       @components.parent = self
       Ruber.instance_variable_set :@components, @components
       initialize_plugin psf
-      KDE::Global.dirs.addPrefix File.expand_path(File.join( RUBER_DATA_DIR, '..', '..', 'data'))
+      KDE::Global.dirs.addPrefix File.expand_path(File.join( RUBER_DATA_DIR, '..', 'data'))
       icon_path = KDE::Global.dirs.find_resource('icon', 'ruber')
       self.window_icon = Qt::Icon.new icon_path
       KDE::Global.main_component.about_data.program_icon_name = icon_path
