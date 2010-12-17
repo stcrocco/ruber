@@ -242,9 +242,9 @@ and behaves as the hash returned by {#gather_settings}.
 @return [nil]
 =end
       def restore cfg = Ruber[:config]
-        if !cfg[:state, :open_projects].empty? then restore_projects cfg
-        else restore_documents cfg
-        end
+#         if !cfg[:state, :open_projects].empty? then restore_projects cfg
+#         else restore_documents cfg
+#         end
         nil
       end
 
@@ -273,15 +273,15 @@ Since this method deals with session management, it ignores the user settings
 @return [nil]
 =end
       def restore_session data
-        hash = data['State'] || {:open_projects => [], :open_documents => [], :active_document => nil}
-        hash = hash.map_hash{|k, v| [[:state, k], v]}
-        def hash.[] k, v
-          super [k, v]
-        end
-        with(:restore_project_files => true, :restore_cursor_position => true, :force => true) do
-          restore hash
-        end
-        nil
+#         hash = data['State'] || {:open_projects => [], :open_documents => [], :active_document => nil}
+#         hash = hash.map_hash{|k, v| [[:state, k], v]}
+#         def hash.[] k, v
+#           super [k, v]
+#         end
+#         with(:restore_project_files => true, :restore_cursor_position => true, :force => true) do
+#           restore hash
+#         end
+#         nil
       end
       
 =begin rdoc
@@ -324,20 +324,21 @@ Creates a hash with all the data needed to restore Ruber's state
   *nil* if there's no open document
 =end
       def gather_settings
-        res = {}
-        projects = Ruber[:projects].projects.map{|pr| pr.project_file}
-        unless projects.empty?
-          active_prj = Ruber[:projects].current
-          projects.unshift projects.delete(active_prj.project_file) if active_prj
-        end
-        res[:open_projects] = projects
-        docs = Ruber[:docs].documents.select{|d| d.has_file?}
-        res[:open_documents] = docs.map{|doc| doc.url.to_encoded.to_s}
-        visible_docs = docs.select{|d| d.view}
-        res[:visible_documents] = visible_docs.map{|d| d.url.to_encoded.to_s}
-        current_doc = Ruber[:main_window].current_document.url.to_encoded.to_s rescue ''
-        res[:active_document] = current_doc.empty? ? nil : current_doc
-        res
+        {:open_projects => [], :open_documents => [], :visible_documents => [], :active_document => nil}
+#         res = {}
+#         projects = Ruber[:projects].projects.map{|pr| pr.project_file}
+#         unless projects.empty?
+#           active_prj = Ruber[:projects].current
+#           projects.unshift projects.delete(active_prj.project_file) if active_prj
+#         end
+#         res[:open_projects] = projects
+#         docs = Ruber[:docs].documents.select{|d| d.has_file?}
+#         res[:open_documents] = docs.map{|doc| doc.url.to_encoded.to_s}
+#         visible_docs = docs.select{|d| d.view}
+#         res[:visible_documents] = visible_docs.map{|d| d.url.to_encoded.to_s}
+#         current_doc = Ruber[:main_window].current_document.url.to_encoded.to_s rescue ''
+#         res[:active_document] = current_doc.empty? ? nil : current_doc
+#         res
       end
       
     end
@@ -372,11 +373,11 @@ It does nothing if the document isn't associated with a view
 @return [nil]
 =end
       def restore
-        view = @document.view
-        return unless view
-        pos = @document.own_project[:state, :cursor_position]
-        view.go_to *pos
-        nil
+#         view = @document.view
+#         return unless view
+#         pos = @document.own_project[:state, :cursor_position]
+#         view.go_to *pos
+#         nil
       end
       
 =begin rdoc
@@ -386,12 +387,12 @@ It does nothing if the document isn't associated with a view
 @return [nil]
 =end
       def save_settings
-        view = @document.view 
-        return unless view
-        cur = view.cursor_position
-        pos = [cur.line, cur.column]
-        @project[:state, :cursor_position] = pos
-        nil
+#         view = @document.view 
+#         return unless view
+#         cur = view.cursor_position
+#         pos = [cur.line, cur.column]
+#         @project[:state, :cursor_position] = pos
+#         nil
       end
       
       private

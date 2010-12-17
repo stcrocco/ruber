@@ -166,18 +166,19 @@ describe Ruber::MainWindow::HintSolver do
         pane2.split @other_views[2], @views[1], Qt::Vertical
         pane2.object_name = '2'
         @tabs.add_tab pane2, '2'
-        @pm = @solver.instance_variable_get(:@part_manager)
+        @view_order = @solver.instance_variable_get(:@view_order)
       end
       
       context 'if the first entry in the strategy hint is :current' do
         
         it 'returns the current editor, if it is associated with the document' do
-          flexmock(@pm).should_receive(:active_part).and_return(@views[1].send(:internal))
+          @view_order << @views[1] << @other_views[2] << @other_views[1] << @views[0] << @views[2] << @other_views[0]
           @solver.find_editor( @doc, :existing => :always, :strategy => [:current]).should == @views[1]
         end
         
         it 'doesn\'t return the current editor if it\'s not associated with the document' do
           flexmock(@pm).should_receive(:active_part).and_return(@other_views[1].send(:internal))
+          @view_order << @other_views[1] << @other_views[2] << @views[1] << @views[0] << @views[2] << @other_views[0]
           @solver.find_editor( @doc, :existing => :always, :strategy => [:current]).should_not == @other_views[1]
         end
         
@@ -353,8 +354,8 @@ describe Ruber::MainWindow::HintSolver do
         @tabs.add_tab pane1, '1'
         @tabs.add_tab pane2, '2'
         @tabs.current_index = 1
-        pm = @solver.instance_variable_get(:@part_manager)
-        flexmock(pm).should_receive(:active_part).and_return(views[2].send :internal)
+        view_order = @solver.instance_variable_get(:@view_order)
+        view_order << views[2] << views[1] << views[0]
         @solver.place_editor(:new => :current).should == views[2]
       end
       
@@ -370,8 +371,6 @@ describe Ruber::MainWindow::HintSolver do
         @tabs.add_tab pane1, '1'
         @tabs.add_tab pane2, '2'
         @tabs.current_index = 1
-        pm = @solver.instance_variable_get(:@part_manager)
-        flexmock(pm).should_receive(:active_part).and_return(nil)
         @solver.place_editor(:new => :current).should be_nil
       end
       

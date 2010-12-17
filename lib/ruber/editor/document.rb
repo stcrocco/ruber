@@ -135,8 +135,21 @@ Creates a new Ruber::Document.
       @views.dup
     end
     
+=begin rdoc
+@return [Boolean] whether the document has at least one view associated with it
+=end
     def has_view?
       !@views.empty?
+    end
+    
+=begin rdoc
+The view which currently has user focus, if any
+@return [EditorView,nil] the view associated with the document which currently has
+  user focus or *nil* if none of the views associated with the document has user
+  focus
+=end
+    def active_view
+      @doc.active_view.parent rescue nil
     end
     
 =begin rdoc
@@ -279,8 +292,8 @@ Creats a view for the document. _parent_ is the view's parent widget. Raises
       inner_view = @doc.create_view nil
       view = EditorView.new self, inner_view, parent
       @views << view
-      view.connect(SIGNAL('closing(QWidget*)')){|v| @views.delete v}
-      view.connect(SIGNAL('destroyed(QObject*)')){|v| @views.delete v}
+#       view.connect(SIGNAL('closing(QWidget*)')){|v| @views.delete v}
+#       view.connect(SIGNAL('destroyed(QObject*)')){|v| @views.delete v}
       gui = view.send(:internal)
       action = gui.action_collection.action('file_save_as')
       disconnect action, SIGNAL(:triggered), @doc, SLOT('documentSaveAs()')
@@ -365,11 +378,11 @@ TODO: maybe remove the argument, since this method is not called anymore at
       if !ask || query_close
         emit closing(self)
         @project.save unless path.empty?
-        @views.to_a.each{|v| v.close}
+        @views.dup.each{|v| v.close}
         return false unless close_url false
         @project.close false
         self.disconnect
-        dispose
+        delete_later
         true
       else false
       end

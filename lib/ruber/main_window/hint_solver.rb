@@ -62,8 +62,8 @@ If no editor associated with the document and respecting the given hints exists,
         case hints[:existing]
         when :never then return nil
         when :current_tab
-          views = editors_in_tab doc, @tabs.current_widget
-        else @tabs.each{|t| views += editors_in_tab doc, t}
+          views = @tabs.current_widget.select{|v| v.document == doc}
+        else @tabs.each{|t| views += t.select{|v| v.document == doc} }
         end
         choose_editor doc, views, hints
       end
@@ -84,8 +84,7 @@ values it can contain. Only the @:newand entry is used
       def place_editor hints
         case hints[:new]
         when :new_tab then nil
-        when :current
-          @part_manager.active_part.parent rescue nil
+        when :current then @view_order[0]
         when :current_tab
           current = @tabs.current_widget
           current.each_view.to_a[0] if current
@@ -138,11 +137,7 @@ A list of all the editors associated with the given document in a pane
   _pane_, in order
 =end
       def editors_in_tab doc, tab
-        tab.each(:recursive).inject([]) do |res, pn|
-          view = pn.view
-          res << view if view and view.document == doc
-          res
-        end
+        tab.select{|v| v.document == doc}
       end
 
 =begin rdoc
@@ -153,7 +148,7 @@ Chooses an editor according to the @current@ strategy
   and *nil* otherwise
 =end
       def choose_editor_current_strategy doc, editors, hints
-        current = @part_manager.active_part.parent rescue nil
+        current = @view_order[0]
         if current and current.document == doc then current
         else nil
         end

@@ -772,4 +772,23 @@ describe Ruber::Document do
     
   end
   
+  describe '#active_view' do
+    
+    it 'returns the active view if any' do
+      doc = Ruber::Document.new
+      views = 3.times.map{doc.create_view}
+      flexmock(doc.send(:internal)).should_receive(:active_view).once.and_return(views[2].send(:internal))
+      doc.active_view.should == views[2]
+    end
+    
+    it 'returns nil if there isn\'t an active view associated with the document' do
+      doc = Ruber::Document.new
+      doc.active_view.should be_nil
+      views = 3.times.map{doc.create_view}
+      flexmock(doc.send(:internal)).should_receive(:active_view).once.and_return(nil)
+      doc.active_view.should be_nil
+    end
+    
+  end
+  
 end

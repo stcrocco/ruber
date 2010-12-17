@@ -71,7 +71,7 @@ module Ruber
       end
 
       cancel = KDE::StandardGuiItem.cancel
-      cancel.text = KDE::i18n "&Abort saving"
+      cancel.text = KDE::i18n "&Abort"
       set_button_gui_item Cancel, cancel
     end
 

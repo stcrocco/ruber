@@ -29,6 +29,8 @@ require 'ruber/gui_states_handler'
 
 require 'ruber/main_window/main_window_internal'
 require 'ruber/main_window/main_window_actions'
+require 'ruber/main_window/hint_solver'
+require 'ruber/main_window/view_manager'
 
 require 'ruber/main_window/status_bar'
 require 'ruber/main_window/workspace'
@@ -48,21 +50,23 @@ tool widgets.
     
     include GuiStatesHandler
     
-    extend Forwardable
-##
-# :method: current_document_changed(QObject* obj) [SIGNAL]
-# Signal emitted whenever the current document changes. _obj_ is the new current
-# document and will be <tt>Qt::NilObject</tt> if there's no current document.
-    
-##
-# :method: active_editor_changed(QObject* obj) [SIGNAL]
-# Signal emitted whenever the active editor changes _obj_ is the new active editor
-# and will be <tt>Qt::NilObject</tt> if there's no active editor
-    
+    extend Forwardable    
     
     signals 'current_document_changed(QObject*)', 'active_editor_changed(QObject*)'
         
     slots :load_settings
+    
+=begin rdoc
+The default hints used by methods like {#editor} and {#editor_for!}
+=end
+    DEFAULT_HINTS = {
+      :exisiting => :always, 
+      :strategy => [:current, :current_tab, :first],
+      :new => :new_tab,
+      :split => :horizontal,
+      :show => true,
+      :create_if_needed => true
+    }.freeze
     
 =begin rdoc
 The widget which contains the tool widgets.
@@ -71,6 +75,8 @@ The primary use of this method is to connect to the signals emitted from the wor
 when a tool widget is raised, shown or hidden. All of its other methods are also
 provided by the MainWindow, so you shouldn't need to access the workspace to use
 them.
+
+@return [Workspace] the workspace associated with the main window
 =end
     attr_reader :workspace
     
@@ -95,12 +101,10 @@ is the plugin description for this object.
       self.central_widget = Workspace.new self
       # We need the instance variable to use it with Forwardable
       @workspace = central_widget 
-      @views = central_widget.instance_variable_get :@views
-      @views.tabs_closable = Ruber[:config][:workspace, :close_buttons]
-      @current_view = nil
-      @active_editor = nil
+      @tabs = central_widget.instance_variable_get :@views
+      @tabs.tabs_closable = Ruber[:config][:workspace, :close_buttons]
+      @view_manager = ViewManager.new @tabs, self
       @auto_activate_editors = true
-      @editors_mapper = Qt::SignalMapper.new self
       @ui_states = {}
       @actions_state_handlers = Hash.new{|h, k| h[k] = []}
       @about_plugin_actions = []
@@ -112,19 +116,16 @@ is the plugin description for this object.
       connect Ruber[:components], SIGNAL('component_loaded(QObject*)'), self, SLOT('add_about_plugin_action(QObject*)')
       connect Ruber[:components], SIGNAL('unloading_component(QObject*)'), self, SLOT('remove_about_plugin_action(QObject*)')
       connect Ruber[:components], SIGNAL('unloading_component(QObject*)'), self, SLOT('remove_plugin_ui_actions(QObject*)')
-      connect @editors_mapper, SIGNAL('mapped(QWidget*)'), self, SLOT('remove_view(QWidget*)')
+      connect @view_manager, SIGNAL('active_editor_changed(QWidget*)'), self, SLOT('slot_active_editor_changed(QWidget*)')
+      connect Ruber[:documents], SIGNAL('document_created(QObject*)'), self, SLOT('document_created(QObject*)')
+
       setup_actions action_collection
-      @views.connect(SIGNAL('currentChanged(int)')) do |idx|
-        if @auto_activate_editors then activate_editor idx 
-        else activate_editor nil
-        end
-      end
       Ruber[:projects].connect( SIGNAL('current_project_changed(QObject*)') ) do |prj|
         change_state "active_project_exists", !prj.nil?
-        make_title
+        change_title
       end
-      @views.connect SIGNAL('tabCloseRequested(int)') do |i|
-        close_editor @views.widget(i)
+      @tabs.connect SIGNAL('tabCloseRequested(int)') do |i|
+        @tabs.widget(i).each_view{|v| close_editor v}
       end
       connect Ruber[:projects], SIGNAL('closing_project(QObject*)'), self, SLOT('close_project_files(QObject*)')
       
@@ -184,17 +185,76 @@ is the plugin description for this object.
     def_delegators :@workspace, :tool_widgets
     
 =begin rdoc
-Returns the editor view for the given document, creating it if needed
+Returns an editor associated with the given document, creating it if needed
+
+If _doc_ is not a document and no document for the file representing by the string
+or URL _doc_ is open, it will be created.
+
+Since there can be more than one editor associated with the document, the optional
+_hints_ argument can be used to specify which one should be returned. If no editor
+exists for the document, or none of the exisiting ones statisfy the @existing@
+hint, a new one will be created, unless the @create_if_needed@ hint is *false*.
 
 @param [Document, String, KDE::Url] doc the document. If it is a string representing
   a relative path, it'll be considered relative to the current directory. If the
   string is an Url, it'll be interpreted as such
-@return [EditorView,nil] an editor associated with the document or *nil* if _doc_
-  is interpreted as document name but no documents with that name exists
-@raise [ArgumentError] if _doc_ is an absolute path or a @KDE::Url@ but the file
-  doesn't exist
+@param [Hash] hints options to tailor the algorithm used to retrieve or create the editor
+
+@option hints [Symbol] :existing (:always) when it is acceptable to return an already existing
+  editor. It can be:
+  * @:always@: if there's an existing editor, always use it
+  * @:never@: never use an exisiting editor
+  * @:current_tab@: use an exisiting editor only if it is in the current pane
+@option hints [Boolean] :create_if_needed (true) whether or not a new editor for
+  the given document should be created if none exists. This is different from
+  passing @:always@ as the value of the @:existing@ option because the latter would
+  cause a new editor to be created in case no one already exists for the document
+@option hints [Symbol, Array<Symbol>] :stategy ([:current, :current_tab, :first])
+  how to choose the exisiting editor to use in case there's more than one. If it
+  is an array, the strategies will be applied in turn until one has success.
+  If none of the given strategies succeed, @:first@ will be used. The possible
+  values are
+  * @:current@: if the current editor is associated with _doc_, use it
+  * @:current_tab@: if there are editors associated with _doc_ in the current
+  tab, the first of them will be used
+  * @:last_current_tab@: if there are editors associated with _doc_ in the current
+  tab, the first of them will be used
+  * @:next@: starting from the current tab, the first editor found associated
+  with _doc_ will be used
+  * @:previous@: the first editor associated with _doc_ found by looking in all
+  tabs from the current one in reverse order will be used (the current tab will
+  be the last one where the editor will be looked for)
+  * @:first@: the first editor associated with the document will be used
+  * @:last@: the last editor associated the document will be used
+  
+  This option is only useful when using an existing editor
+@option hints [Symbol,Integer,EditorView] :new (:new_tab) where to place the new editor, if
+  it needs to be created. It can have one of the following values:
+  * @:new_tab@: put the new editor as the single editor in a new tab
+  * @:current@: place the new editor in the pane obtained splitting the 
+  current editor
+  * @:current_tab@: place the new editor in the pane obtained splitting the first
+  editor in the current tab
+  * an integer: place the new editor in the tab associated with that index (0-based),
+  in the pane obtained by splitting the first view
+  * an {EditorView}: place the new editor in the pane obtained splitting the
+  pane associated with the given editor
+
+  This option is only used when when creating a new editor
+@option hints [Symbol] :split (:horizontal) the orientation in which an existing
+  editor should be split to accomodate the new editor. It can be @:horizontal@
+  or @:vertical@. This option is only used when when creating a new editor
+@option hints [Boolean] :show (true) whether the new editor should be shown or
+  not. If it's *false*, the editor won't be placed in any pane. This option is
+  only used when when creating a new editor
+@return [EditorView,nil] an editor associated with the document and *nil* if no
+  editor associated with the given document exists and the @:create_if_needed@ hint is
+  set to *false*.
+@raise [ArgumentError] if _doc_ is a path or a @KDE::Url@ but the corresponding
+  file doesn't exist
 =end
-    def editor_for! doc
+    def editor_for! doc, hints = DEFAULT_HINTS
+      hints = DEFAULT_HINTS.merge hints
       unless doc.is_a? Document
         url = doc
         if url.is_a? String
@@ -207,169 +267,213 @@ Returns the editor view for the given document, creating it if needed
         doc = Ruber[:documents].document url
       end
       return unless doc
-      create_editor_if_needed doc
+      @view_manager.editor_for doc, hints
     end
     
 =begin rdoc
-Similar to <tt>editor_for!</tt> but it doesn't create the document or the editor
-if they don't exist. If a Document for the string _doc_ doesn't exist, or if it
-doesn't have an editor, returns *nil*.
+Returns an editor associated with the given document
+
+It works mostly like {#editor_for!}, but it doesn't attempt to create the document
+if it doesn't exist an always sets the @create_if_needed@ hint to *false*. See
+{#editor_for!} for the values it can contain.
+
+@param (see #editor_for!)
+@return [EditorView,nil] an editor associated with the document and *nil* if no
+editor associated with the given document exists or no document corresponds to _doc_
+@raise [ArgumentError] if _doc_ is a path or a @KDE::Url@ but the corresponding
+file doesn't exist
 =end
-    def editor_for doc
-      doc = Ruber[:documents][doc] if doc.is_a? String
+    def editor_for doc, hints = DEFAULT_HINTS
+      hints = DEFAULT_HINTS.merge hints
+      hints[:create_if_needed] = false
+      unless doc.is_a? Document
+        url = doc
+        if url.is_a? String
+          url = KDE::Url.new url
+          if url.relative?
+            path = File.expand_path url.path
+            url.path = path
+          end
+        end
+        doc = Ruber[:documents].document_for_url url
+      end
       return unless doc
-      doc.view
+      @view_manager.editor_for doc, hints
     end
     
 =begin rdoc
-Returns the active editor, or *nil* if there's no active editor.
+The active editor
+    
+The active editor is the editor which has its GUI merged with the main window's.
+This means it is the editor which last received focus and the one which would receive
+focus when the tab widget does. If the focus already is in the tab widget, then
+the active editor is the one whose @is_active_window@ method returns *true*.
 
-<b>Note:</b> strictly speaking, this is not the same as <tt>tab_widget.current_widget</tt>.
-For an editor to be active, it's not enough to be in the current tab, but it also
-need to having been its gui merged with the main window gui.
-
-TODO: in all places this is called, change the name from <tt>current_view</tt> to
-<tt>active_editor</tt>.
+@return [EditorView,nil] the active editor or *nil* if there's no active editor.
 =end
     def active_editor
-      @active_editor
+      @view_manager.active_editor
     end
-    
+    alias_method :current_editor, :active_editor
+
 =begin rdoc
-Returns the editor in the current tab, or *nil* if there's no tab. Note that this
-may not be the active editor.
-=end
-    def current_editor
-      @views.current_widget
-    end
-    
-=begin rdoc
-Activates an editor. _arg_ can be either the index of a widget in the tab widget
-(for internal uses only) or the editor to activate, or *nil*. If the editor to
-activate is not in the current tab, the tab which contains it will become the current
-one. Activating an editor deactivates the previously active one.
+Activates an editor
+
+If the editor is not in the current tab, the tab it belongs to becomes active.
 
 Activating an editor means merging its GUI with the main window's GUI, changing
 the title of the main window accordingly and telling the status bar to refer to
-that view. Also, the <tt>current_document_changed</tt> and <tt>active_editor_changed</tt>
+that view.
+    
+After activating the editor, the {#current_document_changed} and {#active_editor_changed}
 signals are emitted.
+@param [EditorView,nil] the editor to activate. If *nil*, then the currently active
+  editor will be deactivated
 =end
-    def activate_editor arg
-      view = arg.is_a?(Integer) ? @views.widget( arg ) : arg
-      @views.current_widget = view if view and @views.current_widget != view
-      deactivate_editor @active_editor if @active_editor != view
-      @active_editor = view
-      if @active_editor
-        gui_factory.add_client @active_editor.doc.view.send(:internal)
-        @active_editor.document.activate
-      end
-      make_title
-      status_bar.view = @active_editor
-      emit current_document_changed @active_editor ?  @active_editor.document : Qt::NilObject
-      emit active_editor_changed @active_editor || Qt::NilObject
+    def activate_editor view
+      @view_manager.activate_editor view
+      view
     end
     
 =begin rdoc
-  Returns the document associated with the active editor or *nil* if there's no
-  current editor.
-  
-  It's almost the same as <tt>active_editor.doc</tt>, but already takes care of
-  the case when <tt>active_editor</tt> is *nil*.
+The toplevel pane corresponding to the given index or editor
+
+@overload tab idx
+  @param [Integer] idx the index of the tab
+  @return [Pane] the toplevel pane in the tab number _idx_
+@overload tab editor
+  @param [EditorView] editor the editor to retrieve the pane for
+  @return [Pane] the toplevel pane containing the given editor
+=end
+    def tab arg
+      @view_manager.tab arg
+    end
+    
+=begin rdoc
+The document associated with the active editor
+
+This is a convenience method for @active_editor.document@ which takes care of the
+case when there's no active editor.
+
+@return [Document,nil] the document associated with the active editor or *nil*
+  if there's no active editor
 =end
     def current_document
-      view = @views.current_widget
-      view ? view.doc : nil
+      part = @view_manager.part_manager.active_part
+      part ? part.parent : nil
     end
+    alias_method :active_document, :current_document
     
 =begin rdoc
-Similar to <tt>editor_for!</tt> but, after having retrieved/created the editor
-view, it activates and gives focus to it and moves the cursor to the line _line_
-and column _col_ (both of them are 0-based indexes).
+Displays an editor for the given document
+
+This method is similar to {#editor_for!} but, after retrieving the editor (creating
+it and/or the document as needed), it activates and gives focus to it and moves
+the cursor to the given position.
+
+@see #editor_for! editor_for! for the possible entries in _hints_
+@param (see #editor_for!)
+@param [Integer,nil] line the line number to move the cursor to (0-based). Ignored if eiter
+  it or _col_ is *nil*
+@param [Integer,nil] col the column number to move the cursor to (0-based). Ignored if eiter
+  it or _col_ is *nil*
+@return [EditorView,nil] the editor which has been activated or *nil* if the
+  editor couldn't be found (or created)
 =end
-    def display_doc doc, line = nil, col = 0
+    def display_doc doc, line = nil, col = nil, hints = DEFAULT_HINTS
       ed = editor_for! doc
       return unless ed
       activate_editor ed
       ed.go_to line, col if line and col
       ed.set_focus
+      ed
     end
-    alias display_document display_doc
+    alias_method :display_document, :display_doc
     
 =begin rdoc
-Executes the contents of the block with automatical editor activation disabled.
-This should be used, for example, when more than one editor should be opened at
+Executes the given block without automatically activating an editor whenever the
+current tab changes
+
+This method should be used, for example, when more than one editor should be opened at
 once. Without this, every new editor would become (for a little time) the active
 one, with its gui merged with the main window and so on. This slows things down
 and should be avoided. To do so, you use this method:
-  Ruber[:main_window].without_activating do
+
+bc. Ruber[:main_window].without_activating do
     ed = nil
     files.each do |f|
       ed = Ruber[:main_window].editor_for! f
     end
     Ruber[:main_window].activate_editor ed
   end
-After the block has been called, if there is no editor, or if the current widget
-in the tab widget is different from the active editor, the current widget will
-be activated.
-<b>Note:</b> automatical editor activation will be restored at the end of this
-method (even if exceptions occur).
+
+After calling this method, the focus widget of the current tab gets focus
+
+@note automatical editor activation will be restored at the end of this
+  method (even if exceptions occur).
+@yield the block which should be executed without automatically activating editors
+@return [Object] the value returned by the block
 =end
-    def without_activating
-      begin
-        @auto_activate_editors = false
-        yield
-      ensure
-        @auto_activate_editors = true
-        if @views.current_index < 0 then activate_editor nil
-        elsif @views.current_widget != @active_editor
-          activate_editor @views.current_widget
-        end
+    def without_activating &blk
+      @view_manager.without_activating &blk
+    end
+    
+=begin rdoc
+Closes an editor view
+
+If the editor to be closed is the last editor associated with the document the
+document will be closed. If _ask_ is *true* and the document is modified, the user
+will be asked whether to save or discard the changes and will have the possibility
+of aborting closing the editor (and the document). If _ask_ is false, the document
+will be closed without user interaction.
+
+If there are other editors associated with the document besides the one to close,
+the latter will be closed without affecting the document.
+
+@param [EditorView] editor the editor to close
+@param [Boolean] ask whether or not to ask confirmation from the user if the document
+  associated with _editor_ should be closed
+@return [Boolean] *true* if the editor is closed and *false* if it isn't.
+@note Always use this method to close an editor, rather than calling its {EditorView#close close}
+  method directly, unless you want to leave the corresponding document without a view
+=end
+    def close_editor editor, ask = true
+      doc = editor.document
+      if doc.views.size > 1 then 
+        editor.close
+        true
+      else doc.close ask
       end
     end
     
 =begin rdoc
-Closes the editor _ed_, deleting its tab and closing the corresponding document
-and activating the next tab if auto activating is on. If _ask_ is *true*, the document
-will ask whether to save modifications, otherwise it won't
-=end
-    def close_editor ed, ask = true
-      ed.document.close_view ed, ask
-    end
-    
-=begin rdoc
-  This method is meant to be called in situation where the user may want to save
-  a number of documents, for example when the application is quitting, as it avoids
-  displaying a dialog box for each modified document.
-    
-  _docs_ can be either an array containing the documents which can be saved (documents
-  in it which aren't modified will be ignored) or *nil*. In this case, all the
-  open documents (with or without an open editor) will be taken into account.
-  
-  It displays a dialog where the user can choose, among the documents passed as
-  first argument, which ones he wants to save. The user has three choiches:
-  * save some (or all) the files, then proceed with the operation which has caused
-    the dialog to be shown (for example, quitting the application)
-  * don't save any file and go on with the operation
-  * abort the operation.
-    
-  In the first case, this method attempts to perform save the selected files. If
-  any of them can't be saved, the dialog to choose the files to save will be
-  displayed again, with only those files which couldn't be saved (after informing
-  the user of the failure). The user can again chose which of those files this method
-  should attempt to save again, or whether to abort the operation or skip saving.
-  This will be repeated until all files have been saved or the user gives up
-    
-  In the second and third cases, the method simply returns respectively +true+ or
-  *false*.
-    
-  The value returned by this method is *false* if the user choose to abort the
-  operation and *true* otherwise. Calling methods should act appropriately (for
-  example, if this is called from a method which closes all documents and returns
-  *false*, the documents should't be closed. If it returns true, instead, they
-  should be closed, without asking again to save them).
-    
-  <b>Note:</b> if _docs_ only contains non-modified documents, this method will
-  do nothing and immediately return *true*.
+Asks the user to save multiple documents
+
+This method is meant to be called in situation where the user may want to save
+a number of documents, for example when the application is quitting, as it avoids
+displaying a dialog box for each modified document.
+
+It displays a dialog where the user can choose, among the documents passed as
+first argument, which ones he wants to save. The user has three choiches:
+* save some (or all) the files, then proceed with the operation which has caused
+the dialog to be shown (for example, quitting the application)
+* don't save any file and go on with the operation
+* abort the operation.
+
+In the first case, this method attempts to perform save the selected files. If
+any of them can't be saved, the dialog to choose the files to save will be
+displayed again, with only those files which couldn't be saved (after informing
+the user of the failure). The user can again chose which of those files this method
+should attempt to save again, or whether to abort the operation or skip saving.
+This will be repeated until all files have been saved or the user gives up
+
+In the second and third cases, the method simply returns respectively *true* or
+*false*.
+
+@param [Array<Document>] docs the list of documents to save. If any document isn't
+  modified, it'll be ignored. If no document is mdified, nothing will be done
+@return [Boolean] *true* if the operation which caused the dialog to be shown
+  can be carried on and *false* if the user chose to abort it
 =end
     def save_documents docs = nil
       docs ||= Ruber[:docs]
@@ -391,11 +495,12 @@ will ask whether to save modifications, otherwise it won't
     end
     
 =begin rdoc
-Asks the user whether to save the modified documents and saves the chosen ones.
-Returns *true* all the selected documents where saved and *false* if some of the
-document couldn't be saved.
-MOVE: this should be moved to DocumentList, as there might be documents without
-a window
+Override of {PluginLike#query_close}
+
+It stores the session data retrieved by the component manager in case of session
+saving and does nothing otherwise.
+
+@return [TrueClass]
 =end
     def query_close
       if Ruber[:app].session_saving
@@ -405,18 +510,26 @@ a window
     end
     
 =begin rdoc
-Provides a standard interface to creating a project from a project file named _file_, automatically
-handling the possible exceptions. In particular, a message box will be displayed
-if the project file doesn't exist or if it exists but it's not a valid project file.
-A message box is also displayed if <i>allow_reuse</i> is *false* and the project
-list already contains a project corresponding to _file_. In all cases in which a
-message box is displayed *nil* is returned. Otherwise, the +Project+ object
-corresponding to +file+ is returned.
+Opens a project, displaying amessage boxe in case of errors
 
-If a project was created from the project file, it will be made active and the
-old active project (if any) will be closed.
+This method provides a standard interface for creating a project from a project
+file named, automatically handling the possible exceptions.
+    
+In particular, a message box will be displayed if the project file doesn't exist
+or if it exists but it's not a valid project file.
 
-<b>Note:</b> _file_ must be an absolute path.
+If the project corresponding to the given file is already open, the behaviour
+depends on the value of _allow_reuse_. If *false*, the user is warned with a message
+box that the project is already open and nothing is done. If _allow_reuse_ is
+*true*, the existing project is returned.
+
+The new project will be made active and the existing one (if any) will be closed
+@param [String] file the absolute path of the project file to open
+@param [Boolean] allow_reuse what to do in case the project associated to _file_
+  is already open. If *true*, the existing project will be returned; if *false*,
+  the user will be warned and *nil* will be returned
+@return [Project,nil] the project associated with _file_ or *nil* if an error occurs
+  (including the project being already open in case _allow_reuse_ is *false*)
 =end
     def safe_open_project file, allow_reuse = false
       prj = Ruber[:projects][file]
@@ -426,38 +539,39 @@ old active project (if any) will be closed.
         return nil
       elsif prj then return prj
       end
+      message = nil
       begin prj = Ruber[:projects].project file
       rescue Project::InvalidProjectFile => ex
-        text = <<-EOS
-#{file} isn't a valid project file. The error reported was:
-#{ex.message}
-        EOS
-        KDE::MessageBox.sorry self, KDE.i18n(text)
-        return nil
-      rescue LoadError
-        KDE::MessageBox.sorry self, KDE.i18n(ex.message)
-        return nil
+        text = "%s isn't a valid project file. The error reported was:\n%s"
+        message = KDE.i18n(text) % [file, ex.message]
+      rescue LoadError then message = KDE.i18n(ex.message)
       end
-# The following two lines should be removed when we'll allow more than one project
-# open at the same time
-      Ruber[:projects].current_project.close if Ruber[:projects].current_project
-      Ruber[:projects].current_project = prj
-      prj
+      if prj
+        # The following two lines should be removed when we'll allow more than one project
+        # open at the same time
+        Ruber[:projects].current_project.close if Ruber[:projects].current_project
+        Ruber[:projects].current_project = prj
+        prj
+      else
+        KDE::MessageBox.sorry self, message
+        nil
+      end
     end
 
 =begin rdoc
-Saves recent files and projects, the position of the splitters and the size of
+Override of {PluginLike#save_settings}
+
+It saves recent files and projects, the position of the splitters and the size of
 the window.
 
-TODO: since restoring window position seems to work correctly in Kate (even if
-there's still an open bug, it seems to work, at least for me) see whether it's
-still necessary to store the window size.
+@return [nil]
 =end
     def save_settings
       @workspace.store_sizes
-# TODO use Ruber[:config] as soon as it works
-#       config = Ruber[:config].kconfig
-      config = KDE::Global.config
+# TODO see if the following line works. Otherwise, remove it and uncomment the one
+# following it
+      config = Ruber[:config].kconfig
+#       config = KDE::Global.config
       recent_files = KDE::ConfigGroup.new config, 'Recent files'
       action_collection.action("file_open_recent").save_entries recent_files
       recent_projects = KDE::ConfigGroup.new config, 'Recent projects'
@@ -465,53 +579,70 @@ still necessary to store the window size.
       config.sync
       c = Ruber[:config][:main_window]
       c.window_size = rect.size
+      nil
     end
     
 =begin rdoc
-Loads the settings (in particular, the default script directory and the
-default project directory)
+Override of {PluginLike#load_settings}
+@return [nil]
 =end
     def load_settings
       c = Ruber[:config][:general]
       @default_script_dir = KDE::Url.from_path c.default_script_directory
       @default_project_dir = KDE::Url.from_path c.default_project_directory
-      @views.tabs_closable = Ruber[:config][:workspace, :close_buttons] if @views
+      @tabs.tabs_closable = Ruber[:config][:workspace, :close_buttons] if @tabs
+      nil
     end
     
 =begin rdoc
-Gives the focus to the current editor view. _ed_ can be:
-* an EditorView
-* any argument acceptable by <tt>editor_for!</tt>
-* *nil*
-In the first two cases, the editor corresponding to _ed_ is activated and given
-focus; in the last case the active editor is given focus.
+Gives focus to an editor view
+
+Giving focus to the editor implies:
+* bringing the tab containing it to the foreground
+* activating the editor
+* giving focus to the editor
+
+@overload focus_on_editor
+  Gives focus to the active editor
+  @return [EditorView,nil]
+@overload focus_on_editor editor
+  @param [EditorView] editor the editor to give focus to
+  @return [EditorView,nil]
+@overload focus_on_editor doc, hints = DEFAULT_HINTS
+  @param [Document, String, KDE::Url] doc the document. If it is a string representing
+    a relative path, it'll be considered relative to the current directory. If the
+    string is an Url, it'll be interpreted as such
+  @param [Hash] hints options to tailor the algorithm used to retrieve or create the editor.
+    See {#editor_for!} for a description of the values it can contain
+  @return [EditorView,nil]
+@return [EditorView,nil] the editor which was given focus or *nil* if no editor
+  received focus
 =end  
-    def focus_on_editor ed = nil
+    def focus_on_editor ed = nil, hints = DEFAULT_HINTS
       if ed
-        ed = editor_for! ed unless ed.is_a? EditorView
-        activate_editor ed if ed
+        ed = editor_for! ed, hints unless ed.is_a? EditorView
+        @view_manager.activate_editor ed
       end
-      @active_editor.set_focus if @active_editor
+      active_editor.set_focus if active_editor
+      active_editor
     end
-    
+        
 =begin rdoc
-The directory where to save files which don't belong to a project
-=end
-#     def scripts_directory
-#       @default_script_dir
-#     end
-    
-=begin rdoc
-The directory where to create new projects by default
+@return [String] the default directory where to look for, and create, projects
 =end
     def projects_directory
       @default_project_dir
     end
     
 =begin rdoc
-Executes the action with name _action_ contained in the main window's action collection.
+Executes a given action
 
-See <tt>GuiPlugin#execute_action</tt> for more details
+@param [String] name the name by which the action has been registered in the
+  main window's @action_collection@
+@param [Array] args a list of parameters to pass to the signal or slot associated
+  to the action
+
+@see GuiPlugin#execute_action
 =end
     def execute_action name, *args
       data = plugin_description.actions[name.to_s]

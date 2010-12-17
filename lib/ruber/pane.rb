@@ -241,7 +241,6 @@ Iterates on child panes
       end
       self
     end
-    alias_method :each, :each_pane
     
 =begin rdoc
 Iterates on all views contained in the pane
@@ -265,6 +264,7 @@ If the pane is in single view mode, that only view is passed to the block.
       end
       self
     end
+    alias_method :each, :each_view
     
     protected
     
