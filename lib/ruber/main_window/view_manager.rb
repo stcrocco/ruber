@@ -226,6 +226,7 @@ Whether the given view is a focus editor
       
       def view_closing view
         @activation_order.delete view
+        disconnect view, SIGNAL('focus_in(QWidget*)'), self, SLOT('focus_in_view(QWidget*)')
         deactivate_editor view
 #         idx = @focus_editors.each_index.find{|i| @focus_editors[i] == view}
 #         @focus_editors[idx] = nil if idx
