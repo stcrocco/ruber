@@ -126,9 +126,7 @@ is the plugin description for this object.
         change_state "active_project_exists", !prj.nil?
         change_title
       end
-      @tabs.connect SIGNAL('tabCloseRequested(int)') do |i|
-        @tabs.widget(i).each_view{|v| close_editor v}
-      end
+      connect @tabs, SIGNAL('tabCloseRequested(int)'), self, SLOT('close_tab(int)')
       connect Ruber[:projects], SIGNAL('closing_project(QObject*)'), self, SLOT('close_project_files(QObject*)')
       setup_GUI
       create_shell_GUI true
@@ -506,8 +504,7 @@ the latter will be closed without affecting the document.
         new_view = views[idx-1] || views[idx+1]
       end
       doc = editor.document
-      editor.hide
-      if doc.views.size > 1 then
+      if doc.views.size > 1 
         editor.close
         true
       else doc.close ask

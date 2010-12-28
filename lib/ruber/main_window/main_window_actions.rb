@@ -97,17 +97,31 @@ save it, discard changes or not close the view.
     def close_current_editor
       close_editor active_editor if active_editor
     end
-    
-    def close_current_tab
-      tab = @tabs.current_widget
+
+=begin rdoc
+Slot connected to the Close Current Tab action
+
+Closes all the editors in a given tab. If the tab contains the only view for a document,
+the document is closed, too. If some of these documents are modified, the user
+is asked what to do. If the user cancels the dialog, nothing is done.
+@param [Integer,nil] idx the index of the tab to close. If *nil*, the current tab
+  is closed
+@return [Boolean] *true* if the tab was closed successfully (or the tab widget was
+  empty) and *false* if the user canceled the save dialog
+=end
+    def close_tab idx = nil
+      tab = idx ? @tabs.widget(idx) : @tabs.current_widget
+      return true unless tab
       docs = tab.map(&:document).select{|d| d.views.size == 1}.uniq
-      return unless save_documents docs
+      return false unless save_documents docs
       views = tab.to_a
       without_activating do
         views.each{|v| close_editor v, false} 
       end
+      true
     end
-    slots :close_current_tab
+    slots :close_tab
+    slots 'close_tab(int)'
 
 =begin rdoc
 Slot connected to the 'Close All Other' action
