@@ -75,6 +75,14 @@ describe Ruber::EditorView do
   after do
     @view.disconnect
   end
+  
+  describe 'when created' do
+    
+    it 'has the Qt::WA_DeleteOnClose attribute' do
+      @view.test_attribute(Qt::WA_DeleteOnClose).should be_true
+    end
+    
+  end
 
   test_auto_signal 'context_menu_about_to_show(QMenu*, @)', 'Qt::Menu.new'
   test_auto_signal 'focus_in(@)'
@@ -120,19 +128,23 @@ describe Ruber::EditorView do
     v.instance_eval{emit viewModeChanged(self)}
   end
   
-  it 'emits the closing(QWidget*) signal passing self as argument when the close method is called' do
-    mock = flexmock('mock')
-    mock.should_receive(:test).once.with(@view)
-    @view.connect(SIGNAL('closing(QWidget*)')) do |v|
-      mock.test v
-    end
-    @view.close
-  end
-  
   describe '#internal' do
     
     it 'returns the underlying KTextEditor::View object' do
       @view.send(:internal).should be_a(KTextEditor::View)
+    end
+    
+  end
+  
+  describe '#close' do
+    
+    it 'emits the closing(QWidget*) signal passing self as argument when the close method is called' do
+      mock = flexmock('mock')
+      mock.should_receive(:test).once.with(@view)
+      @view.connect(SIGNAL('closing(QWidget*)')) do |v|
+        mock.test v
+      end
+      @view.close
     end
     
   end

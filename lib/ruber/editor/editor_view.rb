@@ -71,6 +71,7 @@ module Ruber
     alias_method :document, :doc
     def initialize doc, internal, parent = nil
       super parent
+      set_attribute Qt::WA_DeleteOnClose, true
       @block_selection = false
       @doc = doc
       @view = internal
@@ -126,6 +127,7 @@ module Ruber
     def close
       emit closing self
       super
+#       delete_later
     end
 
     def set_annotation_border_visible vis
