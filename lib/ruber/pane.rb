@@ -92,6 +92,12 @@ allow to resize it. It *must not* be used to add or remove widgets to or from it
         insert_widget 1, pane2
         @view = nil
       end
+      margins = layout.contents_margins
+      margins.top = margins.left =  margins.bottom = margins.right = 0
+      layout.contents_margins = margins
+      @label = Qt::Label.new '', self
+      @label.hide unless parent_pane
+      layout.add_widget @label
     end
     
 =begin rdoc
@@ -133,6 +139,38 @@ Signal emitted whenever the single view associated with the paned is about to be
 @param [Pane] pane the pane which emitted the signal
 =end
     signals 'closing_last_view(QWidget*)'
+    
+=begin rdoc
+Signal emitted whenever a view in the pane or one of its children has been removed
+
+@param [Pane] pane the pane the view was child of
+@param [Qt::Widget] view the view which was removed from the pane. Note that when
+  this signal is emitted, the view hasn't as yet been destroyed, but it has already
+  been removed from the pane (@view.parent@ returns *nil*)
+=end
+    signals 'removing_view(QWidget*, QWidget*)'
+    
+=begin rdoc
+Signal emitted after the pane has been split
+
+@param [Pane] pane the pane which has been split
+@param [Qt::Widget] old_view the view which has been split
+@param [Qt::Widget] new_view the view which has been inserted
+=end
+    signals 'pane_split(QWidget*, QWidget*, QWidget*)'
+    
+=begin rdoc
+Signal emitted after a view has been replaced
+
+@param [Pane] pane the pane the original view was child of
+@param [Qt::Widget] old_view the view which was replaced. Note that when
+  this signal is emitted, the view hasn't been destroyed, but it has
+  been removed from the pane (@old_view.parent@ returns *nil*)
+@param [Qt::Widget] replacement the view which replaced _old_view_. Note that at
+  the time this signal is emitted, the new view has already been made a child of
+  the pane
+=end
+    signals 'view_replaced(QWidget*, QWidget*, QWidget*)'
     
 =begin rdoc
 @return [Qt::Splitter,nil] the splitter used by the pane or *nil* if the pane
@@ -202,16 +240,50 @@ pane for it will have been created.
       new_pane = Pane.new(new_view)
       multiple_view_mode orientation
       old_pane = @splitter.widget idx
-      if @splitter.orientation == orientation
-        idx += 1 if pos == :after
-        insert_widget idx, new_pane
-      else
-        pane = old_pane.multiple_view_mode orientation
-        new_idx = pos == :after ? 1 : 0
-        old_pane.insert_widget new_idx, new_pane
-        old_pane = pane
+      keeping_focus old_pane do
+        if @splitter.orientation == orientation
+          idx += 1 if pos == :after
+          insert_widget idx, new_pane
+        else
+          pane = old_pane.multiple_view_mode orientation
+          new_idx = pos == :after ? 1 : 0
+          old_pane.insert_widget new_idx, new_pane
+          old_pane = pane
+        end
       end
+      emit pane_split self, view, new_view
       [old_pane, new_pane]
+    end
+    
+=begin rdoc
+Replaces a view with another
+
+If the pane is in single view mode and its view is the same as _old_, the view is
+replaced with _replacement_. If the view contained in the pane is different from
+_old_, nothing is done.
+
+If the pane is in multiple view mode, the method call will be propagated to all
+child panes, until one is able to carry out the replacement.
+
+@param [Qt::Widget] old the view to replace
+@param [Qt::Widget] replacement the view to insert in the pane in place of _old_
+@return [Boolean] *true* if the replacement was performed (that is, if the pane
+  or one of its children contained _old_) and *false* otherwise
+=end
+    def replace_view old, replacement
+      if @view
+        return false unless @view == old
+        @view = replacement
+        replacement.parent = self
+        layout.insert_widget 0, replacement
+        disconnect old, SIGNAL('closing(QWidget*)'), self, SLOT('remove_view(QWidget*)')
+        connect replacement, SIGNAL('closing(QWidget*)'), self, SLOT('remove_view(QWidget*)')
+        layout.remove_widget old
+        old.parent = nil
+        emit view_replaced(self, old, replacement)
+        true
+      else each_pane.any?{|pn| pn.replace_view old, replacement}
+      end
     end
     
 =begin rdoc
@@ -240,6 +312,67 @@ Iterates on child panes
         end
       end
       self
+    end
+    
+=begin rdoc
+Changes the text of the label for the given view
+
+If the pane is in single view mode and the view given as argument is the same
+contained in it, the text of the label will be changed, otherwise nothing will be
+done. If the pane is not a toplevel pane the label will be also made visible. If
+the pane is a toplevel pane, the label won't be shown. The rationale for this
+behaviour is that the label can be used to distinguish different widgets in the
+same pane. If a top-level pane is in single view mode, however, it contains no
+other views, so there's no need for a label to distinguish them.
+
+If the text is an empty string, the label will be hidden.
+
+If the pane is in multiple view mode, the method call will be propagated recursively
+to child panes, until a pane containing the given view is found.
+
+@param [Qt::Widget] view the view to change the label for
+@param [String] text the new label
+@return [Boolean] *true* if the label was changed either in this pane or in one
+  of its children and *false* if neither this pane nor any of its children contain
+  _view_
+=end
+    def set_view_label view, text
+      if single_view?
+        return false unless @view == view
+        @label.text = text
+        @label.visible = !text.empty? if parent_pane 
+        true
+      else each_pane.any? {|pn| pn.set_view_label view, text}
+      end
+    end
+    
+=begin rdoc
+Changes the label of the view in the pane
+
+If the pane is in multiple view mode, nothing is done.
+
+If the text is empty the label is hidden. If the text is not empty, the label
+is made visible, unless the pane is top-level.
+
+This method is similar to {#set_view_label}, except that it doesn't allow to specify
+the view to change the label for and always acts on the view contained in this pane.
+
+@param [String] text the new label
+=end
+    def label= text
+      set_view_label @view, text if @view
+    end
+    
+=begin rdoc
+The text of label associated with the pane
+
+@return [String,nil] the text of the label associated with the pane or *nil* if
+  the pane is in multiple view mode
+=end
+    def label
+      # For some reason, Qt::Label#text returns nil if the text hasn't been set
+      # or is set to ''
+      @view ? (@label.text || '') : nil
     end
     
 =begin rdoc
@@ -279,6 +412,9 @@ signal from *self*.
     def take_pane pane
       pane.parent = nil
       pane.disconnect SIGNAL('closing_last_view(QWidget*)'), self, SLOT('remove_pane(QWidget*)')
+      pane.disconnect SIGNAL('pane_split(QWidget*, QWidget*, QWidget*)'), self, SIGNAL('pane_split(QWidget*, QWidget*, QWidget*)')
+      pane.disconnect SIGNAL('removing_view(QWidget*, QWidget*)'), self, SIGNAL('removing_view(QWidget*, QWidget*)')
+      pane.disconnect SIGNAL('view_replaced(QWidget*,QWidget*,QWidget*)'), self, SIGNAL('view_replaced(QWidget*,QWidget*,QWidget*)')
       nil
     end
     
@@ -300,6 +436,9 @@ This method assumes that the pane is not in single view mode
       widget = Pane.new widget, @splitter unless widget.is_a? Pane
       @splitter.insert_widget idx, widget
       connect widget, SIGNAL('closing_last_view(QWidget*)'), self, SLOT('remove_pane(QWidget*)')
+      connect widget, SIGNAL('pane_split(QWidget*,QWidget*,QWidget*)'), self, SIGNAL('pane_split(QWidget*,QWidget*,QWidget*)')
+      connect widget, SIGNAL('removing_view(QWidget*, QWidget*)'), self, SIGNAL('removing_view(QWidget*, QWidget*)')
+      connect widget, SIGNAL('view_replaced(QWidget*,QWidget*,QWidget*)'), self, SIGNAL('view_replaced(QWidget*,QWidget*,QWidget*)')
       widget
     end
     
@@ -316,13 +455,19 @@ It does nothing if the pane is already in multiple view mode
 =end
     def multiple_view_mode orientation
       return if @splitter
-      layout.remove_widget @view
-      @view.disconnect SIGNAL('closing(QWidget*)'), self, SLOT('remove_view(QWidget*)')
-      @splitter = Qt::Splitter.new orientation, self
-      layout.add_widget @splitter
-      pane = insert_widget 0, @view
-      @view = nil
-      pane
+      keeping_focus @view do
+        layout.remove_widget @view
+        @label.hide
+        @view.disconnect SIGNAL('closing(QWidget*)'), self, SLOT('remove_view(QWidget*)')
+        @splitter = Qt::Splitter.new orientation, self
+        layout.insert_widget 0, @splitter
+        pane = insert_widget 0, @view
+        # For some reason, Qt::Label#text returns nil if the text hasn't been set
+        # or is set to ''
+        pane.label = @label.text || ''
+        @view = nil
+        pane
+      end
     end
 
 =begin rdoc
@@ -333,20 +478,37 @@ self, deletes the splitter then sets the given view as single view for *self*.
 
 It does nothing if the splitter is already in single view mode
 @param [EditorView] view the single view to insert in the pane
+@param [String] label the label to assign to the pane
 @return [Pane] self
 =end
-    def single_view_mode view
+    def single_view_mode view, label = ''
       return unless @splitter
-      @view = view
-      @splitter.each{|w| w.disconnect SIGNAL('closing_last_view(QWidget*)'), self, SLOT('remove_pane(QWidget*)')}
-      layout.remove_widget @splitter
-      layout.add_widget @view
-      connect @view, SIGNAL('closing(QWidget*)'), self, SLOT('remove_view(QWidget*)')
-      self
+      keeping_focus view do
+        @view = view
+        @view.parent = self unless @view.parent == self
+        @splitter.each{|w| w.disconnect SIGNAL('closing_last_view(QWidget*)'), self, SLOT('remove_pane(QWidget*)')}
+        layout.remove_widget @splitter
+        layout.insert_widget 0, @view
+        self.label = label
+        @label.visible = false unless parent_pane
+        connect @view, SIGNAL('closing(QWidget*)'), self, SLOT('remove_view(QWidget*)')
+        self
+      end
     end
 
     
     private
+    
+    def keeping_focus *widgets
+      active_window = widgets.find{|w| w.is_active_window}
+      focus_widget = Ruber::Application.focus_widget if active_window
+      begin yield
+      ensure
+        if focus_widget and !focus_widget.disposed?
+          focus_widget.set_focus
+        end
+      end
+    end
     
 =begin rdoc
 Returns the index of the pane containing given view in the splitter
@@ -406,6 +568,7 @@ view parentless and schedules *self* for deletion.
     def remove_view view
       emit closing_last_view(self)
       @view.parent = nil
+      emit removing_view self, view
       delete_later
       nil
     end
@@ -431,7 +594,7 @@ emitted by a chid pane, so it assumes the pane is in single view mode.
       if @splitter.count == 1
         remaining_pane = @splitter.widget(0)
         if remaining_pane.single_view?
-          single_view_mode remaining_pane.view
+          single_view_mode remaining_pane.view, remaining_pane.label
         else
           take_pane remaining_pane
           remaining_pane.splitter.to_a.each_with_index do |w, i|

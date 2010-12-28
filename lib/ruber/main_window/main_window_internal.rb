@@ -100,7 +100,8 @@ It adds the document to the part manager and makes several signal-slot connectio
       connect doc, SIGNAL('modified_on_disk(QObject*, bool, KTextEditor::ModificationInterface::ModifiedOnDiskReason)'), self, SLOT('update_document_icon(QObject*)')
       connect doc, SIGNAL('document_url_changed(QObject*)'), self, SLOT(:document_url_changed)
       connect doc, SIGNAL(:completed), self, SLOT(:document_url_changed)
-      connect doc, SIGNAL('closing(QObject*)'), self, SLOT('remove_document_from_part_manager(QObject*)') #do |d|
+      connect doc, SIGNAL('closing(QObject*)'), self, SLOT('remove_document_from_part_manager(QObject*)')
+      update_switch_to_list
     end
     slots 'document_created(QObject*)'
     
@@ -123,6 +124,7 @@ and updates the title and the statusbar
       emit current_document_changed view ?  view.document : nil
       emit active_editor_changed view
       change_title
+      set_state 'current_document', !view.nil?
       nil
     end
     slots 'slot_active_editor_changed(QWidget*)'
@@ -138,6 +140,7 @@ current status
       views = doc.views
       views.each do |v|
         tab = @view_manager.tab v
+        next unless tab
         if v.is_ancestor_of tab.focus_widget
           idx = @tabs.index_of tab
           @tabs.set_tab_icon idx, doc.icon
@@ -166,29 +169,10 @@ See {#editor_for!} for the values which can be included in _hints_
       focus_on_editor editor
       url = KDE::Url.new file
       action_collection.action('file_open_recent').add_url url, url.file_name
+      action_collection.action('window-switch_to_recent_file').add_url url, url.file_name
       editor
     end
 
-=begin rdoc
-Remove the editor _ed_ from the tab widget, deactivating it before (if needed).
-If automatical activation of editors is on, it also activates another editor,
-if any
-=end
-#     def remove_view ed
-#       status_bar.view = nil if ed == @active_editor
-#       deactivate_editor ed
-#       idx = @tabs.index_of ed
-#       @tabs.remove_tab idx
-#       #This assumes that only one editor can exist for each document
-#       ed.document.disconnect SIGNAL('modified_changed(bool, QObject*)'), self
-#       ed.document.disconnect SIGNAL('document_url_changed(QObject*)'), self
-#       if @tabs.current_widget and @auto_activate_editors
-#         activate_editor @tabs.current_widget
-#         @tabs.current_widget.set_focus
-#       end
-#     end
-    
-   
 =begin rdoc
 Changes the title
 
@@ -249,6 +233,7 @@ Nothing is done if the document isn't associated with a view
       return unless doc.has_view?
       change_title
       doc.views.each do |v|
+        v.parent.label = @view_manager.label_for_editor v
         tab = @view_manager.tab v
         if @view_manager.focus_editor? v, tab
           idx = @tabs.index_of tab
@@ -302,7 +287,6 @@ save them, discard the changes or not to close the documents
       save_documents to_close
       without_activating{to_close.each{|d| d.close}}
     end
-    
     
   end
   

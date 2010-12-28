@@ -97,6 +97,17 @@ save it, discard changes or not close the view.
     def close_current_editor
       close_editor active_editor if active_editor
     end
+    
+    def close_current_tab
+      tab = @tabs.current_widget
+      docs = tab.map(&:document).select{|d| d.views.size == 1}.uniq
+      return unless save_documents docs
+      views = tab.to_a
+      without_activating do
+        views.each{|v| close_editor v, false} 
+      end
+    end
+    slots :close_current_tab
 
 =begin rdoc
 Slot connected to the 'Close All Other' action
@@ -140,10 +151,11 @@ without asking the user.
 otherwise
 =end
     def close_all_views ask = true
-      return false if ask and !save_documents @tabs.map{|v| v.document}
+      docs = Ruber[:documents].select{|d| d.has_view?}
+      return false if ask and !save_documents docs
       without_activating do
         @tabs.to_a.each do |w| 
-          close_editor w, false
+          w.to_a.each{|v| close_editor v, false}
         end
       end
       true
@@ -409,7 +421,7 @@ Displays the configuration dialog for the current document, if it exists
     end
     
 =begin rdoc
-Slot associated with the Toggle * Tool Widget
+Slot associated with the Toggle * Tool Widget action
 
 It identifies the tool widget to toggle basing on the name of the triggered action
 
@@ -422,6 +434,124 @@ It identifies the tool widget to toggle basing on the name of the triggered acti
       @workspace.toggle_tool w
       nil
     end
+    
+=begin rdoc
+Slot associated with the Split Horizontally action
+
+It splits the active view horizontally, so that a new copy of the view is created.
+@note@ this method can only be called when there's an active view.
+
+@return [EditorView] the newly created editor
+=end
+    def split_horizontally
+      ed = active_editor
+      display_document ed.document, nil, nil, :existing => :never, :new => ed, :split => :horizontal
+    end
+    slots :split_horizontally
+
+=begin rdoc
+Slot associated with the Split Vertically action
+
+It splits the active view vertically, so that a new copy of the view is created.
+@note@ this method can only be called when there's an active view.
+
+@return [EditorView] the newly created editor
+=end
+    def split_vertically
+      ed = active_editor
+      new_ed = display_document ed.document, nil, nil, :existing => :never, :new => ed, :split => :vertical
+    end
+    slots :split_vertically
+    
+=begin rdoc
+Slot associated with the Switch to New Document action
+
+It creates a new empty document, replaces the current editor with an editor
+associated to it and gives focus to it. 
+@note@ this method can only be called when there's an active view
+
+@return [EditorView] the newly created editor
+=end
+    def switch_to_new_document
+      old = active_editor
+      ed = replace_editor old, Ruber[:documents].new_document
+      focus_on_editor ed if ed
+    end
+    slots :switch_to_new_document
+    
+=begin rdoc
+Slot associated with the Switch to File action
+
+It allows the user to choose a file, then creates a document for that file, replaces
+the active editor with a new one associated with the document and gives focus to it.
+@note@ this method can only be called when there's an active view
+
+@return [EditorView] the newly created editor
+=end
+    def switch_to_file
+      dir = KDE::Url.from_path(Ruber.current_project.project_directory) rescue KDE::Url.new
+      filename = KDE::FileDialog.get_open_url(dir, OPEN_DLG_FILTERS.join("\n") , self)
+      return unless filename.valid?
+      Ruber::Application.process_events
+      ed = replace_editor active_editor, filename
+      focus_on_editor ed if ed
+    end
+    slots :switch_to_file
+    
+=begin rdoc
+Slot which updates the @window-switch_to_open_document_list@ action list
+
+This method is called whenever a document is created or deleted. It updates the
+action list so that it contains an action for each of the open documents
+=end
+    def update_switch_to_list
+      unplug_action_list 'window-switch_to_open_document_list'
+      @switch_to_actions.each{|a| a.delete_later}
+      @switch_to_actions = Ruber[:documents].map do |doc|
+        a = action_collection.add_action "switch_to_#{doc.document_name}", self, SLOT(:switch_to_document)
+        a.text = KDE.i18n("Switch to %s") % [doc.document_name]
+        a.object_name = doc.document_name
+        a
+      end
+      @switch_to_actions = @switch_to_actions.sort_by{|a| a.object_name}
+      plug_action_list 'window-switch_to_open_document_list', @switch_to_actions
+    end
+    slots :update_switch_to_list
+    
+=begin rdoc
+Slot associated with the actions in the Switch to Document submenu
+
+It creates a new editor for an already-existing document and replaces the active
+editor with it, giving focus to it. The document to use is determined from the
+@object_name@ of the action.
+@note this method can only be called when there's an active view
+@note this method uses @sender@ to find out the action which emitted the signal,
+  so it shouldn't be called directly
+@return [EditorView] the newly created editor
+=end
+    def switch_to_document
+      doc = Ruber[:documents].document_with_name sender.object_name
+      ed = replace_editor active_editor, doc
+      focus_on_editor ed if ed
+    end
+    slots :switch_to_document
+    
+=begin rdoc
+Slot associated with Switch to Recent File action
+
+It creates a new document for the given URL (if needed), creates a new editor
+for it, replaces the active editor with it and gives focus to it.
+
+@note@ this method can only be called when there's an active view
+@param [KDE::Url] url the URL associated with the editor
+@return [EditorView] the newly created editor
+
+=end
+    def switch_to_recent_file url
+      ed = replace_editor active_editor, url
+      focus_on_editor ed if ed
+    end
+    slots 'switch_to_recent_file(KUrl)'
     
   end
   

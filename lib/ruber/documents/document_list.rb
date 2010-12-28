@@ -119,9 +119,6 @@ will be created. In this case, the {#document_created} signal will be emitted.
           raise ArgumentError, "File #{url.path} doesn't exist" unless File.exist?(url.path)
         end
         doc = Document.new Ruber[:main_window], file
-        begin @docs[0].close if @docs.only.pristine?
-        rescue IndexError
-        end
         add_document doc
         emit document_created(doc)
       end
@@ -226,8 +223,8 @@ The {#closing_document} signal is emitted before removing the document.
 @return [nil]
 =end
     def close_document doc
-      emit closing_document(doc)
       @docs.delete doc
+      emit closing_document(doc)
       nil
     end
     private :close_document

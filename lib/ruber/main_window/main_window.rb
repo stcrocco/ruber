@@ -57,7 +57,7 @@ tool widgets.
     slots :load_settings
     
 =begin rdoc
-The default hints used by methods like {#editor} and {#editor_for!}
+The default hints used by methods like {#editor_for} and {#editor_for!}
 =end
     DEFAULT_HINTS = {
       :exisiting => :always, 
@@ -108,16 +108,18 @@ is the plugin description for this object.
       @ui_states = {}
       @actions_state_handlers = Hash.new{|h, k| h[k] = []}
       @about_plugin_actions = []
+      @switch_to_actions = []
       @last_session_data = nil
       self.status_bar = StatusBar.new self
       self.connect(SIGNAL('current_document_changed(QObject*)')) do |doc|
-        change_state 'current_document', !doc.nil_object?
+        change_state 'current_document', !doc.nil?
       end
       connect Ruber[:components], SIGNAL('component_loaded(QObject*)'), self, SLOT('add_about_plugin_action(QObject*)')
       connect Ruber[:components], SIGNAL('unloading_component(QObject*)'), self, SLOT('remove_about_plugin_action(QObject*)')
       connect Ruber[:components], SIGNAL('unloading_component(QObject*)'), self, SLOT('remove_plugin_ui_actions(QObject*)')
       connect @view_manager, SIGNAL('active_editor_changed(QWidget*)'), self, SLOT('slot_active_editor_changed(QWidget*)')
       connect Ruber[:documents], SIGNAL('document_created(QObject*)'), self, SLOT('document_created(QObject*)')
+      connect Ruber[:documents], SIGNAL('closing_document(QObject*)'), self, SLOT(:update_switch_to_list)
 
       setup_actions action_collection
       Ruber[:projects].connect( SIGNAL('current_project_changed(QObject*)') ) do |prj|
@@ -128,14 +130,22 @@ is the plugin description for this object.
         @tabs.widget(i).each_view{|v| close_editor v}
       end
       connect Ruber[:projects], SIGNAL('closing_project(QObject*)'), self, SLOT('close_project_files(QObject*)')
-      
       setup_GUI
       create_shell_GUI true
       
       config_obj = Ruber[:config].kconfig
       apply_main_window_settings KDE::ConfigGroup.new( config_obj, 'MainWindow')
       recent_files = KDE::ConfigGroup.new config_obj, 'Recent files'
-      action_collection.action("file_open_recent").load_entries recent_files
+      open_recent_action =action_collection.action("file_open_recent")
+      open_recent_action.load_entries recent_files
+      switch_to_recent_action = action_collection.action("window-switch_to_recent_file")
+      switch_to_recent_action.load_entries recent_files
+      
+      # Synchronize the two menus, so that when the user clears one of them the also
+      # is also cleared
+      connect open_recent_action, SIGNAL(:recentListCleared), switch_to_recent_action, SLOT(:clear)
+      connect switch_to_recent_action, SIGNAL(:recentListCleared), open_recent_action, SLOT(:clear)
+      
       recent_projects = KDE::ConfigGroup.new config_obj, 'Recent projects'
       action_collection.action("project-open_recent").load_entries recent_projects
       status_bar.show
@@ -255,7 +265,13 @@ hint, a new one will be created, unless the @create_if_needed@ hint is *false*.
 =end
     def editor_for! doc, hints = DEFAULT_HINTS
       hints = DEFAULT_HINTS.merge hints
+      docs = Ruber[:documents].documents
       unless doc.is_a? Document
+        unless hints.has_key? :close_starting_document
+          hints[:close_starting_document] = docs.size == 1 && 
+              docs[0].extension(:ruber_default_document).default_document && 
+              docs[0].pristine?
+        end
         url = doc
         if url.is_a? String
           url = KDE::Url.new url
@@ -267,7 +283,7 @@ hint, a new one will be created, unless the @create_if_needed@ hint is *false*.
         doc = Ruber[:documents].document url
       end
       return unless doc
-      @view_manager.editor_for doc, hints
+      @view_manager.without_activating{@view_manager.editor_for doc, hints}
     end
     
 =begin rdoc
@@ -327,12 +343,57 @@ that view.
     
 After activating the editor, the {#current_document_changed} and {#active_editor_changed}
 signals are emitted.
-@param [EditorView,nil] the editor to activate. If *nil*, then the currently active
+@param [EditorView,nil] editor the editor to activate. If *nil*, then the currently active
   editor will be deactivated
 =end
-    def activate_editor view
-      @view_manager.activate_editor view
-      view
+  def activate_editor editor
+    tab = @view_manager.tab editor
+    return unless tab
+    @tabs.current_widget = tab
+    return if active_editor == editor
+    @view_manager.make_editor_active editor
+    editor
+  end
+    
+=begin rdoc
+Replaces an editor with another
+
+If the editor to be replaced is the only one associated witha given document and
+the document is modified, the user is asked whether he wants to save it or not. If
+he chooses to abort, the editor is not replaced, otherwise the document is closed.
+
+The new editor is put in the same pane which contained the old one (without splitting
+it).
+
+@overload replace_editor old, new_ed
+  @param [EditorView] old the editor to replace
+  @param [EditorView] new_ed the editor to replace _old_ with
+  @return [EditorView,nil]
+@overload replace_editor old, doc
+  @note whether or not the user needs to be asked about saving the document is determined
+    regardless of the value of _doc_. This means that the user may be asked
+    to save the document even if _doc_ is the same document associated with
+    the view (or the URL corresponding to it). To avoid this, create the replacement
+    editor before calling this method, using @editor_for doc, :existing => :never, :show => false@,
+    then use the overloaded version of this method which takes an editor
+  @param [EditorView] old the editor to replace
+  @param [Document,String,KDE::Url] doc the document to create the editor for or
+    the name of the corresponding file (absolute or relative to the current directory)
+    or the corresponding URL
+  @return [EditorView,nil]
+@return [EditorView,nil] the new editor or *nil* if the user choose to abort
+=end
+    def replace_editor old, editor_or_doc
+      if old.document.views.size == 1
+        return unless old.document.query_close
+        close_doc = true
+      end
+      if editor_or_doc.is_a?(EditorView) then ed = editor_or_doc
+      else ed = editor_for! editor_or_doc, :existing => :never, :show => false
+      end
+      old.parent.replace_view old, ed
+      close_editor old, false
+      ed
     end
     
 =begin rdoc
@@ -359,8 +420,7 @@ case when there's no active editor.
   if there's no active editor
 =end
     def current_document
-      part = @view_manager.part_manager.active_part
-      part ? part.parent : nil
+      (ed = active_editor) ? ed.document : nil
     end
     alias_method :active_document, :current_document
     
@@ -381,7 +441,7 @@ the cursor to the given position.
   editor couldn't be found (or created)
 =end
     def display_doc doc, line = nil, col = nil, hints = DEFAULT_HINTS
-      ed = editor_for! doc
+      ed = editor_for! doc, hints
       return unless ed
       activate_editor ed
       ed.go_to line, col if line and col
@@ -438,12 +498,21 @@ the latter will be closed without affecting the document.
   method directly, unless you want to leave the corresponding document without a view
 =end
     def close_editor editor, ask = true
+      editor_tab = self.tab(editor)
+      has_focus = editor_tab.is_active_window if editor_tab
+      if has_focus
+        views = editor_tab.to_a
+        idx = views.index(editor)
+        new_view = views[idx-1] || views[idx+1]
+      end
       doc = editor.document
-      if doc.views.size > 1 then 
+      editor.hide
+      if doc.views.size > 1 then
         editor.close
         true
       else doc.close ask
       end
+      focus_on_editor new_view if new_view
     end
     
 =begin rdoc
@@ -621,9 +690,10 @@ Giving focus to the editor implies:
     def focus_on_editor ed = nil, hints = DEFAULT_HINTS
       if ed
         ed = editor_for! ed, hints unless ed.is_a? EditorView
-        @view_manager.activate_editor ed
+        activate_editor ed
+        ed.set_focus
+      else active_editor.set_focus if active_editor
       end
-      active_editor.set_focus if active_editor
       active_editor
     end
         

@@ -39,6 +39,7 @@ actions:
  file_open_recent: {standard_action: open_recent, signal: urlSelected(KUrl), slot: open_recent_file(KUrl)}
  file-save_all: {text: Save &All, icon: document-save-all, slot: save_all()}
  file_close: {standard_action: close, slot: close_current_editor()}
+ file-close_tab: {text: Close Current &Tab, slot: close_current_tab()}
  file-close_all: {text: Clos&e All, slot: close_all_views()}
  file-close_other: {text: Close All O&ther, slot: close_other_views()}
  file_quit: {standard_action: quit, receiver: 'Ruber[:app]', slot: closeAllWindows()}
@@ -58,3 +59,10 @@ actions:
  options_configure: {standard_action: preferences, slot: preferences()}
  configure_document: {text: Configure &Document, icon: configure, slot: configure_document(), state: current_document}
  help_user_manual: {text: Ruber User &Manual, icon: help-contents, slot: show_user_manual()}
+ window-split_horizontally: {text: Split Horizontally, slot: split_horizontally(), shortcut: Ctrl+Shift+T, state: current_document}
+ window-split_vertically: {text: Split Vertically, slot: split_vertically(), shortcut: Ctrl+Shift+L, state: current_document}
+ window-switch_to_new_document: {text: Switch to New File, slot: switch_to_new_document(), state: current_document}
+ window-switch_to_file: {text: Switch to Open File, slot: switch_to_file(), shortcut: Ctrl+Shift+P, state: current_document}
+ window-switch_to_recent_file: {signal: urlSelected(KUrl), slot: switch_to_recent_file(KUrl), class: KDE::RecentFilesAction, text: Switch to Recent File, state: current_document}
+extensions:
+ ruber_default_document: {class: Ruber::Application::DefaultDocumentExtension, scope: document, place: all}

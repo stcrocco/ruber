@@ -511,14 +511,6 @@ describe Ruber::DocumentList do
           @keeper.document __FILE__
         end
         
-        it 'closes the already-existing document when called with a path and the only existing document is pristine' do
-          old = @keeper.new_document
-          Qt::Object.connect old, SIGNAL('closing(QObject*)'), @keeper, SLOT('close_document(QObject*)')
-          doc = @keeper.document __FILE__
-          @keeper[0].should == doc
-          @keeper.size.should == 1
-        end
-        
       end
       
     end

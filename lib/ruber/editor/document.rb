@@ -67,7 +67,7 @@ module Ruber
     slots :document_save_as, :save
     
     def inspect
-      if disposed? then "< #{self.class} #{object_id}DISPOSED >"
+      if disposed? then "< #{self.class} #{object_id} DISPOSED >"
       else super
       end
     end
@@ -292,8 +292,6 @@ Creats a view for the document. _parent_ is the view's parent widget. Raises
       inner_view = @doc.create_view nil
       view = EditorView.new self, inner_view, parent
       @views << view
-#       view.connect(SIGNAL('closing(QWidget*)')){|v| @views.delete v}
-#       view.connect(SIGNAL('destroyed(QObject*)')){|v| @views.delete v}
       gui = view.send(:internal)
       action = gui.action_collection.action('file_save_as')
       disconnect action, SIGNAL(:triggered), @doc, SLOT('documentSaveAs()')
@@ -301,6 +299,7 @@ Creats a view for the document. _parent_ is the view's parent widget. Raises
       action = gui.action_collection.action('file_save')
       disconnect action, SIGNAL(:triggered), @doc, SLOT('documentSave()')
       connect action, SIGNAL(:triggered), self, SLOT(:save)
+      view.connect(SIGNAL('closing(QWidget*)')){|v| @views.delete v}
       emit view_created(view, self)
       view
     end
@@ -381,8 +380,8 @@ TODO: maybe remove the argument, since this method is not called anymore at
         @views.dup.each{|v| v.close}
         return false unless close_url false
         @project.close false
-        self.disconnect
         delete_later
+        self.disconnect
         true
       else false
       end

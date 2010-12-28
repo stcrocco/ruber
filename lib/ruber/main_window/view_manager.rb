@@ -47,15 +47,48 @@ module Ruber
         connect @tabs, SIGNAL('currentChanged(int)'), self, SLOT('current_tab_changed(int)')
       end
       
+=begin rdoc
+Returns an editor associated with the given document, creating it if needed
+
+It works as {MainWindow#editor_for!}.
+
+_hints_ may contain the same values as in {MainWindow#editor_for!}. It may also
+contain another value, @:close_starting_document@
+@param [Document] doc the document to retrieve an editor for
+@param hints (see MainWindow#editor_for!)
+@option hints [Boolean] :close_starting_document (false) if given, specifies that
+  the default document created by ruber at startup exists and it's in the first
+  tab. If a new view is created in a new tab, this document is closed
+@return [EditorView] the view to use for the document
+=end
       def editor_for doc, hints
         editor = @solver.find_editor doc, hints
         if !editor and hints[:create_if_needed]
           editor = create_editor doc
           if hints[:show]
             view = @solver.place_editor hints
-            if view then view.parent.split view, editor, hints[:split]
-            else @tabs.add_tab Pane.new(editor), doc.icon, doc.document_name
+            if view 
+              dir = Qt.const_get hints[:split].to_s.capitalize
+              view.parent.split view, editor, dir
+            else 
+              if hints[:close_starting_document]
+                if @tabs.count == 1 and @tabs.widget(0).single_view?
+                  doc_to_close = @tabs.widget(0).view.document
+                end
+              end
+              add_tab editor, doc.icon, doc.document_name
+#               new_tab = Pane.new(editor)
+#               @tabs.add_tab new_tab, doc.icon, doc.document_name
+#               new_tab.connect(SIGNAL('closing_last_view(QWidget*)')) do
+#                 idx = @tabs.index_of new_tab
+#                 if idx
+#                   @focus_editors.delete_at idx
+#                   @tabs.remove_tab idx 
+#                 end
+#               end
+              doc_to_close.close if doc_to_close
             end
+            editor.parent.label = label_for_editor editor
           end
         end
         editor
@@ -68,28 +101,28 @@ module Ruber
         editor
       end
       
-      def activate_editor view
-        return if @active_editor == view
-        deactivate_editor @active_editor if @active_editor
-        @part_manager.active_part = view.document.send(:internal) rescue nil
-        if view
-          @active_editor = view
-          @activation_order.delete view
-          @activation_order.insert 0, view
-          parent.gui_factory.add_client view.send(:internal)
-          tab_idx = @tabs.index_of tab(view)
-          @focus_editors[tab_idx] = view
-          @tabs.current_index = tab_idx
-          emit active_editor_changed(view)
-          view.document.activate
+      def make_editor_active editor
+        return if editor and @active_editor == editor
+        deactivate_editor @active_editor
+        @active_editor = editor
+        if editor
+          parent.gui_factory.add_client editor.send(:internal)
+          @activation_order.delete editor
+          @activation_order.insert 0, editor
+          editor_tab = tab(editor)
+          tab_idx = @tabs.index_of editor_tab 
+          @focus_editors[tab_idx] = editor
+          update_tab editor_tab
+          editor.document.activate
         end
+        emit active_editor_changed @active_editor
         @active_editor
       end
       
       def deactivate_editor view
         return unless view and view == @active_editor
         @active_editor.document.deactivate
-        parent.gui_factory.remove_client view.send( :internal)
+        parent.gui_factory.remove_client view.send(:internal)
         @active_editor = nil
       end
       
@@ -99,27 +132,33 @@ module Ruber
           yield
         ensure
           @auto_activate_editors = true
-          if @tabs.current_index < 0 then activate_editor nil
-          else activate_editor @focus_editors[@tabs.current_index]
+          if @tabs.current_index < 0 then make_editor_active nil
+          else make_editor_active @focus_editors[@tabs.current_index]
           end
         end
       end
       
 =begin rdoc
-The toplevel pane corresponding to the given index or editor
+The toplevel pane corresponding to the given index or widget
 
 @overload tab idx
   @param [Integer] idx the index of the tab
   @return [Pane] the toplevel pane in the tab number _idx_
 @overload tab editor
   @param [EditorView] editor the editor to retrieve the pane for
-  @return [Pane] the toplevel pane containing the given editor
+  @return [Pane,nil] the toplevel pane containing the given editor or *nil* if the
+    view isn't contained in a pane
+@overload tab pane
+  @param [Pane] pane the pane to retrieve the toplevel pane for
+  @return [Pane, nil] the toplevel pane containing the given pane or *nil* if the
+    pane isn't contained in another pane
 =end
       def tab arg
         if arg.is_a? Integer then @tabs.widget arg
         else
-          pane = arg.parent
-          pane = pane.parent_pane while pane && pane.parent_pane
+          pane = arg.is_a?(Pane) ? arg : arg.parent
+          return unless pane
+          pane = pane.parent_pane while pane.parent_pane
           pane
         end
       end
@@ -150,31 +189,77 @@ Whether the given view is a focus editor
         end
       end
       
+      def label_for_editor ed
+        url = ed.document.url
+        if url.valid? then url.local_file? ? url.path : url.pretty_url
+        else ed.document.document_name
+        end
+      end
+      
       private
-            
+      
+      def add_tab view, icon, label
+        new_tab = Pane.new(view)
+        @tabs.add_tab new_tab, icon, label
+        connect new_tab, SIGNAL('closing_last_view(QWidget*)'), self, SLOT('remove_tab(QWidget*)')
+        connect new_tab, SIGNAL('pane_split(QWidget*, QWidget*, QWidget*)'), self, SLOT('update_tab(QWidget*)')
+        connect new_tab, SIGNAL('removing_view(QWidget*, QWidget*)'), self, SLOT('update_tab(QWidget*)')
+        connect new_tab, SIGNAL('view_replaced(QWidget*, QWidget*, QWidget*)'), self, SLOT('update_tab(QWidget*)')
+      end
+      
+      def remove_tab pane
+        idx = @tabs.index_of pane
+        if idx
+          @focus_editors.delete_at idx
+          @tabs.remove_tab idx 
+        end
+      end
+      slots 'remove_tab(QWidget*)'
+
       def focus_in_view view
-        active = active_editor
-        if view != active
-          activate_editor view if active and view.document == active.document
+#         active = active_editor
+        if view != @active_editor
+          make_editor_active view #if active_editor
         end
       end
       slots 'focus_in_view(QWidget*)'
       
       def view_closing view
         @activation_order.delete view
-        deactivate_editor view if @active_editor == view
-        idx = @focus_editors.each_index.find{|i| @focus_editors[i] == view}
-        @focus_editors[idx] = nil if idx
+        deactivate_editor view
+#         idx = @focus_editors.each_index.find{|i| @focus_editors[i] == view}
+#         @focus_editors[idx] = nil if idx
       end
       slots 'view_closing(QWidget*)'
       
       def current_tab_changed idx
         if idx > -1
           @focus_editors[idx] ||= @tabs.widget(idx).to_a[0]
-          activate_editor @auto_activate_editors ? @focus_editors[idx] : nil
+          ed = @focus_editors[idx]
+          if @auto_activate_editors then ed.set_focus
+          else make_editor_active nil
+          end
+        else
+          make_editor_active nil
         end
       end
       slots 'current_tab_changed(int)'
+      
+      def update_tab pane
+        idx = @tabs.index_of tab(pane)
+        return if idx < 0
+        doc = @focus_editors[idx].document
+        @tabs.set_tab_text idx, doc.document_name
+        @tabs.set_tab_icon idx, doc.icon
+        pane.each_pane{|pn| pn.label = label_for_editor(pn.view) if pn.single_view?}
+        update_tool_tip idx
+      end
+      slots 'update_tab(QWidget*)'
+      
+      def update_tool_tip idx, *ignore
+        docs = @tabs.widget(idx).reject{|v| ignore.include? v}.map{|v| v.document.document_name}.uniq
+        @tabs.set_tab_tool_tip idx, docs.join("\n")
+      end
       
     end
     
