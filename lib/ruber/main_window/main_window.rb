@@ -150,6 +150,15 @@ is the plugin description for this object.
       setup_initial_states
     end
     
+=begin rdoc
+The open tabs
+
+@return [Array<Pane>] a list of the top-level pane for each tab
+=end
+    def tabs
+      @tabs.to_a
+    end
+    
     ##
     # :method: add_tool
     # Adds a tool widget to the main window. See Workspace#add_tool_widget for more information.

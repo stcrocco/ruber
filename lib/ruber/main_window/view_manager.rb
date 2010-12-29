@@ -77,15 +77,6 @@ contain another value, @:close_starting_document@
                 end
               end
               add_tab editor, doc.icon, doc.document_name
-#               new_tab = Pane.new(editor)
-#               @tabs.add_tab new_tab, doc.icon, doc.document_name
-#               new_tab.connect(SIGNAL('closing_last_view(QWidget*)')) do
-#                 idx = @tabs.index_of new_tab
-#                 if idx
-#                   @focus_editors.delete_at idx
-#                   @tabs.remove_tab idx 
-#                 end
-#               end
               doc_to_close.close if doc_to_close
             end
             editor.parent.label = label_for_editor editor
