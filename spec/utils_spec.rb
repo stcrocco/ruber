@@ -227,7 +227,7 @@ describe Ruber::Activable do
     @obj.deactivate
     @obj.should_not be_active
   end
-  
+    
   it 'should emit the "deactivated" signal when the deactivated method is called, unless it was already inactive' do
     m1 = flexmock{|m| m.should_receive(:deactivated).once}
     m2 = flexmock{|m| m.should_receive(:deactivated).never}

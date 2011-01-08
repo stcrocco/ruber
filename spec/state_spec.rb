@@ -1,3 +1,4 @@
+require './spec/framework'
 require './spec/common'
 
 require 'tempfile'
@@ -5,32 +6,41 @@ require 'fileutils'
 
 require 'ruber/plugin_specification'
 require 'ruber/editor/document'
+require 'ruber/pane'
 
 require 'plugins/state/state'
 
 describe Ruber::State::Plugin do
   
   before do
-    #Needed because the Qt::Object connect method doesn't like @components not being a
-    #Qt::Object
-    class Ruber::State::Plugin
-      def connect *args
-      end
-    end
-    @components = flexmock('components'){|m| m.should_ignore_missing}
-    @config = flexmock('config'){|m| m.should_ignore_missing}
-    flexmock(Ruber).should_receive(:[]).with(:components).and_return(@components).by_default
-    flexmock(Ruber).should_receive(:[]).with(:app).and_return(KDE::Application.instance).by_default
-    flexmock(Ruber).should_receive(:[]).with(:config).and_return(@config).by_default
-    pdf = Ruber::PluginSpecification.full :name => :state
-    @plug = Ruber::State::Plugin.new pdf
+#     #Needed because the Qt::Object connect method doesn't like @components not being a
+#     #Qt::Object
+#     class Ruber::State::Plugin
+#       def connect *args
+#       end
+#     end
+#     @components = flexmock('components'){|m| m.should_ignore_missing}
+#     @config = flexmock('config'){|m| m.should_ignore_missing}
+#     flexmock(Ruber).should_receive(:[]).with(:components).and_return(@components).by_default
+#     flexmock(Ruber).should_receive(:[]).with(:app).and_return(KDE::Application.instance).by_default
+#     flexmock(Ruber).should_receive(:[]).with(:config).and_return(@config).by_default
+    Ruber[:documents].close_all(false)
+    Ruber[:components].load_plugin 'plugins/state/'
+    @plug = Ruber[:components][:state]
+#     data = YAML.load('plugins/state/plugin.yaml')
+#     psf = Ruber::PluginSpecification.full data
+#     @plug = Ruber::State::Plugin.new psf
   end
   
   after do
-    class Ruber::State::Plugin
-      remove_method :connect rescue nil
-    end
+    Ruber[:components].unload_plugin(:state)
   end
+#   
+#   after do
+#     class Ruber::State::Plugin
+#       remove_method :connect rescue nil
+#     end
+#   end
   
   it 'inherits Ruber::Plugin' do
     Ruber::State::Plugin.ancestors.should include(Ruber::Plugin)
@@ -52,58 +62,45 @@ describe Ruber::State::Plugin do
   
   describe '#delayed_initialize' do
     
-    before do
-      @documents = flexmock('documents')
-      @projects = flexmock('projects')
-      flexmock(KDE::Application.instance).should_receive(:starting?).and_return(true).by_default
-      flexmock(Ruber).should_receive(:[]).with(:docs).and_return(@documents).by_default
-      flexmock(Ruber).should_receive(:[]).with(:projects).and_return(@projects).by_default
-    end
+#     before do
+#       @documents = flexmock('documents')
+#       @projects = flexmock('projects')
+#       flexmock(KDE::Application.instance).should_receive(:starting?).and_return(true).by_default
+#     end
     
     it 'calls the restore_last_state method if there\'s no open project and the only open document is pristine' do
-      doc = flexmock('doc', :pristine? => true)
-      @documents.should_receive(:to_a).once.and_return [doc]
-      @documents.should_receive(:[]).with(0).once.and_return doc
-      @projects.should_receive(:to_a).once.and_return []
+      Ruber[:documents].new_document
       flexmock(@plug).should_receive(:restore_last_state).once
       @plug.send :delayed_initialize
     end
     
     it 'doesn\'t call the restore_last_state method if there are open projects' do
       prj = flexmock('project')
-      @projects.should_receive(:to_a).once.and_return [prj]
+      flexmock(Ruber[:projects]).should_receive(:to_a).once.and_return [prj]
       flexmock(@plug).should_receive(:restore_last_state).never
       @plug.send :delayed_initialize
     end
     
     it 'doesn\'t call the restore_last_state method if there is more than one open document' do
-      @documents.should_receive(:to_a).once.and_return 2.times.map{flexmock}
-      @projects.should_receive(:to_a).once.and_return []
+      2.times{Ruber[:documents].new_document}
       flexmock(@plug).should_receive(:restore_last_state).never
       @plug.send :delayed_initialize
     end
     
     it 'doesn\'t call the restore_last_state method if there aren\'t open documents' do
-      @documents.should_receive(:to_a).once.and_return []
-      @projects.should_receive(:to_a).once.and_return []
       flexmock(@plug).should_receive(:restore_last_state).never
       @plug.send :delayed_initialize
     end
     
     it 'doesn\'t call the restore_last_state method if the only open document isn\'t pristine' do
-      doc = flexmock('doc', :pristine? => false)
-      @documents.should_receive(:to_a).once.and_return [doc]
-      @documents.should_receive(:[]).with(0).once.and_return doc
-      @projects.should_receive(:to_a).once.and_return []
+      doc = Ruber[:documents].new_document
+      doc.text = 'xyz'
       flexmock(@plug).should_receive(:restore_last_state).never
       @plug.send :delayed_initialize
     end
     
     it 'does nothing if the application is already running' do
-      doc = flexmock('doc', :pristine? => true)
-      @documents.should_receive(:to_a).and_return [doc]
-      @documents.should_receive(:[]).with(0).and_return doc
-      @projects.should_receive(:to_a).and_return []
+      doc = Ruber[:documents].new_document
       flexmock(KDE::Application.instance).should_receive(:starting?).and_return false
       flexmock(@plug).should_receive(:restore_last_state).never
       @plug.send :delayed_initialize
@@ -113,39 +110,24 @@ describe Ruber::State::Plugin do
   
   describe '#gather_settings' do
     
-    before do
-      @projects = flexmock('projects') do |m| 
-        m.should_receive(:projects).and_return([]).by_default
-        m.should_receive(:current).and_return(nil).by_default
-      end
-      @documents = flexmock('documents') do |m| 
-        m.should_receive(:documents).and_return([]).by_default
-        m.should_receive(:current).and_return(nil).by_default
-      end
-      @mw = flexmock('main window'){|m| m.should_ignore_missing}
-      flexmock(Ruber).should_receive(:[]).with(:projects).and_return(@projects).by_default
-      flexmock(Ruber).should_receive(:[]).with(:docs).and_return(@documents).by_default
-      flexmock(Ruber).should_receive(:[]).with(:main_window).and_return(@mw).by_default
-    end
-    
     it 'stores a list with the project file of each open project under the :open_projects key' do
       prjs = 5.times.map{|i| flexmock(i.to_s){|m| m.should_receive(:project_file).and_return i.to_s}}
-      @projects.should_receive(:projects).once.and_return(prjs)
-      @projects.should_receive(:current).once.and_return(nil)
+      flexmock(Ruber[:projects]).should_receive(:projects).once.and_return(prjs)
+      flexmock(Ruber[:projects]).should_receive(:current).once.and_return(nil)
       @plug.send(:gather_settings).should have_entries(:open_projects => (0...5).map(&:to_s))
     end
     
     it 'puts the file corresponding to the open project at the beginning of the :open_projects entry' do
       prjs = 5.times.map{|i| flexmock(i.to_s, :project_file => i.to_s)}
-      @projects.should_receive(:projects).once.and_return(prjs)
-      @projects.should_receive(:current).once.and_return prjs[2]
+      flexmock(Ruber[:projects]).should_receive(:projects).once.and_return(prjs)
+      flexmock(Ruber[:projects]).should_receive(:current).once.and_return prjs[2]
       @plug.send(:gather_settings).should have_entries(:open_projects => %w[2 0 1 3 4])
     end
     
     it 'stores the project files in an arbitrary order if there\'s no active project' do
       prjs = 5.times.map{|i| flexmock(i.to_s){|m| m.should_receive(:project_file).and_return i.to_s}}
-      @projects.should_receive(:projects).once.and_return(prjs)
-      @projects.should_receive(:current).once.and_return nil
+      flexmock(Ruber[:projects]).should_receive(:projects).once.and_return(prjs)
+      flexmock(Ruber[:projects]).should_receive(:current).once.and_return nil
       @plug.send(:gather_settings).should have_entries(:open_projects => (0...5).map(&:to_s))
     end
     
@@ -155,7 +137,7 @@ describe Ruber::State::Plugin do
     
     it 'stores a list of the URLs of the files associated with all open documents under the :open_files key' do
       docs = 5.times.map{|i| flexmock(i.to_s, :has_file? => true, :view => flexmock){|m| m.should_receive(:url).and_return KDE::Url.new("file:///xyz/file #{i}")}}
-      @documents.should_receive(:documents).once.and_return(docs)
+      flexmock(Ruber[:documents]).should_receive(:documents).once.and_return(docs)
       exp = [
         'file:///xyz/file%200',
         'file:///xyz/file%201',
@@ -166,120 +148,180 @@ describe Ruber::State::Plugin do
       @plug.send(:gather_settings).should have_entries(:open_documents => exp)
     end
     
-    it 'ignores documents which aren\'t associated with a file' do
+    it 'stores nil in place of documents not associated with files' do
       docs = 5.times.map do |i| 
         flexmock(i.to_s, :view => flexmock) do |m|
           m.should_receive(:url).and_return(i % 2 == 0 ? KDE::Url.new("file:///xyz/file #{i}") : KDE::Url.new)
           m.should_receive(:has_file?).and_return(i % 2 == 0)
         end
       end
-      @documents.should_receive(:documents).once.and_return(docs)
+      flexmock(Ruber[:documents]).should_receive(:documents).once.and_return(docs)
       exp = [
         'file:///xyz/file%200',
+        nil,
         'file:///xyz/file%202',
+        nil,
         'file:///xyz/file%204',
         ]
       @plug.send(:gather_settings).should have_entries(:open_documents => exp)
     end
     
-    it 'stores an empty array under the :open_files key if there are no open documents or if no open document is associated with a file' do
-      docs = 5.times.map{flexmock(:url => KDE::Url.new, :has_file? => false)}
-      @documents.should_receive(:documents).once.and_return(docs).once
-      @documents.should_receive(:documents).once.and_return([]).once
-      @plug.send(:gather_settings).should have_entries(:open_documents => [])
+    it 'stores an empty array under the :open_files key if there are no open documents' do
       @plug.send(:gather_settings).should have_entries(:open_documents => [])
     end
     
-    it 'stores a list of the URLs associated with all the documents with an editor under the :visible_documents key' do
-      docs = 5.times.map do |i| 
-        flexmock(i.to_s) do |m| 
-          m.should_receive(:url).and_return KDE::Url.new("file:///xyz/file #{i}")
-          m.should_receive(:view).and_return(i % 2 == 0 ? flexmock("view #{i}") : nil)
-          m.should_receive(:has_file?).and_return(i % 2 == 0)
-        end
+    it 'stores a tree of the open editors for each tab under the tabs entry' do
+      docs = [nil, __FILE__, File.join(File.dirname(__FILE__), 'common.rb'), nil].map! do |f|
+        f ? Ruber[:documents].document(f) : Ruber[:documents].new_document
       end
-      @documents.should_receive(:documents).once.and_return(docs)
+      views = [
+        docs[1].create_view,
+        docs[0].create_view,
+        docs[3].create_view,
+        docs[2].create_view,
+        docs[1].create_view,
+        docs[0].create_view
+      ]
+      tab1 = Ruber::Pane.new views[0]
+      tab1.split views[0], views[1], Qt::Vertical
+      tab1.split views[0], views[2], Qt::Horizontal
+      tab2 = Ruber::Pane.new views[3]
+      tab2.split views[3], views[4], Qt::Horizontal
+      tab3 = Ruber::Pane.new views[5]
+      flexmock(Ruber[:main_window]).should_receive(:tabs).once.and_return [tab1, tab2, tab3]
       exp = [
-        'file:///xyz/file%200',
-        'file:///xyz/file%202',
-        'file:///xyz/file%204',
-        ]
-      @plug.send(:gather_settings).should have_entries(:visible_documents => exp)
+        [Qt::Vertical, [Qt::Horizontal, 'file://' + __FILE__, 1], 0],
+        [Qt::Horizontal, 'file://' + File.join(File.dirname(__FILE__), 'common.rb'), 'file://' + __FILE__],
+        [0]
+      ]
+      @plug.send(:gather_settings)[:tabs].should == exp
     end
     
-    it 'doesn\'t insert files not associated with a file under the visible_documents key' do
-      docs = 5.times.map do |i| 
-        flexmock(i.to_s) do |m| 
-          m.should_receive(:url).and_return( i % 2 == 0 ? KDE::Url.new("file:///xyz/file #{i}") : KDE::Url.new)
-          m.should_receive(:view).and_return(flexmock)
-          m.should_receive(:has_file?).and_return(i % 2 == 0)
-        end
-      end
-      @documents.should_receive(:documents).once.and_return(docs)
+    it 'uses arrays with a single element in the :tabs entry to represent tabs with a single view' do
+      docs = [__FILE__, nil].map{|f| f ? Ruber[:documents].document(f) : Ruber[:documents].new_document}
+      views = docs.reverse.map{|d| d.create_view}
+      tabs = views.map{|v| Ruber::Pane.new v}
+      flexmock(Ruber[:main_window]).should_receive(:tabs).once.and_return tabs
+      exp = [[0], ['file://' + __FILE__]]
+      @plug.send(:gather_settings)[:tabs].should == exp
+    end
+    
+    it 'stores an empty array under the tabs entry if there aren\'t open editors' do
+      docs = [
+        Ruber[:documents].new_document,
+        Ruber[:documents].document(__FILE__),
+      ]
+      @plug.send(:gather_settings)[:tabs].should == []
+    end
+    
+    it 'stores the active view as an array of integers referring to the tabs entry in the active_view entry' do
+      docs = [
+        Ruber[:documents].new_document,
+        Ruber[:documents].document(__FILE__),
+        Ruber[:documents].document(File.join(File.dirname(__FILE__), 'common.rb')),
+        Ruber[:documents].new_document,
+        ]
+      views = [
+        docs[1].create_view,
+        docs[0].create_view,
+        docs[3].create_view,
+        docs[2].create_view,
+        docs[1].create_view,
+        docs[0].create_view
+      ]
+      tab1 = Ruber::Pane.new views[0]
+      tab1.split views[0], views[1], Qt::Vertical
+      tab1.split views[0], views[2], Qt::Horizontal
+      tab2 = Ruber::Pane.new views[3]
+      tab2.split views[3], views[4], Qt::Horizontal
+      tab3 = Ruber::Pane.new views[5]
+      flexmock(Ruber[:main_window]).should_receive(:tabs).once.and_return [tab1, tab2, tab3]
       exp = [
-        'file:///xyz/file%200',
-        'file:///xyz/file%202',
-        'file:///xyz/file%204',
+        [Qt::Vertical, [Qt::Horizontal, 'file://' + __FILE__, 1], 0],
+        [Qt::Horizontal, 'file://' + File.join(File.dirname(__FILE__), 'common.rb'), 'file://' + __FILE__],
+        [0]
+      ]
+      flexmock(Ruber[:main_window]).should_receive(:active_editor).and_return(views[2])
+      flexmock(Ruber[:main_window]).should_receive(:tab).with(views[2]).and_return tab1
+      @plug.send(:gather_settings)[:active_view].should == [0,1]
+    end
+    
+    it 'sets the active_view entry to nil if there isn\'t an active editor' do
+      docs = [
+        Ruber[:documents].new_document,
+        Ruber[:documents].document(__FILE__),
         ]
-      @plug.send(:gather_settings).should have_entries(:visible_documents => exp)
+      @plug.send(:gather_settings)[:active_editor].should be_nil
     end
     
-    it 'stores an empty array under the :open_files key if there is no open document with a view associated with a file' do
-      docs = 5.times.map do |i| 
-        flexmock(:url => KDE::Url.new, :has_file? => (i % 2 == 0), :view => (i % 2 == 0 ? nil : flexmock))
-      end
-      @documents.should_receive(:documents).once.and_return(docs).once
-      @documents.should_receive(:documents).once.and_return([]).once
-      @plug.send(:gather_settings).should have_entries(:visible_documents => [])
-      @plug.send(:gather_settings).should have_entries(:visible_documents => [])
-    end
-    
-    it 'stores the path of the active document under the :active_document key' do
-      docs = 5.times.map do |i| 
-        flexmock(i.to_s, :has_file? => true, :view => flexmock) do |m|
-          m.should_receive(:url).and_return KDE::Url.new("file:///xyz/file #{i}")
+    it 'stores the cursor position for each view in each tab in the cursor_positions entry' do
+      docs = [
+        Ruber[:documents].new_document,
+        Ruber[:documents].document(__FILE__),
+        Ruber[:documents].document(File.join(File.dirname(__FILE__), 'common.rb')),
+        Ruber[:documents].new_document,
+        ]
+      views = [
+        docs[1].create_view,
+        docs[0].create_view,
+        docs[3].create_view,
+        docs[2].create_view,
+        docs[1].create_view,
+        docs[0].create_view
+      ]
+      tab1 = Ruber::Pane.new views[0]
+      tab1.split views[0], views[1], Qt::Vertical
+      tab1.split views[1], views[2], Qt::Horizontal
+      tab2 = Ruber::Pane.new views[3]
+      tab2.split views[3], views[4], Qt::Horizontal
+      tab3 = Ruber::Pane.new views[5]
+      cursor_positions = [
+        [[5, 1], [95,102], [1, 4]],
+        [[0,0], [45,93]],
+        [[12,42]]
+      ]
+      i = 0
+      cursor_positions.each do |t|
+        t.each do |pos|
+          flexmock(views[i]).should_receive(:cursor_position).and_return(KTextEditor::Cursor.new(*pos))
+          i += 1
         end
       end
-      @documents.should_receive(:documents).once.and_return(docs)
-      @mw.should_receive(:current_document).once.and_return(docs[1])
-      exp = "file:///xyz/file%201"
-      @plug.send(:gather_settings).should have_entries(:active_document => exp)
+      flexmock(Ruber[:main_window]).should_receive(:tabs).once.and_return [tab1, tab2, tab3]
+      @plug.send(:gather_settings)[:cursor_positions].should == cursor_positions
     end
-    
-    it 'stores nil under the :active_document key if there\'s no current document' do
-      @mw.should_receive(:current_document).once.and_return nil
-      @plug.send(:gather_settings).should have_entries(:active_document => nil)
-    end
-    
-    it 'stores nil under the :active_document key if the current document isn\'t associated with a file' do
-      doc = flexmock('doc', :path => '')
-      @mw.should_receive(:current_document).once.and_return doc
-      @plug.send(:gather_settings).should have_entries(:active_document => nil)
-    end
-    
+
   end
   
   describe '#save_settings' do
     
     it 'stores the value corresponding to the :open_projects key in the hash returned by gather_settings in the state/open_projects setting' do
       flexmock(@plug).should_receive(:gather_settings).once.and_return(:open_projects => %w[x y z])
-      @config.should_receive(:[]=).with(:state, :open_projects, %w[x y z]).once
-      @config.should_receive(:[]=)
+      flexmock(Ruber[:config]).should_receive(:[]=).with(:state, :open_projects, %w[x y z]).once
+      flexmock(Ruber[:config]).should_receive(:[]=)
       @plug.save_settings
     end
     
     it 'stores the value corresponding to the :open_documents key in the hash returned by gather_settings in the state/open_documents setting' do
       flexmock(@plug).should_receive(:gather_settings).once.and_return(:open_documents => %w[x y z])
-      @config.should_receive(:[]=).with(:state, :open_documents, %w[x y z]).once
-      @config.should_receive(:[]=)
+      flexmock(Ruber[:config]).should_receive(:[]=).with(:state, :open_documents, %w[x y z]).once
+      flexmock(Ruber[:config]).should_receive(:[]=)
       @plug.save_settings
     end
     
-    it 'stores the value corresponding to the :active_document key in the hash returned by gather_settings in the state/active_document setting' do
-      flexmock(@plug).should_receive(:gather_settings).once.and_return(:active_document => 'x')
-      @config.should_receive(:[]=).with(:state, :active_document, 'x').once
-      @config.should_receive(:[]=)
+    it 'stores the value corresponding to the :active_editor key in the hash returned by gather_settings in the state/active_editor setting' do
+      flexmock(@plug).should_receive(:gather_settings).once.and_return(:active_editor => [1, 2])
+      flexmock(Ruber[:config]).should_receive(:[]=).with(:state, :active_editor, [1,2]).once
+      flexmock(Ruber[:config]).should_receive(:[]=)
       @plug.save_settings
+    end
+    
+    it 'stores the value corresponding to the :tabs key of the has returned by gather_settings in the state/tabs setting' do
+      flexmock(@plug).should_receive(:gather_settings).once.and_return(:tabs => [Qt::Horizontal, 'file://'+__FILE__, 0])
+      flexmock(Ruber[:config]).should_receive(:[]=).with(:state, :tabs, [Qt::Horizontal, 'file://'+__FILE__, 0]).once
+      flexmock(Ruber[:config]).should_receive(:[]=)
+      @plug.save_settings
+
     end
     
   end
@@ -287,15 +329,15 @@ describe Ruber::State::Plugin do
   describe '#restore_cursor_position?' do
     
     it 'returns the value of the state/restore_cursor_position config entry if the @force_restore_cursor_position instance variable is nil' do
-      @config.should_receive(:[]).with(:state, :restore_cursor_position).once.and_return(true)
-      @config.should_receive(:[]).with(:state, :restore_cursor_position).once.and_return(false)
+      flexmock(Ruber[:config]).should_receive(:[]).with(:state, :restore_cursor_position).once.and_return(true)
+      flexmock(Ruber[:config]).should_receive(:[]).with(:state, :restore_cursor_position).once.and_return(false)
       @plug.instance_variable_set :@force_restore_cursor_position, nil
       @plug.restore_cursor_position?.should == true
       @plug.restore_cursor_position?.should == false
     end
     
     it 'returns the value of the @force_restore_cursor_position instance variable if it is not nil' do
-      @config.should_receive(:[]).with(:state, :restore_cursor_position).never
+      flexmock(Ruber[:config]).should_receive(:[]).with(:state, :restore_cursor_position).never
       @plug.instance_variable_set :@force_restore_cursor_position, true
       @plug.restore_cursor_position?.should == true
       @plug.instance_variable_set :@force_restore_cursor_position, false
@@ -307,15 +349,15 @@ describe Ruber::State::Plugin do
   describe '#restore_project_files?' do
     
     it 'returns the value of the state/restore_project_files config entry if the @force_restore_project_files instance variable is nil' do
-      @config.should_receive(:[]).with(:state, :restore_project_files).once.and_return(true)
-      @config.should_receive(:[]).with(:state, :restore_project_files).once.and_return(false)
+      flexmock(Ruber[:config]).should_receive(:[]).with(:state, :restore_project_files).once.and_return(true)
+      flexmock(Ruber[:config]).should_receive(:[]).with(:state, :restore_project_files).once.and_return(false)
       @plug.instance_variable_set :@force_restore_project_files, nil
       @plug.restore_project_files?.should == true
       @plug.restore_project_files?.should == false
     end
     
     it 'returns the value of the @force_restore_project_files instance variable if it is not nil' do
-      @config.should_receive(:[]).with(:state, :restore_project_files).never
+      flexmock(Ruber[:config]).should_receive(:[]).with(:state, :restore_project_files).never
       @plug.instance_variable_set :@force_restore_project_files, true
       @plug.restore_project_files?.should == true
       @plug.instance_variable_set :@force_restore_project_files, false
@@ -330,7 +372,8 @@ describe Ruber::State::Plugin do
       hash = {
         :open_projects => %w[a b c],
         :open_documents => %w[x y z],
-        :active_document => 'z'
+        :tabs => [Qt::Horizontal, 'file://'+__FILE__, 0],
+        :active_editor => [0,0]
         }
       flexmock(@plug).should_receive(:gather_settings).once.and_return hash
       res = @plug.session_data
@@ -346,13 +389,15 @@ describe Ruber::State::Plugin do
         'State' => {
           :open_projects => %w[a b c],
           :open_documents => %w[x y z],
-          :active_document => 'z'
+          :tabs => [Qt::Horizontal, 'file://'+__FILE__, 0],
+          :active_editor => [0,0]
         }
       }
       exp_hash = {
         [:state, :open_projects] => %w[a b c],
         [:state, :open_documents] => %w[x y z],
-        [:state, :active_document] => 'z'
+        [:state, :active_editor] => [0,0],
+        [:state, :tabs] => [Qt::Horizontal, 'file://'+__FILE__, 0],
         }
       default = {:open_projects => [], :open_documents => [], :active_document => nil}
       flexmock(@plug).should_receive(:with).with({:restore_cursor_position => true, :restore_project_files => true, :force => true}, FlexMock.on{|a| a.call || a.is_a?(Proc)}).once
@@ -574,60 +619,54 @@ describe Ruber::State::Plugin do
   
   describe '#restore_projects' do
     
-    before do
-      @projects = flexmock('projects'){|m| m.should_ignore_missing}
-      flexmock(Ruber).should_receive(:[]).with(:projects).and_return(@projects).by_default
-      @mw = flexmock{|m| m.should_ignore_missing}
-      flexmock(Ruber).should_receive(:[]).with(:main_window).and_return(@mw).by_default
-    end
-    
     it 'closes all projects' do
       prjs = 3.times.map{|i| flexmock(i.to_s)}
-      prjs.each{|pr| @projects.should_receive(:close_project).with(pr).once}
-      @projects.should_receive(:to_a).once.and_return(prjs)
+      prjs.each{|pr| flexmock(Ruber[:projects]).should_receive(:close_project).with(pr).once}
+      flexmock(Ruber[:projects]).should_receive(:to_a).once.and_return(prjs)
       @plug.restore_projects
     end
     
     it 'uses the safe_open_project method of the main window to open the first entry of the state/open_projects setting' do
-      @config.should_receive(:[]).with(:state, :open_projects).once.and_return %w[/x/y/z.ruprj /a/b/c.ruprj]
-      prj = flexmock('project')
-      @mw.should_receive(:safe_open_project).once.with('/x/y/z.ruprj').and_return prj
+      flexmock(Ruber[:config]).should_receive(:[]).with(:state, :open_projects).once.and_return %w[/x/y/z.ruprj /a/b/c.ruprj]
+      prj = flexmock('project', :project_file => '/x/y/z.ruprj')
+      flexmock(Ruber[:main_window]).should_receive(:safe_open_project).once.with('/x/y/z.ruprj').and_return prj
+      flexmock(Ruber[:projects]).should_receive(:current_project=)
       @plug.restore_projects
     end
     
     it 'activates the project returned by safe_open_project' do
-      @config.should_receive(:[]).with(:state, :open_projects).once.and_return %w[/x/y/z.ruprj /a/b/c.ruprj]
+      flexmock(Ruber[:config]).should_receive(:[]).with(:state, :open_projects).once.and_return %w[/x/y/z.ruprj /a/b/c.ruprj]
       prj = flexmock('project')
-      @mw.should_receive(:safe_open_project).once.with('/x/y/z.ruprj').and_return prj
-      @projects.should_receive(:current_project=).once.with(prj)
+      flexmock(Ruber[:main_window]).should_receive(:safe_open_project).once.with('/x/y/z.ruprj').and_return prj
+      flexmock(Ruber[:projects]).should_receive(:current_project=).once.with(prj)
       @plug.restore_projects
     end
     
     it 'doesn\'t attempt to activate the project if safe_open_project returned nil' do
-      @config.should_receive(:[]).with(:state, :open_projects).once.and_return %w[/x/y/z.ruprj /a/b/c.ruprj]
+      flexmock(Ruber[:config]).should_receive(:[]).with(:state, :open_projects).once.and_return %w[/x/y/z.ruprj /a/b/c.ruprj]
       prj = flexmock('project')
-      @mw.should_receive(:safe_open_project).once.with('/x/y/z.ruprj').and_return nil
-      @projects.should_receive(:current_project=).never
+      flexmock(Ruber[:main_window]).should_receive(:safe_open_project).once.with('/x/y/z.ruprj').and_return nil
+      flexmock(Ruber[:projects]).should_receive(:current_project=).never
       lambda{@plug.restore_projects}.should_not raise_error
     end
     
     it 'does nothing if the state/open_projects setting is empty' do
-      @config.should_receive(:[]).with(:state, :open_projects).once.and_return []
+      flexmock(Ruber[:config]).should_receive(:[]).with(:state, :open_projects).once.and_return []
       prj = flexmock('project')
-      @projects.should_receive(:project).never
-      @projects.should_receive(:current_project=).never
+      flexmock(Ruber[:projects]).should_receive(:project).never
+      flexmock(Ruber[:projects]).should_receive(:current_project=).never
       @plug.restore_projects
     end
     
     it 'reads the settings from the argument, if given, rather than from the config object' do
-      @config.should_receive(:[]).never
+      flexmock(Ruber[:config]).should_receive(:[]).never
       h = {[:state, :open_projects] => ['/x/y/z.ruprj']}
       def h.[] group, name
         super [group, name]
       end
       prj = flexmock('project')
-      @mw.should_receive(:safe_open_project).once.with('/x/y/z.ruprj').and_return prj
-      @projects.should_receive(:current_project=).once.with(prj)
+      flexmock(Ruber[:main_window]).should_receive(:safe_open_project).once.with('/x/y/z.ruprj').and_return prj
+      flexmock(Ruber[:projects]).should_receive(:current_project=).once.with(prj)
       @plug.restore_projects h
     end
     
@@ -635,119 +674,157 @@ describe Ruber::State::Plugin do
   
   describe '#restore_documents' do
     
-    before do
-      @mw = flexmock('main window'){|m| m.should_ignore_missing}
-      @docs = flexmock('documents'){|m| m.should_ignore_missing}
-      flexmock(Ruber).should_receive(:[]).with(:main_window).and_return(@mw).by_default
-      flexmock(Ruber).should_receive(:[]).with(:docs).and_return(@docs).by_default
-    end
-    
     it 'closes all open documents' do
-      @docs.should_receive(:close_all).once
+      flexmock(Ruber[:documents]).should_receive(:close_all).once
       @plug.restore_documents
     end
     
     it 'creates a new document for each entry in the state/open_documents' do
-      files = %w[/x/y/f1.rb /a/b/f2.rb /f3.rb].map{|f| "file://#{f}"}
-      @config.should_receive(:[]).with(:state, :open_documents).once.and_return files
-      @config.should_receive(:[]).with(:state, :active_document)
-      @config.should_receive(:[]).with(:state, :visible_documents).and_return []
-      files.each{|f| @docs.should_receive(:document).once.with(KDE::Url.new(f)).ordered}
-      @mw.should_receive(:without_activating) #.once.with(FlexMock.on{|a| a.call || a.is_a?(Proc)})
+      files = [__FILE__, File.join(File.dirname(__FILE__), 'common.rb'), File.join(File.dirname(__FILE__), 'framework.rb')].map{|f| "file://#{f}"}
+      Ruber[:config][:state, :open_documents] = files
+      @plug.restore_documents
+      Ruber[:documents].count.should == files.count
+      Ruber[:documents].each_with_index do |doc, i|
+        doc.url.url.should == files[i]
+      end
+    end
+    
+    it 'creates empty documents for numeric entries under the state/open_documents key' do
+      files = [0, 'file:///x/y/f1.rb', 'file:///a/b/f2.rb', 2]
+      Ruber[:config][:state, :open_documents] = files
+      flexmock(Ruber[:documents]).should_receive(:new_document).once.ordered
+      flexmock(Ruber[:documents]).should_receive(:document).once.with(KDE::Url.new(files[1])).ordered
+      flexmock(Ruber[:documents]).should_receive(:document).once.with(KDE::Url.new(files[2])).ordered
+      flexmock(Ruber[:documents]).should_receive(:new_document).once.ordered
+      flexmock(Ruber[:main_window]).should_receive(:without_activating)
       @plug.restore_documents
     end
     
-    it 'creates a new editor for each entry in the state/visible_documents from within a block passed to the main window\'s without_activating method' do
-      files = %w[/x/y/f1.rb /a/b/f2.rb /f3.rb].map{|f| "file://#{f}"}
-      @config.should_receive(:[]).with(:state, :open_documents).once.and_return files
-      @config.should_receive(:[]).with(:state, :visible_documents).once.and_return files
-      @config.should_receive(:[]).with(:state, :active_document)
-      docs = files.map{|f| flexmock("doc #{f}", :url => KDE::Url.new(f))}
-      files.each_with_index{|f, i| @docs.should_receive(:document).with(f).once.and_return docs[i]}
-      docs.each{|d| @mw.should_receive(:editor_for!).once.with(d).ordered}
-      @mw.should_receive(:without_activating).once.with(FlexMock.on{|a| a.call || a.is_a?(Proc)})
+    it 'creates a tab for each array in the :tabs entry if all of them contain a single element' do
+      docs = [nil, __FILE__, File.join(File.dirname(__FILE__), 'common.rb'), nil].map{|f| f ? 'file://' + f : nil}
+      views = [[docs[1]], [1], [0]]
+      Ruber[:config][:state, :open_documents] = docs
+      Ruber[:config][:state, :tabs] = views
       @plug.restore_documents
+      tabs = Ruber[:main_window].tabs
+      tabs.count.should == 3
+      tabs[0].view.document.path.should == __FILE__
+      tabs[1].view.document.should == Ruber[:documents][3]
+      tabs[2].view.document.should == Ruber[:documents][0]
     end
     
-    it 'doesn\'t attempt to open a document for an entry corresponding to a local file whih doesn\'t exist anymore' do
-      files = %w[/x/y/f1.rb /a/b/f2.rb /f3.rb].map{|f| "file://#{f}"}
-      @config.should_receive(:[]).with(:state, :open_documents).once.and_return files
-      @config.should_receive(:[]).with(:state, :active_document)
-      @config.should_receive(:[]).with(:state, :visible_documents).once.and_return []
-      docs = files.map{|f| flexmock("doc #{f}", :url => KDE::Url.new(f))}
-      @docs.should_receive(:document).once.with(files[0]).ordered.and_return(docs[0])
-      @docs.should_receive(:document).once.with(files[1]).ordered.and_raise ArgumentError
-      @docs.should_receive(:document).once.with(files[2]).ordered.and_return(docs[2])
-      lambda{@plug.restore_documents}.should_not raise_error
-    end
-    
-    it 'activates the document corresponding to the file specified in the state/active_document setting' do
-      files = %w[/x/y/f1.rb /a/b/f2.rb /f3.rb].map{|f| "file://#{f}"}
-      docs = 3.times.map{|i| flexmock("doc#{i}", :url => KDE::Url.new(files[i]), :has_file? => true)}
-      views = 3.times.map{|i| flexmock("view#{i}", :document => docs[i])}
-      docs.each_with_index{|d, i| d.should_receive(:view).and_return views[i]}
-      @config.should_receive(:[]).with(:state, :open_documents).once.and_return files
-      @config.should_receive(:[]).with(:state, :active_document).once.and_return files[1]
-      @config.should_receive(:[]).with(:state, :visible_documents).once.and_return files
-      3.times{|i| @docs.should_receive(:document).with(files[i]).once.and_return(docs[i])}
-      3.times{|i| @mw.should_receive(:editor_for!).once.with(docs[i]).and_return(views[i])}
-      @mw.should_receive(:display_document).once.with(docs[1])
-      @mw.should_receive(:without_activating).once.with(FlexMock.on{|a| a.call || a.is_a?(Proc)})
+    it 'creates nested tabs for each element of the :tabs entry which is a nested array' do
+      docs = [nil, __FILE__, File.join(File.dirname(__FILE__), 'common.rb'), nil].map{|f| f ? 'file://' + f : nil}
+      views =[
+        [Qt::Vertical, [Qt::Horizontal, 'file://' + __FILE__, 1], 0],
+        [Qt::Horizontal, 'file://' + File.join(File.dirname(__FILE__), 'common.rb'), 'file://' + __FILE__],
+        [0]
+      ]
+      Ruber[:config][:state, :open_documents] = docs
+      Ruber[:config][:state, :tabs] = views
       @plug.restore_documents
+      tabs = Ruber[:main_window].tabs
+      tabs.count.should == 3
+      tabs[0].orientation.should == Qt::Vertical
+      child_pane = tabs[0].splitter.widget(0)
+      child_pane.orientation.should == Qt::Horizontal
+      view_list = child_pane.to_a
+      view_list[0].document.path.should == __FILE__
+      view_list[1].document.should == Ruber[:documents][-1]
+      tabs[0].splitter.widget(1).view.document.should == Ruber[:documents][0]
+      tabs[1].orientation.should == Qt::Horizontal
+      view_list = tabs[1].to_a
+      view_list[0].document.path.should == File.join(File.dirname(__FILE__), 'common.rb')
+      view_list[1].document.path.should == __FILE__
+      tabs[2].should be_single_view
+      tabs[2].view.document.should == Ruber[:documents][0]
     end
     
-    it 'activates the last document if the state/active_document setting is nil' do
-      files = %w[/x/y/f1.rb /a/b/f2.rb /f3.rb].map{|f| "file://#{f}"}
-      docs = 3.times.map{|i| flexmock("doc#{i}", :url => KDE::Url.new(files[i]))}
-      views = 3.times.map{|i| flexmock("view#{i}", :document => docs[i])}
-      @config.should_receive(:[]).with(:state, :open_documents).once.and_return files
-      @config.should_receive(:[]).with(:state, :visible_documents).once.and_return files
-      3.times{|i| @mw.should_receive(:editor_for!).once.with(docs[i]).and_return(views[i])}
-      @config.should_receive(:[]).with(:state, :active_document).once.and_return nil
-      3.times{|i| @docs.should_receive(:document).with(files[i]).once.and_return(docs[i])}
-      @mw.should_receive(:display_document).once.with(docs[-1])
-      @mw.should_receive(:without_activating).once.with(FlexMock.on{|a| a.call || a.is_a?(Proc)})
+    it 'moves the cursor position of each view according to the contents of the :cursor_positions entry' do
+      docs = ['file://'+__FILE__, 'file://'+File.join(File.dirname(__FILE__), 'common.rb'), 'file://'+File.join(File.dirname(__FILE__), 'framework.rb')]
+      views =[
+        [Qt::Vertical, [Qt::Horizontal, docs[0], docs[1] ], docs[2]],
+        [docs[1]]
+      ]
+      positions = [
+        [[30, 16], [53,33], [1,2]],
+        [[2,6]]
+      ]
+      Ruber[:config][:state, :open_documents] = docs
+      Ruber[:config][:state, :tabs] = views
+      Ruber[:config][:state, :cursor_positions] = positions
       @plug.restore_documents
-    end
-    
-    it 'activates the last document if the state/active_document setting is a file not corresponding to an open document' do
-      files = %w[/x/y/f1.rb /a/b/f2.rb /f3.rb].map{|f| "file://#{f}"}
-      @config.should_receive(:[]).with(:state, :open_documents).once.and_return files
-      @config.should_receive(:[]).with(:state, :visible_documents).once.and_return files
-      @config.should_receive(:[]).with(:state, :active_document).once.and_return files[1]
-      docs = 3.times.map{|i| flexmock("doc#{i}", :url => KDE::Url.new(files[i]))}
-      views = 3.times.map{|i| flexmock("view#{i}", :document => docs[i])}
-      3.times do |i|
-        if i % 2 == 0
-          @docs.should_receive(:document).with(files[i]).once.and_return(docs[i])
-        else
-          @docs.should_receive(:document).with(files[i]).once.and_raise ArgumentError
+      tabs = Ruber[:main_window].tabs
+      tabs.each_with_index do |t, i|
+        t.to_a.each_with_index do |v, j|
+          c = v.cursor_position
+          c.line.should == positions[i][j][0]
+          c.column.should == positions[i][j][1]
         end
       end
-      [0, 2].each{|i| @mw.should_receive(:editor_for!).once.with(docs[i]).ordered.and_return(views[i])}
-      @mw.should_receive(:display_document).once.with(docs[-1])
-      @mw.should_receive(:without_activating).once.with(FlexMock.on{|a| a.call || a.is_a?(Proc)})
+    end
+    
+    it 'doesn\'t attempt to change the cursor positions if the cursor_positions entry is empty' do
+      docs = ['file://'+__FILE__, 'file://'+File.join(File.dirname(__FILE__), 'common.rb'), 'file://'+File.join(File.dirname(__FILE__), 'framework.rb')]
+      views =[
+        [Qt::Vertical, [Qt::Horizontal, docs[0], docs[1] ], docs[2]],
+        [docs[1]]
+      ]
+      Ruber[:config][:state, :open_documents] = docs
+      Ruber[:config][:state, :tabs] = views
+      @plug.restore_documents
+      tabs = Ruber[:main_window].tabs
+      tabs.each_with_index do |t, i|
+        t.to_a.each_with_index do |v, j|
+          c = v.cursor_position
+          c.line.should == 0
+          c.column.should == 0
+        end
+      end
+    end
+    
+    it 'gives focus to the editor corresponding to the value in the active_editor entry' do
+      docs = [nil, __FILE__, File.join(File.dirname(__FILE__), 'common.rb'), nil].map{|f| f ? 'file://' + f : nil}
+      views =[
+        [Qt::Vertical, [Qt::Horizontal, 'file://' + __FILE__, 1], 0],
+        [Qt::Horizontal, 'file://' + File.join(File.dirname(__FILE__), 'common.rb'), 'file://' + __FILE__],
+        [0]
+      ]
+      Ruber[:config][:state, :open_documents] = docs
+      Ruber[:config][:state, :tabs] = views
+      Ruber[:config][:state, :active_editor] = [1, 1]
+      flexmock(Ruber[:main_window]).should_receive(:focus_on_editor).once.with(FlexMock.on{|v, h| v == Ruber[:main_window].tabs[1].to_a[1]})
       @plug.restore_documents
     end
     
-    it 'does nothing if the state/open_files entry is empty' do
-      @config.should_receive(:[]).with(:state, :open_documents).once.and_return []
-      lambda{@plug.restore_documents}.should_not raise_error
+    it 'doesn\'t attempt to give focus to an editor if the active_editor entry is nil' do
+      docs = [nil, __FILE__, File.join(File.dirname(__FILE__), 'common.rb'), nil].map{|f| f ? 'file://' + f : nil}
+      views =[
+        [Qt::Vertical, [Qt::Horizontal, 'file://' + __FILE__, 1], 0],
+        [Qt::Horizontal, 'file://' + File.join(File.dirname(__FILE__), 'common.rb'), 'file://' + __FILE__],
+        [0]
+      ]
+      Ruber[:config][:state, :open_documents] = docs
+      Ruber[:config][:state, :tabs] = views
+      Ruber[:config][:state, :active_editor] = nil
+      flexmock(Ruber[:main_window]).should_receive(:focus_on_editor).never
+      @plug.restore_documents
     end
     
-    it 'reads the settings from the argument, if given, rather than from the config object' do
-      @config.should_receive(:[]).never
-      files = %w[/x/y/f1.rb /a/b/f2.rb /f3.rb].map{|f| "file://#{f}"}
-      docs = 3.times.map{|i| flexmock("doc#{i}", :url => KDE::Url.new(files[i]))}
-      views = 3.times.map{|i| flexmock("view#{i}", :document => docs[i])}
-      files.each_with_index{|f, i| @docs.should_receive(:document).with(f).once.and_return(docs[i])}
-      docs.each{|d| @mw.should_receive(:editor_for!).once.with(d).ordered}
-      @mw.should_receive(:without_activating).once.with(FlexMock.on{|a| a.call || a.is_a?(Proc)})
-      h = {[:state, :open_documents] => files, [:state, :active_document] => nil, [:state, :visible_documents] => files}
-      def h.[] group, name
-        super [group, name]
+    it 'uses the settings stored in the object passed as a argument instead of those in the global configuration object' do
+      docs = [nil, 'file://'+__FILE__]
+      conf = flexmock do |m|
+        m.should_receive(:[]).with(:state, :open_documents).once.and_return docs
+        m.should_receive(:[]).with(:state, :tabs).once.and_return []
+        m.should_receive(:[]).with(:state, :active_editor).once.and_return nil
+        m.should_receive(:[]).with(:state, :cursor_positions).once.and_return []
       end
-      @plug.restore_documents h
+      flexmock(Ruber[:config]).should_receive(:[]).never
+      @plug.restore_documents conf
+      documents = Ruber[:documents].to_a
+      documents.size.should == 2
+      documents[0].should be_pristine
+      documents[1].path.should == __FILE__
     end
     
   end
@@ -755,19 +832,19 @@ describe Ruber::State::Plugin do
   describe 'restore' do
     
     it 'calls the restore_projects method if the state/open_project setting is not empty' do
-      @config.should_receive(:[]).with(:state, :open_projects).and_return %w[/xyz/abc.ruprj]
-      flexmock(@plug).should_receive(:restore_projects).once.with(@config)
+      flexmock(Ruber[:config]).should_receive(:[]).with(:state, :open_projects).and_return %w[/xyz/abc.ruprj]
+      flexmock(@plug).should_receive(:restore_projects).once.with(Ruber[:config])
       @plug.restore
     end
     
     it 'calls the restore_documents method if the state/open_projects setting is empty' do
-      @config.should_receive(:[]).with(:state, :open_projects).and_return []
-      flexmock(@plug).should_receive(:restore_documents).once.with(@config)
+      flexmock(Ruber[:config]).should_receive(:[]).with(:state, :open_projects).and_return []
+      flexmock(@plug).should_receive(:restore_documents).once.with(Ruber[:config])
       @plug.restore
     end
     
     it 'uses the argument, rather than the config object, if one is given' do
-      @config.should_receive(:[]).never
+      flexmock(Ruber[:config]).should_receive(:[]).never
       h = {[:state, :open_projects] => %w[/xyz/abc.ruprj]}
       def h.[](group, name)
         super [group, name]
@@ -786,7 +863,7 @@ describe Ruber::State::Plugin do
     describe ', when the state/startup_behaviour option is :restore_all' do
       
       it 'calls the restore method' do
-        @config.should_receive(:[]).with(:state, :startup_behaviour).once.and_return :restore_all
+        flexmock(Ruber[:config]).should_receive(:[]).with(:state, :startup_behaviour).once.and_return :restore_all
         flexmock(@plug).should_receive(:restore).once
         @plug.restore_last_state
       end
@@ -796,7 +873,7 @@ describe Ruber::State::Plugin do
     describe ', when the state/startup_behaviour option is :restore_projects_only' do
       
       it 'calls restore_project from within a with block with :restore_project_files set to false' do
-        @config.should_receive(:[]).with(:state, :startup_behaviour).once.and_return :restore_projects_only
+        flexmock(Ruber[:config]).should_receive(:[]).with(:state, :startup_behaviour).once.and_return :restore_projects_only
         flexmock(@plug).should_receive(:restore_projects).once
         flexmock(@plug).should_receive(:with).once.with({:restore_project_files => false}, FlexMock.on{|a| a.call || a.is_a?(Proc)})
         @plug.restore_last_state
@@ -807,7 +884,7 @@ describe Ruber::State::Plugin do
     describe ', when the state/startup_behaviour option is :restore_documents_only' do
       
       it 'calls restore_documents' do
-        @config.should_receive(:[]).with(:state, :startup_behaviour).once.and_return :restore_documents_only
+        flexmock(Ruber[:config]).should_receive(:[]).with(:state, :startup_behaviour).once.and_return :restore_documents_only
         flexmock(@plug).should_receive(:restore_documents).once
         @plug.restore_last_state
       end
@@ -817,7 +894,7 @@ describe Ruber::State::Plugin do
     describe ', when the state/startup_behaviour option is :restore_nothing' do
       
       it 'does nothing' do
-        @config.should_receive(:[]).with(:state, :startup_behaviour).once.and_return :restore_nothing
+        flexmock(Ruber[:config]).should_receive(:[]).with(:state, :startup_behaviour).once.and_return :restore_nothing
         flexmock(@plug).should_receive(:with).never
         flexmock(@plug).should_receive(:restore_projects).never
         flexmock(@plug).should_receive(:restore_documents).never
@@ -833,6 +910,21 @@ end
 
 describe Ruber::State::DocumentExtension do
   
+  before do
+    Ruber[:components].load_plugin 'plugins/state/'
+    Ruber[:documents].close_all(false)
+    @plug = Ruber[:components][:state]
+    @doc = Ruber[:documents].document __FILE__
+    @prj = @doc.own_project
+    @ext = @doc.own_project.extension(:state)
+  end
+  
+  after do
+    Ruber[:documents].close_all(false)
+    Ruber[:components].unload_plugin :state
+  end
+  
+  
   it 'inherits from Qt::Object' do
     Ruber::State::DocumentExtension.ancestors.should include(Qt::Object)
   end
@@ -841,18 +933,10 @@ describe Ruber::State::DocumentExtension do
     Ruber::State::DocumentExtension.ancestors.should include(Ruber::Extension)
   end
   
-  before do
-    @components = flexmock{|m| m.should_ignore_missing}
-    flexmock(Ruber).should_receive(:[]).with(:components).and_return(@components).by_default
-    @doc = Ruber::Document.new nil, __FILE__
-    @ext = Ruber::State::DocumentExtension.new @doc.own_project
-    @doc.own_project.add_extension :state, @ext
-  end
-  
   describe ', when created' do
     
-    it 'connects the document\'s view_created(QObject*, QObject*) signal to its auto_restore slot' do
-      flexmock(@ext).should_receive(:auto_restore).once
+    it 'connects the document\'s view_created(QObject*, QObject*) signal to its auto_restore slot, passing the view to it' do
+      flexmock(@ext).should_receive(:auto_restore).once.with(Ruber::EditorView)
       @doc.create_view
     end
     
@@ -860,68 +944,158 @@ describe Ruber::State::DocumentExtension do
   
   describe '#restore' do
     
-    before do
-      #Needed to avoid the need of creating a mock State plugin
-      @doc.disconnect SIGNAL('view_created(QObject*, QObject*)'), @ext
+    context 'if no other view associated with the document received focus before' do
+      
+      it 'moves the cursor to the position specified in the state/cursor_position entry of the document project' do
+        exp = [10, 5]
+        views = 3.times.map{@doc.create_view}
+        @prj[:state, :cursor_position] = exp
+        @ext.restore views[1]
+        cur = views[1].cursor_position
+        cur.line.should == exp[0]
+        cur.column.should == exp[1]
+      end
+      
     end
     
-    it 'moves the cursor to the position stored in the document\'s project state/cursor_position setting' do
-      view = @doc.create_view
-      flexmock(@doc.own_project).should_receive(:[]).with(:state, :cursor_position).once.and_return([100, 20])
-      flexmock(@doc.view).should_receive(:go_to).with(100, 20).once
-      @ext.restore
+    context 'if another view associated with the document has received focus before' do
+      
+      it 'moves the cursor to the position of the cursor in the view which last received focus' do
+        exp = [10, 5]
+        views = 3.times.map{@doc.create_view}
+        views[0].instance_eval{emit focus_in(self)}
+        flexmock(@prj).should_receive(:[]).with(:state, :cursor_position).never
+        flexmock(views[0]).should_receive(:cursor_position).and_return(KTextEditor::Cursor.new(*exp))
+        @ext.restore views[1]
+        cur = views[1].cursor_position
+        cur.line.should == exp[0]
+        cur.column.should == exp[1]
+      end
+      
     end
-    
-    it 'does nothing if the document doesn\'t have a view' do
-      lambda{@ext.restore}.should_not raise_error
-    end
-    
+
   end
   
   describe '#save_settings' do
     
-    before do
-      #Needed to avoid the need of creating a mock State plugin
-      @doc.disconnect SIGNAL('view_created(QObject*, QObject*)'), @ext
+    it 'stores the cursor position in the view which last got focus under the state/cursor_position key' do
+      views = 3.times.map{@doc.create_view}
+      #simply calling set_focus to give focus to the view wouldn't work because
+      #set_focus relies on a running event loop
+      views[1].instance_eval{emit focus_in(self)}
+      views[0].instance_eval{emit focus_in(self)}
+      views[2].instance_eval{emit focus_in(self)}
+      flexmock(views[1]).should_receive(:cursor_position).and_return(KTextEditor::Cursor.new(120,25))
+      flexmock(views[0]).should_receive(:cursor_position).and_return(KTextEditor::Cursor.new(33,45))
+      flexmock(views[2]).should_receive(:cursor_position).and_return(KTextEditor::Cursor.new(50,15))
+      @ext.save_settings
+      @prj[:state, :cursor_position].should == [50,15]
     end
     
-    it 'stores an array containing the cursor position in the document\'s project state/cursor_position setting' do
-      view = @doc.create_view
-      flexmock(@doc.own_project).should_receive(:[]=).with(:state, :cursor_position, [100, 20]).once
-      cur = KTextEditor::Cursor.new(100, 20)
-      flexmock(@doc.view).should_receive(:cursor_position).once.and_return cur
-      @ext.save_settings
-    end
+#       it 'keeps using the view which last got focus' do
+#         views = 3.times.map{@doc.create_view}
+#         views[1].instance_eval{emit focus_in(self)}
+#         views[0].instance_eval{emit focus_in(self)}
+#         flexmock(@ext).should_receive(:save_settings)
+#         views[1].close
+#         flexmock(@prj).should_receive(:[]).with(:state, :cursor_position).never
+#         flexmock(views[0]).should_receive(:cursor_position).once.and_return(KTextEditor::Cursor.new(2,3))
+#         @doc.create_view
+#       end
 
-    it 'doesn\'t attempt to store the cursor position if the document has no view' do
-      flexmock(@doc.own_project).should_receive(:[]=).with(:state, :cursor_position, Array).never
+    
+    it 'does nothing if none of the views associated with the document have received focus' do
+      views = 3.times.map{@doc.create_view}
+      flexmock(views[1]).should_receive(:cursor_position).never
+      flexmock(views[0]).should_receive(:cursor_position).never
+      flexmock(views[2]).should_receive(:cursor_position).never
+      flexmock(@prj).should_receive(:[]=).with(:state, :cursor_position).never
       @ext.save_settings
     end
     
   end
   
   describe 'auto_restore' do
+
+    context 'if the state plugin wants the cursor position restored' do
     
-    before do
-      @plug = Object.new
-      @plug.instance_variable_set :@force_restore_cursor_position, nil
-      flexmock(Ruber).should_receive(:[]).with(:state).and_return(@plug).by_default
+      it 'calls the restore method if the State plugins wants the curesor position restored' do
+        view = @doc.create_view
+        flexmock(@plug).should_receive(:restore_cursor_position?).once.and_return true
+        flexmock(@ext).should_receive(:restore).once.with(view)
+        @ext.send :auto_restore, view
+      end
+    
     end
     
-    it 'calls the restore method if the State plugins wants the curesor position restored' do
-      flexmock(@plug).should_receive(:restore_cursor_position?).once.and_return true
-      flexmock(@ext).should_receive(:restore).once
-      @ext.send :auto_restore
-    end
+    context 'if the state plugin doesn\'t want the cursor position restored' do
     
-    it 'does noting if the State plugins doesn\'t want the curesor position restored' do
-      flexmock(@plug).should_receive(:restore_cursor_position?).once.and_return false
-      flexmock(@ext).should_receive(:restore).never
-      @ext.send :auto_restore
+      it 'does nothing' do
+        view = @doc.create_view
+        flexmock(@plug).should_receive(:restore_cursor_position?).once.and_return false
+        flexmock(@ext).should_receive(:restore).never
+        @ext.send :auto_restore, view
+      end
+      
     end
     
   end
+  
+  context 'when a view associated with the document is closed' do
     
+    context 'and the view is the one which last got focus' do
+    
+      it 'calls the save_settings method' do
+        views = 3.times.map{@doc.create_view}
+        views[1].instance_eval{emit focus_in(self)}
+        views[0].instance_eval{emit focus_in(self)}
+        flexmock(@ext).should_receive(:save_settings).once
+        views[0].close
+        #needed because otherwise the save_settings method is called again when
+        #the document is closed in the after block
+        flexmock(@ext).should_receive(:save_settings)
+      end
+      
+      it 'after behaves as if no other view had ever got focus' do
+        views = 3.times.map{@doc.create_view}
+        views[1].instance_eval{emit focus_in(self)}
+        views[0].instance_eval{emit focus_in(self)}
+        flexmock(@ext).should_receive(:save_settings)
+        views[0].close
+        flexmock(@prj).should_receive(:[]).with(:state, :cursor_position).once.and_return([10,2])
+        @doc.create_view
+      end
+      
+    end
+    
+    context 'and the view isn\'t the last one which got focus' do
+
+      it 'does nothing if the view is not the last which got focus' do
+        views = 3.times.map{@doc.create_view}
+        views[1].instance_eval{emit focus_in(self)}
+        views[0].instance_eval{emit focus_in(self)}
+        flexmock(@ext).should_receive(:save_settings).never
+        views[1].close
+        #needed because otherwise the save_settings method is called again when
+        #the document is closed in the after block
+        flexmock(@ext).should_receive(:save_settings)
+      end
+      
+      it 'keeps using the view which last got focus' do
+        views = 3.times.map{@doc.create_view}
+        views[1].instance_eval{emit focus_in(self)}
+        views[0].instance_eval{emit focus_in(self)}
+        flexmock(@ext).should_receive(:save_settings)
+        views[1].close
+        flexmock(@prj).should_receive(:[]).with(:state, :cursor_position).never
+        flexmock(views[0]).should_receive(:cursor_position).once.and_return(KTextEditor::Cursor.new(2,3))
+        @doc.create_view
+      end
+      
+    end
+    
+  end
+  
 end
 
 describe Ruber::State::ProjectExtension do
@@ -935,19 +1109,18 @@ describe Ruber::State::ProjectExtension do
   end
   
   before do
+    Ruber[:documents].close_all(false)
+    Ruber[:components].load_plugin 'plugins/state/'
+    @plug = Ruber[:components][:state]
     @dir = File.join Dir.tmpdir, random_string(10)
     FileUtils.mkdir @dir
-    @components = flexmock{|m| m.should_ignore_missing}
-    @projects = Qt::Object.new
-    flexmock(Ruber).should_receive(:[]).with(:components).and_return(@components).by_default
-    flexmock(Ruber).should_receive(:[]).with(:projects).and_return(@projects).by_default
-    @prj = Ruber::Project.new 'Test', File.join(@dir, 'test.ruprj')
-    @ext = Ruber::State::ProjectExtension.new @prj
-    @prj.add_extension :state, @ext
+    @prj = Ruber[:projects].new_project File.join(@dir, 'test.ruprj'), 'Test'
+    @ext = @prj.extension :state
   end
   
   after do
     FileUtils.rm_rf @dir
+    Ruber[:components].unload_plugin :state
   end
 
   describe ', when created' do
@@ -957,148 +1130,62 @@ describe Ruber::State::ProjectExtension do
       @prj.activate
     end
     
+    it 'connects the save_settings slot to the deactivated signal of the project' do
+      flexmock(@ext).should_receive(:save_settings).once
+      @prj.instance_eval{emit deactivated}
+    end
+    
   end
-  
+
   describe '#restore' do
     
-    before do
-      @mw = flexmock('main window'){|m| m.should_ignore_missing}
-      @config = flexmock('config')
-      @docs = flexmock('docs'){|m| m.should_ignore_missing}
-      flexmock(Ruber).should_receive(:[]).with(:main_window).and_return(@mw).by_default
-      flexmock(Ruber).should_receive(:[]).with(:config).and_return(@config).by_default
-      flexmock(Ruber).should_receive(:[]).with(:docs).and_return(@docs).by_default
-    end
-    
-    it 'calls the document list\'s close_all method' do
-      @docs.should_receive(:close_all).once
-      flexmock(@prj).should_receive(:[]).with(:state, :open_documents).once.and_return []
-      @ext.restore
-    end
-    
-    it 'it calls the main_window\'s editor_for! for each entry in the project\'s state/open_documents setting from within a without_activating call' do
-      files = %w[/a.rb /b.rb /c.rb]
-      flexmock(@prj).should_receive(:[]).with(:state, :open_documents).once.and_return files
-      flexmock(@prj).should_receive(:[]).with(:state, :active_document).once.and_return nil
-      files.each{|f| @mw.should_receive(:editor_for!).with(f).once}
-      @mw.should_receive(:without_activating).once.with(FlexMock.on{|a| a.call || a.is_a?(Proc)})
-      @ext.restore
-    end
-    
-    it 'activates the editor corresponding to the file in the project\'s state/active_document entry' do
-      files = %w[/a.rb /b.rb /c.rb]
-      flexmock(@prj).should_receive(:[]).with(:state, :open_documents).once.and_return files
-      flexmock(@prj).should_receive(:[]).with(:state, :active_document).once.and_return files[1]
-      @mw.should_receive(:without_activating).once.with(FlexMock.on{|a| a.call || a.is_a?(Proc)})
-      @mw.should_receive(:display_document).once.with files[1]
-      @ext.restore
-    end
-    
-    it 'activates the editor corresponding to the last entry file in the project\'s state/open_documents entry if the state/active_documents entry is nil' do
-      files = %w[/a.rb /b.rb /c.rb]
-      editors = 3.times.map{|i| flexmock(i.to_s)}
-      flexmock(@prj).should_receive(:[]).with(:state, :open_documents).once.and_return files
-      flexmock(@prj).should_receive(:[]).with(:state, :active_document).once.and_return nil
-      @mw.should_receive(:without_activating).once.with(FlexMock.on{|a| a.call || a.is_a?(Proc)})
-      @mw.should_receive(:display_document).once.with files[-1]
-      @ext.restore
-    end
-
-    it 'activates the editor corresponding to the last entry file in the project\'s state/open_documents entry if the state/active_documents doesn\'t correspond to one of the open files' do
-      files = %w[/a.rb /b.rb /c.rb]
-      flexmock(@prj).should_receive(:[]).with(:state, :open_documents).once.and_return files
-      flexmock(@prj).should_receive(:[]).with(:state, :active_document).once.and_return '/d.rb'
-      @mw.should_receive(:without_activating).once.with(FlexMock.on{|a| a.call || a.is_a?(Proc)})
-      @mw.should_receive(:display_document).once.with files[-1]
-      @ext.restore
-    end
-    
-    it 'doesn\'t open any editor if the project\'s state/open_documents entry is empty' do
-      files = []
-      flexmock(@prj).should_receive(:[]).with(:state, :open_documents).once.and_return files
-      flexmock(@prj).should_receive(:[]).with(:state, :active_document).and_return nil
-      @mw.should_receive(:editor_for!).never
-      @mw.should_receive(:editor_for).never
-      @mw.should_receive(:without_activating).never
-      @mw.should_receive(:activate_editor).never
+    it 'calls the restore_documents method of the state plugin passing the project as argument' do
+      flexmock(Ruber[:state]).should_receive(:restore_documents).once.with(@prj)
       @ext.restore
     end
     
   end
-  
+
   describe '#save_settings' do
     
-    before do
-      @mw = flexmock('main window'){|m| m.should_ignore_missing}
-      @docs = flexmock('docs'){|m| m.should_ignore_missing}
-      flexmock(Ruber).should_receive(:[]).with(:main_window).and_return(@mw).by_default
-      flexmock(Ruber).should_receive(:[]).with(:docs).and_return(@docs).by_default
-    end
-    
-    it 'stores the paths of the open documents associated with a file in the project\'s state/open_documents entry' do
-      docs = %w[a b c].map{|i| flexmock(i.to_s, :path => "/#{i}")}
-      @docs.should_receive(:documents_with_file).once.and_return docs
-      flexmock(@prj).should_receive(:[]=).once.with :state, :open_documents, %w[a b c].map{|i| "/#{i}"}
-      flexmock(@prj).should_receive(:[]=)
+    it 'stores the entries returned by the documents_state and tabs_state entries of the state plugin in the project' do
+      @prj.activate
+      docs_state = ['file://'+__FILE__, nil]
+      tabs_state = {
+        :tabs => [['file://'+__FILE__], [0]],
+        :cursor_positions => [],
+        :active_editor => [[1,0]]
+      }
+      state = Ruber[:state]
+      flexmock(state).should_receive(:documents_state).once.and_return(docs_state)
+      flexmock(state).should_receive(:tabs_state).once.and_return(tabs_state)
       @ext.save_settings
-    end
-    
-    it 'stores an empty array in the project\'s state/open_documents entry if there\'s no open file or if none of them is associated with a document' do
-      @docs.should_receive(:documents_with_file).once.and_return []
-      flexmock(@prj).should_receive(:[]=).once.with :state, :open_documents, []
-      flexmock(@prj).should_receive(:[]=)
-      @ext.save_settings
-    end
-    
-    it 'stores the path of the current document in the project\'s state/active_document entry' do
-      docs = %w[a b c].map{|i| flexmock(i.to_s, :path => "/#{i}")}
-      active = flexmock('doc', :path => '/b')
-      @docs.should_receive(:documents_with_file).once.and_return docs
-      @mw.should_receive(:current_document).once.and_return active
-      flexmock(@prj).should_receive(:[]=).once.with :state, :active_document, '/b'
-      flexmock(@prj).should_receive(:[]=)
-      @ext.save_settings
-    end
-    
-    it 'stores nil in the project\'s state/active_document entry if there\'s no active document or the active document isn\'t associated with a file' do
-      docs = %w[a b c].map{|i| flexmock(i.to_s, :path => "/#{i}")}
-      active = flexmock('doc', :path => '')
-      @docs.should_receive(:documents_with_file).twice.and_return docs
-      @mw.should_receive(:current_document).once.and_return active
-      @mw.should_receive(:current_document).once.and_return nil
-      flexmock(@prj).should_receive(:[]=).twice.with :state, :active_document, nil
-      flexmock(@prj).should_receive(:[]=)
-      @ext.save_settings
-      @ext.save_settings
+      @prj[:state, :open_documents].should == docs_state
+      @prj[:state, :tabs].should == tabs_state[:tabs]
+      @prj[:state, :active_editor].should == tabs_state[:active_editor]
+      @prj[:state, :cursor_positions].should == tabs_state[:cursor_positions]
     end
     
   end
   
   describe 'auto_restore' do
     
-    before do
-      @config = flexmock('config')
-      flexmock(Ruber).should_receive(:[]).with(:config).and_return(@config).by_default
-      @plug = Object.new
-      @plug.instance_variable_set :@force_restore_project_files, nil
-      flexmock(Ruber).should_receive(:[]).with(:state).and_return(@plug).by_default
-    end
     
     it 'disconnects the project\'s activated() signal from the extension' do
-      flexmock(@plug).should_receive(:restore_project_files?).once.and_return false
+      flexmock(Ruber[:state]).should_receive(:restore_project_files?).once.and_return false
       @ext.send :auto_restore
       flexmock(@ext).should_receive(:auto_restore).never
       flexmock(@prj).instance_eval{emit activated}
     end
 
     it 'calls the restore method if the State plugins wants the project files restored' do
-      flexmock(@plug).should_receive(:restore_project_files?).once.and_return true
+      flexmock(Ruber[:state]).should_receive(:restore_project_files?).once.and_return true
       flexmock(@ext).should_receive(:restore).once
       @ext.send :auto_restore
     end
     
     it 'does noting if the State plugins doesn\'t want the project_files restored' do
-      flexmock(@plug).should_receive(:restore_project_files?).once.and_return false
+      flexmock(Ruber[:state]).should_receive(:restore_project_files?).once.and_return false
       flexmock(@ext).should_receive(:restore).never
       @ext.send :auto_restore
     end
