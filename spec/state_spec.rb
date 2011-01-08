@@ -251,7 +251,7 @@ describe Ruber::State::Plugin do
         Ruber[:documents].new_document,
         Ruber[:documents].document(__FILE__),
         ]
-      @plug.send(:gather_settings)[:active_editor].should be_nil
+      @plug.send(:gather_settings)[:active_view].should be_nil
     end
     
     it 'stores the cursor position for each view in each tab in the cursor_positions entry' do
@@ -309,9 +309,9 @@ describe Ruber::State::Plugin do
       @plug.save_settings
     end
     
-    it 'stores the value corresponding to the :active_editor key in the hash returned by gather_settings in the state/active_editor setting' do
-      flexmock(@plug).should_receive(:gather_settings).once.and_return(:active_editor => [1, 2])
-      flexmock(Ruber[:config]).should_receive(:[]=).with(:state, :active_editor, [1,2]).once
+    it 'stores the value corresponding to the :active_view key in the hash returned by gather_settings in the state/active_editor setting' do
+      flexmock(@plug).should_receive(:gather_settings).once.and_return(:active_view => [1, 2])
+      flexmock(Ruber[:config]).should_receive(:[]=).with(:state, :active_view, [1,2]).once
       flexmock(Ruber[:config]).should_receive(:[]=)
       @plug.save_settings
     end
@@ -373,7 +373,7 @@ describe Ruber::State::Plugin do
         :open_projects => %w[a b c],
         :open_documents => %w[x y z],
         :tabs => [Qt::Horizontal, 'file://'+__FILE__, 0],
-        :active_editor => [0,0]
+        :active_view => [0,0]
         }
       flexmock(@plug).should_receive(:gather_settings).once.and_return hash
       res = @plug.session_data
@@ -390,13 +390,13 @@ describe Ruber::State::Plugin do
           :open_projects => %w[a b c],
           :open_documents => %w[x y z],
           :tabs => [Qt::Horizontal, 'file://'+__FILE__, 0],
-          :active_editor => [0,0]
+          :active_view => [0,0]
         }
       }
       exp_hash = {
         [:state, :open_projects] => %w[a b c],
         [:state, :open_documents] => %w[x y z],
-        [:state, :active_editor] => [0,0],
+        [:state, :active_view] => [0,0],
         [:state, :tabs] => [Qt::Horizontal, 'file://'+__FILE__, 0],
         }
       default = {:open_projects => [], :open_documents => [], :active_document => nil}
@@ -792,7 +792,7 @@ describe Ruber::State::Plugin do
       ]
       Ruber[:config][:state, :open_documents] = docs
       Ruber[:config][:state, :tabs] = views
-      Ruber[:config][:state, :active_editor] = [1, 1]
+      Ruber[:config][:state, :active_view] = [1, 1]
       flexmock(Ruber[:main_window]).should_receive(:focus_on_editor).once.with(FlexMock.on{|v, h| v == Ruber[:main_window].tabs[1].to_a[1]})
       @plug.restore_documents
     end
@@ -806,7 +806,7 @@ describe Ruber::State::Plugin do
       ]
       Ruber[:config][:state, :open_documents] = docs
       Ruber[:config][:state, :tabs] = views
-      Ruber[:config][:state, :active_editor] = nil
+      Ruber[:config][:state, :active_view] = nil
       flexmock(Ruber[:main_window]).should_receive(:focus_on_editor).never
       @plug.restore_documents
     end
@@ -816,7 +816,7 @@ describe Ruber::State::Plugin do
       conf = flexmock do |m|
         m.should_receive(:[]).with(:state, :open_documents).once.and_return docs
         m.should_receive(:[]).with(:state, :tabs).once.and_return []
-        m.should_receive(:[]).with(:state, :active_editor).once.and_return nil
+        m.should_receive(:[]).with(:state, :active_view).once.and_return nil
         m.should_receive(:[]).with(:state, :cursor_positions).once.and_return []
       end
       flexmock(Ruber[:config]).should_receive(:[]).never
@@ -1154,7 +1154,7 @@ describe Ruber::State::ProjectExtension do
       tabs_state = {
         :tabs => [['file://'+__FILE__], [0]],
         :cursor_positions => [],
-        :active_editor => [[1,0]]
+        :active_view => [[1,0]]
       }
       state = Ruber[:state]
       flexmock(state).should_receive(:documents_state).once.and_return(docs_state)
@@ -1162,7 +1162,7 @@ describe Ruber::State::ProjectExtension do
       @ext.save_settings
       @prj[:state, :open_documents].should == docs_state
       @prj[:state, :tabs].should == tabs_state[:tabs]
-      @prj[:state, :active_editor].should == tabs_state[:active_editor]
+      @prj[:state, :active_view].should == tabs_state[:active_view]
       @prj[:state, :cursor_positions].should == tabs_state[:cursor_positions]
     end
     

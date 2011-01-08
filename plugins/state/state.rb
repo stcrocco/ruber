@@ -231,7 +231,7 @@ for more information
             v.cursor_position = cursor
           end
         end
-        active_editor = config[:state, :active_editor]
+        active_editor = config[:state, :active_view]
         if active_editor
           mw.focus_on_editor mw.tabs[active_editor[0]].to_a[active_editor[1]]
         end
@@ -310,7 +310,7 @@ Since this method deals with session management, it ignores the user settings
 @return [nil]
 =end
       def restore_session data
-        hash = data['State'] || {:open_projects => [], :open_documents => [], :active_editor => nil, :tabs => []}
+        hash = data['State'] || {:open_projects => [], :open_documents => [], :active_view => nil, :tabs => []}
         hash = hash.map_hash{|k, v| [[:state, k], v]}
         def hash.[] k, v
           super [k, v]
@@ -329,8 +329,8 @@ Saves Ruber's state to the global config object
       def save_settings
         h = gather_settings
         cfg = Ruber[:config]
-        [:open_projects, :open_documents, :active_editor, :tabs].each do |i| 
-          cfg[:state, i] = h[i]
+        h.each_pair do |k, v| 
+          cfg[:state, k] = v
         end
         nil
       end
@@ -565,7 +565,7 @@ Saves the list of open project files to the project
       def save_settings
         @project[:state, :open_documents] = Ruber[:state].documents_state
         tabs_state = Ruber[:state].tabs_state
-        [:tabs, :cursor_positions, :active_editor].each do |e|
+        [:tabs, :cursor_positions, :active_view].each do |e|
           @project[:state, e] = tabs_state[e]
         end
         nil

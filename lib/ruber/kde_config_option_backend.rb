@@ -89,8 +89,12 @@ default value will be returned
       return opt.default.deep_copy unless grp.has_key(humanize(opt.name))
       if @yaml_options.include? [opt.group, opt.name] or !recognized_value?(opt.default)
         YAML.load grp.read_entry humanize(opt.name), ''
-#       else res = grp.read_entry humanize(opt.name), opt.default
-      else (grp.read_entry humanize(opt.name), Qt::Variant.from_value(opt.default)).value
+      else
+#Uncomment the following lines if the state/open_projects is read as a string
+#         begin grp.read_entry humanize(opt.name), opt.default
+#         rescue ArgumentError
+        (grp.read_entry humanize(opt.name), Qt::Variant.from_value(opt.default)).value
+#         end
       end
     end
 
@@ -114,8 +118,12 @@ and on file.
         elsif need_yaml? opt, value
           @config.group(humanize(opt.group)).write_entry(humanize(opt.name), YAML.dump(value))
           @yaml_options << [opt.group, opt.name]
-#         else @config.group(humanize(opt.group)).write_entry(humanize(opt.name), value)
-        else @config.group(humanize(opt.group)).write_entry(humanize(opt.name), Qt::Variant.from_value(value))
+        else
+#Uncomment the following lines if the state/open_projects is written as a string
+#           begin @config.group(humanize(opt.group)).write_entry(humanize(opt.name), value)
+#           rescue ArgumentError
+          @config.group(humanize(opt.group)).write_entry(humanize(opt.name), Qt::Variant.from_value(value))
+#           end
         end
       end
       @yaml_options.uniq!
