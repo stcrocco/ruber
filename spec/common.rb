@@ -2,6 +2,7 @@ require 'fileutils'
 require 'yaml'
 require 'flexmock/argument_types'
 require 'korundum4'
+# require 'ktexteditor'
 require 'kio'
 require 'ostruct'
 require 'facets/kernel/require_relative'
@@ -114,6 +115,13 @@ end
 
 data = KDE::AboutData.new "test", "", KDE::ki18n("test"), "0.0.0"
 KDE::CmdLineArgs.init [], data
-KDE::Application.new
+opts = KDE::CmdLineOptions.new
+opts.add("+[FILES]", KDE.ki18n("Open FILES. Files with extension .krprj will "\
+                               "be opened as projects. Only the more recent "\
+                              "project will be used"))
+KDE::CmdLineArgs.add_cmd_line_options opts
+if defined? init_ruber_core then init_ruber_core
+else KDE::Application.new
+end
 at_exit{Qt::Internal.application_terminated = true}
 GC.disable
