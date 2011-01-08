@@ -44,29 +44,33 @@ Slot connected to the 'New File' action
 
 It creates and activates a new, empty file
 
-@return [nil]
+@return [EditorView] the editor used to display the new file
 =end
     def new_file
       display_doc Ruber[:docs].new_document
-      nil
     end
     
 =begin rdoc
 Slot connected to the 'Open File' action.
 
-It opens in an editor and activates a document associated with a file chosen by the
-user with an OpenFile dialog (the document is created if needed). It also adds
-the file to the list of recently opened files.
+It asks the user for the file(s) or URL(s) to open, then creates a document and
+and editor for each of them. If a document for some of the files already exists,
+it will be used. If an editor for one of the files already exists, it will be
+used.
 
-@return [nil]
+After calling this method, the editor associated with the last file chosen by the
+user will become active
+
+@return [Array<EditorView>] a list of the editors used for the files
 =end
     def open_file
       dir = KDE::Url.from_path(Ruber.current_project.project_directory) rescue KDE::Url.new
       filenames = KDE::FileDialog.get_open_urls(dir, OPEN_DLG_FILTERS.join("\n") , self)
+      editors = []
       without_activating do
-        filenames.each{|f| gui_open_file f}
+        filenames.each{|f| editors << gui_open_file(f)}
       end
-      nil
+      editors
     end
     
 =begin rdoc
@@ -75,77 +79,116 @@ Slot connected to the 'Open Recent File' action
 It opens the file associated with the specified URL in an editor and gives it focus
 
 @param [KDE::Url] the url of the file to open
-@return [nil]
+@return [EditorView] the editor used to display the URL
 =end
     def open_recent_file url
       gui_open_file url.path
-      nil
     end
     
 =begin rdoc
 Slot connected to the 'Close Current' action
 
-It closes the current editor, if any. If the documents is modified,
-it allows the user to choose what to do via a dialog. If the user chooses to abort
-closing, nothing is done
+It closes the current editor, if any. If this is the last editor associated with
+its document and the document is modified, the user is asked to choose whether to
+save it, discard changes or not close the view.
 
-@return [nil]
+@return [Boolean] *true* if the editor was closed and *false* otherwise
 =end
     def close_current_editor
       close_editor active_editor if active_editor
-      nil
     end
+
+=begin rdoc
+Slot connected to the Close Current Tab action
+
+Closes all the editors in a given tab. If the tab contains the only view for a document,
+the document is closed, too. If some of these documents are modified, the user
+is asked what to do. If the user cancels the dialog, nothing is done.
+@param [Integer,nil] idx the index of the tab to close. If *nil*, the current tab
+  is closed
+@return [Boolean] *true* if the tab was closed successfully (or the tab widget was
+  empty) and *false* if the user canceled the save dialog
+=end
+    def close_tab idx = nil
+      tab = idx ? @tabs.widget(idx) : @tabs.current_widget
+      return true unless tab
+      docs = tab.map(&:document).select{|d| d.views.size == 1}.uniq
+      return false unless save_documents docs
+      views = tab.to_a
+      without_activating do
+        views.each{|v| close_editor v, false} 
+      end
+      true
+    end
+    slots :close_tab
+    slots 'close_tab(int)'
 
 =begin rdoc
 Slot connected to the 'Close All Other' action
     
-It closes all the editors except the current one. If some documents are modified,
-it allows the user to choose what to do via a dialog. If the user chooses to abort
-closing, nothing is done.
+It closes all the editors except the current one. All documents with an open editor,
+except for the one associated with the current editor, will be closed. If any document
+is modified, the user will be ask whether to save them, discard the changes or
+don't close the views. In the latter case, nothing will be done
 
-@return [nil]
+@return [Boolean] *true* if the editors where successfully closed and *false*
+  otherwise
 =end
     def close_other_views
-      to_close = @views.select{|w| w != @views.current_widget}.map{|w| w.document}
-      if save_documents to_close
-        without_activating do
-          to_close.dup.each{|d| d.close_view d.view, false}
-        end
+      to_close = @tabs.inject([]) do |res, pn|
+        res += pn.each_view.to_a
+        res
       end
-      nil
+      to_close.delete active_editor
+      if save_documents to_close.map{|v| v.document}.uniq
+        without_activating do
+          to_close.each{|v| close_editor v, false}
+        end
+        true
+      else false
+      end
     end
     
 =begin rdoc
 Slot connected with the 'Close All' action
 
-It closes all the editors. If some documents are modified,
-it allows the user to choose what to do via a dialog. If the user chooses to abort
-closing, nothing is done.
+It closes all the editors and documents associated with them. If any document
+is modified and _ask_ is *true*, the user will be ask whether to save them,
+discard the changes or don't close the views. In the latter case, nothing will be
+done. If _ask_ is *false*, the documents will be closed even if they're modified,
+without asking the user. 
 
-@return [nil]
+@param [Boolean] ask whether or not to ask the user how to proceed if any document
+  is modified. Please, set this to *false* only if you've already asked the user
+  whether he wants to save the documents or not
+@return [Boolean] *true* if the editors where successfully closed and *false*
+otherwise
 =end
     def close_all_views ask = true
-      return if ask and !save_documents @views.map{|v| v.document}
+      docs = Ruber[:documents].select{|d| d.has_view?}
+      return false if ask and !save_documents docs
       without_activating do
-        @views.to_a.each do |w| 
-          close_editor w, false
+        @tabs.to_a.each do |w| 
+          w.to_a.each{|v| close_editor v, false}
         end
       end
-      nil
+      true
     end
     
 =begin rdoc
 Slot connected to the 'Open Recent Projet' action
 
-It opens a project and activates a project
+It opens and activates the project associated with the file described by the
+given URL
 
 @param [KDE::Url] the url of the project file to open
-@return [nil]
+@return [Project,nil] the open project or *nil* if an error occurs
 =end
     def open_recent_project url
-      return unless safe_open_project url.path
+      prj = safe_open_project url.path
+      return unless prj
       action_collection.action('project-open_recent').add_url url, url.file_name
-      nil
+      prj
     end
 
 =begin rdoc
@@ -153,7 +196,8 @@ Slot connected to the 'Open Project' action
 
 It opens the project chosen by the user using an open dialog
 
-@return [nil]
+@return [Project,nil] the project chosen by the user or *nil* if either the user
+  cancels the dialog or an error occurs while loading the project
 =end
     def open_project
       filename = KDE::FileDialog.get_open_file_name KDE::Url.from_path( 
@@ -163,16 +207,21 @@ It opens the project chosen by the user using an open dialog
       prj = safe_open_project filename
       url = KDE::Url.new prj.project_file
       action_collection.action('project-open_recent').add_url url, url.file_name
-      nil
+      prj
     end
     
 =begin rdoc
 Slot connectedto the 'Close Current Project' action
+
+It closes the current project, if any, warning the user if, for any reason, the
+project couldn't be saved
+@return [nil]
 =end
     def close_current_project
       unless Ruber[:projects].current_project.close
         KDE::MessageBox.sorry self, "The project couldn't be saved"
       end
+      nil
     end
     
 =begin rdoc
@@ -180,15 +229,15 @@ Slot connected to the 'Quick Open File' action
 
 It opens the file chosen by the user in a quick open file dialog
 
-@retrun [nil]
+@return [EditorView,nil] the editor where the document has been displayed
 =end
     def open_file_in_project
       dlg = OpenFileInProjectDlg.new self
       if dlg.exec == Qt::Dialog::Accepted
-        display_doc dlg.chosen_file
+        editor = display_doc dlg.chosen_file
         action_collection.action( 'file_open_recent').add_url( KDE::Url.new(dlg.chosen_file) )
+        editor
       end
-      nil
     end
 
 =begin rdoc
@@ -269,30 +318,30 @@ it's closed
 =begin rdoc
 Slot connected with the 'Next Document' action
 
-Makes the editor to the right of the current one active. If there's no editor to
-the right, the first editor becomes active
+Activates the tab to the right of the current one. If the current tab is the last
+one, it returns to the first
 
-@return [nil]
+@return [EditorView,nil] the active editor
 =end
     def next_document
-      idx = @views.current_index
-      new_idx = idx + 1 < @views.count ? idx + 1 : 0
-      activate_editor new_idx
-      nil
+      idx = @tabs.current_index
+      new_idx = idx + 1 < @tabs.count ? idx + 1 : 0
+      @tabs.current_index = new_idx
+      active_editor
     end
 
 =begin rdoc
 Slot connected with the 'Previous Document' action
 
-Makes the editor to the left of the current one active. If there's no editor to
-the left, the last editor becomes active
+Activates the tab to the left of the current one. If the current tab is the first
+one, it jumps to the last
 
-@return [nil]
+@return [EditorView,nil] the active editor
 =end
     def previous_document
-      idx = @views.current_index
-      new_idx = idx > 0 ? idx - 1 : @views.count - 1
-      activate_editor new_idx
+      idx = @tabs.current_index
+      new_idx = idx > 0 ? idx - 1 : @tabs.count - 1
+      @tabs.current_index = new_idx
       nil
     end
     
@@ -328,11 +377,10 @@ determined from the triggered action
 =begin rdoc
 Creates an About entry for a component in the "about plugins list" of the Help menu
 
-*Notes:* 
-# this method doesn't check whether the action already exists for the given
+@note this method doesn't check whether the action already exists for the given
   plugin. Since it's usually called in response to the {ComponentManager#component_loaded component_loaded}
   signal of the component manager, there shouldn't be problems with this
-# this method does nothing for core components
+@note this method does nothing for core components
 
 @param [Plugin] comp the plugin object of the plugin to create the action for
 @return [nil]
@@ -355,11 +403,11 @@ Creates an About entry for a component in the "about plugins list" of the Help m
 =begin rdoc
 Removes the About entry for the given menu from the "about plugins list" of the Help menu
 
-*Notes:* 
-# this method doesn't check whether the action for the given
-plugin actually exists. Since it's usually called in response to the {ComponentManager#unloading_component unloading_component}
-signal of the component manager, there shouldn't be problems with this
-# this method does nothing for core components
+@note this method doesn't check whether the action for the given
+  plugin actually exists. Since it's usually called in response to the
+  {ComponentManager#unloading_component unloading_component} signal of the
+  component manager, there shouldn't be problems with this
+@note this method does nothing for core components
 
 @param [Plugin] comp the plugin object of the plugin to remove the action for
 @return [nil]
@@ -387,7 +435,7 @@ Displays the configuration dialog for the current document, if it exists
     end
     
 =begin rdoc
-Slot associated with the Toggle * Tool Widget
+Slot associated with the Toggle * Tool Widget action
 
 It identifies the tool widget to toggle basing on the name of the triggered action
 
@@ -400,6 +448,124 @@ It identifies the tool widget to toggle basing on the name of the triggered acti
       @workspace.toggle_tool w
       nil
     end
+    
+=begin rdoc
+Slot associated with the Split Horizontally action
+
+It splits the active view horizontally, so that a new copy of the view is created.
+@note@ this method can only be called when there's an active view.
+
+@return [EditorView] the newly created editor
+=end
+    def split_horizontally
+      ed = active_editor
+      display_document ed.document, nil, nil, :existing => :never, :new => ed, :split => :horizontal
+    end
+    slots :split_horizontally
+
+=begin rdoc
+Slot associated with the Split Vertically action
+
+It splits the active view vertically, so that a new copy of the view is created.
+@note@ this method can only be called when there's an active view.
+
+@return [EditorView] the newly created editor
+=end
+    def split_vertically
+      ed = active_editor
+      new_ed = display_document ed.document, nil, nil, :existing => :never, :new => ed, :split => :vertical
+    end
+    slots :split_vertically
+    
+=begin rdoc
+Slot associated with the Switch to New Document action
+
+It creates a new empty document, replaces the current editor with an editor
+associated to it and gives focus to it. 
+@note@ this method can only be called when there's an active view
+
+@return [EditorView] the newly created editor
+=end
+    def switch_to_new_document
+      old = active_editor
+      ed = replace_editor old, Ruber[:documents].new_document
+      focus_on_editor ed if ed
+    end
+    slots :switch_to_new_document
+    
+=begin rdoc
+Slot associated with the Switch to File action
+
+It allows the user to choose a file, then creates a document for that file, replaces
+the active editor with a new one associated with the document and gives focus to it.
+@note@ this method can only be called when there's an active view
+
+@return [EditorView] the newly created editor
+=end
+    def switch_to_file
+      dir = KDE::Url.from_path(Ruber.current_project.project_directory) rescue KDE::Url.new
+      filename = KDE::FileDialog.get_open_url(dir, OPEN_DLG_FILTERS.join("\n") , self)
+      return unless filename.valid?
+      Ruber::Application.process_events
+      ed = replace_editor active_editor, filename
+      focus_on_editor ed if ed
+    end
+    slots :switch_to_file
+    
+=begin rdoc
+Slot which updates the @window-switch_to_open_document_list@ action list
+
+This method is called whenever a document is created or deleted. It updates the
+action list so that it contains an action for each of the open documents
+=end
+    def update_switch_to_list
+      unplug_action_list 'window-switch_to_open_document_list'
+      @switch_to_actions.each{|a| a.delete_later}
+      @switch_to_actions = Ruber[:documents].map do |doc|
+        a = action_collection.add_action "switch_to_#{doc.document_name}", self, SLOT(:switch_to_document)
+        a.text = KDE.i18n("Switch to %s") % [doc.document_name]
+        a.object_name = doc.document_name
+        a
+      end
+      @switch_to_actions = @switch_to_actions.sort_by{|a| a.object_name}
+      plug_action_list 'window-switch_to_open_document_list', @switch_to_actions
+    end
+    slots :update_switch_to_list
+    
+=begin rdoc
+Slot associated with the actions in the Switch to Document submenu
+
+It creates a new editor for an already-existing document and replaces the active
+editor with it, giving focus to it. The document to use is determined from the
+@object_name@ of the action.
+@note this method can only be called when there's an active view
+@note this method uses @sender@ to find out the action which emitted the signal,
+  so it shouldn't be called directly
+@return [EditorView] the newly created editor
+=end
+    def switch_to_document
+      doc = Ruber[:documents].document_with_name sender.object_name
+      ed = replace_editor active_editor, doc
+      focus_on_editor ed if ed
+    end
+    slots :switch_to_document
+    
+=begin rdoc
+Slot associated with Switch to Recent File action
+
+It creates a new document for the given URL (if needed), creates a new editor
+for it, replaces the active editor with it and gives focus to it.
+
+@note@ this method can only be called when there's an active view
+@param [KDE::Url] url the URL associated with the editor
+@return [EditorView] the newly created editor
+
+=end
+    def switch_to_recent_file url
+      ed = replace_editor active_editor, url
+      focus_on_editor ed if ed
+    end
+    slots 'switch_to_recent_file(KUrl)'
     
   end
   

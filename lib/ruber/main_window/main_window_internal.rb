@@ -23,7 +23,7 @@ require 'facets/enumerable/sum'
 module Ruber
   
   class MainWindow < KParts::MainWindow
-    
+     
 =begin rdoc
 A list of strings to be used to create the filter for open file dialogs
 =end
@@ -38,101 +38,25 @@ A list of strings to be used to create the filter for open file dialogs
         'store_splitter_sizes(QString)', 'update_document_icon(QObject*)',
         'remove_plugin_ui_actions(QObject*)', 'close_project_files(QObject*)'
     
-    private    
-    
-=begin rdoc
-Checks whether an editor view for the given document exists and creates it if it
-doesn't. In both cases, An editor view for the document is returned. _doc_ is the
-Document for which the editor should be created.
-
-<b>Note:</b> this also creates a new tab with the new view, if it needs to create
-one
-=end
-    def create_editor_if_needed doc
-      if doc.view then doc.view
-      else
-        view = doc.create_view
-        @editors_mapper.set_mapping view, view
-        connect view, SIGNAL(:closing), @editors_mapper, SLOT(:map)
-        connect view.document, SIGNAL('modified_changed(bool, QObject*)'), self, SLOT('document_modified_changed(bool)')
-        connect view.document, SIGNAL('modified_on_disk(QObject*, bool, KTextEditor::ModificationInterface::ModifiedOnDiskReason)'), self, SLOT('update_document_icon(QObject*)')
-        connect view.document, SIGNAL('document_url_changed(QObject*)'), self, SLOT(:document_url_changed)
-        connect view.document, SIGNAL(:completed), self, SLOT(:document_url_changed)
-        @views.add_tab view, doc.icon, doc.document_name
-        view
-      end
-    end
-
-=begin rdoc
-Changes the icon in the tab corresponding to the Document _doc_ so that it reflects
-its current status
-=end
-    def update_document_icon doc
-      ed = editor_for doc
-      return unless ed
-      idx = @views.index_of ed
-      return unless idx
-      @views.set_tab_icon idx, doc.icon
-    end
-    
-=begin rdoc
-Opens a file, creating a document and an editor for it, activates and gives focus
-to the editor and adds the file to the list of recent files. _file_ is the absolute
-path of the file to open
-=end
-    def gui_open_file file
-      editor = editor_for! file
-      return unless editor
-      focus_on_editor editor
-      url = KDE::Url.new file
-      action_collection.action('file_open_recent').add_url url, url.file_name
-    end
-
-=begin rdoc
-If _ed_ is the active editor, it deactivates it and removes it from the gui. If
-_ed_ is not the active editor (or if it's *nil*), nothing is done.
-    
-<b>Note:</b> this doesn't change the status bar associated with the view.
-=end
-    def deactivate_editor ed
-      return unless ed and ed == @active_editor
-      @active_editor.document.deactivate
-      gui_factory.remove_client ed.send( :internal)
-    end
-    
-=begin rdoc
-Remove the editor _ed_ from the tab widget, deactivating it before (if needed).
-If automatical activation of editors is on, it also activates another editor,
-if any
-=end
-    def remove_view ed
-      status_bar.view = nil if ed == @active_editor
-      deactivate_editor ed
-      idx = @views.index_of ed
-      @views.remove_tab idx
-      #This assumes that only one editor can exist for each document
-      ed.document.disconnect SIGNAL('modified_changed(bool, QObject*)'), self
-      ed.document.disconnect SIGNAL('document_url_changed(QObject*)'), self
-      if @views.current_widget and @auto_activate_editors
-        activate_editor @views.current_widget
-        @views.current_widget.set_focus
-      end
-    end
-    
     protected
     
 =begin rdoc
-Override of <tt>KParts::MainWindow#queryClose</tt> which calls the <tt>query_close</tt>
-method of the component manager. This means that the latter method will be called
-everytime the application is closed.
+Override of @KParts::MainWindow#queryClose@ 
+    
+It calls which calls the {ComponentManager#query_close query_close} method of the
+component manager.
+@return [Boolean] what the {ComponentManager#query_close query_close} method of
+  the component manager returns
 =end
     def queryClose
       Ruber[:components].query_close
     end
     
 =begin rdoc
-Override of <tt>KParts::MainWindow#queryExit</tt> which calls the +shutdown+ method
-of the component
+Override of @KParts::MainWindow#queryExit@
+
+It calls the {Application#quit_ruber quit_ruber} method of the application
+@return [TrueClass] *true*
 =end
     def queryExit
       Ruber[:app].quit_ruber
@@ -140,40 +64,140 @@ of the component
     end
     
 =begin rdoc
-Saves the properties for session management.
-TODO: currently, session management doesn't work at all. So, either remove the
-method or make it work
+Saves the properties for session management
+
+@return [nil]
 =end
     def saveProperties conf
       data = YAML.dump @session_data 
       conf.write_entry 'Ruber', data
+      nil
     end
 
 =begin rdoc
 Reads the properties from the config object for session management
+
+@return [nil]
 =end
     def readProperties conf
       @last_session_data = YAML.load conf.read_entry('Ruber', '{}')
+      nil
     end
-   
+
+    
+    private
+    
 =begin rdoc
-Creates a suitable title for the main window.
+Slot called whenever a new document is created
+
+It adds the document to the part manager and makes several signal-slot connections
+@param [Document] doc the created document
+@return [nil]
 =end
-    def make_title 
+    def document_created doc
+      @view_manager.part_manager.add_part doc.send(:internal)
+      connect doc, SIGNAL('modified_changed(bool, QObject*)'), self, SLOT('document_modified_changed(bool)')
+      connect doc, SIGNAL('modified_on_disk(QObject*, bool, KTextEditor::ModificationInterface::ModifiedOnDiskReason)'), self, SLOT('update_document_icon(QObject*)')
+      connect doc, SIGNAL('document_url_changed(QObject*)'), self, SLOT(:document_url_changed)
+      connect doc, SIGNAL(:completed), self, SLOT(:document_url_changed)
+      connect doc, SIGNAL('closing(QObject*)'), self, SLOT('remove_document_from_part_manager(QObject*)')
+      update_switch_to_list
+    end
+    slots 'document_created(QObject*)'
+    
+    def remove_document_from_part_manager doc
+      @view_manager.part_manager.remove_part doc.send(:internal)
+    end
+    slots 'remove_document_from_part_manager(QObject*)'
+    
+=begin rdoc
+Slot called whenever the active editor changes
+
+It emits the {#current_document_changed} and {#active_editor_changed} signals
+and updates the title and the statusbar
+@param [EditorView,nil] the new active editor, or *nil* if there's no active
+  editor
+@return [nil]
+=end
+    def slot_active_editor_changed view
+      status_bar.view = view
+      emit current_document_changed view ?  view.document : nil
+      emit active_editor_changed view
+      change_title
+      set_state 'current_document', !view.nil?
+      nil
+    end
+    slots 'slot_active_editor_changed(QWidget*)'
+
+=begin rdoc
+Changes the icon in the tab corresponding to a document so that it reflects its
+current status
+
+@param [Document] doc the document to update the icon for
+@return [nil]
+=end
+    def update_document_icon doc
+      views = doc.views
+      views.each do |v|
+        tab = @view_manager.tab v
+        next unless tab
+        if v.is_ancestor_of tab.focus_widget
+          idx = @tabs.index_of tab
+          @tabs.set_tab_icon idx, doc.icon
+        end
+      end
+      nil
+    end
+    
+=begin rdoc
+Opens a file in an editor, gives focus to it and adds it to the list of recent
+files
+
+If needed, a document is created for the file.
+
+If the file can't be opened, nothing is done.
+
+See {#editor_for!} for the values which can be included in _hints_
+@param [String, KDE::Url] the absolute path of the file to open.
+@param hints (see #editor_for!)
+@return [EditorView,nil] the editor displaying the file or *nil* if the file
+  couldn't be opened
+=end
+    def gui_open_file file, hints = DEFAULT_HINTS
+      editor = editor_for! file, hints
+      return unless editor
+      focus_on_editor editor
+      url = KDE::Url.new file
+      action_collection.action('file_open_recent').add_url url, url.file_name
+      action_collection.action('window-switch_to_recent_file').add_url url, url.file_name
+      editor
+    end
+
+=begin rdoc
+Changes the title
+
+The title is created basing on the open project, the current document and its
+modified status
+
+@return [nil]
+=end
+    def change_title 
       title = ''
       prj = Ruber[:projects].current_project
       if prj
         title << (prj.project_name ? prj.project_name :
                   File.basename(prj.project_file, '.ruprj'))
       end
-      if @active_editor and @active_editor.document.path.empty? 
-        title << ' - ' << @active_editor.document.document_name
-      elsif @active_editor
-        title << ' - ' << @active_editor.document.path
+      doc = current_document
+      if doc and doc.path.empty? 
+        title << ' - ' << doc.document_name
+      elsif doc
+        title << ' - ' << doc.path
       end
       title.sub!(/\A\s+-/, '')
-      mod = current_document.modified? rescue false
+      mod = doc.modified? rescue false
       set_caption title, mod
+      nil
     end
     
 =begin rdoc
@@ -184,12 +208,12 @@ the window title accordingly.
 
 Nothing is done if the document isn't associated with a view
 @return [nil]
+@note this method uses @Qt::Object#sender@ to determine the document which emitted
+  the signal, so it can only be called as a slot
 =end
     def document_modified_changed mod
       doc = self.sender
-      return unless doc.view
-      make_title
-#This assumes that only one editor exists for each document
+      change_title
       update_document_icon doc
       nil
     end
@@ -206,10 +230,16 @@ Nothing is done if the document isn't associated with a view
 =end
     def document_url_changed
       doc = self.sender
-      return unless doc.view
-      make_title
-      idx = @views.index_of doc.view
-      @views.set_tab_text idx, doc.document_name
+      return unless doc.has_view?
+      change_title
+      doc.views.each do |v|
+        v.parent.label = @view_manager.label_for_editor v
+        tab = @view_manager.tab v
+        if @view_manager.focus_editor? v, tab
+          idx = @tabs.index_of tab
+          @tabs.set_tab_text idx, doc.document_name
+        end
+      end
       update_document_icon doc
       unless doc.path.empty?
         action_collection.action('file_open_recent').add_url KDE::Url.new(doc.path) 
@@ -218,32 +248,45 @@ Nothing is done if the document isn't associated with a view
     end
     
 =begin rdoc
-Removes the action handlers for all the actions belonging to the plugin _plug_
+Removes the gui action handlers for all the actions belonging to the given plugin
 from the list of handlers
+
+@param [Plugin] plug the plugin whose action handlers should be removed
+@return [nil]
 =end
     def remove_plugin_ui_actions plug
       @actions_state_handlers.delete_if do |state, hs|
         hs.delete_if{|h| h.plugin == plug}
         hs.empty?
       end
+      nil
     end
    
 =begin
-Sets the UI states defined by the main window to their initial values.
+Gives the UI states their initial values
+@return [nil]
 =end
     def setup_initial_states
       change_state 'active_project_exists', false
       change_state 'current_document', false
+      nil
     end
     
+=begin rdoc
+Closes the documents associated with the given project
+
+If any document is modified, the user has the possiblity of choosing whether to
+save them, discard the changes or not to close the documents
+@param [Project] prj the project whose documents should be closed
+@return [Boolean] *true* if the documents were correctly closed and *false* otherwise
+=end
     def close_project_files prj
-      to_close = @views.select do |v|
-        prj.project_files.file_in_project? v.document.path
+      to_close = Ruber[:documents].documents_with_file.select do |d| 
+        prj.project_files.file_in_project? d.url.url
       end
-      save_documents to_close.map &:document
-      to_close.each{|v| v.document.close}
+      save_documents to_close
+      without_activating{to_close.each{|d| d.close}}
     end
-    
     
   end
   

@@ -209,27 +209,64 @@ for more information
 =end
       def restore_documents config = Ruber[:config]
         Ruber[:docs].close_all
-        files = config[:state, :open_documents]
-        return if files.empty?
-        active_file = config[:state, :active_document]
-        active_file = files[-1] unless files.include? active_file
-        mw = Ruber[:main_window]
-        docs = files.map do |f|
-          [f, Ruber[:docs].document(f)] rescue nil
-        end
-        docs = docs.compact.to_h
-        visible_files = config[:state, :visible_documents]
-        visible_files &= docs.keys
-        editors = []
-        mw.without_activating do
-          visible_files.each do |f| 
-            editors << mw.editor_for!(docs[f])
+        docs = config[:state, :open_documents]
+        unnamed_docs = []
+        docs = docs.map do |i| 
+          if i.is_a?(String) then Ruber[:documents].document(i)
+          else 
+            doc = Ruber[:documents].new_document
+            unnamed_docs << doc
+            doc
           end
-          active_url = KDE::Url.new active_file
-          active_doc = docs[active_file] || editors[-1].document
-          mw.display_document active_doc
         end
-        nil
+        return if docs.empty?
+        tabs = config[:state, :tabs]
+        mw = Ruber[:main_window]
+        positions = config[:state, :cursor_positions]
+        tabs.each_with_index do |t, i| 
+          pn = restore_pane t, unnamed_docs
+          views = pn.to_a
+          views.each_with_index do |v, j|
+            cursor = KTextEditor::Cursor.new(*(positions[i][j] rescue [0,0]))
+            v.cursor_position = cursor
+          end
+        end
+        active_editor = config[:state, :active_editor]
+        if active_editor
+          mw.focus_on_editor mw.tabs[active_editor[0]].to_a[active_editor[1]]
+        end
+      end
+      
+      def restore_pane data, docs
+        mw = Ruber[:main_window]
+        find_first_view = lambda do |array|
+          if array.size == 1 then array[0]
+          elsif array[1].is_a? Array then find_first_view.call array[1]
+          else array[1]
+          end
+        end
+        recreate_pane = lambda do |pn, array|
+          orientation = array[0]
+          last_view = pn.view
+          array.each_with_index do |e, i|
+            #the first element of the array is the orientation; the second is
+            #the first view, which is already contained in the pane
+            next if i < 2 
+            view = e.is_a?(Array) ? find_first_view.call(e) : e
+            view = mw.editor_for! view.is_a?(String) ? view: docs[view], 
+                        :existing => :never, :show => false
+            pn.split last_view, view, orientation
+            last_view = view
+            recreate_pane.call view.parent, e if e.is_a? Array
+          end
+          recreate_pane.call pn.splitter.widget(0), array[1] if array[1].is_a?(Array)
+        end
+        view = find_first_view.call data
+        view = mw.editor_for! view.is_a?(String) ? view : docs[view], 
+                      :existing => :never, :new => :new_tab
+        pane = view.parent
+        recreate_pane.call pane, data
+        pane
       end
       
 =begin rdoc
@@ -273,7 +310,7 @@ Since this method deals with session management, it ignores the user settings
 @return [nil]
 =end
       def restore_session data
-        hash = data['State'] || {:open_projects => [], :open_documents => [], :active_document => nil}
+        hash = data['State'] || {:open_projects => [], :open_documents => [], :active_editor => nil, :tabs => []}
         hash = hash.map_hash{|k, v| [[:state, k], v]}
         def hash.[] k, v
           super [k, v]
@@ -292,7 +329,7 @@ Saves Ruber's state to the global config object
       def save_settings
         h = gather_settings
         cfg = Ruber[:config]
-        [:open_projects, :open_documents, :active_document].each do |i| 
+        [:open_projects, :open_documents, :active_editor, :tabs].each do |i| 
           cfg[:state, i] = h[i]
         end
         nil
@@ -305,6 +342,50 @@ Override of {PluginLike#session_data}
 =end
       def session_data
         {'State' => gather_settings}
+      end
+      
+      def projects_state
+        projects = Ruber[:projects].projects.map{|pr| pr.project_file}
+        unless projects.empty?
+          active_prj = Ruber[:projects].current
+          projects.unshift projects.delete(active_prj.project_file) if active_prj
+        end
+        projects
+      end
+      
+      def documents_state
+        docs = Ruber[:documents].documents
+        docs.map{ |doc| doc.has_file? ? doc.url.to_encoded.to_s : nil}
+      end
+      
+      def tabs_state
+        res = {}
+        doc_map = {}
+        doc_idx = 0
+        Ruber[:documents].each do |doc|
+          if !doc.has_file?
+            doc_map[doc] = doc_idx
+            doc_idx += 1
+          end
+        end
+        tabs = Ruber[:main_window].tabs
+        tabs_tree = []
+        cursor_positions = []
+        tabs.each do |t|
+          tabs_tree << tab_to_tree(t, doc_map)
+          cursor_positions << t.map do |v|
+            pos = v.cursor_position
+            [pos.line, pos.column]
+          end
+        end
+        res[:tabs] = tabs_tree
+        res[:cursor_positions] = cursor_positions
+        active = Ruber[:main_window].active_editor
+        if active
+          active_tab = Ruber[:main_window].tab(active)
+          res[:active_view] = [tabs.index(active_tab), active_tab.to_a.index(active)]
+        end
+        res
       end
       
       private
@@ -324,20 +405,33 @@ Creates a hash with all the data needed to restore Ruber's state
   *nil* if there's no open document
 =end
       def gather_settings
-        res = {}
-        projects = Ruber[:projects].projects.map{|pr| pr.project_file}
-        unless projects.empty?
-          active_prj = Ruber[:projects].current
-          projects.unshift projects.delete(active_prj.project_file) if active_prj
-        end
-        res[:open_projects] = projects
-        docs = Ruber[:docs].documents.select{|d| d.has_file?}
-        res[:open_documents] = docs.map{|doc| doc.url.to_encoded.to_s}
-        visible_docs = docs.select{|d| d.view}
-        res[:visible_documents] = visible_docs.map{|d| d.url.to_encoded.to_s}
-        current_doc = Ruber[:main_window].current_document.url.to_encoded.to_s rescue ''
-        res[:active_document] = current_doc.empty? ? nil : current_doc
+        res = {
+          :open_projects => projects_state,
+          :open_documents => documents_state
+        }
+        res.merge! tabs_state
         res
+      end
+      
+      def tab_to_tree pane, docs
+        if pane.single_view?
+          doc = pane.view.document
+          return [doc.has_file? ? doc.url.url : docs[doc]]
+        end
+        panes = {}
+        tab_to_tree_prc = lambda do |pn|
+          if pn.single_view?
+            doc = pn.view.document
+            panes[pn.parent_pane] << (doc.has_file? ? doc.url.url : docs[doc])
+          else 
+            data = [pn.orientation]
+            panes[pn] = data
+            panes[pn.parent_pane] << data if pn.parent_pane
+          end
+        end
+        tab_to_tree_prc.call pane
+        pane.each_pane :recursive, &tab_to_tree_prc
+        panes[pane]
       end
       
     end
@@ -352,16 +446,18 @@ in the document
       
       include Extension
       
-      slots :auto_restore
+      slots 'auto_restore(QObject*)'
       
 =begin rdoc
 @param [Ruber::DocumentProject] prj the project associated with the document
 =end
       def initialize prj
         super
+        @last_view = nil
         @project = prj
         @document = prj.document
-        connect @document, SIGNAL('view_created(QObject*, QObject*)'), self, SLOT(:auto_restore)
+        connect @document, SIGNAL('view_created(QObject*, QObject*)'), self, SLOT('auto_restore(QObject*)')
+        connect @document, SIGNAL('closing_view(QWidget*, QObject*)'), self, SLOT('view_closing(QWidget*)')
       end
       
 =begin rdoc
@@ -371,11 +467,12 @@ own project
 It does nothing if the document isn't associated with a view
 @return [nil]
 =end
-      def restore
-        view = @document.view
-        return unless view
-        pos = @document.own_project[:state, :cursor_position]
-        view.go_to *pos
+      def restore view
+        if @last_view then view.cursor_position = @last_view.cursor_position
+        else
+          pos = @document.own_project[:state, :cursor_position]
+          view.go_to *pos
+        end
         nil
       end
       
@@ -386,11 +483,11 @@ It does nothing if the document isn't associated with a view
 @return [nil]
 =end
       def save_settings
-        view = @document.view 
-        return unless view
-        cur = view.cursor_position
-        pos = [cur.line, cur.column]
-        @project[:state, :cursor_position] = pos
+        if @last_view
+          cur = @last_view.cursor_position
+          pos = [cur.line, cur.column]
+          @project[:state, :cursor_position] = pos
+        end        
         nil
       end
       
@@ -403,10 +500,24 @@ It does nothing if the user chose not to have the position restored when opening
 a document.
 @return [nil]
 =end
-      def auto_restore
-        restore if Ruber[:state].restore_cursor_position?
+      def auto_restore view
+        restore view if Ruber[:state].restore_cursor_position?
+        connect view, SIGNAL('focus_in(QWidget*)'), self, SLOT('view_received_focus(QWidget*)')
         nil
       end
+      
+      def view_received_focus view
+        @last_view = view
+      end
+      slots 'view_received_focus(QWidget*)'
+      
+      def view_closing view
+        if view == @last_view
+          save_settings
+          @last_view = nil
+        end
+      end
+      slots 'view_closing(QWidget*)'
       
     end
     
@@ -420,7 +531,7 @@ with projects
       
       include Extension
       
-      slots :auto_restore
+      slots :auto_restore, :save_settings
       
 =begin rdoc
 @param [Ruber::Project] prj the project associated with the extension
@@ -429,6 +540,7 @@ with projects
         super
         @project = prj
         connect @project, SIGNAL(:activated), self, SLOT(:auto_restore)
+        connect @project, SIGNAL(:deactivated), self, SLOT(:save_settings)
       end
       
 =begin rdoc
@@ -441,16 +553,7 @@ Any already open document is closed (after saving)
 =end
 
       def restore
-        files = @project[:state, :open_documents]
-        Ruber[:docs].close_all
-        return if files.empty?
-        active_file = @project[:state, :active_document]
-        active_file = files[-1] unless files.include? active_file
-        mw = Ruber[:main_window]
-        mw.without_activating do
-          files.each{|f| mw.editor_for! f}
-        end
-        mw.display_document active_file
+        Ruber[:state].restore_documents @project
         nil
       end
       
@@ -460,11 +563,11 @@ Saves the list of open project files to the project
 @return [nil]
 =end
       def save_settings
-        files = Ruber[:docs].documents_with_file.map{|d| d.path}
-        active = Ruber[:main_window].current_document
-        active_path = (active.nil? or active.path.empty?) ? nil : active.path
-        @project[:state, :open_documents] = files
-        @project[:state, :active_document] = active_path
+        @project[:state, :open_documents] = Ruber[:state].documents_state
+        tabs_state = Ruber[:state].tabs_state
+        [:tabs, :cursor_positions, :active_editor].each do |e|
+          @project[:state, e] = tabs_state[e]
+        end
         nil
       end
       

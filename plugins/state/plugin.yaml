@@ -11,15 +11,18 @@ config_options:
  state:
   open_documents: {default: []}
   open_projects: {default: []}
-  active_document: {default: nil}
   restore_cursor_position: {default: true}
   restore_project_files: {default: true}
   startup_behaviour: {default: :restore_all}
+  tabs: {default: []}
+  active_editor: {default: nil}
+  cursor_positions: {default: []}
 project_options:
  state:
   open_documents: {default: [], type: session, scope: global}
-  visible_documents: {default: [], type: session, scope: global}
-  active_document: {default: ~, type: session, scope: global}
+  tabs: {default: [], scope: global, type: session}
+  cursor_positions: {default: [], type: session, scope: global }
+  active_editor: {default: ~, type: session, scope: global}
   cursor_position: {default: [0, 0], type: session, scope: document}
 config_widgets:
  - {class: Ruber::State::ConfigWidget, caption: General}

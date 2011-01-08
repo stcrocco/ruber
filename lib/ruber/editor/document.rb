@@ -64,15 +64,20 @@ module Ruber
 'sig_query_close(bool*, bool*)', 'canceled(QString)', 'completed()', 'completed1(bool)',
 'started(KIO::Job*)', 'set_status_bar_text(QString)', 'setWindowCaption(QString)'
     
-    slots :document_save_as, :save
-
 =begin rdoc
-The view associated with the document. If a view hasn't been created, this is *nil*
+Signal emitted before a view associated with the document is closed
+
+When this signal is emitted, the view is still associated with the document, and
+it is still included in the array returned by {#views}
+@param [EditorView] view the view which is being closed
+@param [Document] doc *self*
 =end
-    attr_reader :view
+    signals 'closing_view(QWidget*, QObject*)'
+    
+    slots :document_save_as, :save
     
     def inspect
-      if disposed? then "< #{self.class} #{object_id}DISPOSED >"
+      if disposed? then "< #{self.class} #{object_id} DISPOSED >"
       else super
       end
     end
@@ -85,7 +90,7 @@ Creates a new Ruber::Document.
       @active = false
       @doc = KTextEditor::EditorChooser.editor('katepart').create_document( self)
       initialize_wrapper @doc, self.class.instance_variable_get(:@signal_table)
-      @view = nil
+      @views = []
       @doc.openUrl(file.is_a?(String) ? KDE::Url.from_path(file) : file) if file
       @annotation_model = AnnotationModel.new self
       interface('annotation_interface').annotation_model = @annotation_model
@@ -131,6 +136,30 @@ Creates a new Ruber::Document.
       end
       connect @doc, SIGNAL('completed(bool)'), self, SIGNAL('completed1(bool)')
 
+    end
+    
+=begin rdoc
+@return [Array<EditorView>] a list of the views assciated with the document
+=end
+    def views
+      @views.dup
+    end
+    
+=begin rdoc
+@return [Boolean] whether the document has at least one view associated with it
+=end
+    def has_view?
+      !@views.empty?
+    end
+    
+=begin rdoc
+The view which currently has user focus, if any
+@return [EditorView,nil] the view associated with the document which currently has
+  user focus or *nil* if none of the views associated with the document has user
+  focus
+=end
+    def active_view
+      @doc.active_view.parent rescue nil
     end
     
 =begin rdoc
@@ -263,13 +292,6 @@ This method is associated with the Save menu entry
         @project.save
         res
       end
-#       unless url.empty? then save_document
-#       else document_save_as
-#         res = KDE::FileDialog.get_save_file_name KDE::Url.new, "*.rb|Ruby files (*.rb)\n*|All files", nil,
-#           KDE::i18n("Save \"#{@doc.document_name}\" as")
-#         return false unless res
-#         save_as KDE::Url.from_path(res)
-#       end
     end
 
 =begin rdoc
@@ -277,19 +299,22 @@ Creats a view for the document. _parent_ is the view's parent widget. Raises
 +RuntimeError+ if the document already has a view.
 =end
     def create_view parent = nil
-      @doc.create_view nil
-      @view = EditorView.new self, @doc.views.first, parent
-      @view.connect(SIGNAL('closing()')){@view = nil}
-      @view.connect(SIGNAL('destroyed(QObject*)')){@view = nil}
-      gui = @view.send(:internal)
+      inner_view = @doc.create_view nil
+      view = EditorView.new self, inner_view, parent
+      @views << view
+      gui = view.send(:internal)
       action = gui.action_collection.action('file_save_as')
       disconnect action, SIGNAL(:triggered), @doc, SLOT('documentSaveAs()')
       connect action, SIGNAL(:triggered), self, SLOT(:document_save_as)
       action = gui.action_collection.action('file_save')
       disconnect action, SIGNAL(:triggered), @doc, SLOT('documentSave()')
       connect action, SIGNAL(:triggered), self, SLOT(:save)
-      emit view_created(@view, self)
-      @view
+      view.connect(SIGNAL('closing(QWidget*)')) do |v| 
+        emit closing_view v, self
+        @views.delete v
+      end
+      emit view_created(view, self)
+      view
     end
     
 =begin rdoc
@@ -365,26 +390,16 @@ TODO: maybe remove the argument, since this method is not called anymore at
       if !ask || query_close
         emit closing(self)
         @project.save unless path.empty?
-        @view.close if @doc.views.size > 0
+        @views.dup.each{|v| v.close}
         return false unless close_url false
         @project.close false
+        delete_later
         self.disconnect
-        dispose
         true
       else false
       end
     end
-    
-=begin rdoc
-Closes the view _view_ associated with the document.
-
-Currently, the _view_ parameter is unused, as a document can only have one view,
-and all this method does is to call the <tt>close</tt> method with _ask_ as argument.
-=end
-    def close_view view, ask = true
-      close ask
-    end
-    
+        
 =begin rdoc
 The <tt>KParts::Part</tt> associated with the document
 =end

@@ -27,6 +27,7 @@ require 'facets/kernel/__dir__'
 require 'fileutils'
 
 require 'ruber/plugin_like'
+require 'ruber/project'
 require 'ruber/exception_widgets'
 
 module Ruber
@@ -107,7 +108,7 @@ and is fired as soon as the event loop starts.
       @components.parent = self
       Ruber.instance_variable_set :@components, @components
       initialize_plugin psf
-      KDE::Global.dirs.addPrefix File.expand_path(File.join( RUBER_DATA_DIR, '..', '..', 'data'))
+      KDE::Global.dirs.addPrefix File.expand_path(File.join( RUBER_DATA_DIR, '..', 'data'))
       icon_path = KDE::Global.dirs.find_resource('icon', 'ruber')
       self.window_icon = Qt::Icon.new icon_path
       KDE::Global.main_component.about_data.program_icon_name = icon_path
@@ -361,7 +362,16 @@ on the command line)
       else
         open_command_line_files
         if Ruber[:projects].projects.empty? and Ruber[:documents].documents.empty?
-          Ruber[:main_window].display_doc Ruber[:documents].new_document
+          doc = Ruber[:documents].new_document
+          # This is the default document. Set the default_document attribute of
+          # the ruber_default_document extension to true
+          # TODO this extension is currently provided by the main window because
+          # the application component is actually loaded after the other. This
+          # is wrong. To avoid it, don't call load_core_components from initialize
+          # but have the ruber starting code (in bin/ruber) start it manually. Then
+          # move the extension to the application
+          doc.extension(:ruber_default_document).default_document = true
+          Ruber[:main_window].display_doc doc
         end
       end
     end
@@ -406,6 +416,14 @@ necessary to to them later
         win.display_document f
       end
       nil
+    end
+    
+    class DefaultDocumentExtension
+      include Extension
+      attr_accessor :default_document
+      def initialize doc
+        @default_document = false
+      end
     end
 
   end
