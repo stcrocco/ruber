@@ -64,6 +64,16 @@ module Ruber
 'sig_query_close(bool*, bool*)', 'canceled(QString)', 'completed()', 'completed1(bool)',
 'started(KIO::Job*)', 'set_status_bar_text(QString)', 'setWindowCaption(QString)'
     
+=begin rdoc
+Signal emitted before a view associated with the document is closed
+
+When this signal is emitted, the view is still associated with the document, and
+it is still included in the array returned by {#views}
+@param [EditorView] view the view which is being closed
+@param [Document] doc *self*
+=end
+    signals 'closing_view(QWidget*, QObject*)'
+    
     slots :document_save_as, :save
     
     def inspect
@@ -299,7 +309,10 @@ Creats a view for the document. _parent_ is the view's parent widget. Raises
       action = gui.action_collection.action('file_save')
       disconnect action, SIGNAL(:triggered), @doc, SLOT('documentSave()')
       connect action, SIGNAL(:triggered), self, SLOT(:save)
-      view.connect(SIGNAL('closing(QWidget*)')){|v| @views.delete v}
+      view.connect(SIGNAL('closing(QWidget*)')) do |v| 
+        emit closing_view v, self
+        @views.delete v
+      end
       emit view_created(view, self)
       view
     end

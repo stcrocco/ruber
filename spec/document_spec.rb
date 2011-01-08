@@ -504,11 +504,11 @@ end
     doc.close false
   end
     
-  it 'should dispose of itself after emitting the closing signal, if closing is confirmed' do
-    doc = Ruber::Document.new nil, __FILE__
-    doc.close false
-    doc.should be_disposed
-  end
+#   it 'should dispose of itself after emitting the closing signal, if closing is confirmed' do
+#     doc = Ruber::Document.new nil, __FILE__
+#     doc.close false
+#     doc.should be_disposed
+#   end
   
   it 'should return true, if closing is confirmed and successful and false otherwise' do
     doc = Ruber::Document.new nil, __FILE__
@@ -751,6 +751,17 @@ describe Ruber::Document do
       new_views = doc.views
       new_views.size.should == 2
       new_views.should == [views[0], views[2]]
+    end
+    
+    it 'emits the closing_view(QWidget*, QObject*) signal before removing the view from the list' do
+      doc = Ruber::Document.new nil
+      views = 3.times.map{doc.create_view}
+      test = flexmock{|m| m.should_receive(:closing_view).once.with(doc, views[1])}
+      doc.connect(SIGNAL('closing_view(QWidget*, QObject*)')) do |v, d| 
+        test.closing_view d, v
+        doc.views.should include(views[1])
+      end
+      views[1].close
     end
     
   end
