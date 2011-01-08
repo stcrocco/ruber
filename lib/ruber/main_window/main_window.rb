@@ -159,6 +159,29 @@ The open tabs
       @tabs.to_a
     end
     
+=begin rdoc
+The views contained in the main window
+
+If a document is given as argument, returns all views associated with the document;
+if no document is given, all views are returned.
+
+The order of the views in the returned list is the activation order: the view
+which was activated more recently is at position 0 in the array, the one activated
+before that is at position 1 and so on. Views which have never been activated are
+at the end of the array, in an arbitrary order
+
+@param [Document,nil] doc the document to return the views for. If *nil*, all the
+  views will be returned
+@return [Array<EditorView>] the views associated with the given document, if any,
+  or all the views, in activation order, from most recently activated to less recently
+  activated
+=end
+    def views doc = nil
+      if doc then @view_manager.activation_order.select{|v| v.document == doc}
+      else @view_manager.activation_order.dup
+      end
+    end
+    
     ##
     # :method: add_tool
     # Adds a tool widget to the main window. See Workspace#add_tool_widget for more information.
