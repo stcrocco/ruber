@@ -27,7 +27,7 @@ module Ruber
     
     class ViewManager < Qt::Object
       
-      attr_reader :part_manager, :active_editor
+      attr_reader :part_manager, :active_editor, :activation_order
       
       attr_accessor :auto_activate_editors
       
@@ -66,6 +66,7 @@ contain another value, @:close_starting_document@
         if !editor and hints[:create_if_needed]
           editor = create_editor doc
           if hints[:show]
+            @activation_order << editor
             view = @solver.place_editor hints
             if view 
               dir = Qt.const_get hints[:split].to_s.capitalize
@@ -191,7 +192,8 @@ Whether the given view is a focus editor
       
       def add_tab view, icon, label
         new_tab = Pane.new(view)
-        @tabs.add_tab new_tab, icon, label
+        idx = @tabs.add_tab new_tab, icon, label
+        @focus_editors[idx] = view
         connect new_tab, SIGNAL('closing_last_view(QWidget*)'), self, SLOT('remove_tab(QWidget*)')
         connect new_tab, SIGNAL('pane_split(QWidget*, QWidget*, QWidget*)'), self, SLOT('update_tab(QWidget*)')
         connect new_tab, SIGNAL('removing_view(QWidget*, QWidget*)'), self, SLOT('update_tab(QWidget*)')
