@@ -663,7 +663,7 @@ likely doing that, not requesting to open a file
       return unless file
       line = file[1]
       line -= 1 if line > 0
-      Ruber[:main_window].display_document file[0], line
+      Ruber[:main_window].display_document file[0], line, 0
       Ruber[:main_window].hide_tool self if (Qt::MetaModifier & modifiers) == 0
     end
     
