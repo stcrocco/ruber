@@ -285,20 +285,21 @@ which, most likely, will cause it to fail.
           return
         end
         opts = options prj
-        doc = Ruber[:main_window].current_document
+        view = Ruber[:main_window].active_editor
+        doc = view.document
         unless doc.url.local_file?
           KDE::MessageBox.sorry nil, 'You can\'t run rspec for remote files'
           return
         end
         unless doc
-          KDE::MessageBox.error nil, "You must have an open document to choose this entry.\nYOU SHOULD NEVER SEE THIS MESSAGE"
+          KDE::MessageBox.error nil, "You must have an open editor to choose this entry.\nYOU SHOULD NEVER SEE THIS MESSAGE"
           return
         end
         files = specs_for_file opts, doc.path
         files.reject!{|f| !File.exist? f}
         opts[:files] = files.empty? ? [doc.path] : files
         if what == :current_line
-          line = line = doc.view.cursor_position.line + 1
+          line = view.cursor_position.line + 1
           opts[:spec_options] += ["-l", line.to_s]
         end
         run_rspec_for prj, opts, :files => :documents_with_file, :on_failure => :ask,
