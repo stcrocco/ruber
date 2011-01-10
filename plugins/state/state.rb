@@ -1,5 +1,5 @@
 =begin
-    Copyright (C) 2010 by Stefano Crocco   
+    Copyright (C) 2010,2011 by Stefano Crocco   
     stefano.crocco@alice.it   
   
     This program is free software; you can redistribute it andor modify  
@@ -30,8 +30,9 @@ module Ruber
 =begin rdoc
 Plugin which allows Ruber to store and restore back its state.
 
-In this context, the term _state_ means the open project and documents, the position
-of the cursor in each document and the active document. All this data is stored
+In this context, the term _state_ means the open project and documents, the tabs
+in the main window, the editors in each tab, the position of the cursor in the
+editors and the active editor. All this data is stored
 in the configuration file and in the project or document project files. Using
 the API provided by this plugin, it is possible to restore a single document,
 project or the whole application to the state it was when it was last closed.
@@ -155,7 +156,7 @@ files in projects should be restored, regardless of what the user chose
 =begin rdoc
 Restores the given document
 
-See {DocumentExtension#restore} for more information
+@see DocumentExtension#restore DocumentExtension#restore for more information
 
 @param [Ruber::Document] doc the document to restore
 @return [nil]
@@ -167,7 +168,7 @@ See {DocumentExtension#restore} for more information
 =begin rdoc
 Restores the given global project
 
-See {ProjectExtension#restore} for more information
+@see ProjectExtension#restore ProjectExtension#restore for more information
 
 @param [Ruber::Project] prj the document to restore
 @return [nil]
@@ -178,6 +179,9 @@ See {ProjectExtension#restore} for more information
       
 =begin rdoc
 Restores the open projects according to a given configuration object
+
+Restoring the project means closing all the open projects and opening the projects
+and setting the active project according to the information in _conf_
 
 This method is called both when the session is restored and when ruber starts
 up (if the user chose so).
@@ -200,6 +204,9 @@ for more information
 =begin rdoc
 Restores the open documents according to a given configuration object
 
+Restoring the open documents means:
+
+
 This method is called both when the session is restored and when ruber starts
 up (if the user chose so).
 
@@ -208,7 +215,7 @@ for more information
 @return [nil]
 =end
       def restore_documents config = Ruber[:config]
-        Ruber[:docs].close_all
+        return unless Ruber[:documents].close_all
         docs = config[:state, :open_documents]
         unnamed_docs = []
         docs = docs.map do |i| 

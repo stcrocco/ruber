@@ -675,7 +675,15 @@ describe Ruber::State::Plugin do
   describe '#restore_documents' do
     
     it 'closes all open documents' do
-      flexmock(Ruber[:documents]).should_receive(:close_all).once
+      flexmock(Ruber[:documents]).should_receive(:close_all).once.and_return true
+      @plug.restore_documents
+    end
+    
+    it 'does nothing if the user chooses to abort closing the documents' do
+      flexmock(Ruber[:documents]).should_receive(:close_all).once.and_return false
+      files = [__FILE__, File.join(File.dirname(__FILE__), 'common.rb'), File.join(File.dirname(__FILE__), 'framework.rb')].map{|f| "file://#{f}"}
+      Ruber[:config][:state, :open_documents] = files
+      flexmock(Ruber[:documents]).should_receive(:document).never
       @plug.restore_documents
     end
     
