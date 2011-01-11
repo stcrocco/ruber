@@ -1,5 +1,5 @@
 =begin 
-    Copyright (C) 2010 by Stefano Crocco   
+    Copyright (C) 2010,2011 by Stefano Crocco   
     stefano.crocco@alice.it   
   
     This program is free software; you can redistribute it andor modify  
@@ -25,16 +25,59 @@ module Ruber
   
   class MainWindow
     
+=begin rdoc
+Class which manages the views in the tab widget
+
+It takes care of activating a view when it gets focus, removing a tab when the
+last view in it is closed, and so on.
+
+@note this class is only for internal use by {MainWindow}. Its API is likely to
+  change and the whole class may disappear in the future. So, *do not* use it outside
+  of {MainWindow}
+=end
     class ViewManager < Qt::Object
       
-      attr_reader :part_manager, :active_editor, :activation_order
+=begin rdoc
+@return [KDE::PartManager] the part manager which manages the document parts
+=end
+      attr_reader :part_manager
       
+=begin rdoc
+@return [EditorView,nil] the active editor (that is, the editor whose GUI is merged
+  with the main window GUI) or *nil* if no main window exists
+=end
+      attr_reader :active_editor
+      
+=begin rdoc
+@return [Array<EditorView>] a list of all the editors in all tabs, in activation
+  order, from more recently activated to less recently activated
+=end
+      attr_reader :activation_order
+      
+=begin rdoc
+@return [Boolean] whether to automatically activate an editor when it is created
+=end
       attr_accessor :auto_activate_editors
       
+=begin rdoc
+Signal emitted whenever an editor is created
+@param [EditorView] editor the newly created editor
+=end
       signals 'view_created(QWidget*)'
       
+=begin rdoc
+Signal emitted whenever the active editor changes
+
+This signal is emitted _after_ the editor has become active
+@param [EditorView,nil] editor the editor which become active or *nil* if no editor
+  become active
+=end
       signals 'active_editor_changed(QWidget*)'
-      
+
+=begin rdoc
+@param [KDE::TabWidget] tabs the tab widget used by the main window
+@param [Ruber::MainWindow] parent the main window
+=end
       def initialize tabs, parent
         super parent
         @tabs = tabs
@@ -86,13 +129,18 @@ contain another value, @:close_starting_document@
         editor
       end
       
-      def create_editor doc
-        editor = doc.create_view
-        connect editor, SIGNAL('focus_in(QWidget*)'), self, SLOT('focus_in_view(QWidget*)')
-        connect editor, SIGNAL('closing(QWidget*)'), self, SLOT('view_closing(QWidget*)')
-        editor
-      end
-      
+=begin rdoc
+Makes the given editor active
+
+Besides merging the editor's GUI with the main window's, this method also deactivates
+the previously active editor, updates the activation order, activates the document
+associated with the new active editor, updates the tab where the new editor is
+and emits the {#active_editor_changed} signal.
+
+Nothing is done if the given editor was already active
+@param [EditorView] editor the editor to activate
+@return [EditorView] the new active editor
+=end
       def make_editor_active editor
         return if editor and @active_editor == editor
         deactivate_editor @active_editor
@@ -111,13 +159,37 @@ contain another value, @:close_starting_document@
         @active_editor
       end
       
+=begin rdoc
+Deactivates the given editor
+
+To deactivate the editor, its GUI is removed from the main window's and the corresponding
+document is deactivated.
+
+If the given editor wasn't the active one, nothing is done
+@param [EditorView] view the editor to deactivate
+@return [nil]
+=end
       def deactivate_editor view
-        return unless view and view == @active_editor
+        return unless @active_editor and view == @active_editor
         @active_editor.document.deactivate
         parent.gui_factory.remove_client view.send(:internal)
         @active_editor = nil
+        nil
       end
-      
+
+=begin rdoc
+Executes a block without automatically activating editors
+
+Usually, whenever a tab becomes active, one of the editors it contains becomes
+active. Sometimes, you don't want this to happen (for example, when opening multiple
+documents in sequence). To do so, do what you need from a block passed to this method.
+
+After the block has been executed, the last activated method in the current tab
+becomes active.
+
+@yield the block to call without automatically activating editors
+@return [Object] the value returned by the block
+=end
       def without_activating
         begin
           @auto_activate_editors = false
@@ -181,6 +253,12 @@ Whether the given view is a focus editor
         end
       end
       
+=begin rdoc
+The label to use for an editor
+
+@param [EditorView] ed the editor to return the label for
+@return [String] the text to show below the given editor
+=end
       def label_for_editor ed
         url = ed.document.url
         if url.valid? then url.local_file? ? url.path : url.pretty_url
@@ -190,6 +268,28 @@ Whether the given view is a focus editor
       
       private
       
+=begin rdoc
+Creates an editor for a document
+
+@param [Document] doc the document to create the editor for
+@return [EditorView] the new editor for the document
+=end
+      def create_editor doc
+        editor = doc.create_view
+        connect editor, SIGNAL('focus_in(QWidget*)'), self, SLOT('focus_in_view(QWidget*)')
+        connect editor, SIGNAL('closing(QWidget*)'), self, SLOT('view_closing(QWidget*)')
+        editor
+      end
+      
+=begin rdoc
+Adds a new tab to the tab widget
+
+The tab is created with a view inserted in it and is assigned an icon an a label
+@param [EditorView] view the view to insert in the new pane
+@param [Qt::Icon] icon the icon to associate with the new tab
+@param [String] label the label to use for the new tab
+@return [Pane] the pane corresponding to the new tab
+=end
       def add_tab view, icon, label
         new_tab = Pane.new(view)
         idx = @tabs.add_tab new_tab, icon, label
@@ -198,34 +298,66 @@ Whether the given view is a focus editor
         connect new_tab, SIGNAL('pane_split(QWidget*, QWidget*, QWidget*)'), self, SLOT('update_tab(QWidget*)')
         connect new_tab, SIGNAL('removing_view(QWidget*, QWidget*)'), self, SLOT('update_tab(QWidget*)')
         connect new_tab, SIGNAL('view_replaced(QWidget*, QWidget*, QWidget*)'), self, SLOT('update_tab(QWidget*)')
+        new_tab
       end
       
+=begin rdoc
+Removes the tab corresponding to the given toplevel pane
+
+@param [Pane] pane the toplevel pane whose tab should be removed
+@return [nil]
+=end
       def remove_tab pane
         idx = @tabs.index_of pane
         if idx
           @focus_editors.delete_at idx
           @tabs.remove_tab idx 
         end
+        nil
       end
       slots 'remove_tab(QWidget*)'
 
+=begin rdoc
+Slot called whenever a view receives focus
+
+The views is activated, unless it was already active
+@param [EditorView] view the view which received focus
+@return [nil]
+=end
       def focus_in_view view
-#         active = active_editor
         if view != @active_editor
-          make_editor_active view #if active_editor
+          make_editor_active view
         end
+        nil
       end
       slots 'focus_in_view(QWidget*)'
       
+=begin rdoc
+Slot called whenever a view is closed
+
+It deactivates the view (if it was active) and preforms some cleanup.
+@param [EditorView] view the view which is being closed
+@return [nil]
+=end
       def view_closing view
         @activation_order.delete view
         disconnect view, SIGNAL('focus_in(QWidget*)'), self, SLOT('focus_in_view(QWidget*)')
         deactivate_editor view
-#         idx = @focus_editors.each_index.find{|i| @focus_editors[i] == view}
-#         @focus_editors[idx] = nil if idx
+        nil
       end
       slots 'view_closing(QWidget*)'
       
+=begin rdoc
+Slot called whenever the current tab changes
+
+Unless called from within a {#without_activating} block, it activates and gives focus
+to the view in the new current tab which last got focus.
+
+If called from within a {#without_activating} block, or if there's no current tab,
+all editors are deactivated
+@param [Integer] idx the index of the current tab
+@return [nil]
+=end
       def current_tab_changed idx
         if idx > -1
           @focus_editors[idx] ||= @tabs.widget(idx).to_a[0]
@@ -236,9 +368,18 @@ Whether the given view is a focus editor
         else
           make_editor_active nil
         end
+        nil
       end
       slots 'current_tab_changed(int)'
       
+=begin rdoc
+Updates the tab containing the given toplevel pane
+
+Updating the tab means changing its icon, its label, its tooltip and the label
+associated with each of the editors it contains
+@param [Pane] pane the toplevel pane contained in the pane to update
+@return [nil]
+=end
       def update_tab pane
         idx = @tabs.index_of tab(pane)
         return if idx < 0
@@ -247,12 +388,27 @@ Whether the given view is a focus editor
         @tabs.set_tab_icon idx, doc.icon
         pane.each_pane{|pn| pn.label = label_for_editor(pn.view) if pn.single_view?}
         update_tool_tip idx
+        nil
       end
       slots 'update_tab(QWidget*)'
       
+=begin rdoc
+Updates the tooltip for the given tab
+
+A pane's tooltip contains the list of the documents associated with the views in
+the tab, separated by newlines.
+
+@param [Integer] idx the index of the tab whose tooltip should be updated
+@param [Array<EditorView>] ignore a list of views which shouldn't be considered
+  when creating the tool tip. This is necessary because, when a view is closed,
+  this method is called _before_ the view is removed from the pane, so the document
+  associated with it would be included in the tooltip if it weren't specified here
+@return [nil]
+=end
       def update_tool_tip idx, *ignore
         docs = @tabs.widget(idx).reject{|v| ignore.include? v}.map{|v| v.document.document_name}.uniq
         @tabs.set_tab_tool_tip idx, docs.join("\n")
+        nil
       end
       
     end
