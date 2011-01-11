@@ -55,7 +55,7 @@ allow to resize it. It *must not* be used to add or remove widgets to or from it
 =end
   class Pane < Qt::Widget
     
-    include QtEnumerable
+    include Enumerable
     
 =begin rdoc
 @overload initialize(view, parent = nil)
@@ -398,6 +398,14 @@ If the pane is in single view mode, that only view is passed to the block.
       self
     end
     alias_method :each, :each_view
+    
+=begin rdoc
+@return [Array<Qt::Widget>] a list of all the views contained (directly or not)
+  in the pane
+=end
+    def views
+      to_a
+    end
     
     protected
     
