@@ -1,5 +1,12 @@
 h1. Changes
 
+h2. Ruber 0.0.7
+
+* Ability to split views in tabs
+* Ability to have more than one view for each document
+* Made the terminal program used to run ruby programs configurable
+* Added (optional) close buttons on tabs
+
 h2. Ruber 0.0.6
 
 h3. Features

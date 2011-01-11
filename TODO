@@ -11,9 +11,7 @@ carry out
 
 h2. Ruber Core
 
-* support for documents without a view
-* support for multiple open project. Requires support for document wihtout
-  a view
+* support for multiple open project
 * ? Blocking signals. For example, if the user chooses to close a project, then
   chooses not to save one of the file, maybe the project shouldn't be closed at
   all. It can be implemented having slots connecting to the signal raising an
@@ -83,14 +81,11 @@ h2. Ruber Core
 * Add an entry displaying the number of rows in the current file to the statusbar
 * In the @ProjectFilesList@ extension, make #scan_project use #file_in_project?, if
   possible
-* !Add the ability to split views (multiple tabs each of which can display more
-  views, not like kate does)
 * Add a way to specify the order in which pages should be displayed in the
   configuration dialogs (maybe adding a priority attribute somewhere in the PSF)
-* Allow sorting tabs by D&D
+* Allow sorting tabs by drag and drop
 * ?Per-project recent file list. The behaviour should be very well thought,
   to avoid the mistakes done by kate.
-
 
 h2. Plugins
 
@@ -138,8 +133,7 @@ h3. Command
   optional widget is turned on and resetting them to the usual values when it's
   turned off. This is needed to see messages displayed by the command rather than
   having them sent to the shell
-* Replace the tool widget with an irb-based tool widget, if possible
-
+* !Replace the tool widget with an irb-based tool widget, if possible
   
 h2. New plugins
 
