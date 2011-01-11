@@ -37,6 +37,11 @@ in the configuration file and in the project or document project files. Using
 the API provided by this plugin, it is possible to restore a single document,
 project or the whole application to the state it was when it was last closed.
 
+Documents which haven't been saved to a file are only partially restored: an empty
+document is created for them (different views associated with the same document
+will correctly be associated with the same empty document after restoration). Unsaved
+changes in documents not associated with files won't be restored.
+
 In addition to providing an API for saving and restoring state, this plugin also
 restores the full Ruber state when restoring a session and (according to the
 user preferences) when the application starts up.
@@ -58,7 +63,7 @@ Plugin object for the State plugin
       
 =begin rdoc
 @param [Ruber::PluginSpecification] psf the plugin specification object associated
-with the plugin
+  with the plugin
 =end
       def initialize psf
         super
@@ -205,7 +210,11 @@ for more information
 Restores the open documents according to a given configuration object
 
 Restoring the open documents means:
-
+* closing all the open documents. If any of thess is modified, the user is asked
+  how to proceed. If the choses to abort, nothing else is done
+* opening the documents according to the @state/open_documents@ entry of _conf_
+* recreating the tabs and the editors according to the @state/tabs@ entry of _conf_
+* activating the editor contained in the @state/active_editor@ entry of _conf_
 
 This method is called both when the session is restored and when ruber starts
 up (if the user chose so).
@@ -244,6 +253,32 @@ for more information
         end
       end
       
+=begin rdoc
+Restores a pane
+
+Restoring a pane means creating the editors which were contained in the pane,
+in the correct disposition.
+
+The contents of the pane are described by the array _data_, which has the following
+format:
+
+* if it has a single element, the corresponding pane contains only a view. If the
+  element is a string, it must represent the URL of the document the view is associated
+  with. If it is a number, it means the view is associated with a document which
+  hasn't been saved
+* if it has more than one element, it means that the pane contains more than one
+  view. The first element represents the orientation of the pane and can be either
+  @Qt::Horizontal@ or @Qt::Vertical@. The other elements can be either strings,
+  numbers or arrays. A string or number means, as above, the URL of the document
+  associated with the view or a document which isn't associated with a file. An
+  array (which should have the same format as this) means a sub pane
+@param [Array] data the array containing the description of the contents of the
+  pane
+@param [Array<Document>] docs the document not associated with files to use for
+  the numeric entries of _data_. A number _n_ in _data_ means to use the entry
+  _n_ in _docs_
+@return [Pane] the new pane
+=end
       def restore_pane data, docs
         mw = Ruber[:main_window]
         find_first_view = lambda do |array|
@@ -351,6 +386,14 @@ Override of {PluginLike#session_data}
         {'State' => gather_settings}
       end
       
+=begin rdoc
+The open projects in a form suitable to be written to a configuration object
+
+@return [Array<String>] an array containing the names of the project files for
+  the currently open projects. The active project is the first one. This value
+  is the one to write under the @state/open_projects@ entry in a project or configuration
+  object
+=end
       def projects_state
         projects = Ruber[:projects].projects.map{|pr| pr.project_file}
         unless projects.empty?
@@ -359,12 +402,38 @@ Override of {PluginLike#session_data}
         end
         projects
       end
-      
+
+=begin rdoc
+The open documents in a form suitable to be written to a configuration object
+
+@return [Array<String,nil>] an array containing the names of the URLs associated with
+  the currently open documents. Documents not associated with files are represented
+  by *nil*s in the array. This value is the one to write under the @state/open_documents@
+  entry in a project or configuration object
+=end
       def documents_state
         docs = Ruber[:documents].documents
         docs.map{ |doc| doc.has_file? ? doc.url.to_encoded.to_s : nil}
       end
-      
+
+=begin rdoc
+The open tabs configuration in a form suitable to be written to a configuration object
+
+@return [Hash] A hash containing the following keys:
+ * @:tabs@: an array of arrays, with each inner array representing one tab, with
+  the format described in {#restore_pane}. This value is the one to write under
+  the @state/tabs@ entry in a project or configuration object
+ * @:cursor_positions@:an array of arrays. Each inner array corresponds to a tab
+  and contains the cursor position of each view. Each cursor position is represented
+  as an array with two elements: the first is the line, the second is the column.
+  The order the views are is the same used by {Pane#each_view}. This value is the one to write under
+  the @state/cursor_positions@ entry in a project or configuration object
+ * @:active_view@: the active view. It is represented by a size 2 array, with the
+  first element being the index of the tab of the active view and the second being
+  the index of the view in the corresponding pane (according to the order used by
+  {Pane#each_view}). If there's no active view, this entry is *nil*. This is the value to write under
+  the @state/active_view@ entry in a project or configuration object
+=end
       def tabs_state
         res = {}
         doc_map = {}
@@ -420,6 +489,15 @@ Creates a hash with all the data needed to restore Ruber's state
         res
       end
       
+=begin rdoc
+A representation of a pane's configuration suitable to be written to a configuration
+object
+
+@param [Pane] pane the pane to return the representation for
+@param [Hash{Document=>Integer}] docs a map between documents not associated
+  with files and the number to represent them
+@return [Array<Array,Integer,String>] an array as described in {#restore_pane}
+=end
       def tab_to_tree pane, docs
         if pane.single_view?
           doc = pane.view.document
@@ -446,8 +524,13 @@ Creates a hash with all the data needed to restore Ruber's state
 =begin rdoc
 Extension for documents needed by the State plugin
 
-The scope of this extension is to save and restore the position of the cursor
-in the document
+The scope of this extension is to move the cursor of all newly created views
+associated with the document to the position it was in the last used view. The
+cursor position for the first view is read from the document's own project, where
+it is saved whenever the document is closed.
+
+The cursor position for a view is moved in response to the {Document#view_created}
+signal.
 =end
     class DocumentExtension < Qt::Object
       
@@ -468,10 +551,11 @@ in the document
       end
       
 =begin rdoc
-Restores the position of the cursor according to the value saved in the document's
-own project
+Moves the cursor of a view to the position it was in the last used view
 
-It does nothing if the document isn't associated with a view
+If there are no other views associated with the document, the position of the
+cursor is read from the document's own project
+@param [EditorView] the view to move the cursor for
 @return [nil]
 =end
       def restore view
@@ -501,10 +585,12 @@ It does nothing if the document isn't associated with a view
       private
       
 =begin rdoc
-Moves the cursor in a new view to the position stored in the document's own project
+Restores the cursor position for a view if the user choosed to do so
 
-It does nothing if the user chose not to have the position restored when opening
-a document.
+It does nothing if the user choosed not to restore the cursor position when a view
+is created
+
+@param [EditorView] the view to restore the cursor position for
 @return [nil]
 =end
       def auto_restore view
@@ -513,11 +599,28 @@ a document.
         nil
       end
       
+=begin rdoc
+Memorizes which view has last received focus
+
+This information is used to decide which view to ask for the cursor position when
+a new view is created or the cursor position needs to be saved to the project
+@param [EditorView] view the view which has received focus
+@return [nil]
+=end
       def view_received_focus view
         @last_view = view
+        nil
       end
       slots 'view_received_focus(QWidget*)'
       
+=begin rdoc
+Method called whenever a view associated with the document is closed
+
+If the closed view is the one which last got focus, its cursor position is saved
+in the document's own project. Otherwise nothing is done. 
+@param [EditorView] view the view being closed
+@return [nil]
+=end
       def view_closing view
         if view == @last_view
           save_settings
@@ -531,8 +634,8 @@ a document.
 =begin rdoc
 Extension for projects needed by the State plugin
 
-The scope of this extension is to save and restore the open documents associated
-with projects
+The scope of this extension is to save and restore the state of the tabs open
+when the project was last closed
 =end
     class ProjectExtension < Qt::Object
       
@@ -551,10 +654,9 @@ with projects
       end
       
 =begin rdoc
-Opens all the files associated with the proejct which were opened last time the
-project's state was changed
+Restore Ruber's state as it was when the project was last closed
 
-Any already open document is closed (after saving)
+See {Plugin#restore_documents} for more information
 
 @return [nil]
 =end
@@ -565,7 +667,10 @@ Any already open document is closed (after saving)
       end
       
 =begin rdoc
-Saves the list of open project files to the project
+Saves Ruber's state to the project
+
+The saved information is: the configuration of open tabs, the position of the cursor
+in the views and the active view
 
 @return [nil]
 =end
@@ -581,13 +686,9 @@ Saves the list of open project files to the project
       private
 
 =begin rdoc
-Opens all the files associated with the proejct which were opened last time the
-project's state was changed when the project is opened.
+Restores the project's state when a new project is activated
 
-Any already open document is closed (after saving).
-
-It does nothing if the user chose not restore open project files when opening a
-project.
+It does nothing if the user choosed not to restore the projects's state.
 @return [nil]
 =end
       def auto_restore
