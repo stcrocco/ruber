@@ -288,8 +288,9 @@ file name in the Path line edit.</p>
 is mostly useful for scripts which read from standard input, as it (currently)
 can&#8217;t be done from within Ruber. You can enable this by checking the
 <code>Ruby/Run Programs in Terminal</code> menu entry or through the project or document
-configuration dialog. Note that, for the time being, this needs the <code>konsole</code>
-program (part of <code>kdebase-applications</code>) to work.</p>
+configuration dialog. The default application is <code>Konsole</code>, which is included in
+<span class="caps">KDE</span>. If you want, however, you can configure the plugin to use a different terminal
+emulator (see below for details).</p>
 <p>There are several global settings for this plugin, which you can change in the
 Ruby page of the Ruber configuration dialog. They are:</p>
 <ul>
@@ -301,6 +302,12 @@ Ruby page of the Ruber configuration dialog. They are:</p>
   Availlable Interpreters widget, you can choose which one to use by default by
   setting it in the Default Interpreter widget</li>
 	<li>the default options to pass to ruby. Set them in the Ruby options widget</li>
+	<li>the terminal emulator program to use. Write the command line to use in the Terminal
+  line editor. There are two special placeholders recognized: <code>%d</code>, which means the
+  directory where the terminal emulator should be open into and <code>%r</code> which indicates
+  where the ruby command line should be put. This placeholder must either be enclosed
+  in spaces or be at the end of the line and preceded by a space. Note that command
+  line arguments can&#8217;t contain spaces.</li>
 </ul>
 <p>Some parameters used by this plugin can also be configured on a per project base
 from the Ruby page of the project configuration dialog. They are:</p>
