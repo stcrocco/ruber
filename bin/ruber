@@ -22,7 +22,17 @@ module QtEnumerable
 end
 
 require 'korundum4'
-require 'kio'
+
+#In korundum 4.4, there's no kio.rb. So, check whether KDE::IconButton (one of
+#the classes defined in kio.rb in korundum 4.5) is defined and only attempt to
+#require kio if it isn't.
+#
+#In theory, one should check the KDE version, but there's no way to do that (at
+#least as far as I know)
+unless defined? KDE::IconButton
+  require 'kio'
+end
+
 require 'facets/kernel/require_relative'
 
 require 'ruber/version'
