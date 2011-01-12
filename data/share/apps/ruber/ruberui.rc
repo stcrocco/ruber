@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM 'kpartgui.dtd'>
-<kpartgui version="11" name="ruber" >
+<kpartgui version="12" name="ruber" >
  <MenuBar>
   <Menu name="file" >
    <text>&amp;File</text>
@@ -18,7 +18,6 @@
    <DefineGroup name="export_merge" />
    <Separator/>
    <Action name="file_close" />
-   <Action name="file-close_tab"/>
    <Action name="file-close_all" />
    <Action name="file-close_other" />
    <Separator/>
@@ -69,14 +68,14 @@
    <Separator/>
    <Action name="project-configure"/>
   </Menu>
+  <Merge/>
   <Menu name="tools" >
    <text>&amp;Tools</text>
-   <Action name="tools_external"/>
+   <Action name="tools_external" />
    <Separator/>
-   <DefineGroup name="tools_operations"/>
+   <DefineGroup name="tools_operations" />
    <Action name="scripts" />
   </Menu>
-  <Merge/>
   <Menu name="window">
     <text>&amp;Window</text>
     <Action name="window-split_horizontally"/>
@@ -89,6 +88,20 @@
       <ActionList name="window-switch_to_open_document_list"/>
     </Menu>
     <Action name="window-switch_to_recent_file"/>
+  </Menu>
+  <Menu name="settings" >
+   <text>&amp;Settings</text>
+   <Action name="options_configure" />
+   <DefineGroup name="configure_merge" />
+   <Separator/>
+   <DefineGroup name="show_merge" />
+   <Action name="options-choose_plugins" />
+   <Separator/>
+   <Merge name="StandardToolBarMenuHandler"/>
+   <Action name="settings_show_statusbar"/>
+   <Separator/>
+   <Action name="options_configure_keybinding" />
+   <Action name="set_configure_toolbars" />
   </Menu>
   <Menu name="help" >
    <text>&amp;Help</text>
