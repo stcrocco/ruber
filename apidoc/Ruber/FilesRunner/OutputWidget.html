@@ -80,9 +80,7 @@
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">plugins/ruby_development/ruby_development.rb<span class="defines">,<br />
-  plugins/ruby_development/ruby_development.rb,<br /> plugins/ruby_development/ruby_development.rb,<br /> plugins/ruby_development/ruby_development.rb</span>
-</dd>
+    <dd class="r2 last">plugins/ruby_development/ruby_development.rb</dd>
   
 </dl>
 <div class="clear"></div>
@@ -90,7 +88,7 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     <p>The class used by the Files runner tool widget</p>
-<p>It&#8217;s a normal <span class='object_link'><a href="../FilteredOutputWidget.html" title="Ruber::FilteredOutputWidget (class)">Ruber::FilteredOutputWidget</a></span> which overrides the <span class='object_link'><a href="#find_filename_in_index-instance_method" title="Ruber::FilesRunner::OutputWidget#find_filename_in_index (method)">OutputWidget#find_filename_in_index</a></span>
+<p>It&#8217;s a normal <span class='object_link'><a href="../FilteredOutputWidget.html" title="Ruber::FilteredOutputWidget (class)">Ruber::FilteredOutputWidget</a></span> which overrides the <span class='object_link'><a href="#find_filename_in_index-instance_method" title="Ruber::FilesRunner::OutputWidget#find_filename_in_index (method)">#find_filename_in_index</a></span>
 method</p>
 
   </div>
@@ -144,7 +142,7 @@ method</p>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Override of <span class='object_link'><a href="#find_filename_in_index-instance_method" title="Ruber::FilesRunner::OutputWidget#find_filename_in_index (method)">OutputWidget#find_filename_in_index</a></span>.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Override of <span class='object_link'><a href="#find_filename_in_index-instance_method" title="Ruber::FilesRunner::OutputWidget#find_filename_in_index (method)">#find_filename_in_index</a></span>.</p></div></span>
   
 </li>
 
@@ -265,16 +263,16 @@ require is replaced by <code>gem_original_require</code></p>
       <pre class="lines">
 
 
-389
-390
-391
-392
-393
-394
-395</pre>
+500
+501
+502
+503
+504
+505
+506</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/ruby_development/ruby_development.rb', line 389</span>
+      <pre class="code"><span class="info file"># File 'plugins/ruby_development/ruby_development.rb', line 500</span>
 
 <span class='kw'>def</span> <span class='id find_filename_in_index'>find_filename_in_index</span> <span class='id idx'>idx</span>
   <span class='id str'>str</span> <span class='op'>=</span> <span class='id idx'>idx</span><span class='period'>.</span><span class='id data'>data</span><span class='period'>.</span><span class='id to_string'>to_string</span>
@@ -295,9 +293,9 @@ require is replaced by <code>gem_original_require</code></p>
 </div>
     
     <div id="footer">
-  Generated on Sat Nov 13 18:00:53 2010 by 
+  Generated on Tue Jan 11 14:27:05 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.1 (ruby-1.9.2).
+  0.6.4 (ruby-1.9.2).
 </div>
 
   </body>

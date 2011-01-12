@@ -122,7 +122,7 @@ the same order) to the four attributes described above.</p>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Class containing the information about a syntax error.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute code.</p></div></span>
   
 </li>
 
@@ -147,7 +147,7 @@ the same order) to the four attributes described above.</p>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Class containing the information about a syntax error.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute column.</p></div></span>
   
 </li>
 
@@ -172,7 +172,7 @@ the same order) to the four attributes described above.</p>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Class containing the information about a syntax error.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute line.</p></div></span>
   
 </li>
 
@@ -197,7 +197,7 @@ the same order) to the four attributes described above.</p>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Class containing the information about a syntax error.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute message.</p></div></span>
   
 </li>
 
@@ -228,31 +228,44 @@ the same order) to the four attributes described above.</p>
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Class containing the information about a syntax error. It has four attributes:
-line:= the line at which the syntax error occurred (note that this starts from
-1, while Document and EditorView count lines from 0)
-message:= a string describing the syntax error
-code:= a string with the code around the point where the syntax error occurred
-column:= the column at which the syntax error occurred</p>
-<p>This class&#8217;constructor can take up to four parameters, corresponding (in
-the same order) to the four attributes described above.</p>
+    <p>Returns the value of attribute code</p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
   
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../../Object.html" title="Object (class)">Object</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the current value of code</p></div>
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-84</pre>
+84
+85
+86</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'plugins/syntax_checker/syntax_checker.rb', line 84</span>
 
-<span class='const'>ErrorDescription</span> <span class='op'>=</span> <span class='const'>Struct</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='symbol'>:line</span><span class='comma'>,</span> <span class='symbol'>:message</span><span class='comma'>,</span> <span class='symbol'>:code</span><span class='comma'>,</span> <span class='symbol'>:column</span><span class='rparen'>)</span></pre>
+<span class='kw'>def</span> <span class='id code'>code</span>
+  <span class='ivar'>@code</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -270,31 +283,44 @@ the same order) to the four attributes described above.</p>
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Class containing the information about a syntax error. It has four attributes:
-line:= the line at which the syntax error occurred (note that this starts from
-1, while Document and EditorView count lines from 0)
-message:= a string describing the syntax error
-code:= a string with the code around the point where the syntax error occurred
-column:= the column at which the syntax error occurred</p>
-<p>This class&#8217;constructor can take up to four parameters, corresponding (in
-the same order) to the four attributes described above.</p>
+    <p>Returns the value of attribute column</p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
   
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../../Object.html" title="Object (class)">Object</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the current value of column</p></div>
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-84</pre>
+84
+85
+86</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'plugins/syntax_checker/syntax_checker.rb', line 84</span>
 
-<span class='const'>ErrorDescription</span> <span class='op'>=</span> <span class='const'>Struct</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='symbol'>:line</span><span class='comma'>,</span> <span class='symbol'>:message</span><span class='comma'>,</span> <span class='symbol'>:code</span><span class='comma'>,</span> <span class='symbol'>:column</span><span class='rparen'>)</span></pre>
+<span class='kw'>def</span> <span class='id column'>column</span>
+  <span class='ivar'>@column</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -312,31 +338,44 @@ the same order) to the four attributes described above.</p>
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Class containing the information about a syntax error. It has four attributes:
-line:= the line at which the syntax error occurred (note that this starts from
-1, while Document and EditorView count lines from 0)
-message:= a string describing the syntax error
-code:= a string with the code around the point where the syntax error occurred
-column:= the column at which the syntax error occurred</p>
-<p>This class&#8217;constructor can take up to four parameters, corresponding (in
-the same order) to the four attributes described above.</p>
+    <p>Returns the value of attribute line</p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
   
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../../Object.html" title="Object (class)">Object</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the current value of line</p></div>
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-84</pre>
+84
+85
+86</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'plugins/syntax_checker/syntax_checker.rb', line 84</span>
 
-<span class='const'>ErrorDescription</span> <span class='op'>=</span> <span class='const'>Struct</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='symbol'>:line</span><span class='comma'>,</span> <span class='symbol'>:message</span><span class='comma'>,</span> <span class='symbol'>:code</span><span class='comma'>,</span> <span class='symbol'>:column</span><span class='rparen'>)</span></pre>
+<span class='kw'>def</span> <span class='id line'>line</span>
+  <span class='ivar'>@line</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -354,31 +393,44 @@ the same order) to the four attributes described above.</p>
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Class containing the information about a syntax error. It has four attributes:
-line:= the line at which the syntax error occurred (note that this starts from
-1, while Document and EditorView count lines from 0)
-message:= a string describing the syntax error
-code:= a string with the code around the point where the syntax error occurred
-column:= the column at which the syntax error occurred</p>
-<p>This class&#8217;constructor can take up to four parameters, corresponding (in
-the same order) to the four attributes described above.</p>
+    <p>Returns the value of attribute message</p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
   
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../../Object.html" title="Object (class)">Object</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the current value of message</p></div>
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-84</pre>
+84
+85
+86</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'plugins/syntax_checker/syntax_checker.rb', line 84</span>
 
-<span class='const'>ErrorDescription</span> <span class='op'>=</span> <span class='const'>Struct</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='symbol'>:line</span><span class='comma'>,</span> <span class='symbol'>:message</span><span class='comma'>,</span> <span class='symbol'>:code</span><span class='comma'>,</span> <span class='symbol'>:column</span><span class='rparen'>)</span></pre>
+<span class='kw'>def</span> <span class='id message'>message</span>
+  <span class='ivar'>@message</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -392,9 +444,9 @@ the same order) to the four attributes described above.</p>
 </div>
     
     <div id="footer">
-  Generated on Sat Nov  6 13:29:17 2010 by 
+  Generated on Tue Jan 11 14:27:01 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.1 (ruby-1.9.2).
+  0.6.4 (ruby-1.9.2).
 </div>
 
   </body>

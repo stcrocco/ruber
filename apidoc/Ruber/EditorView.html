@@ -364,7 +364,7 @@ collection.</p></div></span>
     <li class="public ">
       <span class="summary_signature">
 <!-- The sub is needed to remove the (Object) part -->
-      <a href="#closing-signalcode" title="closing (signalcode)">- <strong>closing</strong> </a>
+      <a href="#closing-signalcode" title="closing (signalcode)">- <strong>closing</strong>(QWidget* arg1) </a>
       </span>
       <span class="summary_desc"><div class='inline'></div></span>
     </li>
@@ -483,13 +483,15 @@ collection.</p></div></span>
 105
 106
 107
-108</pre>
+108
+109</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/editor/editor_view.rb', line 72</span>
 
 <span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id doc'>doc</span><span class='comma'>,</span> <span class='id internal'>internal</span><span class='comma'>,</span> <span class='id parent'>parent</span> <span class='op'>=</span> <span class='kw'>nil</span>
   <span class='kw'>super</span> <span class='id parent'>parent</span>
+  <span class='id set_attribute'>set_attribute</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>WA_DeleteOnClose</span><span class='comma'>,</span> <span class='kw'>true</span>
   <span class='ivar'>@block_selection</span> <span class='op'>=</span> <span class='kw'>false</span>
   <span class='ivar'>@doc</span> <span class='op'>=</span> <span class='id doc'>doc</span>
   <span class='ivar'>@view</span> <span class='op'>=</span> <span class='id internal'>internal</span>
@@ -635,12 +637,12 @@ collection.</p></div></span>
       <pre class="lines">
 
 
-122
 123
-124</pre>
+124
+125</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/editor/editor_view.rb', line 122</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/editor/editor_view.rb', line 123</span>
 
 <span class='kw'>def</span> <span class='id block_selection?'>block_selection?</span>
   <span class='ivar'>@view</span><span class='period'>.</span><span class='id block_selection'>block_selection</span><span class='period'>.</span><span class='id to_bool'>to_bool</span>
@@ -663,18 +665,20 @@ collection.</p></div></span>
       <pre class="lines">
 
 
-126
 127
 128
-129</pre>
+129
+130
+131</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/editor/editor_view.rb', line 126</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/editor/editor_view.rb', line 127</span>
 
 <span class='kw'>def</span> <span class='id close'>close</span>
-  <span class='id emit'>emit</span> <span class='id closing'>closing</span>
+  <span class='id emit'>emit</span> <span class='id closing'>closing</span> <span class='kw'>self</span>
   <span class='kw'>super</span>
-<span class='kw'>end</span></pre>
+<span class='comment'>#       delete_later
+</span><span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -706,18 +710,18 @@ the signal.</p>
       <pre class="lines">
 
 
-144
-145
 146
 147
 148
 149
 150
 151
-152</pre>
+152
+153
+154</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/editor/editor_view.rb', line 144</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/editor/editor_view.rb', line 146</span>
 
 <span class='kw'>def</span> <span class='id execute_action'>execute_action</span> <span class='id name'>name</span><span class='comma'>,</span> <span class='id arg'>arg</span> <span class='op'>=</span> <span class='kw'>nil</span>
   <span class='id a'>a</span> <span class='op'>=</span> <span class='id action_collection'>action_collection</span><span class='period'>.</span><span class='id action'>action</span><span class='lparen'>(</span><span class='id name'>name</span><span class='rparen'>)</span>
@@ -746,12 +750,12 @@ the signal.</p>
       <pre class="lines">
 
 
-110
 111
-112</pre>
+112
+113</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/editor/editor_view.rb', line 110</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/editor/editor_view.rb', line 111</span>
 
 <span class='kw'>def</span> <span class='id go_to'>go_to</span> <span class='id row'>row</span><span class='comma'>,</span> <span class='id col'>col</span>
   <span class='ivar'>@view</span><span class='period'>.</span><span class='id cursor_position'>cursor_position</span> <span class='op'>=</span> <span class='const'>KTextEditor</span><span class='op'>::</span><span class='const'>Cursor</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id row'>row</span><span class='comma'>,</span> <span class='id col'>col</span><span class='rparen'>)</span>
@@ -774,12 +778,12 @@ the signal.</p>
       <pre class="lines">
 
 
-118
 119
-120</pre>
+120
+121</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/editor/editor_view.rb', line 118</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/editor/editor_view.rb', line 119</span>
 
 <span class='kw'>def</span> <span class='id hide_annotation_border'>hide_annotation_border</span>
   <span class='id set_annotation_border_visible'>set_annotation_border_visible</span> <span class='kw'>false</span>
@@ -802,12 +806,12 @@ the signal.</p>
       <pre class="lines">
 
 
-131
-132
-133</pre>
+133
+134
+135</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/editor/editor_view.rb', line 131</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/editor/editor_view.rb', line 133</span>
 
 <span class='kw'>def</span> <span class='id set_annotation_border_visible'>set_annotation_border_visible</span> <span class='id vis'>vis</span>
   <span class='ivar'>@view</span><span class='period'>.</span><span class='id qobject_cast'>qobject_cast</span><span class='lparen'>(</span><span class='const'>KTextEditor</span><span class='op'>::</span><span class='const'>AnnotationViewInterface</span><span class='rparen'>)</span><span class='period'>.</span><span class='id set_annotation_border_visible'>set_annotation_border_visible</span> <span class='id vis'>vis</span>
@@ -830,12 +834,12 @@ the signal.</p>
       <pre class="lines">
 
 
-114
 115
-116</pre>
+116
+117</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/editor/editor_view.rb', line 114</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/editor/editor_view.rb', line 115</span>
 
 <span class='kw'>def</span> <span class='id show_annotation_border'>show_annotation_border</span>
   <span class='id set_annotation_border_visible'>set_annotation_border_visible</span> <span class='kw'>true</span>
@@ -858,17 +862,17 @@ the signal.</p>
       <pre class="lines">
 
 
-156
-157
 158
 159
 160
 161
 162
-163</pre>
+163
+164
+165</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/editor/editor_view.rb', line 156</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/editor/editor_view.rb', line 158</span>
 
 <span class='kw'>def</span> <span class='id slot_selection_changed'>slot_selection_changed</span> <span class='id v'>v</span>
   <span class='id emit'>emit</span> <span class='id selection_changed'>selection_changed</span><span class='lparen'>(</span><span class='kw'>self</span><span class='rparen'>)</span>
@@ -895,7 +899,7 @@ the signal.</p>
       <div class="method_details first">
   <p class="signature first" id="closing-signalcode">
 <!-- The sub is needed to remove the (Object) part -->
-  - <strong>closing</strong> 
+  - <strong>closing</strong>(QWidget* arg1) 
 </p>
 </div>
     
@@ -946,9 +950,9 @@ the signal.</p>
 </div>
     
     <div id="footer">
-  Generated on Sat Nov  6 13:29:08 2010 by 
+  Generated on Tue Jan 11 14:26:52 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.1 (ruby-1.9.2).
+  0.6.4 (ruby-1.9.2).
 </div>
 
   </body>

@@ -76,7 +76,7 @@
     <p>Utility class to be used to avoid having to repeat the group
 when fetching options from a <span class='object_link'><a href="../SettingsContainer.html" title="Ruber::SettingsContainer (module)">Ruber::SettingsContainer</a></span>. When created, it takes a <span class='object_link'><a href="../SettingsContainer.html" title="Ruber::SettingsContainer (module)">Ruber::SettingsContainer</a></span>
 and a group name as parameters. To access one option in that group, you can simply
-call the <span class='object_link'><a href="#%5B%5D-instance_method" title="Ruber::SettingsContainer::Proxy#[] (method)">Proxy#[]</a></span> and <span class='object_link'><a href="#%5B%5D%3D-instance_method" title="Ruber::SettingsContainer::Proxy#[]= (method)">Proxy#[]=</a></span> methods specifying the option name (and, in the second case,
+call the <span class='object_link'><a href="#%5B%5D-instance_method" title="Ruber::SettingsContainer::Proxy#[] (method)">#[]</a></span> and <span class='object_link'><a href="#%5B%5D%3D-instance_method" title="Ruber::SettingsContainer::Proxy#[]= (method)">#[]=</a></span> methods specifying the option name (and, in the second case,
 the value). Alternatively, you can use the option names as if they were method
 names (appending an equal sign to store values)</p>
 <p>Note that you don&#8217;t usually need to create instances of this class, as <span class='object_link'><a href="../SettingsContainer.html#%5B%5D-instance_method" title="Ruber::SettingsContainer#[] (method)">#[]</a></span>
@@ -100,7 +100,7 @@ returns one when called with one argument.</p>
 <span class='id settings_container'>settings_container</span><span class='lbracket'>[</span><span class='symbol'>:group1</span><span class='comma'>,</span> <span class='symbol'>:o3</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='int'>3</span>
 <span class='id settings_container'>settings_container</span><span class='lbracket'>[</span><span class='symbol'>:group1</span><span class='comma'>,</span> <span class='symbol'>:o4</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='int'>4</span></pre>
     
-      <h4><div class='inline'><p>Using <span class='object_link'><a href="#%5B%5D-instance_method" title="Ruber::SettingsContainer::Proxy#[] (method)">Proxy#[]</a></span> and <span class='object_link'><a href="#%5B%5D-instance_method" title="Ruber::SettingsContainer::Proxy#[] (method)">Proxy#[]</a></span>:</p></div></h4>
+      <h4><div class='inline'><p>Using <span class='object_link'><a href="#%5B%5D-instance_method" title="Ruber::SettingsContainer::Proxy#[] (method)">#[]</a></span> and <span class='object_link'><a href="#%5B%5D-instance_method" title="Ruber::SettingsContainer::Proxy#[] (method)">#[]</a></span>:</p></div></h4>
       <pre class="example code">
 <span class='id proxy'>proxy</span> <span class='op'>=</span> <span class='id settings_container'>settings_container</span><span class='lbracket'>[</span><span class='symbol'>:group1</span><span class='rbracket'>]</span>
 <span class='id o1'>o1</span> <span class='op'>=</span> <span class='id proxy'>proxy</span><span class='lbracket'>[</span><span class='symbol'>:o1</span><span class='rbracket'>]</span>
@@ -112,7 +112,7 @@ returns one when called with one argument.</p>
 <span class='id proxy'>proxy</span><span class='lbracket'>[</span><span class='symbol'>:o3</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='int'>3</span>
 <span class='id proxy'>proxy</span><span class='lbracket'>[</span><span class='symbol'>:o4</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='int'>4</span></pre>
     
-      <h4><div class='inline'><p>Using Proxy via <span class='object_link'><a href="#method_missing-instance_method" title="Ruber::SettingsContainer::Proxy#method_missing (method)">Proxy#method_missing</a></span></p></div></h4>
+      <h4><div class='inline'><p>Using Proxy via <span class='object_link'><a href="#method_missing-instance_method" title="Ruber::SettingsContainer::Proxy#method_missing (method)">#method_missing</a></span></p></div></h4>
       <pre class="example code">
 <span class='id proxy'>proxy</span> <span class='op'>=</span> <span class='id settings_container'>settings_container</span><span class='lbracket'>[</span><span class='symbol'>:group1</span><span class='rbracket'>]</span>
 <span class='id o1'>o1</span> <span class='op'>=</span> <span class='id proxy'>proxy</span><span class='period'>.</span><span class='id o1'>o1</span>
@@ -154,7 +154,7 @@ returns one when called with one argument.</p>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Calls the <span class='object_link'><a href="#%5B%5D-instance_method" title="Ruber::SettingsContainer::Proxy#[] (method)">Proxy#[]</a></span> method of the associated container.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Calls the <span class='object_link'><a href="#%5B%5D-instance_method" title="Ruber::SettingsContainer::Proxy#[] (method)">#[]</a></span> method of the associated container.</p></div></span>
   
 </li>
 
@@ -176,7 +176,7 @@ returns one when called with one argument.</p>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Calls the <span class='object_link'><a href="#%5B%5D%3D-instance_method" title="Ruber::SettingsContainer::Proxy#[]= (method)">Proxy#[]=</a></span> method of the associated container.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Calls the <span class='object_link'><a href="#%5B%5D%3D-instance_method" title="Ruber::SettingsContainer::Proxy#[]= (method)">#[]=</a></span> method of the associated container.</p></div></span>
   
 </li>
 
@@ -565,9 +565,9 @@ associated with the proxy.</p>
 </div>
     
     <div id="footer">
-  Generated on Sat Nov  6 13:29:09 2010 by 
+  Generated on Tue Jan 11 14:26:52 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.1 (ruby-1.9.2).
+  0.6.4 (ruby-1.9.2).
 </div>
 
   </body>

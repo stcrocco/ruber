@@ -67,11 +67,16 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     <p>Plugin which allows Ruber to store and restore back its state.</p>
-<p>In this context, the term <em>state</em> means the open project and documents, the position
-of the cursor in each document and the active document. All this data is stored
+<p>In this context, the term <em>state</em> means the open project and documents, the tabs
+in the main window, the editors in each tab, the position of the cursor in the
+editors and the active editor. All this data is stored
 in the configuration file and in the project or document project files. Using
 the <span class="caps">API</span> provided by this plugin, it is possible to restore a single document,
 project or the whole application to the state it was when it was last closed.</p>
+<p>Documents which haven&#8217;t been saved to a file are only partially restored: an empty
+document is created for them (different views associated with the same document
+will correctly be associated with the same empty document after restoration). Unsaved
+changes in documents not associated with files won&#8217;t be restored.</p>
 <p>In addition to providing an <span class="caps">API</span> for saving and restoring state, this plugin also
 restores the full Ruber state when restoring a session and (according to the
 user preferences) when the application starts up.</p>
@@ -82,7 +87,7 @@ user preferences) when the application starts up.</p>
   
 </div>    <h2>API for feature <tt>state</tt></h2>
       <h4>Plugin object API</h4>
-      <p>See API for <span class='object_link'><a href="State/Plugin.html" title="Ruber::State::Plugin (class)">State::Plugin</a></span></p>
+      <p>See API for <span class='object_link'><a href="State/Plugin.html" title="Ruber::State::Plugin (class)">Plugin</a></span></p>
 
 
 
@@ -105,9 +110,9 @@ user preferences) when the application starts up.</p>
 </div>
     
     <div id="footer">
-  Generated on Sun Nov 14 17:10:00 2010 by 
+  Generated on Tue Jan 11 14:26:45 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.1 (ruby-1.9.2).
+  0.6.4 (ruby-1.9.2).
 </div>
 
   </body>

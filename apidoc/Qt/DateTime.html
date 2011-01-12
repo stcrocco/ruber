@@ -215,13 +215,13 @@
       <pre class="lines">
 
 
-358
-359
 360
-361</pre>
+361
+362
+363</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/qt_sugar.rb', line 358</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/qt_sugar.rb', line 360</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id _load'>_load</span> <span class='id str'>str</span>
   <span class='id date'>date</span><span class='comma'>,</span> <span class='id time'>time</span><span class='comma'>,</span> <span class='id time_spec'>time_spec</span> <span class='op'>=</span> <span class='const'>Marshal</span><span class='period'>.</span><span class='id load'>load</span> <span class='id str'>str</span>
@@ -245,13 +245,13 @@
       <pre class="lines">
 
 
-339
-340
 341
-342</pre>
+342
+343
+344</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/qt_sugar.rb', line 339</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/qt_sugar.rb', line 341</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id yaml_new'>yaml_new</span> <span class='id cls'>cls</span><span class='comma'>,</span> <span class='id tag'>tag</span><span class='comma'>,</span> <span class='id val'>val</span>
   <span class='id date'>date</span><span class='comma'>,</span> <span class='id time'>time</span><span class='comma'>,</span> <span class='id spec'>spec</span> <span class='op'>=</span> <span class='id val'>val</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>date</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id val'>val</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>time</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id val'>val</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>time_spec</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
@@ -281,12 +281,12 @@
       <pre class="lines">
 
 
-354
-355
-356</pre>
+356
+357
+358</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/qt_sugar.rb', line 354</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/qt_sugar.rb', line 356</span>
 
 <span class='kw'>def</span> <span class='id _dump'>_dump</span> <span class='id _'>_</span>
   <span class='const'>Marshal</span><span class='period'>.</span><span class='id dump'>dump</span> <span class='lbracket'>[</span><span class='id date'>date</span><span class='comma'>,</span> <span class='id time'>time</span><span class='comma'>,</span> <span class='id time_spec'>time_spec</span><span class='rbracket'>]</span>
@@ -309,18 +309,18 @@
       <pre class="lines">
 
 
-344
-345
 346
 347
 348
 349
 350
 351
-352</pre>
+352
+353
+354</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/qt_sugar.rb', line 344</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/qt_sugar.rb', line 346</span>
 
 <span class='kw'>def</span> <span class='id to_yaml'>to_yaml</span> <span class='id opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
   <span class='const'>YAML</span><span class='period'>.</span><span class='id quick_emit'>quick_emit</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id opts'>opts</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id out'>out</span><span class='op'>|</span>
@@ -343,9 +343,9 @@
 </div>
     
     <div id="footer">
-  Generated on Sat Nov  6 13:28:59 2010 by 
+  Generated on Tue Jan 11 14:26:41 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.1 (ruby-1.9.2).
+  0.6.4 (ruby-1.9.2).
 </div>
 
   </body>

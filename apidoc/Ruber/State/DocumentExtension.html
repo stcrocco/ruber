@@ -53,10 +53,12 @@
   
     <dt class="r1">Inherits:</dt>
     <dd class="r1">
-      <span class="inheritName"><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></span>
+      <span class="inheritName">Qt::Object</span>
       
         <ul class="fullTree">
           <li><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next">Qt::Object</li>
           
             <li class="next">Ruber::State::DocumentExtension</li>
           
@@ -78,9 +80,7 @@
   
   
     <dt class="r1 last">Defined in:</dt>
-    <dd class="r1 last">plugins/state/state.rb<span class="defines">,<br />
-  plugins/state/state.rb,<br /> plugins/state/state.rb</span>
-</dd>
+    <dd class="r1 last">plugins/state/state.rb</dd>
   
 </dl>
 <div class="clear"></div>
@@ -88,8 +88,12 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     <p>Extension for documents needed by the State plugin</p>
-<p>The scope of this extension is to save and restore the position of the cursor
-in the document</p>
+<p>The scope of this extension is to move the cursor of all newly created views
+associated with the document to the position it was in the last used view. The
+cursor position for the first view is read from the document&#8217;s own project, where
+it is saved whenever the document is closed.</p>
+<p>The cursor position for a view is moved in response to the <span class='object_link'><a href="../Document.html#view_created-signalcode" title="Ruber::Document#view_created (signalcode)">Document#view_created</a></span>
+signal.</p>
 
   </div>
 </div>
@@ -97,6 +101,7 @@ in the document</p>
   
 </div>
 
+  
   
   
   
@@ -114,7 +119,7 @@ in the document</p>
 <li class="private ">
   <span class="summary_signature">
     
-      <a href="#auto_restore-instance_method" title="#auto_restore (instance method)">- (nil) <strong>auto_restore</strong> </a>
+      <a href="#auto_restore-instance_method" title="#auto_restore (instance method)">- (nil) <strong>auto_restore</strong>(view) </a>
     
 
     
@@ -129,7 +134,7 @@ in the document</p>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Moves the cursor in a new view to the position stored in the document&#8217;s own project.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Restores the cursor position for a view if the user choosed to do so.</p></div></span>
   
 </li>
 
@@ -162,7 +167,7 @@ in the document</p>
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#restore-instance_method" title="#restore (instance method)">- (nil) <strong>restore</strong> </a>
+      <a href="#restore-instance_method" title="#restore (instance method)">- (nil) <strong>restore</strong>(view) </a>
     
 
     
@@ -175,8 +180,7 @@ in the document</p>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Restores the position of the cursor according to the value saved in the document&#8217;s
-own project.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Moves the cursor of a view to the position it was in the last used view.</p></div></span>
   
 </li>
 
@@ -203,6 +207,54 @@ own project.</p></div></span>
 </li>
 
       
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#view_closing-instance_method" title="#view_closing (instance method)">- (nil) <strong>view_closing</strong>(view) </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Method called whenever a view associated with the document is closed.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#view_received_focus-instance_method" title="#view_received_focus (instance method)">- (nil) <strong>view_received_focus</strong>(view) </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Memorizes which view has last received focus.</p></div></span>
+  
+</li>
+
+      
     </ul>
   
 
@@ -217,6 +269,7 @@ own project.</p></div></span>
   <h3 class="inherited">Methods included from <span class='object_link'><a href="../Extension.html" title="Ruber::Extension (module)">Extension</a></span></h3>
   <p class="inherited"><span class='object_link'><a href="../Extension.html#query_close-instance_method" title="Ruber::Extension#query_close (method)">#query_close</a></span>, <span class='object_link'><a href="../Extension.html#remove_from_project-instance_method" title="Ruber::Extension#remove_from_project (method)">#remove_from_project</a></span>, <span class='object_link'><a href="../Extension.html#shutdown-instance_method" title="Ruber::Extension#shutdown (method)">#shutdown</a></span></p>
 
+  
 
 
 
@@ -264,21 +317,25 @@ own project.</p></div></span>
       <pre class="lines">
 
 
-345
-346
-347
-348
-349
-350</pre>
+544
+545
+546
+547
+548
+549
+550
+551</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 345</span>
+      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 544</span>
 
 <span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id prj'>prj</span>
   <span class='kw'>super</span>
+  <span class='ivar'>@last_view</span> <span class='op'>=</span> <span class='kw'>nil</span>
   <span class='ivar'>@project</span> <span class='op'>=</span> <span class='id prj'>prj</span>
   <span class='ivar'>@document</span> <span class='op'>=</span> <span class='id prj'>prj</span><span class='period'>.</span><span class='id document'>document</span>
-  <span class='id connect'>connect</span> <span class='ivar'>@document</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>view_created(QObject*, QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:auto_restore</span><span class='rparen'>)</span>
+  <span class='id connect'>connect</span> <span class='ivar'>@document</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>view_created(QObject*, QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>auto_restore(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+  <span class='id connect'>connect</span> <span class='ivar'>@document</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>closing_view(QWidget*, QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>view_closing(QWidget*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -295,20 +352,38 @@ own project.</p></div></span>
       <div class="method_details first">
   <p class="signature first" id="auto_restore-instance_method">
   
-    - (<tt>nil</tt>) <strong>auto_restore</strong>  <span class="extras">(private)</span>
+    - (<tt>nil</tt>) <strong>auto_restore</strong>(view)  <span class="extras">(private)</span>
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Moves the cursor in a new view to the position stored in the document&#8217;s own project</p>
-<p>It does nothing if the user chose not to have the position restored when opening
-a document.</p>
+    <p>Restores the cursor position for a view if the user choosed to do so</p>
+<p>It does nothing if the user choosed not to restore the cursor position when a view
+is created</p>
 
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>)</span>
+      
+      
+        <span class='name'>the</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>view to restore the cursor position for</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
@@ -328,42 +403,62 @@ a document.</p>
       <pre class="lines">
 
 
-393
-394
-395
-396</pre>
+596
+597
+598
+599
+600</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 393</span>
+      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 596</span>
 
-<span class='kw'>def</span> <span class='id auto_restore'>auto_restore</span>
-  <span class='id restore'>restore</span> <span class='kw'>if</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id restore_cursor_position?'>restore_cursor_position?</span>
+<span class='kw'>def</span> <span class='id auto_restore'>auto_restore</span> <span class='id view'>view</span>
+  <span class='id restore'>restore</span> <span class='id view'>view</span> <span class='kw'>if</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id restore_cursor_position?'>restore_cursor_position?</span>
+  <span class='id connect'>connect</span> <span class='id view'>view</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>focus_in(QWidget*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>view_received_focus(QWidget*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
   <span class='kw'>nil</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
 </div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
-      <p style="margin-top: 5pt;"><tt>auto_restore()</tt></p>
+      <p style="margin-top: 5pt;"><tt>auto_restore(QObject*)</tt></p>
 
     
       <div class="method_details ">
   <p class="signature " id="restore-instance_method">
   
-    - (<tt>nil</tt>) <strong>restore</strong> 
+    - (<tt>nil</tt>) <strong>restore</strong>(view) 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Restores the position of the cursor according to the value saved in the document&#8217;s
-own project</p>
-<p>It does nothing if the document isn&#8217;t associated with a view</p>
+    <p>Moves the cursor of a view to the position it was in the last used view</p>
+<p>If there are no other views associated with the document, the position of the
+cursor is read from the document&#8217;s own project</p>
 
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>)</span>
+      
+      
+        <span class='name'>the</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>view to move the cursor for</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
@@ -383,22 +478,24 @@ own project</p>
       <pre class="lines">
 
 
-359
-360
-361
-362
-363
-364
-365</pre>
+561
+562
+563
+564
+565
+566
+567
+568</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 359</span>
+      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 561</span>
 
-<span class='kw'>def</span> <span class='id restore'>restore</span>
-  <span class='id view'>view</span> <span class='op'>=</span> <span class='ivar'>@document</span><span class='period'>.</span><span class='id view'>view</span>
-  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id view'>view</span>
-  <span class='id pos'>pos</span> <span class='op'>=</span> <span class='ivar'>@document</span><span class='period'>.</span><span class='id own_project'>own_project</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='comma'>,</span> <span class='symbol'>:cursor_position</span><span class='rbracket'>]</span>
-  <span class='id view'>view</span><span class='period'>.</span><span class='id go_to'>go_to</span> <span class='op'>*</span><span class='id pos'>pos</span>
+<span class='kw'>def</span> <span class='id restore'>restore</span> <span class='id view'>view</span>
+  <span class='kw'>if</span> <span class='ivar'>@last_view</span> <span class='kw'>then</span> <span class='id view'>view</span><span class='period'>.</span><span class='id cursor_position'>cursor_position</span> <span class='op'>=</span> <span class='ivar'>@last_view</span><span class='period'>.</span><span class='id cursor_position'>cursor_position</span>
+  <span class='kw'>else</span>
+    <span class='id pos'>pos</span> <span class='op'>=</span> <span class='ivar'>@document</span><span class='period'>.</span><span class='id own_project'>own_project</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='comma'>,</span> <span class='symbol'>:cursor_position</span><span class='rbracket'>]</span>
+    <span class='id view'>view</span><span class='period'>.</span><span class='id go_to'>go_to</span> <span class='op'>*</span><span class='id pos'>pos</span>
+  <span class='kw'>end</span>
   <span class='kw'>nil</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -441,30 +538,180 @@ own project</p>
       <pre class="lines">
 
 
-373
-374
-375
-376
-377
-378
-379
-380</pre>
+576
+577
+578
+579
+580
+581
+582
+583</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 373</span>
+      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 576</span>
 
 <span class='kw'>def</span> <span class='id save_settings'>save_settings</span>
-  <span class='id view'>view</span> <span class='op'>=</span> <span class='ivar'>@document</span><span class='period'>.</span><span class='id view'>view</span> 
-  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id view'>view</span>
-  <span class='id cur'>cur</span> <span class='op'>=</span> <span class='id view'>view</span><span class='period'>.</span><span class='id cursor_position'>cursor_position</span>
-  <span class='id pos'>pos</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id cur'>cur</span><span class='period'>.</span><span class='id line'>line</span><span class='comma'>,</span> <span class='id cur'>cur</span><span class='period'>.</span><span class='id column'>column</span><span class='rbracket'>]</span>
-  <span class='ivar'>@project</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='comma'>,</span> <span class='symbol'>:cursor_position</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id pos'>pos</span>
+  <span class='kw'>if</span> <span class='ivar'>@last_view</span>
+    <span class='id cur'>cur</span> <span class='op'>=</span> <span class='ivar'>@last_view</span><span class='period'>.</span><span class='id cursor_position'>cursor_position</span>
+    <span class='id pos'>pos</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id cur'>cur</span><span class='period'>.</span><span class='id line'>line</span><span class='comma'>,</span> <span class='id cur'>cur</span><span class='period'>.</span><span class='id column'>column</span><span class='rbracket'>]</span>
+    <span class='ivar'>@project</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='comma'>,</span> <span class='symbol'>:cursor_position</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id pos'>pos</span>
+  <span class='kw'>end</span>        
   <span class='kw'>nil</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
 </div>
+    
+      <div class="method_details ">
+  <p class="signature " id="view_closing-instance_method">
+  
+    - (<tt>nil</tt>) <strong>view_closing</strong>(view)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Method called whenever a view associated with the document is closed</p>
+<p>If the closed view is the one which last got focus, its cursor position is saved
+in the document&#8217;s own project. Otherwise nothing is done.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>)</span>
+      
+      
+        <span class='name'>view</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the view being closed</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+624
+625
+626
+627
+628
+629</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 624</span>
+
+<span class='kw'>def</span> <span class='id view_closing'>view_closing</span> <span class='id view'>view</span>
+  <span class='kw'>if</span> <span class='id view'>view</span> <span class='op'>==</span> <span class='ivar'>@last_view</span>
+    <span class='id save_settings'>save_settings</span>
+    <span class='ivar'>@last_view</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>view_closing(QWidget*)</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="view_received_focus-instance_method">
+  
+    - (<tt>nil</tt>) <strong>view_received_focus</strong>(view)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Memorizes which view has last received focus</p>
+<p>This information is used to decide which view to ask for the cursor position when
+a new view is created or the cursor position needs to be saved to the project</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>)</span>
+      
+      
+        <span class='name'>view</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the view which has received focus</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+610
+611
+612
+613</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 610</span>
+
+<span class='kw'>def</span> <span class='id view_received_focus'>view_received_focus</span> <span class='id view'>view</span>
+  <span class='ivar'>@last_view</span> <span class='op'>=</span> <span class='id view'>view</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>view_received_focus(QWidget*)</tt></p>
+
     
   </div>
 
@@ -473,9 +720,9 @@ own project</p>
 </div>
     
     <div id="footer">
-  Generated on Sun Nov 14 17:10:00 2010 by 
+  Generated on Tue Jan 11 14:26:46 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.1 (ruby-1.9.2).
+  0.6.4 (ruby-1.9.2).
 </div>
 
   </body>

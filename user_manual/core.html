@@ -26,6 +26,8 @@
         <div class="announce">
           <h2>Latest news:</h2>
           
+            <p><a href="../news.html#Ruber-0-0-7-released-2011-01-12">Ruber 0.0.7 released</a></p>
+          
             <p><a href="../news.html#Ruber-0-0-6-released-2010-11-14">Ruber 0.0.6 released</a></p>
           
             <p><a href="../news.html#Ruber-0-0-5-released-2010-11-03">Ruber 0.0.5 released</a></p>
@@ -58,6 +60,27 @@ need to use modelines. See the <a href="http://docs.kde.org/development/en/kdesd
 This is because stand-alone files are meant to truly be stand-alone. For example,
 the rake plugin provides no functionality for single files, because usually a
 Rakefile is used together with other files.</p>
+<h4>Working with split views</h4>
+<p>From version 0.0.7, Ruber supports split views. This means that you can have
+more than one view in a single tab. To split the current view in two, you use the
+<code>Window/Split Horizontally</code> and <code>Window/Split Vertically</code> menu entries. This
+will divide the view which currently has focus in two, with both halves displaying
+the same document. If you want to have one of the views, you can use one of the 
+other entries of the <code>Window</code> menu:</p>
+<ul>
+	<li><code>Switch to New File</code> will create a new, empty document and display it in the
+  current view</li>
+	<li><code>Switch to Open File</code> will display an open file dialog and display the file you
+  choose in the current view</li>
+	<li>the entries of the <code>Switch to Document</code> display one of the already open documents
+  in the current view</li>
+	<li>the entries of the <code>Switch to Recent File</code> display one of the recently open
+  files in the current view</li>
+</ul>
+<p>When working with more than one view per tab, note that the <code>File/Close</code> menu entry
+will close the current view, not the current tab. To close all the views in the
+current tab at the same time, you can use the close button on the tab (unless
+you disabled them) or the <code>File/Close Current Tab</code> entry.</p>
 <h4>Working with projects</h4>
 <p>In Ruber, a project consists of a directory (called <em>project directory</em>_)
 containing a file with extension

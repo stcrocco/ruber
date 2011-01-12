@@ -76,9 +76,7 @@
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">lib/ruber/output_widget.rb<span class="defines">,<br />
-  lib/ruber/output_widget.rb</span>
-</dd>
+    <dd class="r2 last">lib/ruber/output_widget.rb</dd>
   
 </dl>
 <div class="clear"></div>
@@ -227,12 +225,12 @@ less than <em>n</em>, the new entries will be added at the end of the list
       <pre class="lines">
 
 
-1058
-1059
-1060</pre>
+1064
+1065
+1066</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/output_widget.rb', line 1058</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/output_widget.rb', line 1064</span>
 
 <span class='kw'>def</span> <span class='id insert_after'>insert_after</span> <span class='id entry'>entry</span><span class='comma'>,</span> <span class='op'>*</span><span class='id names'>names</span>
   <span class='id insert_after_or_before'>insert_after_or_before</span> <span class='id entry'>entry</span><span class='comma'>,</span> <span class='symbol'>:after</span><span class='comma'>,</span> <span class='id names'>names</span>
@@ -268,12 +266,6 @@ inserted after or before the position.</p>
       <pre class="lines">
 
 
-1073
-1074
-1075
-1076
-1077
-1078
 1079
 1080
 1081
@@ -282,10 +274,16 @@ inserted after or before the position.</p>
 1084
 1085
 1086
-1087</pre>
+1087
+1088
+1089
+1090
+1091
+1092
+1093</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/output_widget.rb', line 1073</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/output_widget.rb', line 1079</span>
 
 <span class='kw'>def</span> <span class='id insert_after_or_before'>insert_after_or_before</span> <span class='id entry'>entry</span><span class='comma'>,</span> <span class='id where'>where</span><span class='comma'>,</span> <span class='id names'>names</span>
   <span class='id idx'>idx</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='id entry'>entry</span><span class='period'>.</span><span class='id is_a?'>is_a?</span> <span class='const'>Integer</span>
@@ -335,12 +333,12 @@ less than <em>n</em>, the new entries will be added at the end of the list
       <pre class="lines">
 
 
-1043
-1044
-1045</pre>
+1049
+1050
+1051</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/output_widget.rb', line 1043</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/output_widget.rb', line 1049</span>
 
 <span class='kw'>def</span> <span class='id insert_before'>insert_before</span> <span class='id entry'>entry</span><span class='comma'>,</span> <span class='op'>*</span><span class='id names'>names</span>
   <span class='id insert_after_or_before'>insert_after_or_before</span> <span class='id entry'>entry</span><span class='comma'>,</span> <span class='symbol'>:before</span><span class='comma'>,</span> <span class='id names'>names</span>
@@ -357,9 +355,9 @@ less than <em>n</em>, the new entries will be added at the end of the list
 </div>
     
     <div id="footer">
-  Generated on Sat Nov 13 18:00:49 2010 by 
+  Generated on Tue Jan 11 14:26:47 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.1 (ruby-1.9.2).
+  0.6.4 (ruby-1.9.2).
 </div>
 
   </body>

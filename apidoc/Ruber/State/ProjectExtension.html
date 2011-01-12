@@ -53,10 +53,12 @@
   
     <dt class="r1">Inherits:</dt>
     <dd class="r1">
-      <span class="inheritName"><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></span>
+      <span class="inheritName">Qt::Object</span>
       
         <ul class="fullTree">
           <li><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next">Qt::Object</li>
           
             <li class="next">Ruber::State::ProjectExtension</li>
           
@@ -78,9 +80,7 @@
   
   
     <dt class="r1 last">Defined in:</dt>
-    <dd class="r1 last">plugins/state/state.rb<span class="defines">,<br />
-  plugins/state/state.rb,<br /> plugins/state/state.rb</span>
-</dd>
+    <dd class="r1 last">plugins/state/state.rb</dd>
   
 </dl>
 <div class="clear"></div>
@@ -88,8 +88,8 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     <p>Extension for projects needed by the State plugin</p>
-<p>The scope of this extension is to save and restore the open documents associated
-with projects</p>
+<p>The scope of this extension is to save and restore the state of the tabs open
+when the project was last closed</p>
 
   </div>
 </div>
@@ -97,6 +97,7 @@ with projects</p>
   
 </div>
 
+  
   
   
   
@@ -129,8 +130,7 @@ with projects</p>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Opens all the files associated with the proejct which were opened last time the
-project&#8217;s state was changed when the project is opened.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Restores the project&#8217;s state when a new project is activated.</p></div></span>
   
 </li>
 
@@ -176,8 +176,7 @@ project&#8217;s state was changed when the project is opened.</p></div></span>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Opens all the files associated with the proejct which were opened last time the
-project&#8217;s state was changed.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Restore Ruber&#8217;s state as it was when the project was last closed.</p></div></span>
   
 </li>
 
@@ -194,12 +193,14 @@ project&#8217;s state was changed.</p></div></span>
   
   
   
+    <span class="note title"><strong>slot</strong></span>
+  
   
   
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Saves the list of open project files to the project.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Saves Ruber&#8217;s state to the project.</p></div></span>
   
 </li>
 
@@ -218,6 +219,7 @@ project&#8217;s state was changed.</p></div></span>
   <h3 class="inherited">Methods included from <span class='object_link'><a href="../Extension.html" title="Ruber::Extension (module)">Extension</a></span></h3>
   <p class="inherited"><span class='object_link'><a href="../Extension.html#query_close-instance_method" title="Ruber::Extension#query_close (method)">#query_close</a></span>, <span class='object_link'><a href="../Extension.html#remove_from_project-instance_method" title="Ruber::Extension#remove_from_project (method)">#remove_from_project</a></span>, <span class='object_link'><a href="../Extension.html#shutdown-instance_method" title="Ruber::Extension#shutdown (method)">#shutdown</a></span></p>
 
+  
 
 
 
@@ -265,19 +267,21 @@ project&#8217;s state was changed.</p></div></span>
       <pre class="lines">
 
 
-415
-416
-417
-418
-419</pre>
+649
+650
+651
+652
+653
+654</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 415</span>
+      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 649</span>
 
 <span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id prj'>prj</span>
   <span class='kw'>super</span>
   <span class='ivar'>@project</span> <span class='op'>=</span> <span class='id prj'>prj</span>
   <span class='id connect'>connect</span> <span class='ivar'>@project</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:activated</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:auto_restore</span><span class='rparen'>)</span>
+  <span class='id connect'>connect</span> <span class='ivar'>@project</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:deactivated</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:save_settings</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -300,11 +304,8 @@ project&#8217;s state was changed.</p></div></span>
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Opens all the files associated with the proejct which were opened last time the
-project&#8217;s state was changed when the project is opened.</p>
-<p>Any already open document is closed (after saving).</p>
-<p>It does nothing if the user chose not restore open project files when opening a
-project.</p>
+    <p>Restores the project&#8217;s state when a new project is activated</p>
+<p>It does nothing if the user choosed not to restore the projects&#8217;s state.</p>
 
   </div>
 </div>
@@ -329,13 +330,13 @@ project.</p>
       <pre class="lines">
 
 
-470
-471
-472
-473</pre>
+694
+695
+696
+697</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 470</span>
+      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 694</span>
 
 <span class='kw'>def</span> <span class='id auto_restore'>auto_restore</span>
   <span class='ivar'>@project</span><span class='period'>.</span><span class='id disconnect'>disconnect</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:activated</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:auto_restore</span><span class='rparen'>)</span>
@@ -357,9 +358,8 @@ project.</p>
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Opens all the files associated with the proejct which were opened last time the
-project&#8217;s state was changed</p>
-<p>Any already open document is closed (after saving)</p>
+    <p>Restore Ruber&#8217;s state as it was when the project was last closed</p>
+<p>See <span class='object_link'><a href="Plugin.html#restore_documents-instance_method" title="Ruber::State::Plugin#restore_documents (method)">Ruber::State::Plugin#restore_documents</a></span> for more information</p>
 
   </div>
 </div>
@@ -384,34 +384,16 @@ project&#8217;s state was changed</p>
       <pre class="lines">
 
 
-430
-431
-432
-433
-434
-435
-436
-437
-438
-439
-440
-441
-442</pre>
+664
+665
+666
+667</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 430</span>
+      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 664</span>
 
 <span class='kw'>def</span> <span class='id restore'>restore</span>
-  <span class='id files'>files</span> <span class='op'>=</span> <span class='ivar'>@project</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='comma'>,</span> <span class='symbol'>:open_documents</span><span class='rbracket'>]</span>
-  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:docs</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id close_all'>close_all</span>
-  <span class='kw'>return</span> <span class='kw'>if</span> <span class='id files'>files</span><span class='period'>.</span><span class='id empty?'>empty?</span>
-  <span class='id active_file'>active_file</span> <span class='op'>=</span> <span class='ivar'>@project</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='comma'>,</span> <span class='symbol'>:active_document</span><span class='rbracket'>]</span>
-  <span class='id active_file'>active_file</span> <span class='op'>=</span> <span class='id files'>files</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='id files'>files</span><span class='period'>.</span><span class='id include?'>include?</span> <span class='id active_file'>active_file</span>
-  <span class='id mw'>mw</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span>
-  <span class='id mw'>mw</span><span class='period'>.</span><span class='id without_activating'>without_activating</span> <span class='kw'>do</span>
-    <span class='id files'>files</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id f'>f</span><span class='op'>|</span> <span class='id mw'>mw</span><span class='period'>.</span><span class='id editor_for!'>editor_for!</span> <span class='id f'>f</span><span class='rbrace'>}</span>
-  <span class='kw'>end</span>
-  <span class='id mw'>mw</span><span class='period'>.</span><span class='id display_document'>display_document</span> <span class='id active_file'>active_file</span>
+  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id restore_documents'>restore_documents</span> <span class='ivar'>@project</span>
   <span class='kw'>nil</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -428,7 +410,9 @@ project&#8217;s state was changed</p>
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Saves the list of open project files to the project</p>
+    <p>Saves Ruber&#8217;s state to the project</p>
+<p>The saved information is: the configuration of open tabs, the position of the cursor
+in the views and the active view</p>
 
   </div>
 </div>
@@ -453,30 +437,32 @@ project&#8217;s state was changed</p>
       <pre class="lines">
 
 
-449
-450
-451
-452
-453
-454
-455
-456</pre>
+677
+678
+679
+680
+681
+682
+683
+684</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 449</span>
+      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 677</span>
 
 <span class='kw'>def</span> <span class='id save_settings'>save_settings</span>
-  <span class='id files'>files</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:docs</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id documents_with_file'>documents_with_file</span><span class='period'>.</span><span class='id map'>map</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id d'>d</span><span class='op'>|</span> <span class='id d'>d</span><span class='period'>.</span><span class='id path'>path</span><span class='rbrace'>}</span>
-  <span class='id active'>active</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current_document'>current_document</span>
-  <span class='id active_path'>active_path</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id active'>active</span><span class='period'>.</span><span class='id nil?'>nil?</span> <span class='kw'>or</span> <span class='id active'>active</span><span class='period'>.</span><span class='id path'>path</span><span class='period'>.</span><span class='id empty?'>empty?</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='kw'>nil</span> <span class='op'>:</span> <span class='id active'>active</span><span class='period'>.</span><span class='id path'>path</span>
-  <span class='ivar'>@project</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='comma'>,</span> <span class='symbol'>:open_documents</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id files'>files</span>
-  <span class='ivar'>@project</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='comma'>,</span> <span class='symbol'>:active_document</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id active_path'>active_path</span>
+  <span class='ivar'>@project</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='comma'>,</span> <span class='symbol'>:open_documents</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id documents_state'>documents_state</span>
+  <span class='id tabs_state'>tabs_state</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id tabs_state'>tabs_state</span>
+  <span class='lbracket'>[</span><span class='symbol'>:tabs</span><span class='comma'>,</span> <span class='symbol'>:cursor_positions</span><span class='comma'>,</span> <span class='symbol'>:active_view</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id e'>e</span><span class='op'>|</span>
+    <span class='ivar'>@project</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='comma'>,</span> <span class='id e'>e</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id tabs_state'>tabs_state</span><span class='lbracket'>[</span><span class='id e'>e</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
   <span class='kw'>nil</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
-</div>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>save_settings()</tt></p>
+
     
   </div>
 
@@ -485,9 +471,9 @@ project&#8217;s state was changed</p>
 </div>
     
     <div id="footer">
-  Generated on Sun Nov 14 17:10:00 2010 by 
+  Generated on Tue Jan 11 14:26:46 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.1 (ruby-1.9.2).
+  0.6.4 (ruby-1.9.2).
 </div>
 
   </body>

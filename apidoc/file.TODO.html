@@ -66,7 +66,6 @@ carry out</p>
   only if the tab text explicitly contains and &amp;, apparently <span class="caps">KDE</span>::TabWidget inserts
   it automatically if it doesn&#8217;t exist. However, looking at the corresponding
   documentation, I don&#8217;t understand where the change comes from</li>
-	<li>Add optional close buttons to the tab bar (Qt::TabWidget#button_closeable=)</li>
 	<li>? Make the initialize methods of all the widgets meant to be subclassed take a block
   and handle it as Qt::Widget does (relying on the underlying implementation doesn&#8217;t
   work because the block is called by the parent widget&#8217;s initialize method, before
@@ -82,11 +81,6 @@ carry out</p>
 	<li>Make the output widgets not autoscroll unless the scroll bar is at the end. This
   would allow the user to look at a certain line of output while other text is
   being added</li>
-	<li>Make files specified with the extension .rb in the require section of the <span class="caps">PSF</span>
-  be loaded instead of required. This, together with the recomandation of creating
-  classes which are part of a feature&#8217;s <span class="caps">API</span> using Class.new or removing them in
-  the unload method should take care of the issue of classes/constants defined by
-  multiple plugins</li>
 	<li>!Do something so that saving a YamlOptionBackend is an atomic action (this means
   creating a temp file, writing to it then copying on the actual file. There might
   be permission problems)</li>
@@ -209,9 +203,9 @@ and git, and maybe a generic <span class="caps">VCS</span> plugin</p>
 <h3>Debugger plugin</h3></div></div>
     
     <div id="footer">
-  Generated on Sun Nov 14 17:22:12 2010 by 
+  Generated on Tue Jan 11 14:50:40 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.1 (ruby-1.9.2).
+  0.6.4 (ruby-1.9.2).
 </div>
 
   </body>

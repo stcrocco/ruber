@@ -1,0 +1,247 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>Module: Qt::LayoutEach</title>
+<link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (L)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../Qt.html" title="Qt (module)">Qt</a></span></span>
+     &raquo; 
+    <span class="title">LayoutEach</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Module: Qt::LayoutEach
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+  
+    
+      <dt class="r1">Includes:</dt>
+      <dd class="r1">QtEnumerable</dd>
+      
+    
+  
+  
+    <dt class="r2">Included in:</dt>
+    <dd class="r2"><span class='object_link'><a href="BoxLayout.html" title="Qt::BoxLayout (class)">BoxLayout</a></span>, <span class='object_link'><a href="FormLayout.html" title="Qt::FormLayout (class)">FormLayout</a></span>, <span class='object_link'><a href="GridLayout.html" title="Qt::GridLayout (class)">GridLayout</a></span>, <span class='object_link'><a href="HBoxLayout.html" title="Qt::HBoxLayout (class)">HBoxLayout</a></span>, <span class='object_link'><a href="Layout.html" title="Qt::Layout (class)">Layout</a></span>, <span class='object_link'><a href="StackedLayout.html" title="Qt::StackedLayout (class)">StackedLayout</a></span>, <span class='object_link'><a href="VBoxLayout.html" title="Qt::VBoxLayout (class)">VBoxLayout</a></span></dd>
+    
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">lib/ruber/qt_sugar.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>Module implementing the <span class='object_link'><a href="#each-instance_method" title="Qt::LayoutEach#each (method)">#each</a></span> method used by all layout classes</p>
+<p>Ideally, this method should be implemented in <span class='object_link'><a href="Layout.html" title="Qt::Layout (class)">Layout</a></span> and other classes should
+inherit it. However, since QtRuby doesn&#8217;t actually implements inheritance between
+it&#8217;s classes, that doesn&#8217;t happen.</p>
+<p>The <span class='object_link'><a href="#each-instance_method" title="Qt::LayoutEach#each (method)">#each</a></span> method is then defined in this module which is included in all layout
+classes</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+
+
+
+
+
+  
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#each-instance_method" title="#each (instance method)">- (Qt::Layout, Enumerator) <strong>each</strong> {|w| ... }</a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Iterates on all items in the layout.</p></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="each-instance_method">
+  
+    - (<tt><span class='object_link'><a href="Layout.html" title="Qt::Layout (class)">Qt::Layout</a></span></tt>, <tt>Enumerator</tt>) <strong>each</strong> {|w| ... }
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Iterates on all items in the layout</p>
+<p>The iteration order is from top to bottom and from left to right. In case of widgets
+which span multiple rows or columns (in case of a <code>Qt::GridLayout</code>), the widgets
+will only be passed one time.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Yields:</h3>
+<ul class="yield">
+  
+    <li>
+      
+        <span class='type'>(<tt>w</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>block to call for each widget in the layout</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Yield Parameters:</h3>
+<ul class="yieldparam">
+  
+    <li>
+      
+        <span class='type'>(<tt>Qt::Widget</tt>)</span>
+      
+      
+        <span class='name'>w</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>each widget</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Layout.html" title="Qt::Layout (class)">Qt::Layout</a></span></tt>, <tt>Enumerator</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>if no block is given, returns an enumerator, otherwise
+returns <strong>self</strong></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+648
+649
+650
+651
+652
+653
+654
+655</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/qt_sugar.rb', line 648</span>
+
+<span class='kw'>def</span> <span class='id each'>each</span>
+  <span class='kw'>return</span> <span class='id to_enum'>to_enum</span> <span class='kw'>unless</span> <span class='id block_given?'>block_given?</span>
+  <span class='id count'>count</span><span class='period'>.</span><span class='id times'>times</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span> 
+    <span class='id it'>it</span> <span class='op'>=</span> <span class='id item_at'>item_at</span> <span class='id i'>i</span>
+    <span class='kw'>yield</span> <span class='id it'>it</span><span class='period'>.</span><span class='id widget'>widget</span> <span class='op'>||</span> <span class='id it'>it</span><span class='period'>.</span><span class='id layout'>layout</span>
+  <span class='kw'>end</span>
+  <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Tue Jan 11 14:26:42 2011 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.4 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>

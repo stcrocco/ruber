@@ -71,7 +71,7 @@
   
     
       <dt class="r2">Includes:</dt>
-      <dd class="r2">Enumerable</dd>
+      <dd class="r2">QtEnumerable</dd>
       
     
   
@@ -243,12 +243,12 @@
       <pre class="lines">
 
 
-564
-565
-566</pre>
+566
+567
+568</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/qt_sugar.rb', line 564</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/qt_sugar.rb', line 566</span>
 
 <span class='kw'>def</span> <span class='id checked='>checked=</span> <span class='id value'>value</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id check_state'>check_state</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id value'>value</span> <span class='op'>?</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Checked</span> <span class='op'>:</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Unchecked</span><span class='rparen'>)</span>
@@ -292,12 +292,12 @@
       <pre class="lines">
 
 
-551
-552
-553</pre>
+553
+554
+555</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/qt_sugar.rb', line 551</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/qt_sugar.rb', line 553</span>
 
 <span class='kw'>def</span> <span class='id checked?'>checked?</span>
   <span class='id check_state'>check_state</span> <span class='op'>!=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Unchecked</span>
@@ -330,8 +330,6 @@ of <ins>self</ins>; it&#8217;s not recursive.
       <pre class="lines">
 
 
-523
-524
 525
 526
 527
@@ -340,10 +338,12 @@ of <ins>self</ins>; it&#8217;s not recursive.
 530
 531
 532
-533</pre>
+533
+534
+535</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/qt_sugar.rb', line 523</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/qt_sugar.rb', line 525</span>
 
 <span class='kw'>def</span> <span class='id each'>each</span>
   <span class='kw'>if</span> <span class='id block_given?'>block_given?</span>
@@ -383,8 +383,6 @@ Enumerator if called without a block</p>
       <pre class="lines">
 
 
-539
-540
 541
 542
 543
@@ -392,10 +390,12 @@ Enumerator if called without a block</p>
 545
 546
 547
-548</pre>
+548
+549
+550</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/qt_sugar.rb', line 539</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/qt_sugar.rb', line 541</span>
 
 <span class='kw'>def</span> <span class='id each_row'>each_row</span>
   <span class='kw'>if</span> <span class='id block_given?'>block_given?</span>
@@ -446,12 +446,12 @@ Enumerator if called without a block</p>
       <pre class="lines">
 
 
-556
-557
-558</pre>
+558
+559
+560</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/qt_sugar.rb', line 556</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/qt_sugar.rb', line 558</span>
 
 <span class='kw'>def</span> <span class='id fully_checked?'>fully_checked?</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id check_state'>check_state</span> <span class='op'>==</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Checked</span>
@@ -468,9 +468,9 @@ Enumerator if called without a block</p>
 </div>
     
     <div id="footer">
-  Generated on Sat Nov  6 13:28:59 2010 by 
+  Generated on Tue Jan 11 14:26:42 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.1 (ruby-1.9.2).
+  0.6.4 (ruby-1.9.2).
 </div>
 
   </body>

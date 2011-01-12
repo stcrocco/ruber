@@ -330,14 +330,6 @@ widget.</p>
       <span class="summary_desc"><div class='inline'><p>Signal emitted when a new file is added to the model.</p></div></span>
     </li>
   
-    <li class="public ">
-      <span class="summary_signature">
-<!-- The sub is needed to remove the (Object) part -->
-      <a href="#file_added-signalcode" title="file_added (signalcode)">- <strong>file_added</strong>(QString str) </a>
-      </span>
-      <span class="summary_desc"><div class='inline'><p>Signal emitted when a new file is added to the model.</p></div></span>
-    </li>
-  
   </ul>
 
 
@@ -366,7 +358,7 @@ widget.</p>
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Qt::Object</a></span></tt>, <tt>nil</tt>)</span>
+        <span class='type'>(<tt>Qt::Object</tt>, <tt>nil</tt>)</span>
       
       
         <span class='name'>parent</span>
@@ -811,6 +803,8 @@ checkable (the same happens for its children)</p>
       <pre class="lines">
 
 
+445
+446
 447
 448
 449
@@ -824,12 +818,10 @@ checkable (the same happens for its children)</p>
 457
 458
 459
-460
-461
-462</pre>
+460</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/find_in_files/find_in_files_widgets.rb', line 447</span>
+      <pre class="code"><span class="info file"># File 'plugins/find_in_files/find_in_files_widgets.rb', line 445</span>
 
 <span class='kw'>def</span> <span class='id file_modified'>file_modified</span> <span class='id file'>file</span>
   <span class='ivar'>@watcher</span><span class='period'>.</span><span class='id remove_file'>remove_file</span> <span class='id file'>file</span>
@@ -1151,47 +1143,14 @@ because the document corresponding to the file was modified</p>
 </div>
 </div>
     
-      <div class="method_details ">
-  <p class="signature " id="file_added-signalcode">
-<!-- The sub is needed to remove the (Object) part -->
-  - <strong>file_added</strong>(QString str) 
-</p><div class="docstring">
-  <div class="discussion">
-    <p>Signal emitted when a new file is added to the model.</p>
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Parameters:</h3>
-<ul class="param">
-  
-    <li>
-      
-        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
-      
-      
-        <span class='name'>str</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>the name of the file</p></div>
-      
-    </li>
-  
-</ul>
-
-</div>
-</div>
-    
   </div>
 
 </div>
     
     <div id="footer">
-  Generated on Sun Nov 14 17:10:02 2010 by 
+  Generated on Tue Jan 11 14:27:06 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.1 (ruby-1.9.2).
+  0.6.4 (ruby-1.9.2).
 </div>
 
   </body>

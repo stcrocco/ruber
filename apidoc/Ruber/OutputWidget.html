@@ -1087,14 +1087,6 @@ permanently changing the autoscrolling setting.</p></div></span>
       <span class="summary_desc"><div class='inline'></div></span>
     </li>
   
-    <li class="public ">
-      <span class="summary_signature">
-<!-- The sub is needed to remove the (Object) part -->
-      <a href="#about_to_fill_menu-signalcode" title="about_to_fill_menu (signalcode)">- <strong>about_to_fill_menu</strong> </a>
-      </span>
-      <span class="summary_desc"><div class='inline'></div></span>
-    </li>
-  
   </ul>
 
 
@@ -2025,17 +2017,6 @@ number; for the last one they&#8217;re mandatory</p>
       <pre class="lines">
 
 
-749
-750
-751
-752
-753
-754
-755
-756
-757
-758
-759
 760
 761
 762
@@ -2058,10 +2039,21 @@ number; for the last one they&#8217;re mandatory</p>
 779
 780
 781
-782</pre>
+782
+783
+784
+785
+786
+787
+788
+789
+790
+791
+792
+793</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/output_widget.rb', line 749</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/output_widget.rb', line 760</span>
 
 <span class='kw'>def</span> <span class='id find_filename_in_string'>find_filename_in_string</span> <span class='id str'>str</span>
   <span class='comment'>#This ensures that file names inside quotes or brackets are found. It's
@@ -2277,7 +2269,7 @@ likely doing that, not requesting to open a file</li>
   <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id file'>file</span>
   <span class='id line'>line</span> <span class='op'>=</span> <span class='id file'>file</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span>
   <span class='id line'>line</span> <span class='op'>-=</span> <span class='int'>1</span> <span class='kw'>if</span> <span class='id line'>line</span> <span class='op'>&gt;</span> <span class='int'>0</span>
-  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id display_document'>display_document</span> <span class='id file'>file</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id line'>line</span>
+  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id display_document'>display_document</span> <span class='id file'>file</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id line'>line</span><span class='comma'>,</span> <span class='int'>0</span>
   <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id hide_tool'>hide_tool</span> <span class='kw'>self</span> <span class='kw'>if</span> <span class='lparen'>(</span><span class='const'>Qt</span><span class='op'>::</span><span class='const'>MetaModifier</span> <span class='op'>&amp;</span> <span class='id modifiers'>modifiers</span><span class='rparen'>)</span> <span class='op'>==</span> <span class='int'>0</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -2876,21 +2868,14 @@ permanently changing the autoscrolling setting.</p>
 </p>
 </div>
     
-      <div class="method_details ">
-  <p class="signature " id="about_to_fill_menu-signalcode">
-<!-- The sub is needed to remove the (Object) part -->
-  - <strong>about_to_fill_menu</strong> 
-</p>
-</div>
-    
   </div>
 
 </div>
     
     <div id="footer">
-  Generated on Sat Nov 13 18:00:49 2010 by 
+  Generated on Tue Jan 11 14:26:47 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.1 (ruby-1.9.2).
+  0.6.4 (ruby-1.9.2).
 </div>
 
   </body>

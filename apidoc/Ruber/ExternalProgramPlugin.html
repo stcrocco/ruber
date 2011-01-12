@@ -58,6 +58,8 @@
         <ul class="fullTree">
           <li><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></li>
           
+            <li class="next">Qt::Object</li>
+          
             <li class="next"><span class='object_link'><a href="Plugin.html" title="Ruber::Plugin (class)">Plugin</a></span></li>
           
             <li class="next"><span class='object_link'><a href="GuiPlugin.html" title="Ruber::GuiPlugin (class)">GuiPlugin</a></span></li>
@@ -150,7 +152,7 @@ program doesn't exist)
   
 </div><div id="subclasses">
   <h2>Direct Known Subclasses</h2>
-  <p class="children"><span class='object_link'><a href="FindInFiles/FindInFilesPlugin.html" title="Ruber::FindInFiles::FindInFilesPlugin (class)">FindInFiles::FindInFilesPlugin</a></span>, <span class='object_link'><a href="RubyRunner/RubyRunnerPluginInternal.html" title="Ruber::RubyRunner::RubyRunnerPluginInternal (class)">RubyRunner::RubyRunnerPluginInternal</a></span></p>
+  <p class="children"><span class='object_link'><a href="FindInFiles/FindInFilesPlugin.html" title="Ruber::FindInFiles::FindInFilesPlugin (class)">FindInFiles::FindInFilesPlugin</a></span>, <span class='object_link'><a href="RubyRunner/RubyRunnerPlugin.html" title="Ruber::RubyRunner::RubyRunnerPlugin (class)">RubyRunner::RubyRunnerPlugin</a></span></p>
 </div>
 
   <h2>Constant Summary</h2>
@@ -168,6 +170,7 @@ program doesn't exist)
   <h3 class="inherited">Constants inherited from <span class='object_link'><a href="Plugin.html" title="Ruber::Plugin (class)">Plugin</a></span></h3>
   <p class="inherited"><span class='object_link'><a href="Plugin.html#LICENSES-constant" title="Ruber::Plugin::LICENSES (constant)">LICENSES</a></span></p>
 
+  
   
   
   
@@ -375,7 +378,8 @@ the process <tt>error(QProcess::ProcessError)</tt> signal if the argument is
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#run_process-instance_method" title="#run_process (instance method)">- (Object) <strong>run_process</strong>(prog, dir, args, title = '') </a>
+      <a href="#run_process-instance_method" title="#run_process (instance method)">- (Object) <strong>run_process</strong>(prog, dir, args, title = ''
+) </a>
     
 
     
@@ -499,57 +503,10 @@ signal.</p></div></span>
   <h3 class="inherited">Methods included from <span class='object_link'><a href="PluginLike.html" title="Ruber::PluginLike (module)">PluginLike</a></span></h3>
   <p class="inherited"><span class='object_link'><a href="PluginLike.html#add_extensions_to_project-instance_method" title="Ruber::PluginLike#add_extensions_to_project (method)">#add_extensions_to_project</a></span>, <span class='object_link'><a href="PluginLike.html#add_options_to_project-instance_method" title="Ruber::PluginLike#add_options_to_project (method)">#add_options_to_project</a></span>, <span class='object_link'><a href="PluginLike.html#add_widgets_to_project-instance_method" title="Ruber::PluginLike#add_widgets_to_project (method)">#add_widgets_to_project</a></span>, <span class='object_link'><a href="PluginLike.html#create_tool_widget-instance_method" title="Ruber::PluginLike#create_tool_widget (method)">#create_tool_widget</a></span>, <span class='object_link'><a href="PluginLike.html#delayed_initialize-instance_method" title="Ruber::PluginLike#delayed_initialize (method)">#delayed_initialize</a></span>, <span class='object_link'><a href="PluginLike.html#initialize_plugin-instance_method" title="Ruber::PluginLike#initialize_plugin (method)">#initialize_plugin</a></span>, <span class='object_link'><a href="PluginLike.html#load_settings-instance_method" title="Ruber::PluginLike#load_settings (method)">#load_settings</a></span>, <span class='object_link'><a href="PluginLike.html#plugin_name-instance_method" title="Ruber::PluginLike#plugin_name (method)">#plugin_name</a></span>, <span class='object_link'><a href="PluginLike.html#query_close-instance_method" title="Ruber::PluginLike#query_close (method)">#query_close</a></span>, <span class='object_link'><a href="PluginLike.html#register_options-instance_method" title="Ruber::PluginLike#register_options (method)">#register_options</a></span>, <span class='object_link'><a href="PluginLike.html#register_with_project-instance_method" title="Ruber::PluginLike#register_with_project (method)">#register_with_project</a></span>, <span class='object_link'><a href="PluginLike.html#remove_extensions_from_project-instance_method" title="Ruber::PluginLike#remove_extensions_from_project (method)">#remove_extensions_from_project</a></span>, <span class='object_link'><a href="PluginLike.html#remove_from_project-instance_method" title="Ruber::PluginLike#remove_from_project (method)">#remove_from_project</a></span>, <span class='object_link'><a href="PluginLike.html#remove_options_from_project-instance_method" title="Ruber::PluginLike#remove_options_from_project (method)">#remove_options_from_project</a></span>, <span class='object_link'><a href="PluginLike.html#remove_widgets_from_project-instance_method" title="Ruber::PluginLike#remove_widgets_from_project (method)">#remove_widgets_from_project</a></span>, <span class='object_link'><a href="PluginLike.html#restore_session-instance_method" title="Ruber::PluginLike#restore_session (method)">#restore_session</a></span>, <span class='object_link'><a href="PluginLike.html#save_settings-instance_method" title="Ruber::PluginLike#save_settings (method)">#save_settings</a></span>, <span class='object_link'><a href="PluginLike.html#session_data-instance_method" title="Ruber::PluginLike#session_data (method)">#session_data</a></span>, <span class='object_link'><a href="PluginLike.html#setup_action-instance_method" title="Ruber::PluginLike#setup_action (method)">#setup_action</a></span>, <span class='object_link'><a href="PluginLike.html#setup_actions-instance_method" title="Ruber::PluginLike#setup_actions (method)">#setup_actions</a></span>, <span class='object_link'><a href="PluginLike.html#unload-instance_method" title="Ruber::PluginLike#unload (method)">#unload</a></span>, <span class='object_link'><a href="PluginLike.html#update_project-instance_method" title="Ruber::PluginLike#update_project (method)">#update_project</a></span></p>
 
+  
 
   <h2>Signal Summary</h2>
   <ul class="summary" >
-  
-    <li class="public ">
-      <span class="summary_signature">
-<!-- The sub is needed to remove the (Object) part -->
-      <a href="#process_finished-signalcode" title="process_finished (signalcode)">- <strong>process_finished</strong>(int arg1, QString arg2) </a>
-      </span>
-      <span class="summary_desc"><div class='inline'></div></span>
-    </li>
-  
-    <li class="public ">
-      <span class="summary_signature">
-<!-- The sub is needed to remove the (Object) part -->
-      <a href="#process_started-signalcode" title="process_started (signalcode)">- <strong>process_started</strong> </a>
-      </span>
-      <span class="summary_desc"><div class='inline'></div></span>
-    </li>
-  
-    <li class="public ">
-      <span class="summary_signature">
-<!-- The sub is needed to remove the (Object) part -->
-      <a href="#process_failed_to_start-signalcode" title="process_failed_to_start (signalcode)">- <strong>process_failed_to_start</strong> </a>
-      </span>
-      <span class="summary_desc"><div class='inline'></div></span>
-    </li>
-  
-    <li class="public ">
-      <span class="summary_signature">
-<!-- The sub is needed to remove the (Object) part -->
-      <a href="#process_finished-signalcode" title="process_finished (signalcode)">- <strong>process_finished</strong>(int arg1, QString arg2) </a>
-      </span>
-      <span class="summary_desc"><div class='inline'></div></span>
-    </li>
-  
-    <li class="public ">
-      <span class="summary_signature">
-<!-- The sub is needed to remove the (Object) part -->
-      <a href="#process_started-signalcode" title="process_started (signalcode)">- <strong>process_started</strong> </a>
-      </span>
-      <span class="summary_desc"><div class='inline'></div></span>
-    </li>
-  
-    <li class="public ">
-      <span class="summary_signature">
-<!-- The sub is needed to remove the (Object) part -->
-      <a href="#process_failed_to_start-signalcode" title="process_failed_to_start (signalcode)">- <strong>process_failed_to_start</strong> </a>
-      </span>
-      <span class="summary_desc"><div class='inline'></div></span>
-    </li>
   
     <li class="public ">
       <span class="summary_signature">
@@ -749,14 +706,6 @@ signal or override this method without calling <strong>super</strong></p>
       <pre class="lines">
 
 
-371
-372
-373
-374
-375
-376
-377
-378
 379
 380
 381
@@ -771,10 +720,18 @@ signal or override this method without calling <strong>super</strong></p>
 390
 391
 392
-393</pre>
+393
+394
+395
+396
+397
+398
+399
+400
+401</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/external_program_plugin.rb', line 371</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/external_program_plugin.rb', line 379</span>
 
 <span class='kw'>def</span> <span class='id display_exit_message'>display_exit_message</span> <span class='id code'>code</span><span class='comma'>,</span> <span class='id reason'>reason</span>
   <span class='kw'>return</span> <span class='kw'>unless</span> <span class='ivar'>@output_widget</span>
@@ -1002,23 +959,23 @@ emit the <tt>failed_to_start()</tt> signal.</p>
       <pre class="lines">
 
 
-318
-319
-320
-321
-322
-323
-324
-325
 326
 327
 328
 329
 330
-331</pre>
+331
+332
+333
+334
+335
+336
+337
+338
+339</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/external_program_plugin.rb', line 318</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/external_program_plugin.rb', line 326</span>
 
 <span class='kw'>def</span> <span class='id failed_to_start'>failed_to_start</span>
   <span class='id emit'>emit</span> <span class='id process_failed_to_start'>process_failed_to_start</span> 
@@ -1099,21 +1056,21 @@ such). If buffering is off, you&#8217;ll have to take care of newlines by yourse
       <pre class="lines">
 
 
-294
-295
-296
-297
-298
-299
-300
 301
 302
 303
 304
-305</pre>
+305
+306
+307
+308
+309
+310
+311
+312</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/external_program_plugin.rb', line 294</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/external_program_plugin.rb', line 301</span>
 
 <span class='kw'>def</span> <span class='id process_standard_error'>process_standard_error</span> <span class='id lines'>lines</span>
   <span class='kw'>return</span> <span class='kw'>unless</span> <span class='ivar'>@output_widget</span>
@@ -1192,9 +1149,6 @@ such). If buffering is off, you&#8217;ll have to take care of newlines by yourse
       <pre class="lines">
 
 
-269
-270
-271
 272
 273
 274
@@ -1203,10 +1157,13 @@ such). If buffering is off, you&#8217;ll have to take care of newlines by yourse
 277
 278
 279
-280</pre>
+280
+281
+282
+283</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/external_program_plugin.rb', line 269</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/external_program_plugin.rb', line 272</span>
 
 <span class='kw'>def</span> <span class='id process_standard_output'>process_standard_output</span> <span class='id lines'>lines</span>
   <span class='kw'>return</span> <span class='kw'>unless</span> <span class='ivar'>@output_widget</span>
@@ -1228,7 +1185,8 @@ such). If buffering is off, you&#8217;ll have to take care of newlines by yourse
       <div class="method_details ">
   <p class="signature " id="run_process-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>run_process</strong>(prog, dir, args, title = '') 
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>run_process</strong>(prog, dir, args, title = ''
+) 
   
 
   
@@ -1353,22 +1311,22 @@ signal.</p>
       <pre class="lines">
 
 
-339
-340
-341
-342
-343
-344
-345
-346
 347
 348
 349
 350
-351</pre>
+351
+352
+353
+354
+355
+356
+357
+358
+359</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/external_program_plugin.rb', line 339</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/external_program_plugin.rb', line 347</span>
 
 <span class='kw'>def</span> <span class='id slot_process_finished'>slot_process_finished</span> <span class='id code'>code</span><span class='comma'>,</span> <span class='id status'>status</span>
   <span class='id str'>str</span> <span class='op'>=</span> <span class='ivar'>@process</span><span class='period'>.</span><span class='id read_all_standard_output'>read_all_standard_output</span><span class='period'>.</span><span class='id to_s'>to_s</span>
@@ -1457,56 +1415,14 @@ signal.</p>
 </p>
 </div>
     
-      <div class="method_details ">
-  <p class="signature " id="process_finished-signalcode">
-<!-- The sub is needed to remove the (Object) part -->
-  - <strong>process_finished</strong>(int arg1, QString arg2) 
-</p>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="process_started-signalcode">
-<!-- The sub is needed to remove the (Object) part -->
-  - <strong>process_started</strong> 
-</p>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="process_failed_to_start-signalcode">
-<!-- The sub is needed to remove the (Object) part -->
-  - <strong>process_failed_to_start</strong> 
-</p>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="process_finished-signalcode">
-<!-- The sub is needed to remove the (Object) part -->
-  - <strong>process_finished</strong>(int arg1, QString arg2) 
-</p>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="process_started-signalcode">
-<!-- The sub is needed to remove the (Object) part -->
-  - <strong>process_started</strong> 
-</p>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="process_failed_to_start-signalcode">
-<!-- The sub is needed to remove the (Object) part -->
-  - <strong>process_failed_to_start</strong> 
-</p>
-</div>
-    
   </div>
 
 </div>
     
     <div id="footer">
-  Generated on Thu Nov 11 12:18:04 2010 by 
+  Generated on Tue Jan 11 14:26:55 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.1 (ruby-1.9.2).
+  0.6.4 (ruby-1.9.2).
 </div>
 
   </body>

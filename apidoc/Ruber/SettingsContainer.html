@@ -89,15 +89,15 @@ a part of the <a href="../file.settings_framework.html">Ruber Settings Framework
 can be accessed using the <code>[group, name]</code> pair. Each group can contain multiple
 settings, obviously all with different names (of course, you can have settings
 with the same name in different groups).</p>
-<p>To read or write a setting, you must first add it, using the <span class='object_link'><a href="#add_setting-instance_method" title="Ruber::SettingsContainer#add_setting (method)">SettingsContainer#add_setting</a></span> method.
+<p>To read or write a setting, you must first add it, using the <span class='object_link'><a href="#add_setting-instance_method" title="Ruber::SettingsContainer#add_setting (method)">#add_setting</a></span> method.
 This method takes what we call a <em>settings object</em>, that is an object describing
 a setting. Among other things, a setting object provides information about the name
 of the setting, the group it belongs to and the default value, that is the value
 to use for the setting if the user hasn&#8217;t changed it.</p>
 <p>The user can change the value of the settings added to a container using the dialog
-returned by the <span class='object_link'><a href="#dialog-instance_method" title="Ruber::SettingsContainer#dialog (method)">SettingsContainer#dialog</a></span> method. This dialog is a sublcass of <code>KDE::PageDialog</code>,
-to which plugins can add the widgets needed to change their settings (see <span class='object_link'><a href="#add_widget-instance_method" title="Ruber::SettingsContainer#add_widget (method)">SettingsContainer#add_widget</a></span>).
-The dialog is only created when the <span class='object_link'><a href="#dialog-instance_method" title="Ruber::SettingsContainer#dialog (method)">SettingsContainer#dialog</a></span> method is called and is destroyed
+returned by the <span class='object_link'><a href="#dialog-instance_method" title="Ruber::SettingsContainer#dialog (method)">#dialog</a></span> method. This dialog is a sublcass of <code>KDE::PageDialog</code>,
+to which plugins can add the widgets needed to change their settings (see <span class='object_link'><a href="#add_widget-instance_method" title="Ruber::SettingsContainer#add_widget (method)">#add_widget</a></span>).
+The dialog is only created when the <span class='object_link'><a href="#dialog-instance_method" title="Ruber::SettingsContainer#dialog (method)">#dialog</a></span> method is called and is destroyed
 every time a widget is added or removed to it.</p>
 <p>This module knows nothing about the way the data is stored to file, so it needs
 a backend to do the reading/writing. Refer to
@@ -105,11 +105,11 @@ a backend to do the reading/writing. Refer to
 for the interface a backend class must provide.</p>
 <p><strong>Notes:</strong></p>
 <ul>
-	<li>classes mixing-in this module <strong>must</strong> call <span class='object_link'><a href="#setup_container-instance_method" title="Ruber::SettingsContainer#setup_container (method)">SettingsContainer#setup_container</a></span> before using the
+	<li>classes mixing-in this module <strong>must</strong> call <span class='object_link'><a href="#setup_container-instance_method" title="Ruber::SettingsContainer#setup_container (method)">#setup_container</a></span> before using the
 functionality it provides. Usually, this can be done from the class&#8217;s <code>initialize</code>
 method</li>
 	<li>the values of the options in the backend aren&#8217;t updated when they are changed
-using the []= method, but only when the <span class='object_link'><a href="#write-instance_method" title="Ruber::SettingsContainer#write (method)">SettingsContainer#write</a></span> method is called.</li>
+using the []= method, but only when the <span class='object_link'><a href="#write-instance_method" title="Ruber::SettingsContainer#write (method)">#write</a></span> method is called.</li>
 	<li>if you want to store a value of a custom class in a settings file, make sure
 you require the file the class is defined in before <em>creating</em> the instance of
 <code>SettingsContainer</code> associated with the configuration file (not before accessing
@@ -206,7 +206,7 @@ will be used.</li>
 
   
     <span class="summary_desc"><div class='inline'><p>Returns the value of a setting
-been added, except in the case of one argument, where the <span class='object_link'><a href="SettingsContainer/Proxy.html" title="Ruber::SettingsContainer::Proxy (class)">SettingsContainer::Proxy</a></span> object is always
+been added, except in the case of one argument, where the <span class='object_link'><a href="SettingsContainer/Proxy.html" title="Ruber::SettingsContainer::Proxy (class)">Proxy</a></span> object is always
 returned.</p></div></span>
   
 </li>
@@ -1158,10 +1158,8 @@ method will have the precedence</p>
           <span class="name">caption</span>
           <span class="default">
             
-              <span class="na">N/A</span>
-            
           </span>
-          &mdash;<div class='inline'><p>the name of the page the widget should be put into. If</p></div>
+          &mdash; <div class='inline'><p>the name of the page the widget should be put into. If</p></div>
         </tr>
       
         <li>
@@ -1173,7 +1171,7 @@ method will have the precedence</p>
               <tt>nil</tt>
             
           </span>
-          &mdash;<div class='inline'><p>the class of the widget to create. The class&#8217;s</p></div>
+          &mdash; <div class='inline'><p>the class of the widget to create. The class&#8217;s</p></div>
         </tr>
       
         <li>
@@ -1185,7 +1183,7 @@ method will have the precedence</p>
               <tt>nil</tt>
             
           </span>
-          &mdash;<div class='inline'><p>a piece of ruby code which, when executed in the</p></div>
+          &mdash; <div class='inline'><p>a piece of ruby code which, when executed in the</p></div>
         </tr>
       
         <li>
@@ -1197,7 +1195,7 @@ method will have the precedence</p>
               <tt>''</tt>
             
           </span>
-          &mdash;<div class='inline'><p>the path of the pixmap to associate to the page</p></div>
+          &mdash; <div class='inline'><p>the path of the pixmap to associate to the page</p></div>
         </tr>
       
     </ul>
@@ -2119,9 +2117,9 @@ override this method and change the value of the option, then return the hash.</
 </div>
     
     <div id="footer">
-  Generated on Sat Nov  6 13:29:09 2010 by 
+  Generated on Tue Jan 11 14:26:52 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.1 (ruby-1.9.2).
+  0.6.4 (ruby-1.9.2).
 </div>
 
   </body>

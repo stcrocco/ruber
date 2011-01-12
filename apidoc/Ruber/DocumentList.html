@@ -53,10 +53,12 @@
   
     <dt class="r1">Inherits:</dt>
     <dd class="r1">
-      <span class="inheritName"><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></span>
+      <span class="inheritName">Qt::Object</span>
       
         <ul class="fullTree">
           <li><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next">Qt::Object</li>
           
             <li class="next">Ruber::DocumentList</li>
           
@@ -88,10 +90,10 @@
     <p>List of all open documents</p>
 <p>It contains convenience methods to iterate on the open documents and to create
 them. Whenever possible, you should use them. In particular, when you need a document
-associated with a given file or <span class="caps">URL</span>, you should always use <span class='object_link'><a href="#document-instance_method" title="Ruber::DocumentList#document (method)">DocumentList#document</a></span>, so that
+associated with a given file or <span class="caps">URL</span>, you should always use <span class='object_link'><a href="#document-instance_method" title="Ruber::DocumentList#document (method)">#document</a></span>, so that
 if a document for that file is already installed, no new document will be created.</p>
 <p>If, for any reason, you need to create a document using Document.new, please
-don&#8217;t forget to add the document to the list using <span class='object_link'><a href="#add_document-instance_method" title="Ruber::DocumentList#add_document (method)">DocumentList#add_document</a></span>.</p>
+don&#8217;t forget to add the document to the list using <span class='object_link'><a href="#add_document-instance_method" title="Ruber::DocumentList#add_document (method)">#add_document</a></span>.</p>
 
   </div>
 </div>
@@ -99,6 +101,7 @@ don&#8217;t forget to add the document to the list using <span class='object_lin
   
 </div>
 
+  
   
   
   
@@ -613,25 +616,10 @@ otherwise.</p></div></span>
   <h3 class="inherited">Methods included from <span class='object_link'><a href="PluginLike.html" title="Ruber::PluginLike (module)">PluginLike</a></span></h3>
   <p class="inherited"><span class='object_link'><a href="PluginLike.html#add_extensions_to_project-instance_method" title="Ruber::PluginLike#add_extensions_to_project (method)">#add_extensions_to_project</a></span>, <span class='object_link'><a href="PluginLike.html#add_options_to_project-instance_method" title="Ruber::PluginLike#add_options_to_project (method)">#add_options_to_project</a></span>, <span class='object_link'><a href="PluginLike.html#add_widgets_to_project-instance_method" title="Ruber::PluginLike#add_widgets_to_project (method)">#add_widgets_to_project</a></span>, <span class='object_link'><a href="PluginLike.html#create_tool_widget-instance_method" title="Ruber::PluginLike#create_tool_widget (method)">#create_tool_widget</a></span>, <span class='object_link'><a href="PluginLike.html#delayed_initialize-instance_method" title="Ruber::PluginLike#delayed_initialize (method)">#delayed_initialize</a></span>, <span class='object_link'><a href="PluginLike.html#initialize_plugin-instance_method" title="Ruber::PluginLike#initialize_plugin (method)">#initialize_plugin</a></span>, <span class='object_link'><a href="PluginLike.html#load_settings-instance_method" title="Ruber::PluginLike#load_settings (method)">#load_settings</a></span>, <span class='object_link'><a href="PluginLike.html#plugin_name-instance_method" title="Ruber::PluginLike#plugin_name (method)">#plugin_name</a></span>, <span class='object_link'><a href="PluginLike.html#register_options-instance_method" title="Ruber::PluginLike#register_options (method)">#register_options</a></span>, <span class='object_link'><a href="PluginLike.html#register_with_project-instance_method" title="Ruber::PluginLike#register_with_project (method)">#register_with_project</a></span>, <span class='object_link'><a href="PluginLike.html#remove_extensions_from_project-instance_method" title="Ruber::PluginLike#remove_extensions_from_project (method)">#remove_extensions_from_project</a></span>, <span class='object_link'><a href="PluginLike.html#remove_from_project-instance_method" title="Ruber::PluginLike#remove_from_project (method)">#remove_from_project</a></span>, <span class='object_link'><a href="PluginLike.html#remove_options_from_project-instance_method" title="Ruber::PluginLike#remove_options_from_project (method)">#remove_options_from_project</a></span>, <span class='object_link'><a href="PluginLike.html#remove_widgets_from_project-instance_method" title="Ruber::PluginLike#remove_widgets_from_project (method)">#remove_widgets_from_project</a></span>, <span class='object_link'><a href="PluginLike.html#restore_session-instance_method" title="Ruber::PluginLike#restore_session (method)">#restore_session</a></span>, <span class='object_link'><a href="PluginLike.html#session_data-instance_method" title="Ruber::PluginLike#session_data (method)">#session_data</a></span>, <span class='object_link'><a href="PluginLike.html#setup_action-instance_method" title="Ruber::PluginLike#setup_action (method)">#setup_action</a></span>, <span class='object_link'><a href="PluginLike.html#setup_actions-instance_method" title="Ruber::PluginLike#setup_actions (method)">#setup_actions</a></span>, <span class='object_link'><a href="PluginLike.html#shutdown-instance_method" title="Ruber::PluginLike#shutdown (method)">#shutdown</a></span>, <span class='object_link'><a href="PluginLike.html#unload-instance_method" title="Ruber::PluginLike#unload (method)">#unload</a></span>, <span class='object_link'><a href="PluginLike.html#update_project-instance_method" title="Ruber::PluginLike#update_project (method)">#update_project</a></span></p>
 
+  
 
   <h2>Signal Summary</h2>
   <ul class="summary" >
-  
-    <li class="public ">
-      <span class="summary_signature">
-<!-- The sub is needed to remove the (Object) part -->
-      <a href="#document_created-signalcode" title="document_created (signalcode)">- <strong>document_created</strong>(QObject* doc) </a>
-      </span>
-      <span class="summary_desc"><div class='inline'><p>Signal emitted when a new document is created.</p></div></span>
-    </li>
-  
-    <li class="public ">
-      <span class="summary_signature">
-<!-- The sub is needed to remove the (Object) part -->
-      <a href="#closing_document-signalcode" title="closing_document (signalcode)">- <strong>closing_document</strong>(QObject* doc) </a>
-      </span>
-      <span class="summary_desc"><div class='inline'><p>Signal emitted before a document is closed.</p></div></span>
-    </li>
   
     <li class="public ">
       <span class="summary_signature">
@@ -819,6 +807,10 @@ corresponds to it</p></div>
       <pre class="lines">
 
 
+270
+271
+272
+273
 274
 275
 276
@@ -826,14 +818,10 @@ corresponds to it</p></div>
 278
 279
 280
-281
-282
-283
-284
-285</pre>
+281</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 274</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 270</span>
 
 <span class='kw'>def</span> <span class='op'>[]</span> <span class='id key'>key</span>
   <span class='kw'>case</span> <span class='id key'>key</span>
@@ -912,15 +900,15 @@ isn&#8217;t already in the list before calling this.</p>
       <pre class="lines">
 
 
+164
+165
+166
+167
 168
-169
-170
-171
-172
-173</pre>
+169</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 168</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 164</span>
 
 <span class='kw'>def</span> <span class='id add_document'>add_document</span> <span class='id doc'>doc</span>
   <span class='kw'>if</span> <span class='id doc'>doc</span>
@@ -994,17 +982,17 @@ be asked whether to save them. If <strong>false</strong>, no file will be saved<
       <pre class="lines">
 
 
+243
+244
+245
+246
 247
 248
 249
-250
-251
-252
-253
-254</pre>
+250</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 247</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 243</span>
 
 <span class='kw'>def</span> <span class='id close_all'>close_all</span> <span class='id ask'>ask</span> <span class='op'>=</span> <span class='kw'>true</span>
   <span class='id docs'>docs</span> <span class='op'>=</span> <span class='ivar'>@docs</span><span class='period'>.</span><span class='id dup'>dup</span>
@@ -1073,18 +1061,18 @@ using <span class='object_link'><a href="#add_document-instance_method" title="R
       <pre class="lines">
 
 
-229
-230
-231
-232
-233</pre>
+225
+226
+227
+228
+229</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 229</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 225</span>
 
 <span class='kw'>def</span> <span class='id close_document'>close_document</span> <span class='id doc'>doc</span>
-  <span class='id emit'>emit</span> <span class='id closing_document'>closing_document</span><span class='lparen'>(</span><span class='id doc'>doc</span><span class='rparen'>)</span>
   <span class='ivar'>@docs</span><span class='period'>.</span><span class='id delete'>delete</span> <span class='id doc'>doc</span>
+  <span class='id emit'>emit</span> <span class='id closing_document'>closing_document</span><span class='lparen'>(</span><span class='id doc'>doc</span><span class='rparen'>)</span>
   <span class='kw'>nil</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -1192,7 +1180,6 @@ this won&#8217;t happen if <em>file</em> is a remote file, even if it doesn&#821
       <pre class="lines">
 
 
-108
 109
 110
 111
@@ -1210,12 +1197,10 @@ this won&#8217;t happen if <em>file</em> is a remote file, even if it doesn&#821
 123
 124
 125
-126
-127
-128</pre>
+126</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 108</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 109</span>
 
 <span class='kw'>def</span> <span class='id document'>document</span> <span class='id file'>file</span><span class='comma'>,</span> <span class='id create_if_needed'>create_if_needed</span> <span class='op'>=</span> <span class='kw'>true</span>
   <span class='kw'>if</span> <span class='id file'>file</span><span class='period'>.</span><span class='id is_a?'>is_a?</span> <span class='const'>String</span>
@@ -1229,10 +1214,7 @@ this won&#8217;t happen if <em>file</em> is a remote file, even if it doesn&#821
     <span class='kw'>if</span> <span class='id url'>url</span><span class='period'>.</span><span class='id local_file?'>local_file?</span>
       <span class='id raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>File </span><span class='embexpr_beg'>#{</span><span class='id url'>url</span><span class='period'>.</span><span class='id path'>path</span><span class='rbrace'>}</span><span class='tstring_content'> doesn't exist</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='const'>File</span><span class='period'>.</span><span class='id exist?'>exist?</span><span class='lparen'>(</span><span class='id url'>url</span><span class='period'>.</span><span class='id path'>path</span><span class='rparen'>)</span>
     <span class='kw'>end</span>
-    <span class='id doc'>doc</span> <span class='op'>=</span> <span class='const'>Document</span><span class='period'>.</span><span class='id new'>new</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id file'>file</span>
-    <span class='kw'>begin</span> <span class='ivar'>@docs</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id close'>close</span> <span class='kw'>if</span> <span class='ivar'>@docs</span><span class='period'>.</span><span class='id only'>only</span><span class='period'>.</span><span class='id pristine?'>pristine?</span>
-    <span class='kw'>rescue</span> <span class='const'>IndexError</span>
-    <span class='kw'>end</span>
+    <span class='id doc'>doc</span> <span class='op'>=</span> <span class='const'>Document</span><span class='period'>.</span><span class='id new'>new</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id url'>url</span>
     <span class='id add_document'>add_document</span> <span class='id doc'>doc</span>
     <span class='id emit'>emit</span> <span class='id document_created'>document_created</span><span class='lparen'>(</span><span class='id doc'>doc</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
@@ -1300,13 +1282,13 @@ document exists</p></div>
       <pre class="lines">
 
 
-310
-311
-312
-313</pre>
+306
+307
+308
+309</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 310</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 306</span>
 
 <span class='kw'>def</span> <span class='id document_for_file'>document_for_file</span> <span class='id file'>file</span>
   <span class='id file'>file</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id expand_path'>expand_path</span> <span class='id file'>file</span>
@@ -1374,13 +1356,13 @@ otherwise</p></div>
       <pre class="lines">
 
 
-372
-373
-374
-375</pre>
+368
+369
+370
+371</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 372</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 368</span>
 
 <span class='kw'>def</span> <span class='id document_for_file?'>document_for_file?</span> <span class='id file'>file</span>
   <span class='id file'>file</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id expand_path'>expand_path</span> <span class='id file'>file</span>
@@ -1447,12 +1429,12 @@ document exists</p></div>
       <pre class="lines">
 
 
-322
-323
-324</pre>
+318
+319
+320</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 322</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 318</span>
 
 <span class='kw'>def</span> <span class='id document_for_url'>document_for_url</span> <span class='id url'>url</span>
   <span class='ivar'>@docs</span><span class='period'>.</span><span class='id find'>find</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id d'>d</span><span class='op'>|</span> <span class='id d'>d</span><span class='period'>.</span><span class='id url'>url</span> <span class='op'>==</span> <span class='id url'>url</span><span class='rbrace'>}</span>
@@ -1518,12 +1500,12 @@ document exists</p></div>
       <pre class="lines">
 
 
-384
-385
-386</pre>
+380
+381
+382</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 384</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 380</span>
 
 <span class='kw'>def</span> <span class='id document_for_url?'>document_for_url?</span> <span class='id url'>url</span>
   <span class='ivar'>@docs</span><span class='period'>.</span><span class='id any?'>any?</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id d'>d</span><span class='op'>|</span> <span class='id d'>d</span><span class='period'>.</span><span class='id url'>url</span> <span class='op'>==</span> <span class='id url'>url</span><span class='rbrace'>}</span>
@@ -1589,12 +1571,12 @@ document with that name exists</p></div>
       <pre class="lines">
 
 
-333
-334
-335</pre>
+329
+330
+331</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 333</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 329</span>
 
 <span class='kw'>def</span> <span class='id document_with_name'>document_with_name</span> <span class='id name'>name</span>
   <span class='ivar'>@docs</span><span class='period'>.</span><span class='id find'>find</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id d'>d</span><span class='op'>|</span> <span class='id d'>d</span><span class='period'>.</span><span class='id document_name'>document_name</span> <span class='op'>==</span> <span class='id name'>name</span><span class='rbrace'>}</span>
@@ -1660,12 +1642,12 @@ otherwise</p></div>
       <pre class="lines">
 
 
-395
-396
-397</pre>
+391
+392
+393</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 395</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 391</span>
 
 <span class='kw'>def</span> <span class='id document_with_name?'>document_with_name?</span> <span class='id name'>name</span>
   <span class='ivar'>@docs</span><span class='period'>.</span><span class='id any?'>any?</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id d'>d</span><span class='op'>|</span> <span class='id d'>d</span><span class='period'>.</span><span class='id document_name'>document_name</span> <span class='op'>==</span> <span class='id name'>name</span><span class='rbrace'>}</span>
@@ -1716,12 +1698,12 @@ otherwise</p></div>
       <pre class="lines">
 
 
-135
-136
-137</pre>
+131
+132
+133</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 135</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 131</span>
 
 <span class='kw'>def</span> <span class='id documents'>documents</span>
   <span class='ivar'>@docs</span><span class='period'>.</span><span class='id dup'>dup</span>
@@ -1797,20 +1779,20 @@ according to the value of <em>which</em></p></div>
       <pre class="lines">
 
 
+346
+347
+348
+349
 350
 351
 352
 353
 354
 355
-356
-357
-358
-359
-360</pre>
+356</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 350</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 346</span>
 
 <span class='kw'>def</span> <span class='id documents_with_file'>documents_with_file</span> <span class='id which'>which</span> <span class='op'>=</span> <span class='symbol'>:any</span>
   <span class='ivar'>@docs</span><span class='period'>.</span><span class='id select'>select</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id d'>d</span><span class='op'>|</span> 
@@ -1886,16 +1868,16 @@ otherwise</p>
       <pre class="lines">
 
 
+289
+290
+291
+292
 293
 294
-295
-296
-297
-298
-299</pre>
+295</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 293</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 289</span>
 
 <span class='kw'>def</span> <span class='id each_document'>each_document</span>
   <span class='kw'>if</span> <span class='id block_given?'>block_given?</span> 
@@ -1946,12 +1928,12 @@ otherwise</p>
       <pre class="lines">
 
 
-143
-144
-145</pre>
+139
+140
+141</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 143</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 139</span>
 
 <span class='kw'>def</span> <span class='id empty?'>empty?</span>
   <span class='ivar'>@docs</span><span class='period'>.</span><span class='id empty?'>empty?</span>
@@ -2062,13 +2044,13 @@ otherwise</p></div>
       <pre class="lines">
 
 
-409
-410
-411
-412</pre>
+405
+406
+407
+408</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 409</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 405</span>
 
 <span class='kw'>def</span> <span class='id query_close'>query_close</span>
   <span class='ivar'>@docs</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id d'>d</span><span class='op'>|</span> <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='id d'>d</span><span class='period'>.</span><span class='id own_project'>own_project</span><span class='period'>.</span><span class='id query_close'>query_close</span><span class='rbrace'>}</span>
@@ -2162,6 +2144,10 @@ be empty</p></div>
       <pre class="lines">
 
 
+192
+193
+194
+195
 196
 197
 198
@@ -2169,14 +2155,10 @@ be empty</p></div>
 200
 201
 202
-203
-204
-205
-206
-207</pre>
+203</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 196</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 192</span>
 
 <span class='kw'>def</span> <span class='id save_documents'>save_documents</span> <span class='id docs'>docs</span><span class='comma'>,</span> <span class='id stop_on_failure'>stop_on_failure</span> <span class='op'>=</span> <span class='kw'>false</span>
   <span class='id failed'>failed</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -2229,13 +2211,13 @@ be empty</p></div>
       <pre class="lines">
 
 
-214
-215
-216
-217</pre>
+210
+211
+212
+213</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 214</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 210</span>
 
 <span class='kw'>def</span> <span class='id save_settings'>save_settings</span>
   <span class='ivar'>@docs</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id d'>d</span><span class='op'>|</span> <span class='id d'>d</span><span class='period'>.</span><span class='id save_settings'>save_settings</span><span class='rbrace'>}</span>
@@ -2287,12 +2269,12 @@ be empty</p></div>
       <pre class="lines">
 
 
-150
-151
-152</pre>
+146
+147
+148</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 150</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/documents/document_list.rb', line 146</span>
 
 <span class='kw'>def</span> <span class='id size'>size</span>
   <span class='ivar'>@docs</span><span class='period'>.</span><span class='id size'>size</span>
@@ -2375,80 +2357,14 @@ be empty</p></div>
 </div>
 </div>
     
-      <div class="method_details ">
-  <p class="signature " id="document_created-signalcode">
-<!-- The sub is needed to remove the (Object) part -->
-  - <strong>document_created</strong>(QObject* doc) 
-</p><div class="docstring">
-  <div class="discussion">
-    <p>Signal emitted when a new document is created</p>
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Parameters:</h3>
-<ul class="param">
-  
-    <li>
-      
-        <span class='type'>(<tt><span class='object_link'><a href="Document.html" title="Ruber::Document (class)">Document</a></span></tt>)</span>
-      
-      
-        <span class='name'>doc</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>the new document</p></div>
-      
-    </li>
-  
-</ul>
-
-</div>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="closing_document-signalcode">
-<!-- The sub is needed to remove the (Object) part -->
-  - <strong>closing_document</strong>(QObject* doc) 
-</p><div class="docstring">
-  <div class="discussion">
-    <p>Signal emitted before a document is closed</p>
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Parameters:</h3>
-<ul class="param">
-  
-    <li>
-      
-        <span class='type'>(<tt><span class='object_link'><a href="Document.html" title="Ruber::Document (class)">Document</a></span></tt>)</span>
-      
-      
-        <span class='name'>doc</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>the document which is being closed</p></div>
-      
-    </li>
-  
-</ul>
-
-</div>
-</div>
-    
   </div>
 
 </div>
     
     <div id="footer">
-  Generated on Sat Nov 13 18:00:52 2010 by 
+  Generated on Tue Jan 11 14:26:58 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.1 (ruby-1.9.2).
+  0.6.4 (ruby-1.9.2).
 </div>
 
   </body>

@@ -253,7 +253,10 @@ by newlines
 278
 279
 280
-281</pre>
+281
+282
+283
+284</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'plugins/rspec/ruber_rspec_formatter.rb', line 270</span>
@@ -263,7 +266,10 @@ by newlines
   <span class='id hash'>hash</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
   <span class='id hash'>hash</span><span class='lbracket'>[</span><span class='symbol'>:type</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='symbol'>:failure</span>
   <span class='id hash'>hash</span><span class='lbracket'>[</span><span class='symbol'>:description</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id ex'>ex</span><span class='period'>.</span><span class='id metadata'>metadata</span><span class='lbracket'>[</span><span class='symbol'>:full_description</span><span class='rbracket'>]</span>
-  <span class='id exception'>exception</span> <span class='op'>=</span> <span class='id ex'>ex</span><span class='period'>.</span><span class='id metadata'>metadata</span><span class='lbracket'>[</span><span class='symbol'>:execution_result</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:exception_encountered</span><span class='rbracket'>]</span>
+  <span class='comment'># It seems that rspec up tp 2.2 uses :exception_encountered, while from
+</span>  <span class='comment'># 2.3 it uses :exception. This should work for both
+</span>  <span class='id exception'>exception</span> <span class='op'>=</span> <span class='id ex'>ex</span><span class='period'>.</span><span class='id metadata'>metadata</span><span class='lbracket'>[</span><span class='symbol'>:execution_result</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:exception</span><span class='rbracket'>]</span>
+  <span class='id exception'>exception</span> <span class='op'>||=</span> <span class='id ex'>ex</span><span class='period'>.</span><span class='id metadata'>metadata</span><span class='lbracket'>[</span><span class='symbol'>:execution_result</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:exception_encountered</span><span class='rbracket'>]</span>
   <span class='id hash'>hash</span><span class='lbracket'>[</span><span class='symbol'>:exception</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id exception'>exception</span><span class='period'>.</span><span class='id class'>class</span><span class='period'>.</span><span class='id name'>name</span>
   <span class='id hash'>hash</span><span class='lbracket'>[</span><span class='symbol'>:message</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id exception'>exception</span><span class='period'>.</span><span class='id message'>message</span>
   <span class='id hash'>hash</span><span class='lbracket'>[</span><span class='symbol'>:location</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id ex'>ex</span><span class='period'>.</span><span class='id metadata'>metadata</span><span class='lbracket'>[</span><span class='symbol'>:location</span><span class='rbracket'>]</span>
@@ -336,18 +342,18 @@ example</li>
       <pre class="lines">
 
 
-296
-297
-298
 299
 300
 301
 302
 303
-304</pre>
+304
+305
+306
+307</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/rspec/ruber_rspec_formatter.rb', line 296</span>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/ruber_rspec_formatter.rb', line 299</span>
 
 <span class='kw'>def</span> <span class='id example_pending'>example_pending</span> <span class='id ex'>ex</span>
   <span class='kw'>super</span>
@@ -370,9 +376,9 @@ example</li>
 </div>
     
     <div id="footer">
-  Generated on Sat Nov  6 13:29:15 2010 by 
+  Generated on Tue Jan 11 14:26:59 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.1 (ruby-1.9.2).
+  0.6.4 (ruby-1.9.2).
 </div>
 
   </body>

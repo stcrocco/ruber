@@ -53,10 +53,12 @@
   
     <dt class="r1">Inherits:</dt>
     <dd class="r1">
-      <span class="inheritName"><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></span>
+      <span class="inheritName">Qt::Object</span>
       
         <ul class="fullTree">
           <li><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next">Qt::Object</li>
           
             <li class="next">Ruber::SyntaxChecker::SyntaxCheckerExtension</li>
           
@@ -93,8 +95,8 @@
 </ul>
 <p>The check can only be done if a syntax checker for the document&#8217;s mimetype
 or file extension exists. New syntax checkers must be added to the syntax checker
-plugin using the <span class='object_link'><a href="SyntaxCheckerPlugin.html#register_syntax_checker-instance_method" title="Ruber::SyntaxChecker::SyntaxCheckerPlugin#register_syntax_checker (method)">SyntaxCheckerPlugin#register_syntax_checker</a></span> method,
-and can be removed using <span class='object_link'><a href="SyntaxCheckerPlugin.html#remove_syntax_checker-instance_method" title="Ruber::SyntaxChecker::SyntaxCheckerPlugin#remove_syntax_checker (method)">SyntaxCheckerPlugin#remove_syntax_checker</a></span>.</p>
+plugin using the <span class='object_link'><a href="SyntaxCheckerPlugin.html#register_syntax_checker-instance_method" title="Ruber::SyntaxChecker::SyntaxCheckerPlugin#register_syntax_checker (method)">Ruber::SyntaxChecker::SyntaxCheckerPlugin#register_syntax_checker</a></span> method,
+and can be removed using <span class='object_link'><a href="SyntaxCheckerPlugin.html#remove_syntax_checker-instance_method" title="Ruber::SyntaxChecker::SyntaxCheckerPlugin#remove_syntax_checker (method)">Ruber::SyntaxChecker::SyntaxCheckerPlugin#remove_syntax_checker</a></span>.</p>
 <p>The appropriate syntax checker for the document is chosen when the extension is
 added to the document, and is changed (if needed) whenever the <code>document_name</code>
 of the document changes.</p>
@@ -107,6 +109,7 @@ to the Document passed as argument to the constructor.</p>
   
 </div>
 
+  
   
   
   
@@ -308,6 +311,7 @@ to the Document passed as argument to the constructor.</p>
   <h3 class="inherited">Methods included from <span class='object_link'><a href="../Extension.html" title="Ruber::Extension (module)">Extension</a></span></h3>
   <p class="inherited"><span class='object_link'><a href="../Extension.html#query_close-instance_method" title="Ruber::Extension#query_close (method)">#query_close</a></span>, <span class='object_link'><a href="../Extension.html#remove_from_project-instance_method" title="Ruber::Extension#remove_from_project (method)">#remove_from_project</a></span>, <span class='object_link'><a href="../Extension.html#save_settings-instance_method" title="Ruber::Extension#save_settings (method)">#save_settings</a></span>, <span class='object_link'><a href="../Extension.html#shutdown-instance_method" title="Ruber::Extension#shutdown (method)">#shutdown</a></span></p>
 
+  
 
   <h2>Signal Summary</h2>
   <ul class="summary" >
@@ -911,9 +915,9 @@ the contents of <em>str</em>.</p>
 </div>
     
     <div id="footer">
-  Generated on Sat Nov  6 13:29:17 2010 by 
+  Generated on Tue Jan 11 14:27:01 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.1 (ruby-1.9.2).
+  0.6.4 (ruby-1.9.2).
 </div>
 
   </body>

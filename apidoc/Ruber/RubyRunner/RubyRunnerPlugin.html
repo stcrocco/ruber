@@ -1,0 +1,964 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>Class: Ruber::RubyRunner::RubyRunnerPlugin</title>
+<link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '../..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../_index.html">Index (R)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../../Ruber.html" title="Ruber (module)">Ruber</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../RubyRunner.html" title="Ruber::RubyRunner (module)">RubyRunner</a></span></span>
+     &raquo; 
+    <span class="title">RubyRunnerPlugin</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Ruber::RubyRunner::RubyRunnerPlugin
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName"><span class='object_link'><a href="../ExternalProgramPlugin.html" title="Ruber::ExternalProgramPlugin (class)">ExternalProgramPlugin</a></span></span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next">Qt::Object</li>
+          
+            <li class="next"><span class='object_link'><a href="../Plugin.html" title="Ruber::Plugin (class)">Plugin</a></span></li>
+          
+            <li class="next"><span class='object_link'><a href="../GuiPlugin.html" title="Ruber::GuiPlugin (class)">GuiPlugin</a></span></li>
+          
+            <li class="next"><span class='object_link'><a href="../ExternalProgramPlugin.html" title="Ruber::ExternalProgramPlugin (class)">ExternalProgramPlugin</a></span></li>
+          
+            <li class="next">Ruber::RubyRunner::RubyRunnerPlugin</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">plugins/ruby_runner/ruby_runner.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>Abstract class plugins which need to run a ruby program can derive from.</p>
+<p>It provides some convenience methods to retrieve an option for a target (which
+can be either a global project, a document or a file) so that, if the option isn&#8217;t
+found in the target itself, a global value is used. It also provide methods to
+retrieve the path of the ruby interpreter to use for a given target, taking into
+account the choice made by the user in the &#8220;Interpreters&#8221; submenu.</p>
+<p>Lastly, this class adds a project option called <code>ruby_options</code> to the PS for the
+plugin.</p>
+<p><strong>Note:</strong> classes which want to derive from this class should derive from
+<span class='object_link'><a href="" title="Ruber::RubyRunner::RubyRunnerPlugin (class)">RubyRunnerPlugin</a></span> rather than from this.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><div id="subclasses">
+  <h2>Direct Known Subclasses</h2>
+  <p class="children"><span class='object_link'><a href="../FilesRunner/Plugin.html" title="Ruber::FilesRunner::Plugin (class)">FilesRunner::Plugin</a></span>, <span class='object_link'><a href="../RSpec/Plugin.html" title="Ruber::RSpec::Plugin (class)">Ruber::RSpec::Plugin</a></span>, <span class='object_link'><a href="../Rake/Plugin.html" title="Ruber::Rake::Plugin (class)">Ruber::Rake::Plugin</a></span></p>
+</div>
+
+  <h2>Constant Summary</h2>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Constants inherited from <span class='object_link'><a href="../Plugin.html" title="Ruber::Plugin (class)">Plugin</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../Plugin.html#LICENSES-constant" title="Ruber::Plugin::LICENSES (constant)">LICENSES</a></span></p>
+
+  
+  
+  
+  
+  
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (RubyRunnerPlugin) <strong>initialize</strong>(pso, group, rules = {}, order = nil, line_buffered = true) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Creates a new instance.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#interpreter_for-instance_method" title="#interpreter_for (instance method)">- (String) <strong>interpreter_for</strong>(target, ignore_project = false) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the name of the ruby interpreter to use for the given target.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#option_for-instance_method" title="#option_for (instance method)">- (Object) <strong>option_for</strong>(target, group, name, ignore_project = false, abs = false) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Searches for an option for the given target.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ruby_command_for-instance_method" title="#ruby_command_for (instance method)">- (&lt;String&gt;) <strong>ruby_command_for</strong>(target, dir, opts = {}) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the command to use to execute ruby according to the appropriate options
+for the given target.</p></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="../ExternalProgramPlugin.html" title="Ruber::ExternalProgramPlugin (class)">ExternalProgramPlugin</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../ExternalProgramPlugin.html#display_exit_message-instance_method" title="Ruber::ExternalProgramPlugin#display_exit_message (method)">#display_exit_message</a></span>, <span class='object_link'><a href="../ExternalProgramPlugin.html#do_stderr-instance_method" title="Ruber::ExternalProgramPlugin#do_stderr (method)">#do_stderr</a></span>, <span class='object_link'><a href="../ExternalProgramPlugin.html#do_stdout-instance_method" title="Ruber::ExternalProgramPlugin#do_stdout (method)">#do_stdout</a></span>, <span class='object_link'><a href="../ExternalProgramPlugin.html#failed_to_start-instance_method" title="Ruber::ExternalProgramPlugin#failed_to_start (method)">#failed_to_start</a></span>, <span class='object_link'><a href="../ExternalProgramPlugin.html#process_standard_error-instance_method" title="Ruber::ExternalProgramPlugin#process_standard_error (method)">#process_standard_error</a></span>, <span class='object_link'><a href="../ExternalProgramPlugin.html#process_standard_output-instance_method" title="Ruber::ExternalProgramPlugin#process_standard_output (method)">#process_standard_output</a></span>, <span class='object_link'><a href="../ExternalProgramPlugin.html#run_process-instance_method" title="Ruber::ExternalProgramPlugin#run_process (method)">#run_process</a></span>, <span class='object_link'><a href="../ExternalProgramPlugin.html#shutdown-instance_method" title="Ruber::ExternalProgramPlugin#shutdown (method)">#shutdown</a></span>, <span class='object_link'><a href="../ExternalProgramPlugin.html#slot_process_finished-instance_method" title="Ruber::ExternalProgramPlugin#slot_process_finished (method)">#slot_process_finished</a></span>, <span class='object_link'><a href="../ExternalProgramPlugin.html#stop_process-instance_method" title="Ruber::ExternalProgramPlugin#stop_process (method)">#stop_process</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="../GuiPlugin.html" title="Ruber::GuiPlugin (class)">GuiPlugin</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../GuiPlugin.html#action_collection-instance_method" title="Ruber::GuiPlugin#action_collection (method)">#action_collection</a></span>, <span class='object_link'><a href="../GuiPlugin.html#execute_action-instance_method" title="Ruber::GuiPlugin#execute_action (method)">#execute_action</a></span>, <span class='object_link'><a href="../GuiPlugin.html#register_action_handler-instance_method" title="Ruber::GuiPlugin#register_action_handler (method)">#register_action_handler</a></span>, <span class='object_link'><a href="../GuiPlugin.html#setup_actions-instance_method" title="Ruber::GuiPlugin#setup_actions (method)">#setup_actions</a></span>, <span class='object_link'><a href="../GuiPlugin.html#unload-instance_method" title="Ruber::GuiPlugin#unload (method)">#unload</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="../Plugin.html" title="Ruber::Plugin (class)">Plugin</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../Plugin.html#about_data-instance_method" title="Ruber::Plugin#about_data (method)">#about_data</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="../PluginLike.html" title="Ruber::PluginLike (module)">PluginLike</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../PluginLike.html#add_extensions_to_project-instance_method" title="Ruber::PluginLike#add_extensions_to_project (method)">#add_extensions_to_project</a></span>, <span class='object_link'><a href="../PluginLike.html#add_options_to_project-instance_method" title="Ruber::PluginLike#add_options_to_project (method)">#add_options_to_project</a></span>, <span class='object_link'><a href="../PluginLike.html#add_widgets_to_project-instance_method" title="Ruber::PluginLike#add_widgets_to_project (method)">#add_widgets_to_project</a></span>, <span class='object_link'><a href="../PluginLike.html#create_tool_widget-instance_method" title="Ruber::PluginLike#create_tool_widget (method)">#create_tool_widget</a></span>, <span class='object_link'><a href="../PluginLike.html#delayed_initialize-instance_method" title="Ruber::PluginLike#delayed_initialize (method)">#delayed_initialize</a></span>, <span class='object_link'><a href="../PluginLike.html#initialize_plugin-instance_method" title="Ruber::PluginLike#initialize_plugin (method)">#initialize_plugin</a></span>, <span class='object_link'><a href="../PluginLike.html#load_settings-instance_method" title="Ruber::PluginLike#load_settings (method)">#load_settings</a></span>, <span class='object_link'><a href="../PluginLike.html#plugin_name-instance_method" title="Ruber::PluginLike#plugin_name (method)">#plugin_name</a></span>, <span class='object_link'><a href="../PluginLike.html#query_close-instance_method" title="Ruber::PluginLike#query_close (method)">#query_close</a></span>, <span class='object_link'><a href="../PluginLike.html#register_options-instance_method" title="Ruber::PluginLike#register_options (method)">#register_options</a></span>, <span class='object_link'><a href="../PluginLike.html#register_with_project-instance_method" title="Ruber::PluginLike#register_with_project (method)">#register_with_project</a></span>, <span class='object_link'><a href="../PluginLike.html#remove_extensions_from_project-instance_method" title="Ruber::PluginLike#remove_extensions_from_project (method)">#remove_extensions_from_project</a></span>, <span class='object_link'><a href="../PluginLike.html#remove_from_project-instance_method" title="Ruber::PluginLike#remove_from_project (method)">#remove_from_project</a></span>, <span class='object_link'><a href="../PluginLike.html#remove_options_from_project-instance_method" title="Ruber::PluginLike#remove_options_from_project (method)">#remove_options_from_project</a></span>, <span class='object_link'><a href="../PluginLike.html#remove_widgets_from_project-instance_method" title="Ruber::PluginLike#remove_widgets_from_project (method)">#remove_widgets_from_project</a></span>, <span class='object_link'><a href="../PluginLike.html#restore_session-instance_method" title="Ruber::PluginLike#restore_session (method)">#restore_session</a></span>, <span class='object_link'><a href="../PluginLike.html#save_settings-instance_method" title="Ruber::PluginLike#save_settings (method)">#save_settings</a></span>, <span class='object_link'><a href="../PluginLike.html#session_data-instance_method" title="Ruber::PluginLike#session_data (method)">#session_data</a></span>, <span class='object_link'><a href="../PluginLike.html#setup_action-instance_method" title="Ruber::PluginLike#setup_action (method)">#setup_action</a></span>, <span class='object_link'><a href="../PluginLike.html#setup_actions-instance_method" title="Ruber::PluginLike#setup_actions (method)">#setup_actions</a></span>, <span class='object_link'><a href="../PluginLike.html#shutdown-instance_method" title="Ruber::PluginLike#shutdown (method)">#shutdown</a></span>, <span class='object_link'><a href="../PluginLike.html#unload-instance_method" title="Ruber::PluginLike#unload (method)">#unload</a></span>, <span class='object_link'><a href="../PluginLike.html#update_project-instance_method" title="Ruber::PluginLike#update_project (method)">#update_project</a></span></p>
+
+  
+
+
+
+
+
+<h4>Methods API</h4>
+<ul>
+<li><span class='object_link'><a href="#option_for-instance_method" title="Ruber::RubyRunner::RubyRunnerPlugin#option_for (method)">#option_for</a></span></li>
+<li><span class='object_link'><a href="#interpreter_for-instance_method" title="Ruber::RubyRunner::RubyRunnerPlugin#interpreter_for (method)">#interpreter_for</a></span></li>
+<li><span class='object_link'><a href="#ruby_command_for-instance_method" title="Ruber::RubyRunner::RubyRunnerPlugin#ruby_command_for (method)">#ruby_command_for</a></span></li>
+</ul>
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::RubyRunner::RubyRunnerPlugin (class)">RubyRunnerPlugin</a></span></tt>) <strong>initialize</strong>(pso, group, rules = {}, order = nil, line_buffered = true) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Creates a new instance.</p>
+<p>Before passing it to RunnerPlugin&#8217;s constructor, it adds the <code>ruby_options</code>
+project option to the plugin specification object, in the given group.</p>
+<p>the plugin
+to. If an option called <code>ruby_options</code> already exists in the group, it won&#8217;t be
+overwritten
+but cannot contain the <code>:all</code> entry and <strong>must</strong> be an array.
+must be an array, even if it only contains one entry
+must be an array, even if it only contains one entry</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../PluginSpecification.html" title="Ruber::PluginSpecification (class)">PluginSpecification</a></span></tt>)</span>
+      
+      
+        <span class='name'>pso</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the plugin specification object associated with</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
+      
+      
+        <span class='name'>group</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the group the <code>ruby_options</code> option should be added</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <span class='name'>rules</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>the rules to apply to the <code>ruby_options</code> option</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Integer</tt>, <tt>nil</tt>)</span>
+      
+      
+        <span class='name'>order</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>has the same meaning as in the <span class="caps">PSF</span> and applies to the</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <span class='name'>line_buffered</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>as in <span class='object_link'><a href="../ExternalProgramPlugin.html#initialize-instance_method" title="Ruber::ExternalProgramPlugin#initialize (method)">ExternalProgramPlugin#initialize</a></span></p></div>
+      
+    </li>
+  
+</ul>
+
+  
+    
+    
+    
+    
+    
+    
+    <h3>Options Hash (<tt>rules</tt>):</h3>
+    <ul class="option">
+      
+        <li>
+          <span class="type">(<tt>&lt;<span class='object_link'><a href="../../Symbol.html" title="Symbol (class)">Symbol</a></span>&gt;</tt>)</span>
+          <span class="name">scope</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>[:global]</tt>
+            
+          </span>
+          &mdash; <div class='inline'><p>has the same meaning as in the <span class="caps">PSF</span>,</p></div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+          <span class="name">mimetypes</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>[]</tt>
+            
+          </span>
+          &mdash; <div class='inline'><p>has the same meaning as in the <span class="caps">PSF</span>, but</p></div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+          <span class="name">file_extension</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>[]</tt>
+            
+          </span>
+          &mdash; <div class='inline'><p>has the same meaning as in the <span class="caps">PSF</span>, but</p></div>
+        </tr>
+      
+    </ul>
+  
+    
+    
+    
+    
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/ruby_runner/ruby_runner.rb', line 304</span>
+
+<span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id pso'>pso</span><span class='comma'>,</span> <span class='id group'>group</span><span class='comma'>,</span> <span class='id rules'>rules</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='id order'>order</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id line_buffered'>line_buffered</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='id group'>group</span> <span class='op'>=</span> <span class='id group'>group</span><span class='period'>.</span><span class='id to_sym'>to_sym</span>
+  <span class='ivar'>@group</span> <span class='op'>=</span> <span class='id group'>group</span>
+  <span class='id default_rules'>default_rules</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='symbol'>:scope</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='symbol'>:global</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:file_extension</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:mimetype</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:place</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='symbol'>:local</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
+  <span class='id rules'>rules</span> <span class='op'>=</span> <span class='id default_rules'>default_rules</span><span class='period'>.</span><span class='id merge'>merge</span> <span class='id rules'>rules</span>
+  <span class='id ruby_options_data'>ruby_options_data</span> <span class='op'>=</span> <span class='lbrace'>{</span>
+    <span class='symbol'>:name</span> <span class='op'>=&gt;</span> <span class='symbol'>:ruby_options</span><span class='comma'>,</span>
+    <span class='symbol'>:group</span> <span class='op'>=&gt;</span> <span class='id group'>group</span><span class='comma'>,</span>
+    <span class='symbol'>:default</span> <span class='op'>=&gt;</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:ruby</span><span class='comma'>,</span> <span class='symbol'>:ruby_options</span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='symbol'>:scope</span> <span class='op'>=&gt;</span> <span class='id rules'>rules</span><span class='lbracket'>[</span><span class='symbol'>:scope</span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='symbol'>:mimetype</span> <span class='op'>=&gt;</span> <span class='id rules'>rules</span><span class='lbracket'>[</span><span class='symbol'>:mimetype</span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='symbol'>:file_extension</span> <span class='op'>=&gt;</span> <span class='id rules'>rules</span><span class='lbracket'>[</span><span class='symbol'>:file_extension</span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='symbol'>:order</span> <span class='op'>=&gt;</span> <span class='id order'>order</span><span class='comma'>,</span>
+    <span class='symbol'>:place</span> <span class='op'>=&gt;</span> <span class='id rules'>rules</span><span class='lbracket'>[</span><span class='symbol'>:place</span><span class='rbracket'>]</span>
+  <span class='rbrace'>}</span>
+  <span class='id pso'>pso</span><span class='period'>.</span><span class='id project_options'>project_options</span><span class='lbracket'>[</span><span class='lbracket'>[</span><span class='id group'>group</span><span class='comma'>,</span> <span class='symbol'>:ruby_options</span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='const'>PluginSpecificationReader</span><span class='op'>::</span><span class='const'>Option</span><span class='period'>.</span><span class='id new'>new</span> <span class='id ruby_options_data'>ruby_options_data</span>
+  <span class='kw'>super</span> <span class='id pso'>pso</span><span class='comma'>,</span> <span class='id line_buffered'>line_buffered</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="interpreter_for-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>) <strong>interpreter_for</strong>(target, ignore_project = false) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the name of the ruby interpreter to use for the given target</p>
+<p>It is specialized version of <span class='object_link'><a href="#option_for-instance_method" title="Ruber::RubyRunner::RubyRunnerPlugin#option_for (method)">#option_for</a></span> which looks for the <code>ruby/ruby</code> option
+and takes into account the selected entry in the &#8220;Interpreters&#8221; submenu.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <span class='name'>ignore_project</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>as in <span class='object_link'><a href="#option_for-instance_method" title="Ruber::RubyRunner::RubyRunnerPlugin#option_for (method)">#option_for</a></span></p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the path of the interpreter to use</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+380
+381
+382
+383</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/ruby_runner/ruby_runner.rb', line 380</span>
+
+<span class='kw'>def</span> <span class='id interpreter_for'>interpreter_for</span> <span class='id target'>target</span><span class='comma'>,</span> <span class='id ignore_project'>ignore_project</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:ruby_interpreters</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id chosen_interpreter'>chosen_interpreter</span> <span class='op'>||</span> 
+      <span class='id option_for'>option_for</span><span class='lparen'>(</span><span class='id target'>target</span><span class='comma'>,</span> <span class='symbol'>:ruby</span><span class='comma'>,</span> <span class='symbol'>:ruby</span><span class='comma'>,</span> <span class='id ignore_project'>ignore_project</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="option_for-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>option_for</strong>(target, group, name, ignore_project = false, abs = false) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Searches for an option for the given target.</p>
+<p>The behaviour of this method depends on what <em>target</em> is:</p>
+<ul>
+	<li>if it is an <span class='object_link'><a href="../AbstractProject.html" title="Ruber::AbstractProject (class)">AbstractProject</a></span>, the option is searched in it</li>
+	<li>if it is a <span class='object_link'><a href="../Document.html" title="Ruber::Document (class)">Document</a></span> or a string representing a file name and belongins to
+the current project, the option is searched in the current project</li>
+	<li>if it is a <span class='object_link'><a href="../Document.html" title="Ruber::Document (class)">Document</a></span> but doesn&#8217;t belong to the current project (or no current
+project exists), the option is searched in the document&#8217;s own project</li>
+	<li>if it is a string representing a file which doesn&#8217;t belong to the current project
+(or there&#8217;s no current project) the option is looked for in the global configuration
+object.</li>
+</ul>
+<p>In all cases, if the search fails, the option is looked up in the global configuration
+object.</p>
+<p>option for. If <strong>nil</strong>, the option will directly be looked up in the global configuration
+object
+current project, even if <em>target</em> is a <span class='object_link'><a href="../Document.html" title="Ruber::Document (class)">Document</a></span> or the name of a file belonging
+to it</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../AbstractProject.html" title="Ruber::AbstractProject (class)">AbstractProject</a></span></tt>, <tt><span class='object_link'><a href="../Document.html" title="Ruber::Document (class)">Document</a></span></tt>, <tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+        <span class='name'>target</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the object to look up the</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
+      
+      
+        <span class='name'>group</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the group the option belongs to</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
+      
+      
+        <span class='name'>name</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the name of the option</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <span class='name'>ignore_project</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>if <strong>true</strong> the option won&#8217;t be looked for in the</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <span class='name'>abs</span>
+      
+      
+        <em class="default">(defaults to: <tt>false</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>it has the same meaning as in <span class='object_link'><a href="../SettingsContainer.html#%5B%5D-instance_method" title="Ruber::SettingsContainer#[] (method)">SettingsContainer#[]</a></span></p></div>
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'></span>
+      
+      
+      
+      
+        
+        <div class='inline'><p>ArgumentError if the option can be found</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/ruby_runner/ruby_runner.rb', line 350</span>
+
+<span class='kw'>def</span> <span class='id option_for'>option_for</span> <span class='id target'>target</span><span class='comma'>,</span> <span class='id group'>group</span><span class='comma'>,</span> <span class='id name'>name</span><span class='comma'>,</span> <span class='id ignore_project'>ignore_project</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='id abs'>abs</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='id cont'>cont</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='kw'>case</span> <span class='id target'>target</span>
+  <span class='kw'>when</span> <span class='const'>AbstractProject</span> <span class='kw'>then</span> <span class='id cont'>cont</span> <span class='op'>&lt;&lt;</span> <span class='id target'>target</span>
+  <span class='kw'>when</span> <span class='const'>Document</span>
+    <span class='id cont'>cont</span> <span class='op'>&lt;&lt;</span> <span class='lparen'>(</span><span class='id ignore_project'>ignore_project</span> <span class='op'>?</span> <span class='lparen'>(</span><span class='id target'>target</span><span class='period'>.</span><span class='id own_project'>own_project</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='id target'>target</span><span class='period'>.</span><span class='id project'>project</span><span class='rparen'>)</span>
+  <span class='kw'>when</span> <span class='const'>String</span>
+    <span class='kw'>if</span> <span class='op'>!</span><span class='id ignore_project'>ignore_project</span> <span class='kw'>and</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id project_for_file'>project_for_file</span> <span class='id target'>target</span>
+      <span class='id cont'>cont</span> <span class='op'>&lt;&lt;</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current'>current</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='id cont'>cont</span> <span class='op'>&lt;&lt;</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span>
+  <span class='id abs'>abs</span> <span class='op'>=</span> <span class='symbol'>:abs</span> <span class='kw'>if</span> <span class='id abs'>abs</span>
+  <span class='id cont'>cont</span><span class='period'>.</span><span class='id each_with_index'>each_with_index</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id c'>c</span><span class='comma'>,</span> <span class='id i'>i</span><span class='op'>|</span>
+    <span class='kw'>begin</span> <span class='kw'>return</span> <span class='id c'>c</span><span class='lbracket'>[</span><span class='id group'>group</span><span class='comma'>,</span> <span class='id name'>name</span><span class='comma'>,</span> <span class='id abs'>abs</span><span class='rbracket'>]</span>
+    <span class='kw'>rescue</span> <span class='const'>ArgumentError</span>
+      <span class='id raise'>raise</span> <span class='kw'>if</span> <span class='id i'>i</span> <span class='op'>==</span> <span class='id cont'>cont</span><span class='period'>.</span><span class='id size'>size</span> <span class='op'>-</span> <span class='int'>1</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="ruby_command_for-instance_method">
+  
+    - (<tt>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>&gt;</tt>) <strong>ruby_command_for</strong>(target, dir, opts = {}) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the command to use to execute ruby according to the appropriate options
+for the given target.</p>
+<p>To build the command, it uses the <code>ruby/ruby</code> and the <code>ruby_options</code> (in the group
+specified in the constructor).</p>
+<p>the <code>-C</code> flag)
+made by the user in the &#8220;Interpreters&#8221; submenu
+option as default interpreter
+of the <code>ruby_options</code> option.
+to use and whose other elements are the options to pass to the interpreter.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../AbstractProject.html" title="Ruber::AbstractProject (class)">AbstractProject</a></span></tt>, <tt><span class='object_link'><a href="../Document.html" title="Ruber::Document (class)">Document</a></span></tt>, <tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+        <span class='name'>target</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>as in <span class='object_link'><a href="#option_for-instance_method" title="Ruber::RubyRunner::RubyRunnerPlugin#option_for (method)">#option_for</a></span></p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>dir</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the directory to run ruby from (it will be passed to ruby using</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <span class='name'>opts</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>some options to fine tune the behaviour of the method</p></div>
+      
+    </li>
+  
+</ul>
+
+  
+    
+    
+    
+    
+    
+    
+    <h3>Options Hash (<tt>opts</tt>):</h3>
+    <ul class="option">
+      
+        <li>
+          <span class="type">(<tt>Boolean</tt>)</span>
+          <span class="name">default_interpreter</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>false</tt>
+            
+          </span>
+          &mdash; <div class='inline'><p>if <strong>true</strong>, ignores the choice</p></div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt>Boolean</tt>)</span>
+          <span class="name">ignore_project</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>false</tt>
+            
+          </span>
+          &mdash; <div class='inline'><p>as in <span class='object_link'><a href="#option_for-instance_method" title="Ruber::RubyRunner::RubyRunnerPlugin#option_for (method)">#option_for</a></span></p></div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+          <span class="name">ruby</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>nil</tt>
+            
+          </span>
+          &mdash; <div class='inline'><p>if given, use this instead of the content of the <code>ruby/ruby</code></p></div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+          <span class="name">ruby_options</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>nil</tt>
+            
+          </span>
+          &mdash; <div class='inline'><p>if given, use this instead of the content</p></div>
+        </tr>
+      
+    </ul>
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>an array whose first entry is the name of the ruby interpreter</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/ruby_runner/ruby_runner.rb', line 407</span>
+
+<span class='kw'>def</span> <span class='id ruby_command_for'>ruby_command_for</span> <span class='id target'>target</span><span class='comma'>,</span> <span class='id dir'>dir</span><span class='comma'>,</span> <span class='id opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='id ruby'>ruby</span> <span class='op'>=</span>  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:ruby_interpreters</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id chosen_interpreter'>chosen_interpreter</span>
+  <span class='kw'>if</span> <span class='op'>!</span><span class='id ruby'>ruby</span> <span class='kw'>or</span> <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:default_interpreter</span><span class='rbracket'>]</span>
+    <span class='id ruby'>ruby</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:ruby</span><span class='rbracket'>]</span> <span class='kw'>then</span> <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:ruby</span><span class='rbracket'>]</span>
+    <span class='kw'>else</span> <span class='id option_for'>option_for</span> <span class='id target'>target</span><span class='comma'>,</span> <span class='symbol'>:ruby</span><span class='comma'>,</span> <span class='symbol'>:ruby</span><span class='comma'>,</span> <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:ignore_project</span><span class='rbracket'>]</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='id ruby_options'>ruby_options</span> <span class='op'>=</span> <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:ruby_options</span><span class='rbracket'>]</span>
+  <span class='id ruby_options'>ruby_options</span> <span class='op'>||=</span> <span class='id option_for'>option_for</span> <span class='id target'>target</span><span class='comma'>,</span> <span class='ivar'>@group</span><span class='comma'>,</span> <span class='symbol'>:ruby_options</span><span class='comma'>,</span> <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:ignore_project</span><span class='rbracket'>]</span>
+  <span class='lbracket'>[</span><span class='id ruby'>ruby</span><span class='rbracket'>]</span> <span class='op'>+</span> <span class='id ruby_options'>ruby_options</span> <span class='op'>+</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>-C</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='id dir'>dir</span><span class='rbracket'>]</span> 
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+
+</div>
+    
+    <div id="footer">
+  Generated on Tue Jan 11 14:26:54 2011 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.4 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>

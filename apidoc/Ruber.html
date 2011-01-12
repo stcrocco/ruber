@@ -60,7 +60,7 @@
   
     <dt class="r1 last">Defined in:</dt>
     <dd class="r1 last">lib/ruber/plugin_like.rb<span class="defines">,<br />
-  lib/ruber/utils.rb,<br /> lib/ruber/utils.rb,<br /> lib/ruber/plugin.rb,<br /> plugins/rake/rake.rb,<br /> lib/ruber/version.rb,<br /> lib/ruber/project.rb,<br /> plugins/rspec/rspec.rb,<br /> plugins/state/state.rb,<br /> plugins/command/command.rb,<br /> lib/ruber/output_widget.rb,<br /> lib/ruber/config/config.rb,<br /> plugins/rake/rake_widgets.rb,<br /> lib/ruber/project_backend.rb,<br /> lib/ruber/editor/document.rb,<br /> plugins/autosave/autosave.rb,<br /> lib/ruber/settings_dialog.rb,<br /> lib/ruber/document_project.rb,<br /> plugins/rake/rake_extension.rb,<br /> lib/ruber/exception_widgets.rb,<br /> lib/ruber/component_manager.rb,<br /> lib/ruber/editor/editor_view.rb,<br /> lib/ruber/settings_container.rb,<br /> lib/ruber/gui_states_handler.rb,<br /> lib/ruber/yaml_option_backend.rb,<br /> lib/ruber/plugin_specification.rb,<br /> plugins/ruby_runner/ruby_runner.rb,<br /> lib/ruber/projects/project_list.rb,<br /> lib/ruber/main_window/workspace.rb,<br /> lib/ruber/main_window/status_bar.rb,<br /> lib/ruber/filtered_output_widget.rb,<br /> lib/ruber/main_window/main_window.rb,<br /> lib/ruber/external_program_plugin.rb,<br /> lib/ruber/settings_dialog_manager.rb,<br /> plugins/ruby_runner/config_widget.rb,<br /> lib/ruber/documents/document_list.rb,<br /> lib/ruber/application/application.rb,<br /> plugins/ruby_runner/project_widget.rb,<br /> lib/ruber/kde_config_option_backend.rb,<br /> plugins/rspec/ruber_rspec_formatter.rb,<br /> plugins/find_in_files/find_in_files.rb,<br /> lib/ruber/editor/ktexteditor_wrapper.rb,<br /> lib/ruber/plugin_specification_reader.rb,<br /> lib/ruber/projects/project_files_list.rb,<br /> plugins/syntax_checker/syntax_checker.rb,<br /> plugins/find_in_files/find_in_files_dlg.rb,<br /> lib/ruber/projects/project_files_widget.rb,<br /> plugins/project_browser/project_browser.rb,<br /> lib/ruber/main_window/choose_plugins_dlg.rb,<br /> lib/ruber/main_window/main_window_actions.rb,<br /> lib/ruber/main_window/output_color_widget.rb,<br /> plugins/ruby_development/ruby_development.rb,<br /> lib/ruber/main_window/main_window_internal.rb,<br /> plugins/find_in_files/find_in_files_widgets.rb,<br /> lib/ruber/main_window/save_modified_files_dlg.rb,<br /> lib/ruber/main_window/open_file_in_project_dlg.rb,<br /> lib/ruber/utils.rb</span>
+  lib/ruber/pane.rb,<br /> lib/ruber/utils.rb,<br /> lib/ruber/utils.rb,<br /> lib/ruber/plugin.rb,<br /> lib/ruber/version.rb,<br /> plugins/rake/rake.rb,<br /> lib/ruber/project.rb,<br /> plugins/rspec/rspec.rb,<br /> plugins/state/state.rb,<br /> plugins/command/command.rb,<br /> lib/ruber/output_widget.rb,<br /> lib/ruber/config/config.rb,<br /> plugins/autosave/autosave.rb,<br /> lib/ruber/settings_dialog.rb,<br /> lib/ruber/project_backend.rb,<br /> plugins/rake/rake_widgets.rb,<br /> lib/ruber/editor/document.rb,<br /> lib/ruber/document_project.rb,<br /> lib/ruber/exception_widgets.rb,<br /> lib/ruber/component_manager.rb,<br /> plugins/rake/rake_extension.rb,<br /> lib/ruber/settings_container.rb,<br /> lib/ruber/editor/editor_view.rb,<br /> lib/ruber/gui_states_handler.rb,<br /> lib/ruber/yaml_option_backend.rb,<br /> lib/ruber/plugin_specification.rb,<br /> lib/ruber/main_window/workspace.rb,<br /> lib/ruber/projects/project_list.rb,<br /> plugins/ruby_runner/ruby_runner.rb,<br /> lib/ruber/main_window/status_bar.rb,<br /> lib/ruber/filtered_output_widget.rb,<br /> lib/ruber/application/application.rb,<br /> lib/ruber/external_program_plugin.rb,<br /> lib/ruber/main_window/main_window.rb,<br /> lib/ruber/main_window/hint_solver.rb,<br /> plugins/ruby_runner/config_widget.rb,<br /> lib/ruber/settings_dialog_manager.rb,<br /> lib/ruber/documents/document_list.rb,<br /> lib/ruber/main_window/view_manager.rb,<br /> plugins/ruby_runner/project_widget.rb,<br /> lib/ruber/kde_config_option_backend.rb,<br /> plugins/rspec/ruber_rspec_formatter.rb,<br /> plugins/find_in_files/find_in_files.rb,<br /> lib/ruber/editor/ktexteditor_wrapper.rb,<br /> lib/ruber/plugin_specification_reader.rb,<br /> lib/ruber/projects/project_files_list.rb,<br /> plugins/syntax_checker/syntax_checker.rb,<br /> plugins/find_in_files/find_in_files_dlg.rb,<br /> lib/ruber/projects/project_files_widget.rb,<br /> plugins/project_browser/project_browser.rb,<br /> lib/ruber/main_window/choose_plugins_dlg.rb,<br /> lib/ruber/main_window/main_window_actions.rb,<br /> lib/ruber/main_window/output_color_widget.rb,<br /> plugins/ruby_development/ruby_development.rb,<br /> lib/ruber/main_window/main_window_internal.rb,<br /> plugins/find_in_files/find_in_files_widgets.rb,<br /> lib/ruber/main_window/save_modified_files_dlg.rb,<br /> lib/ruber/main_window/open_file_in_project_dlg.rb</span>
 </dd>
   
 </dl>
@@ -101,7 +101,7 @@ Free Software Foundation, Inc.,
     
    
     
-      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Ruber/AbstractProject.html" title="Ruber::AbstractProject (class)">AbstractProject</a></span>, <span class='object_link'><a href="Ruber/AnnotationModel.html" title="Ruber::AnnotationModel (class)">AnnotationModel</a></span>, <span class='object_link'><a href="Ruber/Application.html" title="Ruber::Application (class)">Application</a></span>, <span class='object_link'><a href="Ruber/ChoosePluginsDlg.html" title="Ruber::ChoosePluginsDlg (class)">ChoosePluginsDlg</a></span>, <span class='object_link'><a href="Ruber/ChoosePluginsWidget.html" title="Ruber::ChoosePluginsWidget (class)">ChoosePluginsWidget</a></span>, <span class='object_link'><a href="Ruber/ComponentLoadingErrorDialog.html" title="Ruber::ComponentLoadingErrorDialog (class)">ComponentLoadingErrorDialog</a></span>, <span class='object_link'><a href="Ruber/ComponentManager.html" title="Ruber::ComponentManager (class)">ComponentManager</a></span>, <span class='object_link'><a href="Ruber/ConfigManager.html" title="Ruber::ConfigManager (class)">ConfigManager</a></span>, <span class='object_link'><a href="Ruber/Document.html" title="Ruber::Document (class)">Document</a></span>, <span class='object_link'><a href="Ruber/DocumentList.html" title="Ruber::DocumentList (class)">DocumentList</a></span>, <span class='object_link'><a href="Ruber/DocumentProject.html" title="Ruber::DocumentProject (class)">DocumentProject</a></span>, <span class='object_link'><a href="Ruber/EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span>, <span class='object_link'><a href="Ruber/ExceptionDialog.html" title="Ruber::ExceptionDialog (class)">ExceptionDialog</a></span>, <span class='object_link'><a href="Ruber/ExternalProgramPlugin.html" title="Ruber::ExternalProgramPlugin (class)">ExternalProgramPlugin</a></span>, <span class='object_link'><a href="Ruber/FilteredOutputWidget.html" title="Ruber::FilteredOutputWidget (class)">FilteredOutputWidget</a></span>, <span class='object_link'><a href="Ruber/GuiPlugin.html" title="Ruber::GuiPlugin (class)">GuiPlugin</a></span>, <span class='object_link'><a href="Ruber/KDEConfigSettingsBackend.html" title="Ruber::KDEConfigSettingsBackend (class)">KDEConfigSettingsBackend</a></span>, <span class='object_link'><a href="Ruber/MainWindow.html" title="Ruber::MainWindow (class)">MainWindow</a></span>, <span class='object_link'><a href="Ruber/MainWindowSettingsWidget.html" title="Ruber::MainWindowSettingsWidget (class)">MainWindowSettingsWidget</a></span>, <span class='object_link'><a href="Ruber/NewProjectDialog.html" title="Ruber::NewProjectDialog (class)">NewProjectDialog</a></span>, <span class='object_link'><a href="Ruber/OpenFileInProjectDlg.html" title="Ruber::OpenFileInProjectDlg (class)">OpenFileInProjectDlg</a></span>, <span class='object_link'><a href="Ruber/OutputColorWidget.html" title="Ruber::OutputColorWidget (class)">OutputColorWidget</a></span>, <span class='object_link'><a href="Ruber/OutputWidget.html" title="Ruber::OutputWidget (class)">OutputWidget</a></span>, <span class='object_link'><a href="Ruber/Plugin.html" title="Ruber::Plugin (class)">Plugin</a></span>, <span class='object_link'><a href="Ruber/PluginSpecification.html" title="Ruber::PluginSpecification (class)">PluginSpecification</a></span>, <span class='object_link'><a href="Ruber/PluginSpecificationReader.html" title="Ruber::PluginSpecificationReader (class)">PluginSpecificationReader</a></span>, <span class='object_link'><a href="Ruber/Project.html" title="Ruber::Project (class)">Project</a></span>, <span class='object_link'><a href="Ruber/ProjectBackend.html" title="Ruber::ProjectBackend (class)">ProjectBackend</a></span>, <span class='object_link'><a href="Ruber/ProjectConfigWidget.html" title="Ruber::ProjectConfigWidget (class)">ProjectConfigWidget</a></span>, <span class='object_link'><a href="Ruber/ProjectDialog.html" title="Ruber::ProjectDialog (class)">ProjectDialog</a></span>, <span class='object_link'><a href="Ruber/ProjectFilesList.html" title="Ruber::ProjectFilesList (class)">ProjectFilesList</a></span>, <span class='object_link'><a href="Ruber/ProjectFilesRuleChooser.html" title="Ruber::ProjectFilesRuleChooser (class)">ProjectFilesRuleChooser</a></span>, <span class='object_link'><a href="Ruber/ProjectFilesWidget.html" title="Ruber::ProjectFilesWidget (class)">ProjectFilesWidget</a></span>, <span class='object_link'><a href="Ruber/ProjectList.html" title="Ruber::ProjectList (class)">ProjectList</a></span>, <span class='object_link'><a href="Ruber/SaveModifiedFilesDlg.html" title="Ruber::SaveModifiedFilesDlg (class)">SaveModifiedFilesDlg</a></span>, <span class='object_link'><a href="Ruber/SettingsDialog.html" title="Ruber::SettingsDialog (class)">SettingsDialog</a></span>, <span class='object_link'><a href="Ruber/SettingsDialogManager.html" title="Ruber::SettingsDialogManager (class)">SettingsDialogManager</a></span>, <span class='object_link'><a href="Ruber/StatusBar.html" title="Ruber::StatusBar (class)">StatusBar</a></span>, <span class='object_link'><a href="Ruber/Workspace.html" title="Ruber::Workspace (class)">Workspace</a></span>, <span class='object_link'><a href="Ruber/YamlSettingsBackend.html" title="Ruber::YamlSettingsBackend (class)">YamlSettingsBackend</a></span>
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Ruber/AbstractProject.html" title="Ruber::AbstractProject (class)">AbstractProject</a></span>, <span class='object_link'><a href="Ruber/AnnotationModel.html" title="Ruber::AnnotationModel (class)">AnnotationModel</a></span>, <span class='object_link'><a href="Ruber/Application.html" title="Ruber::Application (class)">Application</a></span>, <span class='object_link'><a href="Ruber/ChoosePluginsDlg.html" title="Ruber::ChoosePluginsDlg (class)">ChoosePluginsDlg</a></span>, <span class='object_link'><a href="Ruber/ChoosePluginsWidget.html" title="Ruber::ChoosePluginsWidget (class)">ChoosePluginsWidget</a></span>, <span class='object_link'><a href="Ruber/ComponentLoadingErrorDialog.html" title="Ruber::ComponentLoadingErrorDialog (class)">ComponentLoadingErrorDialog</a></span>, <span class='object_link'><a href="Ruber/ComponentManager.html" title="Ruber::ComponentManager (class)">ComponentManager</a></span>, <span class='object_link'><a href="Ruber/ConfigManager.html" title="Ruber::ConfigManager (class)">ConfigManager</a></span>, <span class='object_link'><a href="Ruber/Document.html" title="Ruber::Document (class)">Document</a></span>, <span class='object_link'><a href="Ruber/DocumentList.html" title="Ruber::DocumentList (class)">DocumentList</a></span>, <span class='object_link'><a href="Ruber/DocumentProject.html" title="Ruber::DocumentProject (class)">DocumentProject</a></span>, <span class='object_link'><a href="Ruber/EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span>, <span class='object_link'><a href="Ruber/ExceptionDialog.html" title="Ruber::ExceptionDialog (class)">ExceptionDialog</a></span>, <span class='object_link'><a href="Ruber/ExternalProgramPlugin.html" title="Ruber::ExternalProgramPlugin (class)">ExternalProgramPlugin</a></span>, <span class='object_link'><a href="Ruber/FilteredOutputWidget.html" title="Ruber::FilteredOutputWidget (class)">FilteredOutputWidget</a></span>, <span class='object_link'><a href="Ruber/GuiPlugin.html" title="Ruber::GuiPlugin (class)">GuiPlugin</a></span>, <span class='object_link'><a href="Ruber/KDEConfigSettingsBackend.html" title="Ruber::KDEConfigSettingsBackend (class)">KDEConfigSettingsBackend</a></span>, <span class='object_link'><a href="Ruber/MainWindow.html" title="Ruber::MainWindow (class)">MainWindow</a></span>, <span class='object_link'><a href="Ruber/MainWindowSettingsWidget.html" title="Ruber::MainWindowSettingsWidget (class)">MainWindowSettingsWidget</a></span>, <span class='object_link'><a href="Ruber/NewProjectDialog.html" title="Ruber::NewProjectDialog (class)">NewProjectDialog</a></span>, <span class='object_link'><a href="Ruber/OpenFileInProjectDlg.html" title="Ruber::OpenFileInProjectDlg (class)">OpenFileInProjectDlg</a></span>, <span class='object_link'><a href="Ruber/OutputColorWidget.html" title="Ruber::OutputColorWidget (class)">OutputColorWidget</a></span>, <span class='object_link'><a href="Ruber/OutputWidget.html" title="Ruber::OutputWidget (class)">OutputWidget</a></span>, <span class='object_link'><a href="Ruber/Pane.html" title="Ruber::Pane (class)">Pane</a></span>, <span class='object_link'><a href="Ruber/Plugin.html" title="Ruber::Plugin (class)">Plugin</a></span>, <span class='object_link'><a href="Ruber/PluginSpecification.html" title="Ruber::PluginSpecification (class)">PluginSpecification</a></span>, <span class='object_link'><a href="Ruber/PluginSpecificationReader.html" title="Ruber::PluginSpecificationReader (class)">PluginSpecificationReader</a></span>, <span class='object_link'><a href="Ruber/Project.html" title="Ruber::Project (class)">Project</a></span>, <span class='object_link'><a href="Ruber/ProjectBackend.html" title="Ruber::ProjectBackend (class)">ProjectBackend</a></span>, <span class='object_link'><a href="Ruber/ProjectConfigWidget.html" title="Ruber::ProjectConfigWidget (class)">ProjectConfigWidget</a></span>, <span class='object_link'><a href="Ruber/ProjectDialog.html" title="Ruber::ProjectDialog (class)">ProjectDialog</a></span>, <span class='object_link'><a href="Ruber/ProjectFilesList.html" title="Ruber::ProjectFilesList (class)">ProjectFilesList</a></span>, <span class='object_link'><a href="Ruber/ProjectFilesRuleChooser.html" title="Ruber::ProjectFilesRuleChooser (class)">ProjectFilesRuleChooser</a></span>, <span class='object_link'><a href="Ruber/ProjectFilesWidget.html" title="Ruber::ProjectFilesWidget (class)">ProjectFilesWidget</a></span>, <span class='object_link'><a href="Ruber/ProjectList.html" title="Ruber::ProjectList (class)">ProjectList</a></span>, <span class='object_link'><a href="Ruber/SaveModifiedFilesDlg.html" title="Ruber::SaveModifiedFilesDlg (class)">SaveModifiedFilesDlg</a></span>, <span class='object_link'><a href="Ruber/SettingsDialog.html" title="Ruber::SettingsDialog (class)">SettingsDialog</a></span>, <span class='object_link'><a href="Ruber/SettingsDialogManager.html" title="Ruber::SettingsDialogManager (class)">SettingsDialogManager</a></span>, <span class='object_link'><a href="Ruber/StatusBar.html" title="Ruber::StatusBar (class)">StatusBar</a></span>, <span class='object_link'><a href="Ruber/Workspace.html" title="Ruber::Workspace (class)">Workspace</a></span>, <span class='object_link'><a href="Ruber/YamlSettingsBackend.html" title="Ruber::YamlSettingsBackend (class)">YamlSettingsBackend</a></span>
     
   
 </p>
@@ -109,6 +109,19 @@ Free Software Foundation, Inc.,
   <h2>Constant Summary</h2>
   
     <dl class="constants">
+      
+        <dt id="RUBER_DIR-constant" class="">RUBER_DIR =
+          <div class="docstring">
+  <div class="discussion">
+    <p>The Ruber installation directory</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+        </dt>
+        <dd><pre class="code"><span class='const'>File</span><span class='period'>.</span><span class='id expand_path'>expand_path</span> <span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>..</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>..</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>..</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span></pre></dd>
       
         <dt id="RUBER_LIB_DIR-constant" class="">RUBER_LIB_DIR =
           <div class="docstring">
@@ -122,6 +135,19 @@ Free Software Foundation, Inc.,
 </div>
         </dt>
         <dd><pre class="code"><span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span> <span class='const'>RUBER_DIR</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>lib/</span><span class='tstring_end'>'</span></span></pre></dd>
+      
+        <dt id="RUBER_PLUGIN_DIR-constant" class="">RUBER_PLUGIN_DIR =
+          <div class="docstring">
+  <div class="discussion">
+    <p>The default directory for globally installed plugins</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+        </dt>
+        <dd><pre class="code"><span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span> <span class='const'>RUBER_DIR</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>plugins</span><span class='tstring_end'>'</span></span></pre></dd>
       
         <dt id="RUBER_DATA_DIR-constant" class="">RUBER_DATA_DIR =
           <div class="docstring">
@@ -139,33 +165,7 @@ Free Software Foundation, Inc.,
         <dt id="VERSION-constant" class="">VERSION =
           
         </dt>
-        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>0.0.6</span><span class='tstring_end'>'</span></span></pre></dd>
-      
-        <dt id="RUBER_DIR-constant" class="">RUBER_DIR =
-          <div class="docstring">
-  <div class="discussion">
-    <p>The Ruber installation directory</p>
-
-  </div>
-</div>
-<div class="tags">
-  
-</div>
-        </dt>
-        <dd><pre class="code"><span class='const'>File</span><span class='period'>.</span><span class='id expand_path'>expand_path</span> <span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>..</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>..</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>..</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span></pre></dd>
-      
-        <dt id="RUBER_PLUGIN_DIR-constant" class="">RUBER_PLUGIN_DIR =
-          <div class="docstring">
-  <div class="discussion">
-    <p>The default directory for globally installed plugins</p>
-
-  </div>
-</div>
-<div class="tags">
-  
-</div>
-        </dt>
-        <dd><pre class="code"><span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span> <span class='const'>RUBER_DIR</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>plugins</span><span class='tstring_end'>'</span></span></pre></dd>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>0.0.7</span><span class='tstring_end'>'</span></span></pre></dd>
       
     </dl>
   
@@ -305,13 +305,13 @@ no components provide it</p></div>
       <pre class="lines">
 
 
-42
 43
 44
-45</pre>
+45
+46</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 42</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 43</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='op'>[]</span><span class='lparen'>(</span><span class='id feature'>feature</span><span class='rparen'>)</span>
 <span class='comment'># This instance variable is initialized by the application's constructor
@@ -379,9 +379,9 @@ no components provide it</p></div>
 </div>
     
     <div id="footer">
-  Generated on Sun Nov 14 17:10:00 2010 by 
+  Generated on Tue Jan 11 14:50:40 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.1 (ruby-1.9.2).
+  0.6.4 (ruby-1.9.2).
 </div>
 
   </body>

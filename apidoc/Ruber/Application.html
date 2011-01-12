@@ -85,6 +85,16 @@
 </dl>
 <div class="clear"></div>
 
+<h2>Defined Under Namespace</h2>
+<p class="children">
+   
+    
+   
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Application/DefaultDocumentExtension.html" title="Ruber::Application::DefaultDocumentExtension (class)">DefaultDocumentExtension</a></span>
+    
+  
+</p>
 
   <h2>Constant Summary</h2>
   
@@ -583,25 +593,25 @@ application component</p></div>
       <pre class="lines">
 
 
-88
-89
-90
-91
-92
-93
-94
-95
-96
-97
-98
-99
-100
-101
-102
-103</pre>
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 88</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 105</span>
 
 <span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id manager'>manager</span><span class='comma'>,</span> <span class='id psf'>psf</span>
   <span class='kw'>super</span><span class='lparen'>(</span><span class='rparen'>)</span>
@@ -609,7 +619,7 @@ application component</p></div>
   <span class='ivar'>@components</span><span class='period'>.</span><span class='id parent'>parent</span> <span class='op'>=</span> <span class='kw'>self</span>
   <span class='const'>Ruber</span><span class='period'>.</span><span class='id instance_variable_set'>instance_variable_set</span> <span class='symbol'>:@components</span><span class='comma'>,</span> <span class='ivar'>@components</span>
   <span class='id initialize_plugin'>initialize_plugin</span> <span class='id psf'>psf</span>
-  <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Global</span><span class='period'>.</span><span class='id dirs'>dirs</span><span class='period'>.</span><span class='id addPrefix'>addPrefix</span> <span class='const'>File</span><span class='period'>.</span><span class='id expand_path'>expand_path</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span><span class='lparen'>(</span> <span class='const'>RUBER_DATA_DIR</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>..</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>..</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>data</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
+  <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Global</span><span class='period'>.</span><span class='id dirs'>dirs</span><span class='period'>.</span><span class='id addPrefix'>addPrefix</span> <span class='const'>File</span><span class='period'>.</span><span class='id expand_path'>expand_path</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span><span class='lparen'>(</span> <span class='const'>RUBER_DATA_DIR</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>..</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>data</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
   <span class='id icon_path'>icon_path</span> <span class='op'>=</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Global</span><span class='period'>.</span><span class='id dirs'>dirs</span><span class='period'>.</span><span class='id find_resource'>find_resource</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>icon</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>ruber</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id window_icon'>window_icon</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Icon</span><span class='period'>.</span><span class='id new'>new</span> <span class='id icon_path'>icon_path</span>
   <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Global</span><span class='period'>.</span><span class='id main_component'>main_component</span><span class='period'>.</span><span class='id about_data'>about_data</span><span class='period'>.</span><span class='id program_icon_name'>program_icon_name</span> <span class='op'>=</span> <span class='id icon_path'>icon_path</span>
@@ -669,12 +679,12 @@ application component</p></div>
       <pre class="lines">
 
 
-73
 74
-75</pre>
+75
+76</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 73</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 74</span>
 
 <span class='kw'>def</span> <span class='id cmd_line_options'>cmd_line_options</span>
   <span class='ivar'>@cmd_line_options</span>
@@ -739,12 +749,12 @@ or <code>:quitting</code></p></div>
       <pre class="lines">
 
 
-79
-80
-81</pre>
+93
+94
+95</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 79</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 93</span>
 
 <span class='kw'>def</span> <span class='id status'>status</span>
   <span class='ivar'>@status</span>
@@ -808,31 +818,40 @@ on the command line)</p>
       <pre class="lines">
 
 
-239
-240
-241
-242
-243
-244
-245
-246
-247
-248
-249
-250
-251
-252
-253
-254
-255
-256
-257
-258
-259
-260</pre>
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 239</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 347</span>
 
 <span class='kw'>def</span> <span class='id load_core_components'>load_core_components</span>
   <span class='kw'>begin</span>
@@ -852,7 +871,16 @@ on the command line)</p>
   <span class='kw'>else</span>
     <span class='id open_command_line_files'>open_command_line_files</span>
     <span class='kw'>if</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id projects'>projects</span><span class='period'>.</span><span class='id empty?'>empty?</span> <span class='kw'>and</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:documents</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id documents'>documents</span><span class='period'>.</span><span class='id empty?'>empty?</span>
-      <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id display_doc'>display_doc</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:documents</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id new_document'>new_document</span>
+      <span class='id doc'>doc</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:documents</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id new_document'>new_document</span>
+      <span class='comment'># This is the default document. Set the default_document attribute of
+</span>      <span class='comment'># the ruber_default_document extension to true
+</span>      <span class='comment'># TODO this extension is currently provided by the main window because
+</span>      <span class='comment'># the application component is actually loaded after the other. This
+</span>      <span class='comment'># is wrong. To avoid it, don't call load_core_components from initialize
+</span>      <span class='comment'># but have the ruber starting code (in bin/ruber) start it manually. Then
+</span>      <span class='comment'># move the extension to the application
+</span>      <span class='id doc'>doc</span><span class='period'>.</span><span class='id extension'>extension</span><span class='lparen'>(</span><span class='symbol'>:ruber_default_document</span><span class='rparen'>)</span><span class='period'>.</span><span class='id default_document'>default_document</span> <span class='op'>=</span> <span class='kw'>true</span>
+      <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id display_doc'>display_doc</span> <span class='id doc'>doc</span>
     <span class='kw'>end</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
@@ -899,22 +927,22 @@ directories</p>
       <pre class="lines">
 
 
-166
-167
-168
-169
-170
-171
-172
-173
-174
-175
-176
-177
-178</pre>
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 166</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 246</span>
 
 <span class='kw'>def</span> <span class='id load_settings'>load_settings</span>
   <span class='ivar'>@plugin_dirs</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:general</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id plugin_dirs'>plugin_dirs</span>
@@ -960,24 +988,24 @@ a single empty document is created.
       <pre class="lines">
 
 
-282
-283
-284
-285
-286
-287
-288
-289
-290
-291
-292
-293
-294
-295
-296</pre>
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 282</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 405</span>
 
 <span class='kw'>def</span> <span class='id open_command_line_files'>open_command_line_files</span>
   <span class='id urls'>urls</span> <span class='op'>=</span> <span class='ivar'>@cmd_line_options</span><span class='period'>.</span><span class='id urls'>urls</span>
@@ -1040,12 +1068,12 @@ a single empty document is created.
       <pre class="lines">
 
 
-124
 125
-126</pre>
+126
+127</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 124</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 125</span>
 
 <span class='kw'>def</span> <span class='id plugin_directories'>plugin_directories</span>
   <span class='ivar'>@plugin_dirs</span><span class='period'>.</span><span class='id dup'>dup</span>
@@ -1100,13 +1128,13 @@ write the change to file. It&#8217;s up to whoever called this method to do so.<
       <pre class="lines">
 
 
-137
 138
 139
-140</pre>
+140
+141</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 137</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 138</span>
 
 <span class='kw'>def</span> <span class='id plugin_directories='>plugin_directories=</span> <span class='id dirs'>dirs</span>
   <span class='ivar'>@plugin_directories</span> <span class='op'>=</span> <span class='id dirs'>dirs</span>
@@ -1152,14 +1180,14 @@ write the change to file. It&#8217;s up to whoever called this method to do so.<
       <pre class="lines">
 
 
-149
 150
 151
 152
-153</pre>
+153
+154</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 149</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 150</span>
 
 <span class='kw'>def</span> <span class='id quit_ruber'>quit_ruber</span>
   <span class='ivar'>@status</span> <span class='op'>=</span> <span class='symbol'>:quitting</span>
@@ -1216,12 +1244,12 @@ write the change to file. It&#8217;s up to whoever called this method to do so.<
       <pre class="lines">
 
 
-188
 189
-190</pre>
+190
+191</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 188</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 189</span>
 
 <span class='kw'>def</span> <span class='id quitting?'>quitting?</span>
   <span class='ivar'>@status</span> <span class='op'>==</span> <span class='symbol'>:quitting</span>
@@ -1270,16 +1298,16 @@ necessary to to them later</p>
       <pre class="lines">
 
 
-271
-272
-273
-274
-275
-276
-277</pre>
+390
+391
+392
+393
+394
+395
+396</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 271</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 390</span>
 
 <span class='kw'>def</span> <span class='id register_with_config'>register_with_config</span>
   <span class='id config'>config</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span>
@@ -1338,12 +1366,12 @@ necessary to to them later</p>
       <pre class="lines">
 
 
-177
 178
-179</pre>
+179
+180</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 177</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 178</span>
 
 <span class='kw'>def</span> <span class='id running?'>running?</span>
   <span class='ivar'>@status</span> <span class='op'>==</span> <span class='symbol'>:running</span>
@@ -1516,17 +1544,17 @@ with the plugin which raised the exception</p></div>
       <pre class="lines">
 
 
-152
-153
-154
-155
-156
-157
-158
-159</pre>
+226
+227
+228
+229
+230
+231
+232
+233</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 152</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 226</span>
 
 <span class='kw'>def</span> <span class='id safe_load_plugins'>safe_load_plugins</span> <span class='id plugins'>plugins</span><span class='comma'>,</span> <span class='id silent'>silent</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='id dirs'>dirs</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id blk'>blk</span>
   <span class='kw'>if</span> <span class='id blk'>blk</span><span class='period'>.</span><span class='id nil?'>nil?</span> <span class='kw'>and</span> <span class='id silent'>silent</span> <span class='kw'>then</span> <span class='id blk'>blk</span> <span class='op'>=</span> <span class='id proc'>proc</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id _pl'>_pl</span><span class='comma'>,</span> <span class='id _e'>_e</span><span class='op'>|</span> <span class='symbol'>:silent</span><span class='rbrace'>}</span>
@@ -1584,59 +1612,59 @@ specified in it.</p>
       <pre class="lines">
 
 
-177
-178
-179
-180
-181
-182
-183
-184
-185
-186
-187
-188
-189
-190
-191
-192
-193
-194
-195
-196
-197
-198
-199
-200
-201
-202
-203
-204
-205
-206
-207
-208
-209
-210
-211
-212
-213
-214
-215
-216
-217
-218
-219
-220
-221
-222
-223
-224
-225
-226</pre>
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 177</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 276</span>
 
 <span class='kw'>def</span> <span class='id setup'>setup</span>
   <span class='comment'># Create $KDEHOME/share/apps/ruber/plugins if it's missing
@@ -1645,12 +1673,12 @@ specified in it.</p>
   <span class='id needed_plugins'>needed_plugins</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
   <span class='id deps_problem_msg'>deps_problem_msg</span> <span class='op'>=</span> <span class='const'>Proc</span><span class='period'>.</span><span class='id new'>new</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id e'>e</span><span class='op'>|</span>
     <span class='heredoc_beg'>&lt;&lt;-EOS</span><span class='tstring_content'>    The following errors have occurred while attempting to resolve the dependencies among plugins you chose:
-</span><span class='tstring_content'>    </span><span class='embexpr_beg'>#{</span><span class='id e'>e</span><span class='period'>.</span><span class='id message'>message</span><span class='rbrace'>}</span><span class='tstring_content'>
+</span><span class='tstring_content'>    </span><span class='embexpr_beg'>#{</span><span class='id e'>e</span><span class='period'>.</span><span class='id message'>message</span><span class='rbrace'>}</span>
+<span class='tstring_content'>
     
     Ruber will start with no plugin loaded. Please, use the Choose Plugins menu entry in the Settings menu to solve the issue.
 </span><span class='heredoc_end'>    EOS
-</span>
-  <span class='kw'>end</span>
+</span>  <span class='kw'>end</span>
   <span class='kw'>begin</span> 
     <span class='id availlable_plugins'>availlable_plugins</span> <span class='op'>=</span> <span class='const'>ComponentManager</span><span class='period'>.</span><span class='id find_plugins'>find_plugins</span> <span class='ivar'>@plugin_dirs</span><span class='comma'>,</span> <span class='kw'>true</span>
     <span class='id chosen_data'>chosen_data</span> <span class='op'>=</span> <span class='id chosen_plugins'>chosen_plugins</span><span class='period'>.</span><span class='id map'>map</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span> <span class='id availlable_plugins'>availlable_plugins</span><span class='lbracket'>[</span><span class='id i'>i</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id compact'>compact</span>
@@ -1658,11 +1686,11 @@ specified in it.</p>
     <span class='kw'>if</span> <span class='id found'>found</span><span class='period'>.</span><span class='id size'>size</span> <span class='op'>!=</span> <span class='id chosen_plugins'>chosen_plugins</span><span class='period'>.</span><span class='id size'>size</span>
       <span class='id missing'>missing</span> <span class='op'>=</span> <span class='id chosen_plugins'>chosen_plugins</span> <span class='op'>-</span> <span class='id found'>found</span>
       <span class='id question'>question</span> <span class='op'>=</span> <span class='heredoc_beg'>&lt;&lt;-EOS</span><span class='tstring_content'>Ruber couldn't find some plugins it has been configured to automatically load at startup. They are:
-</span><span class='embexpr_beg'>#{</span><span class='id missing'>missing</span><span class='period'>.</span><span class='id join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rbrace'>}</span><span class='tstring_content'>
+</span><span class='embexpr_beg'>#{</span><span class='id missing'>missing</span><span class='period'>.</span><span class='id join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rbrace'>}</span>
+<span class='tstring_content'>
 Do you want to start the application without them or to quit Ruber?
 </span><span class='heredoc_end'>      EOS
-</span>
-      <span class='id ans'>ans</span> <span class='op'>=</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>MessageBox</span><span class='period'>.</span><span class='id question_yes_no'>question_yes_no</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id question'>question</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Missing plugins</span><span class='tstring_end'>'</span></span><span class='comma'>,</span>
+</span>      <span class='id ans'>ans</span> <span class='op'>=</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>MessageBox</span><span class='period'>.</span><span class='id question_yes_no'>question_yes_no</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id question'>question</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Missing plugins</span><span class='tstring_end'>'</span></span><span class='comma'>,</span>
           <span class='const'>KDE</span><span class='op'>::</span><span class='const'>GuiItem</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Start Ruber</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>GuiItem</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Quit</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
       <span class='id exit'>exit</span> <span class='kw'>if</span> <span class='id ans'>ans</span> <span class='op'>==</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>MessageBox</span><span class='op'>::</span><span class='const'>No</span>
       <span class='id chosen_plugins'>chosen_plugins</span> <span class='op'>=</span> <span class='id found'>found</span>
@@ -1743,12 +1771,12 @@ otherwise</p></div>
       <pre class="lines">
 
 
-121
-122
-123</pre>
+167
+168
+169</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 121</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 167</span>
 
 <span class='kw'>def</span> <span class='id starting?'>starting?</span>
   <span class='ivar'>@status</span> <span class='op'>==</span> <span class='symbol'>:starting</span>
@@ -1765,9 +1793,9 @@ otherwise</p></div>
 </div>
     
     <div id="footer">
-  Generated on Thu Nov 11 12:12:03 2010 by 
+  Generated on Tue Jan 11 14:26:55 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.1 (ruby-1.9.2).
+  0.6.4 (ruby-1.9.2).
 </div>
 
   </body>

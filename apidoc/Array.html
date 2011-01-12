@@ -74,9 +74,7 @@
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">lib/ruber/utils.rb<span class="defines">,<br />
-  lib/ruber/utils.rb</span>
-</dd>
+    <dd class="r2 last">lib/ruber/utils.rb</dd>
   
 </dl>
 <div class="clear"></div>
@@ -256,12 +254,12 @@ to <code>==</code>) to <em>value</em> and <strong>false</strong> otherwise.</p>
       <pre class="lines">
 
 
-188
-189
-190</pre>
+197
+198
+199</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/utils.rb', line 188</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/utils.rb', line 197</span>
 
 <span class='kw'>def</span> <span class='id only?'>only?</span> <span class='id value'>value</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id size'>size</span> <span class='op'>==</span> <span class='int'>1</span> <span class='kw'>and</span> <span class='kw'>self</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='id value'>value</span>
@@ -335,21 +333,21 @@ of the array, then the returned array will have the size of the array</p>
       <pre class="lines">
 
 
-148
-149
-150
-151
-152
-153
-154
-155
-156
 157
 158
-159</pre>
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/utils.rb', line 148</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/utils.rb', line 157</span>
 
 <span class='kw'>def</span> <span class='id sample'>sample</span> <span class='id n'>n</span> <span class='op'>=</span> <span class='int'>1</span>
   <span class='kw'>if</span> <span class='id n'>n</span> <span class='op'>==</span> <span class='int'>1</span> <span class='kw'>then</span> <span class='id choice'>choice</span>
@@ -405,12 +403,12 @@ of the array, then the returned array will have the size of the array</p>
       <pre class="lines">
 
 
-128
-129
-130</pre>
+137
+138
+139</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/utils.rb', line 128</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/utils.rb', line 137</span>
 
 <span class='kw'>def</span> <span class='id to_array'>to_array</span>
   <span class='kw'>self</span>
@@ -483,14 +481,14 @@ the corresponding value.</p>
       <pre class="lines">
 
 
-176
-177
-178
-179
-180</pre>
+185
+186
+187
+188
+189</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/utils.rb', line 176</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/utils.rb', line 185</span>
 
 <span class='kw'>def</span> <span class='id to_h'>to_h</span> <span class='id pairs'>pairs</span> <span class='op'>=</span> <span class='kw'>true</span>
   <span class='kw'>if</span> <span class='id pairs'>pairs</span> <span class='kw'>then</span> <span class='kw'>self</span><span class='period'>.</span><span class='id inject'>inject</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id res'>res</span><span class='comma'>,</span> <span class='id i'>i</span><span class='op'>|</span> <span class='id res'>res</span><span class='lbracket'>[</span><span class='id i'>i</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id i'>i</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='semicolon'>;</span> <span class='id res'>res</span><span class='rbrace'>}</span>
@@ -509,9 +507,9 @@ the corresponding value.</p>
 </div>
     
     <div id="footer">
-  Generated on Thu Nov 11 12:12:04 2010 by 
+  Generated on Tue Jan 11 14:26:38 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.1 (ruby-1.9.2).
+  0.6.4 (ruby-1.9.2).
 </div>
 
   </body>
