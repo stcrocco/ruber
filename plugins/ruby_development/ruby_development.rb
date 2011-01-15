@@ -270,7 +270,7 @@ was started. If the user pressed the Cancel button of the dialog, *nil* is retur
           @fake_file = FakeFileInfo.new Tempfile.new('ruby_development'), url
           downloaded = KIO::NetAccess.download url, @fake_file.file.path, Ruber[:main_window]
           unless downloaded
-            KDE::MessageBox.sorry Ruber[:main_window], KDE::NetAccess.last_error_string
+            KDE::MessageBox.sorry Ruber[:main_window], KIO::NetAccess.last_error_string
             return
           end
           file = @fake_file.file.path
