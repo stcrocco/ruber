@@ -104,7 +104,7 @@ It adds the document to the part manager and makes several signal-slot connectio
       update_switch_to_list
     end
     slots 'document_created(QObject*)'
-    
+
     def remove_document_from_part_manager doc
       @view_manager.part_manager.remove_part doc.send(:internal)
     end

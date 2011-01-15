@@ -75,7 +75,7 @@ if no rspec program was found
       end
 
       
-      slots :go_to_spec, :go_to_file, :run_all, :run_current, :run_current_line
+      slots :run_all, :run_current, :run_current_line
       
 =begin rdoc
 @param [Ruber::PluginSpecification] the plugin specification object associated with
@@ -89,8 +89,7 @@ the plugin
         Ruber[:main_window].set_state 'rspec_running', false
         
         switch_prc = Proc.new{|states| states['active_project_exists'] and states['current_document']}
-        register_action_handler 'rspec-go_to_file', &switch_prc
-        register_action_handler 'rspec-go_to_spec', &switch_prc
+        register_action_handler 'rspec-switch', &switch_prc
         register_action_handler 'rspec-run_all' do |states|
           states['active_project_exists'] and !states['rspec_running']
         end
@@ -100,11 +99,30 @@ the plugin
         end
         register_action_handler 'rspec-run_current', &current_prc
         register_action_handler 'rspec-run_current_line', &current_prc
-        
+        connect Ruber[:main_window], SIGNAL('current_document_changed(QObject*)'), self, SLOT('change_switch_name(QObject*)')
         Ruber[:components].connect(SIGNAL('feature_loaded(QString, QObject*)')) do |f, o|
           o.register_plugin self, true if f == 'autosave'
         end
         @output_widget = @widget
+      end
+
+=begin rdoc
+Whether a file is a spec file or a code file for a given project
+
+It uses the @rspec/spec_directory@ and @rspec/spec_pattern@ options from the project
+to find out whether the file is a spec file or not.
+
+@param [String] file the file to test
+@param [Project,nil] prj the project _file_ could be a spec for. If *nil*, the
+  current project, if any, will be used
+@return [Boolean,nil] wheter or not _file_ is a spec file for the given project
+  or *nil* if no project was specified and there's no open project
+=end
+      def spec_file? file, prj = Ruber[:projects].current
+        return nil unless prj
+        dir = prj[:rspec, :spec_directory, :absolute]
+        return false unless file.start_with? dir
+        File.fnmatch File.join(dir, prj[:rspec, :spec_files]), file
       end
       
 =begin rdoc
@@ -157,10 +175,6 @@ as first argument to {Autosave::AutosavePlugin#autosave}
         return false if @process.state != Qt::Process::NotRunning
         @widget.clear_output
         files = files.select{|f| File.exist? f}
-#         if files.empty?
-#           KDE::MessageBox.sorry nil, 'No spec file has been found. RSpec won\'t be run'
-#           return false
-#         end
         if autosave_opts[:files]
           plug = autosave_opts[:plugin] || self
           what = autosave_opts[:files]
@@ -181,6 +195,24 @@ as first argument to {Autosave::AutosavePlugin#autosave}
       end
       
       private
+
+=begin rdoc
+Override of {PluginLike#delayed_initialize}
+
+It sets the text of the @Switch@ action depending on whether the current document
+(if any) is or not a spec file.
+
+This can't be done from the {#initialize} method because project options haven't
+already been added when that method is called.
+
+@return [nil]
+=end
+      def delayed_initialize
+        doc = Ruber[:main_window].current_document
+        change_switch_name doc if doc
+        nil
+      end
+      
 
 =begin rdoc
 Override of {ExternalProgramPlugin#process_standard_output}
@@ -378,54 +410,28 @@ the project directory.
         res[:full_backtraces] = prj[:rspec, :full_backtraces]
         res
       end
-
-=begin rdoc
-Opens the spec file(s) associated with the current document in the editor
-
-@return [nil]
-=end
-      def go_to_spec
-        prj = Ruber[:projects].current_project
-        unless prj
-          KDE::MessageBox.error nil, "You must have an open project to choose this entry.\nYOU SHOULD NEVER SEE THIS MESSAGE"
-          return
-        end
-        opts = options prj
-        doc = Ruber[:main_window].current_document
-        unless prj
-          KDE::MessageBox.error nil, "You must have an open document to choose this entry.\nYOU SHOULD NEVER SEE THIS MESSAGE"
-          return
-        end
-        files = specs_for_file opts, doc.path
-        files.each{|f| Ruber[:main_window].display_document f if File.exist? f}
-        nil
-      end
       
 =begin rdoc
-Opens the code file associated with the current spec file in the editor
+Slot associated with the @Switch@ action
 
-This method assumes the current file is a spec file and attempts to find the
-correspondent code file and open it in the editor. It does nothing if no correspondent
-code file can be found.
-@return [nil]
-@see #file_for_spec
+Displays the spec or code file associated with the current document, according
+to whether the current document is a code or spec file respectively.
+
+It does nothing if the file corresponding to the current document isn't found
+@note this method assumes that both the current project and a current document
+  exist
+@return [EditorView,nil] an editor associated with the spec or code file associated
+  with the current document or *nil* if no such file is found
 =end
-      def go_to_file
+      def switch
+        file = Ruber[:main_window].current_document.path
         prj = Ruber[:projects].current_project
-        unless prj
-          KDE::MessageBox.error nil, "You must have an open project to choose this entry.\nYOU SHOULD NEVER SEE THIS MESSAGE"
-          return
+        if spec_file? file, prj then switch_to = file_for_spec prj, file
+        else switch_to = specs_for_file(options(prj), file)[0]
         end
-        opts = options prj
-        doc = Ruber[:main_window].current_document
-        unless prj
-          KDE::MessageBox.error nil, "You must have an open document to choose this entry.\nYOU SHOULD NEVER SEE THIS MESSAGE"
-          return
-        end
-        file = file_for_spec prj, doc.path
-        Ruber[:main_window].display_document file if file and File.exist? file
-        nil
+        Ruber[:main_window].display_document switch_to if switch_to and File.exist? switch_to
       end
+      slots :switch
 
 =begin rdoc
 Determines all possible specs files associated with a code file
@@ -475,6 +481,27 @@ See {ExternalProgramPlugin#display_exit_message} for the meaning of the paramete
       def display_exit_message code, reason
         super unless reason.empty?
       end
+      
+=begin rdoc
+Changes the text of the @Switch to spec@ action depending on whether the given
+document is a spec or code file
+
+This method is usually called in response to the {MainWindow#current_document_changed}
+signal.
+
+@param [Document,nil] doc the document according to with to change the text of
+  the action
+@return [nil]
+=end
+      def change_switch_name doc
+        return unless doc
+        if spec_file? doc.path then text = 'Switch to &Code'
+        else text = 'Switch to &Spec'
+        end
+        action_collection.action('rspec-switch').text = i18n(text)
+        nil
+      end
+      slots 'change_switch_name(QObject*)'
       
     end
     

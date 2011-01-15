@@ -22,8 +22,7 @@ project_options:
   full_backtraces: {default: true}
 tool_widgets: {class: 'Ruber::RSpec::ToolWidget', pixmap: rspec.png, caption: RSpec}
 actions: 
- rspec-go_to_spec: {text: Switch to &Spec, shortcut: 'Alt+Shift+R, S', slot: go_to_spec(), states: [active_project_exists, current_document]}
- rspec-go_to_file: {text: Switch to &File, shortcut: 'Alt+Shift+R, F', slot: go_to_file(), states: [active_project_exists, current_document]}
+ rspec-switch: {text: 'Switch to &Spec', shortcut: 'Shift+F12', slot: switch(), states: [active_project_exists, current_document]}
  rspec-run_all: {text: Run &Project Specs, shortcut: 'Alt+Shift+R, P', slot: run_all(), states: [active_project_exists, rspec_running]}
  rspec-run_current: {text: Run Specs for &Current File, shortcut: 'Alt+Shift+R, C', slot: run_current(), states: [active_project_exists, current_document, rspec_running]}
  rspec-run_current_line: {text: Run Current Spec, shortcut: 'Alt+Shift+R, L', slot: run_current_line(), states: [active_project_exists, current_document, rspec_running]}
