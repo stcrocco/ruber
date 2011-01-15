@@ -96,8 +96,6 @@ h3. RSpec plugin
 
 * Add horizontal scroll bar and/or word-wrapping to tool widget (maybe this change
   should be made in the @OutputWidget@ class)
-* Merge the "Switch to spec" and "Switch to file" actions into a single action,
-  whose effect changes according to the current file
 * Better management of subdirectories for spec files. At least, subdirectories
   of the spec directory should be searched for files. It would be better if one
   could define several spec directories, depending on some pattern.

@@ -51,6 +51,7 @@ was raised.
         rescue Exception => ex
           dlg = ExceptionDialog.new ex, Ruber[:main_window], false, 
               'The command you issued raised the following exception:'
+          dlg.set_button_text KDE::Dialog::Ok, i18n('Ok')
           dlg.exec
           false
         end
