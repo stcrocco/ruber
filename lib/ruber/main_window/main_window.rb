@@ -249,7 +249,7 @@ hint, a new one will be created, unless the @create_if_needed@ hint is *false*.
   the given document should be created if none exists. This is different from
   passing @:always@ as the value of the @:existing@ option because the latter would
   cause a new editor to be created in case no one already exists for the document
-@option hints [Symbol, Array<Symbol>] :stategy ([:current, :current_tab, :first])
+@option hints [Symbol, Array<Symbol>] :strategy ([:current, :current_tab, :first])
   how to choose the exisiting editor to use in case there's more than one. If it
   is an array, the strategies will be applied in turn until one has success.
   If none of the given strategies succeed, @:first@ will be used. The possible
@@ -275,6 +275,9 @@ hint, a new one will be created, unless the @create_if_needed@ hint is *false*.
   current editor
   * @:current_tab@: place the new editor in the pane obtained splitting the first
   editor in the current tab
+  * @:replace@: replace the current editor, if any, with the new one. If no active
+    editor exists, it's the same as @:new_tab@. This value (if there's an active
+    editor), implies that the @:existing@ option is set to @:never@
   * an integer: place the new editor in the tab associated with that index (0-based),
   in the pane obtained by splitting the first view
   * an {EditorView}: place the new editor in the pane obtained splitting the
@@ -295,6 +298,13 @@ hint, a new one will be created, unless the @create_if_needed@ hint is *false*.
 =end
     def editor_for! doc, hints = DEFAULT_HINTS
       hints = DEFAULT_HINTS.merge hints
+      if hints[:new] == :replace
+        if active_editor
+          hints[:existing] = :never
+          hints[:show] = false
+        else hints[:new] = :new_tab
+        end
+      end
       docs = Ruber[:documents].documents
       unless doc.is_a? Document
         unless hints.has_key? :close_starting_document
@@ -313,7 +323,11 @@ hint, a new one will be created, unless the @create_if_needed@ hint is *false*.
         doc = Ruber[:documents].document url
       end
       return unless doc
-      @view_manager.without_activating{@view_manager.editor_for doc, hints}
+      ed = @view_manager.without_activating{@view_manager.editor_for doc, hints}
+      if hints[:new] == :replace
+        replace_editor active_editor, ed
+      else ed
+      end
     end
     
 =begin rdoc
