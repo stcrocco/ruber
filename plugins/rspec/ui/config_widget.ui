@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>RSpecConfigWidget</class>
+ <widget class="QWidget" name="RSpecConfigWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>49</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Open spec/code file</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="KComboBox" name="_rspec__switch_behaviour">
+     <item>
+      <property name="text">
+       <string>In a new tab</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Splitting horizontally the current tab</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Splitting vertically the current tab</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

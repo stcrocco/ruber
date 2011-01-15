@@ -1,5 +1,6 @@
 require 'ruby_runner/ruby_runner'
 require_relative 'ui/rspec_project_widget'
+require_relative 'ui/config_widget'
 
 require 'strscan'
 require 'yaml'
@@ -57,6 +58,11 @@ The starting delimiter of the data written by the formatter
 The ending delimiter of the data written by the formatter
 =end
       ENDING_DELIMITER = /^####%%%%####KRUBY_END$/
+      
+=begin rdoc
+Symbolic values associated with the @rspec/switch_behaviour@ settings 
+=end
+      SWITCH_BEHAVIOUR = [:new_tab, :horizontal, :vertical]
       
 =begin rdoc
 Finds the rspec program to use by default
@@ -429,7 +435,14 @@ It does nothing if the file corresponding to the current document isn't found
         if spec_file? file, prj then switch_to = file_for_spec prj, file
         else switch_to = specs_for_file(options(prj), file)[0]
         end
-        Ruber[:main_window].display_document switch_to if switch_to and File.exist? switch_to
+        if switch_to and File.exist? switch_to
+          behaviour = Ruber[:config][:rspec, :switch_behaviour]
+          if behaviour != :new_tab
+            hints = {:strategy => :current_tab, :existing => :current_tab, :split => SWITCH_BEHAVIOUR[behaviour], :new => :current_tab}
+          else hints = {}
+          end
+          Ruber[:main_window].display_document switch_to, nil, nil, hints
+        end
       end
       slots :switch
 
@@ -957,7 +970,16 @@ quotes around them keep them, as described in {Shellwords.split_with_quotes})
       end
       
     end
-
+    
+    class ConfigWidget < Qt::Widget
+      
+      def initialize parent = nil
+        super
+        @ui = Ui::RSpecConfigWidget.new
+        @ui.setup_ui self
+      end
+      
+    end
     
   end
   
