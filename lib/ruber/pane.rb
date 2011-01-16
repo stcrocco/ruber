@@ -500,6 +500,8 @@ It does nothing if the splitter is already in single view mode
         self.label = label
         @label.visible = false unless parent_pane
         connect @view, SIGNAL('closing(QWidget*)'), self, SLOT('remove_view(QWidget*)')
+        @splitter.delete_later
+        @splitter = nil
         self
       end
     end
