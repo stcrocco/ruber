@@ -126,11 +126,6 @@ h3. Syntax Checker
   
 h3. Command
 
-* !Add an optional output widget to the command tool widget which displays standard
-  output/standard error. This would require changing $stdout and $stdin when the
-  optional widget is turned on and resetting them to the usual values when it's
-  turned off. This is needed to see messages displayed by the command rather than
-  having them sent to the shell
 * !Replace the tool widget with an irb-based tool widget, if possible
   
 h2. New plugins

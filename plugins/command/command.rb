@@ -71,8 +71,8 @@ was raised.
         begin 
           old_stdout = $stdout
           old_stderr = $stderr
-          $stdout = Output.new @ui.output, Ruber[:config][:output_colors, :output]
-          $stderr = Output.new @ui.output, Ruber[:config][:output_colors, :error]
+          $stdout = Output.new @ui.output, Ruber[:config][:output_colors, :output], $stdout.fileno
+          $stderr = Output.new @ui.output, Ruber[:config][:output_colors, :error], $stderr.fileno
           eval code, TOPLEVEL_BINDING, 'COMMAND'
           true
         rescue Exception => ex
