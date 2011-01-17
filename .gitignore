@@ -9,3 +9,4 @@ old/
 .yardoc
 ruber-*.gem
 /rdoc/
+*.swp.*
