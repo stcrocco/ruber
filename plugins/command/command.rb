@@ -19,6 +19,7 @@
 =end
 
 require 'command/output'
+require_relative 'ui/tool_widget'
 
 module Ruber
 
@@ -29,7 +30,9 @@ plugin, which simply starts a new ruby interpreter and runs a script in it).
 
 This plugin doesn't provide a plugin class but just a tool widget where the user
 can enter the code and a button to execute it. It also doesn't provide any
-API for the feature.
+API for the feature. Beside the editor widget, the plugin also provides an output
+widget, where the text written to standard output and standard error by the code
+executed will be displayed.
 
 *Note:* the ruby code is executed in the top level context. Any exception
 raised by the code won't cause Ruber to crash, but will be displayed in a dialog.
@@ -48,20 +51,11 @@ The tool widget where the user can enter the ruby code to execute.
 =end
       def initialize parent = nil
         super
-        self.layout = Qt::VBoxLayout.new self
-        inner_layout = Qt::HBoxLayout.new nil
-        layout.add_layout inner_layout
-        @editor = Qt::PlainTextEdit.new
-        inner_layout.add_widget @editor
-        @output = Qt::PlainTextEdit.new
-        @output.read_only = true
-        @output.tab_stop_width = 2
-        @output.document.default_font = Ruber[:config][:general, :output_font]
-        inner_layout.add_widget @output
-        self.focus_proxy = @editor
-        @button = Qt::PushButton.new("Execute")
-        connect @button, SIGNAL(:clicked), self, SLOT(:execute_command)
-        layout.add_widget @button
+        @ui = Ui::CommandToolWidget.new
+        @ui.setup_ui self
+        self.focus_proxy = @ui.editor
+        connect @ui.execute, SIGNAL(:clicked), self, SLOT(:execute_command)
+        @ui.clear.connect(SIGNAL(:clicked)){@ui.output.clear}
       end
       
 =begin rdoc
@@ -73,12 +67,12 @@ it will be displayed on standard error and in a message box.
 was raised.
 =end
       def execute_command
-        code = @editor.to_plain_text
+        code = @ui.editor.to_plain_text
         begin 
           old_stdout = $stdout
           old_stderr = $stderr
-          $stdout = Output.new @output, Ruber[:config][:output_colors, :output]
-          $stderr = Output.new @output, Ruber[:config][:output_colors, :error]
+          $stdout = Output.new @ui.output, Ruber[:config][:output_colors, :output]
+          $stderr = Output.new @ui.output, Ruber[:config][:output_colors, :error]
           eval code, TOPLEVEL_BINDING, 'COMMAND'
           true
         rescue Exception => ex
@@ -99,7 +93,9 @@ Sets the font of the editor to the font chosen by the user as the output font
 @return [nil]
 =end
       def load_settings
-        @editor.font = Ruber[:config][:general, :output_font]
+        font = Ruber[:config][:general, :output_font]
+        @ui.editor.font = font
+        @ui.output.font = font
         nil
       end
       
