@@ -32,7 +32,14 @@
         </widget>
        </item>
        <item>
-        <widget class="QPlainTextEdit" name="editor"/>
+        <widget class="QPlainTextEdit" name="editor">
+         <property name="lineWrapMode">
+          <enum>QPlainTextEdit::NoWrap</enum>
+         </property>
+         <property name="tabStopWidth">
+          <number>80</number>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
@@ -75,11 +82,14 @@
          <property name="tabChangesFocus">
           <bool>true</bool>
          </property>
+         <property name="lineWrapMode">
+          <enum>QPlainTextEdit::NoWrap</enum>
+         </property>
          <property name="readOnly">
           <bool>true</bool>
          </property>
          <property name="tabStopWidth">
-          <number>2</number>
+          <number>80</number>
          </property>
          <property name="textInteractionFlags">
           <set>Qt::TextSelectableByMouse</set>

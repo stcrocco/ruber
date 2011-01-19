@@ -94,8 +94,12 @@ Sets the font of the editor to the font chosen by the user as the output font
 =end
       def load_settings
         font = Ruber[:config][:general, :output_font]
+        metrics = Qt::FontMetrics.new font
+        tab_width = metrics.max_width * 2
         @ui.editor.font = font
+        @ui.editor.tab_stop_width = tab_width
         @ui.output.font = font
+        @ui.output.tab_stop_width = tab_width
         nil
       end
       

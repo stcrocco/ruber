@@ -11,7 +11,7 @@ carry out
 
 h2. Ruber Core
 
-* support for multiple open project
+* Support for multiple open projects
 * ? Blocking signals. For example, if the user chooses to close a project, then
   chooses not to save one of the file, maybe the project shouldn't be closed at
   all. It can be implemented having slots connecting to the signal raising an
@@ -36,9 +36,6 @@ h2. Ruber Core
 * Use icons of different sizes for different tasks
 * Add a public ExternalProgramRunner#options_for method. It is used by other
   plugins which need to run the program to obtain the options
-* Make the output widgets not autoscroll unless the scroll bar is at the end. This
-  would allow the user to look at a certain line of output while other text is
-  being added
 * !Do something so that saving a YamlOptionBackend is an atomic action (this means
   creating a temp file, writing to it then copying on the actual file. There might
   be permission problems)
