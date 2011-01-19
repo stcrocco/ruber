@@ -510,6 +510,12 @@ Slot called whenever rows are inserted in the model
 
 If autoscrolling is enabled, it scrolls so that the last row inserted is at the
 bottom of the widget. It does nothing if autoscrolling is disabled.
+
+If the scrollbar slider is not at the bottom of the scroll bar, autoscrolling
+isn't done, regardless of the option. This is because it's likely that the user
+moved the slider, which may mean he's looking at some particular lines of output
+and he wouldn't like them to scroll away.
+
 @param [Qt::ModelIndex] parent the parent index of the inserted rows
 @param [Qt::ModelIndex] start_idx the index corresponding to the first inserted
   row (unused)
@@ -522,7 +528,10 @@ bottom of the widget. It does nothing if autoscrolling is disabled.
 @return [nil]
 =end
     def do_auto_scroll parent, start_idx, end_idx
-      scroll_to @view.model.index(end_idx, 0, parent) if @auto_scroll
+      if @auto_scroll
+        scroll_bar = @view.vertical_scroll_bar
+        scroll_to @view.model.index(end_idx, 0, parent) if scroll_bar.value == scroll_bar.maximum
+      end
       nil
     end
 

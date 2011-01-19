@@ -102,9 +102,6 @@ h3. RSpec plugin
 
 h3. Ruber Development
 
-* add a global option for the command line to use to run a script in a terminal,
-  so that users can configure the terminal emulator they like, not just konsole
-  (which should remain the default)
 * !Add a way to specify commands to be run before running the current project, so
   that, for example, the user can run rake to make sure that files which are automatically
   generated (for example, ruby files from .ui files) are up-to-date
