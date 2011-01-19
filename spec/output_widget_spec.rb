@@ -897,7 +897,9 @@ describe Ruber::OutputWidget do
       @mod = @ow.model
       @mod.append_row Qt::StandardItem.new ''
       @mw = flexmock{|m| m.should_ignore_missing}
+      @cfg = flexmock{|m| m.should_receive(:[]).with(:general, :tool_open_files).and_return(:existing).by_default}
       flexmock(Ruber).should_receive(:[]).with(:main_window).and_return(@mw).by_default
+      flexmock(Ruber).should_receive(:[]).with(:config).and_return(@cfg).by_default
     end
     
     after do
@@ -915,17 +917,11 @@ describe Ruber::OutputWidget do
         flexmock(@ow).should_receive(:find_filename_in_index).with(@mod.index(0,0)).and_return([__FILE__, 10]).by_default
       end
       
-      it 'opens displays the file corresponding to the first entry of the array in the editor, scrolling to the line corresponding to the second entry minus 1' do
-        @mw.should_receive(:display_document).once.with(__FILE__, 9)
+      it 'calls the display_file method passing the elements of the array as argument' do
+        flexmock(@ow).should_receive(:display_file).once.with(__FILE__, 10)
         @ow.send :maybe_open_file, @mod.index(0,0)
       end
-      
-      it 'doesn\'t subtract 1 from the line number if it is 0' do
-        @mw.should_receive(:display_document).once.with(__FILE__, 0)
-        @ow.should_receive(:find_filename_in_index).once.and_return [__FILE__, 0]
-        @ow.send :maybe_open_file, @mod.index(0,0)
-      end
-      
+
       it 'hides the tool widget if the Meta key is not pressed' do
         @mw.should_receive(:hide_tool).with(@ow).once
         @ow.send :maybe_open_file, @mod.index(0,0)
@@ -968,6 +964,85 @@ describe Ruber::OutputWidget do
         @ow.send :maybe_open_file, @mod.index(0,0)
       end
       
+    end
+    
+  end
+  
+  describe '#display_file' do
+    
+    before do
+      @ow = Ruber::OutputWidget.new
+      @mw = flexmock{|m| m.should_ignore_missing}
+      @cfg = flexmock{|m| m.should_ignore_missing}
+      flexmock(Ruber).should_receive(:[]).with(:main_window).and_return(@mw).by_default
+      flexmock(Ruber).should_receive(:[]).with(:config).and_return(@cfg).by_default
+    end
+    
+    describe 'when called with two arguments' do
+    
+      it 'calls the display_document method of the main window passing the file as argument and the line number - 1 as line hint' do
+        file = '/xyz/abc.rb'
+        lineno = 8
+        @mw.should_receive(:display_document).with(file, FlexMock.on{|a| a.is_a?(Hash) and a[:line] == lineno - 1}).once
+        @ow.send :display_file, file, lineno
+      end
+      
+      it 'passes {:existing => :never, :new => :current_tab, :split => :horizontal} as other hints if the general/tool_open_files setting is :split_horizontally' do
+        @cfg.should_receive(:[]).with(:general, :tool_open_files).once.and_return(:split_horizontally)
+        file = '/xyz/abc.rb'
+        lineno = 8
+        hints = {:existing => :never, :new => :current_tab, :split => :horizontal, :line => lineno - 1}
+        @mw.should_receive(:display_document).with(file, hints).once
+        @ow.send :display_file, file, lineno
+      end
+      
+      it 'passes {:existing => :never, :new => :current_tab, :split => :vertical} as other hints if the general/tool_open_files setting is :split_vertically' do
+        @cfg.should_receive(:[]).with(:general, :tool_open_files).once.and_return(:split_vertically)
+        file = '/xyz/abc.rb'
+        lineno = 8
+        hints = {:existing => :never, :new => :current_tab, :split => :vertical, :line => lineno - 1}
+        @mw.should_receive(:display_document).with(file, hints).once
+        @ow.send :display_file, file, lineno
+      end
+
+      it 'passes {:existing => :never, :new => :new_tab} as other hints if the general/tool_open_files setting is :new_tab' do
+        @cfg.should_receive(:[]).with(:general, :tool_open_files).once.and_return(:new_tab)
+        file = '/xyz/abc.rb'
+        lineno = 8
+        hints = {:existing => :never, :new => :new_tab, :line => lineno - 1}
+        @mw.should_receive(:display_document).with(file, hints).once
+        @ow.send :display_file, file, lineno
+      end
+      
+      it 'doesn\'t pass any other hints if the general/tool_open_files setting is :existing' do
+        @cfg.should_receive(:[]).with(:general, :tool_open_files).once.and_return(:existing)
+        file = '/xyz/abc.rb'
+        lineno = 8
+        hints = {:line => lineno - 1}
+        @mw.should_receive(:display_document).with(file, hints).once
+        @ow.send :display_file, file, lineno
+      end
+      
+    end
+    
+    describe 'when called with three arguments' do
+      
+      it 'uses the third argument, together with the line number as hints' do
+        @cfg.should_receive(:[]).with(:general, :tool_open_files).never
+        file = '/xyz/abc.rb'
+        lineno = 8
+        hints = {:existing => :current_tab, :new => :current_tab}
+        exp_hints = hints.merge :line => lineno - 1
+        @mw.should_receive(:display_document).with(file, exp_hints).once
+        @ow.send :display_file, file, lineno, hints
+      end
+      
+    end
+    
+    it 'doesn\'t subtract 1 from the line number if it is 0' do
+      @mw.should_receive(:display_document).once.with(__FILE__, {:line => 0})
+      @cfg.should_receive(:[]).with(:general, :tool_open_files).once.and_return(:existing)
+      @ow.send :display_file, __FILE__, 0
     end
     
   end

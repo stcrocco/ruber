@@ -642,6 +642,12 @@ Class containing the settings associated with the main window
   class MainWindowSettingsWidget < Qt::Widget
     
 =begin rdoc
+Mapping between modes to open files from tool widgets and indexes in the corresponding
+combo box
+=end
+    TOOL_OPEN_FILES = [:existing, :split_horizontally, :split_vertically, :new_tab]
+    
+=begin rdoc
 @param [Qt::Widget,nil] parent the parent widget
 =end
     def initialize parent = nil
@@ -659,6 +665,27 @@ Override of @Qt::Widget#sizeHint@
 =end
     def sizeHint
       Qt::Size.new(380,150)
+    end
+    
+=begin rdoc
+Read method for the @general/tool_open_files@ setting
+@param [Symbol] value the value of the option. It can have any value contained
+  in the {TOOL_OPEN_FILES} array
+@return [Symbol] value
+=end
+    def tool_open_files= value
+      @ui._general__tool_open_files.current_index = TOOL_OPEN_FILES.index value
+      value
+    end
+    
+=begin rdoc
+Store method for the @general/tool_open_files@ setting
+
+@return [Integer] the entry in {TOOL_OPEN_FILES} corresponding to the one selected in
+the combo box
+=end
+    def tool_open_files
+      TOOL_OPEN_FILES[@ui._general__tool_open_files.current_index]
     end
     
   end

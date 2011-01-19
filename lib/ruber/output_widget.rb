@@ -1,5 +1,5 @@
 =begin 
-    Copyright (C) 2010 by Stefano Crocco   
+    Copyright (C) 2010,2011 by Stefano Crocco   
     stefano.crocco@alice.it   
   
     This program is free software; you can redistribute it andor modify  
@@ -24,6 +24,7 @@ require 'ruber/gui_states_handler'
 
 module Ruber
   
+  
 =begin rdoc
 Widget meant to be used as tool widget to display the output of a program. It is
 based on Qt Model/View classes and provides the following facitlities:
@@ -44,140 +45,151 @@ based on Qt Model/View classes and provides the following facitlities:
   couple of convenience methods to make text insertion even easier.
 
 Note that OutputWidget is not (and doesn't derive from) one of the View classes.
-Rather, it's a normal <tt>Qt::Widget</tt> which has the view as its only child.
+Rather, it's a normal @Qt::Widget@ which has the view as its only child.
 You can add other widgets to the OutputWidget as you would with any other widget:
 create the widget with the OutputWidget as parent and add it to the OutputWidget's
-layout (which is a <tt>Qt::GridLayout</tt> where the view is at position 0,0).
+layout (which is a @Qt::GridLayout@ where the view is at position 0,0).
   
-<b>Note:</b> this class defines two new roles (<tt>OutputTypeRole</tt> and <tt>IsTitleRole</tt>),
-which correspond to <tt>Qt::UserRole</tt> and <tt>Qt::UserRole+1</tt>. Therefore,
+*Note:* this class defines two new roles (@OutputTypeRole@ and @IsTitleRole@),
+which correspond to @Qt::UserRole@ and @Qt::UserRole+1@. Therefore,
 if you need to define other custom roles, please have them start from
-<tt>Ruber::OutputWidget::IsTitleRole+1</tt>.
+@Ruber::OutputWidget::IsTitleRole+1@.
   
-===Colors
-The <i>output_type</i> of an entry in the model can be set using the <tt>set_output_type</tt>
+h3. Output types
+
+The @output_type@ of an entry in the model can be set using the {#set_output_type}
 method. This has two effects: first, the item will be displayed using the color
 chosen by the user for that output type; second, the name of the output type will
-be stored in that item under the custom role <tt>OutputTypeRole</tt>.
+be stored in that item under the custom role @OutputTypeRole@.
   
-There are several predefined output types: +message+, <tt>message_good</tt>,
-<tt>message_bad</tt>, +output+,
-+output1+, +output2+, +warning+, +warning1+, +warning2+, +error+, +error1+ and +error2+.
+There are several predefined output types: @message@, @message_good@,
+@message_bad@, @output@,
+@output1@, @output2@, @warning@, @warning1@, @warning2@, @error@, @error1@ and @error2@.
 The types ending with a number
-can be used when you need different types with similar meaning. The +message+ type
+can be used when you need different types with similar meaning.
+  
+The @message@ type
 (and its variations) are meant to display messages which don't come from the external
 program but from Ruber itself (for example, a message telling that the external
-problem exited successfully or exited with an error) Its good and bad version are
+problem exited successfully or exited with an error). Its good and bad version are
 meant to display messages with good news and bad news respectively (for example:
-"the program exited successfully" could be displayed using the <tt>message_good</tt>
-type, while "the program crashed" could be displayed using the <tt>message_bad</tt>
-type). The +output+ type is meant
+"the program exited successfully" could be displayed using the @message_good@
+type, while "the program crashed" could be displayed using the @message_bad@
+type).
+  
+The @output@ type is meant
 to be used to show the text written by the external program on standard output,
-while the +error+ type is used to display the text written on standard error. If
-you can distinguish between warning and errors, you can use the +warning+ type
+while the @error@ type is used to display the text written on standard error. If
+you can distinguish between warning and errors, you can use the @warning@ type
 for the latter.
 
 The colors for the default output types are chosen by the user from the configuration
 dialog and are used whenever those output types are requested.
 
 New output types (and their associated colors) can be make known to the output
-widget by using the <tt>set_color_for</tt> method. There's no need to remove the
+widget by using the @set_color_for@ method. There's no need to remove the
 color, for example when the plugin is unloaded (indeed, there's no way to do so).
 
-===The context menu
-This widget automatically creates a context menu containing three actions: copy,
-copy selected and clear. Copy and copy selected copy the text contained respectively
+h3. The context menu
+
+This widget automatically creates a context menu containing three actions: Copy,
+Copy Selected and Clear. Copy and Copy Selected copy the text contained respectively
 in all the items and in the selected items to the clipboard. The clear action 
 removes all the entries from the model.
 
 You can add other actions to the menu by performing the following steps:
-* add an entry in the appropriate position of the <tt>action_list</tt> array. Note
-  that it actually is an instance of ActionList, so it provides the <tt>insert_after</tt>
-  and <tt>insert_before</tt> methods which allow to easily put the actions in the
-  correct place. <tt>action_list</tt> should contain the <tt>object_name</tt> of
+* add an entry in the appropriate position of {#action_list}. Note
+  that this is an instance of ActionList, so it provides the {ActionList#insert_after insert_after}
+  and {ActionList#insert_before insert_before} methods which allow to easily put the actions in the
+  correct place. {#action_list} contains the @object_name@ of
   the actions (and *nil* for the separators), not the action themselves
-* create the actions (setting their <tt>object_name</tt> to the values inserted
-  in <tt>action_list</tt>) and put them into the +actions+ hash, using the <tt>object_name</tt>
+* create the actions (setting their @object_name@ to the values inserted
+  in {#action_list}) and put them into the {#actions} hash, using the @object_name@
   as keys. Of course, you also need to define the appropriate slots and connect
   them to the actions' signals.
   
 Note that actions can only be added _before_ the menu is first shown (usually, you
-do that in the widget's constructor). The signal <tt>about_to_fill_menu</tt> is
+do that in the widget's constructor). The {#about_to_fill_menu} signal is
 emitted just before the menu is built: this is the last time you can add entries
 to it.
 
-OutputWidget mixes in the GuiStatesHandler module, which means you can define states
-to enable and disable actions as usual. By default, two states are defined: <tt>no_text</tt>
-and <tt>no_selection</tt>. As the names imply, the former is *true* when the model
+{OutputWidget} mixes in the {GuiStatesHandler} module, which means you can define states
+to enable and disable actions as usual. By default, two states are defined: @no_text@
+and @no_selection@. As the names imply, the former is *true* when the model
 is empty and *false* when there's at least one item; the second is *true* when no
 item is selected and *false* when there are selected items.
 
-For the menu to be displayed automatically, the view should have a <tt>context_menu_requested(QPoint)</tt>
+For the menu to be displayed automatically, the view should have a @context_menu_requested(QPoint)@
 signal. The menu will be displayed in response to that signal, at the point given
-as argument. For convenience, there are three classes <tt>OutputWidget::ListView</tt>,
-<tt>OutputWidget::TreeView</tt> and <tt>OutputWidget::TableView</tt>, derived 
-respectively from <tt>Qt::ListView</tt>, <tt>Qt::TreeView</tt> and <tt>Qt::TableView</tt>
-which emit that signal from their <tt>contextMenuEvent</tt> method. If you use
+as argument. For convenience, there are three classes {OutputWidget::ListView},
+{OutputWidget::TreeView} and {OutputWidget::TableView}, derived 
+respectively from @Qt::ListView@, @Qt::TreeView@ and @Qt::TableView@
+which emit that signal from their @contextMenuEvent@ method. If you use
 one of these classes as view, the menu will work automatically.
 
-===Autoscrolling
+h3. Autoscrolling
+
 Whenever an item is added to the list, the view will be scrolled so that the added
-item is visible. Plugins which don't want this feature can disable it using the
-<tt>auto_scroll</tt> accessor. Note that auto scrolling won't happen if an item
+item is visible. Plugins which don't want this feature can disable it by setting
+{#auto_scroll} to *false*. Note that auto scrolling won't happen if an item
 is modified or removed
 
-===Word Wrapping
-If the user has enabled word wrapping for output widgets in the config dialog (
-the general/wrap_output option), word wrapping will be automatically enabled for
+h3. Word wrapping
+
+If the user has enabled word wrapping for output widgets in the config dialog 
+(the @general/wrap_output@ option), word wrapping will be automatically enabled for
 all output widgets. If the user has disabled it, it will be disabled for all
 widgets.
 
-Subclasses can avoid the automatic behaviour by setting the <tt>ignore_word_wrap_option</tt>
+Subclasses can avoid the automatic behaviour by setting the {#ignore_word_wrap_option}
 attribute to *true* and managing word wrap by themselves. This is mostly useful
 for output widgets for which word wrap is undesirable or meaningless.
 
-===Opening files in the editor
+h3. Opening files in the editor
+
 Whenever the user activates an item, the text of the item is searched for a filename
 (and optionally for a line number). If it's found, a new editor view is opened
-and the file is displayed in it. This process uses three methods:
-<tt>maybe_open_file</tt>::
-  the method connected to the view's <tt>activated(QModelIndex)</tt> signal. It
-  starts the search for the filename and, if successful, opens the editor view
-<tt>find_filename_in_index</tt>::
-  performs the search of the filename. By default, it uses <tt>find_filename_in_string</tt>,
-  but subclasses can override it to change the behaviour
-<tt>find_filename_in_string</tt>::
-  the method used by default  by <tt>find_filename_in_index</tt> to find the
-  filename.
+and the file is displayed in it. The editor can be an already existing editor
+or a new one created by splitting the current editor or in a new tab, according to
+the @general/tool_open_files@ option.
+
+This process uses four methods:
+
+- {#maybe_open_file}:=
+  the method connected to the view's @activated(QModelIndex)@ signal. It
+  starts the search for the filename and, if successful, opens the editor view =:
+- {#find_filename_in_index}:=
+  performs the search of the filename. By default, it uses {#find_filename_in_string},
+  but subclasses can override it to change the behaviour=:
+- {#find_filename_in_string}:=
+  the method used by default by {#find_filename_in_index} to find the
+  filename.=:
+- {#display_file}:= opens the file in an editor. By default uses the @general/tool_open_files@
+  to decide how the editor should be created, but this behaviour can be overridden
+  by subclasses.
   
 If a relative filename is found, it's considered relative to the directory contained
-in the <tt>working_dir</tt> attribute.
+in the {#working_dir} attribute.
 
-===The <tt>OutputWidget::Model</tt> class
-It behaves as a standard <tt>Qt::StandardItemModel</tt>, but it provides an +insert+
-method and an <tt>insert_lines</tt> method which make easier adding items. You
-don't need to use this model. If you don't, simply pass another one to the OutputWidget
-constructor
+h3. {OutputWidget::Model}
 
-===Signals
-=====<tt>about_to_fill_menu()</tt>
-Signal emitted immediately before the menu is created. You should connect to this
-signal if you want to add actions to the menu at the last possible time. Usually,
-however, you don't need it, as actions are usually created in the constructor.
-===Slots
-* <tt>show_menu(QPoint)</tt>
-* <tt>selection_changed(QItemSelection, QItemSelection)</tt>
-* <tt>rows_changed()</tt>
-* <tt>do_auto_scroll(QModelIndex, int, int)</tt>
-* <tt>copy()</tt>
-* <tt>copy_selected()</tt>
-* <tt>clear_output()</tt>
-* <tt>maybe_open_file()</tt>
+The {OutputWidget::Model} class behaves as a standard @Qt::StandardItemModel@, but
+provides two methods, {OutputWidget::Model#insert insert} and
+{OutputWidget::Model#insert_lines insert_lines} which make easier adding items. You
+aren't forced to use this model, however: if you want to use another class,
+pass it to the constructor.
 =end
   class OutputWidget < Qt::Widget
     
     include GuiStatesHandler
+
+=begin rdoc
+Signal emitted immediately before the menu is created
     
+You should connect to this
+signal if you want to add actions to the menu at the last possible time. Usually,
+however, you don't need it, as actions are usually created in the constructor.
+=end
     signals :about_to_fill_menu
     
     slots 'show_menu(QPoint)', 'selection_changed(QItemSelection, QItemSelection)',
@@ -195,76 +207,70 @@ The role which contains whether an item is or not the title
     IsTitleRole = OutputTypeRole + 1
     
 =begin rdoc
-Whether auto scrolling should be enabled or not (default: *true*)
+@return [Boolean ] whether auto scrolling should be enabled or not (default: *true*)
 =end
     attr_accessor :auto_scroll
         
 =begin rdoc
-Whether word wrapping should be enabled and disabled automatically according to
-the general/wrap_output setting or not (default: *false*)
+@return [Boolean] whether or not word wrapping should respect the @general/wrap_output@ option (default: *false*)
 =end
      attr_accessor :ignore_word_wrap_option
 
 =begin rdoc
-The directory used to resolve relative paths when opening a file (default *nil*)
+@return [String] the directory used to resolve relative paths when opening a file (default *nil*)
 =end
     attr_accessor :working_dir
     alias :working_directory :working_dir
     alias :working_directory= :working_dir=
     
 =begin rdoc
-Whether or not to skip the first file name in the title if the user activates it
-(see <tt>find_filename_in_index</tt>)
+@return [Boolean] whether or not to {#find_filename_in_index} should skip the first
+  file name in the title
 =end
     attr_accessor :skip_first_file_in_title
        
 =begin rdoc
-An ActionList containing the names of the actions and the separators (represented
-by *nil*) to use to build the menu. The default is ['copy', 'copy_selected', nil, 'clear'].
-
-<b>Note:</b> this is private
+@return [ActionList] the names of the action to use to build the menu
+    
+    Separators are represented by *nil* entries. The default is
+    @['copy', 'copy_selected', nil, 'clear']@.
 =end
     attr_reader :action_list
     
 =begin rdoc
-A hash having the names of actions to be inserted in the menu as keys and the actions
-themselves as values. By default, it contains the 'copy', 'copy_selected' and
-'clear' actions.
+@return [Hash{String => KDE::Action}] the actions to insert in the menu
 
-<b>Note:</b> this is private
+  Each action is inserted using its @object_name@ as key. By default, the hash
+  contains the 'copy', 'copy_selected' and 'clear' actions.
 =end
     attr_reader :actions
     
 =begin rdoc
-The model used by the OutputWidget
+@return [Qt::AbstractItemModel] the model used by the {OutputWidget}
 =end
     attr_reader :model
     
 =begin rdoc
-The view used by the OutputWidget
+@return [Qt::AbstractItemView] the view used by the OutputWidget
 =end
     attr_reader :view
-    
     
     private :action_list, :actions
     
 =begin rdoc
-Creates a new OutputWidget. _parent_ is the parent widget. _opts_ can contain
-the following keys:
-+:view+:: the view to use. It can be either a widget derived from <tt>Qt::AbstractItemView</tt>,
-          which will be used as view, or one of the symbols +:list+, +:tree+ or
-          +:table+. If it's a symbol, then the view will be a new instance of
-          OutputWidget::ListView, OutputWidget::TreeView or OutputWidget::TableView
-          respectively. Defaults to +:list+.
-+:model+:: the model to use. If this option isn't given, then a new instance of
-           OutputWidget::Model will be used
-<tt>use_default_font</tt>::
-  whether or not to use the application\'s default font in the view. If *false*
-  (the default), then the font chosen by the user for the general/output_font
-  option will be used.
-
-<b>Note:</b> if a widget is specified as value of the +:view+ option, it will become
-a child of the new OutputWidget.
+@param [Qt::Widget,nil] the parent widget
+@param [Hash] opts fine-tune the new widget
+@option opts [Qt::AbstractItemView, Symbol] :view (:list) the view to use for
+  the widget. If it is an instance of a subclass of @Qt::AbstractItemView@, it'll
+  be used as it is (and the new widget will become a child of the output widget).
+  If it is a symbol, it can be either @:list@, @:tree@ or @:table@. In this case,
+  a new instance respectively of {ListView}, {TreeView} or {TableView} will be
+  created
+@option opts [Qt::AbstractItemModel,nil] :model (nil) the model the output widget
+  should use. If *nil*, a new instance of {Model} will be used
+@option opts [Boolean] :use_default_font (false) whether or not the application's
+  default font should by used for the output widget. By default, the font used
+  is the one the user set in the @general/output_font@ option
 =end
     def initialize parent = nil, opts = {}
 
@@ -296,26 +302,29 @@ a child of the new OutputWidget.
     end
     
 =begin rdoc
-Instructs the OutputWidget to use the <tt>Qt::Color</tt> _color_ to display items
-whose output type is _name_. _name_ should be a symbol.
+Associates a color with an output type
 
-If a color had already been set for _name_, it will be overwritten
+If a color had already been associated with the given output type, it'll be overwritten.
+
+This method is useful to define new output types.
+@param [Symbol] name the name of the output type
+@param [Qt::Color] color the color to associate with the given output type
+@return [nil]
 =end
     def set_color_for name, color
       @colors[name] = color
+      nil
     end
     
 =begin rdoc
-Scrolls the view so that the item corresponding to the index _idx_ is visible.
+Scrolls the view so that the item corresponding the given index is visible
 
-_idx_ can be:
-* a <tt>Qt::ModelIndex</tt>
-* a positive integer. In this case, the view will be scrolled so that the first
-item toplevel item in the row _idx_ is visible.
-* a negative integer. It works as for a positive integer except that the rows are
-counted from the end (the same as passing a negative integer to <tt>Array#[]</tt>)
-* *nil*. In this case, the view will be scrolled so that the first toplevel item
-of the last row is visible.
+@param [Qt::ModelIndex,Integer,nil] idx the item to make visible. If it's a
+  @Qt::ModelIndex@, it's the index to make visible. If it is a positive integer.
+  the view will be scrolled so that the first toplevel item in the row _idx_ is
+  visible; if it's a negative integer, the rows are counted from the end. If *nil*
+  the first toplevel item of the last row will become visible
+@return [nil]
 =end
     def scroll_to idx
       case idx
@@ -334,19 +343,19 @@ of the last row is visible.
         @view.scroll_to @model.index(@model.row_count - 1, 0), 
             Qt::AbstractItemView::PositionAtBottom
       end
+      nil
     end
     
 =begin rdoc
-Sets the output type associated with the <tt>Qt::ModelIndex</tt> _idx_ to _type_
-(a symbol). 
+Changes the output type of a given index
 
-If a color has been associated with _type_ (either because _type_ is one of the
-standard types or because it's been set with <tt>set_color_for</tt>), the foreground
-role of the index will be changed to that color and the +OutputTypeRole+ of the
-index will be set to a string version of _type_. In this case, _type_ is returned.
+If a color has been associated with that output type, the foreground role and the
+output type role of that index are updated accordingly.
 
-If no color has been associated with _type_, this method does nothing and returns
-*nil*.
+If no color has been associated with the output type, nothing is done
+@param [Qt::ModelIndex] idx the index to set the output type for
+@param [Symbol] type the new output type to associate with the index
+@return [Symbol,nil] _type_ if a color was associated with it and *nil* otherwise
 =end
     def set_output_type idx, type
       color = @colors[type]
@@ -358,8 +367,13 @@ If no color has been associated with _type_, this method does nothing and return
     end
     
 =begin rdoc
-Executes the block with autoscrolling turned on or off according to _val_, without
-permanently changing the autoscrolling setting.
+Executes a block while temporarily turning autoscrolling on or off
+
+After the block has been executed, autoscrolling returns to the original state.
+
+@param [Boolean] val whether to turn autoscrolling on or off
+@yield the block to execute with autoscroll turned on or off
+@return [Object] the value returned by the block
 =end
     def with_auto_scrolling val
       old = @auto_scroll
@@ -372,19 +386,21 @@ permanently changing the autoscrolling setting.
 =begin rdoc
 Gives a title to the widget.
     
-A title is a toplevel entry at position 0,0 with output type +:message+ and has 
-the +IsTitleRole+ set to *true*. Of course, there can be only one item which is
+A title is a toplevel entry at position 0, 0 with output type @:message@ and has 
+the @IsTitleRole@ set to *true*. Of course, there can be only one item which is
 a title.
 
-If the item in position 0,0 is not a title, a new row is inserted at position 0,
-its first element's DisplayRole is set to _text_ and its IsTitleRole is set to
-true.
+If the item in position 0, 0 is not a title, a new row with title role and the
+given text is inserted.
 
-If the item in position 0,0 is a title, then its DisplayRole value is replaced
-with _text_.
+If the item in position 0,0 is a title, then its display role is replaced with 
+the given text.
 
 Usually, the title is created when the external program is started and changed
-later if needed
+later if needed.
+
+@param [String] text the text of title
+@return [nil]
 =end
     def title= text
       idx = @model.index 0, 0
@@ -398,11 +414,14 @@ later if needed
         @model.set_data idx, Qt::Variant.new(true), IsTitleRole
       end
       set_output_type idx, :message
+      nil
     end
     
 =begin rdoc
-Tells whether the toplevel 0,0 element is the title or not. See <tt>title=</tt>
-for the meaning of the title
+Whether or not the output widget has a title
+
+See {#title=} for what is meant here by title
+@return [Boolean] whether or not the output widget has a title
 =end
     def has_title?
       @model.index(0,0).data(IsTitleRole).to_bool
@@ -410,6 +429,8 @@ for the meaning of the title
     
 =begin rdoc
 Loads the settings from the configuration file.
+
+@return [nil]
 =end
     def load_settings
       cfg = Ruber[:config]
@@ -427,34 +448,26 @@ Loads the settings from the configuration file.
         rescue NoMethodError
         end
       end
+      nil
     end
     
 =begin rdoc
 Removes all the entries from the model
+
+@return [nil]
 =end
     def clear_output
       @model.remove_rows 0, @model.row_count
+      nil
     end
 
-    protected
-    
-#     def keyReleaseEvent e
-#       ed = Ruber[:main_window].active_editor
-#       return super unless ed 
-#       Ruber[:main_window].activate_editor ed
-#       ed.set_focus
-# #       mod = e.modifiers
-# #       if mod == Qt::NoModifier or mod == Qt::ShiftModifier
-# #         ed.insert_text e.text
-# #       end
-#       nil
-#     end
-    
     private
     
 =begin rdoc
-Changes the foreground color of the Qt::ModelIndex _idx_ and of its children so
-that it matches the color set for its output type.
+Updates the color of an index and its children so that it matches their output types
+@param [Qt::ModelIndex] idx the index whose foreground color should be updated.
+  Its children will also be updated
+@return [nil]
 =end
     def update_index_color idx
       type = idx.data(OutputTypeRole).to_string.to_sym rescue nil
@@ -469,10 +482,17 @@ that it matches the color set for its output type.
           end
         end
       end
+      nil
     end
     
 =begin rdoc
-Creates the model (if needed) and makes some signal-slot connections
+Prepares the model to use
+
+After a call to this method, the model will become a child of the {OutputWidget}
+
+@param [Qt::AbstractItemModel,nil] mod the model to use. If *nil*, a new instance
+  of {Model} will be used
+@return [nil]
 =end
     def setup_model mod
       @model = mod || Model.new(self)
@@ -482,26 +502,39 @@ Creates the model (if needed) and makes some signal-slot connections
       connect @model, SIGNAL('rowsInserted(QModelIndex, int, int)'), self, SLOT(:rows_changed)
       connect @model, SIGNAL('rowsRemoved(QModelIndex, int, int)'), self, SLOT(:rows_changed)
       connect @model, SIGNAL('rowsInserted(QModelIndex, int, int)'), self, SLOT('do_auto_scroll(QModelIndex, int, int)')
+      nil
     end
     
 =begin rdoc
-Automatically scrolls to the first row of <i>end_idx</i> if auto scrolling is enabled.
+Slot called whenever rows are inserted in the model
 
-Note: all parameters are considered relative to the model associated with the view,
-not with the @model@ attribute (of course, this only matters in subclasses where
-the two differ, such as {FilteredOutputWidget}).
+If autoscrolling is enabled, it scrolls so that the last row inserted is at the
+bottom of the widget. It does nothing if autoscrolling is disabled.
+@param [Qt::ModelIndex] parent the parent index of the inserted rows
+@param [Qt::ModelIndex] start_idx the index corresponding to the first inserted
+  row (unused)
+@param [Qt::ModelIndex] end_idx the index correspodnding to the last inserted row
+
+@note all indexes are considered relative to the model associated with the view,
+  not to the model returned by {#model}. This doesn' matter for {OutputWidget} itself,
+  but makes a difference in sublclasses where the two models are different (for
+  example, {FilteredOutputWidget})
+@return [nil]
 =end
     def do_auto_scroll parent, start_idx, end_idx
       scroll_to @view.model.index(end_idx, 0, parent) if @auto_scroll
+      nil
     end
 
 =begin rdoc
-Creates the menu, according to the contents of the <tt>@action_list</tt> and
-<tt>@actions</tt> instance variables.
+Creates the context menu
 
-Before creating the menu, it emits the <tt>about_to_fill_menu()</tt> signal. Connecting
+The menu is created using the values returned by {#action_list} and {#actions}.
+
+Before creating the menu, the {#about_to_fill_menu} signal is emitted. Connecting
 to this signal allows to do some last-minute changes to the actions which will
 be inserted in the menu.
+@return [nil]
 =end
     def fill_menu
       emit about_to_fill_menu
@@ -513,18 +546,28 @@ be inserted in the menu.
     end
     
 =begin rdoc
-Shows the menu (asynchronously) at the point _pt_.
+Shows the menu
 
 If the menu hasn't as yet been created, it creates it.
+
+The menu is shown asynchronously. This means that this method doesn't wait for
+the user to choose an action but returns immediately.
+
+@param [Qt::Point] the point where the menu should be shown
+@return [ni;]
 =end
     def show_menu pt
       fill_menu if @menu.empty?
       @menu.popup pt
+      nil
     end
     
 =begin rdoc
-Creates the layout and the view. _view_ has the same meaning as the <tt>:view</tt>
-option in the constructor
+Creates the layout and the view
+
+@param [AbstractItemView,Symbol] view the view to use. Has the same meaning as the
+  @:view@ option to {#initialize}
+@return [nil]
 =end
     def create_widgets view
       self.layout = Qt::GridLayout.new(self)
@@ -535,11 +578,14 @@ option in the constructor
       end
       @view.selection_mode = Qt::AbstractItemView::ExtendedSelection
       layout.add_widget  @view, 0, 0
+      nil
     end
     
 =begin rdoc
-Creates the 'Copy', 'Copy selected' and 'Clear' actions and the correspongind 
-state handlers
+Creates the default actions for the context menu
+
+It also sets up the gui state handlers for them
+@return [nil]
 =end
     def create_standard_actions
       @actions['copy'] = KDE::Action.new(self){|a| a.text = '&Copy'}
@@ -553,13 +599,15 @@ state handlers
       connect @actions['copy'], SIGNAL(:triggered), self, SLOT(:copy)
       connect @actions['copy_selected'], SIGNAL(:triggered), self, SLOT(:copy_selected)
       connect @actions['clear'], SIGNAL(:triggered), self, SLOT(:clear_output)
+      nil
     end
     
 =begin rdoc
 Slot connected to the 'Copy' action.
 
 It copies the content of all the items to the clipboard. The text is obtained
-from the items by calling <tt>text_for_clipboard</tt> passing it all the items.
+from the items by calling {#text_for_clipboard}.
+@return [nil]
 =end
     def copy
       items = []
@@ -576,13 +624,15 @@ from the items by calling <tt>text_for_clipboard</tt> passing it all the items.
       end
       clp = KDE::Application.clipboard
       clp.text = text_for_clipboard items
+      nil
     end
 
 =begin rdoc
 Slot connected to the 'Copy Selection' action.
 
 It copies the content of all the items to the clipboard. The text is obtained
-from the items by calling <tt>text_for_clipboard</tt> passing it the selected items.
+from the items by calling {#text_for_clipboard}.
+@return [nil]
 =end
     def copy_selected
       clp = KDE::Application.clipboard
@@ -590,20 +640,22 @@ from the items by calling <tt>text_for_clipboard</tt> passing it the selected it
     end
     
 =begin rdoc
-Method used by the +copy+ and <tt>copy_selected</tt> methods to obtain the text
-to put in the clipboard from the indexes.
+Retrieves the text to copy to the clipboard from the given indexes
 
-The default behaviour is to create a string which contains the content of all the
-toplevel items on the same row separated by tabs and separate different rows by
+The string is created by joining the text of toplevel items on the same row and
+different columns using tabs as separators. Different rows are separated with
 newlines. Child items are ignored.
 
 Derived class can override this method (and, if they plan to put child items in
-the view, they're advised to do so). The method must accept an array of <tt>Qt::ModelIndex</tt>
-as argument and return a string with the text to put in the clipboard.
+the view, they're advised to do so).
 
 The reason the default behaviour ignores child items is that their meaning (and
 therefore the way their contents should be inserted into the string) depends
-very much on the specific content.
+very much on the specific content, so there's no way to have a sensible default
+behaviour.
+
+@param [Array<Qt::ModelIndex>] indexes the indexes to use to create the text
+@return [String] the text which should be put in the clipboard
 =end
     def text_for_clipboard indexes
       indexes = indexes.select{|i| !i.parent.valid?}
@@ -622,37 +674,54 @@ very much on the specific content.
     end
         
 =begin rdoc
-Slot connected to the view's selection model's selectionChanged signal.
+Slot connected to the view's selection model's @selectionChanged@ signal
 
-Turns the <tt>no_selection</tt> state on or off depending on whether the selection
-is empty or not
+Turns the @no_selection@ gui state on or off according to whether the selection
+is empty or not.
+
+@return [nil]
 =end
     def selection_changed sel, desel
       change_state 'no_selection', !@view.selection_model.has_selection
+      nil
     end
     
 =begin rdoc
-Turns the <tt>no_text</tt> state on or off depending on whether the model
+Slot called whenever rows are added to or removed from the model
+
+Turns the @no_text@ gui state on or off depending on whether the model
 is empty or not
+@return [nil]
 =end
     def rows_changed
       change_state 'no_text', @model.row_count == 0
+      nil
     end
     
 =begin rdoc
-Searches for a filename in the DisplayRole of the <tt>Qt::ModelIndex</tt> idx (
-using the <tt>find_filename_in_index</tt> method). If a filename is found, opens
-a new editor view containing the file, scrolls it to the appropriate line and
-hides the tool widget (*self*).
+Attempts to display the file whose name is contained in the given index
+
+Searches for a filename in the DisplayRole of the index using the {#find_filename_in_index}
+method. If a filename is found, an editor for it is displayed.
 
 The behaviour of this method (which usually is only called via a signal-slot connection
-to the views' <tt>activated(QModelindex) signal) changes according to the active 
+to the views' @activated(QModelindex)@ signal) changes according to the active 
 keyboard modifiers:
 * if Ctrl or Shift are pressed and the view allows selection (that is, its selection
 mode is not +NoSelection+), then this method does nothing. The reason for this
 behaviour is that Ctrl and Shift are used to select items, so the user is most
 likely doing that, not requesting to open a file
 * if Meta is pressed, then the tool widget won't be closed
+
+The way the file is displayed depends on the @general/tool_open_files@ setting.
+If you need to have a different behaviour, override {#display_file} from your
+tool widget class.
+@param [Qt::ModelIndex] idx the index which could contain the file name
+@return [EditorView,nil] the editor for the filename contained in the index or
+  *nil* if no file name was found or if either the Shift or Control modifiers were
+  active
+@see #find_filename_in_index
+@see #display_file
 =end
     def maybe_open_file idx
       modifiers = Application.keyboard_modifiers
@@ -661,57 +730,108 @@ likely doing that, not requesting to open a file
       end
       file = find_filename_in_index idx
       return unless file
-      line = file[1]
-      line -= 1 if line > 0
-      Ruber[:main_window].display_document file[0], line, 0
+      ed = display_file *file
       Ruber[:main_window].hide_tool self if (Qt::MetaModifier & modifiers) == 0
+      ed
     end
     
 =begin rdoc
-Method used by <tt>maybe_open_file</tt> to find out the name of the file to open
+Displays the given file in an editor
+
+@overload display_file file, line
+  Displays the given file in an editor according to the @general/tool_open_files@ setting
+  
+  The value of the @general/tool_open_files@ determines whether an existing editor
+  should be used or whether to create a new one by splitting the current one horizontally
+  or vertically or by creating a new tab.
+  
+  @param [String] file the name of the file to display in the editor
+  @param [Integer] line the number of the line of the file to display. It must be
+    1-based
+  @return [EditorView] the editor where the file is displayed
+@overload display_file file, line, hints
+  Displays the given file in an editor using the given hints
+
+  This version of the method doesn't use the @general/tool_open_files@ setting
+  to determine whether to reuse an existing editor or to create a new one; rather
+  it considers the third argument as the hints to pass to {MainWindow#display_document}.
+  @param [String] file the name of the file to display in the editor
+  @param [Integer] line the number of the line of the file to display. It must be
+    1-based
+  @param [Hash] hints see {Ruber::MainWindow#display_document}
+  @return [EditorView] the editor where the file is displayed
+  
+By default, {OutputWidget#maybe_open_file} uses the first version of this method.
+If, for a particular widget, you want to use different settings, you need to
+override this method, compute the hints you need, then call the second version
+of the base class passing those hints as third argument (do not add a @:line@ entry
+to the hints as it would be overwritten). To ensure consisting behaviour, in the
+reimplementation of this method, you should leave the third argument optional and
+compute it only if it isn't given. This way, other plugin-writers may derive from
+your class and still be able to customize the hints how they like.
+@return [EditorView]
+@example
+  class MyOutputWidget < Ruber::OutputWidget
+    def display_file file, line, hints = nil
+      my_hints = hints || {:existing => :current_tab, :new => :current_tab}
+      super file, line, my_hints
+    end
+  end
+=end
+    def display_file file, line, hints = nil
+      line -= 1 unless line == 0
+      unless hints
+        case Ruber[:config][:general, :tool_open_files]
+        when :split_horizontally
+          hints = {:existing => :never, :new => :current_tab, :split => :horizontal}
+        when :split_vertically
+          hints = {:existing => :never, :new => :current_tab, :split => :vertical}
+        when :new_tab
+          hints = {:existing => :never, :new => :new_tab}
+        else hints = {}
+        end
+      end
+      hints[:line] = line
+      Ruber[:main_window].display_document file, hints
+    end
+    
+=begin rdoc
+Searches in the display role of the given index for a file name
+
+This method is used by {#maybe_open_file} to find out the name of the file to open
 (if any) when an item is activated.
 
-_idx_ can be either the <tt>Qt::ModelIndex</tt> corresponding to the activated
-item or a string. The first form is used when this method is called from the
-<tt>activated(QModelIndex)</tt> signal of the view; the string form is usually
-called by overriding methods using *super*.
+The actual search for the file name is done by {#find_filename_in_string}. If it
+reports a success, this method makes sure the file actually exists, expanding it
+relative to {#working_dir} if it's not an absolute path. If {#working_dir} is
+not set, the current directory will be used. However, you're advised not to relay
+on this behaviour and always set the working directory.
 
-The actual work is done by <tt>find_filename_in_string</tt>, which returns the
-first occurrence of what it considers a filename (possibly followed by a line
-number).
-
-If <tt>find_filename_in_string</tt> finds a filename, this method makes sure it
-actually corresponds to an existing file and, if it's a relative path, expands
-it, considering it relative to the <tt>working_dir</tt> attribute. If that
-attribute is not set, the behaviour is undefined (most likely, an exception will
-be raised).
-
-If _idx_ is the title (see <tt>title=</tt>) and <tt>skip_first_file_in_title</tt>
-is *true*, all the text from the beginning to the first space or colon is removed
-from it before being passed to <tt>find_filename_in_string</tt>. The reason is
-that often the title contains the command line of a program, for example:
-
- /usr/bin/ruby /path/to/script.rb
-
-In this case, when the user activates the title, he will most likely want to
-open <tt>/path/to/script.rb</tt> rather than <tt>/usr/bin/ruby</tt> (which, being
-an executable, couldn't even be correctly displayed). Nothing like this will
-ever happen if _idx_ is a string.
+If the given index is the title of the widget (see {#title=}) and {#skip_first_file_in_title}
+is *true*, all the text from the beginning of the title up to the first whitespace
+or colon is ignored. Since often the first word of the title is the name of the
+program being run (which may as well be compiled), it doesn't make sense to attempt
+to open it. This behaviour allows the user to activate on a title like
+@/usr/bin/ruby /path/to/script.rb@ and see the file @/path/to/script.rb@ in the
+editor. Without it, @/usr/bin/ruby@ would be opened instead.
 
 Subclasses can override this method to extend or change its functionality. They
 have two choices on how to do this. The simplest is useful if they want to alter
 the string. In this case they can retrieve the text from the index, change it
-then call *super* passing the modified string as argument. Otherwise, they should
-reimplement all the functionality. In this case, the method should:
-* take a <tt>Qt::ModelIndex</tt> or a string as argument
-* return a string with the name of the file or an array containing a string and
-the associated line number (if found) if a file name is found
-* return *nil* if no file name is found
-* convert relative file names to absolute (either using the <tt>working_dir</tt>
-attribute or any other way they see fit)
+then call *super* passing the modified string as argument. The other way is to
+reimplement this method from scratch.
 
-A subclass can decide to completely disable this functionality by overriding this
-method with one which always returns *nil*.
+A subclass can also decide to completely disallow opening a file by activating the
+corresponding item by overriding this method to always return *nil*.
+
+@param [Qt::ModelIndex,String] idx the index or string to search a file name in.
+  The form which takes a string is usually used by subclasses which want to alter
+  the string without reimplementing all the functionality. Note that if _idx_
+  is a string, there's no way to know whether it refers to the title or not, so
+  {#skip_first_file_in_title} is ignored
+@return [Array(String,Integer),nil] if a file name is found (and the corresponding
+  file exists) an array containing the filename and the line number (or 0 if no
+  line number was found). If no suitable file is found, *nil* is returned
 =end
     def find_filename_in_index idx
       str = if idx.is_a?(String) then idx
@@ -720,7 +840,6 @@ method with one which always returns *nil*.
       else idx.data.to_string
       end
       res = find_filename_in_string str
-      d res
       return unless res
       res = Array res
       res << 0 if res.size == 1
@@ -729,7 +848,7 @@ method with one which always returns *nil*.
       res[0].sub! %r{^file://}, ''
       if KDE::Url.file_url?(res[0]) then res
       else
-        res[0] = File.join @working_dir, res[0] unless Pathname.new(res[0]).absolute?
+        res[0] = File.join (@working_dir || Dir.pwd), res[0] unless Pathname.new(res[0]).absolute?
         if File.exist?(res[0]) and !File.directory?(res[0])
           res
         else nil
@@ -738,24 +857,25 @@ method with one which always returns *nil*.
     end
     
 =begin rdoc
-Searches the given string for the first occurrence of a file name (possibly followed by a colon and a line
-number). If a file name is found, returns an array containing the file name and
-the corresponding line number (if present). Returns *nil* if no file name was found.
+Searches the given string for the first occurrence of a file name
 
+The file name can optionally be followed by a colon and a line number.
+    
 What is a file name and what isn't is a bit arbitrary. Here's what this method
 recognizes as a filename:
 * an absolute path not containing spaces and colons starting with '/'
 * an absolute path not containing spaces and colons starting with '~' or '~user'
-(they're expanded using @File.expand_path@)
+  (they're expanded using @File.expand_path@)
 * a relative path starting with @./@ or @../@ (either followed by a slash or not)
 * a relative path of the form @.filename@ or @.dirname/dir/file@
-* any string not containing spaces or colons followed by a colon and a line number
 * absolute URLs with an authority component
+* any string not containing spaces or colons followed by a colon and a line number
+  (in this case, the line number is required)
 
 File names enclosed in quotes or parentheses are recognized.
-
-The first three entries of the previous list can be followed by a colon and a line
-number; for the last one they're mandatory
+@return [Array(String,Integer), Array(String),nil] an array whose first element
+  is the file name and whose second element is the line number (if found) or
+  *nil* if no file name was found. Note that the file name can be relative
 =end
     def find_filename_in_string str
       #This ensures that file names inside quotes or brackets are found. It's
@@ -781,8 +901,6 @@ number; for the last one they're mandatory
         m = str.match a
         matches << [m.begin(0),[$1,$2]] if m
       end
-      d str
-      d matches
       match = matches.sort_by{|i| i[0]}[0]
       return unless match
       file, line = *match[1]
@@ -967,18 +1085,23 @@ same type is used for all lines.
     end
     
 =begin rdoc
-Convenience class to be used instead of <tt>Qt::ListView</tt> in an OutputWidget.
+Convenience class to be used instead of @Qt::ListView@ in an {OutputWidget}.
 
-The only difference from Qt::ListVew is that it defines a <tt>context_menu_requested(QPoint)</tt>
-signal and emits it from its +contextMenuEvent+ method
+The only difference from @Qt::ListVew@ is that it defines a @context_menu_requested(QPoint)@
+signal and emits it from its {#contextMenuEvent} method
 =end
     class ListView < Qt::ListView
       
+=begin rdoc
+Signal emitted when the user right-clicks on the view
+@param [Qt::Point] pt the point where the user clicked
+=end
       signals 'context_menu_requested(QPoint)'
       
 =begin rdoc
-Works as in the superclass but also emits the <tt>context_menu_requested(QPoint)</tt>
-signal
+Override of @Qt::ListView#contextMenuEvent@
+
+It emits the {#context_menu_requested} signal
 =end
       def contextMenuEvent e
         super e
@@ -988,18 +1111,23 @@ signal
     end
 
 =begin rdoc
-Convenience class to be used instead of <tt>Qt::TreeView</tt> in an OutputWidget.
+Convenience class to be used instead of @Qt::TreeView@ in an {OutputWidget}.
 
-The only difference from Qt::TreeVew is that it defines a <tt>context_menu_requested(QPoint)</tt>
-signal and emits it from its +contextMenuEvent+ method
+The only difference from @Qt::TreeVew@ is that it defines a {#context_menu_requested}
+signal and emits it from its {#contextMenuEvent} method
 =end
     class TreeView < Qt::TreeView
-      
+
+=begin rdoc
+Signal emitted when the user right-clicks on the view
+@param [Qt::Point] pt the point where the user clicked
+=end
       signals 'context_menu_requested(QPoint)'
 
 =begin rdoc
-Works as in the superclass but also emits the <tt>context_menu_requested(QPoint)</tt>
-signal
+Override of @Qt::TreeView#contextMenuEvent@
+
+It emits the {#context_menu_requested} signal
 =end
       def contextMenuEvent e
         super e
@@ -1009,18 +1137,23 @@ signal
     end
 
 =begin rdoc
-Convenience class to be used instead of <tt>Qt::TableView</tt> in an OutputWidget.
+Convenience class to be used instead of @Qt::TableView@ in an {OutputWidget}.
 
-The only difference from Qt::TableVew is that it defines a <tt>context_menu_requested(QPoint)</tt>
-signal and emits it from its +contextMenuEvent+ method
+The only difference from @Qt::TableVew@ is that it defines a {#context_menu_requested}
+signal and emits it from its {#contextMenuEvent} method
 =end
     class TableView < Qt::TableView
-      
+    
+=begin rdoc
+Signal emitted when the user right-clicks on the view
+@param [Qt::Point] pt the point where the user clicked
+=end
       signals 'context_menu_requested(QPoint)'
 
 =begin rdoc
-Works as in the superclass but also emits the <tt>context_menu_requested(QPoint)</tt>
-signal
+Override of @Qt::TableView#contextMenuEvent@
+
+It emits the {#context_menu_requested} signal
 =end
       def contextMenuEvent e
         super e
@@ -1036,30 +1169,32 @@ signal
     class ActionList < Array
 
 =begin rdoc
- :call-seq: list.insert_before entry, name1 [, name2, ...]
+Inserts one or more actions before a given one
 
- Adds one or more actions before a given one
- =====Arguments
- _entry_:: the name of the action before which to insert the new ones. If this
-           an integer _n_, then the actions will be added before the _n_th
-           separator. If the entry doesn't exist, or the number of separators is
-           less than _n_, the new entries will be added at the end of the list
- _namei_:: the names of the actions to add (or +nil+ for separators)
+@param [String,Integer] entry the entry before which the new action(s) should
+  be inserted. If it's a string, the actions will be inserted before the action
+  with that name. If it's an integer, the new actions will be inserted before
+  the action at position _entry_. If the given entry doesn't exist (or it's a number
+  larger than the size of the array), the new actions will be appended at the  end
+@param [Array<String,nil>] names the names of the actions to insert. *nil* entries
+  represent separator
+@return [self]
 =end
       def insert_before entry, *names
         insert_after_or_before entry, :before, names
       end
 
 =begin rdoc
- :call-seq: list.insert_after entry, name1 [, name2, ...]
+Inserts one or more actions after a given one
 
- Adds one or more actions after a given one
- =====Arguments
- _entry_:: the name of the action after which to insert the new ones. If this
-           an integer _n_, then the actions will be added after the _n_th
-           separator. If the entry doesn't exist, or the number of separators is
-           less than _n_, the new entries will be added at the end of the list
- _namei_:: the names of the actions to add (or +nil+ for separators)
+@param [String,Integer] entry the entry after which the new action(s) should
+  be inserted. If it's a string, the actions will be inserted after the action
+  with that name. If it's an integer, the new actions will be inserted after
+  the action at position _entry_. If the given entry doesn't exist (or it's a number
+  larger than the size of the array), the new actions will be appended at the  end
+@param [Array<String,nil>] names the names of the actions to insert. *nil* entries
+  represent separator
+@return [self]
 =end
       def insert_after entry, *names
         insert_after_or_before entry, :after, names
@@ -1068,13 +1203,15 @@ signal
       private 
 
 =begin rdoc
-Helper method used by <tt>insert_after</tt> and <tt>insert_before</tt> which performs
-the actual insertion of the elements.
+Helper method used by {#insert_after} and {#insert_before}
 
-_entry_ has the same meaning as in <tt>insert_after</tt> and <i>insert_before</tt>,
-while _names_ has the same meaning as the optional arguments of those methods.
-_where_ can be +:after+ or +:before+ and tells whether the new elements should be
-inserted after or before the position.
+This is the method which performs the actual insertion of elements
+
+@param entry (see #insert_after)
+@param [Symbol] where whether the new actions should be inserted before or after
+  _entry_. It can be either @:before@ or @:after@
+@param names (see #insert_after)
+@return [self]
 =end
       def insert_after_or_before entry, where, names
         idx = if entry.is_a? Integer
@@ -1090,6 +1227,7 @@ inserted after or before the position.
         #first item should be at position idx, the second at idx+1 and so on. With reverse_each)
         #this happens automatically. The +1 is needed to insert the items after idx
         names.reverse_each{|n| insert idx, n}
+        self
       end
       
     end

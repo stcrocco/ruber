@@ -8,6 +8,7 @@ config_options:
   output_font: {default: 'Qt::Font.new("Courier",10)'}
   auto_annotations: {type: bool, default: 'true'}
   wrap_output: {type: bool, default: 'true'}
+  tool_open_files: {default: :existing}
  output_colors: 
   message: {default: 'Qt::Color.new(Qt.black)'}
   message_good: {default: 'Qt::Color.new(Qt.blue)'}
