@@ -459,7 +459,7 @@ It splits the active view horizontally, so that a new copy of the view is create
 =end
     def split_horizontally
       ed = active_editor
-      display_document ed.document, nil, nil, :existing => :never, :new => ed, :split => :horizontal
+      display_document ed.document, :existing => :never, :new => ed, :split => :horizontal
     end
     slots :split_horizontally
 
@@ -473,7 +473,7 @@ It splits the active view vertically, so that a new copy of the view is created.
 =end
     def split_vertically
       ed = active_editor
-      new_ed = display_document ed.document, nil, nil, :existing => :never, :new => ed, :split => :vertical
+      new_ed = display_document ed.document, :existing => :never, :new => ed, :split => :vertical
     end
     slots :split_vertically
     
