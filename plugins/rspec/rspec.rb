@@ -461,7 +461,7 @@ It does nothing if the file corresponding to the current document isn't found
             hints = {:strategy => :current_tab, :existing => :current_tab, :split => SWITCH_BEHAVIOUR[behaviour], :new => :current_tab}
           else hints = {}
           end
-          Ruber[:main_window].display_document switch_to, nil, nil, hints
+          Ruber[:main_window].display_document switch_to, hints
         end
       end
       slots :switch
