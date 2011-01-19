@@ -475,20 +475,24 @@ This method is similar to {#editor_for!} but, after retrieving the editor (creat
 it and/or the document as needed), it activates and gives focus to it and moves
 the cursor to the given position.
 
+Besides the keys listed in {#editor_for!}, _hints_ can also contain the two entries
+@:line@ and @:column@.
+
 @see #editor_for! editor_for! for the possible entries in _hints_
 @param (see #editor_for!)
-@param [Integer,nil] line the line number to move the cursor to (0-based). Ignored if eiter
-  it or _col_ is *nil*
-@param [Integer,nil] col the column number to move the cursor to (0-based). Ignored if eiter
-  it or _col_ is *nil*
+@option hints [Integer,nil] line (nil) the line to move the cursor to. If *nil*,
+  the cursor won't be moved
+@option hints [Integer] column (0) the column to move the cursor to. Ignored if
+  the @:line@ entry is *nil*
 @return [EditorView,nil] the editor which has been activated or *nil* if the
   editor couldn't be found (or created)
 =end
-    def display_doc doc, line = nil, col = nil, hints = DEFAULT_HINTS
+    def display_doc doc, hints = DEFAULT_HINTS
       ed = editor_for! doc, hints
       return unless ed
       activate_editor ed
-      ed.go_to line, col if line and col
+      line = hints[:line]
+      ed.go_to line, hints[:column] || 0 if line
       ed.set_focus
       ed
     end
