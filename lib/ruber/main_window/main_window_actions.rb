@@ -567,6 +567,73 @@ for it, replaces the active editor with it and gives focus to it.
     end
     slots 'switch_to_recent_file(KUrl)'
     
+=begin rdoc
+Slot associated with the Next/Previous View Horizontally/Vertically actions
+
+According to the name of the action, it gives focus to the next/previous view in
+the current tab going horizontally/vertically. If the current tab only contains
+one view, nothing is done.
+
+@note@ this method uses @sender@ to find out which action emitted the signal,
+  so you can't call it directly
+@return [EditorView] the view which received focus
+=end
+    def move_among_views
+      action_name = sender.object_name
+      direction = action_name.match('next') ? :next : :previous
+      orientation = action_name.match(/horizontal/) ? Qt::Horizontal : Qt::Vertical
+      pane = find_next_pane active_editor.parent, orientation, direction
+      view = pane ? pane.view : @tabs.current_widget.views[direction == :next ? 0 : -1]
+      focus_on_editor view 
+    end
+    slots :move_among_views
+    
+=begin rdoc
+Finds the next or previous pane in single view mode from a given pane
+
+According to the second argument, the direction will be either horizontal or
+vertical.
+    
+The search will be carried out first among siblings and their children, then among
+ancestors.
+
+@param [Pane] from the pane next/previous is relative to. It *must* be a single
+  view pane
+@param [Integer] orientation whether to look for the next/previous pane horizontally
+  or vertically. It may be either @Qt::Horizontal@ or @Qt::Vertical@
+@param [Symbol] direction whether to look for the next or previous pane. It must
+  be either @:next@ or @:previous@
+@return [Pane,nil] the next/previous single view mode pane or *nil* if no such pane
+  has been found (either because the pane is toplevel or because it's the first/last)
+@todo Maybe move this method to {Pane} class
+=end
+    def find_next_pane from, orientation, direction
+      loop do
+        parent = from.parent_pane
+        return nil unless parent
+        idx = parent.splitter.index_of from
+        if parent.orientation == orientation
+          new_idx = idx + (direction == :next ? 1 : -1)
+          pane = parent.splitter.widget new_idx
+          return pane.views[0].parent if pane
+        end
+        to_try = parent.panes[direction == :next ? (idx+1)..-1 : 0...idx]
+        until to_try.empty? do
+          idx = direction == :next ? 0 : -1
+          pane = to_try[idx]
+          if pane.single_view? then to_try.delete_at idx
+          else
+            if pane.orientation == orientation then return pane.views[idx].parent
+            else 
+              to_try.delete_at idx
+              to_try.unshift *pane.panes
+            end
+          end
+        end
+        from = parent
+      end
+    end
+    
   end
   
 =begin rdoc

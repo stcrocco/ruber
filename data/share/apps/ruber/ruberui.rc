@@ -79,6 +79,11 @@
   </Menu>
   <Menu name="window">
     <text>&amp;Window</text>
+    <Action name="window-next_horizontally"/>
+    <Action name="window-next_vertically"/>
+    <Action name="window-previous_horizontally"/>
+    <Action name="window-previous_vertically"/>
+    <Separator/>
     <Action name="window-split_horizontally"/>
     <Action name="window-split_vertically"/>
     <Separator/>

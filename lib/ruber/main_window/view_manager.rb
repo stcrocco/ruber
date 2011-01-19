@@ -113,6 +113,7 @@ contain another value, @:close_starting_document@
             view = @solver.place_editor hints
             if view 
               dir = Qt.const_get hints[:split].to_s.capitalize
+#               tab(view).split view, editor, dir
               view.parent.split view, editor, dir
             else 
               if hints[:close_starting_document]
