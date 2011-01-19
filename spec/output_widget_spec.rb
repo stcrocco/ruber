@@ -587,6 +587,14 @@ describe Ruber::OutputWidget do
       @ow.send :do_auto_scroll, Qt::ModelIndex.new, 1, 3      
     end
     
+    it 'does nothing if the slider is not at the maximum value' do
+      flexmock(@ow).should_receive(:scroll_to).never
+      scroll = @ow.view.vertical_scroll_bar
+      scroll.maximum = 100
+      scroll.value = 30
+      @ow.send :do_auto_scroll, Qt::ModelIndex.new, 1, 3
+    end
+    
   end
   
   describe '#with_auto_scrolling' do
