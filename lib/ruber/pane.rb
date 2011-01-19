@@ -96,6 +96,10 @@ allow to resize it. It *must not* be used to add or remove widgets to or from it
       margins.top = margins.left =  margins.bottom = margins.right = 0
       layout.contents_margins = margins
       @label = Qt::Label.new '', self
+# Use the following three lines when attempting to debug issue number 10, as it
+# helps understanding which pane each label belongs to
+#       color = Qt::Color.new(rand(256), rand(256), rand(256))
+#       @label.style_sheet = "background-color: #{color.name};"
       @label.hide unless parent_pane
       layout.add_widget @label
     end
@@ -312,6 +316,22 @@ Iterates on child panes
         end
       end
       self
+    end
+    
+=begin rdoc
+The panes contained in this pane
+
+@overload panes(:recursive)
+  @return [Array<Pane>] an array containing the panes contained in this pane,
+    directly or indirectly. Returns an empty array if the pane is in single view
+    mode
+@overload panes
+  @return [Array<Pane>] an array containing the panes directly contained in this pane.
+    Returns an empty array if the pane is in single view mode
+@return [Array<Pane>]
+=end
+    def panes mode = :flat
+      single_view? ? [] : each_pane(mode).to_a
     end
     
 =begin rdoc
