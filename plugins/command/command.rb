@@ -55,7 +55,9 @@ The tool widget where the user can enter the ruby code to execute.
         @ui.setup_ui self
         self.focus_proxy = @ui.editor
         connect @ui.execute, SIGNAL(:clicked), self, SLOT(:execute_command)
+        connect @ui.show_output, SIGNAL('toggled(bool)'), self, SLOT('output_visible=(bool)')
         @ui.clear.connect(SIGNAL(:clicked)){@ui.output.clear}
+        self.output_visible = @ui.show_output.checked?
       end
       
 =begin rdoc
@@ -103,6 +105,26 @@ Sets the font of the editor to the font chosen by the user as the output font
         nil
       end
       
+      private
+      
+=begin rdoc
+Shows or hides the output widget and related widgets
+
+It also changes the text of the Show Output button so that it becomes 'Hide Output'
+if the button is visible.
+
+@param [Boolean] visible whether the output widget should be shown or hidden
+@return [nil]
+=end
+      def output_visible= visible
+        @ui.output.visible = visible
+        @ui.clear.visible = visible
+        @ui.output_label.visible = visible
+        @ui.show_output.text = i18n(visible ? '&Hide Output' : '&Show Output')
+        nil
+      end
+      slots 'output_visible=(bool)'
+        
     end
     
   end
