@@ -197,6 +197,19 @@ be used.
         chosen_interpreter
       end
       
+=begin rdoc
+Override of {PluginLike#unload}
+
+Besides doing the same as the base class method, it also removes the @Ruber::RubyRunner::RubyRunnerPlugin@
+constant, so that other plugins may reimplement it using another base class.
+@return [nil]
+=end
+      def unload
+        Ruber::RubyRunner.send :remove_const, :RubyRunnerPlugin
+        super
+      end
+
+      
       private
       
 =begin rdoc
@@ -243,19 +256,7 @@ default entry is selected.
         end
         nil
       end
-      
-=begin rdoc
-Override of {PluginLike#unload}
 
-Besides doing the same as the base class method, it also removes the @Ruber::RubyRunner::RubyRunnerPlugin@
-constant, so that other plugins may reimplement it using another base class.
-@return [nil]
-=end
-      def unload
-        Ruber::RubyRunner.send :remove_const, :RubyRunnerPlugin
-        super
-      end
-      
     end
       
 =begin
