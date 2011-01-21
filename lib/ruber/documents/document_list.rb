@@ -118,7 +118,7 @@ will be created. In this case, the {#document_created} signal will be emitted.
         if url.local_file?
           raise ArgumentError, "File #{url.path} doesn't exist" unless File.exist?(url.path)
         end
-        doc = Document.new self, Ruber[:main_window], url
+        doc = Document.new Ruber[:main_window], url
         add_document doc
         emit document_created(doc)
       end
