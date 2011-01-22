@@ -82,9 +82,10 @@ was raised.
               'The command you issued raised the following exception:'
           dlg.set_button_text KDE::Dialog::Ok, i18n('Ok')
           dlg.exec
+          false
+        ensure
           $stdout = old_stdout
           $stderr = old_stderr
-          false
         end
       end
       
