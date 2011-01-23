@@ -519,8 +519,7 @@ This method is called whenever a document is created or deleted. It updates the
 action list so that it contains an action for each of the open documents
 =end
     def update_switch_to_list
-      unplug_action_list 'window-switch_to_open_document_list'
-      @switch_to_actions.each{|a| a.delete_later}
+      unplug_action_list "window-switch_to_open_document_list"
       @switch_to_actions = Ruber[:documents].map do |doc|
         a = action_collection.add_action "switch_to_#{doc.document_name}", self, SLOT(:switch_to_document)
         a.text = KDE.i18n("Switch to %s") % [doc.document_name]
@@ -528,7 +527,7 @@ action list so that it contains an action for each of the open documents
         a
       end
       @switch_to_actions = @switch_to_actions.sort_by{|a| a.object_name}
-      plug_action_list 'window-switch_to_open_document_list', @switch_to_actions
+      plug_action_list "window-switch_to_open_document_list", @switch_to_actions
     end
     slots :update_switch_to_list
     
