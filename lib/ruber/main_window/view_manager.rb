@@ -336,14 +336,26 @@ The views is activated, unless it was already active
 =begin rdoc
 Slot called whenever a view is closed
 
-It deactivates the view (if it was active) and preforms some cleanup.
+It deactivates the view (if it was active), performs some cleanup and gives focus
+to the editor which had focus before (if any).
 @param [EditorView] view the view which is being closed
 @return [nil]
 =end
       def view_closing view
+        view_tab = self.tab(view)
+        has_focus = view_tab.is_active_window if view_tab
+        if has_focus
+          views = view_tab.to_a
+          idx = views.index(view)
+          new_view = views[idx-1] || views[idx+1]
+        end
         @activation_order.delete view
         disconnect view, SIGNAL('focus_in(QWidget*)'), self, SLOT('focus_in_view(QWidget*)')
         deactivate_editor view
+        if new_view
+          make_editor_active new_view
+          new_view.set_focus
+        end
         nil
       end
       slots 'view_closing(QWidget*)'

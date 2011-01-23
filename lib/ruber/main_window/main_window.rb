@@ -546,20 +546,20 @@ the latter will be closed without affecting the document.
   method directly, unless you want to leave the corresponding document without a view
 =end
     def close_editor editor, ask = true
-      editor_tab = self.tab(editor)
-      has_focus = editor_tab.is_active_window if editor_tab
-      if has_focus
-        views = editor_tab.to_a
-        idx = views.index(editor)
-        new_view = views[idx-1] || views[idx+1]
-      end
+#       editor_tab = self.tab(editor)
+#       has_focus = editor_tab.is_active_window if editor_tab
+#       if has_focus
+#         views = editor_tab.to_a
+#         idx = views.index(editor)
+#         new_view = views[idx-1] || views[idx+1]
+#       end
       doc = editor.document
       if doc.views.size > 1 
         editor.close
         true
       else doc.close ask
       end
-      focus_on_editor new_view if new_view
+#       focus_on_editor new_view if new_view
     end
     
 =begin rdoc
