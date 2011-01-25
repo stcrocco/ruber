@@ -106,6 +106,8 @@ module Ruber
       
       @view.context_menu = @view.default_context_menu(Qt::Menu.new(@view))
       
+      self.focus_policy = Qt::WheelFocus
+      
     end
     
     def go_to row, col
