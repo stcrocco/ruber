@@ -728,6 +728,17 @@ is given
     
   end
   
+  class Enum
+    
+=begin rdoc
+Converts the enum to an integer
+@return [Integer] the integer value of the enum
+=end
+    def to_int
+      to_i
+    end
+  end
+  
 end
 
 =begin rdoc

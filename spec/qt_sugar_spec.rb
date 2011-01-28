@@ -594,4 +594,18 @@ describe Qt::Splitter do
     
   end
   
+  describe Qt::Enum do
+    
+    it 'can be summed with a fixnum' do
+      (Qt::AlignHCenter + 2).should == 6
+      (2 + Qt::AlignHCenter).should == 6
+    end
+    
+    it 'can perform binary operations with a fixnum' do
+      (Qt::AlignHCenter & 4).should == 4
+      (4 & Qt::AlignHCenter).should == 4
+    end
+    
+  end
+  
 end
