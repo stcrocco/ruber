@@ -84,7 +84,7 @@ will be used
       connect view.selection_model, SIGNAL('selectionChanged(QItemSelection, QItemSelection)'), self, SLOT('selection_changed(QItemSelection, QItemSelection)')
       @editor = KDE::LineEdit.new self
       connect @editor, SIGNAL('returnPressed(QString)'), self, SLOT(:create_filter_from_editor)
-      layout.add_widget @editor, 1, 0
+      layout.add_widget @editor, 2, 0
       def @editor.keyReleaseEvent e
         super
         hide if e.key == Qt::Key_Escape and e.modifiers == 0

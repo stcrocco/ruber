@@ -644,7 +644,7 @@ Class containing the settings associated with the main window
 Mapping between modes to open files from tool widgets and indexes in the corresponding
 combo box
 =end
-    TOOL_OPEN_FILES = [:existing, :split_horizontally, :split_vertically, :new_tab]
+    TOOL_OPEN_FILES = [:split_horizontally, :split_vertically, :new_tab]
     
 =begin rdoc
 @param [Qt::Widget,nil] parent the parent widget
@@ -673,7 +673,7 @@ Read method for the @general/tool_open_files@ setting
 @return [Symbol] value
 =end
     def tool_open_files= value
-      @ui._general__tool_open_files.current_index = TOOL_OPEN_FILES.index value
+      @ui._general__tool_open_files.current_index = TOOL_OPEN_FILES.index(value) || 0
       value
     end
     

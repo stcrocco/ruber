@@ -152,9 +152,17 @@ describe Ruber::OutputWidget do
       w.view.parent.should equal(w)
     end
     
-    it 'inserts the view in the layout at position (0,0)' do
+    it 'inserts the view in the layout at position (1,0)' do
       w = Ruber::OutputWidget.new
-      w.layout.item_at_position(0,0).widget.should be_a(Ruber::OutputWidget::ListView)
+      w.layout.item_at_position(1,0).widget.should be_a(Ruber::OutputWidget::ListView)
+    end
+    
+    it 'has a checkable Qt::ToolButton in the first line, aligned to the right' do
+      w = Ruber::OutputWidget.new
+      it = w.layout.item_at_position(0,0)
+      it.widget.should be_a(Qt::ToolButton)
+      it.alignment.should == Qt::AlignRight | Qt::AlignVCenter
+      it.widget.should be_checkable
     end
     
     it 'sets the selection mode to Extended' do
@@ -893,6 +901,25 @@ describe Ruber::OutputWidget do
     
   end
   
+  describe '#pinned_down?' do
+    
+    before do
+      @ow = Ruber::OutputWidget.new
+    end
+    
+    it 'returns true if the pinned tool button is on' do
+      @ow.instance_variable_get(:@pin_button).checked = true
+      @ow.should be_pinned_down
+    end
+    
+    it 'returns false if the pinned tool button is off' do
+      @ow.instance_variable_get(:@pin_button).checked = false
+      @ow.should_not be_pinned_down
+    end
+      
+  end
+
+  
   describe '#maybe_open_file' do
     
     before do
@@ -905,7 +932,7 @@ describe Ruber::OutputWidget do
       @mod = @ow.model
       @mod.append_row Qt::StandardItem.new ''
       @mw = flexmock{|m| m.should_ignore_missing}
-      @cfg = flexmock{|m| m.should_receive(:[]).with(:general, :tool_open_files).and_return(:existing).by_default}
+      @cfg = flexmock{|m| m.should_receive(:[]).with(:general, :tool_open_files).and_return(:new_tab).by_default}
       flexmock(Ruber).should_receive(:[]).with(:main_window).and_return(@mw).by_default
       flexmock(Ruber).should_receive(:[]).with(:config).and_return(@cfg).by_default
     end
@@ -918,25 +945,56 @@ describe Ruber::OutputWidget do
       flexmock(@ow).should_receive(:find_filename_in_index).once.with @mod.index(0,0)
       @ow.send :maybe_open_file, @mod.index(0,0)
     end
-
+    
     describe ', when the find_filename_in_index methods returns an array' do
       
       before do
         flexmock(@ow).should_receive(:find_filename_in_index).with(@mod.index(0,0)).and_return([__FILE__, 10]).by_default
       end
       
-      it 'calls the display_file method passing the elements of the array as argument' do
-        flexmock(@ow).should_receive(:display_file).once.with(__FILE__, 10)
+      context 'when the Meta key is not pressed' do
+        
+        it 'calls the display_document method of the main window using the hints returned by hints but with the :existing key set to always' do
+          hints = {:existing => :never, :new => :current, :split => :horizontal}
+          flexmock(@ow).should_receive(:hints).and_return(hints)
+          exp = hints.merge :existing => :always, :line => 9
+          @mw.should_receive(:display_document).once.with(__FILE__, exp)
+          @ow.send :maybe_open_file, @mod.index(0,0)
+        end
+        
+      end
+      
+      context 'when the Meta key is pressed' do
+        it 'calls the display_document method of the main window using the hints returned by hints but with the :existing key set to :never' do
+          flexmock(Ruber::Application).should_receive(:keyboard_modifiers).and_return(Qt::MetaModifier)
+          hints = {:existing => :always, :new => :current, :split => :horizontal}
+          flexmock(@ow).should_receive(:hints).and_return(hints)
+          exp = hints.merge :existing => :never, :line => 9
+          @mw.should_receive(:display_document).once.with(__FILE__, exp)
+          @ow.send :maybe_open_file, @mod.index(0,0)
+        end
+
+      end
+      
+      it 'decreases line numbers by one' do
+        @mw.should_receive(:display_document).once.with(__FILE__, FlexMock.on{|h| h[:line].should == 9})
         @ow.send :maybe_open_file, @mod.index(0,0)
       end
-
-      it 'hides the tool widget if the Meta key is not pressed' do
+      
+      it 'doesn\'t decrease the line number if it\'s 0' do
+        flexmock(@ow).should_receive(:find_filename_in_index).with(@mod.index(0,0)).and_return([__FILE__, 0])
+        @mw.should_receive(:display_document).once.with(__FILE__, FlexMock.on{|h| h[:line].should == 0})
+        @ow.send :maybe_open_file, @mod.index(0,0)
+      end
+      
+      it 'hides the tool widget if #pinned_down? returns false' do
+        flexmock(@ow).should_receive(:pinned_down?).and_return false
         @mw.should_receive(:hide_tool).with(@ow).once
         @ow.send :maybe_open_file, @mod.index(0,0)
       end
       
-      it 'doesn\'t hide the tool widget if the Meta key is pressed' do
-        flexmock(Ruber::Application).should_receive(:keyboard_modifiers).once.and_return(Qt::MetaModifier.to_i)
+      it 'doesn\'t hide the tool widget if #pinned_down? returns true' do
+        flexmock(@ow).should_receive(:pinned_down?).and_return true
         @mw.should_receive(:hide_tool).with(@ow).never
         @ow.send :maybe_open_file, @mod.index(0,0)
       end
@@ -976,84 +1034,52 @@ describe Ruber::OutputWidget do
     
   end
   
-  describe '#display_file' do
+  describe '#hints' do
     
     before do
       @ow = Ruber::OutputWidget.new
-      @mw = flexmock{|m| m.should_ignore_missing}
       @cfg = flexmock{|m| m.should_ignore_missing}
-      flexmock(Ruber).should_receive(:[]).with(:main_window).and_return(@mw).by_default
       flexmock(Ruber).should_receive(:[]).with(:config).and_return(@cfg).by_default
     end
     
-    describe 'when called with two arguments' do
+    context 'when the general/tool_open_files setting is :split_horizontally' do
+      
+      it 'returns {:new => :current_tab, :split => :horizontal}' do
+        @cfg.should_receive(:[]).with(:general, :tool_open_files).and_return(:split_horizontally)
+        @ow.send(:hints).should == {:new => :current_tab, :split => :horizontal}
+      end
+      
+    end
     
-      it 'calls the display_document method of the main window passing the file as argument and the line number - 1 as line hint' do
-        file = '/xyz/abc.rb'
-        lineno = 8
-        @mw.should_receive(:display_document).with(file, FlexMock.on{|a| a.is_a?(Hash) and a[:line] == lineno - 1}).once
-        @ow.send :display_file, file, lineno
+    context 'when the general/tool_open_files setting is :split_vertically' do
+      
+      it 'returns {:new => :current_tab, :split => :vertical}' do
+        @cfg.should_receive(:[]).with(:general, :tool_open_files).and_return(:split_vertically)
+        @ow.send(:hints).should == {:new => :current_tab, :split => :vertical}
       end
       
-      it 'passes {:existing => :never, :new => :current_tab, :split => :horizontal} as other hints if the general/tool_open_files setting is :split_horizontally' do
-        @cfg.should_receive(:[]).with(:general, :tool_open_files).once.and_return(:split_horizontally)
-        file = '/xyz/abc.rb'
-        lineno = 8
-        hints = {:existing => :never, :new => :current_tab, :split => :horizontal, :line => lineno - 1}
-        @mw.should_receive(:display_document).with(file, hints).once
-        @ow.send :display_file, file, lineno
+    end
+    
+    context 'when the general/tool_open_files setting is :new_tab' do
+      
+      it 'returns {:new => :new_tab}' do
+        @cfg.should_receive(:[]).with(:general, :tool_open_files).and_return(:new_tab)
+        @ow.send(:hints).should == {:new => :new_tab}
       end
       
-      it 'passes {:existing => :never, :new => :current_tab, :split => :vertical} as other hints if the general/tool_open_files setting is :split_vertically' do
-        @cfg.should_receive(:[]).with(:general, :tool_open_files).once.and_return(:split_vertically)
-        file = '/xyz/abc.rb'
-        lineno = 8
-        hints = {:existing => :never, :new => :current_tab, :split => :vertical, :line => lineno - 1}
-        @mw.should_receive(:display_document).with(file, hints).once
-        @ow.send :display_file, file, lineno
-      end
+    end
+    
+    context 'when the general/tool_open_files setting contains an invalid value' do
 
-      it 'passes {:existing => :never, :new => :new_tab} as other hints if the general/tool_open_files setting is :new_tab' do
-        @cfg.should_receive(:[]).with(:general, :tool_open_files).once.and_return(:new_tab)
-        file = '/xyz/abc.rb'
-        lineno = 8
-        hints = {:existing => :never, :new => :new_tab, :line => lineno - 1}
-        @mw.should_receive(:display_document).with(file, hints).once
-        @ow.send :display_file, file, lineno
+      it 'returns {:new => :new_tab}' do
+        @cfg.should_receive(:[]).with(:general, :tool_open_files).and_return(:xyz)
+        @ow.send(:hints).should == {:new => :new_tab}
       end
       
-      it 'doesn\'t pass any other hints if the general/tool_open_files setting is :existing' do
-        @cfg.should_receive(:[]).with(:general, :tool_open_files).once.and_return(:existing)
-        file = '/xyz/abc.rb'
-        lineno = 8
-        hints = {:line => lineno - 1}
-        @mw.should_receive(:display_document).with(file, hints).once
-        @ow.send :display_file, file, lineno
-      end
-      
-    end
-    
-    describe 'when called with three arguments' do
-      
-      it 'uses the third argument, together with the line number as hints' do
-        @cfg.should_receive(:[]).with(:general, :tool_open_files).never
-        file = '/xyz/abc.rb'
-        lineno = 8
-        hints = {:existing => :current_tab, :new => :current_tab}
-        exp_hints = hints.merge :line => lineno - 1
-        @mw.should_receive(:display_document).with(file, exp_hints).once
-        @ow.send :display_file, file, lineno, hints
-      end
-      
-    end
-    
-    it 'doesn\'t subtract 1 from the line number if it is 0' do
-      @mw.should_receive(:display_document).once.with(__FILE__, {:line => 0})
-      @cfg.should_receive(:[]).with(:general, :tool_open_files).once.and_return(:existing)
-      @ow.send :display_file, __FILE__, 0
     end
     
   end
+    
   
   describe '#find_filename_in_index' do
     

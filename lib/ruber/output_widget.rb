@@ -460,6 +460,10 @@ Removes all the entries from the model
       @model.remove_rows 0, @model.row_count
       nil
     end
+    
+    def pinned_down?
+      @pin_button.checked?
+    end
 
     private
     
@@ -586,7 +590,13 @@ Creates the layout and the view
       else @view = self.class.const_get(view.to_s.capitalize + 'View').new self
       end
       @view.selection_mode = Qt::AbstractItemView::ExtendedSelection
-      layout.add_widget  @view, 0, 0
+      @pin_button = Qt::ToolButton.new self
+      @pin_button.tool_tip = i18n("Don't hide the tool widget when clicking on a file name")
+      @pin_button.auto_raise = true
+      @pin_button.icon = Qt::Icon.new KDE::Global.dirs.find_resource('icon', 'pin.png')
+      @pin_button.checkable = true
+      layout.add_widget @view, 1, 0
+      layout.add_widget @pin_button, 0, 0, 1, -1, Qt::AlignRight | Qt::AlignVCenter
       nil
     end
     
@@ -715,93 +725,57 @@ method. If a filename is found, an editor for it is displayed.
 
 The behaviour of this method (which usually is only called via a signal-slot connection
 to the views' @activated(QModelindex)@ signal) changes according to the active 
-keyboard modifiers:
+keyboard modifiers and to whether the Pinned tool button is on or off:
 * if Ctrl or Shift are pressed and the view allows selection (that is, its selection
 mode is not +NoSelection+), then this method does nothing. The reason for this
 behaviour is that Ctrl and Shift are used to select items, so the user is most
 likely doing that, not requesting to open a file
-* if Meta is pressed, then the tool widget won't be closed
+* if the Pinned button is pressed, then the tool widget won't be closed (but the
+  focus will be moved to the editor)
+* if Meta is pressed, then the file will be opened in a new editor, regardless
+  of whether an editor for that file already exists
 
-The way the file is displayed depends on the @general/tool_open_files@ setting.
-If you need to have a different behaviour, override {#display_file} from your
-tool widget class.
+If a new editor should be created (either because the Meta key is pressed or because
+no editor exists for the given file), the hints returned by {#hints} are used.
+Unless the {#hints} method has been overloaded, this means that the @general/tool_open_files@
+option is used.
 @param [Qt::ModelIndex] idx the index which could contain the file name
 @return [EditorView,nil] the editor for the filename contained in the index or
   *nil* if no file name was found or if either the Shift or Control modifiers were
   active
 @see #find_filename_in_index
-@see #display_file
+@see #hints
 =end
     def maybe_open_file idx
       modifiers = Application.keyboard_modifiers
       if @view.selection_mode != Qt::AbstractItemView::NoSelection
         return if Qt::ControlModifier & modifiers != 0 or Qt::ShiftModifier & modifiers != 0
       end
-      file = find_filename_in_index idx
+      file, line = find_filename_in_index idx
       return unless file
-      ed = display_file *file
-      Ruber[:main_window].hide_tool self if (Qt::MetaModifier & modifiers) == 0
+      line -= 1 unless line == 0
+      existing = (Qt::MetaModifier & modifiers) == 0 ? :always : :never
+      display_hints = hints.merge(:line =>  line, :existing => existing)
+      ed = Ruber[:main_window].display_document file, display_hints
+      Ruber[:main_window].hide_tool self unless pinned_down?
       ed
     end
     
 =begin rdoc
-Displays the given file in an editor
+The hints to pass to {MainWindow#display_document}
 
-@overload display_file file, line
-  Displays the given file in an editor according to the @general/tool_open_files@ setting
-  
-  The value of the @general/tool_open_files@ determines whether an existing editor
-  should be used or whether to create a new one by splitting the current one horizontally
-  or vertically or by creating a new tab.
-  
-  @param [String] file the name of the file to display in the editor
-  @param [Integer] line the number of the line of the file to display. It must be
-    1-based
-  @return [EditorView] the editor where the file is displayed
-@overload display_file file, line, hints
-  Displays the given file in an editor using the given hints
-
-  This version of the method doesn't use the @general/tool_open_files@ setting
-  to determine whether to reuse an existing editor or to create a new one; rather
-  it considers the third argument as the hints to pass to {MainWindow#display_document}.
-  @param [String] file the name of the file to display in the editor
-  @param [Integer] line the number of the line of the file to display. It must be
-    1-based
-  @param [Hash] hints see {Ruber::MainWindow#display_document}
-  @return [EditorView] the editor where the file is displayed
-  
-By default, {OutputWidget#maybe_open_file} uses the first version of this method.
-If, for a particular widget, you want to use different settings, you need to
-override this method, compute the hints you need, then call the second version
-of the base class passing those hints as third argument (do not add a @:line@ entry
-to the hints as it would be overwritten). To ensure consisting behaviour, in the
-reimplementation of this method, you should leave the third argument optional and
-compute it only if it isn't given. This way, other plugin-writers may derive from
-your class and still be able to customize the hints how they like.
-@return [EditorView]
-@example
-  class MyOutputWidget < Ruber::OutputWidget
-    def display_file file, line, hints = nil
-      my_hints = hints || {:existing => :current_tab, :new => :current_tab}
-      super file, line, my_hints
-    end
-  end
+This method determines the hints to use according to the @general/tool_open_files@
+option. Derived classes may override this method to provide different hints. The
+values which can be used are the ones described for {MainWindow#editor_for!}. Note,
+however, that the @:existing@ entry won't be used.
+@return [Hash] see the description for the _hints_ argument of {MainWindow#editor_for!}
 =end
-    def display_file file, line, hints = nil
-      line -= 1 unless line == 0
-      unless hints
-        case Ruber[:config][:general, :tool_open_files]
-        when :split_horizontally
-          hints = {:existing => :never, :new => :current_tab, :split => :horizontal}
-        when :split_vertically
-          hints = {:existing => :never, :new => :current_tab, :split => :vertical}
-        when :new_tab
-          hints = {:existing => :never, :new => :new_tab}
-        else hints = {}
-        end
+    def hints
+      case Ruber[:config][:general, :tool_open_files]
+      when :split_horizontally then {:new => :current_tab, :split => :horizontal}
+      when :split_vertically then {:new => :current_tab, :split => :vertical}
+      else {:new => :new_tab}
       end
-      hints[:line] = line
-      Ruber[:main_window].display_document file, hints
     end
     
 =begin rdoc

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>380</width>
+    <width>507</width>
     <height>235</height>
    </rect>
   </property>
@@ -81,7 +81,7 @@
         <item>
          <widget class="QLabel" name="label_4">
           <property name="text">
-           <string>When opening files from tool widgets</string>
+           <string>When opening files from tool widgets in a new editor</string>
           </property>
          </widget>
         </item>
@@ -92,7 +92,7 @@
           </property>
           <item>
            <property name="text">
-            <string>Reuse existing editor</string>
+            <string>Open editor in new tab</string>
            </property>
           </item>
           <item>
@@ -103,11 +103,6 @@
           <item>
            <property name="text">
             <string>Split current editor vertically</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Open editor in new tab</string>
            </property>
           </item>
          </widget>
