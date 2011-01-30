@@ -802,4 +802,61 @@ describe Ruber::Document do
     
   end
   
+  describe '#text' do
+    
+    before do
+      @doc = Ruber::Document.new
+    end
+    
+    context 'when called with no arguments' do
+    
+      it 'returns an empty string if the document is empty' do
+        @doc.text.should == ''
+      end
+      
+      it 'returns the text of the document if the document is not empty' do
+        @doc.text = 'xyz'
+        @doc.text.should == 'xyz'
+      end
+      
+    end
+    
+    context 'when called with a KTextEditor::Range argument' do
+      
+      it 'returns an empty string if the document is empty' do
+        @doc.text(KTextEditor::Range.new(2,3, 4, 5)).should == ''
+      end
+      
+      it 'returns the text contained in the given range if the document is not empty' do
+        @doc.text = "abc\ndef\nghi"
+        @doc.text(KTextEditor::Range.new(0,1,1,2)).should == "bc\nde"
+      end
+      
+      it 'returns an empty string if the range is invalid' do
+        @doc.text = "abc\ndef\nghi"
+        @doc.text(KTextEditor::Range.new(-5,0,0,2)).should == ''
+      end
+      
+    end
+    
+    context 'when the second argument is true' do
+
+      it 'returns an empty string if the document is empty' do
+        @doc.text(KTextEditor::Range.new(2,3, 4, 5), true).should == ''
+      end
+      
+      it 'returns the text contained in the given range, considered as a block selection, if the document is not empty' do
+        @doc.text = "abc\ndef\nghi"
+        @doc.text(KTextEditor::Range.new(0,1,1,2), true).should == "b\ne"
+      end
+      
+      it 'returns an empty string if the range is invalid' do
+        @doc.text = "abc\ndef\nghi"
+        @doc.text(KTextEditor::Range.new(-5,0,0,2), true).should == ''
+      end
+
+    end
+    
+  end
+  
 end

@@ -349,14 +349,23 @@ Returns the path of the document
     end
 
 =begin rdoc
-Returns the text in the document
----
-We can't just delegate this method to the internal <tt>KTextEditor::Document</tt>
-because its +text+ method returns nil if there's no text in the document, instead
+The document's text
+
+@overload text
+  The text in the whole document
+  @return [String] the text in the whole document
+@overload text range, block = false
+  The text contained in the given range
+  @param [KTextEditor::Range] range the range of text to retrieve
+  @param [Boolean] block whether or not to consider the range as a visual block
+  @return [String] the text inside the range. An empty string is returned if
+    the range is invalid
+@note We can't just delegate this method to the internal @KTextEditor::Document@
+because its @text@ method returns nil if there's no text in the document, instead
 of an empty string.
 =end
-    def text
-      @doc.text || ''
+    def text *args
+      @doc.text(*args) || ''
     end
     
 =begin rdoc
