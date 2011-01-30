@@ -13,15 +13,18 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout">
-   <item>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>Open spec/code file</string>
+      <string>&amp;Open spec/code file</string>
+     </property>
+     <property name="buddy">
+      <cstring>_rspec__switch_behaviour</cstring>
      </property>
     </widget>
    </item>
-   <item>
+   <item row="0" column="1">
     <widget class="KComboBox" name="_rspec__switch_behaviour">
      <item>
       <property name="text">
@@ -36,6 +39,38 @@
      <item>
       <property name="text">
        <string>Splitting vertically the current tab</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>&amp;After running rspec</string>
+     </property>
+     <property name="buddy">
+      <cstring>_rspec__auto_expand</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="KComboBox" name="_rspec__auto_expand">
+     <property name="access" stdset="0">
+      <string>$auto_expand</string>
+     </property>
+     <item>
+      <property name="text">
+       <string>Collapse all examples</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Expand first failed or pending example</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Expand all failed or pending examples (slow)</string>
       </property>
      </item>
     </widget>

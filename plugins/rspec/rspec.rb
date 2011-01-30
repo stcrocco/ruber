@@ -866,6 +866,30 @@ It hides the progress widget and restores the default cursor.
             model.insert "spec wasn't able to run the examples", :message_bad, nil
           end
         end
+        auto_expand_items
+        nil
+      end
+      
+=begin rdoc
+Expands items according to the @rspec/auto_expand@ option
+
+If the option is @:expand_first@, the first failed example is expanded; if the
+option is @:expand_all@, all failed or pending examples are expanded. If the option
+is @:expand_none@, nothing is done
+@return [nil]
+=end
+      def auto_expand_items
+        if model.row_count > 1
+          case Ruber[:config][:rspec, :auto_expand]
+          when :expand_first
+            item = model.each_row.find{|items| items[0].has_children}
+            view.expand filter_model.map_from_source(item[0].index) if item
+          when :expand_all
+            model.each_row do |items|
+              view.expand filter_model.map_from_source(items[0].index)
+            end
+          end
+        end
         nil
       end
       
@@ -998,10 +1022,37 @@ quotes around them keep them, as described in {Shellwords.split_with_quotes})
     
     class ConfigWidget < Qt::Widget
       
+=begin rdoc
+The symbols associated with the entries in the @_rake__auto_expand@ widget
+=end
+      AUTO_EXPAND = [:expand_none, :expand_first, :expand_all]
+      
+=begin rdoc
+@param [Qt::Widget,nil] parent the parent widget
+=end
       def initialize parent = nil
         super
         @ui = Ui::RSpecConfigWidget.new
         @ui.setup_ui self
+      end
+      
+=begin rdoc
+Writer method for the @rspec/auto_expand@ option
+@param [Symbol] value the value of the option. It may be any value contained in
+  the {AUTO_EXPAND} constant
+@return [Symbol] _value_
+=end
+      def auto_expand= value
+        @ui._rspec__auto_expand.current_index = AUTO_EXPAND.index value
+      end
+      
+=begin rdoc
+Store method for the @rspec/auto_expand@ option
+@return [Symbol] the symbol associated with the current entry in the @_rake__auto_expand@ 
+  widget
+=end
+      def auto_expand
+        AUTO_EXPAND[@ui._rspec__auto_expand.current_index]
       end
       
     end

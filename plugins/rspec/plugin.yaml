@@ -13,6 +13,7 @@ ui_file: rspecui.rc
 config_options:
  rspec:
   switch_behaviour: {default: 0}
+  auto_expand: {default: :expand_first}
 config_widgets:
  - {class: Ruber::RSpec::ConfigWidget, caption: RSpec}
 project_widgets:
