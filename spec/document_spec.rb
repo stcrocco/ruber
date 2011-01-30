@@ -859,4 +859,30 @@ describe Ruber::Document do
     
   end
   
+  describe '#line' do
+    
+    before do
+      @doc = Ruber::Document.new
+    end
+    
+    it 'returns the text in the line given as argument' do
+      @doc.text = "abc\ndef\nghi"
+      lines = %w[abc def ghi]
+      lines.each_with_index do |str, i|
+        @doc.line(i).should == str
+      end
+    end
+    
+    it 'returns an empty string if the line is empty' do
+      @doc.text = "abc\n\nxyz"
+      @doc.line(1).should == ''
+    end
+    
+    it 'returns an empty string if the line number corresponds to a nonexisting line' do
+      @doc.text = "abc\ndef\nghi"
+      @doc.line(10).should == ''
+    end
+    
+  end
+  
 end

@@ -369,6 +369,17 @@ of an empty string.
     end
     
 =begin rdoc
+As @KTextEditor::Document#line@
+
+@param [Integer] n the line number
+@return [String] the text in the given line or an empty string if the line is out
+  of range
+=end
+    def line n
+      @doc.line(n) || ''
+    end
+    
+=begin rdoc
 Executes the given block inside a pair of <tt>start_editing</tt>/<tt>end_editing</tt>
 calls.
 =end
