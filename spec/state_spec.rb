@@ -13,34 +13,14 @@ require 'plugins/state/state'
 describe Ruber::State::Plugin do
   
   before do
-#     #Needed because the Qt::Object connect method doesn't like @components not being a
-#     #Qt::Object
-#     class Ruber::State::Plugin
-#       def connect *args
-#       end
-#     end
-#     @components = flexmock('components'){|m| m.should_ignore_missing}
-#     @config = flexmock('config'){|m| m.should_ignore_missing}
-#     flexmock(Ruber).should_receive(:[]).with(:components).and_return(@components).by_default
-#     flexmock(Ruber).should_receive(:[]).with(:app).and_return(KDE::Application.instance).by_default
-#     flexmock(Ruber).should_receive(:[]).with(:config).and_return(@config).by_default
     Ruber[:documents].close_all(false)
     Ruber[:components].load_plugin 'plugins/state/'
     @plug = Ruber[:components][:state]
-#     data = YAML.load('plugins/state/plugin.yaml')
-#     psf = Ruber::PluginSpecification.full data
-#     @plug = Ruber::State::Plugin.new psf
   end
   
   after do
     Ruber[:components].unload_plugin(:state)
   end
-#   
-#   after do
-#     class Ruber::State::Plugin
-#       remove_method :connect rescue nil
-#     end
-#   end
   
   it 'inherits Ruber::Plugin' do
     Ruber::State::Plugin.ancestors.should include(Ruber::Plugin)
@@ -61,12 +41,6 @@ describe Ruber::State::Plugin do
   end
   
   describe '#delayed_initialize' do
-    
-#     before do
-#       @documents = flexmock('documents')
-#       @projects = flexmock('projects')
-#       flexmock(KDE::Application.instance).should_receive(:starting?).and_return(true).by_default
-#     end
     
     it 'calls the restore_last_state method if there\'s no open project and the only open document is pristine' do
       Ruber[:documents].new_document

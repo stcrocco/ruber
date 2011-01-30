@@ -622,12 +622,10 @@ While the examples are being run, a progress bar is shown.
       def initialize parent = nil
         super parent, :view => :tree, :filter => FilterModel.new
         @ignore_word_wrap_option = true
-        view.word_wrap = true
-        view.horizontal_scroll_mode = Qt::AbstractItemView::ScrollPerItem
-#         view.text_elide_mode = Qt::ElideNone
+        view.text_elide_mode = Qt::ElideNone
         model.append_column [] if model.column_count < 2
         @progress_bar = Qt::ProgressBar.new(self){|w| w.hide}
-        layout.add_widget @progress_bar, 1,0
+        layout.add_widget @progress_bar, 2,0
         view.header_hidden = true
         view.header.resize_mode = Qt::HeaderView::ResizeToContents
         connect Ruber[:rspec], SIGNAL(:process_started), self, SLOT(:spec_started)
@@ -638,6 +636,13 @@ While the examples are being run, a progress bar is shown.
               view.set_first_column_spanned i, par, true
             end
           end
+        end
+        #without this, the horizontal scrollbars won't be shown
+        view.connect(SIGNAL('expanded(QModelIndex)')) do |_|
+          view.resize_column_to_contents 1
+        end
+        view.connect(SIGNAL('collapsed(QModelIndex)')) do |_|
+          view.resize_column_to_contents 1
         end
         setup_actions
       end
