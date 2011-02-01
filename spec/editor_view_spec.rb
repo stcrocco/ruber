@@ -148,6 +148,47 @@ describe Ruber::EditorView do
     end
     
   end
+  
+  describe '#move_cursor_by' do
+    
+    before do
+      @doc.text = 20.times.map{'x'*20}.join("\n")
+      @view.go_to 10, 8
+    end
+    
+    it 'moves the cursor by the specified amount from the current position' do
+      exp = KTextEditor::Cursor.new 14, 9
+      @view.move_cursor_by 4, 1
+      res = @view.cursor_position
+      res.line.should == exp.line
+      res.column.should == exp.column
+    end
+    
+    it 'moves the cursor upwards if the row argument is negative' do
+      exp = KTextEditor::Cursor.new 6, 9
+      @view.move_cursor_by -4, 1
+      res = @view.cursor_position
+      res.line.should == exp.line
+      res.column.should == exp.column
+    end
+    
+    it 'moves the cursor to the left if the column argument is negative' do
+      exp = KTextEditor::Cursor.new 14, 5
+      @view.move_cursor_by 4, -3
+      res = @view.cursor_position
+      res.line.should == exp.line
+      res.column.should == exp.column
+    end
+    
+    it 'doesn\'t move the cursor and returns false if the new cursor position is out of range' do
+      exp = KTextEditor::Cursor.new 10, 8
+      @view.move_cursor_by(100, -300).should be_false
+      res = @view.cursor_position
+      res.line.should == exp.line
+      res.column.should == exp.column
+    end
+
+  end
 
 end
 

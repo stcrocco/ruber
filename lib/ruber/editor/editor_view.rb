@@ -110,8 +110,26 @@ module Ruber
       
     end
     
+=begin rdoc
+Moves the cursor of the given amount
+
+If the cursor ends up being out of range, nothing is done
+@param [Integer] row the amount of rows to move the cursor of. If it's negative,
+  the cursor will be moved upwards, otherwise it'll be moved downwards
+@param [Integer] col the amount of columns to move the cursor of. If it's negative,
+  the cursor will be moved to the left, otherwise it'll be moved to the right
+@return [Boolean] *true* if the cursor was moved successfully and *false* if it
+  was out of range
+=end
+    def move_cursor_by row, col
+      cur = @view.cursor_position
+      cur.line += row
+      cur.column += col
+      @view.set_cursor_position cur
+    end
+    
     def go_to row, col
-      @view.cursor_position = KTextEditor::Cursor.new(row, col)
+      @view.set_cursor_position KTextEditor::Cursor.new(row, col)
     end
 
     def show_annotation_border
@@ -129,7 +147,6 @@ module Ruber
     def close
       emit closing self
       super
-#       delete_later
     end
 
     def set_annotation_border_visible vis
