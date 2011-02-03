@@ -25,21 +25,96 @@ module KTextEditor
   
   class Cursor
     
+=begin rdoc
+Override of @Object#inspect@
+
+@return [String] a string representation of the cursor which displays line and column
+  number
+=end
     def inspect
-      "<#{self.class}:#{object_id} line=#{line} column=#{column}"
+      if !disposed?
+        "<#{self.class}:#{object_id} line=#{line} column=#{column}>"
+      else "<#{self.class}:#{object_id} DISPOSED>"
+      end
     end
     
+=begin rdoc
+Override of @Object#==@
+
+@param [Object] other the object to compare with *self*
+@return [Boolean] *true* if _other_ is a @KTextEditor::Cursor@ with the same line
+  and column number and *false* otherwise
+=end
     def == other
       return false unless other.is_a? KTextEditor::Cursor
       line == other.line and column == other.column
     end
     
+=begin rdoc
+Override of @Object#dup@
+
+@return [Cursor] a {Cursor} with the same line and column number
+=end
     def dup
       self.class.new self.line, self.column
     end
-    
+
+=begin rdoc
+Override of @Object#clone@
+
+@return [Cursor] a {Cursor} with the same line and column number
+=end
     def clone
-      res = self.class.new self.line, self.column
+      res = dup
+      res.freeze if self.frozen?
+      res
+    end
+    
+  end
+  
+  class Range
+   
+=begin rdoc
+Override of @Object#inspect@
+
+@return [String] a string representation of the cursor which displays the
+  start and end line and column
+=end
+    def inspect
+      return "<#{self.class}:#{object_id} DISPOSED>" if disposed?
+      start_c = self.start
+      end_c = self.end
+      "<#{self.class}:#{object_id} start=(#{start_c.line};#{start_c.column}) end=(#{end_c.line};#{end_c.column})>"
+    end
+
+=begin rdoc
+Override of @Object#==@
+
+@param [Object] other the object to compare with *self*
+@return [Boolean] *true* if _other_ is a @KTextEditor::Range@ with the same start
+  and end and *false* otherwise
+=end
+    def == other
+      return false unless other.is_a? KTextEditor::Range
+      start == other.start and self.end == other.end
+    end
+
+=begin rdoc
+Override of @Object#dup@
+
+@return [Range] a {Range} with the same start and end
+=end
+    def dup
+      self.class.new self.start, self.end
+    end
+
+=begin rdoc
+Override of @Object#clone@
+
+@return [Range] a {Range} with the same start and end
+=end
+    def clone
+      res = dup
       res.freeze if self.frozen?
       res
     end
