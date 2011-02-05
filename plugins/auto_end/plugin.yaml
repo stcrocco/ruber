@@ -7,5 +7,5 @@ about:
  bug_address: stefano.crocco@alice.it
 require: auto_end
 extensions:
- auto_end: {class: Ruber::AutoEnd::Extension, rules: {scope: document, file_extension: ['*.rb', 'Rakefile', 'rakefile', '*.gemspec'], mimetype: ['application/x-ruby']}}
+ auto_end: {class: Ruber::AutoEnd::Extension, scope: document, file_extension: ['*.rb', 'Rakefile', 'rakefile', '*.gemspec'], mimetype: ['application/x-ruby']}
  
