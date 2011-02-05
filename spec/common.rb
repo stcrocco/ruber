@@ -21,6 +21,7 @@ end
 
 require 'ruber/qt_sugar'
 require 'ruber/kde_sugar'
+require 'ruber/ktexteditor_sugar'
 require 'ruber/utils'
 
 #Distinguish between rspec 1.* and 2.*
