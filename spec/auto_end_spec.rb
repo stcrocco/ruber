@@ -210,4 +210,15 @@ describe Ruber::AutoEnd::Extension do
     @doc.text.should == text
   end
   
+  it 'doesn\'t insert an end keyword if the following line is more indented than the current one' do
+    view = @doc.create_view
+    flexmock(@doc).should_receive(:active_view).and_return view
+    text = "class X\n  def y\n   abc"
+    @doc.block_signals true
+    @doc.insert_text KTextEditor::Cursor.new(0,0), text
+    @doc.block_signals false
+    @doc.insert_text KTextEditor::Cursor.new(1,8), "\nY"
+    @doc.text.should == "class X\n  def y\nY\n   abc"
+  end    
+  
 end

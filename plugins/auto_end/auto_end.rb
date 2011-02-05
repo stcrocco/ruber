@@ -53,15 +53,17 @@ module Ruber
       end
       
       def text_inserted range
+        @insertion = nil
         text = @doc.text range
         return unless text.end_with? "\n"
         line = @doc.line( range.end.line - 1)
         pattern = PATTERNS.find{|pat| pat[0].match line}
         if pattern and !line.start_with? '#'
-          @insertion = Insertion.new range.end.line, pattern[1], pattern[2]
-#           insert_text KTextEditor::Cursor.new(range.end.line,0), pattern[1], 
-#             pattern[2]
-        else @insertion = nil
+          indentation = line.match(/^\s*/)[0].size
+          next_indentation = @doc.line(range.end.line + 1).match(/^\s*/)[0].size
+          unless next_indentation > indentation
+            @insertion = Insertion.new range.end.line, pattern[1], pattern[2]
+          end
         end
       end
       slots 'text_inserted(KTextEditor::Range)'
