@@ -26,6 +26,8 @@ module Ruber
       
       include Ruber::Extension
       
+      Insertion = Struct.new :line_number, :lines, :final_position
+      
       IDENTIFIER_PATTERN = RUBY_VERSION >= '1.9.2' ? '\p{Word}+' : '\w+'
       
       MULTI_ID_PATTERN = "#{IDENTIFIER_PATTERN}(?:::#{IDENTIFIER_PATTERN})*"
@@ -46,21 +48,32 @@ module Ruber
       def initialize prj
         super
         @doc = prj.document
+        @insertion = nil
         connect_slots
       end
       
-      def insert_end_if_needed range
+      def text_inserted range
         text = @doc.text range
         return unless text.end_with? "\n"
         line = @doc.line( range.end.line - 1)
         pattern = PATTERNS.find{|pat| pat[0].match line}
-        if pattern
-          return if line.start_with? '#'
-          insert_text KTextEditor::Cursor.new(range.end.line,0), pattern[1], 
-            pattern[2]
+        if pattern and !line.start_with? '#'
+          @insertion = Insertion.new range.end.line, pattern[1], pattern[2]
+#           insert_text KTextEditor::Cursor.new(range.end.line,0), pattern[1], 
+#             pattern[2]
+        else @insertion = nil
         end
       end
-      slots 'insert_end_if_needed(KTextEditor::Range)'
+      slots 'text_inserted(KTextEditor::Range)'
+      
+      def text_changed
+        if @insertion
+          insert_text KTextEditor::Cursor.new(@insertion.line_number, 0), 
+              @insertion.lines, @insertion.final_position
+          @insertion = nil
+        end
+      end
+      slots :text_changed
       
       def remove_from_project
         disconnect_slots
@@ -69,11 +82,13 @@ module Ruber
       private
       
       def connect_slots
-        connect @doc, SIGNAL('text_inserted(KTextEditor::Range, QObject*)'), self, SLOT('insert_end_if_needed(KTextEditor::Range)')
+        connect @doc, SIGNAL('text_inserted(KTextEditor::Range, QObject*)'), self, SLOT('text_inserted(KTextEditor::Range)')
+        connect @doc, SIGNAL('text_changed(QObject*)'), self, SLOT(:text_changed)
       end
       
       def disconnect_slots
-        disconnect @doc, SIGNAL('text_inserted(KTextEditor::Range, QObject*)'), self, SLOT('insert_end_if_needed(KTextEditor::Range)')
+        disconnect @doc, SIGNAL('text_inserted(KTextEditor::Range, QObject*)'), self, SLOT('text_inserted(KTextEditor::Range)')
+        disconnect @doc, SIGNAL('text_changed(QObject*)'), self, SLOT(:text_changed)
       end
       
       def insert_text insert_pos, lines, dest

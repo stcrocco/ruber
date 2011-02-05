@@ -90,9 +90,9 @@ describe Ruber::AutoEnd::Extension do
   
   context 'when created' do
   
-    it 'connects the text_inserted(KTextEditor::Range, QObject*) signal of the document with the insert_end_if_needed(KTextEditor::Range)' do
+    it 'connects the text_inserted(KTextEditor::Range, QObject*) signal of the document with the text_inserted(KTextEditor::Range) slot' do
       range = KTextEditor::Range.new 2, 3, 5, 6
-      flexmock(@ext).should_receive(:insert_end_if_needed).once.with range
+      flexmock(@ext).should_receive(:text_inserted).once.with range
       @doc.instance_eval{emit text_inserted(range, self)}
     end
         
@@ -200,6 +200,14 @@ describe Ruber::AutoEnd::Extension do
       
     end
 
+  end
+  
+  it 'doesn\'t insert end keywords in the middle of a multi-line text' do
+    view = @doc.create_view
+    flexmock(@doc).should_receive(:active_view).and_return view
+    text = "class X\ndef y\n\nend\nend"
+    @doc.insert_text KTextEditor::Cursor.new(0,0), text
+    @doc.text.should == text
   end
   
 end
