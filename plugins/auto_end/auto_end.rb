@@ -41,6 +41,7 @@ module Ruber
         [/^class\s+#{IDENTIFIER_PATTERN}\s*$/, ['', 'end'], [0, -1]],
         [/^class\s+#{MULTI_ID_PATTERN}\s*<{1,2}\s*#{MULTI_ID_PATTERN}\s*$/, ['', 'end'], [0, -1]],
         [/^\s*module\s+#{MULTI_ID_PATTERN}\s*$/, ['', 'end'], [0,-1]],
+        [/^=begin(\s|$)/, ['', '=end'], [0, -1]],
         [/^\s*begin\s/, ['', 'end'], [0, -1]],
         [/=\s*begin\s/, ['', 'end'], [0, -1]],
       ]
