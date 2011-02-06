@@ -33,17 +33,17 @@ module Ruber
       MULTI_ID_PATTERN = "#{IDENTIFIER_PATTERN}(?:::#{IDENTIFIER_PATTERN})*"
       
       PATTERNS = [
-        [/^\s*if\s/, ['', 'end'], [0, -1]],
-        [/=\s*if\s/, ['', 'end'], [0, -1]],
-        [/\bdo\s*$/, ['', 'end'], [0, -1]],
-        [/\bdo\s+\|/, ['', 'end'], [0, -1]],
-        [/^\s*def\s/, ['', 'end'], [0, -1]],
-        [/^class\s+#{IDENTIFIER_PATTERN}\s*$/, ['', 'end'], [0, -1]],
-        [/^class\s+#{MULTI_ID_PATTERN}\s*<{1,2}\s*#{MULTI_ID_PATTERN}\s*$/, ['', 'end'], [0, -1]],
-        [/^\s*module\s+#{MULTI_ID_PATTERN}\s*$/, ['', 'end'], [0,-1]],
-        [/^=begin(\s|$)/, ['', '=end'], [0, -1]],
-        [/^\s*begin\s/, ['', 'end'], [0, -1]],
-        [/=\s*begin\s/, ['', 'end'], [0, -1]],
+        [/^\s*if\s/, "\nend", [0, -1]],
+        [/=\s*if\s/, "\nend", [0, -1]],
+        [/\bdo\s*$/, "\nend", [0, -1]],
+        [/\bdo\s+\|/, "\nend", [0, -1]],
+        [/^\s*def\s/, "\nend", [0, -1]],
+        [/^class\s+#{IDENTIFIER_PATTERN}\s*$/, "\nend", [0, -1]],
+        [/^class\s+#{MULTI_ID_PATTERN}\s*<{1,2}\s*#{MULTI_ID_PATTERN}\s*$/, "\nend", [0, -1]],
+        [/^\s*module\s+#{MULTI_ID_PATTERN}\s*$/, "\nend", [0,-1]],
+        [/^=begin(\s|$)/, "\n=end", [0, -1]],
+        [/^\s*begin\s/, "\nend", [0, -1]],
+        [/=\s*begin\s/, "\nend", [0, -1]],
       ]
       
       def initialize prj
@@ -54,9 +54,9 @@ module Ruber
       end
       
       def text_inserted range
-        @insertion = nil
         text = @doc.text range
         return unless text.end_with? "\n"
+        @insertion = nil
         line = @doc.line( range.end.line - 1)
         pattern = PATTERNS.find{|pat| pat[0].match line}
         if pattern and !line.start_with? '#'
@@ -98,13 +98,12 @@ module Ruber
         view = @doc.active_view
         return unless view
         disconnect_slots
+        replace_pos = KTextEditor::Cursor.new insert_pos.line, @doc.line_length(insert_pos.line)
+        insert_pos.column = @doc.line_length insert_pos.line
         @doc.insert_text insert_pos, lines 
         final_pos = KTextEditor::Cursor.new insert_pos.line + lines.size - 1,
             lines[-1].size
-        end_pos = KTextEditor::Cursor.new(final_pos.line - 1, 0)
-        end_pos.column = @doc.line_length(end_pos.line)
-        new_sel = KTextEditor::Range.new insert_pos, end_pos
-        do_indentation view, new_sel
+        do_indentation view
         dest_line = insert_pos.line+dest[0]
         dest_col = dest[1]
         dest_col += @doc.line_length(dest_line) + 1 if dest_col < 0
@@ -112,11 +111,8 @@ module Ruber
         connect_slots
       end
       
-      def do_indentation view, range
-        old_sel = view.selection_range
-        view.selection = range
+      def do_indentation view
         view.execute_action 'tools_align'
-        view.selection = old_sel
       end
       
     end
