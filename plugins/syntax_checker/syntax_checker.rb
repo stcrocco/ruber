@@ -203,7 +203,7 @@ registered
       def remove_syntax_checker cls
         res = @availlable_syntax_checkers.delete cls
         res.to_bool
-      end
+      end  
 
 =begin rdoc
 Prepares the plugin for application shutdown
