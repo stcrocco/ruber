@@ -84,7 +84,9 @@
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">plugins/rspec/rspec.rb</dd>
+    <dd class="r2 last">plugins/rspec/rspec.rb<span class="defines">,<br />
+  plugins/rspec/rspec.rb</span>
+</dd>
   
 </dl>
 <div class="clear"></div>
@@ -127,6 +129,19 @@
 </div>
         </dt>
         <dd><pre class="code"><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^####%%%%####KRUBY_END$</span><span class='regexp_end'>/</span></span></pre></dd>
+      
+        <dt id="SWITCH_BEHAVIOUR-constant" class="">SWITCH_BEHAVIOUR =
+          <div class="docstring">
+  <div class="discussion">
+    <p>Symbolic values associated with the <code>rspec/switch_behaviour</code> settings</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbracket'>[</span><span class='symbol'>:new_tab</span><span class='comma'>,</span> <span class='symbol'>:horizontal</span><span class='comma'>,</span> <span class='symbol'>:vertical</span><span class='rbracket'>]</span></pre></dd>
       
     </dl>
   
@@ -195,6 +210,53 @@
     </h2>
 
     <ul class="summary">
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#change_switch_name-instance_method" title="#change_switch_name (instance method)">- (nil) <strong>change_switch_name</strong>(doc) </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Changes the text of the <code>Switch to spec</code> action depending on whether the given
+document is a spec or code file.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#delayed_initialize-instance_method" title="#delayed_initialize (instance method)">- (nil) <strong>delayed_initialize</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Override of <span class='object_link'><a href="../PluginLike.html#delayed_initialize-instance_method" title="Ruber::PluginLike#delayed_initialize (method)">PluginLike#delayed_initialize</a></span>.</p></div></span>
+  
+</li>
+
       
         <!-- Provides the  slot annotation -->
 <li class="private ">
@@ -517,6 +579,28 @@
 
       
         <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#spec_file%3F-instance_method" title="#spec_file? (instance method)">- (Boolean<sup>?</sup>) <strong>spec_file?</strong>(file, prj = Ruber[:projects].current) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Whether a file is a spec file or a code file for a given project.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
 <li class="private ">
   <span class="summary_signature">
     
@@ -534,6 +618,30 @@
 
   
     <span class="summary_desc"><div class='inline'><p>Determines all possible specs files associated with a code file.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#switch-instance_method" title="#switch (instance method)">- (EditorView<sup>?</sup>) <strong>switch</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Slot associated with the <code>Switch</code> action.</p></div></span>
   
 </li>
 
@@ -590,7 +698,7 @@
   
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="../PluginLike.html" title="Ruber::PluginLike (module)">PluginLike</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="../PluginLike.html#add_extensions_to_project-instance_method" title="Ruber::PluginLike#add_extensions_to_project (method)">#add_extensions_to_project</a></span>, <span class='object_link'><a href="../PluginLike.html#add_options_to_project-instance_method" title="Ruber::PluginLike#add_options_to_project (method)">#add_options_to_project</a></span>, <span class='object_link'><a href="../PluginLike.html#add_widgets_to_project-instance_method" title="Ruber::PluginLike#add_widgets_to_project (method)">#add_widgets_to_project</a></span>, <span class='object_link'><a href="../PluginLike.html#create_tool_widget-instance_method" title="Ruber::PluginLike#create_tool_widget (method)">#create_tool_widget</a></span>, <span class='object_link'><a href="../PluginLike.html#delayed_initialize-instance_method" title="Ruber::PluginLike#delayed_initialize (method)">#delayed_initialize</a></span>, <span class='object_link'><a href="../PluginLike.html#initialize_plugin-instance_method" title="Ruber::PluginLike#initialize_plugin (method)">#initialize_plugin</a></span>, <span class='object_link'><a href="../PluginLike.html#load_settings-instance_method" title="Ruber::PluginLike#load_settings (method)">#load_settings</a></span>, <span class='object_link'><a href="../PluginLike.html#plugin_name-instance_method" title="Ruber::PluginLike#plugin_name (method)">#plugin_name</a></span>, <span class='object_link'><a href="../PluginLike.html#query_close-instance_method" title="Ruber::PluginLike#query_close (method)">#query_close</a></span>, <span class='object_link'><a href="../PluginLike.html#register_options-instance_method" title="Ruber::PluginLike#register_options (method)">#register_options</a></span>, <span class='object_link'><a href="../PluginLike.html#register_with_project-instance_method" title="Ruber::PluginLike#register_with_project (method)">#register_with_project</a></span>, <span class='object_link'><a href="../PluginLike.html#remove_extensions_from_project-instance_method" title="Ruber::PluginLike#remove_extensions_from_project (method)">#remove_extensions_from_project</a></span>, <span class='object_link'><a href="../PluginLike.html#remove_from_project-instance_method" title="Ruber::PluginLike#remove_from_project (method)">#remove_from_project</a></span>, <span class='object_link'><a href="../PluginLike.html#remove_options_from_project-instance_method" title="Ruber::PluginLike#remove_options_from_project (method)">#remove_options_from_project</a></span>, <span class='object_link'><a href="../PluginLike.html#remove_widgets_from_project-instance_method" title="Ruber::PluginLike#remove_widgets_from_project (method)">#remove_widgets_from_project</a></span>, <span class='object_link'><a href="../PluginLike.html#restore_session-instance_method" title="Ruber::PluginLike#restore_session (method)">#restore_session</a></span>, <span class='object_link'><a href="../PluginLike.html#save_settings-instance_method" title="Ruber::PluginLike#save_settings (method)">#save_settings</a></span>, <span class='object_link'><a href="../PluginLike.html#session_data-instance_method" title="Ruber::PluginLike#session_data (method)">#session_data</a></span>, <span class='object_link'><a href="../PluginLike.html#setup_action-instance_method" title="Ruber::PluginLike#setup_action (method)">#setup_action</a></span>, <span class='object_link'><a href="../PluginLike.html#setup_actions-instance_method" title="Ruber::PluginLike#setup_actions (method)">#setup_actions</a></span>, <span class='object_link'><a href="../PluginLike.html#shutdown-instance_method" title="Ruber::PluginLike#shutdown (method)">#shutdown</a></span>, <span class='object_link'><a href="../PluginLike.html#unload-instance_method" title="Ruber::PluginLike#unload (method)">#unload</a></span>, <span class='object_link'><a href="../PluginLike.html#update_project-instance_method" title="Ruber::PluginLike#update_project (method)">#update_project</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="../PluginLike.html#add_extensions_to_project-instance_method" title="Ruber::PluginLike#add_extensions_to_project (method)">#add_extensions_to_project</a></span>, <span class='object_link'><a href="../PluginLike.html#add_options_to_project-instance_method" title="Ruber::PluginLike#add_options_to_project (method)">#add_options_to_project</a></span>, <span class='object_link'><a href="../PluginLike.html#add_widgets_to_project-instance_method" title="Ruber::PluginLike#add_widgets_to_project (method)">#add_widgets_to_project</a></span>, <span class='object_link'><a href="../PluginLike.html#create_tool_widget-instance_method" title="Ruber::PluginLike#create_tool_widget (method)">#create_tool_widget</a></span>, <span class='object_link'><a href="../PluginLike.html#initialize_plugin-instance_method" title="Ruber::PluginLike#initialize_plugin (method)">#initialize_plugin</a></span>, <span class='object_link'><a href="../PluginLike.html#load_settings-instance_method" title="Ruber::PluginLike#load_settings (method)">#load_settings</a></span>, <span class='object_link'><a href="../PluginLike.html#plugin_name-instance_method" title="Ruber::PluginLike#plugin_name (method)">#plugin_name</a></span>, <span class='object_link'><a href="../PluginLike.html#query_close-instance_method" title="Ruber::PluginLike#query_close (method)">#query_close</a></span>, <span class='object_link'><a href="../PluginLike.html#register_options-instance_method" title="Ruber::PluginLike#register_options (method)">#register_options</a></span>, <span class='object_link'><a href="../PluginLike.html#register_with_project-instance_method" title="Ruber::PluginLike#register_with_project (method)">#register_with_project</a></span>, <span class='object_link'><a href="../PluginLike.html#remove_extensions_from_project-instance_method" title="Ruber::PluginLike#remove_extensions_from_project (method)">#remove_extensions_from_project</a></span>, <span class='object_link'><a href="../PluginLike.html#remove_from_project-instance_method" title="Ruber::PluginLike#remove_from_project (method)">#remove_from_project</a></span>, <span class='object_link'><a href="../PluginLike.html#remove_options_from_project-instance_method" title="Ruber::PluginLike#remove_options_from_project (method)">#remove_options_from_project</a></span>, <span class='object_link'><a href="../PluginLike.html#remove_widgets_from_project-instance_method" title="Ruber::PluginLike#remove_widgets_from_project (method)">#remove_widgets_from_project</a></span>, <span class='object_link'><a href="../PluginLike.html#restore_session-instance_method" title="Ruber::PluginLike#restore_session (method)">#restore_session</a></span>, <span class='object_link'><a href="../PluginLike.html#save_settings-instance_method" title="Ruber::PluginLike#save_settings (method)">#save_settings</a></span>, <span class='object_link'><a href="../PluginLike.html#session_data-instance_method" title="Ruber::PluginLike#session_data (method)">#session_data</a></span>, <span class='object_link'><a href="../PluginLike.html#setup_action-instance_method" title="Ruber::PluginLike#setup_action (method)">#setup_action</a></span>, <span class='object_link'><a href="../PluginLike.html#setup_actions-instance_method" title="Ruber::PluginLike#setup_actions (method)">#setup_actions</a></span>, <span class='object_link'><a href="../PluginLike.html#shutdown-instance_method" title="Ruber::PluginLike#shutdown (method)">#shutdown</a></span>, <span class='object_link'><a href="../PluginLike.html#unload-instance_method" title="Ruber::PluginLike#unload (method)">#unload</a></span>, <span class='object_link'><a href="../PluginLike.html#update_project-instance_method" title="Ruber::PluginLike#update_project (method)">#update_project</a></span></p>
 
   
 
@@ -670,8 +778,7 @@
 104
 105
 106
-107
-108</pre>
+107</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 84</span>
@@ -684,8 +791,7 @@
   <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id set_state'>set_state</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rspec_running</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='kw'>false</span>
   
   <span class='id switch_prc'>switch_prc</span> <span class='op'>=</span> <span class='const'>Proc</span><span class='period'>.</span><span class='id new'>new</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id states'>states</span><span class='op'>|</span> <span class='id states'>states</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>active_project_exists</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='kw'>and</span> <span class='id states'>states</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>current_document</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='rbrace'>}</span>
-  <span class='id register_action_handler'>register_action_handler</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rspec-go_to_file</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id switch_prc'>switch_prc</span>
-  <span class='id register_action_handler'>register_action_handler</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rspec-go_to_spec</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id switch_prc'>switch_prc</span>
+  <span class='id register_action_handler'>register_action_handler</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rspec-switch</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id switch_prc'>switch_prc</span>
   <span class='id register_action_handler'>register_action_handler</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rspec-run_all</span><span class='tstring_end'>'</span></span> <span class='kw'>do</span> <span class='op'>|</span><span class='id states'>states</span><span class='op'>|</span>
     <span class='id states'>states</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>active_project_exists</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='kw'>and</span> <span class='op'>!</span><span class='id states'>states</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rspec_running</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
   <span class='kw'>end</span>
@@ -695,7 +801,7 @@
   <span class='kw'>end</span>
   <span class='id register_action_handler'>register_action_handler</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rspec-run_current</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id current_prc'>current_prc</span>
   <span class='id register_action_handler'>register_action_handler</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rspec-run_current_line</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id current_prc'>current_prc</span>
-  
+  <span class='id connect'>connect</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>current_document_changed(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>change_switch_name(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
   <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:components</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id connect'>connect</span><span class='lparen'>(</span><span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>feature_loaded(QString, QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id f'>f</span><span class='comma'>,</span> <span class='id o'>o</span><span class='op'>|</span>
     <span class='id o'>o</span><span class='period'>.</span><span class='id register_plugin'>register_plugin</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='kw'>true</span> <span class='kw'>if</span> <span class='id f'>f</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>autosave</span><span class='tstring_end'>'</span></span>
   <span class='kw'>end</span>
@@ -783,7 +889,147 @@ if no rspec program was found</p>
     
     
       <div class="method_details first">
-  <p class="signature first" id="display_exit_message-instance_method">
+  <p class="signature first" id="change_switch_name-instance_method">
+  
+    - (<tt>nil</tt>) <strong>change_switch_name</strong>(doc)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Changes the text of the <code>Switch to spec</code> action depending on whether the given
+document is a spec or code file</p>
+<p>This method is usually called in response to the <span class='object_link'><a href="../MainWindow.html#current_document_changed-signalcode" title="Ruber::MainWindow#current_document_changed (signalcode)">MainWindow#current_document_changed</a></span>
+signal.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Document.html" title="Ruber::Document (class)">Document</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+        <span class='name'>doc</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the document according to with to change the text of
+the action</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+529
+530
+531
+532
+533
+534
+535
+536</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 529</span>
+
+<span class='kw'>def</span> <span class='id change_switch_name'>change_switch_name</span> <span class='id doc'>doc</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id doc'>doc</span>
+  <span class='kw'>if</span> <span class='id spec_file?'>spec_file?</span> <span class='id doc'>doc</span><span class='period'>.</span><span class='id path'>path</span> <span class='kw'>then</span> <span class='id text'>text</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Switch to &amp;Code</span><span class='tstring_end'>'</span></span>
+  <span class='kw'>else</span> <span class='id text'>text</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Switch to &amp;Spec</span><span class='tstring_end'>'</span></span>
+  <span class='kw'>end</span>
+  <span class='id action_collection'>action_collection</span><span class='period'>.</span><span class='id action'>action</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rspec-switch</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id text'>text</span> <span class='op'>=</span> <span class='id i18n'>i18n</span><span class='lparen'>(</span><span class='id text'>text</span><span class='rparen'>)</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>change_switch_name(QObject*)</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="delayed_initialize-instance_method">
+  
+    - (<tt>nil</tt>) <strong>delayed_initialize</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Override of <span class='object_link'><a href="../PluginLike.html#delayed_initialize-instance_method" title="Ruber::PluginLike#delayed_initialize (method)">PluginLike#delayed_initialize</a></span></p>
+<p>It sets the text of the <code>Switch</code> action depending on whether the current document
+(if any) is or not a spec file.</p>
+<p>This can&#8217;t be done from the <span class='object_link'><a href="#initialize-instance_method" title="Ruber::RSpec::Plugin#initialize (method)">#initialize</a></span> method because project options haven&#8217;t
+already been added when that method is called.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+236
+237
+238
+239
+240</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 236</span>
+
+<span class='kw'>def</span> <span class='id delayed_initialize'>delayed_initialize</span>
+  <span class='id doc'>doc</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current_document'>current_document</span>
+  <span class='id change_switch_name'>change_switch_name</span> <span class='id doc'>doc</span> <span class='kw'>if</span> <span class='id doc'>doc</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="display_exit_message-instance_method">
   
     - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>display_exit_message</strong>(code, reason)  <span class="extras">(private)</span>
   
@@ -1980,11 +2226,7 @@ as first argument to <span class='object_link'><a href="../Autosave/AutosavePlug
 174
 175
 176
-177
-178
-179
-180
-181</pre>
+177</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 148</span>
@@ -2001,11 +2243,7 @@ as first argument to <span class='object_link'><a href="../Autosave/AutosavePlug
   <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>if</span> <span class='ivar'>@process</span><span class='period'>.</span><span class='id state'>state</span> <span class='op'>!=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Process</span><span class='op'>::</span><span class='const'>NotRunning</span>
   <span class='ivar'>@widget</span><span class='period'>.</span><span class='id clear_output'>clear_output</span>
   <span class='id files'>files</span> <span class='op'>=</span> <span class='id files'>files</span><span class='period'>.</span><span class='id select'>select</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id f'>f</span><span class='op'>|</span> <span class='const'>File</span><span class='period'>.</span><span class='id exist?'>exist?</span> <span class='id f'>f</span><span class='rbrace'>}</span>
-<span class='comment'>#         if files.empty?
-</span><span class='comment'>#           KDE::MessageBox.sorry nil, 'No spec file has been found. RSpec won\'t be run'
-</span><span class='comment'>#           return false
-</span><span class='comment'>#         end
-</span>  <span class='kw'>if</span> <span class='id autosave_opts'>autosave_opts</span><span class='lbracket'>[</span><span class='symbol'>:files</span><span class='rbracket'>]</span>
+  <span class='kw'>if</span> <span class='id autosave_opts'>autosave_opts</span><span class='lbracket'>[</span><span class='symbol'>:files</span><span class='rbracket'>]</span>
     <span class='id plug'>plug</span> <span class='op'>=</span> <span class='id autosave_opts'>autosave_opts</span><span class='lbracket'>[</span><span class='symbol'>:plugin</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='kw'>self</span>
     <span class='id what'>what</span> <span class='op'>=</span> <span class='id autosave_opts'>autosave_opts</span><span class='lbracket'>[</span><span class='symbol'>:files</span><span class='rbracket'>]</span>
     <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:autosave</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id autosave'>autosave</span> <span class='id plug'>plug</span><span class='comma'>,</span> 
@@ -2179,6 +2417,102 @@ entry (see below)
 </div>
     
       <div class="method_details ">
+  <p class="signature " id="spec_file?-instance_method">
+  
+    - (<tt>Boolean</tt><sup>?</sup>) <strong>spec_file?</strong>(file, prj = Ruber[:projects].current) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Whether a file is a spec file or a code file for a given project</p>
+<p>It uses the <code>rspec/spec_directory</code> and <code>rspec/spec_pattern</code> options from the project
+to find out whether the file is a spec file or not.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>file</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the file to test</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Project.html" title="Ruber::Project (class)">Project</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+        <span class='name'>prj</span>
+      
+      
+        <em class="default">(defaults to: <tt>Ruber[:projects].current</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>the project <em>file</em> could be a spec for. If <strong>nil</strong>, the
+current project, if any, will be used</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>wheter or not <em>file</em> is a spec file for the given project
+or <strong>nil</strong> if no project was specified and there&#8217;s no open project</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+147
+148
+149
+150
+151
+152</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 147</span>
+
+<span class='kw'>def</span> <span class='id spec_file?'>spec_file?</span> <span class='id file'>file</span><span class='comma'>,</span> <span class='id prj'>prj</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current'>current</span>
+  <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>unless</span> <span class='id prj'>prj</span>
+  <span class='id dir'>dir</span> <span class='op'>=</span> <span class='id prj'>prj</span><span class='lbracket'>[</span><span class='symbol'>:rspec</span><span class='comma'>,</span> <span class='symbol'>:spec_directory</span><span class='comma'>,</span> <span class='symbol'>:absolute</span><span class='rbracket'>]</span>
+  <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='id file'>file</span><span class='period'>.</span><span class='id start_with?'>start_with?</span> <span class='id dir'>dir</span>
+  <span class='const'>File</span><span class='period'>.</span><span class='id fnmatch'>fnmatch</span> <span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span><span class='lparen'>(</span><span class='id dir'>dir</span><span class='comma'>,</span> <span class='id prj'>prj</span><span class='lbracket'>[</span><span class='symbol'>:rspec</span><span class='comma'>,</span> <span class='symbol'>:spec_files</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id file'>file</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <p class="signature " id="specs_for_file-instance_method">
   
     - (<tt>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>&gt;</tt>) <strong>specs_for_file</strong>(opts, file)  <span class="extras">(private)</span>
@@ -2255,6 +2589,95 @@ whether the files actually exist).</p>
 </table>
 </div>
     
+      <div class="method_details ">
+  <p class="signature " id="switch-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt><sup>?</sup>) <strong>switch</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+  <div class="note notetag">
+    <strong>Note:</strong> 
+    <div class='inline'><p>this method assumes that both the current project and a current document
+exist</p></div>
+  </div>
+
+<p>Slot associated with the <code>Switch</code> action</p>
+<p>Displays the spec or code file associated with the current document, according
+to whether the current document is a code or spec file respectively.</p>
+<p>It does nothing if the file corresponding to the current document isn&#8217;t found</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>an editor associated with the spec or code file associated
+with the current document or <strong>nil</strong> if no such file is found</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 452</span>
+
+<span class='kw'>def</span> <span class='id switch'>switch</span>
+  <span class='id file'>file</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current_document'>current_document</span><span class='period'>.</span><span class='id path'>path</span>
+  <span class='id prj'>prj</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current_project'>current_project</span>
+  <span class='kw'>if</span> <span class='id spec_file?'>spec_file?</span> <span class='id file'>file</span><span class='comma'>,</span> <span class='id prj'>prj</span> <span class='kw'>then</span> <span class='id switch_to'>switch_to</span> <span class='op'>=</span> <span class='id file_for_spec'>file_for_spec</span> <span class='id prj'>prj</span><span class='comma'>,</span> <span class='id file'>file</span>
+  <span class='kw'>else</span> <span class='id switch_to'>switch_to</span> <span class='op'>=</span> <span class='id specs_for_file'>specs_for_file</span><span class='lparen'>(</span><span class='id options'>options</span><span class='lparen'>(</span><span class='id prj'>prj</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id file'>file</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+  <span class='kw'>if</span> <span class='id switch_to'>switch_to</span> <span class='kw'>and</span> <span class='const'>File</span><span class='period'>.</span><span class='id exist?'>exist?</span> <span class='id switch_to'>switch_to</span>
+    <span class='id behaviour'>behaviour</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:rspec</span><span class='comma'>,</span> <span class='symbol'>:switch_behaviour</span><span class='rbracket'>]</span>
+    <span class='kw'>if</span> <span class='id behaviour'>behaviour</span> <span class='op'>!=</span> <span class='symbol'>:new_tab</span>
+      <span class='id hints'>hints</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='symbol'>:strategy</span> <span class='op'>=&gt;</span> <span class='symbol'>:current_tab</span><span class='comma'>,</span> <span class='symbol'>:existing</span> <span class='op'>=&gt;</span> <span class='symbol'>:current_tab</span><span class='comma'>,</span> <span class='symbol'>:split</span> <span class='op'>=&gt;</span> <span class='const'>SWITCH_BEHAVIOUR</span><span class='lbracket'>[</span><span class='id behaviour'>behaviour</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:new</span> <span class='op'>=&gt;</span> <span class='symbol'>:current_tab</span><span class='rbrace'>}</span>
+    <span class='kw'>else</span> <span class='id hints'>hints</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+    <span class='kw'>end</span>
+    <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id display_document'>display_document</span> <span class='id switch_to'>switch_to</span><span class='comma'>,</span> <span class='id hints'>hints</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>switch()</tt></p>
+
+    
   </div>
 
 
@@ -2262,7 +2685,7 @@ whether the files actually exist).</p>
 </div>
     
     <div id="footer">
-  Generated on Tue Jan 11 14:26:44 2011 by 
+  Generated on Mon Feb  7 15:09:03 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.4 (ruby-1.9.2).
 </div>

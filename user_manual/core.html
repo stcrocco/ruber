@@ -26,6 +26,8 @@
         <div class="announce">
           <h2>Latest news:</h2>
           
+            <p><a href="../news.html#Ruber-0-0-8-released-2011-02-07">Ruber 0.0.8 released</a></p>
+          
             <p><a href="../news.html#Ruber-0-0-7-released-2011-01-12">Ruber 0.0.7 released</a></p>
           
             <p><a href="../news.html#Ruber-0-0-6-released-2010-11-14">Ruber 0.0.6 released</a></p>
@@ -35,8 +37,6 @@
             <p><a href="../news.html#Ruber-0-0-4-released-2010-11-03">Ruber 0.0.4 released</a></p>
           
             <p><a href="../news.html#Ruber-0-0-2-released-2010-11-03">Ruber 0.0.2 released</a></p>
-          
-            <p><a href="../news.html#Ruber-0-0-1-released-2010-10-29">Ruber 0.0.1 released</a></p>
           
         </div>
       </div>
@@ -77,6 +77,9 @@ other entries of the <code>Window</code> menu:</p>
 	<li>the entries of the <code>Switch to Recent File</code> display one of the recently open
   files in the current view</li>
 </ul>
+<p>You can move between different views in the same tab using the <code>Next View Horizontally</code>,
+<code>Next View Vertically</code>, <code>Previous View Horizontally</code> and <code>Previous View Vertically</code>
+entries in the Window menu.</p>
 <p>When working with more than one view per tab, note that the <code>File/Close</code> menu entry
 will close the current view, not the current tab. To close all the views in the
 current tab at the same time, you can use the close button on the tab (unless
@@ -185,8 +188,13 @@ functionality. In particular:</p>
   file in the editor. If the line also contained a line number associated with
   the file (with the syntax <code>file_name:line_number</code>, then the cursor will be moved
   to that line</li>
+	<li>pressing the button with a pin on it on the right of the tool widget will prevent the tool
+  widget from being hidden when clicking on a file name</li>
 	<li>left clicking on a line containing a file name while keeping the Meta keyboard button
-  pressed will cause the same effect but won&#8217;t close the tool widget</li>
+  will cause the file to be opened in a new editor, regardless of whether the file
+  is already open in another editor. In the General page of the configuration dialog
+  you can configure whether the new editor should be opened in a new tab or by
+  splitting the current editor</li>
 	<li>left clicking on several lines while keeping the Ctrl or the Shift keyboard
   buttons pressed will select multiple lines according to the usual conventions</li>
 	<li>right clicking on the tool widget will display a context menu. In the menu
@@ -253,6 +261,7 @@ is the same as the <code>Editor component</code> page in the Kate Settings dialo
 <p>The Ruber core provides two pages in this dialog, General and Colors (the other
 pages you may see are associated with plugins and will be described in each
 plugin&#8217;s section).</p>
+<h5>The General page</h5>
 <p>In the General page, you can configure:</p>
 <ul>
 	<li>The font to be used in all the tool widgets which display output from command
@@ -266,7 +275,11 @@ plugin&#8217;s section).</p>
   the dialog will always start in the project&#8217;s directory).</li>
 	<li>The default path for project. This is the path where the Open Project will
   start in and the path used as location by the New Project dialog.</li>
+	<li>Whether clicking on a file name in an output widget while pressing the Meta key
+  should open the new editor in a new tab or in the current tab, splitting the
+  current editor horizontally or vertically</li>
 </ul>
+<h5>The Colors page</h5>
 <p>In the Colors page, you can configure the colors commonly used by various tool
 widgets, in particular those displaying output from external programs.</p>
 <p>Each line of text in these tool widget is of one of four categories:</p>
@@ -296,6 +309,9 @@ associated with &#8220;Good&#8221; is used to display messages which the user wi
 good (for example, the success of a given operation). Conversely, the color associated
 with &#8220;Bad&#8221; is used to inform of bad news (for example, that something has failed),
 while the &#8220;Default&#8221; color is used for messages which are neither good nor bad.</p>
+<h5>The Workspace page</h5>
+<p>In the Workspace page you can choose whether or not to display close buttons on
+the main tab widget.</p>
       </div>
 
       <div id="footer">

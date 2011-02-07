@@ -51,9 +51,7 @@ Entries beginning with an exclamation mark are ideas which I deem difficult to
 carry out</p>
 <h2>Ruber Core</h2>
 <ul>
-	<li>support for documents without a view</li>
-	<li>support for multiple open project. Requires support for document wihtout
-  a view</li>
+	<li>Support for multiple open projects</li>
 	<li>? Blocking signals. For example, if the user chooses to close a project, then
   chooses not to save one of the file, maybe the project shouldn&#8217;t be closed at
   all. It can be implemented having slots connecting to the signal raising an
@@ -78,9 +76,6 @@ carry out</p>
 	<li>Use icons of different sizes for different tasks</li>
 	<li>Add a public ExternalProgramRunner#options_for method. It is used by other
   plugins which need to run the program to obtain the options</li>
-	<li>Make the output widgets not autoscroll unless the scroll bar is at the end. This
-  would allow the user to look at a certain line of output while other text is
-  being added</li>
 	<li>!Do something so that saving a YamlOptionBackend is an atomic action (this means
   creating a temp file, writing to it then copying on the actual file. There might
   be permission problems)</li>
@@ -123,11 +118,9 @@ carry out</p>
 	<li>Add an entry displaying the number of rows in the current file to the statusbar</li>
 	<li>In the <code>ProjectFilesList</code> extension, make #scan_project use #file_in_project?, if
   possible</li>
-	<li>!Add the ability to split views (multiple tabs each of which can display more
-  views, not like kate does)</li>
 	<li>Add a way to specify the order in which pages should be displayed in the
   configuration dialogs (maybe adding a priority attribute somewhere in the <span class="caps">PSF</span>)</li>
-	<li>Allow sorting tabs by D&amp;D</li>
+	<li>Allow sorting tabs by drag and drop</li>
 	<li>?Per-project recent file list. The behaviour should be very well thought,
   to avoid the mistakes done by kate.</li>
 </ul>
@@ -138,19 +131,12 @@ carry out</p>
 </ul>
 <h3>RSpec plugin</h3>
 <ul>
-	<li>Add horizontal scroll bar and/or word-wrapping to tool widget (maybe this change
-  should be made in the <code>OutputWidget</code> class)</li>
-	<li>Merge the &#8220;Switch to spec&#8221; and &#8220;Switch to file&#8221; actions into a single action,
-  whose effect changes according to the current file</li>
 	<li>Better management of subdirectories for spec files. At least, subdirectories
   of the spec directory should be searched for files. It would be better if one
   could define several spec directories, depending on some pattern.</li>
 </ul>
 <h3>Ruber Development</h3>
 <ul>
-	<li>add a global option for the command line to use to run a script in a terminal,
-  so that users can configure the terminal emulator they like, not just konsole
-  (which should remain the default)</li>
 	<li>!Add a way to specify commands to be run before running the current project, so
   that, for example, the user can run rake to make sure that files which are automatically
   generated (for example, ruby files from .ui files) are up-to-date</li>
@@ -172,14 +158,8 @@ carry out</p>
 </ul>
 <h3>Command</h3>
 <ul>
-	<li>!Add an optional output widget to the command tool widget which displays standard
-  output/standard error. This would require changing $stdout and $stdin when the
-  optional widget is turned on and resetting them to the usual values when it&#8217;s
-  turned off. This is needed to see messages displayed by the command rather than
-  having them sent to the shell</li>
-	<li>Replace the tool widget with an irb-based tool widget, if possible</li>
+	<li>!Replace the tool widget with an irb-based tool widget, if possible</li>
 </ul>
-
 <h2>New plugins</h2>
 <h3>Quick Open File</h3>
 <ul>
@@ -203,7 +183,7 @@ and git, and maybe a generic <span class="caps">VCS</span> plugin</p>
 <h3>Debugger plugin</h3></div></div>
     
     <div id="footer">
-  Generated on Tue Jan 11 14:50:40 2011 by 
+  Generated on Mon Feb  7 15:08:58 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.4 (ruby-1.9.2).
 </div>

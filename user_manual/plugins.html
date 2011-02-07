@@ -26,6 +26,8 @@
         <div class="announce">
           <h2>Latest news:</h2>
           
+            <p><a href="../news.html#Ruber-0-0-8-released-2011-02-07">Ruber 0.0.8 released</a></p>
+          
             <p><a href="../news.html#Ruber-0-0-7-released-2011-01-12">Ruber 0.0.7 released</a></p>
           
             <p><a href="../news.html#Ruber-0-0-6-released-2010-11-14">Ruber 0.0.6 released</a></p>
@@ -36,16 +38,15 @@
           
             <p><a href="../news.html#Ruber-0-0-2-released-2010-11-03">Ruber 0.0.2 released</a></p>
           
-            <p><a href="../news.html#Ruber-0-0-1-released-2010-10-29">Ruber 0.0.1 released</a></p>
-          
         </div>
       </div>
 
       <div id="contentwide">
         <h2>User manual &#8211; Plugins</h2>
 <h3>Availlable plugins</h3>
-<p>Here&#8217;s a list of the plugins included with Ruber<sup class="footnote" id="fnr1"><a href="#fn1">1</a></sup></p>
+<p>Here&#8217;s a list of the plugins included with current version of Ruber<sup class="footnote" id="fnr1"><a href="#fn1">1</a></sup></p>
 <ul>
+	<li><a href="#autoend">auto end</a></li>
 	<li><a href="#autosave">autosave</a></li>
 	<li><a href="#command">command</a></li>
 	<li><a href="#find-in-files">find in files</a></li>
@@ -55,6 +56,30 @@
 	<li><a href="#ruby-development">ruby development</a></li>
 	<li><a href="#state">state</a></li>
 	<li><a href="#syntax-checker">syntax checker</a></li>
+</ul>
+<h3 id="autoend">Auto end</h3>
+<p>The auto end plugin automatically inserts an <code>end</code> keyword when you type a newline
+(pressing Enter) after a line which contains a keyword starting a construct which
+requires a matching <code>end</code>. The recognized keywords are:</p>
+<ul>
+	<li><code>module</code></li>
+	<li><code>class</code></li>
+	<li><code>def</code></li>
+	<li><code>if</code></li>
+	<li><code>do</code></li>
+	<li><code>begin</code></li>
+</ul>
+<p>It also adds an <code>=end</code> after a line starting a block comment (<code>=begin</code>).</p>
+<p>The algorithm currently used by this plugin is very basic &#8211; it just checks whether
+the line matches a series of regexps, inserting the end keyword if it matches one.
+In particular, this has two consequences:</p>
+<ul>
+	<li>the plugin can&#8217;t understand whether a keyword is in the middle of a block
+  comment or a string and will always insert an end after the current line.</li>
+	<li>the plugin can&#8217;t know whether an <code>end</code> for the keyword in the current line already
+  exists. To lessen the risk of duplicate @end@s, the plugin checks the indentation
+  after the following line and doesn&#8217;t insert the <code>end</code> if it is greater than the
+  indentation in the current line.</li>
 </ul>
 <h3 id="autosave">Autosave</h3>
 <p>The autosave plugin is used by other plugins to automatically save some files
@@ -76,8 +101,10 @@ in the text editor is executed in the Ruber environment (in the context of the
 toplevel object) by using <code>eval</code>. All exceptions produced by your code are caught
 and displayed in a message box, so Ruber won&#8217;t crash even if your code here is
 incorrect.</p>
-<p>This plugin gives you access to all of Ruber power, just as if you were writing a
-new plugin.</p>
+<p>The tool widget also contains a Show Output button, which toggles the visibility
+of another text widget (this one read-only). When you execute the code in the
+text editor, all output to standard output and stadard error will be displayed
+here instead.</p>
 <h3 id="find-in-files">Find in files</h3>
 <p>The Find in files plugin is a frontend for <a href="http://rak.rubyforge.org">rak</a>, which,
 according to the author, is <i>a grep replacement in pure Ruby</i> which 
@@ -238,9 +265,8 @@ Double clicking on the task name or shortcut, you can edit them.</p>
 <h3 id="rspec">RSpec</h3>
 <p>The RSpec plugin allows to run rspec examples from within Ruber. It will only work
 from within a project.</p>
-<p>This plugin should work with both RSpec 1 and RSpec 2 (although the former is more
-tested). It will use RSpec 2 if <code>`which rspec`</code> returns finds something and RSpec
-1 otherwise.</p>
+<p>This plugin should work with both RSpec 1 and RSpec 2. It will use RSpec 2 if
+<code>`which rspec`</code> returns finds something and RSpec 1 otherwise.</p>
 <p>The <code>Ruby/Tests</code> menu contains entries to run RSpec for the current project, the
 current file or the current line.</p>
 <p>To run the spec in the current line, open the spec file, move the cursor to the
@@ -261,10 +287,21 @@ before the <code>.rb</code> extension. You can configure how to associate a file
 corresponding spec in the RSpec page of the project configuration dialog by changing
 the contents of the Pattern line edit (use %f to indicate the base name of the
 file).</p>
-<p>When you&#8217;re working on a file, you can quickly switch to the corresponding spec
-file by using the <code>Ruby/Tests/Switch to Spec</code> menu entry. When you&#8217;re working on
-a spec, you can switch to the corresponding code file by using the <code>Ruby/Tests/Switch to Spec</code>
-menu entry. Both entries associate code files and spec files as described above.</p>
+<p>The <code>Ruby/Tests/Switch to Spec</code> menu entry will open the spec file corresponding
+to the current file. If you&#8217;re working on a spec file, instead, the name of the
+entry will become <code>Switch to Code</code> and will open an editor with the code file
+associated with the spec file.</p>
+<p>In the RSpec page of the Ruber configuration dialog you can change two behaviour
+of the plugin:</p>
+<ul>
+	<li>you can decide whether the editor for the file opened by the <code>Switch to Spec</code>
+  menu entry will be opened in a new tab or by splitting the current editor (so
+  that you can have the spec and code file side to side)</li>
+	<li>you can decide whether or not to expand the entries corresponding to failed
+  examples in the tool widget. You can choose between to expand no entry, only
+  the first one or all of them (the latter could be slow if there are many failed
+  examples)</li>
+</ul>
 <p>From the RSpec page of the project configuration dialog, you can change several
 other parameters: the options to pass ruby when running rspec, the path of the
 RSpec executable to use, options to be passed to RSpec and whether to instruct

@@ -655,6 +655,38 @@ with the main window <span class="caps">GUI</span>) or <strong>nil</strong> if n
       <span class="summary_desc"><div class='inline'><p>Signal emitted whenever the active editor changes.</p></div></span>
     </li>
   
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#view_created-signalcode" title="view_created (signalcode)">- <strong>view_created</strong>(QWidget* editor) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted whenever an editor is created.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#active_editor_changed-signalcode" title="active_editor_changed (signalcode)">- <strong>active_editor_changed</strong>(QWidget* editor) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted whenever the active editor changes.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#view_created-signalcode" title="view_created (signalcode)">- <strong>view_created</strong>(QWidget* editor) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted whenever an editor is created.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#active_editor_changed-signalcode" title="active_editor_changed (signalcode)">- <strong>active_editor_changed</strong>(QWidget* editor) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted whenever the active editor changes.</p></div></span>
+    </li>
+  
   </ul>
 
 
@@ -1462,7 +1494,8 @@ tab. If a new view is created in a new tab, this document is closed</p></div>
 127
 128
 129
-130</pre>
+130
+131</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/main_window/view_manager.rb', line 107</span>
@@ -1476,7 +1509,8 @@ tab. If a new view is created in a new tab, this document is closed</p></div>
       <span class='id view'>view</span> <span class='op'>=</span> <span class='ivar'>@solver</span><span class='period'>.</span><span class='id place_editor'>place_editor</span> <span class='id hints'>hints</span>
       <span class='kw'>if</span> <span class='id view'>view</span> 
         <span class='id dir'>dir</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='period'>.</span><span class='id const_get'>const_get</span> <span class='id hints'>hints</span><span class='lbracket'>[</span><span class='symbol'>:split</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='period'>.</span><span class='id capitalize'>capitalize</span>
-        <span class='id view'>view</span><span class='period'>.</span><span class='id parent'>parent</span><span class='period'>.</span><span class='id split'>split</span> <span class='id view'>view</span><span class='comma'>,</span> <span class='id editor'>editor</span><span class='comma'>,</span> <span class='id dir'>dir</span>
+<span class='comment'>#               tab(view).split view, editor, dir
+</span>        <span class='id view'>view</span><span class='period'>.</span><span class='id parent'>parent</span><span class='period'>.</span><span class='id split'>split</span> <span class='id view'>view</span><span class='comma'>,</span> <span class='id editor'>editor</span><span class='comma'>,</span> <span class='id dir'>dir</span>
       <span class='kw'>else</span> 
         <span class='kw'>if</span> <span class='id hints'>hints</span><span class='lbracket'>[</span><span class='symbol'>:close_starting_document</span><span class='rbracket'>]</span>
           <span class='kw'>if</span> <span class='ivar'>@tabs</span><span class='period'>.</span><span class='id count'>count</span> <span class='op'>==</span> <span class='int'>1</span> <span class='kw'>and</span> <span class='ivar'>@tabs</span><span class='period'>.</span><span class='id widget'>widget</span><span class='lparen'>(</span><span class='int'>0</span><span class='rparen'>)</span><span class='period'>.</span><span class='id single_view?'>single_view?</span>
@@ -2408,7 +2442,8 @@ associated with it would be included in the tooltip if it weren&#8217;t specifie
 </p><div class="docstring">
   <div class="discussion">
     <p>Slot called whenever a view is closed</p>
-<p>It deactivates the view (if it was active) and preforms some cleanup.</p>
+<p>It deactivates the view (if it was active), performs some cleanup and gives focus
+to the editor which had focus before (if any).</p>
 
   </div>
 </div>
@@ -2456,15 +2491,37 @@ associated with it would be included in the tooltip if it weren&#8217;t specifie
 344
 345
 346
-347</pre>
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/main_window/view_manager.rb', line 342</span>
 
 <span class='kw'>def</span> <span class='id view_closing'>view_closing</span> <span class='id view'>view</span>
+  <span class='id view_tab'>view_tab</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id tab'>tab</span><span class='lparen'>(</span><span class='id view'>view</span><span class='rparen'>)</span>
+  <span class='id has_focus'>has_focus</span> <span class='op'>=</span> <span class='id view_tab'>view_tab</span><span class='period'>.</span><span class='id is_active_window'>is_active_window</span> <span class='kw'>if</span> <span class='id view_tab'>view_tab</span>
+  <span class='kw'>if</span> <span class='id has_focus'>has_focus</span>
+    <span class='id views'>views</span> <span class='op'>=</span> <span class='id view_tab'>view_tab</span><span class='period'>.</span><span class='id to_a'>to_a</span>
+    <span class='id idx'>idx</span> <span class='op'>=</span> <span class='id views'>views</span><span class='period'>.</span><span class='id index'>index</span><span class='lparen'>(</span><span class='id view'>view</span><span class='rparen'>)</span>
+    <span class='id new_view'>new_view</span> <span class='op'>=</span> <span class='id views'>views</span><span class='lbracket'>[</span><span class='id idx'>idx</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id views'>views</span><span class='lbracket'>[</span><span class='id idx'>idx</span><span class='op'>+</span><span class='int'>1</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
   <span class='ivar'>@activation_order</span><span class='period'>.</span><span class='id delete'>delete</span> <span class='id view'>view</span>
   <span class='id disconnect'>disconnect</span> <span class='id view'>view</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>focus_in(QWidget*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>focus_in_view(QWidget*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
   <span class='id deactivate_editor'>deactivate_editor</span> <span class='id view'>view</span>
+  <span class='kw'>if</span> <span class='id new_view'>new_view</span>
+    <span class='id make_editor_active'>make_editor_active</span> <span class='id new_view'>new_view</span>
+    <span class='id new_view'>new_view</span><span class='period'>.</span><span class='id set_focus'>set_focus</span>
+  <span class='kw'>end</span>
   <span class='kw'>nil</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -2842,12 +2899,148 @@ become active</p></div>
 </div>
 </div>
     
+      <div class="method_details ">
+  <p class="signature " id="view_created-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>view_created</strong>(QWidget* editor) 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted whenever an editor is created</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>)</span>
+      
+      
+        <span class='name'>editor</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the newly created editor</p></div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="active_editor_changed-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>active_editor_changed</strong>(QWidget* editor) 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted whenever the active editor changes</p>
+<p>This signal is emitted <em>after</em> the editor has become active</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+        <span class='name'>editor</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the editor which become active or <strong>nil</strong> if no editor
+become active</p></div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="view_created-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>view_created</strong>(QWidget* editor) 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted whenever an editor is created</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>)</span>
+      
+      
+        <span class='name'>editor</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the newly created editor</p></div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="active_editor_changed-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>active_editor_changed</strong>(QWidget* editor) 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted whenever the active editor changes</p>
+<p>This signal is emitted <em>after</em> the editor has become active</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+        <span class='name'>editor</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the editor which become active or <strong>nil</strong> if no editor
+become active</p></div>
+      
+    </li>
+  
+</ul>
+
+</div>
+</div>
+    
   </div>
 
 </div>
     
     <div id="footer">
-  Generated on Tue Jan 11 14:49:32 2011 by 
+  Generated on Mon Feb  7 15:09:14 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.4 (ruby-1.9.2).
 </div>

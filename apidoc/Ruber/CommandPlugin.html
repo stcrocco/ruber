@@ -59,7 +59,9 @@
   
   
     <dt class="r1 last">Defined in:</dt>
-    <dd class="r1 last">plugins/command/command.rb</dd>
+    <dd class="r1 last">plugins/command/command.rb<span class="defines">,<br />
+  plugins/command/output.rb,<br /> plugins/command/command.rb</span>
+</dd>
   
 </dl>
 <div class="clear"></div>
@@ -71,7 +73,9 @@ thus effectively giving Ruber commands (this is different from the Ruby Runner
 plugin, which simply starts a new ruby interpreter and runs a script in it).</p>
 <p>This plugin doesn&#8217;t provide a plugin class but just a tool widget where the user
 can enter the code and a button to execute it. It also doesn&#8217;t provide any
-<span class="caps">API</span> for the feature.</p>
+<span class="caps">API</span> for the feature. Beside the editor widget, the plugin also provides an output
+widget, where the text written to standard output and standard error by the code
+executed will be displayed.</p>
 <p><strong>Note:</strong> the ruby code is executed in the top level context. Any exception
 raised by the code won&#8217;t cause Ruber to crash, but will be displayed in a dialog.</p>
 
@@ -89,7 +93,7 @@ raised by the code won&#8217;t cause Ruber to crash, but will be displayed in a 
     
    
     
-      <strong class="classes">Classes:</strong> <span class='object_link'><a href="CommandPlugin/ToolWidget.html" title="Ruber::CommandPlugin::ToolWidget (class)">ToolWidget</a></span>
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="CommandPlugin/Output.html" title="Ruber::CommandPlugin::Output (class)">Output</a></span>, <span class='object_link'><a href="CommandPlugin/ToolWidget.html" title="Ruber::CommandPlugin::ToolWidget (class)">ToolWidget</a></span>
     
   
 </p>
@@ -101,7 +105,7 @@ raised by the code won&#8217;t cause Ruber to crash, but will be displayed in a 
 </div>
     
     <div id="footer">
-  Generated on Tue Jan 11 14:26:46 2011 by 
+  Generated on Mon Feb  7 15:09:05 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.4 (ruby-1.9.2).
 </div>

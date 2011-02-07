@@ -76,7 +76,9 @@
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">lib/ruber/output_widget.rb</dd>
+    <dd class="r2 last">lib/ruber/output_widget.rb<span class="defines">,<br />
+  lib/ruber/output_widget.rb,<br /> lib/ruber/output_widget.rb,<br /> lib/ruber/output_widget.rb,<br /> lib/ruber/output_widget.rb,<br /> lib/ruber/output_widget.rb,<br /> lib/ruber/output_widget.rb,<br /> lib/ruber/output_widget.rb,<br /> lib/ruber/output_widget.rb,<br /> lib/ruber/output_widget.rb,<br /> lib/ruber/output_widget.rb,<br /> lib/ruber/output_widget.rb,<br /> lib/ruber/output_widget.rb,<br /> lib/ruber/output_widget.rb,<br /> lib/ruber/output_widget.rb,<br /> lib/ruber/output_widget.rb,<br /> lib/ruber/output_widget.rb,<br /> lib/ruber/output_widget.rb</span>
+</dd>
   
 </dl>
 <div class="clear"></div>
@@ -109,7 +111,7 @@
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#insert_after-instance_method" title="#insert_after (instance method)">- (Object) <strong>insert_after</strong>(entry, *names) </a>
+      <a href="#insert_after-instance_method" title="#insert_after (instance method)">- (self) <strong>insert_after</strong>(entry, *names) </a>
     
 
     
@@ -122,7 +124,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>:call-seq: list.insert_after entry, name1 [, name2, &#8230;].</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Inserts one or more actions after a given one.</p></div></span>
   
 </li>
 
@@ -131,7 +133,7 @@
 <li class="private ">
   <span class="summary_signature">
     
-      <a href="#insert_after_or_before-instance_method" title="#insert_after_or_before (instance method)">- (Object) <strong>insert_after_or_before</strong>(entry, where, names) </a>
+      <a href="#insert_after_or_before-instance_method" title="#insert_after_or_before (instance method)">- (self) <strong>insert_after_or_before</strong>(entry, where, names) </a>
     
 
     
@@ -144,8 +146,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Helper method used by <tt>insert_after</tt> and <tt>insert_before</tt> which performs
-the actual insertion of the elements.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Helper method used by <span class='object_link'><a href="#insert_after-instance_method" title="Ruber::OutputWidget::ActionList#insert_after (method)">#insert_after</a></span> and <span class='object_link'><a href="#insert_before-instance_method" title="Ruber::OutputWidget::ActionList#insert_before (method)">#insert_before</a></span>.</p></div></span>
   
 </li>
 
@@ -154,7 +155,7 @@ the actual insertion of the elements.</p></div></span>
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#insert_before-instance_method" title="#insert_before (instance method)">- (Object) <strong>insert_before</strong>(entry, *names) </a>
+      <a href="#insert_before-instance_method" title="#insert_before (instance method)">- (self) <strong>insert_before</strong>(entry, *names) </a>
     
 
     
@@ -167,7 +168,7 @@ the actual insertion of the elements.</p></div></span>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>:call-seq: list.insert_before entry, name1 [, name2, &#8230;].</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Inserts one or more actions before a given one.</p></div></span>
   
 </li>
 
@@ -200,25 +201,68 @@ the actual insertion of the elements.</p></div></span>
       <div class="method_details first">
   <p class="signature first" id="insert_after-instance_method">
   
-    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>insert_after</strong>(entry, *names) 
+    - (<tt>self</tt>) <strong>insert_after</strong>(entry, *names) 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>:call-seq: list.insert_after entry, name1 [, name2, &#8230;]</p>
-Adds one or more actions after a given one
-=Arguments
-<em>entry</em>:: the name of the action after which to insert the new ones. If this
-an integer <em>n</em>, then the actions will be added after the _n_th
-separator. If the entry doesn&#8217;t exist, or the number of separators is
-less than <em>n</em>, the new entries will be added at the end of the list
-<em>namei</em>:: the names of the actions to add (or <ins>nil</ins> for separators)
+    <p>Inserts one or more actions after a given one</p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
   
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>)</span>
+      
+      
+        <span class='name'>entry</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the entry after which the new action(s) should
+be inserted. If it&#8217;s a string, the actions will be inserted after the action
+with that name. If it&#8217;s an integer, the new actions will be inserted after
+the action at position <em>entry</em>. If the given entry doesn&#8217;t exist (or it&#8217;s a number
+larger than the size of the array), the new actions will be appended at the  end</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>,nil&gt;</tt>)</span>
+      
+      
+        <span class='name'>names</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the names of the actions to insert. <strong>nil</strong> entries
+represent separator</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>self</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -243,23 +287,84 @@ less than <em>n</em>, the new entries will be added at the end of the list
       <div class="method_details ">
   <p class="signature " id="insert_after_or_before-instance_method">
   
-    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>insert_after_or_before</strong>(entry, where, names)  <span class="extras">(private)</span>
+    - (<tt>self</tt>) <strong>insert_after_or_before</strong>(entry, where, names)  <span class="extras">(private)</span>
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Helper method used by <tt>insert_after</tt> and <tt>insert_before</tt> which performs
-the actual insertion of the elements.</p>
-<p><em>entry</em> has the same meaning as in <tt>insert_after</tt> and <i>insert_before</tt>,
-while <em>names</em> has the same meaning as the optional arguments of those methods.
-<em>where</em> can be <ins>:after</ins> or <ins>:before</ins> and tells whether the new elements should be
-inserted after or before the position.</p>
+    <p>Helper method used by <span class='object_link'><a href="#insert_after-instance_method" title="Ruber::OutputWidget::ActionList#insert_after (method)">#insert_after</a></span> and <span class='object_link'><a href="#insert_before-instance_method" title="Ruber::OutputWidget::ActionList#insert_before (method)">#insert_before</a></span></p>
+<p>This is the method which performs the actual insertion of elements</p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
   
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
+      
+      
+        <span class='name'>where</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>whether the new actions should be inserted before or after
+<em>entry</em>. It can be either <code>:before</code> or <code>:after</code></p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>)</span>
+      
+      
+        <span class='name'>entry</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the entry after which the new action(s) should
+be inserted. If it&#8217;s a string, the actions will be inserted after the action
+with that name. If it&#8217;s an integer, the new actions will be inserted after
+the action at position <em>entry</em>. If the given entry doesn&#8217;t exist (or it&#8217;s a number
+larger than the size of the array), the new actions will be appended at the  end</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>,nil&gt;</tt>)</span>
+      
+      
+        <span class='name'>names</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the names of the actions to insert. <strong>nil</strong> entries
+represent separator</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>self</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -280,7 +385,8 @@ inserted after or before the position.</p>
 1090
 1091
 1092
-1093</pre>
+1093
+1094</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/output_widget.rb', line 1079</span>
@@ -299,6 +405,7 @@ inserted after or before the position.</p>
 </span>  <span class='comment'>#first item should be at position idx, the second at idx+1 and so on. With reverse_each)
 </span>  <span class='comment'>#this happens automatically. The +1 is needed to insert the items after idx
 </span>  <span class='id names'>names</span><span class='period'>.</span><span class='id reverse_each'>reverse_each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id n'>n</span><span class='op'>|</span> <span class='id insert'>insert</span> <span class='id idx'>idx</span><span class='comma'>,</span> <span class='id n'>n</span><span class='rbrace'>}</span>
+  <span class='kw'>self</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -308,25 +415,68 @@ inserted after or before the position.</p>
       <div class="method_details ">
   <p class="signature " id="insert_before-instance_method">
   
-    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>insert_before</strong>(entry, *names) 
+    - (<tt>self</tt>) <strong>insert_before</strong>(entry, *names) 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>:call-seq: list.insert_before entry, name1 [, name2, &#8230;]</p>
-Adds one or more actions before a given one
-=Arguments
-<em>entry</em>:: the name of the action before which to insert the new ones. If this
-an integer <em>n</em>, then the actions will be added before the _n_th
-separator. If the entry doesn&#8217;t exist, or the number of separators is
-less than <em>n</em>, the new entries will be added at the end of the list
-<em>namei</em>:: the names of the actions to add (or <ins>nil</ins> for separators)
+    <p>Inserts one or more actions before a given one</p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
   
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>)</span>
+      
+      
+        <span class='name'>entry</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the entry before which the new action(s) should
+be inserted. If it&#8217;s a string, the actions will be inserted before the action
+with that name. If it&#8217;s an integer, the new actions will be inserted before
+the action at position <em>entry</em>. If the given entry doesn&#8217;t exist (or it&#8217;s a number
+larger than the size of the array), the new actions will be appended at the  end</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>,nil&gt;</tt>)</span>
+      
+      
+        <span class='name'>names</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the names of the actions to insert. <strong>nil</strong> entries
+represent separator</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>self</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -355,7 +505,7 @@ less than <em>n</em>, the new entries will be added at the end of the list
 </div>
     
     <div id="footer">
-  Generated on Tue Jan 11 14:26:47 2011 by 
+  Generated on Mon Feb  7 15:09:08 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.4 (ruby-1.9.2).
 </div>

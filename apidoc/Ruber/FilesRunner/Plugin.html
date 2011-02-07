@@ -1423,7 +1423,7 @@ was started. If the user pressed the Cancel button of the dialog, <strong>nil</s
     <span class='ivar'>@fake_file</span> <span class='op'>=</span> <span class='const'>FakeFileInfo</span><span class='period'>.</span><span class='id new'>new</span> <span class='const'>Tempfile</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>ruby_development</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id url'>url</span>
     <span class='id downloaded'>downloaded</span> <span class='op'>=</span> <span class='const'>KIO</span><span class='op'>::</span><span class='const'>NetAccess</span><span class='period'>.</span><span class='id download'>download</span> <span class='id url'>url</span><span class='comma'>,</span> <span class='ivar'>@fake_file</span><span class='period'>.</span><span class='id file'>file</span><span class='period'>.</span><span class='id path'>path</span><span class='comma'>,</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span>
     <span class='kw'>unless</span> <span class='id downloaded'>downloaded</span>
-      <span class='const'>KDE</span><span class='op'>::</span><span class='const'>MessageBox</span><span class='period'>.</span><span class='id sorry'>sorry</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>NetAccess</span><span class='period'>.</span><span class='id last_error_string'>last_error_string</span>
+      <span class='const'>KDE</span><span class='op'>::</span><span class='const'>MessageBox</span><span class='period'>.</span><span class='id sorry'>sorry</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='const'>KIO</span><span class='op'>::</span><span class='const'>NetAccess</span><span class='period'>.</span><span class='id last_error_string'>last_error_string</span>
       <span class='kw'>return</span>
     <span class='kw'>end</span>
     <span class='id file'>file</span> <span class='op'>=</span> <span class='ivar'>@fake_file</span><span class='period'>.</span><span class='id file'>file</span><span class='period'>.</span><span class='id path'>path</span>
@@ -2203,7 +2203,7 @@ passed to <span class='object_link'><a href="../ExternalProgramPlugin.html#run_p
 </div>
     
     <div id="footer">
-  Generated on Tue Jan 11 14:27:05 2011 by 
+  Generated on Mon Jan 17 11:11:56 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.4 (ruby-1.9.2).
 </div>

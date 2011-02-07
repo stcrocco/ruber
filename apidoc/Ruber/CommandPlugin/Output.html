@@ -1,0 +1,4686 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>Class: Ruber::CommandPlugin::Output</title>
+<link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '../..';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../_index.html">Index (O)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../../Ruber.html" title="Ruber (module)">Ruber</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../CommandPlugin.html" title="Ruber::CommandPlugin (module)">CommandPlugin</a></span></span>
+     &raquo; 
+    <span class="title">Output</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Ruber::CommandPlugin::Output
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName"><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next">Ruber::CommandPlugin::Output</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">plugins/command/output.rb<span class="defines">,<br />
+  plugins/command/output.rb</span>
+</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>Fake IO object for use by the command plugin. Despite the name, it can be used
+to display standard error as well as standard output.</p>
+<p>It displays the text in a <code>Qt::PlainTextEdit</code> using a given color.</p>
+<p>All the methods in this class are implementations of the <span class="caps">API</span> provided by IO.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h3>Examples:</h3>
+    
+      <h4><div class='inline'><p>Typical usage</p></div></h4>
+      <pre class="example code">
+<span class='id old_stdout'>old_stdout</span> <span class='op'>=</span> <span class='gvar'>$stdout</span> <span class='comment'>#store the old standard output to restore it later
+</span><span class='gvar'>$stdout</span> <span class='op'>=</span> <span class='const'>Output</span><span class='period'>.</span><span class='id new'>new</span> <span class='id plain_text_edit'>plain_text_edit</span><span class='comma'>,</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Color</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='const'>Qt</span><span class='period'>.</span><span class='id blue'>blue</span><span class='rparen'>)</span>
+<span class='id puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>hello</span><span class='tstring_end'>&quot;</span></span> <span class='comment'># =&gt; the string &quot;hello&quot; is displayed in the widget
+</span><span class='gvar'>$stdout</span> <span class='op'>=</span> <span class='id old_stout'>old_stout</span> <span class='comment'># restore the old standard output</span></pre>
+    
+  </div>
+
+</div>
+
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#sync-instance_method" title="#sync (instance method)">- (Boolean) <strong>sync</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Whether byffering is disabled or enabled.</p></div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#%3C%3C-instance_method" title="#&lt;&lt; (instance method)">- (Output) <strong>&lt;&lt;</strong>(text) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#&lt;&lt;</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#binmode-instance_method" title="#binmode (instance method)">- (nil) <strong>binmode</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#binmode</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#binmode%3F-instance_method" title="#binmode? (instance method)">- (TrueClass) <strong>binmode?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#binmode?</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#bytes-instance_method" title="#bytes (instance method)">- (Enumerator) <strong>bytes</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#bytes</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#chars-instance_method" title="#chars (instance method)">- (Enumerator) <strong>chars</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#chars</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#close-instance_method" title="#close (instance method)">- (nil) <strong>close</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#close</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#close_on_exec%3D-instance_method" title="#close_on_exec= (instance method)">- (Object) <strong>close_on_exec</strong>(val) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#close_on_exec</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#close_on_exec%3F-instance_method" title="#close_on_exec? (instance method)">- (Boolean) <strong>close_on_exec?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#close_on_exec?</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#close_read-instance_method" title="#close_read (instance method)">- (nil) <strong>close_read</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#close_read</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#close_write-instance_method" title="#close_write (instance method)">- (nil) <strong>close_write</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#close_write</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#closed%3F-instance_method" title="#closed? (instance method)">- (Boolean) <strong>closed?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#closed?</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#each-instance_method" title="#each (instance method)">- (Enumerator) <strong>each</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#each</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#each_byte-instance_method" title="#each_byte (instance method)">- (Enumerator) <strong>each_byte</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#each_byte</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#each_char-instance_method" title="#each_char (instance method)">- (Enumerator) <strong>each_char</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#each_char</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#each_line-instance_method" title="#each_line (instance method)">- (Enumerator) <strong>each_line</strong>(sep) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#each</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#eof-instance_method" title="#eof (instance method)">- (nil) <strong>eof</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#eof</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#eof%3F-instance_method" title="#eof? (instance method)">- (nil) <strong>eof?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#eof?</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#external_encoding-instance_method" title="#external_encoding (instance method)">- (nil) <strong>external_encoding</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#external_encoding</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#fileno-instance_method" title="#fileno (instance method)">- (Integer) <strong>fileno</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#fileno</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#flush-instance_method" title="#flush (instance method)">- (Output) <strong>flush</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#flush</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#getbyte-instance_method" title="#getbyte (instance method)">- (nil) <strong>getbyte</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#getbyte</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#getc-instance_method" title="#getc (instance method)">- (nil) <strong>getc</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#getc</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#gets-instance_method" title="#gets (instance method)">- (nil) <strong>gets</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#gets</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (Output) <strong>initialize</strong>(widget, color, fileno = 1) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>A new instance of Output.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#internal_encoding-instance_method" title="#internal_encoding (instance method)">- (nil) <strong>internal_encoding</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#internal_encoding</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#isatty-instance_method" title="#isatty (instance method)">- (false) <strong>isatty</strong> </a>
+    
+
+    
+      (also: #tty?)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#isatty</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#lineno-instance_method" title="#lineno (instance method)">- (nil) <strong>lineno</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#lineno</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#lineno%3D-instance_method" title="#lineno= (instance method)">- (nil) <strong>lineno</strong>(val) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#lineno=</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#lines-instance_method" title="#lines (instance method)">- (Enumerator) <strong>lines</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#lines</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#pid-instance_method" title="#pid (instance method)">- (nil) <strong>pid</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#pid</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#print-instance_method" title="#print (instance method)">- (nil) <strong>print</strong>(*args) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#print</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#printf-instance_method" title="#printf (instance method)">- (nil) <strong>printf</strong>(format_string, *args) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#printf</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#putc-instance_method" title="#putc (instance method)">- (Object) <strong>putc</strong>(obj) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#putc</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#puts-instance_method" title="#puts (instance method)">- (nil) <strong>puts</strong>(*args) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#puts</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#read-instance_method" title="#read (instance method)">- (nil) <strong>read</strong>(length, buffer = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#read</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#read_nonblock-instance_method" title="#read_nonblock (instance method)">- (nil) <strong>read_nonblock</strong>(max, outbuf = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#read_nonblock</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#readbyte-instance_method" title="#readbyte (instance method)">- (nil) <strong>readbyte</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#readbyte</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#readchar-instance_method" title="#readchar (instance method)">- (nil) <strong>readchar</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#readchar</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#readline-instance_method" title="#readline (instance method)">- (nil) <strong>readline</strong>(sep, limit) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#readline</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#readlines-instance_method" title="#readlines (instance method)">- (nil) <strong>readlines</strong>(sep, limit) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#readlines</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#readpartial-instance_method" title="#readpartial (instance method)">- (nil) <strong>readpartial</strong>(maxlen, outbuf = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#readpartial</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#reopen-instance_method" title="#reopen (instance method)">- (nil) <strong>reopen</strong>(arg1, arg2 = 'r'
+) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#reopen</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#set_encoding-instance_method" title="#set_encoding (instance method)">- (Object) <strong>set_encoding</strong>(*args) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#set_encoding</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#stat-instance_method" title="#stat (instance method)">- (nil) <strong>stat</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#stat</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#sysread-instance_method" title="#sysread (instance method)">- (nil) <strong>sysread</strong>(num, outbuf = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#sysread</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#to_io-instance_method" title="#to_io (instance method)">- (Output) <strong>to_io</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#to_io</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ungetbyte-instance_method" title="#ungetbyte (instance method)">- (nil) <strong>ungetbyte</strong>(arg) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#ungetbyte</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ungetc-instance_method" title="#ungetc (instance method)">- (nil) <strong>ungetc</strong>(str) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#ungetc</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#write-instance_method" title="#write (instance method)">- (Integer) <strong>write</strong>(obj) </a>
+    
+
+    
+      (also: #syswrite, #write_nonblock)
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>As <code>IO#write</code>.</p></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+
+
+
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::CommandPlugin::Output (class)">Output</a></span></tt>) <strong>initialize</strong>(widget, color, fileno = 1) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>A new instance of Output</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>Qt::PlainTextEdit</tt>)</span>
+      
+      
+        <span class='name'>widget</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the widget to display the output into</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Qt/Color.html" title="Qt::Color (class)">Qt::Color</a></span></tt>)</span>
+      
+      
+        <span class='name'>color</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the color to use for the text</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <span class='name'>fileno</span>
+      
+      
+        <em class="default">(defaults to: <tt>1</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>the number that the <span class='object_link'><a href="#fileno-instance_method" title="Ruber::CommandPlugin::Output#fileno (method)">#fileno</a></span> method should return</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+46
+47
+48
+49
+50
+51
+52
+53</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 46</span>
+
+<span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id widget'>widget</span><span class='comma'>,</span> <span class='id color'>color</span><span class='comma'>,</span> <span class='id fileno'>fileno</span> <span class='op'>=</span> <span class='int'>1</span>
+  <span class='ivar'>@widget</span> <span class='op'>=</span> <span class='id widget'>widget</span>
+  <span class='ivar'>@close_on_exec</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='ivar'>@closed</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='ivar'>@sync</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='ivar'>@brush</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Brush</span><span class='period'>.</span><span class='id new'>new</span> <span class='id color'>color</span>
+  <span class='ivar'>@fileno</span> <span class='op'>=</span> <span class='id fileno'>fileno</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id="sync=-instance_method"></span>
+      <span id="sync-instance_method"></span>
+      <div class="method_details first">
+  <p class="signature first" id="sync-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>sync</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Whether byffering is disabled or enabled. This class doesn&#8217;t buffer
+output, so this makes no difference. It&#8217;s only provided for compatibility with
+<code>IO</code> <span class="caps">API</span></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>whether byffering is disabled or enabled. This class doesn&#8217;t buffer
+output, so this makes no difference. It&#8217;s only provided for compatibility with
+<code>IO</code> <span class="caps">API</span></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+59
+60
+61</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 59</span>
+
+<span class='kw'>def</span> <span class='id sync'>sync</span>
+  <span class='ivar'>@sync</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="<<-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::CommandPlugin::Output (class)">Output</a></span></tt>) <strong>&lt;&lt;</strong>(text) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#&lt;&lt;</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Ruber::CommandPlugin::Output (class)">Output</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>self</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+66
+67
+68
+69</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 66</span>
+
+<span class='kw'>def</span> <span class='op'>&lt;&lt;</span> <span class='id text'>text</span>
+  <span class='id write'>write</span> <span class='id text'>text</span>
+  <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="binmode-instance_method">
+  
+    - (<tt>nil</tt>) <strong>binmode</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#binmode</code></p>
+<p>This method doesn&#8217;t actually do anything. It&#8217;s just for compatibility with the <code>IO</code>
+<span class="caps">API</span></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+78
+79</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 78</span>
+
+<span class='kw'>def</span> <span class='id binmode'>binmode</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="binmode?-instance_method">
+  
+    - (<tt>TrueClass</tt>) <strong>binmode?</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#binmode?</code></p>
+<p>This method always returns <strong>true</strong>. It&#8217;s just for compatibility with the <code>IO</code>
+<span class="caps">API</span></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>TrueClass</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><strong>true</strong></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+88
+89
+90</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 88</span>
+
+<span class='kw'>def</span> <span class='id binmode?'>binmode?</span>
+  <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="bytes-instance_method">
+  
+    - (<tt>Enumerator</tt>) <strong>bytes</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#bytes</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Enumerator</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>an enumerator which calls <span class='object_link'><a href="#each_byte-instance_method" title="Ruber::CommandPlugin::Output#each_byte (method)">#each_byte</a></span></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+97
+98
+99</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 97</span>
+
+<span class='kw'>def</span> <span class='id bytes'>bytes</span>
+  <span class='id each_byte'>each_byte</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="chars-instance_method">
+  
+    - (<tt>Enumerator</tt>) <strong>chars</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#chars</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Enumerator</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>an enumerator which calls <span class='object_link'><a href="#each_char-instance_method" title="Ruber::CommandPlugin::Output#each_char (method)">#each_char</a></span></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+107
+108
+109</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 107</span>
+
+<span class='kw'>def</span> <span class='id chars'>chars</span>
+  <span class='id each_char'>each_char</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="close-instance_method">
+  
+    - (<tt>nil</tt>) <strong>close</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#close</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+117
+118
+119
+120</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 117</span>
+
+<span class='kw'>def</span> <span class='id close'>close</span>
+  <span class='ivar'>@closed</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="close_on_exec=-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>close_on_exec=</strong>(val) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#close_on_exec</code></p>
+<p>This method does nothing. It&#8217;s only for compatibility with <code>IO</code> <span class="caps">API</span></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>)</span>
+      
+      
+        <span class='name'>val</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the new value</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><em>val</em></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+128
+129
+130</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 128</span>
+
+<span class='kw'>def</span> <span class='id close_on_exec='>close_on_exec=</span> <span class='id val'>val</span>
+  <span class='ivar'>@close_on_exec</span> <span class='op'>=</span> <span class='id val'>val</span><span class='period'>.</span><span class='id to_bool'>to_bool</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="close_on_exec?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>close_on_exec?</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#close_on_exec?</code></p>
+<p><span class='object_link'><a href="#close_on_exec%3D-instance_method" title="Ruber::CommandPlugin::Output#close_on_exec= (method)">#close_on_exec=</a></span> has no influence on this class, so the value returned here is
+meaningless. It&#8217;s only provided for compatibility with <code>IO</code> <span class="caps">API</span></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>whether close on exec is enabled or not. Nothing changes in either
+case</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+140
+141
+142</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 140</span>
+
+<span class='kw'>def</span> <span class='id close_on_exec?'>close_on_exec?</span>
+  <span class='ivar'>@close_on_exec</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="close_read-instance_method">
+  
+    - (<tt>nil</tt>) <strong>close_read</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#close_read</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'>(<tt>IOError</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>always as this class isn&#8217;t open for reading</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+150
+151
+152</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 150</span>
+
+<span class='kw'>def</span> <span class='id close_read'>close_read</span>
+  <span class='id raise'>raise</span> <span class='const'>IOError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>closing non-duplex IO for reading</span><span class='tstring_end'>'</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="close_write-instance_method">
+  
+    - (<tt>nil</tt>) <strong>close_write</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#close_write</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+160
+161
+162
+163</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 160</span>
+
+<span class='kw'>def</span> <span class='id close_write'>close_write</span>
+  <span class='ivar'>@closed</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="closed?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>closed?</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#closed?</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>whether the stream is closed or not</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+170
+171
+172</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 170</span>
+
+<span class='kw'>def</span> <span class='id closed?'>closed?</span>
+  <span class='ivar'>@closed</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="each-instance_method">
+  
+    - (<tt>Enumerator</tt>) <strong>each</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#each</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Enumerator</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>an enumerator which calls <span class='object_link'><a href="#each-instance_method" title="Ruber::CommandPlugin::Output#each (method)">#each</a></span> when called without a block</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'>(<tt>IOError</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>when called with a block because the stream is not open for reading</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+180
+181
+182
+183</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 180</span>
+
+<span class='kw'>def</span> <span class='id each'>each</span>
+  <span class='id raise'>raise</span> <span class='const'>IOError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>not opened for reading</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id block_given?'>block_given?</span>
+  <span class='id to_enum'>to_enum</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="each_byte-instance_method">
+  
+    - (<tt>Enumerator</tt>) <strong>each_byte</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#each_byte</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Enumerator</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>an enumerator which calls <span class='object_link'><a href="#each_byte-instance_method" title="Ruber::CommandPlugin::Output#each_byte (method)">#each_byte</a></span> when called without a block</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'>(<tt>IOError</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>when called with a block because the stream is not open for reading</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+191
+192
+193
+194</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 191</span>
+
+<span class='kw'>def</span> <span class='id each_byte'>each_byte</span>
+  <span class='id raise'>raise</span> <span class='const'>IOError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>not opened for reading</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id block_given?'>block_given?</span>
+  <span class='id to_enum'>to_enum</span> <span class='symbol'>:each_byte</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="each_char-instance_method">
+  
+    - (<tt>Enumerator</tt>) <strong>each_char</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#each_char</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Enumerator</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>an enumerator which calls <span class='object_link'><a href="#each_char-instance_method" title="Ruber::CommandPlugin::Output#each_char (method)">#each_char</a></span> when called without a block</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'>(<tt>IOError</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>when called with a block because the stream is not open for reading</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+202
+203
+204
+205</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 202</span>
+
+<span class='kw'>def</span> <span class='id each_char'>each_char</span>
+  <span class='id raise'>raise</span> <span class='const'>IOError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>not opened for reading</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id block_given?'>block_given?</span>
+  <span class='id to_enum'>to_enum</span> <span class='symbol'>:each_char</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="each_line-instance_method">
+  
+    - (<tt>Enumerator</tt>) <strong>each_line</strong>(sep) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#each</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Enumerator</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>an enumerator which calls <span class='object_link'><a href="#each_line-instance_method" title="Ruber::CommandPlugin::Output#each_line (method)">#each_line</a></span> when called without a block</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'>(<tt>IOError</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>when called with a block because the stream is not open for reading</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+213
+214
+215
+216</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 213</span>
+
+<span class='kw'>def</span> <span class='id each_line'>each_line</span> <span class='id sep'>sep</span>
+  <span class='id raise'>raise</span> <span class='const'>IOError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>not opened for reading</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id block_given?'>block_given?</span>
+  <span class='id to_enum'>to_enum</span> <span class='symbol'>:each_line</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="eof-instance_method">
+  
+    - (<tt>nil</tt>) <strong>eof</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#eof</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'>(<tt>IOError</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>always because the stream is not open for reading</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+224
+225
+226</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 224</span>
+
+<span class='kw'>def</span> <span class='id eof'>eof</span>
+  <span class='id raise'>raise</span> <span class='const'>IOError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>not opened for reading</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="eof?-instance_method">
+  
+    - (<tt>nil</tt>) <strong>eof?</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#eof?</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'>(<tt>IOError</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>always because the stream is not open for reading</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+234
+235
+236</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 234</span>
+
+<span class='kw'>def</span> <span class='id eof?'>eof?</span>
+  <span class='id raise'>raise</span> <span class='const'>IOError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>not opened for reading</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="external_encoding-instance_method">
+  
+    - (<tt>nil</tt>) <strong>external_encoding</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#external_encoding</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+243
+244
+245</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 243</span>
+
+<span class='kw'>def</span> <span class='id external_encoding'>external_encoding</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="fileno-instance_method">
+  
+    - (<tt>Integer</tt>) <strong>fileno</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#fileno</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the third argument passed to the constructor</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+252
+253
+254</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 252</span>
+
+<span class='kw'>def</span> <span class='id fileno'>fileno</span>
+  <span class='ivar'>@fileno</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="flush-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::CommandPlugin::Output (class)">Output</a></span></tt>) <strong>flush</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#flush</code></p>
+<p>As this class doesn&#8217;t do any buffering, this method does nothing and is only
+provided for compatibility with <code>IO</code> <span class="caps">API</span></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Ruber::CommandPlugin::Output (class)">Output</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><strong>self</strong></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+264
+265
+266</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 264</span>
+
+<span class='kw'>def</span> <span class='id flush'>flush</span>
+  <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="getbyte-instance_method">
+  
+    - (<tt>nil</tt>) <strong>getbyte</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#getbyte</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'>(<tt>IOError</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>always because the stream is not open for reading</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+274
+275
+276</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 274</span>
+
+<span class='kw'>def</span> <span class='id getbyte'>getbyte</span>
+  <span class='id raise'>raise</span> <span class='const'>IOError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>not opened for reading</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="getc-instance_method">
+  
+    - (<tt>nil</tt>) <strong>getc</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#getc</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'>(<tt>IOError</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>always because the stream is not open for reading</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+284
+285
+286</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 284</span>
+
+<span class='kw'>def</span> <span class='id getc'>getc</span>
+  <span class='id raise'>raise</span> <span class='const'>IOError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>not opened for reading</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="gets-instance_method">
+  
+    - (<tt>nil</tt>) <strong>gets</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#gets</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'>(<tt>IOError</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>always because the stream is not open for reading</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+294
+295
+296</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 294</span>
+
+<span class='kw'>def</span> <span class='id gets'>gets</span>
+  <span class='id raise'>raise</span> <span class='const'>IOError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>not opened for reading</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="internal_encoding-instance_method">
+  
+    - (<tt>nil</tt>) <strong>internal_encoding</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#internal_encoding</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+303
+304
+305</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 303</span>
+
+<span class='kw'>def</span> <span class='id internal_encoding'>internal_encoding</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="isatty-instance_method">
+  
+    - (<tt>false</tt>) <strong>isatty</strong> 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='tty?-instance_method'>tty?</span></span>
+    </span>
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#isatty</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>false</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+313
+314
+315</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 313</span>
+
+<span class='kw'>def</span> <span class='id isatty'>isatty</span>
+  <span class='kw'>false</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="lineno-instance_method">
+  
+    - (<tt>nil</tt>) <strong>lineno</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#lineno</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'>(<tt>IOError</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>always because the stream is not open for reading</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+325
+326
+327</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 325</span>
+
+<span class='kw'>def</span> <span class='id lineno'>lineno</span>
+  <span class='id raise'>raise</span> <span class='const'>IOError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>not opened for reading</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="lineno=-instance_method">
+  
+    - (<tt>nil</tt>) <strong>lineno=</strong>(val) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#lineno=</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'>(<tt>IOError</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>always because the stream is not open for reading</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+335
+336
+337</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 335</span>
+
+<span class='kw'>def</span> <span class='id lineno='>lineno=</span> <span class='id val'>val</span>
+  <span class='id raise'>raise</span> <span class='const'>IOError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>not opened for reading</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="lines-instance_method">
+  
+    - (<tt>Enumerator</tt>) <strong>lines</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#lines</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Enumerator</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>an enumerator which calls <span class='object_link'><a href="#each_line-instance_method" title="Ruber::CommandPlugin::Output#each_line (method)">#each_line</a></span></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+344
+345
+346</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 344</span>
+
+<span class='kw'>def</span> <span class='id lines'>lines</span>
+  <span class='id each_line'>each_line</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="pid-instance_method">
+  
+    - (<tt>nil</tt>) <strong>pid</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#pid</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+353
+354
+355</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 353</span>
+
+<span class='kw'>def</span> <span class='id pid'>pid</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="print-instance_method">
+  
+    - (<tt>nil</tt>) <strong>print</strong>(*args) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#print</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span>&gt;</tt>)</span>
+      
+      
+        <span class='name'>args</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the objects to print</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+363
+364
+365
+366
+367
+368
+369</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 363</span>
+
+<span class='kw'>def</span> <span class='id print'>print</span> <span class='op'>*</span><span class='id args'>args</span>
+  <span class='id args'>args</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='gvar'>$_</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id args'>args</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+  <span class='id args'>args</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id a'>a</span><span class='op'>|</span> <span class='id write'>write</span> <span class='id a'>a</span><span class='rbrace'>}</span>
+  <span class='const'>STDOUT</span><span class='period'>.</span><span class='id write'>write</span> <span class='gvar'>$\</span>
+  <span class='id write'>write</span> <span class='gvar'>$\</span> <span class='kw'>if</span> <span class='gvar'>$\</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="printf-instance_method">
+  
+    - (<tt>nil</tt>) <strong>printf</strong>(format_string, *args) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#printf</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>format_string</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the format string. See <code>Kernel.sprintf</code></p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span>&gt;</tt>)</span>
+      
+      
+        <span class='name'>args</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the parameter to substitute in the format string</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+378
+379
+380
+381
+382</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 378</span>
+
+<span class='kw'>def</span> <span class='id printf'>printf</span> <span class='id format_string'>format_string</span><span class='comma'>,</span> <span class='op'>*</span><span class='id args'>args</span>
+  <span class='id str'>str</span> <span class='op'>=</span> <span class='id sprintf'>sprintf</span> <span class='id format_string'>format_string</span><span class='comma'>,</span> <span class='op'>*</span><span class='id args'>args</span>
+  <span class='id write'>write</span> <span class='id str'>str</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="putc-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>putc</strong>(obj) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#putc</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>)</span>
+      
+      
+        <span class='name'>obj</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the object</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>obj</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+390
+391
+392
+393
+394
+395</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 390</span>
+
+<span class='kw'>def</span> <span class='id putc'>putc</span> <span class='id obj'>obj</span>
+  <span class='kw'>if</span> <span class='id obj'>obj</span><span class='period'>.</span><span class='id is_a?'>is_a?</span> <span class='const'>Numeric</span> <span class='kw'>then</span> <span class='id write'>write</span> <span class='id obj'>obj</span><span class='period'>.</span><span class='id floor'>floor</span><span class='period'>.</span><span class='id chr'>chr</span>
+  <span class='kw'>else</span> <span class='id obj'>obj</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='period'>.</span><span class='id each_char'>each_char</span><span class='period'>.</span><span class='id to_a'>to_a</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+  <span class='id obj'>obj</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="puts-instance_method">
+  
+    - (<tt>nil</tt>) <strong>puts</strong>(*args) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#puts</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span>&gt;</tt>)</span>
+      
+      
+        <span class='name'>args</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the objects to write</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+403
+404
+405
+406
+407
+408
+409
+410
+411</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 403</span>
+
+<span class='kw'>def</span> <span class='id puts'>puts</span> <span class='op'>*</span><span class='id args'>args</span>
+  <span class='id args'>args</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span> <span class='kw'>if</span> <span class='id args'>args</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+  <span class='id args'>args</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id a'>a</span><span class='op'>|</span>
+    <span class='id a'>a</span> <span class='op'>=</span> <span class='id a'>a</span><span class='period'>.</span><span class='id to_s'>to_s</span>
+    <span class='id write'>write</span> <span class='id a'>a</span>
+    <span class='id write'>write</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id a'>a</span><span class='period'>.</span><span class='id end_with?'>end_with?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="read-instance_method">
+  
+    - (<tt>nil</tt>) <strong>read</strong>(length, buffer = nil) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#read</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <span class='name'>length</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>unused</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>buffer</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>unused</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'>(<tt>IOError</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>always because the stream is not open for reading</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+421
+422
+423</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 421</span>
+
+<span class='kw'>def</span> <span class='id read'>read</span> <span class='id length'>length</span><span class='comma'>,</span> <span class='id buffer'>buffer</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='id raise'>raise</span> <span class='const'>IOError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>not opened for reading</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="read_nonblock-instance_method">
+  
+    - (<tt>nil</tt>) <strong>read_nonblock</strong>(max, outbuf = nil) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#read_nonblock</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <span class='name'>max</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>unused</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>outbuf</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>unused</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'>(<tt>IOError</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>always because the stream is not open for reading</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+433
+434
+435</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 433</span>
+
+<span class='kw'>def</span> <span class='id read_nonblock'>read_nonblock</span> <span class='id max'>max</span><span class='comma'>,</span> <span class='id outbuf'>outbuf</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='id raise'>raise</span> <span class='const'>IOError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>not opened for reading</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="readbyte-instance_method">
+  
+    - (<tt>nil</tt>) <strong>readbyte</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#readbyte</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'>(<tt>IOError</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>always because the stream is not open for reading</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+443
+444
+445</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 443</span>
+
+<span class='kw'>def</span> <span class='id readbyte'>readbyte</span>
+  <span class='id raise'>raise</span> <span class='const'>IOError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>not opened for reading</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="readchar-instance_method">
+  
+    - (<tt>nil</tt>) <strong>readchar</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#readchar</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'>(<tt>IOError</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>always because the stream is not open for reading</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+453
+454
+455</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 453</span>
+
+<span class='kw'>def</span> <span class='id readchar'>readchar</span>
+  <span class='id raise'>raise</span> <span class='const'>IOError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>not opened for reading</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="readline-instance_method">
+  
+    - (<tt>nil</tt>) <strong>readline</strong>(sep, limit) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#readline</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>sep</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>unused</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <span class='name'>limit</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>unused</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'>(<tt>IOError</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>always because the stream is not open for reading</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+465
+466
+467</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 465</span>
+
+<span class='kw'>def</span> <span class='id readline'>readline</span> <span class='id sep'>sep</span><span class='comma'>,</span> <span class='id limit'>limit</span>
+  <span class='id raise'>raise</span> <span class='const'>IOError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>not opened for reading</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="readlines-instance_method">
+  
+    - (<tt>nil</tt>) <strong>readlines</strong>(sep, limit) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#readlines</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>sep</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>unused</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <span class='name'>limit</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>unused</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'>(<tt>IOError</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>always because the stream is not open for reading</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+477
+478
+479</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 477</span>
+
+<span class='kw'>def</span> <span class='id readlines'>readlines</span> <span class='id sep'>sep</span><span class='comma'>,</span> <span class='id limit'>limit</span>
+  <span class='id raise'>raise</span> <span class='const'>IOError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>not opened for reading</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="readpartial-instance_method">
+  
+    - (<tt>nil</tt>) <strong>readpartial</strong>(maxlen, outbuf = nil) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#readpartial</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <span class='name'>maxlen</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>unused</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>outbuf</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>unused</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'>(<tt>IOError</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>always because the stream is not open for reading</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+489
+490
+491</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 489</span>
+
+<span class='kw'>def</span> <span class='id readpartial'>readpartial</span> <span class='id maxlen'>maxlen</span><span class='comma'>,</span> <span class='id outbuf'>outbuf</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='id raise'>raise</span> <span class='const'>IOError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>not opened for reading</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="reopen-instance_method">
+  
+    - (<tt>nil</tt>) <strong>reopen</strong>(arg1, arg2 = 'r'
+) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#reopen</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>, <tt>IO</tt>)</span>
+      
+      
+        <span class='name'>a</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>path or another IO. Unused</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>the</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>mode. Unused</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'>(<tt>RuntimeError</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>always</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+501
+502
+503</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 501</span>
+
+<span class='kw'>def</span> <span class='id reopen'>reopen</span> <span class='id arg1'>arg1</span><span class='comma'>,</span> <span class='id arg2'>arg2</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>r</span><span class='tstring_end'>'</span></span>
+  <span class='id raise'>raise</span> <span class='const'>RuntimeError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>You can\'t reopen </span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id class'>class</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="set_encoding-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>set_encoding</strong>(*args) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#set_encoding</code></p>
+<p>This method does nothing. It&#8217;s only provided for compatibility with <code>IO</code> <span class="caps">API</span></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span>&gt;</tt>)</span>
+      
+      
+        <span class='name'>args</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the arguments. See <code>IO#set_encoding</code></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+511
+512</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 511</span>
+
+<span class='kw'>def</span> <span class='id set_encoding'>set_encoding</span> <span class='op'>*</span><span class='id args'>args</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="stat-instance_method">
+  
+    - (<tt>nil</tt>) <strong>stat</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#stat</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>as this class isn&#8217;t associated with any file</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+519
+520
+521</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 519</span>
+
+<span class='kw'>def</span> <span class='id stat'>stat</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="sysread-instance_method">
+  
+    - (<tt>nil</tt>) <strong>sysread</strong>(num, outbuf = nil) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#sysread</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <span class='name'>num</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>unused</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>outbuf</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>unused</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'>(<tt>IOError</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>always because the stream is not open for reading</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+531
+532
+533</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 531</span>
+
+<span class='kw'>def</span> <span class='id sysread'>sysread</span> <span class='id num'>num</span><span class='comma'>,</span> <span class='id outbuf'>outbuf</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='id raise'>raise</span> <span class='const'>IOError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>not opened for reading</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="to_io-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::CommandPlugin::Output (class)">Output</a></span></tt>) <strong>to_io</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#to_io</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Ruber::CommandPlugin::Output (class)">Output</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>self</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+540
+541
+542</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 540</span>
+
+<span class='kw'>def</span> <span class='id to_io'>to_io</span>
+  <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="ungetbyte-instance_method">
+  
+    - (<tt>nil</tt>) <strong>ungetbyte</strong>(arg) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#ungetbyte</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>, <tt>Integer</tt>)</span>
+      
+      
+        <span class='name'>arg</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>unused</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'>(<tt>IOError</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>always because the stream is not open for reading</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+551
+552
+553</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 551</span>
+
+<span class='kw'>def</span> <span class='id ungetbyte'>ungetbyte</span> <span class='id arg'>arg</span>
+  <span class='id raise'>raise</span> <span class='const'>IOError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>not opened for reading</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="ungetc-instance_method">
+  
+    - (<tt>nil</tt>) <strong>ungetc</strong>(str) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#ungetc</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>str</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>unused</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'>(<tt>IOError</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>always because the stream is not open for reading</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+562
+563
+564</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 562</span>
+
+<span class='kw'>def</span> <span class='id ungetc'>ungetc</span> <span class='id str'>str</span>
+  <span class='id raise'>raise</span> <span class='const'>IOError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>not opened for reading</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="write-instance_method">
+  
+    - (<tt>Integer</tt>) <strong>write</strong>(obj) 
+  
+
+  
+    <span class="aliases">Also known as:
+    <span class="names"><span id='syswrite-instance_method'>syswrite</span>, <span id='write_nonblock-instance_method'>write_nonblock</span></span>
+    </span>
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>As <code>IO#write</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>)</span>
+      
+      
+        <span class='name'>obj</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the object to write</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the number of written bytes</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'>(<tt>IOError</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>if the stream has been closed</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+573
+574
+575
+576
+577
+578
+579
+580
+581
+582
+583
+584</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/output.rb', line 573</span>
+
+<span class='kw'>def</span> <span class='id write'>write</span> <span class='id obj'>obj</span>
+  <span class='kw'>if</span> <span class='op'>!</span><span class='ivar'>@closed</span>
+    <span class='id cur'>cur</span> <span class='op'>=</span> <span class='ivar'>@widget</span><span class='period'>.</span><span class='id text_cursor'>text_cursor</span>
+    <span class='id cur'>cur</span><span class='period'>.</span><span class='id move_position'>move_position</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>TextCursor</span><span class='op'>::</span><span class='const'>End</span>
+    <span class='id text'>text</span> <span class='op'>=</span> <span class='id obj'>obj</span><span class='period'>.</span><span class='id to_s'>to_s</span>
+    <span class='id format'>format</span> <span class='op'>=</span> <span class='id cur'>cur</span><span class='period'>.</span><span class='id char_format'>char_format</span>
+    <span class='id format'>format</span><span class='period'>.</span><span class='id foreground'>foreground</span> <span class='op'>=</span> <span class='ivar'>@brush</span>
+    <span class='id cur'>cur</span><span class='period'>.</span><span class='id insert_text'>insert_text</span> <span class='id text'>text</span><span class='comma'>,</span> <span class='id format'>format</span>
+    <span class='id text'>text</span><span class='period'>.</span><span class='id bytes'>bytes</span><span class='period'>.</span><span class='id count'>count</span>
+  <span class='kw'>else</span> <span class='id raise'>raise</span> <span class='const'>IOError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>closed stream</span><span class='tstring_end'>'</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+
+</div>
+    
+    <div id="footer">
+  Generated on Wed Jan 19 10:02:37 2011 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.6.4 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>

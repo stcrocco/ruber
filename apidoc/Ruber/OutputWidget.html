@@ -80,7 +80,9 @@
   
   
     <dt class="r1 last">Defined in:</dt>
-    <dd class="r1 last">lib/ruber/output_widget.rb</dd>
+    <dd class="r1 last">lib/ruber/output_widget.rb<span class="defines">,<br />
+  lib/ruber/output_widget.rb,<br /> lib/ruber/output_widget.rb,<br /> lib/ruber/output_widget.rb,<br /> lib/ruber/output_widget.rb,<br /> lib/ruber/output_widget.rb,<br /> lib/ruber/output_widget.rb,<br /> lib/ruber/output_widget.rb,<br /> lib/ruber/output_widget.rb</span>
+</dd>
   
 </dl>
 <div class="clear"></div>
@@ -107,122 +109,118 @@ based on Qt Model/View classes and provides the following facitlities:</p>
   couple of convenience methods to make text insertion even easier.</li>
 </ul>
 <p>Note that OutputWidget is not (and doesn&#8217;t derive from) one of the View classes.
-Rather, it&#8217;s a normal <tt>Qt::Widget</tt> which has the view as its only child.
+Rather, it&#8217;s a normal <code>Qt::Widget</code> which has the view as its only child.
 You can add other widgets to the OutputWidget as you would with any other widget:
 create the widget with the OutputWidget as parent and add it to the OutputWidget&#8217;s
-layout (which is a <tt>Qt::GridLayout</tt> where the view is at position 0,0).</p>
-<p><b>Note:</b> this class defines two new roles (<tt>OutputTypeRole</tt> and <tt>IsTitleRole</tt>),
-which correspond to <tt>Qt::UserRole</tt> and <tt>Qt::UserRole+1</tt>. Therefore,
+layout (which is a <code>Qt::GridLayout</code> where the view is at position 0,0).</p>
+<p><strong>Note:</strong> this class defines two new roles (<code>OutputTypeRole</code> and <code>IsTitleRole</code>),
+which correspond to <code>Qt::UserRole</code> and <code>Qt::UserRole+1</code>. Therefore,
 if you need to define other custom roles, please have them start from
-<tt>Ruber::OutputWidget::IsTitleRole+1</tt>.</p>
-<p>===Colors
-The <i>output_type</i> of an entry in the model can be set using the <tt>set_output_type</tt>
+<code>Ruber::OutputWidget::IsTitleRole+1</code>.</p>
+<h3>Output types</h3>
+<p>The <code>output_type</code> of an entry in the model can be set using the <span class='object_link'><a href="#set_output_type-instance_method" title="Ruber::OutputWidget#set_output_type (method)">#set_output_type</a></span>
 method. This has two effects: first, the item will be displayed using the color
 chosen by the user for that output type; second, the name of the output type will
-be stored in that item under the custom role <tt>OutputTypeRole</tt>.</p>
-<p>There are several predefined output types: <ins>message</ins>, <tt>message_good</tt>,
-<tt>message_bad</tt>, <ins>output</ins>,
-<ins>output1</ins>, <ins>output2</ins>, <ins>warning</ins>, <ins>warning1</ins>, <ins>warning2</ins>, <ins>error</ins>, <ins>error1</ins> and <ins>error2</ins>.
+be stored in that item under the custom role <code>OutputTypeRole</code>.</p>
+<p>There are several predefined output types: <code>message</code>, <code>message_good</code>,
+<code>message_bad</code>, <code>output</code>,
+<code>output1</code>, <code>output2</code>, <code>warning</code>, <code>warning1</code>, <code>warning2</code>, <code>error</code>, <code>error1</code> and <code>error2</code>.
 The types ending with a number
-can be used when you need different types with similar meaning. The <ins>message</ins> type
+can be used when you need different types with similar meaning.</p>
+<p>The <code>message</code> type
 (and its variations) are meant to display messages which don&#8217;t come from the external
 program but from Ruber itself (for example, a message telling that the external
-problem exited successfully or exited with an error) Its good and bad version are
+problem exited successfully or exited with an error). Its good and bad version are
 meant to display messages with good news and bad news respectively (for example:
-&#8220;the program exited successfully&#8221; could be displayed using the <tt>message_good</tt>
-type, while &#8220;the program crashed&#8221; could be displayed using the <tt>message_bad</tt>
-type). The <ins>output</ins> type is meant
+&#8220;the program exited successfully&#8221; could be displayed using the <code>message_good</code>
+type, while &#8220;the program crashed&#8221; could be displayed using the <code>message_bad</code>
+type).</p>
+<p>The <code>output</code> type is meant
 to be used to show the text written by the external program on standard output,
-while the <ins>error</ins> type is used to display the text written on standard error. If
-you can distinguish between warning and errors, you can use the <ins>warning</ins> type
+while the <code>error</code> type is used to display the text written on standard error. If
+you can distinguish between warning and errors, you can use the <code>warning</code> type
 for the latter.</p>
 <p>The colors for the default output types are chosen by the user from the configuration
 dialog and are used whenever those output types are requested.</p>
 <p>New output types (and their associated colors) can be make known to the output
-widget by using the <tt>set_color_for</tt> method. There&#8217;s no need to remove the
+widget by using the <code>set_color_for</code> method. There&#8217;s no need to remove the
 color, for example when the plugin is unloaded (indeed, there&#8217;s no way to do so).</p>
-<p>===The context menu
-This widget automatically creates a context menu containing three actions: copy,
-copy selected and clear. Copy and copy selected copy the text contained respectively
+<h3>The context menu</h3>
+<p>This widget automatically creates a context menu containing three actions: Copy,
+Copy Selected and Clear. Copy and Copy Selected copy the text contained respectively
 in all the items and in the selected items to the clipboard. The clear action 
 removes all the entries from the model.</p>
 <p>You can add other actions to the menu by performing the following steps:</p>
 <ul>
-	<li>add an entry in the appropriate position of the <tt>action_list</tt> array. Note
-  that it actually is an instance of ActionList, so it provides the <tt>insert_after</tt>
-  and <tt>insert_before</tt> methods which allow to easily put the actions in the
-  correct place. <tt>action_list</tt> should contain the <tt>object_name</tt> of
+	<li>add an entry in the appropriate position of <span class='object_link'><a href="#action_list-instance_method" title="Ruber::OutputWidget#action_list (method)">#action_list</a></span>. Note
+  that this is an instance of ActionList, so it provides the <span class='object_link'><a href="OutputWidget/ActionList.html#insert_after-instance_method" title="Ruber::OutputWidget::ActionList#insert_after (method)">insert_after</a></span>
+  and <span class='object_link'><a href="OutputWidget/ActionList.html#insert_before-instance_method" title="Ruber::OutputWidget::ActionList#insert_before (method)">insert_before</a></span> methods which allow to easily put the actions in the
+  correct place. <span class='object_link'><a href="#action_list-instance_method" title="Ruber::OutputWidget#action_list (method)">#action_list</a></span> contains the <code>object_name</code> of
   the actions (and <strong>nil</strong> for the separators), not the action themselves</li>
-	<li>create the actions (setting their <tt>object_name</tt> to the values inserted
-  in <tt>action_list</tt>) and put them into the <ins>actions</ins> hash, using the <tt>object_name</tt>
+	<li>create the actions (setting their <code>object_name</code> to the values inserted
+  in <span class='object_link'><a href="#action_list-instance_method" title="Ruber::OutputWidget#action_list (method)">#action_list</a></span>) and put them into the <span class='object_link'><a href="#actions-instance_method" title="Ruber::OutputWidget#actions (method)">#actions</a></span> hash, using the <code>object_name</code>
   as keys. Of course, you also need to define the appropriate slots and connect
   them to the actions&#8217; signals.</li>
 </ul>
 <p>Note that actions can only be added <em>before</em> the menu is first shown (usually, you
-do that in the widget&#8217;s constructor). The signal <tt>about_to_fill_menu</tt> is
+do that in the widget&#8217;s constructor). The <span class='object_link'><a href="#about_to_fill_menu-signalcode" title="Ruber::OutputWidget#about_to_fill_menu (signalcode)">#about_to_fill_menu</a></span> signal is
 emitted just before the menu is built: this is the last time you can add entries
 to it.</p>
-<p>OutputWidget mixes in the GuiStatesHandler module, which means you can define states
-to enable and disable actions as usual. By default, two states are defined: <tt>no_text</tt>
-and <tt>no_selection</tt>. As the names imply, the former is <strong>true</strong> when the model
+<p><span class='object_link'><a href="" title="Ruber::OutputWidget (class)">OutputWidget</a></span> mixes in the <span class='object_link'><a href="GuiStatesHandler.html" title="Ruber::GuiStatesHandler (module)">GuiStatesHandler</a></span> module, which means you can define states
+to enable and disable actions as usual. By default, two states are defined: <code>no_text</code>
+and <code>no_selection</code>. As the names imply, the former is <strong>true</strong> when the model
 is empty and <strong>false</strong> when there&#8217;s at least one item; the second is <strong>true</strong> when no
 item is selected and <strong>false</strong> when there are selected items.</p>
-<p>For the menu to be displayed automatically, the view should have a <tt>context_menu_requested(QPoint)</tt>
+<p>For the menu to be displayed automatically, the view should have a <code>context_menu_requested(QPoint)</code>
 signal. The menu will be displayed in response to that signal, at the point given
-as argument. For convenience, there are three classes <tt>OutputWidget::ListView</tt>,
-<tt>OutputWidget::TreeView</tt> and <tt>OutputWidget::TableView</tt>, derived 
-respectively from <tt>Qt::ListView</tt>, <tt>Qt::TreeView</tt> and <tt>Qt::TableView</tt>
-which emit that signal from their <tt>contextMenuEvent</tt> method. If you use
+as argument. For convenience, there are three classes <span class='object_link'><a href="OutputWidget/ListView.html" title="Ruber::OutputWidget::ListView (class)">ListView</a></span>,
+<span class='object_link'><a href="OutputWidget/TreeView.html" title="Ruber::OutputWidget::TreeView (class)">TreeView</a></span> and <span class='object_link'><a href="OutputWidget/TableView.html" title="Ruber::OutputWidget::TableView (class)">TableView</a></span>, derived 
+respectively from <code>Qt::ListView</code>, <code>Qt::TreeView</code> and <code>Qt::TableView</code>
+which emit that signal from their <code>contextMenuEvent</code> method. If you use
 one of these classes as view, the menu will work automatically.</p>
-<p>===Autoscrolling
-Whenever an item is added to the list, the view will be scrolled so that the added
-item is visible. Plugins which don&#8217;t want this feature can disable it using the
-<tt>auto_scroll</tt> accessor. Note that auto scrolling won&#8217;t happen if an item
+<h3>Autoscrolling</h3>
+<p>Whenever an item is added to the list, the view will be scrolled so that the added
+item is visible. Plugins which don&#8217;t want this feature can disable it by setting
+<span class='object_link'><a href="#auto_scroll-instance_method" title="Ruber::OutputWidget#auto_scroll (method)">#auto_scroll</a></span> to <strong>false</strong>. Note that auto scrolling won&#8217;t happen if an item
 is modified or removed</p>
-<p>===Word Wrapping
-If the user has enabled word wrapping for output widgets in the config dialog (
-the general/wrap_output option), word wrapping will be automatically enabled for
+<h3>Word wrapping</h3>
+<p>If the user has enabled word wrapping for output widgets in the config dialog 
+(the <code>general/wrap_output</code> option), word wrapping will be automatically enabled for
 all output widgets. If the user has disabled it, it will be disabled for all
 widgets.</p>
-<p>Subclasses can avoid the automatic behaviour by setting the <tt>ignore_word_wrap_option</tt>
+<p>Subclasses can avoid the automatic behaviour by setting the <span class='object_link'><a href="#ignore_word_wrap_option-instance_method" title="Ruber::OutputWidget#ignore_word_wrap_option (method)">#ignore_word_wrap_option</a></span>
 attribute to <strong>true</strong> and managing word wrap by themselves. This is mostly useful
 for output widgets for which word wrap is undesirable or meaningless.</p>
-<p>===Opening files in the editor
-Whenever the user activates an item, the text of the item is searched for a filename
+<h3>Opening files in the editor</h3>
+<p>Whenever the user activates an item, the text of the item is searched for a filename
 (and optionally for a line number). If it&#8217;s found, a new editor view is opened
-and the file is displayed in it. This process uses three methods:
-<tt>maybe_open_file</tt>::
-  the method connected to the view&#8217;s <tt>activated(QModelIndex)</tt> signal. It
-  starts the search for the filename and, if successful, opens the editor view
-<tt>find_filename_in_index</tt>::
-  performs the search of the filename. By default, it uses <tt>find_filename_in_string</tt>,
-  but subclasses can override it to change the behaviour
-<tt>find_filename_in_string</tt>::
-  the method used by default  by <tt>find_filename_in_index</tt> to find the
-  filename.</p>
+and the file is displayed in it. The editor can be an already existing editor
+or a new one created by splitting the current editor or in a new tab, according to
+the <code>general/tool_open_files</code> option.</p>
+<p>This process uses four methods:</p>
+<dl>
+	<dt><span class='object_link'><a href="#maybe_open_file-instance_method" title="Ruber::OutputWidget#maybe_open_file (method)">#maybe_open_file</a></span></dt>
+	<dd>the method connected to the view&#8217;s <code>activated(QModelIndex)</code> signal. It
+starts the search for the filename and, if successful, opens the editor view</dd>
+	<dt><span class='object_link'><a href="#find_filename_in_index-instance_method" title="Ruber::OutputWidget#find_filename_in_index (method)">#find_filename_in_index</a></span></dt>
+	<dd>performs the search of the filename. By default, it uses <span class='object_link'><a href="#find_filename_in_string-instance_method" title="Ruber::OutputWidget#find_filename_in_string (method)">#find_filename_in_string</a></span>,
+but subclasses can override it to change the behaviour</dd>
+	<dt><span class='object_link'><a href="#find_filename_in_string-instance_method" title="Ruber::OutputWidget#find_filename_in_string (method)">#find_filename_in_string</a></span></dt>
+	<dd>the method used by default by <span class='object_link'><a href="#find_filename_in_index-instance_method" title="Ruber::OutputWidget#find_filename_in_index (method)">#find_filename_in_index</a></span> to find the
+filename.</dd>
+	<dt><span class='object_link'><a href="#display_file-instance_method" title="Ruber::OutputWidget#display_file (method)">#display_file</a></span></dt>
+	<dd>opens the file in an editor. By default uses the <code>general/tool_open_files</code>
+  to decide how the editor should be created, but this behaviour can be overridden
+  by subclasses.</dd>
+</dl>
 <p>If a relative filename is found, it&#8217;s considered relative to the directory contained
-in the <tt>working_dir</tt> attribute.</p>
-<p>===The <tt>OutputWidget::Model</tt> class
-It behaves as a standard <tt>Qt::StandardItemModel</tt>, but it provides an <ins>insert</ins>
-method and an <tt>insert_lines</tt> method which make easier adding items. You
-don&#8217;t need to use this model. If you don&#8217;t, simply pass another one to the OutputWidget
-constructor</p>
-<p>=Signals
-=<tt>about_to_fill_menu()</tt>
-Signal emitted immediately before the menu is created. You should connect to this
-signal if you want to add actions to the menu at the last possible time. Usually,
-however, you don't need it, as actions are usually created in the constructor.
-=Slots</p>
-<ul>
-	<li><tt>show_menu(QPoint)</tt></li>
-	<li><tt>selection_changed(QItemSelection, QItemSelection)</tt></li>
-	<li><tt>rows_changed()</tt></li>
-	<li><tt>do_auto_scroll(QModelIndex, int, int)</tt></li>
-	<li><tt>copy()</tt></li>
-	<li><tt>copy_selected()</tt></li>
-	<li><tt>clear_output()</tt></li>
-	<li><tt>maybe_open_file()</tt></li>
-</ul>
+in the <span class='object_link'><a href="#working_dir-instance_method" title="Ruber::OutputWidget#working_dir (method)">#working_dir</a></span> attribute.</p>
+<h3><span class='object_link'><a href="OutputWidget/Model.html" title="Ruber::OutputWidget::Model (class)">Model</a></span></h3>
+<p>The <span class='object_link'><a href="OutputWidget/Model.html" title="Ruber::OutputWidget::Model (class)">Model</a></span> class behaves as a standard <code>Qt::StandardItemModel</code>, but
+provides two methods, <span class='object_link'><a href="OutputWidget/Model.html#insert-instance_method" title="Ruber::OutputWidget::Model#insert (method)">insert</a></span> and
+<span class='object_link'><a href="OutputWidget/Model.html#insert_lines-instance_method" title="Ruber::OutputWidget::Model#insert_lines (method)">insert_lines</a></span> which make easier adding items. You
+aren&#8217;t forced to use this model, however: if you want to use another class,
+pass it to the constructor.</p>
 
   </div>
 </div>
@@ -289,7 +287,7 @@ however, you don't need it, as actions are usually created in the constructor.
 <li class="private ">
   <span class="summary_signature">
     
-      <a href="#action_list-instance_method" title="#action_list (instance method)">- (Object) <strong>action_list</strong> </a>
+      <a href="#action_list-instance_method" title="#action_list (instance method)">- (ActionList) <strong>action_list</strong> </a>
     
 
     
@@ -305,8 +303,7 @@ however, you don't need it, as actions are usually created in the constructor.
   
 
   
-    <span class="summary_desc"><div class='inline'><p>An ActionList containing the names of the actions and the separators (represented
-by <strong>nil</strong>) to use to build the menu.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>The names of the action to use to build the menu.</p></div></span>
   
 </li>
 
@@ -315,7 +312,7 @@ by <strong>nil</strong>) to use to build the menu.</p></div></span>
 <li class="private ">
   <span class="summary_signature">
     
-      <a href="#actions-instance_method" title="#actions (instance method)">- (Object) <strong>actions</strong> </a>
+      <a href="#actions-instance_method" title="#actions (instance method)">- (Hash{String =&gt; KDE::Action}) <strong>actions</strong> </a>
     
 
     
@@ -331,8 +328,7 @@ by <strong>nil</strong>) to use to build the menu.</p></div></span>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>A hash having the names of actions to be inserted in the menu as keys and the actions
-themselves as values.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>The actions to insert in the menu.</p></div></span>
   
 </li>
 
@@ -341,7 +337,7 @@ themselves as values.</p></div></span>
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#auto_scroll-instance_method" title="#auto_scroll (instance method)">- (Object) <strong>auto_scroll</strong> </a>
+      <a href="#auto_scroll-instance_method" title="#auto_scroll (instance method)">- (Boolean) <strong>auto_scroll</strong> </a>
     
 
     
@@ -366,7 +362,7 @@ themselves as values.</p></div></span>
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#ignore_word_wrap_option-instance_method" title="#ignore_word_wrap_option (instance method)">- (Object) <strong>ignore_word_wrap_option</strong> </a>
+      <a href="#ignore_word_wrap_option-instance_method" title="#ignore_word_wrap_option (instance method)">- (Boolean) <strong>ignore_word_wrap_option</strong> </a>
     
 
     
@@ -382,8 +378,7 @@ themselves as values.</p></div></span>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Whether word wrapping should be enabled and disabled automatically according to
-the general/wrap_output setting or not (default: <strong>false</strong>).</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Whether or not word wrapping should respect the <code>general/wrap_output</code> option (default: <strong>false</strong>).</p></div></span>
   
 </li>
 
@@ -392,7 +387,7 @@ the general/wrap_output setting or not (default: <strong>false</strong>).</p></d
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#model-instance_method" title="#model (instance method)">- (Object) <strong>model</strong> </a>
+      <a href="#model-instance_method" title="#model (instance method)">- (Qt::AbstractItemModel) <strong>model</strong> </a>
     
 
     
@@ -408,7 +403,7 @@ the general/wrap_output setting or not (default: <strong>false</strong>).</p></d
   
 
   
-    <span class="summary_desc"><div class='inline'><p>The model used by the OutputWidget.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>The model used by the <span class='object_link'><a href="" title="Ruber::OutputWidget (class)">OutputWidget</a></span>.</p></div></span>
   
 </li>
 
@@ -417,7 +412,7 @@ the general/wrap_output setting or not (default: <strong>false</strong>).</p></d
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#skip_first_file_in_title-instance_method" title="#skip_first_file_in_title (instance method)">- (Object) <strong>skip_first_file_in_title</strong> </a>
+      <a href="#skip_first_file_in_title-instance_method" title="#skip_first_file_in_title (instance method)">- (Boolean) <strong>skip_first_file_in_title</strong> </a>
     
 
     
@@ -433,7 +428,8 @@ the general/wrap_output setting or not (default: <strong>false</strong>).</p></d
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'><p>Whether or not to <span class='object_link'><a href="#find_filename_in_index-instance_method" title="Ruber::OutputWidget#find_filename_in_index (method)">#find_filename_in_index</a></span> should skip the first
+file name in the title.</p></div></span>
   
 </li>
 
@@ -442,7 +438,7 @@ the general/wrap_output setting or not (default: <strong>false</strong>).</p></d
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#view-instance_method" title="#view (instance method)">- (Object) <strong>view</strong> </a>
+      <a href="#view-instance_method" title="#view (instance method)">- (Qt::AbstractItemView) <strong>view</strong> </a>
     
 
     
@@ -467,7 +463,7 @@ the general/wrap_output setting or not (default: <strong>false</strong>).</p></d
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#working_dir-instance_method" title="#working_dir (instance method)">- (Object) <strong>working_dir</strong> </a>
+      <a href="#working_dir-instance_method" title="#working_dir (instance method)">- (String) <strong>working_dir</strong> </a>
     
 
     
@@ -505,7 +501,7 @@ the general/wrap_output setting or not (default: <strong>false</strong>).</p></d
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#clear_output-instance_method" title="#clear_output (instance method)">- (Object) <strong>clear_output</strong> </a>
+      <a href="#clear_output-instance_method" title="#clear_output (instance method)">- (nil) <strong>clear_output</strong> </a>
     
 
     
@@ -529,7 +525,7 @@ the general/wrap_output setting or not (default: <strong>false</strong>).</p></d
 <li class="private ">
   <span class="summary_signature">
     
-      <a href="#copy-instance_method" title="#copy (instance method)">- (Object) <strong>copy</strong> </a>
+      <a href="#copy-instance_method" title="#copy (instance method)">- (nil) <strong>copy</strong> </a>
     
 
     
@@ -553,7 +549,7 @@ the general/wrap_output setting or not (default: <strong>false</strong>).</p></d
 <li class="private ">
   <span class="summary_signature">
     
-      <a href="#copy_selected-instance_method" title="#copy_selected (instance method)">- (Object) <strong>copy_selected</strong> </a>
+      <a href="#copy_selected-instance_method" title="#copy_selected (instance method)">- (nil) <strong>copy_selected</strong> </a>
     
 
     
@@ -577,7 +573,7 @@ the general/wrap_output setting or not (default: <strong>false</strong>).</p></d
 <li class="private ">
   <span class="summary_signature">
     
-      <a href="#create_standard_actions-instance_method" title="#create_standard_actions (instance method)">- (Object) <strong>create_standard_actions</strong> </a>
+      <a href="#create_standard_actions-instance_method" title="#create_standard_actions (instance method)">- (nil) <strong>create_standard_actions</strong> </a>
     
 
     
@@ -590,8 +586,7 @@ the general/wrap_output setting or not (default: <strong>false</strong>).</p></d
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Creates the &#8216;Copy&#8217;, &#8216;Copy selected&#8217; and &#8216;Clear&#8217; actions and the correspongind 
-state handlers.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Creates the default actions for the context menu.</p></div></span>
   
 </li>
 
@@ -600,7 +595,7 @@ state handlers.</p></div></span>
 <li class="private ">
   <span class="summary_signature">
     
-      <a href="#create_widgets-instance_method" title="#create_widgets (instance method)">- (Object) <strong>create_widgets</strong>(view) </a>
+      <a href="#create_widgets-instance_method" title="#create_widgets (instance method)">- (nil) <strong>create_widgets</strong>(view) </a>
     
 
     
@@ -622,7 +617,29 @@ state handlers.</p></div></span>
 <li class="private ">
   <span class="summary_signature">
     
-      <a href="#do_auto_scroll-instance_method" title="#do_auto_scroll (instance method)">- (Object) <strong>do_auto_scroll</strong>(parent, start_idx, end_idx) </a>
+      <a href="#display_file-instance_method" title="#display_file (instance method)">- (EditorView) <strong>display_file</strong>(file, line, hints = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Displays the given file in an editor.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#do_auto_scroll-instance_method" title="#do_auto_scroll (instance method)">- (nil) <strong>do_auto_scroll</strong>(parent, start_idx, end_idx) </a>
     
 
     
@@ -637,7 +654,7 @@ state handlers.</p></div></span>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Automatically scrolls to the first row of <i>end_idx</i> if auto scrolling is enabled.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Slot called whenever rows are inserted in the model.</p></div></span>
   
 </li>
 
@@ -646,7 +663,7 @@ state handlers.</p></div></span>
 <li class="private ">
   <span class="summary_signature">
     
-      <a href="#fill_menu-instance_method" title="#fill_menu (instance method)">- (Object) <strong>fill_menu</strong> </a>
+      <a href="#fill_menu-instance_method" title="#fill_menu (instance method)">- (nil) <strong>fill_menu</strong> </a>
     
 
     
@@ -659,8 +676,7 @@ state handlers.</p></div></span>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Creates the menu, according to the contents of the <tt><code>action_list&lt;/tt&gt; and
-&lt;tt&gt;</code>actions</tt> instance variables.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Creates the context menu.</p></div></span>
   
 </li>
 
@@ -669,7 +685,7 @@ state handlers.</p></div></span>
 <li class="private ">
   <span class="summary_signature">
     
-      <a href="#find_filename_in_index-instance_method" title="#find_filename_in_index (instance method)">- (Object) <strong>find_filename_in_index</strong>(idx) </a>
+      <a href="#find_filename_in_index-instance_method" title="#find_filename_in_index (instance method)">- (Array(String,Integer)<sup>?</sup>) <strong>find_filename_in_index</strong>(idx) </a>
     
 
     
@@ -682,8 +698,7 @@ state handlers.</p></div></span>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Method used by <tt>maybe_open_file</tt> to find out the name of the file to open
-(if any) when an item is activated.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Searches in the display role of the given index for a file name.</p></div></span>
   
 </li>
 
@@ -692,7 +707,7 @@ state handlers.</p></div></span>
 <li class="private ">
   <span class="summary_signature">
     
-      <a href="#find_filename_in_string-instance_method" title="#find_filename_in_string (instance method)">- (Object) <strong>find_filename_in_string</strong>(str) </a>
+      <a href="#find_filename_in_string-instance_method" title="#find_filename_in_string (instance method)">- (Array(String,Integer), ...) <strong>find_filename_in_string</strong>(str) </a>
     
 
     
@@ -705,8 +720,7 @@ state handlers.</p></div></span>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Searches the given string for the first occurrence of a file name (possibly followed by a colon and a line
-number).</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Searches the given string for the first occurrence of a file name.</p></div></span>
   
 </li>
 
@@ -728,7 +742,29 @@ number).</p></div></span>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Tells whether the toplevel 0,0 element is the title or not.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Whether or not the output widget has a title.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#hints-instance_method" title="#hints (instance method)">- (Hash) <strong>hints</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The hints to pass to <span class='object_link'><a href="MainWindow.html#display_document-instance_method" title="Ruber::MainWindow#display_document (method)">MainWindow#display_document</a></span>.</p></div></span>
   
 </li>
 
@@ -752,7 +788,7 @@ number).</p></div></span>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Creates a new OutputWidget.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>A new instance of OutputWidget.</p></div></span>
   
 </li>
 
@@ -761,7 +797,7 @@ number).</p></div></span>
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#load_settings-instance_method" title="#load_settings (instance method)">- (Object) <strong>load_settings</strong> </a>
+      <a href="#load_settings-instance_method" title="#load_settings (instance method)">- (nil) <strong>load_settings</strong> </a>
     
 
     
@@ -785,7 +821,7 @@ number).</p></div></span>
 <li class="private ">
   <span class="summary_signature">
     
-      <a href="#maybe_open_file-instance_method" title="#maybe_open_file (instance method)">- (Object) <strong>maybe_open_file</strong>(idx) </a>
+      <a href="#maybe_open_file-instance_method" title="#maybe_open_file (instance method)">- (EditorView<sup>?</sup>) <strong>maybe_open_file</strong>(idx) </a>
     
 
     
@@ -800,8 +836,29 @@ number).</p></div></span>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Searches for a filename in the DisplayRole of the <tt>Qt::ModelIndex</tt> idx (
-using the <tt>find_filename_in_index</tt> method).</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Attempts to display the file whose name is contained in the given index.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#pinned_down%3F-instance_method" title="#pinned_down? (instance method)">- (Boolean) <strong>pinned_down?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -810,7 +867,7 @@ using the <tt>find_filename_in_index</tt> method).</p></div></span>
 <li class="private ">
   <span class="summary_signature">
     
-      <a href="#rows_changed-instance_method" title="#rows_changed (instance method)">- (Object) <strong>rows_changed</strong> </a>
+      <a href="#rows_changed-instance_method" title="#rows_changed (instance method)">- (nil) <strong>rows_changed</strong> </a>
     
 
     
@@ -825,8 +882,7 @@ using the <tt>find_filename_in_index</tt> method).</p></div></span>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Turns the <tt>no_text</tt> state on or off depending on whether the model
-is empty or not.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Slot called whenever rows are added to or removed from the model.</p></div></span>
   
 </li>
 
@@ -835,7 +891,7 @@ is empty or not.</p></div></span>
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#scroll_to-instance_method" title="#scroll_to (instance method)">- (Object) <strong>scroll_to</strong>(idx) </a>
+      <a href="#scroll_to-instance_method" title="#scroll_to (instance method)">- (nil) <strong>scroll_to</strong>(idx) </a>
     
 
     
@@ -848,7 +904,7 @@ is empty or not.</p></div></span>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Scrolls the view so that the item corresponding to the index <em>idx</em> is visible.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Scrolls the view so that the item corresponding the given index is visible.</p></div></span>
   
 </li>
 
@@ -857,7 +913,7 @@ is empty or not.</p></div></span>
 <li class="private ">
   <span class="summary_signature">
     
-      <a href="#selection_changed-instance_method" title="#selection_changed (instance method)">- (Object) <strong>selection_changed</strong>(sel, desel) </a>
+      <a href="#selection_changed-instance_method" title="#selection_changed (instance method)">- (nil) <strong>selection_changed</strong>(sel, desel) </a>
     
 
     
@@ -872,7 +928,7 @@ is empty or not.</p></div></span>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Slot connected to the view&#8217;s selection model&#8217;s selectionChanged signal.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Slot connected to the view&#8217;s selection model&#8217;s <code>selectionChanged</code> signal.</p></div></span>
   
 </li>
 
@@ -881,7 +937,7 @@ is empty or not.</p></div></span>
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#set_color_for-instance_method" title="#set_color_for (instance method)">- (Object) <strong>set_color_for</strong>(name, color) </a>
+      <a href="#set_color_for-instance_method" title="#set_color_for (instance method)">- (nil) <strong>set_color_for</strong>(name, color) </a>
     
 
     
@@ -894,8 +950,7 @@ is empty or not.</p></div></span>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Instructs the OutputWidget to use the <tt>Qt::Color</tt> <em>color</em> to display items
-whose output type is <em>name</em>.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Associates a color with an output type.</p></div></span>
   
 </li>
 
@@ -904,7 +959,7 @@ whose output type is <em>name</em>.</p></div></span>
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#set_output_type-instance_method" title="#set_output_type (instance method)">- (Object) <strong>set_output_type</strong>(idx, type) </a>
+      <a href="#set_output_type-instance_method" title="#set_output_type (instance method)">- (Symbol<sup>?</sup>) <strong>set_output_type</strong>(idx, type) </a>
     
 
     
@@ -917,8 +972,7 @@ whose output type is <em>name</em>.</p></div></span>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Sets the output type associated with the <tt>Qt::ModelIndex</tt> <em>idx</em> to <em>type</em>
-(a symbol).</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Changes the output type of a given index.</p></div></span>
   
 </li>
 
@@ -927,7 +981,7 @@ whose output type is <em>name</em>.</p></div></span>
 <li class="private ">
   <span class="summary_signature">
     
-      <a href="#setup_model-instance_method" title="#setup_model (instance method)">- (Object) <strong>setup_model</strong>(mod) </a>
+      <a href="#setup_model-instance_method" title="#setup_model (instance method)">- (nil) <strong>setup_model</strong>(mod) </a>
     
 
     
@@ -940,7 +994,7 @@ whose output type is <em>name</em>.</p></div></span>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Creates the model (if needed) and makes some signal-slot connections.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Prepares the model to use.</p></div></span>
   
 </li>
 
@@ -949,7 +1003,7 @@ whose output type is <em>name</em>.</p></div></span>
 <li class="private ">
   <span class="summary_signature">
     
-      <a href="#show_menu-instance_method" title="#show_menu (instance method)">- (Object) <strong>show_menu</strong>(pt) </a>
+      <a href="#show_menu-instance_method" title="#show_menu (instance method)">- (ni;) <strong>show_menu</strong>(pt) </a>
     
 
     
@@ -964,7 +1018,7 @@ whose output type is <em>name</em>.</p></div></span>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Shows the menu (asynchronously) at the point <em>pt</em>.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Shows the menu.</p></div></span>
   
 </li>
 
@@ -973,7 +1027,7 @@ whose output type is <em>name</em>.</p></div></span>
 <li class="private ">
   <span class="summary_signature">
     
-      <a href="#text_for_clipboard-instance_method" title="#text_for_clipboard (instance method)">- (Object) <strong>text_for_clipboard</strong>(indexes) </a>
+      <a href="#text_for_clipboard-instance_method" title="#text_for_clipboard (instance method)">- (String) <strong>text_for_clipboard</strong>(indexes) </a>
     
 
     
@@ -986,8 +1040,7 @@ whose output type is <em>name</em>.</p></div></span>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Method used by the <ins>copy</ins> and <tt>copy_selected</tt> methods to obtain the text
-to put in the clipboard from the indexes.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Retrieves the text to copy to the clipboard from the given indexes.</p></div></span>
   
 </li>
 
@@ -996,7 +1049,7 @@ to put in the clipboard from the indexes.</p></div></span>
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#title%3D-instance_method" title="#title= (instance method)">- (Object) <strong>title</strong>(text) </a>
+      <a href="#title%3D-instance_method" title="#title= (instance method)">- (nil) <strong>title</strong>(text) </a>
     
 
     
@@ -1018,7 +1071,7 @@ to put in the clipboard from the indexes.</p></div></span>
 <li class="private ">
   <span class="summary_signature">
     
-      <a href="#update_index_color-instance_method" title="#update_index_color (instance method)">- (Object) <strong>update_index_color</strong>(idx) </a>
+      <a href="#update_index_color-instance_method" title="#update_index_color (instance method)">- (nil) <strong>update_index_color</strong>(idx) </a>
     
 
     
@@ -1031,8 +1084,7 @@ to put in the clipboard from the indexes.</p></div></span>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Changes the foreground color of the Qt::ModelIndex <em>idx</em> and of its children so
-that it matches the color set for its output type.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Updates the color of an index and its children so that it matches their output types.</p></div></span>
   
 </li>
 
@@ -1041,7 +1093,7 @@ that it matches the color set for its output type.</p></div></span>
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#with_auto_scrolling-instance_method" title="#with_auto_scrolling (instance method)">- (Object) <strong>with_auto_scrolling</strong>(val) </a>
+      <a href="#with_auto_scrolling-instance_method" title="#with_auto_scrolling (instance method)">- (Object) <strong>with_auto_scrolling</strong>(val) { ... }</a>
     
 
     
@@ -1054,8 +1106,7 @@ that it matches the color set for its output type.</p></div></span>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Executes the block with autoscrolling turned on or off according to <em>val</em>, without
-permanently changing the autoscrolling setting.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>Executes a block while temporarily turning autoscrolling on or off.</p></div></span>
   
 </li>
 
@@ -1084,7 +1135,295 @@ permanently changing the autoscrolling setting.</p></div></span>
 <!-- The sub is needed to remove the (Object) part -->
       <a href="#about_to_fill_menu-signalcode" title="about_to_fill_menu (signalcode)">- <strong>about_to_fill_menu</strong> </a>
       </span>
-      <span class="summary_desc"><div class='inline'></div></span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted immediately before the menu is created.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#about_to_fill_menu-signalcode" title="about_to_fill_menu (signalcode)">- <strong>about_to_fill_menu</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted immediately before the menu is created.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#about_to_fill_menu-signalcode" title="about_to_fill_menu (signalcode)">- <strong>about_to_fill_menu</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted immediately before the menu is created.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#about_to_fill_menu-signalcode" title="about_to_fill_menu (signalcode)">- <strong>about_to_fill_menu</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted immediately before the menu is created.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#about_to_fill_menu-signalcode" title="about_to_fill_menu (signalcode)">- <strong>about_to_fill_menu</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted immediately before the menu is created.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#about_to_fill_menu-signalcode" title="about_to_fill_menu (signalcode)">- <strong>about_to_fill_menu</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted immediately before the menu is created.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#about_to_fill_menu-signalcode" title="about_to_fill_menu (signalcode)">- <strong>about_to_fill_menu</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted immediately before the menu is created.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#about_to_fill_menu-signalcode" title="about_to_fill_menu (signalcode)">- <strong>about_to_fill_menu</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted immediately before the menu is created.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#about_to_fill_menu-signalcode" title="about_to_fill_menu (signalcode)">- <strong>about_to_fill_menu</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted immediately before the menu is created.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#about_to_fill_menu-signalcode" title="about_to_fill_menu (signalcode)">- <strong>about_to_fill_menu</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted immediately before the menu is created.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#about_to_fill_menu-signalcode" title="about_to_fill_menu (signalcode)">- <strong>about_to_fill_menu</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted immediately before the menu is created.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#about_to_fill_menu-signalcode" title="about_to_fill_menu (signalcode)">- <strong>about_to_fill_menu</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted immediately before the menu is created.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#about_to_fill_menu-signalcode" title="about_to_fill_menu (signalcode)">- <strong>about_to_fill_menu</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted immediately before the menu is created.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#about_to_fill_menu-signalcode" title="about_to_fill_menu (signalcode)">- <strong>about_to_fill_menu</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted immediately before the menu is created.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#about_to_fill_menu-signalcode" title="about_to_fill_menu (signalcode)">- <strong>about_to_fill_menu</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted immediately before the menu is created.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#about_to_fill_menu-signalcode" title="about_to_fill_menu (signalcode)">- <strong>about_to_fill_menu</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted immediately before the menu is created.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#about_to_fill_menu-signalcode" title="about_to_fill_menu (signalcode)">- <strong>about_to_fill_menu</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted immediately before the menu is created.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#about_to_fill_menu-signalcode" title="about_to_fill_menu (signalcode)">- <strong>about_to_fill_menu</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted immediately before the menu is created.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#about_to_fill_menu-signalcode" title="about_to_fill_menu (signalcode)">- <strong>about_to_fill_menu</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted immediately before the menu is created.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#about_to_fill_menu-signalcode" title="about_to_fill_menu (signalcode)">- <strong>about_to_fill_menu</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted immediately before the menu is created.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#about_to_fill_menu-signalcode" title="about_to_fill_menu (signalcode)">- <strong>about_to_fill_menu</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted immediately before the menu is created.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#about_to_fill_menu-signalcode" title="about_to_fill_menu (signalcode)">- <strong>about_to_fill_menu</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted immediately before the menu is created.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#about_to_fill_menu-signalcode" title="about_to_fill_menu (signalcode)">- <strong>about_to_fill_menu</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted immediately before the menu is created.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#about_to_fill_menu-signalcode" title="about_to_fill_menu (signalcode)">- <strong>about_to_fill_menu</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted immediately before the menu is created.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#about_to_fill_menu-signalcode" title="about_to_fill_menu (signalcode)">- <strong>about_to_fill_menu</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted immediately before the menu is created.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#about_to_fill_menu-signalcode" title="about_to_fill_menu (signalcode)">- <strong>about_to_fill_menu</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted immediately before the menu is created.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#about_to_fill_menu-signalcode" title="about_to_fill_menu (signalcode)">- <strong>about_to_fill_menu</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted immediately before the menu is created.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#about_to_fill_menu-signalcode" title="about_to_fill_menu (signalcode)">- <strong>about_to_fill_menu</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted immediately before the menu is created.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#about_to_fill_menu-signalcode" title="about_to_fill_menu (signalcode)">- <strong>about_to_fill_menu</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted immediately before the menu is created.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#about_to_fill_menu-signalcode" title="about_to_fill_menu (signalcode)">- <strong>about_to_fill_menu</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted immediately before the menu is created.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#about_to_fill_menu-signalcode" title="about_to_fill_menu (signalcode)">- <strong>about_to_fill_menu</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted immediately before the menu is created.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#about_to_fill_menu-signalcode" title="about_to_fill_menu (signalcode)">- <strong>about_to_fill_menu</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted immediately before the menu is created.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#about_to_fill_menu-signalcode" title="about_to_fill_menu (signalcode)">- <strong>about_to_fill_menu</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted immediately before the menu is created.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#about_to_fill_menu-signalcode" title="about_to_fill_menu (signalcode)">- <strong>about_to_fill_menu</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted immediately before the menu is created.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#about_to_fill_menu-signalcode" title="about_to_fill_menu (signalcode)">- <strong>about_to_fill_menu</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted immediately before the menu is created.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#about_to_fill_menu-signalcode" title="about_to_fill_menu (signalcode)">- <strong>about_to_fill_menu</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted immediately before the menu is created.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#about_to_fill_menu-signalcode" title="about_to_fill_menu (signalcode)">- <strong>about_to_fill_menu</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted immediately before the menu is created.</p></div></span>
     </li>
   
   </ul>
@@ -1105,26 +1444,101 @@ permanently changing the autoscrolling setting.</p></div></span>
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Creates a new OutputWidget. <em>parent</em> is the parent widget. <em>opts</em> can contain
-the following keys:
-<ins>:view</ins>:: the view to use. It can be either a widget derived from <tt>Qt::AbstractItemView</tt>,
-          which will be used as view, or one of the symbols <ins>:list</ins>, <ins>:tree</ins> or
-          <ins>:table</ins>. If it&#8217;s a symbol, then the view will be a new instance of
-          OutputWidget::ListView, OutputWidget::TreeView or OutputWidget::TableView
-          respectively. Defaults to <ins>:list</ins>.
-<ins>:model</ins>:: the model to use. If this option isn&#8217;t given, then a new instance of
-           OutputWidget::Model will be used
-<tt>use_default_font</tt>::
-  whether or not to use the application\&#8217;s default font in the view. If <strong>false</strong>
-  (the default), then the font chosen by the user for the general/output_font
-  option will be used.</p>
-<p><b>Note:</b> if a widget is specified as value of the <ins>:view</ins> option, it will become
-a child of the new OutputWidget.</p>
+    <p>A new instance of OutputWidget</p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
   
+    <li>
+      
+        <span class='type'>(<tt>Qt::Widget</tt>, <tt>nil</tt>)</span>
+      
+      
+        <span class='name'>the</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>parent widget</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <span class='name'>opts</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>fine-tune the new widget</p></div>
+      
+    </li>
+  
+</ul>
+
+  
+    
+    
+    
+    
+    <h3>Options Hash (<tt>opts</tt>):</h3>
+    <ul class="option">
+      
+        <li>
+          <span class="type">(<tt>Qt::AbstractItemView</tt>, <tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
+          <span class="name">:view</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>:list</tt>
+            
+          </span>
+          &mdash; <div class='inline'><p>the view to use for
+the widget. If it is an instance of a subclass of <code>Qt::AbstractItemView</code>, it&#8217;ll
+be used as it is (and the new widget will become a child of the output widget).
+If it is a symbol, it can be either <code>:list</code>, <code>:tree</code> or <code>:table</code>. In this case,
+a new instance respectively of <span class='object_link'><a href="OutputWidget/ListView.html" title="Ruber::OutputWidget::ListView (class)">ListView</a></span>, <span class='object_link'><a href="OutputWidget/TreeView.html" title="Ruber::OutputWidget::TreeView (class)">TreeView</a></span> or <span class='object_link'><a href="OutputWidget/TableView.html" title="Ruber::OutputWidget::TableView (class)">TableView</a></span> will be
+created</p></div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt>Qt::AbstractItemModel</tt>, <tt>nil</tt>)</span>
+          <span class="name">:model</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>nil</tt>
+            
+          </span>
+          &mdash; <div class='inline'><p>the model the output widget
+should use. If <strong>nil</strong>, a new instance of <span class='object_link'><a href="OutputWidget/Model.html" title="Ruber::OutputWidget::Model (class)">Model</a></span> will be used</p></div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt>Boolean</tt>)</span>
+          <span class="name">:use_default_font</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>false</tt>
+            
+          </span>
+          &mdash; <div class='inline'><p>whether or not the application&#8217;s
+default font should by used for the output widget. By default, the font used
+is the one the user set in the <code>general/output_font</code> option</p></div>
+        </tr>
+      
+    </ul>
+  
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -1207,20 +1621,38 @@ a child of the new OutputWidget.</p>
       <div class="method_details first">
   <p class="signature first" id="action_list-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>action_list</strong>  <span class="extras">(readonly, private)</span>
+    - (<tt><span class='object_link'><a href="OutputWidget/ActionList.html" title="Ruber::OutputWidget::ActionList (class)">ActionList</a></span></tt>) <strong>action_list</strong>  <span class="extras">(readonly, private)</span>
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>An ActionList containing the names of the actions and the separators (represented
-by <strong>nil</strong>) to use to build the menu. The default is [&#8216;copy&#8217;, &#8216;copy_selected&#8217;, nil, &#8216;clear&#8217;].</p>
-<p><b>Note:</b> this is private</p>
+    <p>The names of the action to use to build the menu</p>
+<p>Separators are represented by <strong>nil</strong> entries. The default is
+<code>['copy', 'copy_selected', nil, 'clear']</code>.</p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
   
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="OutputWidget/ActionList.html" title="Ruber::OutputWidget::ActionList (class)">ActionList</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the names of the action to use to build the menu</p>
+<p>Separators are represented by <strong>nil</strong> entries. The default is
+<code>['copy', 'copy_selected', nil, 'clear']</code>.</p></div>
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -1248,21 +1680,38 @@ by <strong>nil</strong>) to use to build the menu. The default is [&#8216;copy&#
       <div class="method_details ">
   <p class="signature " id="actions-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>actions</strong>  <span class="extras">(readonly, private)</span>
+    - (<tt>Hash{<span class='object_link'><a href="../String.html" title="String (class)">String</a></span> =&gt; KDE::Action}</tt>) <strong>actions</strong>  <span class="extras">(readonly, private)</span>
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>A hash having the names of actions to be inserted in the menu as keys and the actions
-themselves as values. By default, it contains the &#8216;copy&#8217;, &#8216;copy_selected&#8217; and
-&#8216;clear&#8217; actions.</p>
-<p><b>Note:</b> this is private</p>
+    <p>The actions to insert in the menu</p>
+<p>Each action is inserted using its <code>object_name</code> as key. By default, the hash
+contains the &#8216;copy&#8217;, &#8216;copy_selected&#8217; and &#8216;clear&#8217; actions.</p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
   
+    <li>
+      
+        <span class='type'>(<tt>Hash{<span class='object_link'><a href="../String.html" title="String (class)">String</a></span> =&gt; KDE::Action}</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the actions to insert in the menu</p>
+<p>Each action is inserted using its <code>object_name</code> as key. By default, the hash
+contains the &#8216;copy&#8217;, &#8216;copy_selected&#8217; and &#8216;clear&#8217; actions.</p></div>
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -1290,7 +1739,7 @@ themselves as values. By default, it contains the &#8216;copy&#8217;, &#8216;cop
       <div class="method_details ">
   <p class="signature " id="auto_scroll-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>auto_scroll</strong> 
+    - (<tt>Boolean</tt>) <strong>auto_scroll</strong> 
   
 
   
@@ -1301,7 +1750,23 @@ themselves as values. By default, it contains the &#8216;copy&#8217;, &#8216;cop
   </div>
 </div>
 <div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
   
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>whether auto scrolling should be enabled or not (default: <strong>true</strong>)</p></div>
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -1329,19 +1794,34 @@ themselves as values. By default, it contains the &#8216;copy&#8217;, &#8216;cop
       <div class="method_details ">
   <p class="signature " id="ignore_word_wrap_option-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>ignore_word_wrap_option</strong> 
+    - (<tt>Boolean</tt>) <strong>ignore_word_wrap_option</strong> 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Whether word wrapping should be enabled and disabled automatically according to
-the general/wrap_output setting or not (default: <strong>false</strong>)</p>
+    <p>Whether or not word wrapping should respect the <code>general/wrap_output</code> option (default: <strong>false</strong>)</p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
   
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>whether or not word wrapping should respect the <code>general/wrap_output</code> option (default: <strong>false</strong>)</p></div>
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -1369,18 +1849,34 @@ the general/wrap_output setting or not (default: <strong>false</strong>)</p>
       <div class="method_details ">
   <p class="signature " id="model-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>model</strong>  <span class="extras">(readonly)</span>
+    - (<tt>Qt::AbstractItemModel</tt>) <strong>model</strong>  <span class="extras">(readonly)</span>
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>The model used by the OutputWidget</p>
+    <p>The model used by the <span class='object_link'><a href="" title="Ruber::OutputWidget (class)">Ruber::OutputWidget</a></span></p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
   
+    <li>
+      
+        <span class='type'>(<tt>Qt::AbstractItemModel</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the model used by the <span class='object_link'><a href="" title="Ruber::OutputWidget (class)">Ruber::OutputWidget</a></span></p></div>
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -1408,11 +1904,37 @@ the general/wrap_output setting or not (default: <strong>false</strong>)</p>
       <div class="method_details ">
   <p class="signature " id="skip_first_file_in_title-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>skip_first_file_in_title</strong> 
+    - (<tt>Boolean</tt>) <strong>skip_first_file_in_title</strong> 
   
 
   
-</p><table class="source_code">
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Whether or not to <span class='object_link'><a href="#find_filename_in_index-instance_method" title="Ruber::OutputWidget#find_filename_in_index (method)">#find_filename_in_index</a></span> should skip the first
+file name in the title</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>whether or not to <span class='object_link'><a href="#find_filename_in_index-instance_method" title="Ruber::OutputWidget#find_filename_in_index (method)">#find_filename_in_index</a></span> should skip the first
+file name in the title</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
@@ -1439,7 +1961,7 @@ the general/wrap_output setting or not (default: <strong>false</strong>)</p>
       <div class="method_details ">
   <p class="signature " id="view-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>view</strong>  <span class="extras">(readonly)</span>
+    - (<tt>Qt::AbstractItemView</tt>) <strong>view</strong>  <span class="extras">(readonly)</span>
   
 
   
@@ -1450,7 +1972,23 @@ the general/wrap_output setting or not (default: <strong>false</strong>)</p>
   </div>
 </div>
 <div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
   
+    <li>
+      
+        <span class='type'>(<tt>Qt::AbstractItemView</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the view used by the OutputWidget</p></div>
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -1478,7 +2016,7 @@ the general/wrap_output setting or not (default: <strong>false</strong>)</p>
       <div class="method_details ">
   <p class="signature " id="working_dir-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>working_dir</strong> 
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>working_dir</strong> 
   
 
   
@@ -1493,7 +2031,23 @@ the general/wrap_output setting or not (default: <strong>false</strong>)</p>
   </div>
 </div>
 <div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
   
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the directory used to resolve relative paths when opening a file (default <strong>nil</strong>)</p></div>
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -1525,7 +2079,7 @@ the general/wrap_output setting or not (default: <strong>false</strong>)</p>
       <div class="method_details first">
   <p class="signature first" id="clear_output-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>clear_output</strong> 
+    - (<tt>nil</tt>) <strong>clear_output</strong> 
   
 
   
@@ -1536,7 +2090,20 @@ the general/wrap_output setting or not (default: <strong>false</strong>)</p>
   </div>
 </div>
 <div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
   
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -1545,13 +2112,15 @@ the general/wrap_output setting or not (default: <strong>false</strong>)</p>
 
 435
 436
-437</pre>
+437
+438</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/output_widget.rb', line 435</span>
 
 <span class='kw'>def</span> <span class='id clear_output'>clear_output</span>
   <span class='ivar'>@model</span><span class='period'>.</span><span class='id remove_rows'>remove_rows</span> <span class='int'>0</span><span class='comma'>,</span> <span class='ivar'>@model</span><span class='period'>.</span><span class='id row_count'>row_count</span>
+  <span class='kw'>nil</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1563,7 +2132,7 @@ the general/wrap_output setting or not (default: <strong>false</strong>)</p>
       <div class="method_details ">
   <p class="signature " id="copy-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>copy</strong>  <span class="extras">(private)</span>
+    - (<tt>nil</tt>) <strong>copy</strong>  <span class="extras">(private)</span>
   
 
   
@@ -1571,12 +2140,25 @@ the general/wrap_output setting or not (default: <strong>false</strong>)</p>
   <div class="discussion">
     <p>Slot connected to the &#8216;Copy&#8217; action.</p>
 <p>It copies the content of all the items to the clipboard. The text is obtained
-from the items by calling <tt>text_for_clipboard</tt> passing it all the items.</p>
+from the items by calling <span class='object_link'><a href="#text_for_clipboard-instance_method" title="Ruber::OutputWidget#text_for_clipboard (method)">#text_for_clipboard</a></span>.</p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
   
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -1598,7 +2180,8 @@ from the items by calling <tt>text_for_clipboard</tt> passing it all the items.<
 576
 577
 578
-579</pre>
+579
+580</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/output_widget.rb', line 564</span>
@@ -1618,6 +2201,7 @@ from the items by calling <tt>text_for_clipboard</tt> passing it all the items.<
   <span class='kw'>end</span>
   <span class='id clp'>clp</span> <span class='op'>=</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Application</span><span class='period'>.</span><span class='id clipboard'>clipboard</span>
   <span class='id clp'>clp</span><span class='period'>.</span><span class='id text'>text</span> <span class='op'>=</span> <span class='id text_for_clipboard'>text_for_clipboard</span> <span class='id items'>items</span>
+  <span class='kw'>nil</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1629,7 +2213,7 @@ from the items by calling <tt>text_for_clipboard</tt> passing it all the items.<
       <div class="method_details ">
   <p class="signature " id="copy_selected-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>copy_selected</strong>  <span class="extras">(private)</span>
+    - (<tt>nil</tt>) <strong>copy_selected</strong>  <span class="extras">(private)</span>
   
 
   
@@ -1637,12 +2221,25 @@ from the items by calling <tt>text_for_clipboard</tt> passing it all the items.<
   <div class="discussion">
     <p>Slot connected to the &#8216;Copy Selection&#8217; action.</p>
 <p>It copies the content of all the items to the clipboard. The text is obtained
-from the items by calling <tt>text_for_clipboard</tt> passing it the selected items.</p>
+from the items by calling <span class='object_link'><a href="#text_for_clipboard-instance_method" title="Ruber::OutputWidget#text_for_clipboard (method)">#text_for_clipboard</a></span>.</p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
   
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -1671,19 +2268,32 @@ from the items by calling <tt>text_for_clipboard</tt> passing it the selected it
       <div class="method_details ">
   <p class="signature " id="create_standard_actions-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>create_standard_actions</strong>  <span class="extras">(private)</span>
+    - (<tt>nil</tt>) <strong>create_standard_actions</strong>  <span class="extras">(private)</span>
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Creates the &#8216;Copy&#8217;, &#8216;Copy selected&#8217; and &#8216;Clear&#8217; actions and the correspongind 
-state handlers</p>
+    <p>Creates the default actions for the context menu</p>
+<p>It also sets up the gui state handlers for them</p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
   
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -1702,7 +2312,8 @@ state handlers</p>
 553
 554
 555
-556</pre>
+556
+557</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/output_widget.rb', line 544</span>
@@ -1719,6 +2330,7 @@ state handlers</p>
   <span class='id connect'>connect</span> <span class='ivar'>@actions</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>copy</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:triggered</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:copy</span><span class='rparen'>)</span>
   <span class='id connect'>connect</span> <span class='ivar'>@actions</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>copy_selected</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:triggered</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:copy_selected</span><span class='rparen'>)</span>
   <span class='id connect'>connect</span> <span class='ivar'>@actions</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>clear</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:triggered</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:clear_output</span><span class='rparen'>)</span>
+  <span class='kw'>nil</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1728,19 +2340,50 @@ state handlers</p>
       <div class="method_details ">
   <p class="signature " id="create_widgets-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>create_widgets</strong>(view)  <span class="extras">(private)</span>
+    - (<tt>nil</tt>) <strong>create_widgets</strong>(view)  <span class="extras">(private)</span>
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Creates the layout and the view. <em>view</em> has the same meaning as the <tt>:view</tt>
-option in the constructor</p>
+    <p>Creates the layout and the view</p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
   
+    <li>
+      
+        <span class='type'>(<tt>AbstractItemView</tt>, <tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
+      
+      
+        <span class='name'>view</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the view to use. Has the same meaning as the
+<code>:view</code> option to <span class='object_link'><a href="#initialize-instance_method" title="Ruber::OutputWidget#initialize (method)">#initialize</a></span></p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -1756,7 +2399,14 @@ option in the constructor</p>
 535
 536
 537
-538</pre>
+538
+539
+540
+541
+542
+543
+544
+545</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/output_widget.rb', line 529</span>
@@ -1769,7 +2419,265 @@ option in the constructor</p>
   <span class='kw'>else</span> <span class='ivar'>@view</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id class'>class</span><span class='period'>.</span><span class='id const_get'>const_get</span><span class='lparen'>(</span><span class='id view'>view</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='period'>.</span><span class='id capitalize'>capitalize</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>View</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id new'>new</span> <span class='kw'>self</span>
   <span class='kw'>end</span>
   <span class='ivar'>@view</span><span class='period'>.</span><span class='id selection_mode'>selection_mode</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>AbstractItemView</span><span class='op'>::</span><span class='const'>ExtendedSelection</span>
-  <span class='id layout'>layout</span><span class='period'>.</span><span class='id add_widget'>add_widget</span>  <span class='ivar'>@view</span><span class='comma'>,</span> <span class='int'>0</span><span class='comma'>,</span> <span class='int'>0</span>
+  <span class='ivar'>@pin_button</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>ToolButton</span><span class='period'>.</span><span class='id new'>new</span> <span class='kw'>self</span>
+  <span class='ivar'>@pin_button</span><span class='period'>.</span><span class='id tool_tip'>tool_tip</span> <span class='op'>=</span> <span class='id i18n'>i18n</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Don't hide the tool widget when clicking on a file name</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='ivar'>@pin_button</span><span class='period'>.</span><span class='id auto_raise'>auto_raise</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='ivar'>@pin_button</span><span class='period'>.</span><span class='id icon'>icon</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Icon</span><span class='period'>.</span><span class='id new'>new</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Global</span><span class='period'>.</span><span class='id dirs'>dirs</span><span class='period'>.</span><span class='id find_resource'>find_resource</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>icon</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>pin.png</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+  <span class='ivar'>@pin_button</span><span class='period'>.</span><span class='id checkable'>checkable</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='id layout'>layout</span><span class='period'>.</span><span class='id add_widget'>add_widget</span> <span class='ivar'>@view</span><span class='comma'>,</span> <span class='int'>1</span><span class='comma'>,</span> <span class='int'>0</span>
+  <span class='id layout'>layout</span><span class='period'>.</span><span class='id add_widget'>add_widget</span> <span class='ivar'>@pin_button</span><span class='comma'>,</span> <span class='int'>0</span><span class='comma'>,</span> <span class='int'>0</span><span class='comma'>,</span> <span class='int'>1</span><span class='comma'>,</span> <span class='op'>-</span><span class='int'>1</span><span class='comma'>,</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>AlignRight</span> <span class='op'>|</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>AlignVCenter</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="display_file-instance_method">
+  
+    
+      <span class="overload">- (<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>) <strong>display_file</strong>(file, line)  <span class="extras">(private)</span></span>
+    
+      <span class="overload">- (<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>) <strong>display_file</strong>(file, line, hints)  <span class="extras">(private)</span></span>
+    
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Displays the given file in an editor</p>
+<p>By default, <span class='object_link'><a href="#maybe_open_file-instance_method" title="Ruber::OutputWidget#maybe_open_file (method)">#maybe_open_file</a></span> uses the first version of this method.
+If, for a particular widget, you want to use different settings, you need to
+override this method, compute the hints you need, then call the second version
+of the base class passing those hints as third argument (do not add a <code>:line</code> entry
+to the hints as it would be overwritten). To ensure consisting behaviour, in the
+reimplementation of this method, you should leave the third argument optional and
+compute it only if it isn&#8217;t given. This way, other plugin-writers may derive from
+your class and still be able to customize the hints how they like.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h3>Examples:</h3>
+    
+      <h4><div class='inline'></div></h4>
+      <pre class="example code"><span class='kw'>class</span> <span class='const'>MyOutputWidget</span> <span class='op'>&lt;</span> <span class='const'>Ruber</span><span class='op'>::</span><span class='const'>OutputWidget</span>
+  <span class='kw'>def</span> <span class='id display_file'>display_file</span> <span class='id file'>file</span><span class='comma'>,</span> <span class='id line'>line</span><span class='comma'>,</span> <span class='id hints'>hints</span> <span class='op'>=</span> <span class='kw'>nil</span>
+    <span class='id my_hints'>my_hints</span> <span class='op'>=</span> <span class='id hints'>hints</span> <span class='op'>||</span> <span class='lbrace'>{</span><span class='symbol'>:existing</span> <span class='op'>=&gt;</span> <span class='symbol'>:current_tab</span><span class='comma'>,</span> <span class='symbol'>:new</span> <span class='op'>=&gt;</span> <span class='symbol'>:current_tab</span><span class='rbrace'>}</span>
+    <span class='kw'>super</span> <span class='id file'>file</span><span class='comma'>,</span> <span class='id line'>line</span><span class='comma'>,</span> <span class='id my_hints'>my_hints</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    
+  </div>
+
+  <h3>Overloads:</h3>
+  <ul class="overload">
+    
+      
+      <li class="overload_item">
+        <span class="signature">- (<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>) <strong>display_file</strong>(file, line) </span>
+        <div class="docstring">
+  <div class="discussion">
+    <p>Displays the given file in an editor according to the <code>general/tool_open_files</code> setting</p>
+<p>The value of the <code>general/tool_open_files</code> determines whether an existing editor
+should be used or whether to create a new one by splitting the current one horizontally
+or vertically or by creating a new tab.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>file</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the name of the file to display in the editor</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <span class='name'>line</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the number of the line of the file to display. It must be
+1-based</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the editor where the file is displayed</p></div>
+      
+    </li>
+  
+</ul>
+
+</div>
+      </li>
+    
+      
+      <li class="overload_item">
+        <span class="signature">- (<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>) <strong>display_file</strong>(file, line, hints) </span>
+        <div class="docstring">
+  <div class="discussion">
+    <p>Displays the given file in an editor using the given hints</p>
+<p>This version of the method doesn&#8217;t use the <code>general/tool_open_files</code> setting
+to determine whether to reuse an existing editor or to create a new one; rather
+it considers the third argument as the hints to pass to <span class='object_link'><a href="MainWindow.html#display_document-instance_method" title="Ruber::MainWindow#display_document (method)">MainWindow#display_document</a></span>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>file</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the name of the file to display in the editor</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <span class='name'>line</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the number of the line of the file to display. It must be
+1-based</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <span class='name'>hints</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>see <span class='object_link'><a href="MainWindow.html#display_document-instance_method" title="Ruber::MainWindow#display_document (method)">MainWindow#display_document</a></span></p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the editor where the file is displayed</p></div>
+      
+    </li>
+  
+</ul>
+
+</div>
+      </li>
+    
+  </ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+723
+724
+725
+726
+727
+728
+729
+730
+731
+732
+733
+734
+735
+736
+737
+738</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/output_widget.rb', line 723</span>
+
+<span class='kw'>def</span> <span class='id display_file'>display_file</span> <span class='id file'>file</span><span class='comma'>,</span> <span class='id line'>line</span><span class='comma'>,</span> <span class='id hints'>hints</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='id line'>line</span> <span class='op'>-=</span> <span class='int'>1</span> <span class='kw'>unless</span> <span class='id line'>line</span> <span class='op'>==</span> <span class='int'>0</span>
+  <span class='kw'>unless</span> <span class='id hints'>hints</span>
+    <span class='kw'>case</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:general</span><span class='comma'>,</span> <span class='symbol'>:tool_open_files</span><span class='rbracket'>]</span>
+    <span class='kw'>when</span> <span class='symbol'>:split_horizontally</span>
+      <span class='id hints'>hints</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='symbol'>:existing</span> <span class='op'>=&gt;</span> <span class='symbol'>:never</span><span class='comma'>,</span> <span class='symbol'>:new</span> <span class='op'>=&gt;</span> <span class='symbol'>:current_tab</span><span class='comma'>,</span> <span class='symbol'>:split</span> <span class='op'>=&gt;</span> <span class='symbol'>:horizontal</span><span class='rbrace'>}</span>
+    <span class='kw'>when</span> <span class='symbol'>:split_vertically</span>
+      <span class='id hints'>hints</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='symbol'>:existing</span> <span class='op'>=&gt;</span> <span class='symbol'>:never</span><span class='comma'>,</span> <span class='symbol'>:new</span> <span class='op'>=&gt;</span> <span class='symbol'>:current_tab</span><span class='comma'>,</span> <span class='symbol'>:split</span> <span class='op'>=&gt;</span> <span class='symbol'>:vertical</span><span class='rbrace'>}</span>
+    <span class='kw'>when</span> <span class='symbol'>:new_tab</span>
+      <span class='id hints'>hints</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='symbol'>:existing</span> <span class='op'>=&gt;</span> <span class='symbol'>:never</span><span class='comma'>,</span> <span class='symbol'>:new</span> <span class='op'>=&gt;</span> <span class='symbol'>:new_tab</span><span class='rbrace'>}</span>
+    <span class='kw'>else</span> <span class='id hints'>hints</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='id hints'>hints</span><span class='lbracket'>[</span><span class='symbol'>:line</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id line'>line</span>
+  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id display_document'>display_document</span> <span class='id file'>file</span><span class='comma'>,</span> <span class='id hints'>hints</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1779,21 +2687,93 @@ option in the constructor</p>
       <div class="method_details ">
   <p class="signature " id="do_auto_scroll-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>do_auto_scroll</strong>(parent, start_idx, end_idx)  <span class="extras">(private)</span>
+    - (<tt>nil</tt>) <strong>do_auto_scroll</strong>(parent, start_idx, end_idx)  <span class="extras">(private)</span>
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Automatically scrolls to the first row of <i>end_idx</i> if auto scrolling is enabled.</p>
-<p>Note: all parameters are considered relative to the model associated with the view,
-not with the <code>model</code> attribute (of course, this only matters in subclasses where
-the two differ, such as <span class='object_link'><a href="FilteredOutputWidget.html" title="Ruber::FilteredOutputWidget (class)">FilteredOutputWidget</a></span>).</p>
+    
+  <div class="note notetag">
+    <strong>Note:</strong> 
+    <div class='inline'><p>all indexes are considered relative to the model associated with the view,
+not to the model returned by <span class='object_link'><a href="#model-instance_method" title="Ruber::OutputWidget#model (method)">#model</a></span>. This doesn&#8217; matter for <span class='object_link'><a href="" title="Ruber::OutputWidget (class)">Ruber::OutputWidget</a></span> itself,
+but makes a difference in sublclasses where the two models are different (for
+example, <span class='object_link'><a href="FilteredOutputWidget.html" title="Ruber::FilteredOutputWidget (class)">FilteredOutputWidget</a></span>)</p></div>
+  </div>
+
+<p>Slot called whenever rows are inserted in the model</p>
+<p>If autoscrolling is enabled, it scrolls so that the last row inserted is at the
+bottom of the widget. It does nothing if autoscrolling is disabled.</p>
+<p>If the scrollbar slider is not at the bottom of the scroll bar, autoscrolling
+isn&#8217;t done, regardless of the option. This is because it&#8217;s likely that the user
+moved the slider, which may mean he&#8217;s looking at some particular lines of output
+and he wouldn&#8217;t like them to scroll away.</p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
   
+    <li>
+      
+        <span class='type'>(<tt>Qt::ModelIndex</tt>)</span>
+      
+      
+        <span class='name'>parent</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the parent index of the inserted rows</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Qt::ModelIndex</tt>)</span>
+      
+      
+        <span class='name'>start_idx</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the index corresponding to the first inserted
+row (unused)</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Qt::ModelIndex</tt>)</span>
+      
+      
+        <span class='name'>end_idx</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the index correspodnding to the last inserted row</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -1802,13 +2782,21 @@ the two differ, such as <span class='object_link'><a href="FilteredOutputWidget.
 
 494
 495
-496</pre>
+496
+497
+498
+499
+500</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/output_widget.rb', line 494</span>
 
 <span class='kw'>def</span> <span class='id do_auto_scroll'>do_auto_scroll</span> <span class='id parent'>parent</span><span class='comma'>,</span> <span class='id start_idx'>start_idx</span><span class='comma'>,</span> <span class='id end_idx'>end_idx</span>
-  <span class='id scroll_to'>scroll_to</span> <span class='ivar'>@view</span><span class='period'>.</span><span class='id model'>model</span><span class='period'>.</span><span class='id index'>index</span><span class='lparen'>(</span><span class='id end_idx'>end_idx</span><span class='comma'>,</span> <span class='int'>0</span><span class='comma'>,</span> <span class='id parent'>parent</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='ivar'>@auto_scroll</span>
+  <span class='kw'>if</span> <span class='ivar'>@auto_scroll</span>
+    <span class='id scroll_bar'>scroll_bar</span> <span class='op'>=</span> <span class='ivar'>@view</span><span class='period'>.</span><span class='id vertical_scroll_bar'>vertical_scroll_bar</span>
+    <span class='id scroll_to'>scroll_to</span> <span class='ivar'>@view</span><span class='period'>.</span><span class='id model'>model</span><span class='period'>.</span><span class='id index'>index</span><span class='lparen'>(</span><span class='id end_idx'>end_idx</span><span class='comma'>,</span> <span class='int'>0</span><span class='comma'>,</span> <span class='id parent'>parent</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id scroll_bar'>scroll_bar</span><span class='period'>.</span><span class='id value'>value</span> <span class='op'>==</span> <span class='id scroll_bar'>scroll_bar</span><span class='period'>.</span><span class='id maximum'>maximum</span>
+  <span class='kw'>end</span>
+  <span class='kw'>nil</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1820,22 +2808,35 @@ the two differ, such as <span class='object_link'><a href="FilteredOutputWidget.
       <div class="method_details ">
   <p class="signature " id="fill_menu-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>fill_menu</strong>  <span class="extras">(private)</span>
+    - (<tt>nil</tt>) <strong>fill_menu</strong>  <span class="extras">(private)</span>
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Creates the menu, according to the contents of the <tt><code>action_list&lt;/tt&gt; and
-&lt;tt&gt;</code>actions</tt> instance variables.</p>
-<p>Before creating the menu, it emits the <tt>about_to_fill_menu()</tt> signal. Connecting
+    <p>Creates the context menu</p>
+<p>The menu is created using the values returned by <span class='object_link'><a href="#action_list-instance_method" title="Ruber::OutputWidget#action_list (method)">#action_list</a></span> and <span class='object_link'><a href="#actions-instance_method" title="Ruber::OutputWidget#actions (method)">#actions</a></span>.</p>
+<p>Before creating the menu, the <span class='object_link'><a href="#about_to_fill_menu-signalcode" title="Ruber::OutputWidget#about_to_fill_menu (signalcode)">#about_to_fill_menu</a></span> signal is emitted. Connecting
 to this signal allows to do some last-minute changes to the actions which will
 be inserted in the menu.</p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
   
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -1870,55 +2871,79 @@ be inserted in the menu.</p>
       <div class="method_details ">
   <p class="signature " id="find_filename_in_index-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>find_filename_in_index</strong>(idx)  <span class="extras">(private)</span>
+    - (<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>(<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>,Integer)</tt><sup>?</sup>) <strong>find_filename_in_index</strong>(idx)  <span class="extras">(private)</span>
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Method used by <tt>maybe_open_file</tt> to find out the name of the file to open
+    <p>Searches in the display role of the given index for a file name</p>
+<p>This method is used by <span class='object_link'><a href="#maybe_open_file-instance_method" title="Ruber::OutputWidget#maybe_open_file (method)">#maybe_open_file</a></span> to find out the name of the file to open
 (if any) when an item is activated.</p>
-<p><em>idx</em> can be either the <tt>Qt::ModelIndex</tt> corresponding to the activated
-item or a string. The first form is used when this method is called from the
-<tt>activated(QModelIndex)</tt> signal of the view; the string form is usually
-called by overriding methods using <strong>super</strong>.</p>
-<p>The actual work is done by <tt>find_filename_in_string</tt>, which returns the
-first occurrence of what it considers a filename (possibly followed by a line
-number).</p>
-<p>If <tt>find_filename_in_string</tt> finds a filename, this method makes sure it
-actually corresponds to an existing file and, if it&#8217;s a relative path, expands
-it, considering it relative to the <tt>working_dir</tt> attribute. If that
-attribute is not set, the behaviour is undefined (most likely, an exception will
-be raised).</p>
-<p>If <em>idx</em> is the title (see <tt>title=</tt>) and <tt>skip_first_file_in_title</tt>
-is <strong>true</strong>, all the text from the beginning to the first space or colon is removed
-from it before being passed to <tt>find_filename_in_string</tt>. The reason is
-that often the title contains the command line of a program, for example:</p>
-/usr/bin/ruby /path/to/script.rb
-<p>In this case, when the user activates the title, he will most likely want to
-open <tt>/path/to/script.rb</tt> rather than <tt>/usr/bin/ruby</tt> (which, being
-an executable, couldn&#8217;t even be correctly displayed). Nothing like this will
-ever happen if <em>idx</em> is a string.</p>
+<p>The actual search for the file name is done by <span class='object_link'><a href="#find_filename_in_string-instance_method" title="Ruber::OutputWidget#find_filename_in_string (method)">#find_filename_in_string</a></span>. If it
+reports a success, this method makes sure the file actually exists, expanding it
+relative to <span class='object_link'><a href="#working_dir-instance_method" title="Ruber::OutputWidget#working_dir (method)">#working_dir</a></span> if it&#8217;s not an absolute path. If <span class='object_link'><a href="#working_dir-instance_method" title="Ruber::OutputWidget#working_dir (method)">#working_dir</a></span> is
+not set, the current directory will be used. However, you&#8217;re advised not to relay
+on this behaviour and always set the working directory.</p>
+<p>If the given index is the title of the widget (see <span class='object_link'><a href="#title%3D-instance_method" title="Ruber::OutputWidget#title= (method)">#title=</a></span>) and <span class='object_link'><a href="#skip_first_file_in_title-instance_method" title="Ruber::OutputWidget#skip_first_file_in_title (method)">#skip_first_file_in_title</a></span>
+is <strong>true</strong>, all the text from the beginning of the title up to the first whitespace
+or colon is ignored. Since often the first word of the title is the name of the
+program being run (which may as well be compiled), it doesn&#8217;t make sense to attempt
+to open it. This behaviour allows the user to activate on a title like
+<code>/usr/bin/ruby /path/to/script.rb</code> and see the file <code>/path/to/script.rb</code> in the
+editor. Without it, <code>/usr/bin/ruby</code> would be opened instead.</p>
 <p>Subclasses can override this method to extend or change its functionality. They
 have two choices on how to do this. The simplest is useful if they want to alter
 the string. In this case they can retrieve the text from the index, change it
-then call <strong>super</strong> passing the modified string as argument. Otherwise, they should
-reimplement all the functionality. In this case, the method should:</p>
-<ul>
-	<li>take a <tt>Qt::ModelIndex</tt> or a string as argument</li>
-	<li>return a string with the name of the file or an array containing a string and
-the associated line number (if found) if a file name is found</li>
-	<li>return <strong>nil</strong> if no file name is found</li>
-	<li>convert relative file names to absolute (either using the <tt>working_dir</tt>
-attribute or any other way they see fit)</li>
-</ul>
-<p>A subclass can decide to completely disable this functionality by overriding this
-method with one which always returns <strong>nil</strong>.</p>
+then call <strong>super</strong> passing the modified string as argument. The other way is to
+reimplement this method from scratch.</p>
+<p>A subclass can also decide to completely disallow opening a file by activating the
+corresponding item by overriding this method to always return <strong>nil</strong>.</p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
   
+    <li>
+      
+        <span class='type'>(<tt>Qt::ModelIndex</tt>, <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>idx</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the index or string to search a file name in.
+The form which takes a string is usually used by subclasses which want to alter
+the string without reimplementing all the functionality. Note that if <em>idx</em>
+is a string, there&#8217;s no way to know whether it refers to the title or not, so
+<span class='object_link'><a href="#skip_first_file_in_title-instance_method" title="Ruber::OutputWidget#skip_first_file_in_title (method)">#skip_first_file_in_title</a></span> is ignored</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>(<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>,Integer)</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>if a file name is found (and the corresponding
+file exists) an array containing the filename and the line number (or 0 if no
+line number was found). If no suitable file is found, <strong>nil</strong> is returned</p></div>
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -1946,8 +2971,7 @@ method with one which always returns <strong>nil</strong>.</p>
 734
 735
 736
-737
-738</pre>
+737</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/output_widget.rb', line 716</span>
@@ -1959,7 +2983,6 @@ method with one which always returns <strong>nil</strong>.</p>
   <span class='kw'>else</span> <span class='id idx'>idx</span><span class='period'>.</span><span class='id data'>data</span><span class='period'>.</span><span class='id to_string'>to_string</span>
   <span class='kw'>end</span>
   <span class='id res'>res</span> <span class='op'>=</span> <span class='id find_filename_in_string'>find_filename_in_string</span> <span class='id str'>str</span>
-  <span class='id d'>d</span> <span class='id res'>res</span>
   <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id res'>res</span>
   <span class='id res'>res</span> <span class='op'>=</span> <span class='const'>Array</span> <span class='id res'>res</span>
   <span class='id res'>res</span> <span class='op'>&lt;&lt;</span> <span class='int'>0</span> <span class='kw'>if</span> <span class='id res'>res</span><span class='period'>.</span><span class='id size'>size</span> <span class='op'>==</span> <span class='int'>1</span>
@@ -1968,7 +2991,7 @@ method with one which always returns <strong>nil</strong>.</p>
 </span>  <span class='id res'>res</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id sub!'>sub!</span> <span class='tstring'><span class='regexp_beg'>%r{</span><span class='tstring_content'>^file://</span><span class='regexp_end'>}</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span>
   <span class='kw'>if</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Url</span><span class='period'>.</span><span class='id file_url?'>file_url?</span><span class='lparen'>(</span><span class='id res'>res</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>then</span> <span class='id res'>res</span>
   <span class='kw'>else</span>
-    <span class='id res'>res</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span> <span class='ivar'>@working_dir</span><span class='comma'>,</span> <span class='id res'>res</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='const'>Pathname</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id res'>res</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id absolute?'>absolute?</span>
+    <span class='id res'>res</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span> <span class='lparen'>(</span><span class='ivar'>@working_dir</span> <span class='op'>||</span> <span class='const'>Dir</span><span class='period'>.</span><span class='id pwd'>pwd</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id res'>res</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='const'>Pathname</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id res'>res</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id absolute?'>absolute?</span>
     <span class='kw'>if</span> <span class='const'>File</span><span class='period'>.</span><span class='id exist?'>exist?</span><span class='lparen'>(</span><span class='id res'>res</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>and</span> <span class='op'>!</span><span class='const'>File</span><span class='period'>.</span><span class='id directory?'>directory?</span><span class='lparen'>(</span><span class='id res'>res</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='rparen'>)</span>
       <span class='id res'>res</span>
     <span class='kw'>else</span> <span class='kw'>nil</span>
@@ -1983,34 +3006,50 @@ method with one which always returns <strong>nil</strong>.</p>
       <div class="method_details ">
   <p class="signature " id="find_filename_in_string-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>find_filename_in_string</strong>(str)  <span class="extras">(private)</span>
+    - (<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>(<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>,Integer)</tt>, ...) <strong>find_filename_in_string</strong>(str)  <span class="extras">(private)</span>
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Searches the given string for the first occurrence of a file name (possibly followed by a colon and a line
-number). If a file name is found, returns an array containing the file name and
-the corresponding line number (if present). Returns <strong>nil</strong> if no file name was found.</p>
+    <p>Searches the given string for the first occurrence of a file name</p>
+<p>The file name can optionally be followed by a colon and a line number.</p>
 <p>What is a file name and what isn&#8217;t is a bit arbitrary. Here&#8217;s what this method
 recognizes as a filename:</p>
 <ul>
 	<li>an absolute path not containing spaces and colons starting with &#8216;/&#8217;</li>
 	<li>an absolute path not containing spaces and colons starting with &#8216;~&#8217; or &#8216;~user&#8217;
-(they&#8217;re expanded using <code>File.expand_path</code>)</li>
+  (they&#8217;re expanded using <code>File.expand_path</code>)</li>
 	<li>a relative path starting with <code>./</code> or <code>../</code> (either followed by a slash or not)</li>
 	<li>a relative path of the form <code>.filename</code> or <code>.dirname/dir/file</code></li>
-	<li>any string not containing spaces or colons followed by a colon and a line number</li>
 	<li>absolute URLs with an authority component</li>
+	<li>any string not containing spaces or colons followed by a colon and a line number
+  (in this case, the line number is required)</li>
 </ul>
 <p>File names enclosed in quotes or parentheses are recognized.</p>
-<p>The first three entries of the previous list can be followed by a colon and a line
-number; for the last one they&#8217;re mandatory</p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
   
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>(<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>,Integer)</tt>, <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>(<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>)</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>an array whose first element
+is the file name and whose second element is the line number (if found) or
+<strong>nil</strong> if no file name was found. Note that the file name can be relative</p></div>
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -2048,9 +3087,7 @@ number; for the last one they&#8217;re mandatory</p>
 788
 789
 790
-791
-792
-793</pre>
+791</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/output_widget.rb', line 760</span>
@@ -2079,8 +3116,6 @@ number; for the last one they&#8217;re mandatory</p>
     <span class='id m'>m</span> <span class='op'>=</span> <span class='id str'>str</span><span class='period'>.</span><span class='id match'>match</span> <span class='id a'>a</span>
     <span class='id matches'>matches</span> <span class='op'>&lt;&lt;</span> <span class='lbracket'>[</span><span class='id m'>m</span><span class='period'>.</span><span class='id begin'>begin</span><span class='lparen'>(</span><span class='int'>0</span><span class='rparen'>)</span><span class='comma'>,</span><span class='lbracket'>[</span><span class='backref'>$1</span><span class='comma'>,</span><span class='backref'>$2</span><span class='rbracket'>]</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id m'>m</span>
   <span class='kw'>end</span>
-  <span class='id d'>d</span> <span class='id str'>str</span>
-  <span class='id d'>d</span> <span class='id matches'>matches</span>
   <span class='id match'>match</span> <span class='op'>=</span> <span class='id matches'>matches</span><span class='period'>.</span><span class='id sort_by'>sort_by</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span> <span class='id i'>i</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
   <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id match'>match</span>
   <span class='id file'>file</span><span class='comma'>,</span> <span class='id line'>line</span> <span class='op'>=</span> <span class='op'>*</span><span class='id match'>match</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span>
@@ -2103,8 +3138,8 @@ number; for the last one they&#8217;re mandatory</p>
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Tells whether the toplevel 0,0 element is the title or not. See <tt>title=</tt>
-for the meaning of the title</p>
+    <p>Whether or not the output widget has a title</p>
+<p>See <span class='object_link'><a href="#title%3D-instance_method" title="Ruber::OutputWidget#title= (method)">#title=</a></span> for what is meant here by title</p>
 
   </div>
 </div>
@@ -2118,6 +3153,9 @@ for the meaning of the title</p>
       
       
       
+      
+        &mdash;
+        <div class='inline'><p>whether or not the output widget has a title</p></div>
       
     </li>
   
@@ -2145,9 +3183,73 @@ for the meaning of the title</p>
 </div>
     
       <div class="method_details ">
+  <p class="signature " id="hints-instance_method">
+  
+    - (<tt>Hash</tt>) <strong>hints</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The hints to pass to <span class='object_link'><a href="MainWindow.html#display_document-instance_method" title="Ruber::MainWindow#display_document (method)">MainWindow#display_document</a></span></p>
+<p>This method determines the hints to use according to the <code>general/tool_open_files</code>
+option. Derived classes may override this method to provide different hints. The
+values which can be used are the ones described for <span class='object_link'><a href="MainWindow.html#editor_for%21-instance_method" title="Ruber::MainWindow#editor_for! (method)">MainWindow#editor_for!</a></span>. Note,
+however, that the <code>:existing</code> entry won&#8217;t be used.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>see the description for the <em>hints</em> argument of <span class='object_link'><a href="MainWindow.html#editor_for%21-instance_method" title="Ruber::MainWindow#editor_for! (method)">MainWindow#editor_for!</a></span></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+773
+774
+775
+776
+777
+778
+779</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/output_widget.rb', line 773</span>
+
+<span class='kw'>def</span> <span class='id hints'>hints</span>
+  <span class='kw'>case</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:general</span><span class='comma'>,</span> <span class='symbol'>:tool_open_files</span><span class='rbracket'>]</span>
+  <span class='kw'>when</span> <span class='symbol'>:split_horizontally</span> <span class='kw'>then</span> <span class='lbrace'>{</span><span class='symbol'>:new</span> <span class='op'>=&gt;</span> <span class='symbol'>:current_tab</span><span class='comma'>,</span> <span class='symbol'>:split</span> <span class='op'>=&gt;</span> <span class='symbol'>:horizontal</span><span class='rbrace'>}</span>
+  <span class='kw'>when</span> <span class='symbol'>:split_vertically</span> <span class='kw'>then</span> <span class='lbrace'>{</span><span class='symbol'>:new</span> <span class='op'>=&gt;</span> <span class='symbol'>:current_tab</span><span class='comma'>,</span> <span class='symbol'>:split</span> <span class='op'>=&gt;</span> <span class='symbol'>:vertical</span><span class='rbrace'>}</span>
+  <span class='kw'>else</span> <span class='lbrace'>{</span><span class='symbol'>:new</span> <span class='op'>=&gt;</span> <span class='symbol'>:new_tab</span><span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <p class="signature " id="load_settings-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>load_settings</strong> 
+    - (<tt>nil</tt>) <strong>load_settings</strong> 
   
 
   
@@ -2158,7 +3260,20 @@ for the meaning of the title</p>
   </div>
 </div>
 <div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
   
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -2181,7 +3296,8 @@ for the meaning of the title</p>
 427
 428
 429
-430</pre>
+430
+431</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/output_widget.rb', line 414</span>
@@ -2202,6 +3318,7 @@ for the meaning of the title</p>
     <span class='kw'>rescue</span> <span class='const'>NoMethodError</span>
     <span class='kw'>end</span>
   <span class='kw'>end</span>
+  <span class='kw'>nil</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2213,31 +3330,82 @@ for the meaning of the title</p>
       <div class="method_details ">
   <p class="signature " id="maybe_open_file-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>maybe_open_file</strong>(idx)  <span class="extras">(private)</span>
+    - (<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt><sup>?</sup>) <strong>maybe_open_file</strong>(idx)  <span class="extras">(private)</span>
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Searches for a filename in the DisplayRole of the <tt>Qt::ModelIndex</tt> idx (
-using the <tt>find_filename_in_index</tt> method). If a filename is found, opens
-a new editor view containing the file, scrolls it to the appropriate line and
-hides the tool widget (<strong>self</strong>).</p>
+    <p>Attempts to display the file whose name is contained in the given index</p>
+<p>Searches for a filename in the DisplayRole of the index using the <span class='object_link'><a href="#find_filename_in_index-instance_method" title="Ruber::OutputWidget#find_filename_in_index (method)">#find_filename_in_index</a></span>
+method. If a filename is found, an editor for it is displayed.</p>
 <p>The behaviour of this method (which usually is only called via a signal-slot connection
-to the views&#8217; <tt>activated(QModelindex) signal) changes according to the active 
-keyboard modifiers:</p>
+to the views&#8217; <code>activated(QModelindex)</code> signal) changes according to the active 
+keyboard modifiers and to whether the Pinned tool button is on or off:</p>
 <ul>
 	<li>if Ctrl or Shift are pressed and the view allows selection (that is, its selection
 mode is not <ins>NoSelection</ins>), then this method does nothing. The reason for this
 behaviour is that Ctrl and Shift are used to select items, so the user is most
 likely doing that, not requesting to open a file</li>
-	<li>if Meta is pressed, then the tool widget won&#8217;t be closed</li>
+	<li>if the Pinned button is pressed, then the tool widget won&#8217;t be closed (but the
+  focus will be moved to the editor)</li>
+	<li>if Meta is pressed, then the file will be opened in a new editor, regardless
+  of whether an editor for that file already exists</li>
 </ul>
+<p>If a new editor should be created (either because the Meta key is pressed or because
+no editor exists for the given file), the hints returned by <span class='object_link'><a href="#hints-instance_method" title="Ruber::OutputWidget#hints (method)">#hints</a></span> are used.
+Unless the <span class='object_link'><a href="#hints-instance_method" title="Ruber::OutputWidget#hints (method)">#hints</a></span> method has been overloaded, this means that the <code>general/tool_open_files</code>
+option is used.</p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
   
+    <li>
+      
+        <span class='type'>(<tt>Qt::ModelIndex</tt>)</span>
+      
+      
+        <span class='name'>idx</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the index which could contain the file name</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the editor for the filename contained in the index or
+<strong>nil</strong> if no file name was found or if either the Shift or Control modifiers were
+active</p></div>
+      
+    </li>
+  
+</ul>
+
+  <h3>See Also:</h3>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#find_filename_in_index-instance_method" title="Ruber::OutputWidget#find_filename_in_index (method)">#find_filename_in_index</a></span></li>
+    
+      <li><span class='object_link'><a href="#hints-instance_method" title="Ruber::OutputWidget#hints (method)">#hints</a></span></li>
+    
+  </ul>
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -2255,7 +3423,9 @@ likely doing that, not requesting to open a file</li>
 665
 666
 667
-668</pre>
+668
+669
+670</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/output_widget.rb', line 657</span>
@@ -2265,12 +3435,14 @@ likely doing that, not requesting to open a file</li>
   <span class='kw'>if</span> <span class='ivar'>@view</span><span class='period'>.</span><span class='id selection_mode'>selection_mode</span> <span class='op'>!=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>AbstractItemView</span><span class='op'>::</span><span class='const'>NoSelection</span>
     <span class='kw'>return</span> <span class='kw'>if</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>ControlModifier</span> <span class='op'>&amp;</span> <span class='id modifiers'>modifiers</span> <span class='op'>!=</span> <span class='int'>0</span> <span class='kw'>or</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>ShiftModifier</span> <span class='op'>&amp;</span> <span class='id modifiers'>modifiers</span> <span class='op'>!=</span> <span class='int'>0</span>
   <span class='kw'>end</span>
-  <span class='id file'>file</span> <span class='op'>=</span> <span class='id find_filename_in_index'>find_filename_in_index</span> <span class='id idx'>idx</span>
+  <span class='id file'>file</span><span class='comma'>,</span> <span class='id line'>line</span> <span class='op'>=</span> <span class='id find_filename_in_index'>find_filename_in_index</span> <span class='id idx'>idx</span>
   <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id file'>file</span>
-  <span class='id line'>line</span> <span class='op'>=</span> <span class='id file'>file</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span>
-  <span class='id line'>line</span> <span class='op'>-=</span> <span class='int'>1</span> <span class='kw'>if</span> <span class='id line'>line</span> <span class='op'>&gt;</span> <span class='int'>0</span>
-  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id display_document'>display_document</span> <span class='id file'>file</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id line'>line</span><span class='comma'>,</span> <span class='int'>0</span>
-  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id hide_tool'>hide_tool</span> <span class='kw'>self</span> <span class='kw'>if</span> <span class='lparen'>(</span><span class='const'>Qt</span><span class='op'>::</span><span class='const'>MetaModifier</span> <span class='op'>&amp;</span> <span class='id modifiers'>modifiers</span><span class='rparen'>)</span> <span class='op'>==</span> <span class='int'>0</span>
+  <span class='id line'>line</span> <span class='op'>-=</span> <span class='int'>1</span> <span class='kw'>unless</span> <span class='id line'>line</span> <span class='op'>==</span> <span class='int'>0</span>
+  <span class='id existing'>existing</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='const'>Qt</span><span class='op'>::</span><span class='const'>MetaModifier</span> <span class='op'>&amp;</span> <span class='id modifiers'>modifiers</span><span class='rparen'>)</span> <span class='op'>==</span> <span class='int'>0</span> <span class='op'>?</span> <span class='symbol'>:always</span> <span class='op'>:</span> <span class='symbol'>:never</span>
+  <span class='id display_hints'>display_hints</span> <span class='op'>=</span> <span class='id hints'>hints</span><span class='period'>.</span><span class='id merge'>merge</span><span class='lparen'>(</span><span class='symbol'>:line</span> <span class='op'>=&gt;</span>  <span class='id line'>line</span><span class='comma'>,</span> <span class='symbol'>:existing</span> <span class='op'>=&gt;</span> <span class='id existing'>existing</span><span class='rparen'>)</span>
+  <span class='id ed'>ed</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id display_document'>display_document</span> <span class='id file'>file</span><span class='comma'>,</span> <span class='id display_hints'>display_hints</span>
+  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id hide_tool'>hide_tool</span> <span class='kw'>self</span> <span class='kw'>unless</span> <span class='id pinned_down?'>pinned_down?</span>
+  <span class='id ed'>ed</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2280,21 +3452,84 @@ likely doing that, not requesting to open a file</li>
 
     
       <div class="method_details ">
-  <p class="signature " id="rows_changed-instance_method">
+  <p class="signature " id="pinned_down?-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>rows_changed</strong>  <span class="extras">(private)</span>
+    - (<tt>Boolean</tt>) <strong>pinned_down?</strong> 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Turns the <tt>no_text</tt> state on or off depending on whether the model
+    
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+464
+465
+466</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/output_widget.rb', line 464</span>
+
+<span class='kw'>def</span> <span class='id pinned_down?'>pinned_down?</span>
+  <span class='ivar'>@pin_button</span><span class='period'>.</span><span class='id checked?'>checked?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="rows_changed-instance_method">
+  
+    - (<tt>nil</tt>) <strong>rows_changed</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Slot called whenever rows are added to or removed from the model</p>
+<p>Turns the <code>no_text</code> gui state on or off depending on whether the model
 is empty or not</p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
   
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -2303,13 +3538,15 @@ is empty or not</p>
 
 638
 639
-640</pre>
+640
+641</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/output_widget.rb', line 638</span>
 
 <span class='kw'>def</span> <span class='id rows_changed'>rows_changed</span>
   <span class='id change_state'>change_state</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>no_text</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='ivar'>@model</span><span class='period'>.</span><span class='id row_count'>row_count</span> <span class='op'>==</span> <span class='int'>0</span>
+  <span class='kw'>nil</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2321,28 +3558,53 @@ is empty or not</p>
       <div class="method_details ">
   <p class="signature " id="scroll_to-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>scroll_to</strong>(idx) 
+    - (<tt>nil</tt>) <strong>scroll_to</strong>(idx) 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Scrolls the view so that the item corresponding to the index <em>idx</em> is visible.</p>
-<p><em>idx</em> can be:</p>
-<ul>
-	<li>a <tt>Qt::ModelIndex</tt></li>
-	<li>a positive integer. In this case, the view will be scrolled so that the first
-item toplevel item in the row <em>idx</em> is visible.</li>
-	<li>a negative integer. It works as for a positive integer except that the rows are
-counted from the end (the same as passing a negative integer to <tt>Array#[]</tt>)</li>
-	<li><strong>nil</strong>. In this case, the view will be scrolled so that the first toplevel item
-of the last row is visible.</li>
-</ul>
+    <p>Scrolls the view so that the item corresponding the given index is visible</p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
   
+    <li>
+      
+        <span class='type'>(<tt>Qt::ModelIndex</tt>, <tt>Integer</tt>, <tt>nil</tt>)</span>
+      
+      
+        <span class='name'>idx</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the item to make visible. If it&#8217;s a
+<code>Qt::ModelIndex</code>, it&#8217;s the index to make visible. If it is a positive integer.
+the view will be scrolled so that the first toplevel item in the row <em>idx</em> is
+visible; if it&#8217;s a negative integer, the rows are counted from the end. If <strong>nil</strong>
+the first toplevel item of the last row will become visible</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -2366,7 +3628,8 @@ of the last row is visible.</li>
 334
 335
 336
-337</pre>
+337
+338</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/output_widget.rb', line 320</span>
@@ -2388,6 +3651,7 @@ of the last row is visible.</li>
     <span class='ivar'>@view</span><span class='period'>.</span><span class='id scroll_to'>scroll_to</span> <span class='ivar'>@model</span><span class='period'>.</span><span class='id index'>index</span><span class='lparen'>(</span><span class='ivar'>@model</span><span class='period'>.</span><span class='id row_count'>row_count</span> <span class='op'>-</span> <span class='int'>1</span><span class='comma'>,</span> <span class='int'>0</span><span class='rparen'>)</span><span class='comma'>,</span> 
         <span class='const'>Qt</span><span class='op'>::</span><span class='const'>AbstractItemView</span><span class='op'>::</span><span class='const'>PositionAtBottom</span>
   <span class='kw'>end</span>
+  <span class='kw'>nil</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2397,20 +3661,33 @@ of the last row is visible.</li>
       <div class="method_details ">
   <p class="signature " id="selection_changed-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>selection_changed</strong>(sel, desel)  <span class="extras">(private)</span>
+    - (<tt>nil</tt>) <strong>selection_changed</strong>(sel, desel)  <span class="extras">(private)</span>
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Slot connected to the view&#8217;s selection model&#8217;s selectionChanged signal.</p>
-<p>Turns the <tt>no_selection</tt> state on or off depending on whether the selection
-is empty or not</p>
+    <p>Slot connected to the view&#8217;s selection model&#8217;s <code>selectionChanged</code> signal</p>
+<p>Turns the <code>no_selection</code> gui state on or off according to whether the selection
+is empty or not.</p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
   
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -2419,13 +3696,15 @@ is empty or not</p>
 
 630
 631
-632</pre>
+632
+633</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/output_widget.rb', line 630</span>
 
 <span class='kw'>def</span> <span class='id selection_changed'>selection_changed</span> <span class='id sel'>sel</span><span class='comma'>,</span> <span class='id desel'>desel</span>
   <span class='id change_state'>change_state</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>no_selection</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='op'>!</span><span class='ivar'>@view</span><span class='period'>.</span><span class='id selection_model'>selection_model</span><span class='period'>.</span><span class='id has_selection'>has_selection</span>
+  <span class='kw'>nil</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2437,20 +3716,65 @@ is empty or not</p>
       <div class="method_details ">
   <p class="signature " id="set_color_for-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>set_color_for</strong>(name, color) 
+    - (<tt>nil</tt>) <strong>set_color_for</strong>(name, color) 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Instructs the OutputWidget to use the <tt>Qt::Color</tt> <em>color</em> to display items
-whose output type is <em>name</em>. <em>name</em> should be a symbol.</p>
-<p>If a color had already been set for <em>name</em>, it will be overwritten</p>
+    <p>Associates a color with an output type</p>
+<p>If a color had already been associated with the given output type, it&#8217;ll be overwritten.</p>
+<p>This method is useful to define new output types.</p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
   
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
+      
+      
+        <span class='name'>name</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the name of the output type</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Qt/Color.html" title="Qt::Color (class)">Qt::Color</a></span></tt>)</span>
+      
+      
+        <span class='name'>color</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the color to associate with the given output type</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -2459,13 +3783,15 @@ whose output type is <em>name</em>. <em>name</em> should be a symbol.</p>
 
 304
 305
-306</pre>
+306
+307</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/output_widget.rb', line 304</span>
 
 <span class='kw'>def</span> <span class='id set_color_for'>set_color_for</span> <span class='id name'>name</span><span class='comma'>,</span> <span class='id color'>color</span>
   <span class='ivar'>@colors</span><span class='lbracket'>[</span><span class='id name'>name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id color'>color</span>
+  <span class='kw'>nil</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2475,25 +3801,69 @@ whose output type is <em>name</em>. <em>name</em> should be a symbol.</p>
       <div class="method_details ">
   <p class="signature " id="set_output_type-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>set_output_type</strong>(idx, type) 
+    - (<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt><sup>?</sup>) <strong>set_output_type</strong>(idx, type) 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Sets the output type associated with the <tt>Qt::ModelIndex</tt> <em>idx</em> to <em>type</em>
-(a symbol).</p>
-<p>If a color has been associated with <em>type</em> (either because <em>type</em> is one of the
-standard types or because it&#8217;s been set with <tt>set_color_for</tt>), the foreground
-role of the index will be changed to that color and the <ins>OutputTypeRole</ins> of the
-index will be set to a string version of <em>type</em>. In this case, <em>type</em> is returned.</p>
-<p>If no color has been associated with <em>type</em>, this method does nothing and returns
-<strong>nil</strong>.</p>
+    <p>Changes the output type of a given index</p>
+<p>If a color has been associated with that output type, the foreground role and the
+output type role of that index are updated accordingly.</p>
+<p>If no color has been associated with the output type, nothing is done</p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
   
+    <li>
+      
+        <span class='type'>(<tt>Qt::ModelIndex</tt>)</span>
+      
+      
+        <span class='name'>idx</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the index to set the output type for</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
+      
+      
+        <span class='name'>type</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the new output type to associate with the index</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><em>type</em> if a color was associated with it and <strong>nil</strong> otherwise</p></div>
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -2528,18 +3898,51 @@ index will be set to a string version of <em>type</em>. In this case, <em>type</
       <div class="method_details ">
   <p class="signature " id="setup_model-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>setup_model</strong>(mod)  <span class="extras">(private)</span>
+    - (<tt>nil</tt>) <strong>setup_model</strong>(mod)  <span class="extras">(private)</span>
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Creates the model (if needed) and makes some signal-slot connections</p>
+    <p>Prepares the model to use</p>
+<p>After a call to this method, the model will become a child of the <span class='object_link'><a href="" title="Ruber::OutputWidget (class)">Ruber::OutputWidget</a></span></p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
   
+    <li>
+      
+        <span class='type'>(<tt>Qt::AbstractItemModel</tt>, <tt>nil</tt>)</span>
+      
+      
+        <span class='name'>mod</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the model to use. If <strong>nil</strong>, a new instance
+of <span class='object_link'><a href="OutputWidget/Model.html" title="Ruber::OutputWidget::Model (class)">Model</a></span> will be used</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -2554,7 +3957,8 @@ index will be set to a string version of <em>type</em>. In this case, <em>type</
 482
 483
 484
-485</pre>
+485
+486</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/output_widget.rb', line 477</span>
@@ -2567,6 +3971,7 @@ index will be set to a string version of <em>type</em>. In this case, <em>type</
   <span class='id connect'>connect</span> <span class='ivar'>@model</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rowsInserted(QModelIndex, int, int)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:rows_changed</span><span class='rparen'>)</span>
   <span class='id connect'>connect</span> <span class='ivar'>@model</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rowsRemoved(QModelIndex, int, int)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:rows_changed</span><span class='rparen'>)</span>
   <span class='id connect'>connect</span> <span class='ivar'>@model</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rowsInserted(QModelIndex, int, int)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>do_auto_scroll(QModelIndex, int, int)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+  <span class='kw'>nil</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2576,19 +3981,52 @@ index will be set to a string version of <em>type</em>. In this case, <em>type</
       <div class="method_details ">
   <p class="signature " id="show_menu-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>show_menu</strong>(pt)  <span class="extras">(private)</span>
+    - (<tt>ni;</tt>) <strong>show_menu</strong>(pt)  <span class="extras">(private)</span>
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Shows the menu (asynchronously) at the point <em>pt</em>.</p>
+    <p>Shows the menu</p>
 <p>If the menu hasn&#8217;t as yet been created, it creates it.</p>
+<p>The menu is shown asynchronously. This means that this method doesn&#8217;t wait for
+the user to choose an action but returns immediately.</p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
   
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Qt/Point.html" title="Qt::Point (class)">Qt::Point</a></span></tt>)</span>
+      
+      
+        <span class='name'>the</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>point where the menu should be shown</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>ni;</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -2598,7 +4036,8 @@ index will be set to a string version of <em>type</em>. In this case, <em>type</
 520
 521
 522
-523</pre>
+523
+524</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/output_widget.rb', line 520</span>
@@ -2606,6 +4045,7 @@ index will be set to a string version of <em>type</em>. In this case, <em>type</
 <span class='kw'>def</span> <span class='id show_menu'>show_menu</span> <span class='id pt'>pt</span>
   <span class='id fill_menu'>fill_menu</span> <span class='kw'>if</span> <span class='ivar'>@menu</span><span class='period'>.</span><span class='id empty?'>empty?</span>
   <span class='ivar'>@menu</span><span class='period'>.</span><span class='id popup'>popup</span> <span class='id pt'>pt</span>
+  <span class='kw'>nil</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2617,28 +4057,61 @@ index will be set to a string version of <em>type</em>. In this case, <em>type</
       <div class="method_details ">
   <p class="signature " id="text_for_clipboard-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>text_for_clipboard</strong>(indexes)  <span class="extras">(private)</span>
+    - (<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>) <strong>text_for_clipboard</strong>(indexes)  <span class="extras">(private)</span>
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Method used by the <ins>copy</ins> and <tt>copy_selected</tt> methods to obtain the text
-to put in the clipboard from the indexes.</p>
-<p>The default behaviour is to create a string which contains the content of all the
-toplevel items on the same row separated by tabs and separate different rows by
+    <p>Retrieves the text to copy to the clipboard from the given indexes</p>
+<p>The string is created by joining the text of toplevel items on the same row and
+different columns using tabs as separators. Different rows are separated with
 newlines. Child items are ignored.</p>
 <p>Derived class can override this method (and, if they plan to put child items in
-the view, they&#8217;re advised to do so). The method must accept an array of <tt>Qt::ModelIndex</tt>
-as argument and return a string with the text to put in the clipboard.</p>
+the view, they&#8217;re advised to do so).</p>
 <p>The reason the default behaviour ignores child items is that their meaning (and
 therefore the way their contents should be inserted into the string) depends
-very much on the specific content.</p>
+very much on the specific content, so there&#8217;s no way to have a sensible default
+behaviour.</p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
   
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;Qt::ModelIndex&gt;</tt>)</span>
+      
+      
+        <span class='name'>indexes</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the indexes to use to create the text</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the text which should be put in the clipboard</p></div>
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -2687,28 +4160,58 @@ very much on the specific content.</p>
       <div class="method_details ">
   <p class="signature " id="title=-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>title=</strong>(text) 
+    - (<tt>nil</tt>) <strong>title=</strong>(text) 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
     <p>Gives a title to the widget.</p>
-<p>A title is a toplevel entry at position 0,0 with output type <ins>:message</ins> and has 
-the <ins>IsTitleRole</ins> set to <strong>true</strong>. Of course, there can be only one item which is
+<p>A title is a toplevel entry at position 0, 0 with output type <code>:message</code> and has 
+the <code>IsTitleRole</code> set to <strong>true</strong>. Of course, there can be only one item which is
 a title.</p>
-<p>If the item in position 0,0 is not a title, a new row is inserted at position 0,
-its first element&#8217;s DisplayRole is set to <em>text</em> and its IsTitleRole is set to
-true.</p>
-<p>If the item in position 0,0 is a title, then its DisplayRole value is replaced
-with <em>text</em>.</p>
+<p>If the item in position 0, 0 is not a title, a new row with title role and the
+given text is inserted.</p>
+<p>If the item in position 0,0 is a title, then its display role is replaced with 
+the given text.</p>
 <p>Usually, the title is created when the external program is started and changed
-later if needed</p>
+later if needed.</p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
   
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>text</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the text of title</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -2727,7 +4230,8 @@ later if needed</p>
 398
 399
 400
-401</pre>
+401
+402</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/output_widget.rb', line 389</span>
@@ -2744,6 +4248,7 @@ later if needed</p>
     <span class='ivar'>@model</span><span class='period'>.</span><span class='id set_data'>set_data</span> <span class='id idx'>idx</span><span class='comma'>,</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Variant</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='kw'>true</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='const'>IsTitleRole</span>
   <span class='kw'>end</span>
   <span class='id set_output_type'>set_output_type</span> <span class='id idx'>idx</span><span class='comma'>,</span> <span class='symbol'>:message</span>
+  <span class='kw'>nil</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2753,19 +4258,50 @@ later if needed</p>
       <div class="method_details ">
   <p class="signature " id="update_index_color-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>update_index_color</strong>(idx)  <span class="extras">(private)</span>
+    - (<tt>nil</tt>) <strong>update_index_color</strong>(idx)  <span class="extras">(private)</span>
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Changes the foreground color of the Qt::ModelIndex <em>idx</em> and of its children so
-that it matches the color set for its output type.</p>
+    <p>Updates the color of an index and its children so that it matches their output types</p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
   
+    <li>
+      
+        <span class='type'>(<tt>Qt::ModelIndex</tt>)</span>
+      
+      
+        <span class='name'>idx</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the index whose foreground color should be updated.
+Its children will also be updated</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -2785,7 +4321,8 @@ that it matches the color set for its output type.</p>
 469
 470
 471
-472</pre>
+472
+473</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/output_widget.rb', line 459</span>
@@ -2803,6 +4340,7 @@ that it matches the color set for its output type.</p>
       <span class='kw'>end</span>
     <span class='kw'>end</span>
   <span class='kw'>end</span>
+  <span class='kw'>nil</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2812,19 +4350,69 @@ that it matches the color set for its output type.</p>
       <div class="method_details ">
   <p class="signature " id="with_auto_scrolling-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>with_auto_scrolling</strong>(val) 
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>with_auto_scrolling</strong>(val) { ... }
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Executes the block with autoscrolling turned on or off according to <em>val</em>, without
-permanently changing the autoscrolling setting.</p>
+    <p>Executes a block while temporarily turning autoscrolling on or off</p>
+<p>After the block has been executed, autoscrolling returns to the original state.</p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
   
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <span class='name'>val</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>whether to turn autoscrolling on or off</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Yields:</h3>
+<ul class="yield">
+  
+    <li>
+      
+        <span class='type'></span>
+      
+      
+      
+      
+        
+        <div class='inline'><p>the block to execute with autoscroll turned on or off</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the value returned by the block</p></div>
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -2865,7 +4453,666 @@ permanently changing the autoscrolling setting.</p>
   <p class="signature first" id="about_to_fill_menu-signalcode">
 <!-- The sub is needed to remove the (Object) part -->
   - <strong>about_to_fill_menu</strong> 
-</p>
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted immediately before the menu is created</p>
+<p>You should connect to this
+signal if you want to add actions to the menu at the last possible time. Usually,
+however, you don&#8217;t need it, as actions are usually created in the constructor.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="about_to_fill_menu-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>about_to_fill_menu</strong> 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted immediately before the menu is created</p>
+<p>You should connect to this
+signal if you want to add actions to the menu at the last possible time. Usually,
+however, you don&#8217;t need it, as actions are usually created in the constructor.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="about_to_fill_menu-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>about_to_fill_menu</strong> 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted immediately before the menu is created</p>
+<p>You should connect to this
+signal if you want to add actions to the menu at the last possible time. Usually,
+however, you don&#8217;t need it, as actions are usually created in the constructor.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="about_to_fill_menu-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>about_to_fill_menu</strong> 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted immediately before the menu is created</p>
+<p>You should connect to this
+signal if you want to add actions to the menu at the last possible time. Usually,
+however, you don&#8217;t need it, as actions are usually created in the constructor.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="about_to_fill_menu-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>about_to_fill_menu</strong> 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted immediately before the menu is created</p>
+<p>You should connect to this
+signal if you want to add actions to the menu at the last possible time. Usually,
+however, you don&#8217;t need it, as actions are usually created in the constructor.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="about_to_fill_menu-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>about_to_fill_menu</strong> 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted immediately before the menu is created</p>
+<p>You should connect to this
+signal if you want to add actions to the menu at the last possible time. Usually,
+however, you don&#8217;t need it, as actions are usually created in the constructor.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="about_to_fill_menu-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>about_to_fill_menu</strong> 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted immediately before the menu is created</p>
+<p>You should connect to this
+signal if you want to add actions to the menu at the last possible time. Usually,
+however, you don&#8217;t need it, as actions are usually created in the constructor.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="about_to_fill_menu-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>about_to_fill_menu</strong> 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted immediately before the menu is created</p>
+<p>You should connect to this
+signal if you want to add actions to the menu at the last possible time. Usually,
+however, you don&#8217;t need it, as actions are usually created in the constructor.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="about_to_fill_menu-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>about_to_fill_menu</strong> 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted immediately before the menu is created</p>
+<p>You should connect to this
+signal if you want to add actions to the menu at the last possible time. Usually,
+however, you don&#8217;t need it, as actions are usually created in the constructor.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="about_to_fill_menu-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>about_to_fill_menu</strong> 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted immediately before the menu is created</p>
+<p>You should connect to this
+signal if you want to add actions to the menu at the last possible time. Usually,
+however, you don&#8217;t need it, as actions are usually created in the constructor.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="about_to_fill_menu-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>about_to_fill_menu</strong> 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted immediately before the menu is created</p>
+<p>You should connect to this
+signal if you want to add actions to the menu at the last possible time. Usually,
+however, you don&#8217;t need it, as actions are usually created in the constructor.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="about_to_fill_menu-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>about_to_fill_menu</strong> 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted immediately before the menu is created</p>
+<p>You should connect to this
+signal if you want to add actions to the menu at the last possible time. Usually,
+however, you don&#8217;t need it, as actions are usually created in the constructor.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="about_to_fill_menu-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>about_to_fill_menu</strong> 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted immediately before the menu is created</p>
+<p>You should connect to this
+signal if you want to add actions to the menu at the last possible time. Usually,
+however, you don&#8217;t need it, as actions are usually created in the constructor.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="about_to_fill_menu-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>about_to_fill_menu</strong> 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted immediately before the menu is created</p>
+<p>You should connect to this
+signal if you want to add actions to the menu at the last possible time. Usually,
+however, you don&#8217;t need it, as actions are usually created in the constructor.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="about_to_fill_menu-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>about_to_fill_menu</strong> 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted immediately before the menu is created</p>
+<p>You should connect to this
+signal if you want to add actions to the menu at the last possible time. Usually,
+however, you don&#8217;t need it, as actions are usually created in the constructor.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="about_to_fill_menu-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>about_to_fill_menu</strong> 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted immediately before the menu is created</p>
+<p>You should connect to this
+signal if you want to add actions to the menu at the last possible time. Usually,
+however, you don&#8217;t need it, as actions are usually created in the constructor.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="about_to_fill_menu-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>about_to_fill_menu</strong> 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted immediately before the menu is created</p>
+<p>You should connect to this
+signal if you want to add actions to the menu at the last possible time. Usually,
+however, you don&#8217;t need it, as actions are usually created in the constructor.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="about_to_fill_menu-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>about_to_fill_menu</strong> 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted immediately before the menu is created</p>
+<p>You should connect to this
+signal if you want to add actions to the menu at the last possible time. Usually,
+however, you don&#8217;t need it, as actions are usually created in the constructor.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="about_to_fill_menu-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>about_to_fill_menu</strong> 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted immediately before the menu is created</p>
+<p>You should connect to this
+signal if you want to add actions to the menu at the last possible time. Usually,
+however, you don&#8217;t need it, as actions are usually created in the constructor.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="about_to_fill_menu-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>about_to_fill_menu</strong> 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted immediately before the menu is created</p>
+<p>You should connect to this
+signal if you want to add actions to the menu at the last possible time. Usually,
+however, you don&#8217;t need it, as actions are usually created in the constructor.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="about_to_fill_menu-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>about_to_fill_menu</strong> 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted immediately before the menu is created</p>
+<p>You should connect to this
+signal if you want to add actions to the menu at the last possible time. Usually,
+however, you don&#8217;t need it, as actions are usually created in the constructor.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="about_to_fill_menu-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>about_to_fill_menu</strong> 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted immediately before the menu is created</p>
+<p>You should connect to this
+signal if you want to add actions to the menu at the last possible time. Usually,
+however, you don&#8217;t need it, as actions are usually created in the constructor.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="about_to_fill_menu-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>about_to_fill_menu</strong> 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted immediately before the menu is created</p>
+<p>You should connect to this
+signal if you want to add actions to the menu at the last possible time. Usually,
+however, you don&#8217;t need it, as actions are usually created in the constructor.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="about_to_fill_menu-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>about_to_fill_menu</strong> 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted immediately before the menu is created</p>
+<p>You should connect to this
+signal if you want to add actions to the menu at the last possible time. Usually,
+however, you don&#8217;t need it, as actions are usually created in the constructor.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="about_to_fill_menu-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>about_to_fill_menu</strong> 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted immediately before the menu is created</p>
+<p>You should connect to this
+signal if you want to add actions to the menu at the last possible time. Usually,
+however, you don&#8217;t need it, as actions are usually created in the constructor.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="about_to_fill_menu-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>about_to_fill_menu</strong> 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted immediately before the menu is created</p>
+<p>You should connect to this
+signal if you want to add actions to the menu at the last possible time. Usually,
+however, you don&#8217;t need it, as actions are usually created in the constructor.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="about_to_fill_menu-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>about_to_fill_menu</strong> 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted immediately before the menu is created</p>
+<p>You should connect to this
+signal if you want to add actions to the menu at the last possible time. Usually,
+however, you don&#8217;t need it, as actions are usually created in the constructor.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="about_to_fill_menu-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>about_to_fill_menu</strong> 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted immediately before the menu is created</p>
+<p>You should connect to this
+signal if you want to add actions to the menu at the last possible time. Usually,
+however, you don&#8217;t need it, as actions are usually created in the constructor.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="about_to_fill_menu-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>about_to_fill_menu</strong> 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted immediately before the menu is created</p>
+<p>You should connect to this
+signal if you want to add actions to the menu at the last possible time. Usually,
+however, you don&#8217;t need it, as actions are usually created in the constructor.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="about_to_fill_menu-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>about_to_fill_menu</strong> 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted immediately before the menu is created</p>
+<p>You should connect to this
+signal if you want to add actions to the menu at the last possible time. Usually,
+however, you don&#8217;t need it, as actions are usually created in the constructor.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="about_to_fill_menu-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>about_to_fill_menu</strong> 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted immediately before the menu is created</p>
+<p>You should connect to this
+signal if you want to add actions to the menu at the last possible time. Usually,
+however, you don&#8217;t need it, as actions are usually created in the constructor.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="about_to_fill_menu-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>about_to_fill_menu</strong> 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted immediately before the menu is created</p>
+<p>You should connect to this
+signal if you want to add actions to the menu at the last possible time. Usually,
+however, you don&#8217;t need it, as actions are usually created in the constructor.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="about_to_fill_menu-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>about_to_fill_menu</strong> 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted immediately before the menu is created</p>
+<p>You should connect to this
+signal if you want to add actions to the menu at the last possible time. Usually,
+however, you don&#8217;t need it, as actions are usually created in the constructor.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="about_to_fill_menu-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>about_to_fill_menu</strong> 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted immediately before the menu is created</p>
+<p>You should connect to this
+signal if you want to add actions to the menu at the last possible time. Usually,
+however, you don&#8217;t need it, as actions are usually created in the constructor.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="about_to_fill_menu-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>about_to_fill_menu</strong> 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted immediately before the menu is created</p>
+<p>You should connect to this
+signal if you want to add actions to the menu at the last possible time. Usually,
+however, you don&#8217;t need it, as actions are usually created in the constructor.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="about_to_fill_menu-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>about_to_fill_menu</strong> 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted immediately before the menu is created</p>
+<p>You should connect to this
+signal if you want to add actions to the menu at the last possible time. Usually,
+however, you don&#8217;t need it, as actions are usually created in the constructor.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="about_to_fill_menu-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>about_to_fill_menu</strong> 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted immediately before the menu is created</p>
+<p>You should connect to this
+signal if you want to add actions to the menu at the last possible time. Usually,
+however, you don&#8217;t need it, as actions are usually created in the constructor.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
 </div>
     
   </div>
@@ -2873,7 +5120,7 @@ permanently changing the autoscrolling setting.</p>
 </div>
     
     <div id="footer">
-  Generated on Tue Jan 11 14:26:47 2011 by 
+  Generated on Mon Feb  7 15:09:06 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.4 (ruby-1.9.2).
 </div>

@@ -616,7 +616,7 @@ tool widgets.</p>
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#display_doc-instance_method" title="#display_doc (instance method)">- (EditorView<sup>?</sup>) <strong>display_doc</strong>(doc, line = nil, col = nil, hints = DEFAULT_HINTS) </a>
+      <a href="#display_doc-instance_method" title="#display_doc (instance method)">- (EditorView<sup>?</sup>) <strong>display_doc</strong>(doc, hints = DEFAULT_HINTS) </a>
     
 
     
@@ -775,6 +775,28 @@ tool widgets.</p>
 
       
         <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#find_next_pane-instance_method" title="#find_next_pane (instance method)">- (Pane<sup>?</sup>) <strong>find_next_pane</strong>(from, orientation, direction) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Finds the next or previous pane in single view mode from a given pane.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
 <li class="public ">
   <span class="summary_signature">
     
@@ -873,6 +895,30 @@ files.</p></div></span>
 <li class="private ">
   <span class="summary_signature">
     
+      <a href="#move_among_views-instance_method" title="#move_among_views (instance method)">- (EditorView) <strong>move_among_views</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Slot associated with the Next/Previous View Horizontally/Vertically actions.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
       <a href="#new_file-instance_method" title="#new_file (instance method)">- (EditorView) <strong>new_file</strong> </a>
     
 
@@ -937,6 +983,54 @@ files.</p></div></span>
 
   
     <span class="summary_desc"><div class='inline'><p>Slot connected with the &#8216;Next Document&#8217; action.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#next_horizontal_pane-instance_method" title="#next_horizontal_pane (instance method)">- (Object) <strong>next_horizontal_pane</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#next_vertical_pane-instance_method" title="#next_vertical_pane (instance method)">- (Object) <strong>next_vertical_pane</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -1807,6 +1901,70 @@ current tab changes.</p></div></span>
 
   <h2>Signal Summary</h2>
   <ul class="summary" >
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#current_document_changed-signalcode" title="current_document_changed (signalcode)">- <strong>current_document_changed</strong>(QObject* arg1) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#active_editor_changed-signalcode" title="active_editor_changed (signalcode)">- <strong>active_editor_changed</strong>(QObject* arg1) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#current_document_changed-signalcode" title="current_document_changed (signalcode)">- <strong>current_document_changed</strong>(QObject* arg1) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#active_editor_changed-signalcode" title="active_editor_changed (signalcode)">- <strong>active_editor_changed</strong>(QObject* arg1) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#current_document_changed-signalcode" title="current_document_changed (signalcode)">- <strong>current_document_changed</strong>(QObject* arg1) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#active_editor_changed-signalcode" title="active_editor_changed (signalcode)">- <strong>active_editor_changed</strong>(QObject* arg1) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#current_document_changed-signalcode" title="current_document_changed (signalcode)">- <strong>current_document_changed</strong>(QObject* arg1) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#active_editor_changed-signalcode" title="active_editor_changed (signalcode)">- <strong>active_editor_changed</strong>(QObject* arg1) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
   
     <li class="public ">
       <span class="summary_signature">
@@ -2800,21 +2958,21 @@ associated with <em>editor</em> should be closed</p></div>
       <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window.rb', line 530</span>
 
 <span class='kw'>def</span> <span class='id close_editor'>close_editor</span> <span class='id editor'>editor</span><span class='comma'>,</span> <span class='id ask'>ask</span> <span class='op'>=</span> <span class='kw'>true</span>
-  <span class='id editor_tab'>editor_tab</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id tab'>tab</span><span class='lparen'>(</span><span class='id editor'>editor</span><span class='rparen'>)</span>
-  <span class='id has_focus'>has_focus</span> <span class='op'>=</span> <span class='id editor_tab'>editor_tab</span><span class='period'>.</span><span class='id is_active_window'>is_active_window</span> <span class='kw'>if</span> <span class='id editor_tab'>editor_tab</span>
-  <span class='kw'>if</span> <span class='id has_focus'>has_focus</span>
-    <span class='id views'>views</span> <span class='op'>=</span> <span class='id editor_tab'>editor_tab</span><span class='period'>.</span><span class='id to_a'>to_a</span>
-    <span class='id idx'>idx</span> <span class='op'>=</span> <span class='id views'>views</span><span class='period'>.</span><span class='id index'>index</span><span class='lparen'>(</span><span class='id editor'>editor</span><span class='rparen'>)</span>
-    <span class='id new_view'>new_view</span> <span class='op'>=</span> <span class='id views'>views</span><span class='lbracket'>[</span><span class='id idx'>idx</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='id views'>views</span><span class='lbracket'>[</span><span class='id idx'>idx</span><span class='op'>+</span><span class='int'>1</span><span class='rbracket'>]</span>
-  <span class='kw'>end</span>
-  <span class='id doc'>doc</span> <span class='op'>=</span> <span class='id editor'>editor</span><span class='period'>.</span><span class='id document'>document</span>
+<span class='comment'>#       editor_tab = self.tab(editor)
+</span><span class='comment'>#       has_focus = editor_tab.is_active_window if editor_tab
+</span><span class='comment'>#       if has_focus
+</span><span class='comment'>#         views = editor_tab.to_a
+</span><span class='comment'>#         idx = views.index(editor)
+</span><span class='comment'>#         new_view = views[idx-1] || views[idx+1]
+</span><span class='comment'>#       end
+</span>  <span class='id doc'>doc</span> <span class='op'>=</span> <span class='id editor'>editor</span><span class='period'>.</span><span class='id document'>document</span>
   <span class='kw'>if</span> <span class='id doc'>doc</span><span class='period'>.</span><span class='id views'>views</span><span class='period'>.</span><span class='id size'>size</span> <span class='op'>&gt;</span> <span class='int'>1</span> 
     <span class='id editor'>editor</span><span class='period'>.</span><span class='id close'>close</span>
     <span class='kw'>true</span>
   <span class='kw'>else</span> <span class='id doc'>doc</span><span class='period'>.</span><span class='id close'>close</span> <span class='id ask'>ask</span>
   <span class='kw'>end</span>
-  <span class='id focus_on_editor'>focus_on_editor</span> <span class='id new_view'>new_view</span> <span class='kw'>if</span> <span class='id new_view'>new_view</span>
-<span class='kw'>end</span></pre>
+<span class='comment'>#       focus_on_editor new_view if new_view
+</span><span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -3314,7 +3472,7 @@ determined from the triggered action</p>
       <div class="method_details ">
   <p class="signature " id="display_doc-instance_method">
   
-    - (<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt><sup>?</sup>) <strong>display_doc</strong>(doc, line = nil, col = nil, hints = DEFAULT_HINTS) 
+    - (<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt><sup>?</sup>) <strong>display_doc</strong>(doc, hints = DEFAULT_HINTS) 
   
 
   
@@ -3328,46 +3486,14 @@ determined from the triggered action</p>
 <p>This method is similar to <span class='object_link'><a href="#editor_for%21-instance_method" title="Ruber::MainWindow#editor_for! (method)">#editor_for!</a></span> but, after retrieving the editor (creating
 it and/or the document as needed), it activates and gives focus to it and moves
 the cursor to the given position.</p>
+<p>Besides the keys listed in <span class='object_link'><a href="#editor_for%21-instance_method" title="Ruber::MainWindow#editor_for! (method)">#editor_for!</a></span>, <em>hints</em> can also contain the two entries
+<code>:line</code> and <code>:column</code>.</p>
 
   </div>
 </div>
 <div class="tags">
   <h3>Parameters:</h3>
 <ul class="param">
-  
-    <li>
-      
-        <span class='type'>(<tt>Integer</tt>, <tt>nil</tt>)</span>
-      
-      
-        <span class='name'>line</span>
-      
-      
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
-      
-        &mdash;
-        <div class='inline'><p>the line number to move the cursor to (0-based). Ignored if eiter
-it or <em>col</em> is <strong>nil</strong></p></div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='type'>(<tt>Integer</tt>, <tt>nil</tt>)</span>
-      
-      
-        <span class='name'>col</span>
-      
-      
-        <em class="default">(defaults to: <tt>nil</tt>)</em>
-      
-      
-        &mdash;
-        <div class='inline'><p>the column number to move the cursor to (0-based). Ignored if eiter
-it or <em>col</em> is <strong>nil</strong></p></div>
-      
-    </li>
   
     <li>
       
@@ -3402,6 +3528,43 @@ string is an Url, it&#8217;ll be interpreted as such</p></div>
     </li>
   
 </ul>
+
+  
+    
+    
+    
+    
+    <h3>Options Hash (<tt>hints</tt>):</h3>
+    <ul class="option">
+      
+        <li>
+          <span class="type">(<tt>Integer</tt>, <tt>nil</tt>)</span>
+          <span class="name">line</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>nil</tt>
+            
+          </span>
+          &mdash; <div class='inline'><p>the line to move the cursor to. If <strong>nil</strong>,
+the cursor won&#8217;t be moved</p></div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt>Integer</tt>)</span>
+          <span class="name">column</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>0</tt>
+            
+          </span>
+          &mdash; <div class='inline'><p>the column to move the cursor to. Ignored if
+the <code>:line</code> entry is <strong>nil</strong></p></div>
+        </tr>
+      
+    </ul>
+  
 <h3>Returns:</h3>
 <ul class="return">
   
@@ -3440,16 +3603,18 @@ editor couldn&#8217;t be found (or created)</p></div>
 477
 478
 479
-480</pre>
+480
+481</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window.rb', line 473</span>
 
-<span class='kw'>def</span> <span class='id display_doc'>display_doc</span> <span class='id doc'>doc</span><span class='comma'>,</span> <span class='id line'>line</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id col'>col</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id hints'>hints</span> <span class='op'>=</span> <span class='const'>DEFAULT_HINTS</span>
+<span class='kw'>def</span> <span class='id display_doc'>display_doc</span> <span class='id doc'>doc</span><span class='comma'>,</span> <span class='id hints'>hints</span> <span class='op'>=</span> <span class='const'>DEFAULT_HINTS</span>
   <span class='id ed'>ed</span> <span class='op'>=</span> <span class='id editor_for!'>editor_for!</span> <span class='id doc'>doc</span><span class='comma'>,</span> <span class='id hints'>hints</span>
   <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id ed'>ed</span>
   <span class='id activate_editor'>activate_editor</span> <span class='id ed'>ed</span>
-  <span class='id ed'>ed</span><span class='period'>.</span><span class='id go_to'>go_to</span> <span class='id line'>line</span><span class='comma'>,</span> <span class='id col'>col</span> <span class='kw'>if</span> <span class='id line'>line</span> <span class='kw'>and</span> <span class='id col'>col</span>
+  <span class='id line'>line</span> <span class='op'>=</span> <span class='id hints'>hints</span><span class='lbracket'>[</span><span class='symbol'>:line</span><span class='rbracket'>]</span>
+  <span class='id ed'>ed</span><span class='period'>.</span><span class='id go_to'>go_to</span> <span class='id line'>line</span><span class='comma'>,</span> <span class='id hints'>hints</span><span class='lbracket'>[</span><span class='symbol'>:column</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='int'>0</span> <span class='kw'>if</span> <span class='id line'>line</span>
   <span class='id ed'>ed</span><span class='period'>.</span><span class='id set_focus'>set_focus</span>
   <span class='id ed'>ed</span>
 <span class='kw'>end</span></pre>
@@ -4212,6 +4377,164 @@ to the action</p></div>
 </div>
     
       <div class="method_details ">
+  <p class="signature " id="find_next_pane-instance_method">
+  
+    - (<tt><span class='object_link'><a href="Pane.html" title="Ruber::Pane (class)">Pane</a></span></tt><sup>?</sup>) <strong>find_next_pane</strong>(from, orientation, direction)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+  <div class="note todo">
+    <strong>TODO:</strong> 
+    <div class='inline'><p>Maybe move this method to <span class='object_link'><a href="Pane.html" title="Ruber::Pane (class)">Pane</a></span> class</p></div>
+  </div>
+
+<p>Finds the next or previous pane in single view mode from a given pane</p>
+<p>According to the second argument, the direction will be either horizontal or
+vertical.</p>
+<p>The search will be carried out first among siblings and their children, then among
+ancestors.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Pane.html" title="Ruber::Pane (class)">Pane</a></span></tt>)</span>
+      
+      
+        <span class='name'>from</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the pane next/previous is relative to. It <strong>must</strong> be a single
+view pane</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <span class='name'>orientation</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>whether to look for the next/previous pane horizontally
+or vertically. It may be either <code>Qt::Horizontal</code> or <code>Qt::Vertical</code></p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
+      
+      
+        <span class='name'>direction</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>whether to look for the next or previous pane. It must
+be either <code>:next</code> or <code>:previous</code></p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Pane.html" title="Ruber::Pane (class)">Pane</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the next/previous single view mode pane or <strong>nil</strong> if no such pane
+has been found (either because the pane is toplevel or because it&#8217;s the first/last)</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+610
+611
+612
+613
+614
+615
+616
+617
+618
+619
+620
+621
+622
+623
+624
+625
+626
+627
+628
+629
+630
+631
+632
+633
+634
+635</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 610</span>
+
+<span class='kw'>def</span> <span class='id find_next_pane'>find_next_pane</span> <span class='id from'>from</span><span class='comma'>,</span> <span class='id orientation'>orientation</span><span class='comma'>,</span> <span class='id direction'>direction</span>
+  <span class='id loop'>loop</span> <span class='kw'>do</span>
+    <span class='id parent'>parent</span> <span class='op'>=</span> <span class='id from'>from</span><span class='period'>.</span><span class='id parent_pane'>parent_pane</span>
+    <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>unless</span> <span class='id parent'>parent</span>
+    <span class='id idx'>idx</span> <span class='op'>=</span> <span class='id parent'>parent</span><span class='period'>.</span><span class='id splitter'>splitter</span><span class='period'>.</span><span class='id index_of'>index_of</span> <span class='id from'>from</span>
+    <span class='kw'>if</span> <span class='id parent'>parent</span><span class='period'>.</span><span class='id orientation'>orientation</span> <span class='op'>==</span> <span class='id orientation'>orientation</span>
+      <span class='id new_idx'>new_idx</span> <span class='op'>=</span> <span class='id idx'>idx</span> <span class='op'>+</span> <span class='lparen'>(</span><span class='id direction'>direction</span> <span class='op'>==</span> <span class='symbol'>:next</span> <span class='op'>?</span> <span class='int'>1</span> <span class='op'>:</span> <span class='op'>-</span><span class='int'>1</span><span class='rparen'>)</span>
+      <span class='id pane'>pane</span> <span class='op'>=</span> <span class='id parent'>parent</span><span class='period'>.</span><span class='id splitter'>splitter</span><span class='period'>.</span><span class='id widget'>widget</span> <span class='id new_idx'>new_idx</span>
+      <span class='kw'>return</span> <span class='id pane'>pane</span><span class='period'>.</span><span class='id views'>views</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id parent'>parent</span> <span class='kw'>if</span> <span class='id pane'>pane</span>
+    <span class='kw'>end</span>
+    <span class='id to_try'>to_try</span> <span class='op'>=</span> <span class='id parent'>parent</span><span class='period'>.</span><span class='id panes'>panes</span><span class='lbracket'>[</span><span class='id direction'>direction</span> <span class='op'>==</span> <span class='symbol'>:next</span> <span class='op'>?</span> <span class='lparen'>(</span><span class='id idx'>idx</span><span class='op'>+</span><span class='int'>1</span><span class='rparen'>)</span><span class='op'>..</span><span class='op'>-</span><span class='int'>1</span> <span class='op'>:</span> <span class='int'>0</span><span class='op'>...</span><span class='id idx'>idx</span><span class='rbracket'>]</span>
+    <span class='kw'>until</span> <span class='id to_try'>to_try</span><span class='period'>.</span><span class='id empty?'>empty?</span> <span class='kw'>do</span>
+      <span class='id idx'>idx</span> <span class='op'>=</span> <span class='id direction'>direction</span> <span class='op'>==</span> <span class='symbol'>:next</span> <span class='op'>?</span> <span class='int'>0</span> <span class='op'>:</span> <span class='op'>-</span><span class='int'>1</span>
+      <span class='id pane'>pane</span> <span class='op'>=</span> <span class='id to_try'>to_try</span><span class='lbracket'>[</span><span class='id idx'>idx</span><span class='rbracket'>]</span>
+      <span class='kw'>if</span> <span class='id pane'>pane</span><span class='period'>.</span><span class='id single_view?'>single_view?</span> <span class='kw'>then</span> <span class='id to_try'>to_try</span><span class='period'>.</span><span class='id delete_at'>delete_at</span> <span class='id idx'>idx</span>
+      <span class='kw'>else</span>
+        <span class='kw'>if</span> <span class='id pane'>pane</span><span class='period'>.</span><span class='id orientation'>orientation</span> <span class='op'>==</span> <span class='id orientation'>orientation</span> <span class='kw'>then</span> <span class='kw'>return</span> <span class='id pane'>pane</span><span class='period'>.</span><span class='id views'>views</span><span class='lbracket'>[</span><span class='id idx'>idx</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id parent'>parent</span>
+        <span class='kw'>else</span> 
+          <span class='id to_try'>to_try</span><span class='period'>.</span><span class='id delete_at'>delete_at</span> <span class='id idx'>idx</span>
+          <span class='id to_try'>to_try</span><span class='period'>.</span><span class='id unshift'>unshift</span> <span class='op'>*</span><span class='id pane'>pane</span><span class='period'>.</span><span class='id panes'>panes</span>
+        <span class='kw'>end</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+    <span class='id from'>from</span> <span class='op'>=</span> <span class='id parent'>parent</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <p class="signature " id="focus_on_editor-instance_method">
   
     
@@ -4592,6 +4915,75 @@ couldn&#8217;t be opened</p></div>
 
     
       <div class="method_details ">
+  <p class="signature " id="move_among_views-instance_method">
+  
+    - (<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>) <strong>move_among_views</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Slot associated with the Next/Previous View Horizontally/Vertically actions</p>
+<p>According to the name of the action, it gives focus to the next/previous view in
+the current tab going horizontally/vertically. If the current tab only contains
+one view, nothing is done.</p>
+<p><code>note</code> this method uses <code>sender</code> to find out which action emitted the signal,
+  so you can&#8217;t call it directly</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the view which received focus</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+581
+582
+583
+584
+585
+586
+587
+588</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 581</span>
+
+<span class='kw'>def</span> <span class='id move_among_views'>move_among_views</span>
+  <span class='id action_name'>action_name</span> <span class='op'>=</span> <span class='id sender'>sender</span><span class='period'>.</span><span class='id object_name'>object_name</span>
+  <span class='id direction'>direction</span> <span class='op'>=</span> <span class='id action_name'>action_name</span><span class='period'>.</span><span class='id match'>match</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>next</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span> <span class='op'>?</span> <span class='symbol'>:next</span> <span class='op'>:</span> <span class='symbol'>:previous</span>
+  <span class='id orientation'>orientation</span> <span class='op'>=</span> <span class='id action_name'>action_name</span><span class='period'>.</span><span class='id match'>match</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>horizontal</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span> <span class='op'>?</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Horizontal</span> <span class='op'>:</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Vertical</span>
+  <span class='id pane'>pane</span> <span class='op'>=</span> <span class='id find_next_pane'>find_next_pane</span> <span class='id active_editor'>active_editor</span><span class='period'>.</span><span class='id parent'>parent</span><span class='comma'>,</span> <span class='id orientation'>orientation</span><span class='comma'>,</span> <span class='id direction'>direction</span>
+  <span class='id view'>view</span> <span class='op'>=</span> <span class='id pane'>pane</span> <span class='op'>?</span> <span class='id pane'>pane</span><span class='period'>.</span><span class='id view'>view</span> <span class='op'>:</span> <span class='ivar'>@tabs</span><span class='period'>.</span><span class='id current_widget'>current_widget</span><span class='period'>.</span><span class='id views'>views</span><span class='lbracket'>[</span><span class='id direction'>direction</span> <span class='op'>==</span> <span class='symbol'>:next</span> <span class='op'>?</span> <span class='int'>0</span> <span class='op'>:</span> <span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span>
+  <span class='id focus_on_editor'>focus_on_editor</span> <span class='id view'>view</span> 
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>move_among_views()</tt></p>
+
+    
+      <div class="method_details ">
   <p class="signature " id="new_file-instance_method">
   
     - (<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>) <strong>new_file</strong>  <span class="extras">(private)</span>
@@ -4779,6 +5171,70 @@ one, it returns to the first</p>
 </table>
 </div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
       <p style="margin-top: 5pt;"><tt>next_document()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="next_horizontal_pane-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>next_horizontal_pane</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+570
+571
+572
+573</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 570</span>
+
+<span class='kw'>def</span> <span class='id next_horizontal_pane'>next_horizontal_pane</span>
+  <span class='id pane'>pane</span> <span class='op'>=</span> <span class='id find_next_pane'>find_next_pane</span> <span class='id active_editor'>active_editor</span><span class='period'>.</span><span class='id parent'>parent</span><span class='comma'>,</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Horizontal</span>
+  <span class='id focus_on_editor'>focus_on_editor</span> <span class='id pane'>pane</span><span class='period'>.</span><span class='id view'>view</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>next_horizontal_pane()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="next_vertical_pane-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>next_vertical_pane</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+576
+577
+578
+579</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 576</span>
+
+<span class='kw'>def</span> <span class='id next_vertical_pane'>next_vertical_pane</span>
+  <span class='id pane'>pane</span> <span class='op'>=</span> <span class='id find_next_pane'>find_next_pane</span> <span class='id active_editor'>active_editor</span><span class='period'>.</span><span class='id parent'>parent</span><span class='comma'>,</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Vertical</span>
+  <span class='id focus_on_editor'>focus_on_editor</span> <span class='id pane'>pane</span><span class='period'>.</span><span class='id view'>view</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>next_vertical_pane()</tt></p>
 
     
       <div class="method_details ">
@@ -6578,7 +7034,7 @@ editor</p></div>
 
 <span class='kw'>def</span> <span class='id split_horizontally'>split_horizontally</span>
   <span class='id ed'>ed</span> <span class='op'>=</span> <span class='id active_editor'>active_editor</span>
-  <span class='id display_document'>display_document</span> <span class='id ed'>ed</span><span class='period'>.</span><span class='id document'>document</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='symbol'>:existing</span> <span class='op'>=&gt;</span> <span class='symbol'>:never</span><span class='comma'>,</span> <span class='symbol'>:new</span> <span class='op'>=&gt;</span> <span class='id ed'>ed</span><span class='comma'>,</span> <span class='symbol'>:split</span> <span class='op'>=&gt;</span> <span class='symbol'>:horizontal</span>
+  <span class='id display_document'>display_document</span> <span class='id ed'>ed</span><span class='period'>.</span><span class='id document'>document</span><span class='comma'>,</span> <span class='symbol'>:existing</span> <span class='op'>=&gt;</span> <span class='symbol'>:never</span><span class='comma'>,</span> <span class='symbol'>:new</span> <span class='op'>=&gt;</span> <span class='id ed'>ed</span><span class='comma'>,</span> <span class='symbol'>:split</span> <span class='op'>=&gt;</span> <span class='symbol'>:horizontal</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -6636,7 +7092,7 @@ editor</p></div>
 
 <span class='kw'>def</span> <span class='id split_vertically'>split_vertically</span>
   <span class='id ed'>ed</span> <span class='op'>=</span> <span class='id active_editor'>active_editor</span>
-  <span class='id new_ed'>new_ed</span> <span class='op'>=</span> <span class='id display_document'>display_document</span> <span class='id ed'>ed</span><span class='period'>.</span><span class='id document'>document</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='symbol'>:existing</span> <span class='op'>=&gt;</span> <span class='symbol'>:never</span><span class='comma'>,</span> <span class='symbol'>:new</span> <span class='op'>=&gt;</span> <span class='id ed'>ed</span><span class='comma'>,</span> <span class='symbol'>:split</span> <span class='op'>=&gt;</span> <span class='symbol'>:vertical</span>
+  <span class='id new_ed'>new_ed</span> <span class='op'>=</span> <span class='id display_document'>display_document</span> <span class='id ed'>ed</span><span class='period'>.</span><span class='id document'>document</span><span class='comma'>,</span> <span class='symbol'>:existing</span> <span class='op'>=&gt;</span> <span class='symbol'>:never</span><span class='comma'>,</span> <span class='symbol'>:new</span> <span class='op'>=&gt;</span> <span class='id ed'>ed</span><span class='comma'>,</span> <span class='symbol'>:split</span> <span class='op'>=&gt;</span> <span class='symbol'>:vertical</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -7297,15 +7753,13 @@ action list so that it contains an action for each of the open documents</p>
 528
 529
 530
-531
-532</pre>
+531</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 521</span>
 
 <span class='kw'>def</span> <span class='id update_switch_to_list'>update_switch_to_list</span>
-  <span class='id unplug_action_list'>unplug_action_list</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>window-switch_to_open_document_list</span><span class='tstring_end'>'</span></span>
-  <span class='ivar'>@switch_to_actions</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id a'>a</span><span class='op'>|</span> <span class='id a'>a</span><span class='period'>.</span><span class='id delete_later'>delete_later</span><span class='rbrace'>}</span>
+  <span class='id unplug_action_list'>unplug_action_list</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>window-switch_to_open_document_list</span><span class='tstring_end'>&quot;</span></span>
   <span class='ivar'>@switch_to_actions</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:documents</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id doc'>doc</span><span class='op'>|</span>
     <span class='id a'>a</span> <span class='op'>=</span> <span class='id action_collection'>action_collection</span><span class='period'>.</span><span class='id add_action'>add_action</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>switch_to_</span><span class='embexpr_beg'>#{</span><span class='id doc'>doc</span><span class='period'>.</span><span class='id document_name'>document_name</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:switch_to_document</span><span class='rparen'>)</span>
     <span class='id a'>a</span><span class='period'>.</span><span class='id text'>text</span> <span class='op'>=</span> <span class='const'>KDE</span><span class='period'>.</span><span class='id i18n'>i18n</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Switch to %s</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='op'>%</span> <span class='lbracket'>[</span><span class='id doc'>doc</span><span class='period'>.</span><span class='id document_name'>document_name</span><span class='rbracket'>]</span>
@@ -7313,7 +7767,7 @@ action list so that it contains an action for each of the open documents</p>
     <span class='id a'>a</span>
   <span class='kw'>end</span>
   <span class='ivar'>@switch_to_actions</span> <span class='op'>=</span> <span class='ivar'>@switch_to_actions</span><span class='period'>.</span><span class='id sort_by'>sort_by</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id a'>a</span><span class='op'>|</span> <span class='id a'>a</span><span class='period'>.</span><span class='id object_name'>object_name</span><span class='rbrace'>}</span>
-  <span class='id plug_action_list'>plug_action_list</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>window-switch_to_open_document_list</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='ivar'>@switch_to_actions</span>
+  <span class='id plug_action_list'>plug_action_list</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>window-switch_to_open_document_list</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='ivar'>@switch_to_actions</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -7516,12 +7970,68 @@ and should be avoided. To do so, you use this method:</p>
 </p>
 </div>
     
+      <div class="method_details ">
+  <p class="signature " id="current_document_changed-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>current_document_changed</strong>(QObject* arg1) 
+</p>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="active_editor_changed-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>active_editor_changed</strong>(QObject* arg1) 
+</p>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="current_document_changed-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>current_document_changed</strong>(QObject* arg1) 
+</p>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="active_editor_changed-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>active_editor_changed</strong>(QObject* arg1) 
+</p>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="current_document_changed-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>current_document_changed</strong>(QObject* arg1) 
+</p>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="active_editor_changed-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>active_editor_changed</strong>(QObject* arg1) 
+</p>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="current_document_changed-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>current_document_changed</strong>(QObject* arg1) 
+</p>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="active_editor_changed-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>active_editor_changed</strong>(QObject* arg1) 
+</p>
+</div>
+    
   </div>
 
 </div>
     
     <div id="footer">
-  Generated on Tue Jan 11 14:49:31 2011 by 
+  Generated on Mon Feb  7 15:09:11 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.4 (ruby-1.9.2).
 </div>

@@ -278,6 +278,28 @@ collection.</p></div></span>
 <li class="public ">
   <span class="summary_signature">
     
+      <a href="#move_cursor_by-instance_method" title="#move_cursor_by (instance method)">- (Boolean) <strong>move_cursor_by</strong>(row, col) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Moves the cursor of the given amount.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
       <a href="#set_annotation_border_visible-instance_method" title="#set_annotation_border_visible (instance method)">- (Object) <strong>set_annotation_border_visible</strong>(vis) </a>
     
 
@@ -417,6 +439,62 @@ collection.</p></div></span>
       <span class="summary_desc"><div class='inline'></div></span>
     </li>
   
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#closing-signalcode" title="closing (signalcode)">- <strong>closing</strong>(QWidget* arg1) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#cursor_position_changed-signalcode" title="cursor_position_changed (signalcode)">- <strong>cursor_position_changed</strong>(KTextEditor::Cursor arg1, QWidget* arg2) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#view_mode_changed-signalcode" title="view_mode_changed (signalcode)">- <strong>view_mode_changed</strong>(QString arg1, QWidget* arg2) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#edit_mode_changed-signalcode" title="edit_mode_changed (signalcode)">- <strong>edit_mode_changed</strong>(KTextEditor::View::EditMode arg1, QWidget* arg2) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#selection_mode_changed-signalcode" title="selection_mode_changed (signalcode)">- <strong>selection_mode_changed</strong>(bool arg1, QWidget* arg2) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#mouse_position_changed-signalcode" title="mouse_position_changed (signalcode)">- <strong>mouse_position_changed</strong>(KTextEditor::Cursor arg1, QWidget* arg2) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#selection_changed-signalcode" title="selection_changed (signalcode)">- <strong>selection_changed</strong>(QWidget* arg1) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
+  
   </ul>
 
 
@@ -484,7 +562,9 @@ collection.</p></div></span>
 106
 107
 108
-109</pre>
+109
+110
+111</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/editor/editor_view.rb', line 72</span>
@@ -525,6 +605,8 @@ collection.</p></div></span>
   <span class='kw'>end</span>
   
   <span class='ivar'>@view</span><span class='period'>.</span><span class='id context_menu'>context_menu</span> <span class='op'>=</span> <span class='ivar'>@view</span><span class='period'>.</span><span class='id default_context_menu'>default_context_menu</span><span class='lparen'>(</span><span class='const'>Qt</span><span class='op'>::</span><span class='const'>Menu</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='ivar'>@view</span><span class='rparen'>)</span><span class='rparen'>)</span>
+  
+  <span class='kw'>self</span><span class='period'>.</span><span class='id focus_policy'>focus_policy</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>WheelFocus</span>
   
 <span class='kw'>end</span></pre>
     </td>
@@ -668,8 +750,7 @@ collection.</p></div></span>
 127
 128
 129
-130
-131</pre>
+130</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/editor/editor_view.rb', line 127</span>
@@ -677,8 +758,7 @@ collection.</p></div></span>
 <span class='kw'>def</span> <span class='id close'>close</span>
   <span class='id emit'>emit</span> <span class='id closing'>closing</span> <span class='kw'>self</span>
   <span class='kw'>super</span>
-<span class='comment'>#       delete_later
-</span><span class='kw'>end</span></pre>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -758,7 +838,7 @@ the signal.</p>
       <pre class="code"><span class="info file"># File 'lib/ruber/editor/editor_view.rb', line 111</span>
 
 <span class='kw'>def</span> <span class='id go_to'>go_to</span> <span class='id row'>row</span><span class='comma'>,</span> <span class='id col'>col</span>
-  <span class='ivar'>@view</span><span class='period'>.</span><span class='id cursor_position'>cursor_position</span> <span class='op'>=</span> <span class='const'>KTextEditor</span><span class='op'>::</span><span class='const'>Cursor</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id row'>row</span><span class='comma'>,</span> <span class='id col'>col</span><span class='rparen'>)</span>
+  <span class='ivar'>@view</span><span class='period'>.</span><span class='id set_cursor_position'>set_cursor_position</span> <span class='const'>KTextEditor</span><span class='op'>::</span><span class='const'>Cursor</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id row'>row</span><span class='comma'>,</span> <span class='id col'>col</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -787,6 +867,100 @@ the signal.</p>
 
 <span class='kw'>def</span> <span class='id hide_annotation_border'>hide_annotation_border</span>
   <span class='id set_annotation_border_visible'>set_annotation_border_visible</span> <span class='kw'>false</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="move_cursor_by-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>move_cursor_by</strong>(row, col) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Moves the cursor of the given amount</p>
+<p>If the cursor ends up being out of range, nothing is done</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <span class='name'>row</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the amount of rows to move the cursor of. If it&#8217;s negative,
+the cursor will be moved upwards, otherwise it&#8217;ll be moved downwards</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+        <span class='name'>col</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the amount of columns to move the cursor of. If it&#8217;s negative,
+the cursor will be moved to the left, otherwise it&#8217;ll be moved to the right</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><strong>true</strong> if the cursor was moved successfully and <strong>false</strong> if it
+was out of range</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+124
+125
+126
+127
+128
+129</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/editor/editor_view.rb', line 124</span>
+
+<span class='kw'>def</span> <span class='id move_cursor_by'>move_cursor_by</span> <span class='id row'>row</span><span class='comma'>,</span> <span class='id col'>col</span>
+  <span class='id cur'>cur</span> <span class='op'>=</span> <span class='ivar'>@view</span><span class='period'>.</span><span class='id cursor_position'>cursor_position</span>
+  <span class='id cur'>cur</span><span class='period'>.</span><span class='id line'>line</span> <span class='op'>+=</span> <span class='id row'>row</span>
+  <span class='id cur'>cur</span><span class='period'>.</span><span class='id column'>column</span> <span class='op'>+=</span> <span class='id col'>col</span>
+  <span class='ivar'>@view</span><span class='period'>.</span><span class='id set_cursor_position'>set_cursor_position</span> <span class='id cur'>cur</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -945,12 +1119,61 @@ the signal.</p>
 </p>
 </div>
     
+      <div class="method_details ">
+  <p class="signature " id="closing-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>closing</strong>(QWidget* arg1) 
+</p>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="cursor_position_changed-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>cursor_position_changed</strong>(KTextEditor::Cursor arg1, QWidget* arg2) 
+</p>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="view_mode_changed-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>view_mode_changed</strong>(QString arg1, QWidget* arg2) 
+</p>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="edit_mode_changed-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>edit_mode_changed</strong>(KTextEditor::View::EditMode arg1, QWidget* arg2) 
+</p>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="selection_mode_changed-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>selection_mode_changed</strong>(bool arg1, QWidget* arg2) 
+</p>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="mouse_position_changed-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>mouse_position_changed</strong>(KTextEditor::Cursor arg1, QWidget* arg2) 
+</p>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="selection_changed-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>selection_changed</strong>(QWidget* arg1) 
+</p>
+</div>
+    
   </div>
 
 </div>
     
     <div id="footer">
-  Generated on Tue Jan 11 14:26:52 2011 by 
+  Generated on Mon Feb  7 15:09:09 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.4 (ruby-1.9.2).
 </div>

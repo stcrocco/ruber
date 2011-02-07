@@ -42,6 +42,66 @@
     <iframe id="search_frame"></iframe>
     
     <div id="content"><div id='filecontents'><h1>Changes</h1>
+<h2>Ruber 0.0.8</h2>
+<h3>Features</h3>
+<ul>
+	<li>Added a new plugin: Auto End. As the name says, it automatically inserts <code>end</code>
+  keywords after <code>module</code>, <code>class</code>, <code>if</code>&#8230; Its implementation is a bit naive at
+  the moment (in particular, it doesn&#8217;t know whether the current line is in the
+  middle of a string or of a block comment), so it can insert <code>end</code> in the wrong
+  places. If it does, just Undo the last action and the end&#8217;ll go away</li>
+	<li>Changed the way you open a file in the editor from a tool widget without closing
+  the tool widget itself. Now there&#8217;s a little button on the right of the tool
+  widget with a pin on it. Clicking on it prevents the widget being closed when
+  clicking on a file name. This change was made because the Meta key is now used
+  for something else</li>
+	<li>When clicking on a file name while keeping the Meta key pressed, a new editor
+  for the file is open (even if there was already one open). The new editor can
+  be opened by splitting the current editor or in a new tab, depending on an
+  option chosen by the user</li>
+	<li>The RSpec tool widget now displays an horizontal scroll bar if a failure description
+  is too long to fit on the tool widget. Unfortunately, I haven&#8217;t as yet found
+  out how to do the same for the example descriptions</li>
+	<li>Replaced Switch to File and Switch to Spec menu entries in the Ruby/Test menu
+  with a single menu entry, which changes its name and behaviour depending on
+  whether the current file is a spec file or not</li>
+	<li>Added an option allowing to choose whether switching from spec file to code file
+  (and the other way round) should be done by opening another tab or splitting
+  the current editor</li>
+	<li>Added a widget to display the output in the Command plugin. The widget is hidden
+  by default and can be shown using a button</li>
+	<li>Added menu entries (with the corresponding shortcuts) to move between split views
+  in the current pane</li>
+	<li>Disabled autoscrolling in tool widgets if the scroll bar is not at the end. This
+  way, the user can look at a particular piece of output while other lines are
+  appended at the end. This behaviour is the same used, for example, by Konsole</li>
+</ul>
+<h3>Minor changes</h3>
+<ul>
+	<li>Scrolling on an editor using the mouse wheel gives focus to the editor</li>
+</ul>
+<h3>Bug fixes</h3>
+<ul>
+	<li>Restored the Close Current Tab menu entry, which disappeared during the previous
+  round of changes to ruberui.rc</li>
+	<li>Do not attempt to require <code>kio</code> if using <span class="caps">KDE</span> 4.4. <code>kio.rb</code> was split from
+  <code>korundum4.rb</code> in <span class="caps">KDE</span> 4.5, so requiring it in <span class="caps">KDE</span> 4.4 fails</li>
+	<li>When an exception is raised while executing code from the Command plugin, display
+  an OK button, rather than a Quit Ruber button, since pressing the button will
+  not (and should not) quit Ruber</li>
+	<li>Fixed a crash involved nested split views</li>
+	<li>Fixed a crash happening every time you tried to customize shortcuts after closing
+  a document (which meant always if you use the State plugin). The problem was
+  was caused by the Window/Switch to Document submenu being updated incorrectly
+  when a document was closed</li>
+</ul>
+<h2>Ruber 0.0.7</h2>
+<ul>
+	<li>Ability to split views in tabs</li>
+	<li>Ability to have more than one view for each document</li>
+	<li>Made the terminal program used to run ruby programs configurable</li>
+	<li>Added (optional) close buttons on tabs</li>
+</ul>
 <h2>Ruber 0.0.6</h2>
 <h3>Features</h3>
 <ul>
@@ -74,7 +134,7 @@
 </ul></div></div>
     
     <div id="footer">
-  Generated on Tue Jan 11 14:50:40 2011 by 
+  Generated on Mon Feb  7 15:08:59 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.4 (ruby-1.9.2).
 </div>

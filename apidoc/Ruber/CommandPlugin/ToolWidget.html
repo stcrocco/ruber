@@ -76,7 +76,9 @@
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">plugins/command/command.rb</dd>
+    <dd class="r2 last">plugins/command/command.rb<span class="defines">,<br />
+  plugins/command/command.rb</span>
+</dd>
   
 </dl>
 <div class="clear"></div>
@@ -174,6 +176,30 @@ in.</p></div></span>
 </li>
 
       
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#output_visible%3D-instance_method" title="#output_visible= (instance method)">- (nil) <strong>output_visible</strong>(visible) </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Shows or hides the output widget and related widgets.</p></div></span>
+  
+</li>
+
+      
     </ul>
   
 
@@ -244,13 +270,13 @@ in.</p></div></span>
 
 <span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id parent'>parent</span> <span class='op'>=</span> <span class='kw'>nil</span>
   <span class='kw'>super</span>
-  <span class='kw'>self</span><span class='period'>.</span><span class='id layout'>layout</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>VBoxLayout</span><span class='period'>.</span><span class='id new'>new</span> <span class='kw'>self</span>
-  <span class='ivar'>@editor</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>PlainTextEdit</span><span class='period'>.</span><span class='id new'>new</span>
-  <span class='id layout'>layout</span><span class='period'>.</span><span class='id add_widget'>add_widget</span> <span class='ivar'>@editor</span>
-  <span class='kw'>self</span><span class='period'>.</span><span class='id focus_proxy'>focus_proxy</span> <span class='op'>=</span> <span class='ivar'>@editor</span>
-  <span class='ivar'>@button</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>PushButton</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Execute</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-  <span class='id connect'>connect</span> <span class='ivar'>@button</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:clicked</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:execute_command</span><span class='rparen'>)</span>
-  <span class='id layout'>layout</span><span class='period'>.</span><span class='id add_widget'>add_widget</span> <span class='ivar'>@button</span>
+  <span class='ivar'>@ui</span> <span class='op'>=</span> <span class='const'>Ui</span><span class='op'>::</span><span class='const'>CommandToolWidget</span><span class='period'>.</span><span class='id new'>new</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id setup_ui'>setup_ui</span> <span class='kw'>self</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id focus_proxy'>focus_proxy</span> <span class='op'>=</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id editor'>editor</span>
+  <span class='id connect'>connect</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id execute'>execute</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:clicked</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:execute_command</span><span class='rparen'>)</span>
+  <span class='id connect'>connect</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id show_output'>show_output</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>toggled(bool)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>output_visible=(bool)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id clear'>clear</span><span class='period'>.</span><span class='id connect'>connect</span><span class='lparen'>(</span><span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:clicked</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='lbrace'>{</span><span class='ivar'>@ui</span><span class='period'>.</span><span class='id output'>output</span><span class='period'>.</span><span class='id clear'>clear</span><span class='rbrace'>}</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id output_visible'>output_visible</span> <span class='op'>=</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id show_output'>show_output</span><span class='period'>.</span><span class='id checked?'>checked?</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -315,21 +341,37 @@ it will be displayed on standard error and in a message box.</p>
 54
 55
 56
-57</pre>
+57
+58
+59
+60
+61
+62
+63
+64
+65</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'plugins/command/command.rb', line 46</span>
 
 <span class='kw'>def</span> <span class='id execute_command'>execute_command</span>
-  <span class='id code'>code</span> <span class='op'>=</span> <span class='ivar'>@editor</span><span class='period'>.</span><span class='id to_plain_text'>to_plain_text</span>
+  <span class='id code'>code</span> <span class='op'>=</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id editor'>editor</span><span class='period'>.</span><span class='id to_plain_text'>to_plain_text</span>
   <span class='kw'>begin</span> 
+    <span class='id old_stdout'>old_stdout</span> <span class='op'>=</span> <span class='gvar'>$stdout</span>
+    <span class='id old_stderr'>old_stderr</span> <span class='op'>=</span> <span class='gvar'>$stderr</span>
+    <span class='gvar'>$stdout</span> <span class='op'>=</span> <span class='const'>Output</span><span class='period'>.</span><span class='id new'>new</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id output'>output</span><span class='comma'>,</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:output_colors</span><span class='comma'>,</span> <span class='symbol'>:output</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='gvar'>$stdout</span><span class='period'>.</span><span class='id fileno'>fileno</span>
+    <span class='gvar'>$stderr</span> <span class='op'>=</span> <span class='const'>Output</span><span class='period'>.</span><span class='id new'>new</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id output'>output</span><span class='comma'>,</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:output_colors</span><span class='comma'>,</span> <span class='symbol'>:error</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='gvar'>$stderr</span><span class='period'>.</span><span class='id fileno'>fileno</span>
     <span class='id eval'>eval</span> <span class='id code'>code</span><span class='comma'>,</span> <span class='const'>TOPLEVEL_BINDING</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>COMMAND</span><span class='tstring_end'>'</span></span>
     <span class='kw'>true</span>
   <span class='kw'>rescue</span> <span class='const'>Exception</span> <span class='op'>=&gt;</span> <span class='id ex'>ex</span>
-    <span class='id dlg'>dlg</span> <span class='op'>=</span> <span class='const'>ExceptionDialog</span><span class='period'>.</span><span class='id new'>new</span> <span class='id ex'>ex</span><span class='comma'>,</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='kw'>false</span><span class='comma'>,</span> 
+    <span class='id dlg'>dlg</span> <span class='op'>=</span> <span class='const'>ExceptionDialog</span><span class='period'>.</span><span class='id new'>new</span> <span class='id ex'>ex</span><span class='comma'>,</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='kw'>true</span><span class='comma'>,</span> 
         <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>The command you issued raised the following exception:</span><span class='tstring_end'>'</span></span>
+    <span class='id dlg'>dlg</span><span class='period'>.</span><span class='id set_button_text'>set_button_text</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Dialog</span><span class='op'>::</span><span class='const'>Ok</span><span class='comma'>,</span> <span class='id i18n'>i18n</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Ok</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
     <span class='id dlg'>dlg</span><span class='period'>.</span><span class='id exec'>exec</span>
     <span class='kw'>false</span>
+  <span class='kw'>ensure</span>
+    <span class='gvar'>$stdout</span> <span class='op'>=</span> <span class='id old_stdout'>old_stdout</span>
+    <span class='gvar'>$stderr</span> <span class='op'>=</span> <span class='id old_stderr'>old_stderr</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -377,13 +419,25 @@ it will be displayed on standard error and in a message box.</p>
 65
 66
 67
-68</pre>
+68
+69
+70
+71
+72
+73
+74</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'plugins/command/command.rb', line 65</span>
 
 <span class='kw'>def</span> <span class='id load_settings'>load_settings</span>
-  <span class='ivar'>@editor</span><span class='period'>.</span><span class='id font'>font</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:general</span><span class='comma'>,</span> <span class='symbol'>:output_font</span><span class='rbracket'>]</span>
+  <span class='id font'>font</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:general</span><span class='comma'>,</span> <span class='symbol'>:output_font</span><span class='rbracket'>]</span>
+  <span class='id metrics'>metrics</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>FontMetrics</span><span class='period'>.</span><span class='id new'>new</span> <span class='id font'>font</span>
+  <span class='id tab_width'>tab_width</span> <span class='op'>=</span> <span class='id metrics'>metrics</span><span class='period'>.</span><span class='id max_width'>max_width</span> <span class='op'>*</span> <span class='int'>2</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id editor'>editor</span><span class='period'>.</span><span class='id font'>font</span> <span class='op'>=</span> <span class='id font'>font</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id editor'>editor</span><span class='period'>.</span><span class='id tab_stop_width'>tab_stop_width</span> <span class='op'>=</span> <span class='id tab_width'>tab_width</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id output'>output</span><span class='period'>.</span><span class='id font'>font</span> <span class='op'>=</span> <span class='id font'>font</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id output'>output</span><span class='period'>.</span><span class='id tab_stop_width'>tab_stop_width</span> <span class='op'>=</span> <span class='id tab_width'>tab_width</span>
   <span class='kw'>nil</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -393,6 +447,85 @@ it will be displayed on standard error and in a message box.</p>
       <p style="margin-top: 5pt;"><tt>load_settings()</tt></p>
 
     
+      <div class="method_details ">
+  <p class="signature " id="output_visible=-instance_method">
+  
+    - (<tt>nil</tt>) <strong>output_visible=</strong>(visible)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Shows or hides the output widget and related widgets</p>
+<p>It also changes the text of the Show Output button so that it becomes &#8216;Hide Output&#8217;
+if the button is visible.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <span class='name'>visible</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>whether the output widget should be shown or hidden</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+120
+121
+122
+123
+124
+125
+126</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/command/command.rb', line 120</span>
+
+<span class='kw'>def</span> <span class='id output_visible='>output_visible=</span> <span class='id visible'>visible</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id output'>output</span><span class='period'>.</span><span class='id visible'>visible</span> <span class='op'>=</span> <span class='id visible'>visible</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id clear'>clear</span><span class='period'>.</span><span class='id visible'>visible</span> <span class='op'>=</span> <span class='id visible'>visible</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id output_label'>output_label</span><span class='period'>.</span><span class='id visible'>visible</span> <span class='op'>=</span> <span class='id visible'>visible</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id show_output'>show_output</span><span class='period'>.</span><span class='id text'>text</span> <span class='op'>=</span> <span class='id i18n'>i18n</span><span class='lparen'>(</span><span class='id visible'>visible</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>&amp;Hide Output</span><span class='tstring_end'>'</span></span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>&amp;Show Output</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>output_visible=(bool)</tt></p>
+
+    
   </div>
 
 
@@ -400,7 +533,7 @@ it will be displayed on standard error and in a message box.</p>
 </div>
     
     <div id="footer">
-  Generated on Tue Jan 11 14:26:46 2011 by 
+  Generated on Mon Feb  7 15:09:05 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.4 (ruby-1.9.2).
 </div>

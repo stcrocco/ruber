@@ -76,7 +76,9 @@
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">lib/ruber/main_window/main_window_actions.rb</dd>
+    <dd class="r2 last">lib/ruber/main_window/main_window_actions.rb<span class="defines">,<br />
+  lib/ruber/main_window/main_window_actions.rb,<br /> lib/ruber/main_window/main_window_actions.rb,<br /> lib/ruber/main_window/main_window_actions.rb</span>
+</dd>
   
 </dl>
 <div class="clear"></div>
@@ -90,6 +92,27 @@
 <div class="tags">
   
 </div>
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="TOOL_OPEN_FILES-constant" class="">TOOL_OPEN_FILES =
+          <div class="docstring">
+  <div class="discussion">
+    <p>Mapping between modes to open files from tool widgets and indexes in the corresponding
+combo box</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
+        </dt>
+        <dd><pre class="code"><span class='lbracket'>[</span><span class='symbol'>:split_horizontally</span><span class='comma'>,</span> <span class='symbol'>:split_vertically</span><span class='comma'>,</span> <span class='symbol'>:new_tab</span><span class='rbracket'>]</span></pre></dd>
+      
+    </dl>
+  
+
 
   
 
@@ -143,6 +166,50 @@
 
   
     <span class="summary_desc"><div class='inline'><p>Override of <code>Qt::Widget#sizeHint</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#tool_open_files-instance_method" title="#tool_open_files (instance method)">- (Integer) <strong>tool_open_files</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Store method for the <code>general/tool_open_files</code> setting.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#tool_open_files%3D-instance_method" title="#tool_open_files= (instance method)">- (Symbol) <strong>tool_open_files</strong>(value) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Read method for the <code>general/tool_open_files</code> setting.</p></div></span>
   
 </li>
 
@@ -283,6 +350,132 @@
 </table>
 </div>
     
+      <div class="method_details ">
+  <p class="signature " id="tool_open_files-instance_method">
+  
+    - (<tt>Integer</tt>) <strong>tool_open_files</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Store method for the <code>general/tool_open_files</code> setting</p>
+<p>the combo box</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the entry in <span class='object_link'><a href="#TOOL_OPEN_FILES-constant" title="Ruber::MainWindowSettingsWidget::TOOL_OPEN_FILES (constant)">TOOL_OPEN_FILES</a></span> corresponding to the one selected in</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+687
+688
+689</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 687</span>
+
+<span class='kw'>def</span> <span class='id tool_open_files'>tool_open_files</span>
+  <span class='const'>TOOL_OPEN_FILES</span><span class='lbracket'>[</span><span class='ivar'>@ui</span><span class='period'>.</span><span class='id _general__tool_open_files'>_general__tool_open_files</span><span class='period'>.</span><span class='id current_index'>current_index</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="tool_open_files=-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>) <strong>tool_open_files=</strong>(value) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Read method for the <code>general/tool_open_files</code> setting</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
+      
+      
+        <span class='name'>value</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the value of the option. It can have any value contained
+in the <span class='object_link'><a href="#TOOL_OPEN_FILES-constant" title="Ruber::MainWindowSettingsWidget::TOOL_OPEN_FILES (constant)">TOOL_OPEN_FILES</a></span> array</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>value</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+676
+677
+678
+679</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 676</span>
+
+<span class='kw'>def</span> <span class='id tool_open_files='>tool_open_files=</span> <span class='id value'>value</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id _general__tool_open_files'>_general__tool_open_files</span><span class='period'>.</span><span class='id current_index'>current_index</span> <span class='op'>=</span> <span class='const'>TOOL_OPEN_FILES</span><span class='period'>.</span><span class='id index'>index</span><span class='lparen'>(</span><span class='id value'>value</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='int'>0</span>
+  <span class='id value'>value</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
   </div>
 
 
@@ -290,7 +483,7 @@
 </div>
     
     <div id="footer">
-  Generated on Tue Jan 11 14:27:03 2011 by 
+  Generated on Mon Feb  7 15:09:11 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.6.4 (ruby-1.9.2).
 </div>
