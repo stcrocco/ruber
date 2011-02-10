@@ -148,7 +148,7 @@ describe Ruber::AutoEnd::Extension do
 
     end
     
-    context "and the last line contains an if " do
+    context "and the last line contains an if" do
       
       it_should_insert_end "if the if is at the beginning of the line", "if kkk\n", "class X\n%\nend", "class X\nif kkk\n\nend\nend", [2, 0]
       
@@ -158,6 +158,48 @@ describe Ruber::AutoEnd::Extension do
           "class X\n%\nend", "class X\nx =if kkk\n\nend\nend"
       
       it_should_insert_end 'if the if is preceded by an = followed by spaces', "x = if kkk\n", "class X\n%\nend", "class X\nx = if kkk\n\nend\nend"
+      
+    end
+    
+    context "and the last line contains a for followed by an identifier, and in and some other characters" do
+      
+      it_should_insert_end "if the for is at the beginning of the line", "for kkk in abc\n", "class X\n%\nend", "class X\nfor kkk in abc\n\nend\nend", [2, 0]
+      
+      it_should_insert_end "if the for is preceded only by whitespaces", "  for kkk in abc\n", "class X\n%\nend", "class X\n  for kkk in abc\n\nend\nend", [2, 0]
+      
+      it_should_insert_end 'if the for is preceded by an =', "x =for kkk in abc\n",
+          "class X\n%\nend", "class X\nx =for kkk in abc\n\nend\nend"
+      
+      it_should_insert_end 'if the for is preceded by an = followed by spaces', "x = for kkk in abc\n", "class X\n%\nend", "class X\nx = for kkk in abc\n\nend\nend"
+      
+    end
+
+    context "and the last line contains an unless" do
+      
+      it_should_insert_end "if the unless is at the beginning of the line", "unless kkk\n", "class X\n%\nend", "class X\nunless kkk\n\nend\nend", [2, 0]
+      
+      it_should_insert_end "if the unless is preceded only by whitespaces", "  unless kkk\n", "class X\n%\nend", "class X\n  unless kkk\n\nend\nend", [2, 0]
+      
+      it_should_insert_end 'if the unless is preceded by an =', "x =unless kkk\n",
+          "class X\n%\nend", "class X\nx =unless kkk\n\nend\nend"
+      
+      it_should_insert_end 'if the unless is preceded by an = followed by spaces', "x = unless kkk\n", "class X\n%\nend", "class X\nx = unless kkk\n\nend\nend"
+      
+    end
+    
+    context "and the last line contains a while" do
+      
+      it_should_insert_end "if the while is at the beginning of the line", "while kkk\n", "class X\n%\nend", "class X\nwhile kkk\n\nend\nend", [2, 0]
+      
+      it_should_insert_end "if the while is preceded only by whitespaces", "  while kkk\n", "class X\n%\nend", "class X\n  while kkk\n\nend\nend", [2, 0]
+      
+    end
+    
+    context "and the last line contains a until" do
+      
+      it_should_insert_end "if the until is at the beginning of the line", "until kkk\n", "class X\n%\nend", "class X\nuntil kkk\n\nend\nend", [2, 0]
+      
+      it_should_insert_end "if the until is preceded only by whitespaces", "  until kkk\n", "class X\n%\nend", "class X\n  until kkk\n\nend\nend", [2, 0]
       
     end
     

@@ -35,15 +35,21 @@ module Ruber
       PATTERNS = [
         [/^\s*if\s/, "\nend", [0, -1]],
         [/=\s*if\s/, "\nend", [0, -1]],
+        [/^\s*unless\s/, "\nend", [0, -1]],
+        [/=\s*unless\s/, "\nend", [0, -1]],
         [/\bdo\s*$/, "\nend", [0, -1]],
         [/\bdo\s+\|/, "\nend", [0, -1]],
         [/^\s*def\s/, "\nend", [0, -1]],
         [/^class\s+#{IDENTIFIER_PATTERN}\s*$/, "\nend", [0, -1]],
         [/^class\s+#{MULTI_ID_PATTERN}\s*<{1,2}\s*#{MULTI_ID_PATTERN}\s*$/, "\nend", [0, -1]],
         [/^\s*module\s+#{MULTI_ID_PATTERN}\s*$/, "\nend", [0,-1]],
+        [/^\s*while\s/, "\nend", [0,-1]],
+        [/^\s*until\s/, "\nend", [0,-1]],
         [/^=begin(\s|$)/, "\n=end", [0, -1]],
         [/^\s*begin\s/, "\nend", [0, -1]],
         [/=\s*begin\s/, "\nend", [0, -1]],
+        [/^\s*for\s+#{IDENTIFIER_PATTERN}\s+in.+$/, "\nend", [0,-1]],
+        [/=\s*for\s+#{IDENTIFIER_PATTERN}\s+in.+$/, "\nend", [0,-1]]
       ]
       
       def initialize prj
