@@ -1,5 +1,13 @@
 h1. Changes
 
+h2. Ruber 0.0.9
+
+h3. Features
+
+* Made the Auto End plugin recognize some other keywords: @unless@, @for@, @while@,
+  @until@ (the last two were already recognized when followed by a @do@)
+  
+
 h2. Ruber 0.0.8
 
 h3. Features
