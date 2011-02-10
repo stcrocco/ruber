@@ -117,7 +117,7 @@ Each entry is itself an array with three elements:
         [/^\s*module\s+#{MULTI_ID_PATTERN}\s*$/, "\nend", [0,-1]],
         [/^\s*while\s/, "\nend", [0,-1]],
         [/^\s*until\s/, "\nend", [0,-1]],
-        [/^=begin(\s|$)/, "\n=end", [0, -1]],
+#         [/^=begin(\s|$)/, "\n=end", [0, -1]],
         [/^\s*begin\s/, "\nend", [0, -1]],
         [/=\s*begin\s/, "\nend", [0, -1]],
         [/^\s*for\s+#{IDENTIFIER_PATTERN}\s+in.+$/, "\nend", [0,-1]],

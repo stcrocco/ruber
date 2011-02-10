@@ -243,51 +243,51 @@ describe Ruber::AutoEnd::Extension do
     end
     
     context "and the last line starts with =begin" do
-
-      context "and the active view is associated with the document" do
-        
-        before do
-          @view = @doc.create_view
-          flexmock(@doc).should_receive(:active_view).and_return @view
-          @doc.block_signals true
-          @doc.text= "abc\n"
-          @doc.block_signals false
-          @insert_pos = KTextEditor::Cursor.new(1,0)
-          #avoid messing up the text with indentation
-          flexmock(@view).should_receive(:execute_action).with('tools_align').by_default
-        end
-        
-        it "inserts an an empty line followed by a =end" do
-          @doc.insert_text @insert_pos, "=begin xyz\n"
-          @doc.text.should == "abc\n=begin xyz\n\n=end"
-        end
-        
-        it 'indents the text' do
-          flexmock(@view).should_receive(:execute_action).with('tools_align').once
-          @doc.insert_text @insert_pos, "=begin xyz\n"
-        end
-        
-        it 'moves the cursor to the line before the end' do
-          @doc.insert_text @insert_pos, "=begin xyz\n"
-          @view.cursor_position.should == KTextEditor::Cursor.new(2,0)
-        end
-        
-      end
-      
-      context 'and the active view is not associated with the document' do
-        
-        it 'does nothing' do
-          flexmock(@doc).should_receive(:active_view).and_return nil
-          @doc.block_signals true
-          old_text = "abc\n"
-          @doc.text = old_text
-          @doc.block_signals false
-          @doc.insert_text KTextEditor::Cursor.new(1,0), "=begin xyz\n"
-          @doc.text.should == "abc\n=begin xyz\n"
-        end
-        
-      end
-        
+      pending
+#       context "and the active view is associated with the document" do
+#         
+#         before do
+#           @view = @doc.create_view
+#           flexmock(@doc).should_receive(:active_view).and_return @view
+#           @doc.block_signals true
+#           @doc.text= "abc\n"
+#           @doc.block_signals false
+#           @insert_pos = KTextEditor::Cursor.new(1,0)
+#           #avoid messing up the text with indentation
+#           flexmock(@view).should_receive(:execute_action).with('tools_align').by_default
+#         end
+#         
+#         it "inserts an an empty line followed by a =end" do
+#           @doc.insert_text @insert_pos, "=begin xyz\n"
+#           @doc.text.should == "abc\n=begin xyz\n\n=end"
+#         end
+#         
+#         it 'indents the text' do
+#           flexmock(@view).should_receive(:execute_action).with('tools_align').once
+#           @doc.insert_text @insert_pos, "=begin xyz\n"
+#         end
+#         
+#         it 'moves the cursor to the line before the end' do
+#           @doc.insert_text @insert_pos, "=begin xyz\n"
+#           @view.cursor_position.should == KTextEditor::Cursor.new(2,0)
+#         end
+#         
+#       end
+#       
+#       context 'and the active view is not associated with the document' do
+#         
+#         it 'does nothing' do
+#           flexmock(@doc).should_receive(:active_view).and_return nil
+#           @doc.block_signals true
+#           old_text = "abc\n"
+#           @doc.text = old_text
+#           @doc.block_signals false
+#           @doc.insert_text KTextEditor::Cursor.new(1,0), "=begin xyz\n"
+#           @doc.text.should == "abc\n=begin xyz\n"
+#         end
+#         
+#       end
+#         
     end
     
   end
