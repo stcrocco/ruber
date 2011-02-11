@@ -56,22 +56,45 @@ end
 
 describe 'Ruber::ComponentManager#each_component' do
   
-  it 'should call the block passing each component in turn, in reverse loading order' do
-    man = Ruber::ComponentManager.new
-    components = 5.times.map{|i| flexmock(i.to_s, :component_name => i.to_s, :plugin_description => OpenStruct.new({:features => []}))}
-    m = flexmock do |mk|
-      components.reverse_each{|c| mk.should_receive(:test).once.with(c).globally.ordered}
+  context 'if the argument is :normal or missing' do
+    
+    it 'calls the block passing each component in turn, in loading order' do
+      man = Ruber::ComponentManager.new
+      components = 5.times.map{|i| flexmock(i.to_s, :component_name => i.to_s, :plugin_description => OpenStruct.new({:features => []}))}
+      m = flexmock do |mk|
+        components.each{|c| mk.should_receive(:test).once.with(c).globally.ordered}
+      end
+      man.instance_variable_get(:@components).clear
+      components.each{|c| man.add c}
+      man.each_component(:normal){|i| m.test i}
+      m = flexmock do |mk|
+        components.each{|c| mk.should_receive(:test).once.with(c).globally.ordered}
+      end
+      man.each_component{|i| m.test i}
     end
-    man.instance_variable_get(:@components).clear
-    components.each{|c| man.add c}
-    man.each_component{|i| m.test i}
+    
+  end
+  
+  context 'if the argument is :reverse' do
+    
+    it 'should call the block passing each component in turn, in loading order' do
+      man = Ruber::ComponentManager.new
+      components = 5.times.map{|i| flexmock(i.to_s, :component_name => i.to_s, :plugin_description => OpenStruct.new({:features => []}))}
+      m = flexmock do |mk|
+        components.reverse_each{|c| mk.should_receive(:test).once.with(c).globally.ordered}
+      end
+      man.instance_variable_get(:@components).clear
+      components.each{|c| man.add c}
+      man.each_component(:reverse){|i| m.test i}
+    end
+  
   end
   
 end
 
 describe 'Ruber::ComponentManager#components' do
   
-  it 'should call the block passing each component in turn, in reverse loading order' do
+  it 'calls the block passing each component in turn, in reverse loading order' do
     man = Ruber::ComponentManager.new
     components = 5.times.map{|i| flexmock(i.to_s, :component_name => i.to_s, :plugin_description => OpenStruct.new({:features => []}))}
     man.instance_variable_get(:@components).clear
@@ -83,22 +106,54 @@ end
 
 describe 'Ruber::ComponentManager#each_plugin' do
   
-  it 'should call the block passing each plugin in turn, in reverse loading order' do
-    man = Ruber::ComponentManager.new
-    components = 5.times.map{|i| flexmock("component #{i}", :component_name => :"#{i}",:plugin_description => OpenStruct.new({:features => []}))}
-    m = flexmock("test")
-    plugins = [1, 3, 4]
-    components.each_with_index do |c, i|
-      is_plugin = plugins.include?(i)
-      c.should_receive(:is_a?).with(Ruber::Plugin).and_return( is_plugin)
-      if is_plugin then m.should_receive(:test).with(c).once.globally.ordered
-      else m.should_receive(:test).with(c).never
+  context 'when the argument is :normal or missing' do
+    
+    it 'calls the block passing each plugin in turn, in loading order' do
+      man = Ruber::ComponentManager.new
+      components = 5.times.map{|i| flexmock("component #{i}", :component_name => :"#{i}",:plugin_description => OpenStruct.new({:features => []}))}
+      m = flexmock("test")
+      plugins = [1, 3, 4]
+      components.each_with_index do |c, i|
+        is_plugin = plugins.include?(i)
+        c.should_receive(:is_a?).with(Ruber::Plugin).and_return( is_plugin)
+        if is_plugin then m.should_receive(:test).with(c).once.globally.ordered
+        else m.should_receive(:test).with(c).never
+        end
       end
+      components.each{|c| man.add c}
+      man.each_plugin(:normal){|i| m.test i}
+      components.each_with_index do |c, i|
+        is_plugin = plugins.include?(i)
+        c.should_receive(:is_a?).with(Ruber::Plugin).and_return( is_plugin)
+        if is_plugin then m.should_receive(:test).with(c).once.globally.ordered
+        else m.should_receive(:test).with(c).never
+        end
+      end
+      man.each_plugin(:normal){|i| m.test i}
     end
-    components.reverse_each{|c| man.add c}
-    man.each_plugin{|i| m.test i}
+  
   end
   
+  context 'when the argument is :reverse' do
+    
+    it 'should call the block passing each plugin in turn, in reverse loading order' do
+      man = Ruber::ComponentManager.new
+      components = 5.times.map{|i| flexmock("component #{i}", :component_name => :"#{i}",:plugin_description => OpenStruct.new({:features => []}))}
+      m = flexmock("test")
+      plugins = [1, 3, 4]
+      components.each_with_index do |c, i|
+        is_plugin = plugins.include?(i)
+        c.should_receive(:is_a?).with(Ruber::Plugin).and_return( is_plugin)
+        if is_plugin then m.should_receive(:test).with(c).once.globally.ordered
+        else m.should_receive(:test).with(c).never
+        end
+      end
+      components.reverse_each{|c| man.add c}
+      man.each_plugin(:reverse){|i| m.test i}
+    end
+
+  end
+ 
 end
 
 describe 'Ruber::ComponentManager#plugins' do

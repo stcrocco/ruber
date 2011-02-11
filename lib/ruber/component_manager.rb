@@ -574,8 +574,10 @@ Method required for the Plugin interface. Does nothing
  components are passed in reverse loading order (i.e., the last loaded component
  will be the first passed to the block.)
 =end
-    def each_component #:yields: comp
-      @components.reverse_each{|k, v| yield v}
+    def each_component order = :normal #:yields: comp
+      if order == :reverse then @components.reverse_each{|k, v| yield v}
+      else @components.each{|k, v| yield v}
+      end
     end
 
 =begin rdoc
@@ -584,8 +586,9 @@ Method required for the Plugin interface. Does nothing
  plugins are passed in reverse loading order (i.e., the last loaded plugin
  will be the first passed to the block.)
 =end
-    def each_plugin #:yields: plug
-      @components.reverse_each do |k, v| 
+    def each_plugin order = :normal #:yields: plug
+      meth = @components.method(order == :reverse ? :reverse_each : :each)
+      meth.call do |k, v| 
         yield v if v.is_a?(Ruber::Plugin)
       end
     end
@@ -770,9 +773,9 @@ Method required for the Plugin interface. Does nothing
   * delete all the plugins from the list of loaded components.
 =end
     def shutdown
-      each_component{|c| c.save_settings unless c.equal?(self)}
+      each_component(:reverse){|c| c.save_settings unless c.equal?(self)}
       @components[:config].write
-      each_component{|c| c.shutdown unless c.equal? self}
+      each_component(:reverse){|c| c.shutdown unless c.equal? self}
 #       @components[:config].write
 #       each_component do |c|
 #         unless c.equal? self
@@ -822,7 +825,7 @@ Method required for the Plugin interface. Does nothing
   This method is intented to be called from <tt>MainWindow#queryClose</tt>.
 =end
     def query_close 
-      res = each_component do |c| 
+      res = each_component(:reverse) do |c| 
         unless c.equal? self
           break false unless c.query_close 
         end
