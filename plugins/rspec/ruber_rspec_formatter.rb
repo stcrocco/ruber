@@ -301,8 +301,8 @@ example
         hash = {}
         hash[:type] = :pending
         hash[:description] = ex.metadata[:full_description]
-        hash[:message] = ex.metadata[:execution_result][:exception_encountered].message
-        hash[:location] = ex[:metadata][:location]
+        hash[:message] = ex.metadata[:execution_result][:pending_message]
+        hash[:location] = ex.metadata[:location]
         write_data hash
       end
       
