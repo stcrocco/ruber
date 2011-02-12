@@ -45,7 +45,7 @@ module Ruber
     signals 'closing(QWidget*)', 'cursor_position_changed(KTextEditor::Cursor, QWidget*)', 
     'view_mode_changed(QString, QWidget*)', 'edit_mode_changed(KTextEditor::View::EditMode, QWidget*)',
     'selection_mode_changed(bool, QWidget*)', 'mouse_position_changed(KTextEditor::Cursor, QWidget*)',
-    'selection_changed(QWidget*)'
+    'selection_changed(QWidget*)', 'about_to_hide(QWidget*)', 'about_to_show(QWidget*)'
     
     slots 'slot_selection_changed(KTextEditor::View*)'
     
@@ -170,6 +170,16 @@ Returns *true* if an action with name _name_ was found and *false* otherwise.
       else a.instance_eval{emit triggered}
       end
       true
+    end
+    
+    protected
+    
+    def hideEvent e
+      emit about_to_hide(self) unless e.spontaneous
+    end
+    
+    def showEvent e
+      emit about_to_show(self) unless e.spontaneous
     end
     
     private

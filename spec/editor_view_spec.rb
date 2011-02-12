@@ -189,6 +189,74 @@ describe Ruber::EditorView do
     end
 
   end
+  
+  context "when the view is hidden" do
+    
+    context 'and the hide event originates from the application' do
+      
+      it 'emits the about_to_hide signal passing self as argument' do
+        e = Qt::HideEvent.new
+        flexmock(e).should_receive(:spontaneous).and_return false
+        @app.post_event @view, e
+        mk = flexmock{|m| m.should_receive(:view_about_to_hide).once.with @view}
+        @view.connect(SIGNAL('about_to_hide(QWidget*)')) do |w|
+          mk.view_about_to_hide w
+        end
+        @app.process_events
+      end
+      
+    end
+
+    context 'and the hide event originates outside the application' do
+      
+      it 'does not emit the about_to_hide signal' do
+        e = Qt::HideEvent.new
+        flexmock(e).should_receive(:spontaneous).and_return true
+        @app.post_event @view, e
+        mk = flexmock{|m| m.should_receive(:view_about_to_hide).never}
+        @view.connect(SIGNAL('about_to_hide(QWidget*)')) do |w|
+          mk.view_about_to_hide w
+        end
+        @app.process_events
+      end
+      
+    end
+
+    context "when the view becomes visible" do
+      
+      context 'and the show event originates from the application' do
+        
+        it 'emits the about_to_show signal passing self as argument' do
+          e = Qt::ShowEvent.new
+          flexmock(e).should_receive(:spontaneous).and_return false
+          @app.post_event @view, e
+          mk = flexmock{|m| m.should_receive(:view_about_to_show).once.with @view}
+          @view.connect(SIGNAL('about_to_show(QWidget*)')) do |w|
+            mk.view_about_to_show w
+          end
+          @app.process_events
+        end
+        
+      end
+      
+      context 'and the show event originates outside the application' do
+        
+        it 'does not emit the about_to_show signal' do
+          e = Qt::ShowEvent.new
+          flexmock(e).should_receive(:spontaneous).and_return true
+          @app.post_event @view, e
+          mk = flexmock{|m| m.should_receive(:view_about_to_show).never}
+          @view.connect(SIGNAL('about_to_show(QWidget*)')) do |w|
+            mk.view_about_to_show w
+          end
+          @app.process_events
+        end
+        
+      end
+      
+    end
+      
+  end
 
 end
 
