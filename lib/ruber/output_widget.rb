@@ -937,10 +937,11 @@ is valid and <tt>Qt::NoItemFlags</tt> if it isn't vaid.
 If <tt>global_flags</tt> is *nil*, this method behaves as <tt>Qt::StandardModel#flags</tt>.
 =end
       def flags idx
-        if @global_flags
-          idx.valid? ? @global_flags : Qt::NoItemFlags
-        else super
-        end
+        super
+#         if @global_flags
+#           idx.valid? ? @global_flags : Qt::NoItemFlags
+#         else super
+#         end
       end
       
 =begin rdoc
