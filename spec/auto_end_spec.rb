@@ -240,6 +240,15 @@ describe Ruber::AutoEnd::Extension do
       
       it_should_insert_end 'if the begin is preceded by an = followed by spaces', "x = begin kkk\n", "class X\n%\nend", "class X\nx = begin kkk\n\nend\nend"
       
+      it 'does nothing if the line starts with =begin ' do
+        @doc.block_signals true
+        @doc.text = "def x\n\nend"
+        @doc.block_signals false
+        @doc.insert_text KTextEditor::Cursor.new(1,0), "=begin \n"
+        @doc.text.should == "def x\n=begin \n\nend"
+      end
+
+      
     end
     
     context "and the last line starts with =begin" do
