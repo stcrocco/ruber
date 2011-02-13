@@ -251,14 +251,14 @@ describe Ruber::Document do
     @doc.mime_type.should == 'application/x-ruby'
   end
 
-  it 'returns a list of the views associated with it' do
-    @doc.views.should be_empty
-    old_view = @doc.create_view nil
-    @doc.views[0].should == old_view
-    new_view = @doc.create_view nil
-    @doc.views[1].should == new_view
-    @doc.views.should == [old_view, new_view]
-  end
+#   it 'returns a list of the views associated with it' do
+#     @doc.views.should be_empty
+#     old_view = @doc.create_view nil
+#     @doc.views[0].should == old_view
+#     new_view = @doc.create_view nil
+#     @doc.views[1].should == new_view
+#     @doc.views.should == [old_view, new_view]
+#   end
 
   it 'emits the "modified_changed(QObject*, bool)" signal when the modified status changes' do
     m = flexmock
@@ -881,6 +881,58 @@ describe Ruber::Document do
     it 'returns an empty string if the line number corresponds to a nonexisting line' do
       @doc.text = "abc\ndef\nghi"
       @doc.line(10).should == ''
+    end
+    
+  end
+  
+  describe '#views' do
+    
+    before do
+      @doc = Ruber::Document.new
+    end
+    
+    context 'when called with no argument' do
+      it 'returns a list of the visible views associated with the document' do
+        views = 3.times.map{@doc.create_view}
+        views[1].instance_eval{emit about_to_hide(self)}
+        @doc.views.should == [views[0], views[2]]
+      end
+      
+      context 'when one of the views has been hidden then shown again' do
+        it 'includes that view in the returned array' do
+          views = 3.times.map{@doc.create_view}
+          views[1].instance_eval{emit about_to_hide(self)}
+          views[1].instance_eval{emit about_to_show(self)}
+          @doc.views.sort_by{|v| v.object_id}.should == views.sort_by{|v| v.object_id}
+        end
+      end
+      
+      context 'after a view has been closed' do
+        it 'doesn\'t include the closed view in the returned array' do
+          views = 3.times.map{@doc.create_view}
+          views[1].close
+          @doc.views.should == [views[0], views[2]]
+        end
+      end
+      
+    end
+    
+    context 'when called with the :all argument' do
+      
+      it 'returns a list of all the views associated with the document' do
+        views = 3.times.map{@doc.create_view}
+        views[1].instance_eval{emit about_to_hide(self)}
+        @doc.views(:all).should == views
+      end
+      
+      context 'after a view has been closed' do
+        it 'doesn\'t include the closed view in the returned array' do
+          views = 3.times.map{@doc.create_view}
+          views[1].close
+          @doc.views(:all).should == [views[0], views[2]]
+        end
+      end
+
     end
     
   end
