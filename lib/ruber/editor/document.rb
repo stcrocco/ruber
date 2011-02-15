@@ -423,7 +423,7 @@ TODO: maybe remove the argument, since this method is not called anymore at
       if !ask || query_close
         emit closing(self)
         @project.save unless path.empty?
-        @views.dup.each{|v| v.close}
+        @all_views.dup.each{|v| v.close}
         return false unless close_url false
         @project.close false
         delete_later

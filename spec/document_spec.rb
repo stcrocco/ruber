@@ -468,6 +468,19 @@ describe 'Ruber::Document#close' do
     doc.close false
   end
   
+  it 'also closes hidden views if any' do
+    doc = Ruber::Document.new nil, __FILE__
+    views = 3.times.map{doc.create_view}
+    views[1].instance_eval{about_to_hide(self)}
+    exp = doc.object_id
+    m = flexmock('test'){|mk| mk.should_receive(:document_closing).once.with(exp).globally.ordered}
+    views.each{|v| flexmock(v).should_receive(:close).once.globally.ordered}
+    flexmock(doc).should_receive(:close_url).and_return true
+    doc.connect(SIGNAL('closing(QObject*)')){|d| m.document_closing d.object_id}
+    flexmock(doc).should_receive(:query_close).and_return true
+    doc.close false
+  end
+  
   it 'calls the #save method of the project if the document path is not empty' do
     doc = Ruber::Document.new nil, __FILE__
     exp = doc.object_id
