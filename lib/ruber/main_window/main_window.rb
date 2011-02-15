@@ -544,7 +544,7 @@ the latter will be closed without affecting the document.
 =end
     def close_editor editor, ask = true
       doc = editor.document
-      if doc.views.size > 1 
+      if doc.views(:all).size > 1 
         editor.close
         true
       else doc.close ask
