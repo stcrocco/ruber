@@ -30,7 +30,6 @@ require 'ruber/gui_states_handler'
 require 'ruber/main_window/main_window_internal'
 require 'ruber/main_window/main_window_actions'
 require 'ruber/main_window/hint_solver'
-require 'ruber/main_window/view_manager'
 
 require 'ruber/main_window/status_bar'
 require 'ruber/main_window/workspace'
@@ -98,13 +97,12 @@ is the plugin description for this object.
       super nil, 0
       initialize_plugin pdf
       initialize_states_handler
-      self.central_widget = Workspace.new self
-      # We need the instance variable to use it with Forwardable
-      @workspace = central_widget 
-      @tabs = central_widget.instance_variable_get :@views
-      @tabs.tabs_closable = Ruber[:config][:workspace, :close_buttons]
-      @view_manager = ViewManager.new @tabs, self
-      @auto_activate_editors = true
+      @default_view_manager = create_view_manager
+      @view_manager = @default_view_manager
+      @workspace = Workspace.new @default_view_manager.tabs, self
+      @tabs = @view_manager.tabs
+      self.central_widget = @workspace
+#       @auto_activate_editors = true
       @ui_states = {}
       @actions_state_handlers = Hash.new{|h, k| h[k] = []}
       @about_plugin_actions = []
@@ -126,7 +124,6 @@ is the plugin description for this object.
         change_state "active_project_exists", !prj.nil?
         change_title
       end
-      connect @tabs, SIGNAL('tabCloseRequested(int)'), self, SLOT('close_tab(int)')
       connect Ruber[:projects], SIGNAL('closing_project(QObject*)'), self, SLOT('close_project_files(QObject*)')
       setup_GUI
       create_shell_GUI true
@@ -546,20 +543,12 @@ the latter will be closed without affecting the document.
   method directly, unless you want to leave the corresponding document without a view
 =end
     def close_editor editor, ask = true
-#       editor_tab = self.tab(editor)
-#       has_focus = editor_tab.is_active_window if editor_tab
-#       if has_focus
-#         views = editor_tab.to_a
-#         idx = views.index(editor)
-#         new_view = views[idx-1] || views[idx+1]
-#       end
       doc = editor.document
       if doc.views.size > 1 
         editor.close
         true
       else doc.close ask
       end
-#       focus_on_editor new_view if new_view
     end
     
 =begin rdoc

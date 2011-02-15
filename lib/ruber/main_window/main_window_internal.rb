@@ -23,6 +23,8 @@ require 'facets/enumerable/sum'
 module Ruber
   
   class MainWindow < KParts::MainWindow
+    
+    require 'ruber/main_window/view_manager'
      
 =begin rdoc
 A list of strings to be used to create the filter for open file dialogs
@@ -286,6 +288,48 @@ save them, discard the changes or not to close the documents
       end
       save_documents to_close
       without_activating{to_close.each{|d| d.close}}
+    end
+
+=begin rdoc
+Creates a new view manager
+
+A new tab widget for the view manager is created if none is given.
+
+After creating the view manager, it makes all the necessary signal-slot connections
+with it and with the associated tab widget, if a new one is created.
+@param [KDE::TabWidget,nil] tabs the tab widget to use for the view manager. If
+  *nil*, a new widget will be created
+@return [ViewManager] the new view manager
+=end
+    def create_view_manager tabs = nil
+      tabs ||= KDE::TabWidget.new do 
+        self.document_mode = true
+        self.tabs_closable = Ruber[:config][:workspace, :close_buttons]
+        connect self, SIGNAL('tabCloseRequested(int)'), self, SLOT('close_tab(int)')
+      end
+      manager = ViewManager.new tabs, self
+      connect manager, SIGNAL('active_editor_changed(QWidget*)'), self, SLOT('slot_active_editor_changed(QWidget*)')
+      manager
+    end
+
+=begin rdoc
+Activates a view manager
+
+Activating a view manager means, besides other things, that its tab widget becomes
+the main widget of the workspace (becoming visible if it was hidden) and that the
+tab widget of the previously active view manager is hidden
+@param [ViewManager] the view manager to activate
+@return [ViewManager,nil] the previously active view manager, or *nil* if there
+  wasn't a view manager active
+=end
+    def switch_to_view_manager manager
+      old = @view_manager
+      @view_manager.tabs.hide if old
+      @view_manager = manager
+      @tabs = manager.tabs
+      @workspace.main_widget = @tabs
+      @tabs.show
+      old
     end
     
   end
