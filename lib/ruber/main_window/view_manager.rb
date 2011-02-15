@@ -60,6 +60,11 @@ last view in it is closed, and so on.
       attr_accessor :auto_activate_editors
       
 =begin rdoc
+@return [KDE::TabWidget] the tab widget containing the editors
+=end
+      attr_accessor :tabs
+      
+=begin rdoc
 Signal emitted whenever an editor is created
 @param [EditorView] editor the newly created editor
 =end
@@ -266,7 +271,7 @@ The label to use for an editor
         else ed.document.document_name
         end
       end
-      
+
       private
       
 =begin rdoc
