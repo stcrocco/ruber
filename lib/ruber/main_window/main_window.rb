@@ -121,6 +121,11 @@ is the plugin description for this object.
 
       setup_actions action_collection
       Ruber[:projects].connect( SIGNAL('current_project_changed(QObject*)') ) do |prj|
+        if prj
+          ext = prj.extension :view_manager
+          switch_to_view_manager (ext.view_manager ||= create_view_manager)
+        else switch_to_view_manager @default_view_manager
+        end
         change_state "active_project_exists", !prj.nil?
         change_title
       end
@@ -780,6 +785,17 @@ Settings widget for the workspace group
         @ui = Ui::WorkspaceSettingsWidgetBase.new
         @ui.setup_ui self
       end
+    end
+    
+    class ViewManagerExtension
+      
+      include Extension
+      
+      attr_accessor :view_manager
+      
+      def initialize prj
+      end
+      
     end
     
   end

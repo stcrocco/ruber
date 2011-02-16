@@ -302,10 +302,11 @@ with it and with the associated tab widget, if a new one is created.
 @return [ViewManager] the new view manager
 =end
     def create_view_manager tabs = nil
+      mw = self
       tabs ||= KDE::TabWidget.new do 
         self.document_mode = true
         self.tabs_closable = Ruber[:config][:workspace, :close_buttons]
-        connect self, SIGNAL('tabCloseRequested(int)'), self, SLOT('close_tab(int)')
+        connect self, SIGNAL('tabCloseRequested(int)'), mw, SLOT('close_tab(int)')
       end
       manager = ViewManager.new tabs, self
       connect manager, SIGNAL('active_editor_changed(QWidget*)'), self, SLOT('slot_active_editor_changed(QWidget*)')
