@@ -95,6 +95,14 @@ This signal is emitted _after_ the editor has become active
         connect @tabs, SIGNAL('currentChanged(int)'), self, SLOT('current_tab_changed(int)')
       end
       
+      def activate
+        make_editor_active @activation_order[0]
+      end
+      
+      def deactivate
+        deactivate_editor @active_editor
+      end
+      
 =begin rdoc
 Returns an editor associated with the given document, creating it if needed
 
@@ -149,7 +157,7 @@ Nothing is done if the given editor was already active
 =end
       def make_editor_active editor
         return if editor and @active_editor == editor
-        deactivate_editor @active_editor
+        deactivate_editor parent.active_editor
         @active_editor = editor
         if editor
           parent.gui_factory.add_client editor.send(:internal)
