@@ -275,19 +275,23 @@ Gives the UI states their initial values
     end
     
 =begin rdoc
-Closes the documents associated with the given project
+Closes the views associated with the given project
 
-If any document is modified, the user has the possiblity of choosing whether to
-save them, discard the changes or not to close the documents
+If any of the views is the only one associated with its document, the document
+itself will be closed. In this case, if the document is modified, the user has
+the possiblity of choosing whether to save them, discard the changes or not to
+close the documents. 
 @param [Project] prj the project whose documents should be closed
-@return [Boolean] *true* if the documents were correctly closed and *false* otherwise
+@return [Boolean] *true* if the documents were closed and *false* if the user chose
+  to abort
 =end
     def close_project_files prj
-      to_close = Ruber[:documents].documents_with_file.select do |d| 
-        prj.project_files.file_in_project? d.url.url
+      views_to_close = prj.extension(:view_manager).view_manager.views
+      to_save = views_to_close.map do |v|
+        v.document.views(:all).count == 1 ? v.document : nil
       end
-      save_documents to_close
-      without_activating{to_close.each{|d| d.close}}
+      return false unless save_documents to_save.compact
+      without_activating{views_to_close.each{|v| close_editor v, false}}
     end
 
 =begin rdoc
