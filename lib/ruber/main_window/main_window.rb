@@ -107,6 +107,7 @@ is the plugin description for this object.
       @actions_state_handlers = Hash.new{|h, k| h[k] = []}
       @about_plugin_actions = []
       @switch_to_actions = []
+      @activate_project_actions = []
       @last_session_data = nil
       self.status_bar = StatusBar.new self
       self.connect(SIGNAL('current_document_changed(QObject*)')) do |doc|
@@ -120,6 +121,9 @@ is the plugin description for this object.
       connect Ruber[:documents], SIGNAL('closing_document(QObject*)'), self, SLOT(:update_switch_to_list)
 
       setup_actions action_collection
+      active_project_action = action_collection.action('project-active_project')
+      default_view_action = active_project_action.add_action '&None (single files mode)'
+      
       Ruber[:projects].connect( SIGNAL('current_project_changed(QObject*)') ) do |prj|
         if prj
           ext = prj.extension :view_manager
@@ -129,7 +133,9 @@ is the plugin description for this object.
         change_state "active_project_exists", !prj.nil?
         change_title
       end
+      connect Ruber[:projects], SIGNAL('project_added(QObject*)'), self, SLOT(:update_active_project_menu)
       connect Ruber[:projects], SIGNAL('closing_project(QObject*)'), self, SLOT('close_project_files(QObject*)')
+      connect Ruber[:projects], SIGNAL('closing_project(QObject*)'), self, SLOT('update_active_project_menu(QObject*)')
       setup_GUI
       create_shell_GUI true
       
@@ -657,9 +663,9 @@ The new project will be made active and the existing one (if any) will be closed
       rescue LoadError then message = KDE.i18n(ex.message)
       end
       if prj
-        # The following two lines should be removed when we'll allow more than one project
+        # The following two line should be removed when we'll allow more than one project
         # open at the same time
-        Ruber[:projects].current_project.close if Ruber[:projects].current_project
+#         Ruber[:projects].current_project.close if Ruber[:projects].current_project
         Ruber[:projects].current_project = prj
         prj
       else

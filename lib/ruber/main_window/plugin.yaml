@@ -56,6 +56,7 @@ actions:
  project-close: {text: '&Close Project', slot: close_current_project(), state: active_project_exists}
  project-quick_open_file: {text: '&Quick Open File', icon: document-open, shortcut: Alt+Ctrl+O, slot: open_file_in_project(), state: active_project_exists}
  project-configure: {text: Co&nfigure Project..., icon: configure, slot: configure_project(), state: active_project_exists}
+ project-active_project: {text: '&Active Project', slot: 'triggered(QAction)', class: KDE::SelectAction}
  options-choose_plugins: {text: C&hoose Plugins..., icon: preferences-plugin, slot: choose_plugins()}
  options_configure: {standard_action: preferences, slot: preferences()}
  configure_document: {text: Configure &Document, icon: configure, slot: configure_document(), state: current_document}

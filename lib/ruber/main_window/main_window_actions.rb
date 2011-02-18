@@ -310,7 +310,7 @@ it's closed
       prj = Ruber[:projects].new_project dlg.project_file, dlg.project_name
       prj.save
       action_collection.action('project-open_recent').add_url KDE::Url.new(dlg.project_file)
-      Ruber[:projects].close_current_project if Ruber[:projects].current
+#       Ruber[:projects].close_current_project if Ruber[:projects].current
       Ruber[:projects].current_project = prj
       nil
     end
@@ -530,6 +530,31 @@ action list so that it contains an action for each of the open documents
       plug_action_list "window-switch_to_open_document_list", @switch_to_actions
     end
     slots :update_switch_to_list
+    
+=begin rdoc
+Updates the Active Project menu
+
+@param [Project,nil] project if not *nil*, a project to exclude from the menu. This
+  is meant to be used when a project is closed, since the project list notifies
+  that a project is being closed _before_ removing it from the list
+@return [nil]
+=end
+    def update_active_project_menu project = nil
+      activate_action = action_collection.action 'project-active_project'
+      old_actions = activate_action.actions
+      activate_action.remove_all_actions
+      activate_action.add_action old_actions.delete_at(0)
+      old_actions.each{|a| a.delete_later}
+      Ruber[:projects].sort_by{|pr| pr.project_name}.each do |prj|
+        next if prj == project
+        name = "projects-activate_project-project_file_#{prj.project_file}"
+        a = activate_action.add_action prj.project_name
+        a.object_name = name
+      end
+      nil
+    end
+    slots :update_active_project_menu
+    slots 'update_active_project_menu(QObject*)'
     
 =begin rdoc
 Slot associated with the actions in the Switch to Document submenu
