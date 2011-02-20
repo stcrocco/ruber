@@ -131,6 +131,7 @@ is the plugin description for this object.
         else switch_to_view_manager @default_view_manager
         end
         change_state "active_project_exists", !prj.nil?
+        select_active_project_entry
         change_title
       end
       connect Ruber[:projects], SIGNAL('project_added(QObject*)'), self, SLOT(:update_active_project_menu)
@@ -156,6 +157,7 @@ is the plugin description for this object.
       action_collection.action("project-open_recent").load_entries recent_projects
       status_bar.show
       setup_initial_states
+      Ruber[:projects].current_project = nil
     end
     
 =begin rdoc

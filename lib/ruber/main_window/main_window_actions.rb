@@ -557,6 +557,63 @@ Updates the Active Project menu
     slots 'update_active_project_menu(QObject*)'
     
 =begin rdoc
+Checks the entry in the Active Project action which corresponds to the current
+project
+
+If there's no current project, the action which deactivates all projects is selected.
+
+If the action corresponding to the current project is already selected, nothing is
+done.
+@return [nil]
+=end
+    def select_active_project_entry
+      active_project_action = action_collection.action 'project-active_project'
+      to_select = action_for_project Ruber[:projects].current_project
+      unless to_select == active_project_action.current_action
+        active_project_action.current_action = to_select
+      end
+      nil
+    end
+
+=begin rdoc
+The action in the Active Project action list associated with a project
+
+@param [Project,nil] prj the project. If *nil*, the action which deactivates
+  all projects is returned
+@return [KDE::Action] the action associated with the given project
+=end
+    def action_for_project prj
+      active_project_action = action_collection.action 'project-active_project'
+      if prj
+        file = prj.project_file
+        active_project_action.actions.find do |a| 
+          a.object_name == "projects-activate_project-project_file_#{file}"
+        end
+      else active_project_action.action 0
+      end
+    end
+    
+=begin rdoc
+Slot connected with the active project action
+
+It makes the project corresponding to the selected action active. If the selected
+action is the None action, then all projects will be deactivated.
+
+If the project associated with the action is already the current project, nothing
+will be done
+@param [Qt::Action] act the selected action
+@return [Project,nil] the new current project
+=end
+    def change_active_project act
+      #object_name returns nil instead of an empty string if not set
+      match = (act.object_name || '').match(/projects-activate_project-project_file_(.*)$/)
+      prj = match ? Ruber[:projects][match[1]] : nil
+      Ruber[:projects].current_project = prj unless prj == Ruber[:projects].current_project
+      prj
+    end
+    slots 'change_active_project(QAction*)'
+    
+=begin rdoc
 Slot associated with the actions in the Switch to Document submenu
 
 It creates a new editor for an already-existing document and replaces the active

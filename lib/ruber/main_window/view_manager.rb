@@ -96,7 +96,9 @@ This signal is emitted _after_ the editor has become active
       end
       
       def activate
-        make_editor_active @activation_order[0]
+        view = @activation_order[0]
+        make_editor_active view
+#         view.set_focus if view
       end
       
       def deactivate
@@ -238,6 +240,16 @@ The toplevel pane corresponding to the given index or widget
           return unless pane
           pane = pane.parent_pane while pane.parent_pane
           pane
+        end
+      end
+      
+=begin rdoc
+@return [Array<Qt::Widget>] a list of all the views contained in the tab widget
+  (in all tabs)
+=end
+      def views
+        @tabs.inject [] do |res, t|
+          res + t.views
         end
       end
       

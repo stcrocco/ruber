@@ -338,6 +338,7 @@ tab widget of the previously active view manager is hidden
       @workspace.main_widget = @tabs
       @tabs.show
       @view_manager.activate
+      active_editor.set_focus if active_editor
       old
     end
     
