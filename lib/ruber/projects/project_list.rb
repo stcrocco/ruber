@@ -60,6 +60,17 @@ Signal emitted when the current project changes
 project
 =end
     signals 'current_project_changed(QObject*)'
+
+=begin rdoc
+Signal emitted when the current project changes
+
+The signal is emitted after the previous current project has been deactivated and before
+the new current project has been activated
+
+@param [Ruber::Project,nil] new the new current project, or *nil* if there's no current project
+@param [Ruber::Project,nil] old the previous current project, or *nil* if there wasn't any current project
+=end
+    signals 'current_project_changed_2(QObject*, QObject*)'
     
 =begin rdoc
 Signal emitted just before a project is closed
@@ -202,8 +213,10 @@ project will be deactivated, but no other project will become current
       if prj and !@projects[prj.project_file]
         raise ArgumentError, "Tried to set an unknown project as current project" 
       end
+      old = @current_project
       @current_project.deactivate if @current_project
       @current_project = prj
+      emit current_project_changed_2 prj, old
       emit current_project_changed prj
       @current_project.activate if @current_project
     end
