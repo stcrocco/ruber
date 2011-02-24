@@ -30,6 +30,7 @@ require 'ruber/gui_states_handler'
 require 'ruber/main_window/main_window_internal'
 require 'ruber/main_window/main_window_actions'
 require 'ruber/main_window/hint_solver'
+require 'ruber/main_window/environment'
 
 require 'ruber/main_window/status_bar'
 require 'ruber/main_window/workspace'
@@ -100,10 +101,11 @@ is the plugin description for this object.
       super nil, 0
       initialize_plugin pdf
       initialize_states_handler
-      @default_view_manager = create_view_manager
-      @view_manager = @default_view_manager
-      @workspace = Workspace.new @default_view_manager.tabs, self
+      @default_environment = Environment.new nil
+      @default_environment.view_manager = ViewManager.new(KDE::TabWidget.new(self), self)
+      @view_manager = @default_environment.view_manager
       @tabs = @view_manager.tabs
+      @workspace = Workspace.new @tabs, self
       self.central_widget = @workspace
       @ui_states = {}
       @actions_state_handlers = Hash.new{|h, k| h[k] = []}
@@ -127,11 +129,8 @@ is the plugin description for this object.
       default_view_action = active_project_action.add_action '&None (single files mode)'
       
       Ruber[:projects].connect( SIGNAL('current_project_changed(QObject*)') ) do |prj|
-        if prj
-          ext = prj.extension :environment
-          switch_to_view_manager (ext.view_manager ||= create_view_manager)
-        else switch_to_view_manager @default_view_manager
-        end
+        ext = prj ? prj.extension(:environment) : @default_environment
+        switch_to_view_manager (ext.view_manager ||= create_view_manager)
         change_state "active_project_exists", !prj.nil?
         select_active_project_entry
         change_title
