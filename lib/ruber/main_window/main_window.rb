@@ -42,6 +42,9 @@ The application's main window. It is made of a menu bar, a tool bar, a workspace
 and a status bar. The workspace (see Workspace) is the main window's central widget
 and where most of the user interaction happens. It contains the editors and the
 tool widgets.
+
+@api feature main_window
+@extension environment {api: '{Environment}'}
 =end
   class MainWindow < KParts::MainWindow
     
@@ -102,7 +105,6 @@ is the plugin description for this object.
       @workspace = Workspace.new @default_view_manager.tabs, self
       @tabs = @view_manager.tabs
       self.central_widget = @workspace
-#       @auto_activate_editors = true
       @ui_states = {}
       @actions_state_handlers = Hash.new{|h, k| h[k] = []}
       @about_plugin_actions = []
@@ -126,7 +128,7 @@ is the plugin description for this object.
       
       Ruber[:projects].connect( SIGNAL('current_project_changed(QObject*)') ) do |prj|
         if prj
-          ext = prj.extension :view_manager
+          ext = prj.extension :environment
           switch_to_view_manager (ext.view_manager ||= create_view_manager)
         else switch_to_view_manager @default_view_manager
         end
@@ -794,18 +796,7 @@ Settings widget for the workspace group
         @ui.setup_ui self
       end
     end
-    
-    class ViewManagerExtension
-      
-      include Extension
-      
-      attr_accessor :view_manager
-      
-      def initialize prj
-      end
-      
-    end
-    
+
   end
   
 end

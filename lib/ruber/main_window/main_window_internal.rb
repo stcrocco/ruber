@@ -286,7 +286,7 @@ close the documents.
   to abort
 =end
     def close_project_files prj
-      views_to_close = prj.extension(:view_manager).view_manager.views
+      views_to_close = prj.extension(:environment).views
       to_save = views_to_close.map do |v|
         v.document.views(:all).count == 1 ? v.document : nil
       end

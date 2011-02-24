@@ -72,4 +72,4 @@ actions:
  window-previous_vertically: {text: Previous View Vertically, slot: move_among_views(), state: current_document, shortcut: Ctrl+Alt+PgUp}
 extensions:
  ruber_default_document: {class: Ruber::Application::DefaultDocumentExtension, scope: document, place: all}
- view_manager: {class: Ruber::MainWindow::ViewManagerExtension, scope: global}
+ environment: {class: Ruber::Environment, scope: global}
