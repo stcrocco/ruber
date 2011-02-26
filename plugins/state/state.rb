@@ -196,8 +196,8 @@ for more information
 @return [nil]
 =end
       def restore_projects conf = Ruber[:config]
-        projects = Ruber[:projects]
-        projects.to_a.each{|pr| projects.close_project pr}
+#         projects = Ruber[:projects]
+#         projects.to_a.each{|pr| projects.close_project pr}
         file = conf[:state, :open_projects][0]
         if file
           prj = Ruber[:main_window].safe_open_project file
@@ -224,7 +224,7 @@ for more information
 @return [nil]
 =end
       def restore_documents config = Ruber[:config]
-        return unless Ruber[:documents].close_all
+#         return unless Ruber[:documents].close_all
         docs = config[:state, :open_documents]
         unnamed_docs = []
         docs = docs.map do |i| 
