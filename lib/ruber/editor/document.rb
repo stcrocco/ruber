@@ -91,6 +91,7 @@ Creates a new Ruber::Document.
       @doc = KTextEditor::EditorChooser.editor('katepart').create_document( self)
       initialize_wrapper @doc, self.class.instance_variable_get(:@signal_table)
       @views = []
+      @all_views = []
       @doc.openUrl(file.is_a?(String) ? KDE::Url.from_path(file) : file) if file
       @annotation_model = AnnotationModel.new self
       interface('annotation_interface').annotation_model = @annotation_model
@@ -139,10 +140,16 @@ Creates a new Ruber::Document.
     end
     
 =begin rdoc
+@overload views
+  @return [Array<EditorView>] a list of all the views associated with the document
+    which are currently visible when Ruber is visible
+@overload views :all
+  @return [Array<EditorView>] a list of all the views associated with the document,
+    including the hidden ones
 @return [Array<EditorView>] a list of the views assciated with the document
 =end
-    def views
-      @views.dup
+    def views which = :visible
+      (which == :all ? @all_views : @views).dup
     end
     
 =begin rdoc
@@ -302,6 +309,7 @@ Creats a view for the document. _parent_ is the view's parent widget. Raises
       inner_view = @doc.create_view nil
       view = EditorView.new self, inner_view, parent
       @views << view
+      @all_views << view
       gui = view.send(:internal)
       action = gui.action_collection.action('file_save_as')
       disconnect action, SIGNAL(:triggered), @doc, SLOT('documentSaveAs()')
@@ -312,6 +320,11 @@ Creats a view for the document. _parent_ is the view's parent widget. Raises
       view.connect(SIGNAL('closing(QWidget*)')) do |v| 
         emit closing_view v, self
         @views.delete v
+        @all_views.delete v
+      end
+      view.connect(SIGNAL('about_to_hide(QWidget*)')){|w| @views.delete w}
+      view.connect(SIGNAL('about_to_show(QWidget*)')) do |w| 
+        @views << w unless @views.include? w
       end
       emit view_created(view, self)
       view
@@ -410,7 +423,7 @@ TODO: maybe remove the argument, since this method is not called anymore at
       if !ask || query_close
         emit closing(self)
         @project.save unless path.empty?
-        @views.dup.each{|v| v.close}
+        @all_views.dup.each{|v| v.close}
         return false unless close_url false
         @project.close false
         delete_later

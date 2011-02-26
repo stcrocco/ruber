@@ -114,15 +114,17 @@ Internal class used to store information about the position of a tool widget
     slots 'toggle_tool(int)'
     
 =begin rdoc
-The tab widget containing the editor views
+@return [Qt::Widget] the widget in the center of the workspace
 =end
-#   attr_reader :views
+    attr_reader :main_widget
     
 =begin rdoc
-Creates a new Workspace. _parent_ is the workspace's parent widget
+@param [Qt::Widget] main_widget the widget in the center of the workspace. Usually
+  it's the tab widget which contains the editor views
+@param [Qt::Widget,nil] parent the parent widget
 =end
-    def initialize parent = nil
-      super
+    def initialize main_widget, parent = nil
+      super parent
       @button_bars = {}
       @splitters = {}
       @stacks = {}
@@ -130,17 +132,33 @@ Creates a new Workspace. _parent_ is the workspace's parent widget
       @next_id = 0
       @tool_sizes = {}
       @sizes = Ruber[:config][:workspace, :tools_sizes].dup
-      create_skeleton
+      create_skeleton main_widget
     end
     
 =begin rdoc
-Adds a tool widget to the workspace. _side_ is the side where the widget should
-be put. It can be <tt>:left</tt>, <tt>:right</tt> or <tt>:bottom</tt>. _widget_
-is the widget to add; _icon_ is the <tt>Qt::Pixmap</tt> containing the icon to
-put on the tab bar and _caption_ is the text to display on the same caption.
+Changes the main widget
 
-If _widget_ had already been added as a tool widget (either on the same side or
-another side, then ArgumentError is raised).
+The previous main widget won't be deleted, closed or hidden, but becomes parentless
+@param [Qt::Widget] w the new main widget
+=end
+    def main_widget= w
+      @splitters[:horizontal].widget(1).parent = nil
+      @splitters[:horizontal].insert_widget 1, w
+    end
+    
+=begin rdoc
+Adds a tool widget to the workspace
+
+@param [Symbol] side the side where the tool widget should be put. It can be
+  @:left@, @:right@ or @:bottom@
+@param [Qt::Widget] widget the widget to add
+@param [Qt::Pixmap] icon the icon to show on the button associated with the tool
+  widget
+@param [String] caption the text to show on the button associated with the tool
+  widget
+@raise [ArgumentError] if the same tool widget had already been added to the workspace
+  (either on the same side or on another side)
+@return [nil]
 =end
     def add_tool_widget side, widget, icon, caption
       if @stacks.values.include? widget.parent
@@ -153,6 +171,7 @@ another side, then ArgumentError is raised).
       @stacks[side].add_widget widget
       connect bar.tab(id), SIGNAL('clicked(int)'), self, SLOT('toggle_tool(int)')
       @next_id += 1
+      nil
     end
     
 =begin rdoc
@@ -334,7 +353,7 @@ Returns the active tool widget, or *nil* if there's no active tool widget.
 Helper method which creates the structure of the workspace (layout, button bars,
 splitters and tab view)
 =end
-    def create_skeleton
+    def create_skeleton main_widget
       self.layout = Qt::GridLayout.new self
       layout.set_contents_margins 0,0,0,0
       layout.vertical_spacing = 0
@@ -357,8 +376,8 @@ splitters and tab view)
       v.add_widget h
       v.add_widget @stacks[:bottom]
       h.add_widget @stacks[:left]
-      @views = KDE::TabWidget.new(h){self.document_mode = true}
-      h.add_widget @views
+      @main_widget = main_widget
+      h.add_widget @main_widget
       h.add_widget @stacks[:right]
     end
     

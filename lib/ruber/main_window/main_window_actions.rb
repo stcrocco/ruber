@@ -310,7 +310,7 @@ it's closed
       prj = Ruber[:projects].new_project dlg.project_file, dlg.project_name
       prj.save
       action_collection.action('project-open_recent').add_url KDE::Url.new(dlg.project_file)
-      Ruber[:projects].close_current_project if Ruber[:projects].current
+#       Ruber[:projects].close_current_project if Ruber[:projects].current
       Ruber[:projects].current_project = prj
       nil
     end
@@ -530,6 +530,88 @@ action list so that it contains an action for each of the open documents
       plug_action_list "window-switch_to_open_document_list", @switch_to_actions
     end
     slots :update_switch_to_list
+    
+=begin rdoc
+Updates the Active Project menu
+
+@param [Project,nil] project if not *nil*, a project to exclude from the menu. This
+  is meant to be used when a project is closed, since the project list notifies
+  that a project is being closed _before_ removing it from the list
+@return [nil]
+=end
+    def update_active_project_menu project = nil
+      activate_action = action_collection.action 'project-active_project'
+      old_actions = activate_action.actions
+      activate_action.remove_all_actions
+      activate_action.add_action old_actions.delete_at(0)
+      old_actions.each{|a| a.delete_later}
+      Ruber[:projects].sort_by{|pr| pr.project_name}.each do |prj|
+        next if prj == project
+        name = "projects-activate_project-project_file_#{prj.project_file}"
+        a = activate_action.add_action prj.project_name
+        a.object_name = name
+      end
+      nil
+    end
+    slots :update_active_project_menu
+    slots 'update_active_project_menu(QObject*)'
+    
+=begin rdoc
+Checks the entry in the Active Project action which corresponds to the current
+project
+
+If there's no current project, the action which deactivates all projects is selected.
+
+If the action corresponding to the current project is already selected, nothing is
+done.
+@return [nil]
+=end
+    def select_active_project_entry
+      active_project_action = action_collection.action 'project-active_project'
+      to_select = action_for_project Ruber[:projects].current_project
+      unless to_select == active_project_action.current_action
+        active_project_action.current_action = to_select
+      end
+      nil
+    end
+
+=begin rdoc
+The action in the Active Project action list associated with a project
+
+@param [Project,nil] prj the project. If *nil*, the action which deactivates
+  all projects is returned
+@return [KDE::Action] the action associated with the given project
+=end
+    def action_for_project prj
+      active_project_action = action_collection.action 'project-active_project'
+      if prj
+        file = prj.project_file
+        active_project_action.actions.find do |a| 
+          a.object_name == "projects-activate_project-project_file_#{file}"
+        end
+      else active_project_action.action 0
+      end
+    end
+    
+=begin rdoc
+Slot connected with the active project action
+
+It makes the project corresponding to the selected action active. If the selected
+action is the None action, then all projects will be deactivated.
+
+If the project associated with the action is already the current project, nothing
+will be done
+@param [Qt::Action] act the selected action
+@return [Project,nil] the new current project
+=end
+    def change_active_project act
+      #object_name returns nil instead of an empty string if not set
+      match = (act.object_name || '').match(/projects-activate_project-project_file_(.*)$/)
+      prj = match ? Ruber[:projects][match[1]] : nil
+      Ruber[:projects].current_project = prj unless prj == Ruber[:projects].current_project
+      prj
+    end
+    slots 'change_active_project(QAction*)'
     
 =begin rdoc
 Slot associated with the actions in the Switch to Document submenu

@@ -30,7 +30,7 @@ require 'ruber/gui_states_handler'
 require 'ruber/main_window/main_window_internal'
 require 'ruber/main_window/main_window_actions'
 require 'ruber/main_window/hint_solver'
-require 'ruber/main_window/view_manager'
+require 'ruber/main_window/environment'
 
 require 'ruber/main_window/status_bar'
 require 'ruber/main_window/workspace'
@@ -43,6 +43,9 @@ The application's main window. It is made of a menu bar, a tool bar, a workspace
 and a status bar. The workspace (see Workspace) is the main window's central widget
 and where most of the user interaction happens. It contains the editors and the
 tool widgets.
+
+@api feature main_window
+@extension environment {api: '{Environment}'}
 =end
   class MainWindow < KParts::MainWindow
     
@@ -98,17 +101,17 @@ is the plugin description for this object.
       super nil, 0
       initialize_plugin pdf
       initialize_states_handler
-      self.central_widget = Workspace.new self
-      # We need the instance variable to use it with Forwardable
-      @workspace = central_widget 
-      @tabs = central_widget.instance_variable_get :@views
-      @tabs.tabs_closable = Ruber[:config][:workspace, :close_buttons]
-      @view_manager = ViewManager.new @tabs, self
-      @auto_activate_editors = true
+      @default_environment = Environment.new nil
+      @default_environment.view_manager = ViewManager.new(KDE::TabWidget.new(self), self)
+      @view_manager = @default_environment.view_manager
+      @tabs = @view_manager.tabs
+      @workspace = Workspace.new @tabs, self
+      self.central_widget = @workspace
       @ui_states = {}
       @actions_state_handlers = Hash.new{|h, k| h[k] = []}
       @about_plugin_actions = []
       @switch_to_actions = []
+      @activate_project_actions = []
       @last_session_data = nil
       self.status_bar = StatusBar.new self
       self.connect(SIGNAL('current_document_changed(QObject*)')) do |doc|
@@ -122,12 +125,19 @@ is the plugin description for this object.
       connect Ruber[:documents], SIGNAL('closing_document(QObject*)'), self, SLOT(:update_switch_to_list)
 
       setup_actions action_collection
+      active_project_action = action_collection.action('project-active_project')
+      default_view_action = active_project_action.add_action '&None (single files mode)'
+      
       Ruber[:projects].connect( SIGNAL('current_project_changed(QObject*)') ) do |prj|
+        ext = prj ? prj.extension(:environment) : @default_environment
+        switch_to_view_manager (ext.view_manager ||= create_view_manager)
         change_state "active_project_exists", !prj.nil?
+        select_active_project_entry
         change_title
       end
-      connect @tabs, SIGNAL('tabCloseRequested(int)'), self, SLOT('close_tab(int)')
+      connect Ruber[:projects], SIGNAL('project_added(QObject*)'), self, SLOT(:update_active_project_menu)
       connect Ruber[:projects], SIGNAL('closing_project(QObject*)'), self, SLOT('close_project_files(QObject*)')
+      connect Ruber[:projects], SIGNAL('closing_project(QObject*)'), self, SLOT('update_active_project_menu(QObject*)')
       setup_GUI
       create_shell_GUI true
       
@@ -148,6 +158,7 @@ is the plugin description for this object.
       action_collection.action("project-open_recent").load_entries recent_projects
       status_bar.show
       setup_initial_states
+      Ruber[:projects].current_project = nil
     end
     
 =begin rdoc
@@ -546,20 +557,12 @@ the latter will be closed without affecting the document.
   method directly, unless you want to leave the corresponding document without a view
 =end
     def close_editor editor, ask = true
-#       editor_tab = self.tab(editor)
-#       has_focus = editor_tab.is_active_window if editor_tab
-#       if has_focus
-#         views = editor_tab.to_a
-#         idx = views.index(editor)
-#         new_view = views[idx-1] || views[idx+1]
-#       end
       doc = editor.document
-      if doc.views.size > 1 
+      if doc.views(:all).size > 1 
         editor.close
         true
       else doc.close ask
       end
-#       focus_on_editor new_view if new_view
     end
     
 =begin rdoc
@@ -663,9 +666,9 @@ The new project will be made active and the existing one (if any) will be closed
       rescue LoadError then message = KDE.i18n(ex.message)
       end
       if prj
-        # The following two lines should be removed when we'll allow more than one project
+        # The following two line should be removed when we'll allow more than one project
         # open at the same time
-        Ruber[:projects].current_project.close if Ruber[:projects].current_project
+#         Ruber[:projects].current_project.close if Ruber[:projects].current_project
         Ruber[:projects].current_project = prj
         prj
       else
@@ -792,7 +795,7 @@ Settings widget for the workspace group
         @ui.setup_ui self
       end
     end
-    
+
   end
   
 end

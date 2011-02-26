@@ -1,7 +1,5 @@
 require 'spec/common'
 
-require 'flexmock'
-
 require 'ruber/projects/project_list'
 require 'ruber/plugin_specification'
 
@@ -196,6 +194,15 @@ describe 'Ruber::Project#current_project=, when called with a non-nil argument' 
     lambda{@keeper.current_project = @prj}.should_not raise_error
   end
   
+  it 'emits the current_project_changed_2(QObject*, QObject*) signal, passing the new and the old current project as arguments' do
+    @keeper.instance_variable_set(:@current_project, @prj)
+    new_prj = Ruber::ProjectList::FakeProject.new 'Test1'
+    @keeper.add_project new_prj
+    test = flexmock('test'){|m| m.should_receive(:current_project_changed).once.with(new_prj, @prj)}
+    @keeper.connect(SIGNAL('current_project_changed_2(QObject*, QObject*)')){|p1, p2| test.current_project_changed(p1, p2)}
+    @keeper.current_project = new_prj
+  end
+  
   it 'should emit the "current_project_changed(QObject*)" signal with the project as argument' do
     test = flexmock('test'){|m| m.should_receive(:current_project_changed).once.with(@prj)}
     @keeper.connect(SIGNAL('current_project_changed(QObject*)')){|o| test.current_project_changed(o)}
@@ -212,7 +219,7 @@ describe 'Ruber::Project#current_project=, when called with a non-nil argument' 
   
   it 'should raise ArgumentError if the project is not in the project list' do
     @keeper.instance_variable_get(:@projects).clear
-    lambda{@keeper.current_project = @prj}.should raise_error(ArgumentError, "Tried to set an unknown as current project")
+    lambda{@keeper.current_project = @prj}.should raise_error(ArgumentError, "Tried to set an unknown project as current project")
   end
   
 end
@@ -234,11 +241,19 @@ describe 'Ruber::Project#current_project=, when called with nil' do
     @keeper.current_project.should be_nil
   end
   
-  it 'should emit the "current_project_changed(QObject*)" signal with Qt::NilObject as argument' do
+  it 'should emit the "current_project_changed(QObject*)" signal with nil as argument' do
     test = flexmock('test'){|m| m.should_receive(:current_project_changed).once.with(nil)}
     @keeper.connect(SIGNAL('current_project_changed(QObject*)')){|o| test.current_project_changed(o)}
     @keeper.current_project = nil
   end
+  
+  it 'emits the current_project_changed_2(QObject*, QObject*) signal, passing nil and the old current project as arguments' do
+    @keeper.instance_variable_set(:@current_project, @prj)
+    test = flexmock('test'){|m| m.should_receive(:current_project_changed).once.with(nil, @prj)}
+    @keeper.connect(SIGNAL('current_project_changed_2(QObject*, QObject*)')){|p1, p2| test.current_project_changed(p1, p2)}
+    @keeper.current_project = nil
+  end
+
    
 end
 

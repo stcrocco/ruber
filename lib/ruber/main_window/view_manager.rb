@@ -60,6 +60,11 @@ last view in it is closed, and so on.
       attr_accessor :auto_activate_editors
       
 =begin rdoc
+@return [KDE::TabWidget] the tab widget containing the editors
+=end
+      attr_accessor :tabs
+      
+=begin rdoc
 Signal emitted whenever an editor is created
 @param [EditorView] editor the newly created editor
 =end
@@ -88,6 +93,16 @@ This signal is emitted _after_ the editor has become active
         @solver = MainWindow::HintSolver.new @tabs, @part_manager, @activation_order
         @auto_activate_editors = true
         connect @tabs, SIGNAL('currentChanged(int)'), self, SLOT('current_tab_changed(int)')
+      end
+      
+      def activate
+        view = @activation_order[0]
+        make_editor_active view
+#         view.set_focus if view
+      end
+      
+      def deactivate
+        deactivate_editor @active_editor
       end
       
 =begin rdoc
@@ -144,7 +159,7 @@ Nothing is done if the given editor was already active
 =end
       def make_editor_active editor
         return if editor and @active_editor == editor
-        deactivate_editor @active_editor
+        deactivate_editor parent.active_editor
         @active_editor = editor
         if editor
           parent.gui_factory.add_client editor.send(:internal)
@@ -229,6 +244,16 @@ The toplevel pane corresponding to the given index or widget
       end
       
 =begin rdoc
+@return [Array<Qt::Widget>] a list of all the views contained in the tab widget
+  (in all tabs)
+=end
+      def views
+        @tabs.inject [] do |res, t|
+          res + t.views
+        end
+      end
+      
+=begin rdoc
 Whether the given view is a focus editor
 
 @overload focus_editor? editor
@@ -266,7 +291,7 @@ The label to use for an editor
         else ed.document.document_name
         end
       end
-      
+
       private
       
 =begin rdoc

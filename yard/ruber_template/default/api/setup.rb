@@ -55,7 +55,7 @@ def read_extension_entry ext_tag, object
 end
 
 def format_extension_api data
-  data = data.reject{|i| !(i.has_key? :api or i.has_key :class)}
+  data = data.reject{|i| !(i.has_key? :api or i.has_key? :class)}
   return if data.empty?
   list = false
   res = %|<dt style="font-weight: bold;">API</dt>\n<dd>\n|
