@@ -936,13 +936,13 @@ is valid and <tt>Qt::NoItemFlags</tt> if it isn't vaid.
 
 If <tt>global_flags</tt> is *nil*, this method behaves as <tt>Qt::StandardModel#flags</tt>.
 =end
-      def flags idx
-        super
+#       def flags idx
+#         super
 #         if @global_flags
 #           idx.valid? ? @global_flags : Qt::NoItemFlags
 #         else super
 #         end
-      end
+#       end
       
 =begin rdoc
 Changes content of the given element. 
@@ -1033,7 +1033,9 @@ This method returns an array containing all the non-empty items of the new row.
         end
         text = Array.new(col) << text unless text.is_a? Array
         items = text.map do |i| 
-          i ? Qt::StandardItem.new(i) : Qt::StandardItem.new
+          it = i ? Qt::StandardItem.new(i) : Qt::StandardItem.new
+          it.flags = @global_flags if @global_flags
+          it
         end
         parent.insert_row row, items
         items.delete_if{|i| i.text.nil?}
