@@ -32,6 +32,51 @@ describe Ruber::Document do
     @doc = Ruber::Document.new @app
   end
   
+  describe '.new' do
+    
+    before do
+      Ruber::Document.instance_variable_get(:@docs).clear
+    end
+    
+    context 'when called with a file name as second argument' do
+            
+      it 'returns a new document for the given file if no documents for it exist' do
+        old = Ruber::Document.new nil, __FILE__
+        file = File.join( File.dirname(__FILE__), 'common.rb')
+        new = Ruber::Document.new nil, file
+        new.should_not == old
+        new.path.should == file
+      end
+      
+      it 'returns the existing document for the given file instead of creating a new one, if a document for that file already exists' do
+        old = Ruber::Document.new nil, __FILE__
+        new = Ruber::Document.new nil, __FILE__
+        urls = Ruber::Document.instance_variable_get(:@docs).keys
+        new.should == old
+      end
+      
+      it 'doesn\'t return a document which has been closed' do
+        old = Ruber::Document.new nil, __FILE__
+        old_id = old.object_id
+        old.close
+        new = Ruber::Document.new nil, __FILE__
+        new.object_id.should_not == old_id
+      end
+      
+    end
+    
+    context 'when called without a file name' do
+      
+      it 'always returns a new document' do
+        old = [Ruber::Document.new(nil, __FILE__), Ruber::Document.new(nil)]
+        new = Ruber::Document.new
+        old.each{|d| new.should_not == d}
+      end
+      
+    end
+    
+  end
+  
   describe ', when created' do
 
     it 'loads a KTextEditor::Document' do

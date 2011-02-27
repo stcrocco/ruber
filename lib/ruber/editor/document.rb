@@ -1,5 +1,5 @@
 =begin 
-    Copyright (C) 2010 by Stefano Crocco   
+    Copyright (C) 2010, 2011 by Stefano Crocco   
     stefano.crocco@alice.it   
   
     This program is free software; you can redistribute it andor modify  
@@ -30,6 +30,29 @@ require 'ruber/document_project'
 module Ruber
   
   class Document < Qt::Object
+    
+    @docs = {}
+    @close_mapper = Qt::SignalMapper.new
+    @close_mapper.connect(SIGNAL('mapped(QObject*)')) do |d|
+      @docs.delete d.url
+    end
+       
+    def self.new *args, &blk
+      file = args[1]
+      if file
+        url = KDE::Url.new file
+        existing_doc = @docs[url]
+        if existing_doc then existing_doc
+        else
+          new_doc = super
+          Qt::Object.connect new_doc, SIGNAL('closing(QObject*)'), @close_mapper,
+              SLOT(:map)
+          @close_mapper.set_mapping new_doc, new_doc
+          @docs[new_doc.url] = new_doc
+        end
+      else super
+      end
+    end
         
     extend Forwardable
     
