@@ -43,7 +43,7 @@ module Ruber
     end
        
     def self.new *args, &blk
-      file = args[1]
+      file = args[0]
       doc = if file
         url = KDE::Url.new file
         existing_doc = @docs[url]
@@ -116,7 +116,7 @@ it is still included in the array returned by {#views}
 =begin rdoc
 Creates a new Ruber::Document.
 =end
-    def initialize parent = nil, file = nil
+    def initialize file = nil, parent = nil
       super parent
       @active = false
       @doc = KTextEditor::EditorChooser.editor('katepart').create_document( self)

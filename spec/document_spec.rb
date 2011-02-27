@@ -25,32 +25,29 @@ describe Ruber::Document do
   include FlexMock::ArgumentTypes
   
   before do
+    Ruber::Document.instance_variable_get(:@docs).clear
     @app = KDE::Application.instance
     @w = Qt::Widget.new
     @comp = DocumentSpecComponentManager.new
     flexmock(Ruber).should_receive(:[]).with(:components).and_return(@comp)
-    @doc = Ruber::Document.new @app
+    @doc = Ruber::Document.new nil, @app
   end
   
   describe '.new' do
     
-    before do
-      Ruber::Document.instance_variable_get(:@docs).clear
-    end
-    
-    context 'when called with a file name as second argument' do
+    context 'when called with a file name as first argument' do
             
       it 'returns a new document for the given file if no documents for it exist' do
-        old = Ruber::Document.new nil, __FILE__
+        old = Ruber::Document.new __FILE__
         file = File.join( File.dirname(__FILE__), 'common.rb')
-        new = Ruber::Document.new nil, file
+        new = Ruber::Document.new file
         new.should_not == old
         new.path.should == file
       end
       
       it 'returns the existing document for the given file instead of creating a new one, if a document for that file already exists' do
-        old = Ruber::Document.new nil, __FILE__
-        new = Ruber::Document.new nil, __FILE__
+        old = Ruber::Document.new __FILE__
+        new = Ruber::Document.new __FILE__
         urls = Ruber::Document.instance_variable_get(:@docs).keys
         new.should == old
       end
@@ -60,34 +57,34 @@ describe Ruber::Document do
         url = KDE::Url.new(__FILE__)
         flexmock(old).should_receive(:url).and_return url
         old.instance_eval{emit document_url_changed(url)}
-        new = Ruber::Document.new nil, __FILE__
+        new = Ruber::Document.new __FILE__
         new.should == old
       end
       
       it 'takes into account documents which have been saved with another name' do
-        old = Ruber::Document.new nil, File.join( File.dirname(__FILE__), 'common.rb')
+        old = Ruber::Document.new File.join( File.dirname(__FILE__), 'common.rb')
         url = KDE::Url.new(__FILE__)
         flexmock(old).should_receive(:url).and_return url
         old.instance_eval{emit document_url_changed(url)}
-        new = Ruber::Document.new nil, __FILE__
+        new = Ruber::Document.new __FILE__
         new.should == old
       end
       
       it 'doesn\'t return a document which has been closed' do
-        old = Ruber::Document.new nil, __FILE__
+        old = Ruber::Document.new __FILE__
         old_id = old.object_id
         old.close
-        new = Ruber::Document.new nil, __FILE__
+        new = Ruber::Document.new __FILE__
         new.object_id.should_not == old_id
       end
       
       it 'doesn\'t use documents whose URL have changed for the old url' do
-        old = Ruber::Document.new nil, __FILE__
+        old = Ruber::Document.new __FILE__
         new_file = File.join( File.dirname(__FILE__), 'common.rb')
         url = KDE::Url.new(new_file)
         flexmock(old).should_receive(:url).and_return url
         old.instance_eval{emit document_url_changed(url)}
-        new = Ruber::Document.new nil, __FILE__
+        new = Ruber::Document.new __FILE__
         new.should_not == old
       end
       
@@ -96,7 +93,7 @@ describe Ruber::Document do
     context 'when called without a file name' do
       
       it 'always returns a new document' do
-        old = [Ruber::Document.new(nil, __FILE__), Ruber::Document.new(nil)]
+        old = [Ruber::Document.new(__FILE__), Ruber::Document.new]
         new = Ruber::Document.new
         old.each{|d| new.should_not == d}
       end
@@ -120,27 +117,27 @@ describe Ruber::Document do
     end
 
     it 'opens a given file if new is called with a string or KDE::Url second argument' do
-      doc = Ruber::Document.new @app, __FILE__
+      doc = Ruber::Document.new __FILE__, @app
       doc.text.should == File.read(__FILE__)
       doc.url.path.should == __FILE__
-      doc = Ruber::Document.new @app, KDE::Url.from_path(__FILE__)
+      doc = Ruber::Document.new KDE::Url.from_path(__FILE__), @app
       doc.text.should == File.read(__FILE__)
       doc.url.path.should == __FILE__
     end
     
     it 'creates a document project for itself, after opening the file (if given)' do
-      doc = Ruber::Document.new @app
+      doc = Ruber::Document.new nil, @app
       prj = doc.instance_variable_get(:@project)
       prj.should be_a(Ruber::DocumentProject)
       prj.project_name.should be_empty
-      doc = Ruber::Document.new @app, __FILE__
+      doc = Ruber::Document.new __FILE__, @app
       prj = doc.instance_variable_get(:@project)
       prj.should be_a(Ruber::DocumentProject)
       prj.project_name.should == KDE::Url.new(__FILE__).to_encoded.to_s
     end
     
     it 'isn\'t active' do
-      doc = Ruber::Document.new @app, __FILE__
+      doc = Ruber::Document.new __FILE__, @app
       doc.should_not be_active
     end
     
@@ -151,12 +148,12 @@ describe Ruber::Document do
     context 'when called with :local' do
       
       it 'returns true if the document is associated with a local file' do
-        doc = Ruber::Document.new nil, __FILE__
+        doc = Ruber::Document.new __FILE__
         doc.should have_file(:local)
       end
       
       it 'returns false if the document is associated with a remote file' do
-        doc = Ruber::Document.new nil, KDE::Url.new('http://github.com/stcrocco/ruber/raw/master/ruber.gemspec')
+        doc = Ruber::Document.new KDE::Url.new('http://github.com/stcrocco/ruber/raw/master/ruber.gemspec')
         doc.should_not have_file(:local)
       end
       
@@ -170,12 +167,12 @@ describe Ruber::Document do
     context 'when called with :remote' do
       
       it 'returns false if the document is associated with a local file' do
-        doc = Ruber::Document.new nil, __FILE__
+        doc = Ruber::Document.new __FILE__
         doc.should_not have_file(:remote)
       end
       
       it 'returns true if the document is associated with a remote file' do
-        doc = Ruber::Document.new nil, KDE::Url.new('http://github.com/stcrocco/ruber/raw/master/ruber.gemspec')
+        doc = Ruber::Document.new  KDE::Url.new('http://github.com/stcrocco/ruber/raw/master/ruber.gemspec')
         doc.should have_file(:remote)
       end
       
@@ -189,13 +186,13 @@ describe Ruber::Document do
     context 'when called with :any or no arguments' do
       
       it 'returns true if the document is associated with a local file' do
-        doc = Ruber::Document.new nil, __FILE__
+        doc = Ruber::Document.new __FILE__
         doc.should have_file(:any)
         doc.should have_file
       end
       
       it 'returns true if the document is associated with a remote file' do
-        doc = Ruber::Document.new nil, KDE::Url.new('http://github.com/stcrocco/ruber/raw/master/ruber.gemspec')
+        doc = Ruber::Document.new  KDE::Url.new('http://github.com/stcrocco/ruber/raw/master/ruber.gemspec')
         doc.should have_file(:any)
         doc.should have_file
       end
@@ -213,7 +210,7 @@ describe Ruber::Document do
   describe '#own_project' do
   
     it 'returns the DocumentProject associated with the document' do
-      doc = Ruber::Document.new @app, __FILE__
+      doc = Ruber::Document.new __FILE__, @app
       doc.own_project.project_name.should == KDE::Url.new(__FILE__).url
     end
 
@@ -226,7 +223,7 @@ describe Ruber::Document do
       @prj = flexmock(:project_files => @list)
       @projects = flexmock{|m| m.should_receive(:current).and_return(@prj).by_default}
       flexmock(Ruber).should_receive(:[]).with(:projects).and_return(@projects)
-      @doc = Ruber::Document.new @app, __FILE__
+      @doc = Ruber::Document.new __FILE__, @app
     end
     
     it 'returns the current project if one exists and the document belongs to it' do
@@ -240,7 +237,7 @@ describe Ruber::Document do
     end
     
     it 'returns the document project if the document isn\'t associated with a file' do
-      @doc = Ruber::Document.new @app
+      @doc = Ruber::Document.new nil, @app
       @doc.project.should be_a(Ruber::DocumentProject)
     end
     
@@ -266,7 +263,7 @@ describe Ruber::Document do
         Tempfile.open('ruber_document_test') do |f|
           f.write 'test'
           f.flush
-          doc = Ruber::Document.new nil, f.path
+          doc = Ruber::Document.new f.path
           flexmock(doc.send :internal).should_receive(:is_read_write).once.and_return false
           flexmock(doc).should_receive(:document_save_as).once
           doc.text += ' added'
@@ -278,7 +275,7 @@ describe Ruber::Document do
         Tempfile.open('ruber_document_test') do |f|
           f.write 'test'
           f.flush
-          doc = Ruber::Document.new nil, f.path
+          doc = Ruber::Document.new f.path
           flexmock(doc.own_project).should_receive(:save).once
           doc.text += ' added'
           doc.save
@@ -289,7 +286,7 @@ describe Ruber::Document do
         Tempfile.open('ruber_document_test') do |f|
           f.write 'test'
           f.flush
-          doc = Ruber::Document.new nil, f.path
+          doc = Ruber::Document.new f.path
           doc.text += ' added'
           doc.save.should be_true
           File.read( f.path ).should == 'test added'
@@ -385,7 +382,7 @@ describe Ruber::Document do
       @doc.save
       @doc.should_not be_pristine
     end
-    Ruber::Document.new(nil, __FILE__).should_not be_pristine
+    Ruber::Document.new(__FILE__).should_not be_pristine
   end
 
   ["text_changed(QObject*)", "about_to_close(QObject*)", 'about_to_close(QObject*)', 
@@ -451,7 +448,7 @@ describe Ruber::Document do
   end
 
   it 'should return true when close_url succeeds' do
-    doc = Ruber::Document.new nil, __FILE__
+    doc = Ruber::Document.new __FILE__
     doc.close_url(false).should be_true
   end
   
@@ -478,12 +475,12 @@ describe 'Ruber::Document#close' do
     @w = Qt::Widget.new
     @comp = DocumentSpecComponentManager.new
     flexmock(Ruber).should_receive(:[]).with(:components).and_return(@comp)
-    @doc = Ruber::Document.new @app
+    @doc = Ruber::Document.new nil, @app
     flexmock(@doc.instance_variable_get(:@project)).should_receive(:save).by_default
   end
   
   it 'returns immediately if ask is true and query_close returns false' do
-    doc = Ruber::Document.new nil, __FILE__
+    doc = Ruber::Document.new __FILE__
     exp = doc.object_id
     m = flexmock('test'){|mk| mk.should_receive(:document_closing).never}
     doc.connect(SIGNAL('closing(QObject*)')){|d| m.document_closing d.object_id}
@@ -492,7 +489,7 @@ describe 'Ruber::Document#close' do
   end
   
   it 'calls the save method of the project after emitting the "closing" signal' do
-    @doc = Ruber::Document.new @app, __FILE__
+    @doc = Ruber::Document.new __FILE__, @app
     m = flexmock{|mk| mk.should_receive(:document_closing).once.globally.ordered}
     @doc.connect(SIGNAL('closing(QObject*)')){m.document_closing}
     flexmock(@doc.instance_variable_get(:@project)).should_receive(:save).once.globally.ordered
@@ -505,23 +502,23 @@ describe 'Ruber::Document#close' do
   end
   
   it 'should call the "close_url", if closing is confirmed' do
-    doc = Ruber::Document.new nil, __FILE__
+    doc = Ruber::Document.new __FILE__
     flexmock(doc).should_receive(:close_url).once.with(false)
     doc.close
-    doc = Ruber::Document.new nil, __FILE__
+    doc = Ruber::Document.new __FILE__
     flexmock(doc).should_receive(:close_url).once.with(false)
     doc.close false
   end
   
   it 'should emit the "closing(QObject*)" signal if closing is confirmed' do
-    doc = Ruber::Document.new nil, __FILE__
+    doc = Ruber::Document.new __FILE__
     exp = doc.object_id
     m = flexmock('test'){|mk| mk.should_receive(:document_closing).once.with(exp)}
     flexmock(doc).should_receive(:close_url).and_return true
     doc.connect(SIGNAL('closing(QObject*)')){|d| m.document_closing d.object_id}
     flexmock(doc).should_receive(:query_close).and_return true
     doc.close
-    doc = Ruber::Document.new nil, __FILE__
+    doc = Ruber::Document.new __FILE__
     exp1 = doc.object_id
     m.should_receive(:document_closing).with(exp1).once
     flexmock(doc).should_receive(:query_close)
@@ -530,7 +527,7 @@ describe 'Ruber::Document#close' do
   end
   
   it 'closes the views, if any, after emitting the closing signal, if closing is confirmed' do
-    doc = Ruber::Document.new nil, __FILE__
+    doc = Ruber::Document.new __FILE__
     views = 3.times.map{doc.create_view}
     exp = doc.object_id
     m = flexmock('test'){|mk| mk.should_receive(:document_closing).once.with(exp).globally.ordered}
@@ -542,7 +539,7 @@ describe 'Ruber::Document#close' do
   end
   
   it 'also closes hidden views if any' do
-    doc = Ruber::Document.new nil, __FILE__
+    doc = Ruber::Document.new __FILE__
     views = 3.times.map{doc.create_view}
     views[1].instance_eval{about_to_hide(self)}
     exp = doc.object_id
@@ -555,7 +552,7 @@ describe 'Ruber::Document#close' do
   end
   
   it 'calls the #save method of the project if the document path is not empty' do
-    doc = Ruber::Document.new nil, __FILE__
+    doc = Ruber::Document.new __FILE__
     exp = doc.object_id
     flexmock(doc).should_receive(:close_url).and_return true
     flexmock(doc.instance_variable_get(:@project)).should_receive(:save).once
@@ -580,7 +577,7 @@ end
 
   
   it 'should disconnect any slot/block connected to it after emitting the closing signal if closing is confirmed' do
-    doc = Ruber::Document.new nil, __FILE__
+    doc = Ruber::Document.new __FILE__
     exp = doc.object_id
     flexmock(doc).should_receive(:close_url).and_return true
     def doc.disconnect *args;end
@@ -591,16 +588,16 @@ end
   end
     
 #   it 'should dispose of itself after emitting the closing signal, if closing is confirmed' do
-#     doc = Ruber::Document.new nil, __FILE__
+#     doc = Ruber::Document.new __FILE__
 #     doc.close false
 #     doc.should be_disposed
 #   end
   
   it 'should return true, if closing is confirmed and successful and false otherwise' do
-    doc = Ruber::Document.new nil, __FILE__
+    doc = Ruber::Document.new __FILE__
     flexmock(doc).should_receive(:close_url).once.and_return true
     doc.close( false).should be_true
-    doc = Ruber::Document.new nil, __FILE__
+    doc = Ruber::Document.new __FILE__
     flexmock(doc).should_receive(:close_url).once.and_return false
     doc.close( false).should be_false
     flexmock(doc).should_receive(:query_close).once.and_return false
@@ -615,7 +612,7 @@ describe 'Ruber::Document#extension' do
     @app = KDE::Application.instance
     @comp = DocumentSpecComponentManager.new
     flexmock(Ruber).should_receive(:[]).with(:components).and_return @comp
-    @doc = Ruber::Document.new @app
+    @doc = Ruber::Document.new nil, @app
   end
 
   it 'calls the extension method of its project' do
@@ -632,7 +629,7 @@ describe 'Ruber::Document#file_type_match?' do
     @app = KDE::Application.instance
     @comp = DocumentSpecComponentManager.new
     flexmock(Ruber).should_receive(:[]).with(:components).and_return( @comp).by_default
-    @doc = Ruber::Document.new @app, __FILE__
+    @doc = Ruber::Document.new __FILE__, @app
   end
   
   it 'should return true if both arguments are empty' do
@@ -669,7 +666,7 @@ describe 'Ruber::Document#file_type_match?' do
   end
   
   it 'should always return false when doing pattern matching if the document is not associated with a file' do
-    @doc = Ruber::Document.new @app
+    @doc = Ruber::Document.new nil, @app
     @doc.file_type_match?([], %w[*.txt *.rb]).should be_false
   end
   
@@ -814,7 +811,7 @@ describe Ruber::Document do
   describe '#save_settings' do
         
     it 'calls the #save method of the project if the document path is not empty' do
-      doc = Ruber::Document.new nil, __FILE__
+      doc = Ruber::Document.new __FILE__
       exp = doc.object_id
       flexmock(doc.own_project).should_receive(:save).once
       doc.save_settings
