@@ -55,12 +55,40 @@ describe Ruber::Document do
         new.should == old
       end
       
+      it 'takes into account documents created without a file which have later been saved' do
+        old = Ruber::Document.new
+        url = KDE::Url.new(__FILE__)
+        flexmock(old).should_receive(:url).and_return url
+        old.instance_eval{emit document_url_changed(url)}
+        new = Ruber::Document.new nil, __FILE__
+        new.should == old
+      end
+      
+      it 'takes into account documents which have been saved with another name' do
+        old = Ruber::Document.new nil, File.join( File.dirname(__FILE__), 'common.rb')
+        url = KDE::Url.new(__FILE__)
+        flexmock(old).should_receive(:url).and_return url
+        old.instance_eval{emit document_url_changed(url)}
+        new = Ruber::Document.new nil, __FILE__
+        new.should == old
+      end
+      
       it 'doesn\'t return a document which has been closed' do
         old = Ruber::Document.new nil, __FILE__
         old_id = old.object_id
         old.close
         new = Ruber::Document.new nil, __FILE__
         new.object_id.should_not == old_id
+      end
+      
+      it 'doesn\'t use documents whose URL have changed for the old url' do
+        old = Ruber::Document.new nil, __FILE__
+        new_file = File.join( File.dirname(__FILE__), 'common.rb')
+        url = KDE::Url.new(new_file)
+        flexmock(old).should_receive(:url).and_return url
+        old.instance_eval{emit document_url_changed(url)}
+        new = Ruber::Document.new nil, __FILE__
+        new.should_not == old
       end
       
     end

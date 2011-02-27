@@ -36,10 +36,15 @@ module Ruber
     @close_mapper.connect(SIGNAL('mapped(QObject*)')) do |d|
       @docs.delete d.url
     end
+    @rename_mapper = Qt::SignalMapper.new
+    @rename_mapper.connect(SIGNAL('mapped(QObject*)')) do |d|
+      @docs.reject!{|k, v| v == d}
+      @docs[d.url] = d
+    end
        
     def self.new *args, &blk
       file = args[1]
-      if file
+      doc = if file
         url = KDE::Url.new file
         existing_doc = @docs[url]
         if existing_doc then existing_doc
@@ -52,6 +57,9 @@ module Ruber
         end
       else super
       end
+      Qt::Object.connect doc, SIGNAL('document_url_changed(QObject*)'), @rename_mapper, SLOT(:map)
+      @rename_mapper.set_mapping doc, doc
+      doc
     end
         
     extend Forwardable
