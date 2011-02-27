@@ -82,6 +82,14 @@ return *true* for both absolute and relative paths.
       self == other
     end
     
+=begin rdoc
+Override of Object#hash
+@return [Integer] the hash value of the path associated with the URL
+=end
+    def hash
+      path.hash
+    end
+    
   end
 
   class TabWidget

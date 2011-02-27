@@ -100,6 +100,15 @@ describe 'KDE::Url' do
     end
   end
   
+  describe '#hash' do
+    
+    it 'returns the hash value of the path' do
+      u = KDE::Url.new 'file://xyz'
+      u.hash.should == u.path.hash
+    end
+    
+  end
+  
 end
 
 describe 'KDE::MimeType#=~' do
