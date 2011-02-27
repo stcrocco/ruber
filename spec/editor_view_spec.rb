@@ -68,7 +68,7 @@ describe Ruber::EditorView do
     @comp = Qt::Object.new
     flexmock(@comp).should_receive(:each_component)
     flexmock(Ruber).should_receive(:[]).with(:components).and_return @comp
-    @doc = Ruber::Document.new @app
+    @doc = Ruber::Document.new nil, @app
     @view = @doc.create_view @w
   end
   
@@ -268,7 +268,7 @@ describe 'Ruber::EditorView#execute_action' do
     @comp = Qt::Object.new
     flexmock(@comp).should_receive(:each_component)
     flexmock(Ruber).should_receive(:[]).with(:components).and_return @comp
-    @doc = Ruber::Document.new @app
+    @doc = Ruber::Document.new nil, @app
     @view = @doc.create_view @w
   end
   

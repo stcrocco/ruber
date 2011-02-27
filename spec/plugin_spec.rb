@@ -1071,7 +1071,7 @@ describe 'Ruber::Plugin#update_project' do
     @plug = Ruber::Plugin.new Ruber::PluginSpecification.full(@data)
     @prj = Ruber::Project.new 'test.ruprj', 'Test'
     @plug.register_with_project @prj
-    @doc = Ruber::Document.new nil, __FILE__
+    @doc = Ruber::Document.new __FILE__
   end
   
   it 'calls remove_options_from_project passing false as second argument' do

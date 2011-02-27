@@ -8,7 +8,7 @@ describe Ruber::AnnotationModel do
     @components = flexmock{|m| m.should_ignore_missing}
     @w = Qt::Widget.new
     flexmock(Ruber).should_receive(:[]).with(:components).and_return(@components).by_default
-    @doc = Ruber::Document.new @app
+    @doc = Ruber::Document.new nil, @app
     @model = Ruber::AnnotationModel.new @doc
   end
 
