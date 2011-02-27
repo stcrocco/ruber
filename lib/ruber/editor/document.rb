@@ -47,14 +47,13 @@ module Ruber
       doc = if file
         url = KDE::Url.new file
         existing_doc = @docs[url]
-        if existing_doc then existing_doc
-        else
-          new_doc = super
-          Qt::Object.connect new_doc, SIGNAL('closing(QObject*)'), @close_mapper,
-              SLOT(:map)
-          @close_mapper.set_mapping new_doc, new_doc
-          @docs[new_doc.url] = new_doc
-        end
+        return existing_doc if existing_doc
+        new_doc = super
+        Qt::Object.connect new_doc, SIGNAL('closing(QObject*)'), @close_mapper,
+            SLOT(:map)
+        @close_mapper.set_mapping new_doc, new_doc
+        new_url = new_doc.url if url.valid?
+        @docs[new_url] = new_doc 
       else super
       end
       Qt::Object.connect doc, SIGNAL('document_url_changed(QObject*)'), @rename_mapper, SLOT(:map)
