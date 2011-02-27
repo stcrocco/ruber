@@ -93,6 +93,13 @@ describe 'KDE::Url' do
     
   end
   
+  describe '#eql?' do
+    it 'returns true if the two URLs are equal according to ==' do
+      u1, u2 = 2.times.map{KDE::Url.new 'file:///xyz'}
+      u1.should eql(u2)
+    end
+  end
+  
 end
 
 describe 'KDE::MimeType#=~' do

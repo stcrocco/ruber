@@ -74,6 +74,14 @@ return *true* for both absolute and relative paths.
       !(local_file? or relative?)
     end
     
+=begin rdoc
+@return [Boolean] *true* if the two URLs are equal according to @==@ and *false*
+  otherwise
+=end
+    def eql? other
+      self == other
+    end
+    
   end
 
   class TabWidget
