@@ -25,7 +25,7 @@ describe Ruber::Document do
   include FlexMock::ArgumentTypes
   
   before do
-    Ruber::Document.instance_variable_get(:@docs).clear
+    
     @app = KDE::Application.instance
     @w = Qt::Widget.new
     @comp = DocumentSpecComponentManager.new
@@ -33,74 +33,74 @@ describe Ruber::Document do
     @doc = Ruber::Document.new nil, @app
   end
   
-  describe '.new' do
-    
-    context 'when called with a file name as first argument' do
-            
-      it 'returns a new document for the given file if no documents for it exist' do
-        old = Ruber::Document.new __FILE__
-        file = File.join( File.dirname(__FILE__), 'common.rb')
-        new = Ruber::Document.new file
-        new.should_not == old
-        new.path.should == file
-      end
-      
-      it 'returns the existing document for the given file instead of creating a new one, if a document for that file already exists' do
-        old = Ruber::Document.new __FILE__
-        new = Ruber::Document.new __FILE__
-        urls = Ruber::Document.instance_variable_get(:@docs).keys
-        new.should == old
-      end
-      
-      it 'takes into account documents created without a file which have later been saved' do
-        old = Ruber::Document.new
-        url = KDE::Url.new(__FILE__)
-        flexmock(old).should_receive(:url).and_return url
-        old.instance_eval{emit document_url_changed(url)}
-        new = Ruber::Document.new __FILE__
-        new.should == old
-      end
-      
-      it 'takes into account documents which have been saved with another name' do
-        old = Ruber::Document.new File.join( File.dirname(__FILE__), 'common.rb')
-        url = KDE::Url.new(__FILE__)
-        flexmock(old).should_receive(:url).and_return url
-        old.instance_eval{emit document_url_changed(url)}
-        new = Ruber::Document.new __FILE__
-        new.should == old
-      end
-      
-      it 'doesn\'t return a document which has been closed' do
-        old = Ruber::Document.new __FILE__
-        old_id = old.object_id
-        old.close
-        new = Ruber::Document.new __FILE__
-        new.object_id.should_not == old_id
-      end
-      
-      it 'doesn\'t use documents whose URL have changed for the old url' do
-        old = Ruber::Document.new __FILE__
-        new_file = File.join( File.dirname(__FILE__), 'common.rb')
-        url = KDE::Url.new(new_file)
-        flexmock(old).should_receive(:url).and_return url
-        old.instance_eval{emit document_url_changed(url)}
-        new = Ruber::Document.new __FILE__
-        new.should_not == old
-      end
-      
-    end
-    
-    context 'when called without a file name' do
-      
-      it 'always returns a new document' do
-        old = [Ruber::Document.new(__FILE__), Ruber::Document.new]
-        new = Ruber::Document.new
-        old.each{|d| new.should_not == d}
-      end
-      
-    end
-    
-  end
+#   describe '.new' do
+#     
+#     context 'when called with a file name as first argument' do
+#             
+#       it 'returns a new document for the given file if no documents for it exist' do
+#         old = Ruber::Document.new __FILE__
+#         file = File.join( File.dirname(__FILE__), 'common.rb')
+#         new = Ruber::Document.new file
+#         new.should_not == old
+#         new.path.should == file
+#       end
+#       
+#       it 'returns the existing document for the given file instead of creating a new one, if a document for that file already exists' do
+#         old = Ruber::Document.new __FILE__
+#         new = Ruber::Document.new __FILE__
+#         urls = Ruber::Document.instance_variable_get(:@docs).keys
+#         new.should == old
+#       end
+#       
+#       it 'takes into account documents created without a file which have later been saved' do
+#         old = Ruber::Document.new
+#         url = KDE::Url.new(__FILE__)
+#         flexmock(old).should_receive(:url).and_return url
+#         old.instance_eval{emit document_url_changed(url)}
+#         new = Ruber::Document.new __FILE__
+#         new.should == old
+#       end
+#       
+#       it 'takes into account documents which have been saved with another name' do
+#         old = Ruber::Document.new File.join( File.dirname(__FILE__), 'common.rb')
+#         url = KDE::Url.new(__FILE__)
+#         flexmock(old).should_receive(:url).and_return url
+#         old.instance_eval{emit document_url_changed(url)}
+#         new = Ruber::Document.new __FILE__
+#         new.should == old
+#       end
+#       
+#       it 'doesn\'t return a document which has been closed' do
+#         old = Ruber::Document.new __FILE__
+#         old_id = old.object_id
+#         old.close
+#         new = Ruber::Document.new __FILE__
+#         new.object_id.should_not == old_id
+#       end
+#       
+#       it 'doesn\'t use documents whose URL have changed for the old url' do
+#         old = Ruber::Document.new __FILE__
+#         new_file = File.join( File.dirname(__FILE__), 'common.rb')
+#         url = KDE::Url.new(new_file)
+#         flexmock(old).should_receive(:url).and_return url
+#         old.instance_eval{emit document_url_changed(url)}
+#         new = Ruber::Document.new __FILE__
+#         new.should_not == old
+#       end
+#       
+#     end
+#     
+#     context 'when called without a file name' do
+#       
+#       it 'always returns a new document' do
+#         old = [Ruber::Document.new(__FILE__), Ruber::Document.new]
+#         new = Ruber::Document.new
+#         old.each{|d| new.should_not == d}
+#       end
+#       
+#     end
+#     
+#   end
   
   describe ', when created' do
 

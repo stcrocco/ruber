@@ -31,35 +31,35 @@ module Ruber
   
   class Document < Qt::Object
     
-    @docs = {}
-    @close_mapper = Qt::SignalMapper.new
-    @close_mapper.connect(SIGNAL('mapped(QObject*)')) do |d|
-      @docs.delete d.url
-    end
-    @rename_mapper = Qt::SignalMapper.new
-    @rename_mapper.connect(SIGNAL('mapped(QObject*)')) do |d|
-      @docs.reject!{|k, v| v == d}
-      @docs[d.url] = d
-    end
+#     @docs = {}
+#     @close_mapper = Qt::SignalMapper.new
+#     @close_mapper.connect(SIGNAL('mapped(QObject*)')) do |d|
+#       @docs.delete d.url
+#     end
+#     @rename_mapper = Qt::SignalMapper.new
+#     @rename_mapper.connect(SIGNAL('mapped(QObject*)')) do |d|
+#       @docs.reject!{|k, v| v == d}
+#       @docs[d.url] = d
+#     end
        
-    def self.new *args, &blk
-      file = args[0]
-      doc = if file
-        url = KDE::Url.new file
-        existing_doc = @docs[url]
-        return existing_doc if existing_doc
-        new_doc = super
-        Qt::Object.connect new_doc, SIGNAL('closing(QObject*)'), @close_mapper,
-            SLOT(:map)
-        @close_mapper.set_mapping new_doc, new_doc
-        new_url = new_doc.url if url.valid?
-        @docs[new_url] = new_doc 
-      else super
-      end
-      Qt::Object.connect doc, SIGNAL('document_url_changed(QObject*)'), @rename_mapper, SLOT(:map)
-      @rename_mapper.set_mapping doc, doc
-      doc
-    end
+#     def self.new *args, &blk
+#       file = args[0]
+#       doc = if file
+#         url = KDE::Url.new file
+#         existing_doc = @docs[url]
+#         return existing_doc if existing_doc
+#         new_doc = super
+#         Qt::Object.connect new_doc, SIGNAL('closing(QObject*)'), @close_mapper,
+#             SLOT(:map)
+#         @close_mapper.set_mapping new_doc, new_doc
+#         new_url = new_doc.url if url.valid?
+#         @docs[new_url] = new_doc 
+#       else super
+#       end
+#       Qt::Object.connect doc, SIGNAL('document_url_changed(QObject*)'), @rename_mapper, SLOT(:map)
+#       @rename_mapper.set_mapping doc, doc
+#       doc
+#     end
         
     extend Forwardable
     

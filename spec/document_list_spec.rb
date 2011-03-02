@@ -8,7 +8,7 @@ require 'ruber/plugin_specification'
 describe Ruber::DocumentList do
   
   before do
-    Ruber::Document.instance_variable_get(:@docs).clear
+#     Ruber::Document.instance_variable_get(:@docs).clear
     @app = KDE::Application.instance
     @psf = Ruber::PluginSpecification.full({:name => :documents, :class => Ruber::DocumentList})
     @manager = flexmock("manager"){|m| m.should_ignore_missing}
