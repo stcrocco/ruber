@@ -1,4 +1,5 @@
-require 'spec/common'
+require './spec/framework'
+require './spec/common'
 
 require 'set'
 require 'stringio'
@@ -12,47 +13,47 @@ require 'ruber/project'
 require 'ruber/plugin'
 require 'ruber/plugin_specification'
 
-class TestComponentManager < Qt::Object
-  
-  extend Forwardable
-  
-  def_delegators :@data, :[], :<<
-  def_delegator :@data, :each, :each_component
-  
-  signals 'component_loaded(QObject*)', 'unloading_component(QObject*)'
-  
-  def initialize
-    super
-    @data = []
-  end
-  
-  def emit_signal sig, obj
-    emit method(sig).call(obj)
-  end
-  
-end
+# class TestComponentManager < Qt::Object
+#   
+#   extend Forwardable
+#   
+#   def_delegators :@data, :[], :<<
+#   def_delegator :@data, :each, :each_component
+#   
+#   signals 'component_loaded(QObject*)', 'unloading_component(QObject*)'
+#   
+#   def initialize
+#     super
+#     @data = []
+#   end
+#   
+#   def emit_signal sig, obj
+#     emit method(sig).call(obj)
+#   end
+#   
+# end
 
-class Application < Qt::Object
-  signals 'plugins_changed()'
-end
+# class Application < Qt::Object
+#   signals 'plugins_changed()'
+# end
 
 unless defined? OS
   OS = OpenStruct
 end
 
-describe 'an_abstract_project_spec_method', :shared => true do
+shared_examples_for 'an_abstract_project_spec_method' do
   
   include FlexMock::ArgumentTypes
   
-  before do
-    @comp = TestComponentManager.new
-    @fake_app = Application.new
-    @dlg = flexmock('dialog', :read_settings => nil, :dispose => nil)
-    @mw = Qt::Widget.new
-    flexmock(Ruber).should_receive(:[]).with(:components).and_return(  @comp).by_default
-    flexmock(Ruber).should_receive(:[]).with(:app).and_return( @fake_app).by_default
-    flexmock(Ruber).should_receive(:[]).with(:main_window).and_return( @mw).by_default
-  end
+#   before do
+#     @comp = TestComponentManager.new
+#     @fake_app = Application.new
+#     @dlg = flexmock('dialog', :read_settings => nil, :dispose => nil)
+#     @mw = Qt::Widget.new
+#     flexmock(Ruber).should_receive(:[]).with(:components).and_return(  @comp).by_default
+#     flexmock(Ruber).should_receive(:[]).with(:app).and_return( @fake_app).by_default
+#     flexmock(Ruber).should_receive(:[]).with(:main_window).and_return( @mw).by_default
+#   end
   
   after do
     FileUtils.rm_f 'test.ruprj'

@@ -263,7 +263,7 @@ name doesn't exist, or if _args_ is not empty, +ArgumentError+ is raised.
           puts "Arguments: #{args.empty? ? '[]' : args.join( ', ')}"
         end
         raise ArgumentError, "wrong number of arguments (#{args.size} for 0)" unless args.empty?
-        @project_extensions.fetch(name){|k| raise ArgumentError, "No project extension with name #{k}"}
+        @project_extensions[name] || super
       end
     end
     
@@ -355,6 +355,11 @@ If _file_ is a relative path, it's considered relative to the current directory.
 
 If the project file _file_ already exists but it's not a valid project file,
 AbstractProject::InvalidProjectFile will be raised.
+
+@param [String] file the path of the project file (it doesn't need to exist)
+@param [String,nil] name the name of the project. If the project file already exists,
+  then this should be *nil*. If the project file doesn't exist, this should *not*
+  be *nil*
 =end
     def initialize file, name = nil
       file = File.join(Dir.pwd, file) unless file.start_with? '/'
