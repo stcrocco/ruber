@@ -26,7 +26,7 @@ module Ruber
 Class whose task is to ensure that there's only one project open for any given
 project file.
 
-To create a new project, call the {#project} method instead of using {Project.new}.
+To create a new project, call the {#project} method instead of using {Project}.new.
 If a project for the given file already exists, it'll be returned, otherwise a
 new project will be created.
 =end

@@ -1,526 +1,416 @@
-require 'spec/common'
+require './spec/framework'
+require './spec/common'
+require 'ruber/world/project_list'
+require 'ruber/project'
 
-require 'ruber/projects/project_list'
-require 'ruber/plugin_specification'
+require 'tmpdir'
 
-class Ruber::ProjectList::FakeProject < Qt::Object
+describe Ruber::World::ProjectList do
   
-  signals 'closing(QObject*)'
-  attr_reader :project_name, :project_file
-  def initialize name = 'test', file = nil
-    super()
-    @project_file = file || Array.new(6){97 + rand(26)}.join
-    @project_name = name
+  def create_project file, name = nil
+    name ||= file.sub(/[_-]/, ' ').sub('.ruprj','').capitalize
+    file = File.join Dir.tmpdir, file unless file.start_with? '/'
+    file += '.ruprj' unless file.end_with?('ruprj')
+    Ruber::Project.new file, name
   end
   
-  def deactivate;end
+  before do
+    @projects = 3.times.map{|i| create_project "project-#{i}"}
+    @list = Ruber::World::ProjectList.new @projects
+  end
   
-  def activate;end
+  it 'includes the Enumerable module' do
+    Ruber::World::ProjectList.ancestors.should include(Enumerable)
+  end
+  
+  describe '.new' do
     
-    def close
-      emit closing(self)
+    it 'takes a hash or a DocumentList as argument' do
+      list = Ruber::World::ProjectList.new @projects
+      list.to_a.map(&:project_file).sort == @projects.map(&:project_file).sort
+      other_list = Ruber::World::ProjectList.new @projects
+      list = Ruber::World::ProjectList.new other_list
+      list.to_a.map(&:project_file).sort == @projects.map(&:project_file).sort
     end
-end
-
-describe Ruber::ProjectList do
-  
-  it 'should mix-in Enumerable' do
-    Ruber::ProjectList.ancestors.include?(Enumerable).should be_true
-  end
     
-end
-
-describe 'Ruber::ProjectList#project_for_file' do
-  
-  before do
-    manager = flexmock('components'){|m| m.should_ignore_missing}
-    flexmock(Ruber).should_receive(:[]).with(:app).and_return(KDE::Application.instance).by_default
-    flexmock(Ruber).should_receive(:[]).with(:config).and_return(nil).by_default
-    flexmock(Ruber).should_receive(:[]).with(:components).and_return(manager).by_default
-    pdf = Ruber::PluginSpecification.full({:name => :projects, :class => Ruber::ProjectList})
-    @projects = Ruber::ProjectList.new manager, pdf
-  end
-  
-  it 'returns nil if there\'s no current project' do
-    flexmock(@projects).should_receive(:current).twice.and_return nil
-    @projects.project_for_file(__FILE__, :active).should be_nil
-    @projects.project_for_file(__FILE__, :all).should be_nil
-  end
-  
-  it 'returns the current project if there\'s one and the file belongs to it' do
-    prj = flexmock{|m| m.should_receive('project_files.file_in_project?').twice.with(__FILE__).and_return true}
-    flexmock(@projects).should_receive(:current).twice.and_return prj
-    @projects.project_for_file(__FILE__, :active).should == prj
-    @projects.project_for_file(__FILE__, :all).should == prj
-  end
-  
-  it 'returns nil if the file doesn\'t belong to the current project and the second argument is :active, even if the file belongs to another project' do
-    active_prj = flexmock{|m| m.should_receive('project_files.file_in_project?').once.with(__FILE__).and_return false}
-    prj = flexmock{|m| m.should_receive('project_files.file_in_project?').with(__FILE__).and_return true}
-    flexmock(@projects).should_receive(:current).once.and_return(active_prj)
-    flexmock(@projects).should_receive(:each).and_yield(active_prj, prj)
-    @projects.project_for_file(__FILE__, :active).should be_nil
-  end
-  
-  it 'returns the first project to which the file belongs, if it doesn\'t belong to the current one and the second argument is :all' do
-    active_prj = flexmock{|m| m.should_receive('project_files.file_in_project?').twice.with(__FILE__).and_return false}
-    prjs = [
-      flexmock{|m| m.should_receive('project_files.file_in_project?').with(__FILE__).once.and_return false},
-      active_prj,
-      flexmock{|m| m.should_receive('project_files.file_in_project?').with(__FILE__).once.and_return true},
-      flexmock{|m| m.should_receive('project_files.file_in_project?').with(__FILE__).never}
-      ]
-    flexmock(@projects).should_receive(:current).once.and_return(active_prj)
-    projects = {
-      '0' => prjs[0],
-      '1' => prjs[1],
-      '2' => prjs[2],
-      '3' => prjs[3]
-      }
-    @projects.instance_variable_set(:@projects, projects)
-    @projects.project_for_file(__FILE__, :all).should equal(prjs[2])
-  end
+    it 'creates a duplicate of the argument if it is a hash' do
+      list = Ruber::World::ProjectList.new @projects
+      new_project = create_project 'project-3'
+      @projects <<  new_project
+      list.count.should == 3
+    end
     
-  it 'returns nil if the second argument is :all and the file doesn\'t belong to any project' do
-    active_prj = flexmock{|m| m.should_receive('project_files.file_in_project?').twice.with(__FILE__).and_return false}
-    prjs = [
-      flexmock{|m| m.should_receive('project_files.file_in_project?').with(__FILE__).once.and_return false},
-      active_prj,
-      flexmock{|m| m.should_receive('project_files.file_in_project?').with(__FILE__).once.and_return false},
-      flexmock{|m| m.should_receive('project_files.file_in_project?').with(__FILE__).once.and_return false}
-      ]
-    flexmock(@projects).should_receive(:current).once.and_return(active_prj)
-    projects = {
-      '0' => prjs[0],
-      '1' => prjs[1],
-      '2' => prjs[2],
-      '3' => prjs[3]
-      }
-    @projects.instance_variable_set(:@projects, projects)
-    @projects.project_for_file(__FILE__, :all).should be_nil
-  end
-  
-end
-
-describe 'Ruber::ProjectList#each_project' do
-  
-  before do
-    app = Qt::Object.new
-    manager = flexmock('components'){|m| m.should_ignore_missing}
-    flexmock(Ruber).should_receive(:[]).with(:app).and_return(app)
-    flexmock(Ruber).should_receive(:[]).with(:components).and_return(manager)
-    flexmock(Ruber).should_receive(:[]).with(:config).and_return(nil)
-    pdf = Ruber::PluginSpecification.full({:name => :projects, :class => Ruber::ProjectList})
-    @keeper = Ruber::ProjectList.new manager, pdf
-  end
-
-  
-  it 'should yield all the projects in the list if called with a block' do
-    prjs = Array.new(3){|i| Ruber::ProjectList::FakeProject.new("test#{i}")}
-    prjs.each{|pr| @keeper.add_project pr}
-    res = []
-    @keeper.each_project{|pr| res << pr}
-    res.sort_by{|pr| pr.project_file}.should == prjs.sort_by{|pr| pr.project_file}
-  end
-  
-  it 'should return an enumerable which yields all the projects in the list if called without a block' do
-    prjs = Array.new(3){|i| Ruber::ProjectList::FakeProject.new("test#{i}")}
-    prjs.each{|pr| @keeper.add_project pr}
-    m = flexmock do |mk|
-      prjs.each{|prj| mk.should_receive(:test).once.with prj}
+    it 'doesn\'t create a duplicate of the argument if it is a ProjectList' do
+      other_list = Ruber::World::ProjectList.new @projects
+      list = Ruber::World::ProjectList.new other_list
+      list.send(:project_hash).should equal(other_list.send(:project_hash))
     end
-    en = @keeper.each_project
-    if RUBY_VERSION.match(/8/) then en.should be_an(Enumerable::Enumerator)
-    else en.should be_an(Enumerator)
+    
+    it 'keeps a single copy of projects with the same project file' do
+      @projects << create_project('project-1')
+      @list = Ruber::World::ProjectList.new @projects
+      @list.to_a.select{|prj| prj.project_name == "Project 1"}.count.should == 1
     end
-    en.each{|prj| m.test prj}
+    
   end
   
-end
-
-describe 'Ruber::ProjectList, when created' do
-  
-  before do
-    app = Qt::Object.new
-    manager = flexmock('components'){|m| m.should_ignore_missing}
-    flexmock(Ruber).should_receive(:[]).with(:app).and_return(app)
-    flexmock(Ruber).should_receive(:[]).with(:components).and_return(manager)
-    flexmock(Ruber).should_receive(:[]).with(:config).and_return(nil)
-    @pdf = Ruber::PluginSpecification.full({:name => :projects, :class => Ruber::ProjectList})
-    @keeper = Ruber::ProjectList.new manager, @pdf
-  end
-  
-  it 'should call its initialize_plugin method' do
-    @keeper.plugin_description.should == @pdf
-  end
-  
-  it 'should have no project' do
-    @keeper.projects.should be_empty
-  end
-
-  it 'should have no current project' do
-    @keeper.current_project.should be_nil
-  end
-
-end
-
-describe 'Ruber::Project#current_project=, when called with a non-nil argument' do
-
-  before do
-    app = Qt::Object.new
-    manager = flexmock('components'){|m| m.should_ignore_missing}
-    flexmock(Ruber).should_receive(:[]).with(:app).and_return(app)
-    flexmock(Ruber).should_receive(:[]).with(:components).and_return(manager)
-    flexmock(Ruber).should_receive(:[]).with(:config).and_return(nil)
-    pdf = Ruber::PluginSpecification.full({:name => :projects, :class => Ruber::ProjectList})
-    @keeper = Ruber::ProjectList.new manager, pdf
-    @prj = Ruber::ProjectList::FakeProject.new
-    @keeper.instance_variable_get(:@projects)[@prj.project_file] = @prj
-    @keeper.instance_variable_get(:@projects)['test'] = @prj
-  end
-  
-  it 'should set the current project to its argument' do
-    @keeper.current_project = @prj
-    @keeper.current_project.should equal( @prj )
-  end
-  
-  it 'should call the "deactivate" method of the old current project, if it\'s not nil' do
-    @keeper.instance_variable_set(:@current_project, @prj)
-    new_prj = Ruber::ProjectList::FakeProject.new 'Test1'
-    @keeper.add_project new_prj
-    flexmock(@prj).should_receive( :deactivate).once
-    @keeper.current_project = new_prj
-    @keeper.instance_variable_set :@current_project, nil
-    lambda{@keeper.current_project = @prj}.should_not raise_error
-  end
-  
-  it 'emits the current_project_changed_2(QObject*, QObject*) signal, passing the new and the old current project as arguments' do
-    @keeper.instance_variable_set(:@current_project, @prj)
-    new_prj = Ruber::ProjectList::FakeProject.new 'Test1'
-    @keeper.add_project new_prj
-    test = flexmock('test'){|m| m.should_receive(:current_project_changed).once.with(new_prj, @prj)}
-    @keeper.connect(SIGNAL('current_project_changed_2(QObject*, QObject*)')){|p1, p2| test.current_project_changed(p1, p2)}
-    @keeper.current_project = new_prj
-  end
-  
-  it 'should emit the "current_project_changed(QObject*)" signal with the project as argument' do
-    test = flexmock('test'){|m| m.should_receive(:current_project_changed).once.with(@prj)}
-    @keeper.connect(SIGNAL('current_project_changed(QObject*)')){|o| test.current_project_changed(o)}
-    @keeper.current_project = @prj
-  end
-  
-  it 'should call the "activate" method of the new current project' do
-    @keeper.instance_variable_set(:@current_project, @prj)
-    new_prj = Ruber::ProjectList::FakeProject.new 'Test1'
-    @keeper.add_project new_prj
-    flexmock(new_prj).should_receive( :activate).once
-    @keeper.current_project = new_prj
-  end
-  
-  it 'should raise ArgumentError if the project is not in the project list' do
-    @keeper.instance_variable_get(:@projects).clear
-    lambda{@keeper.current_project = @prj}.should raise_error(ArgumentError, "Tried to set an unknown project as current project")
-  end
-  
-end
-
-describe 'Ruber::Project#current_project=, when called with nil' do
-  
-  before do
-    app = Qt::Object.new
-    manager = flexmock('components'){|m| m.should_ignore_missing}
-    flexmock(Ruber).should_receive(:[]).with(:app).and_return(app)
-    flexmock(Ruber).should_receive(:[]).with(:components).and_return(manager)
-    flexmock(Ruber).should_receive(:[]).with(:config).and_return(nil)
-    pdf = Ruber::PluginSpecification.full({:name => :projects, :class => Ruber::ProjectList})
-    @keeper = Ruber::ProjectList.new manager, pdf
-  end
-  
-  it 'should set the current project to nil' do
-    @keeper.current_project = nil
-    @keeper.current_project.should be_nil
-  end
-  
-  it 'should emit the "current_project_changed(QObject*)" signal with nil as argument' do
-    test = flexmock('test'){|m| m.should_receive(:current_project_changed).once.with(nil)}
-    @keeper.connect(SIGNAL('current_project_changed(QObject*)')){|o| test.current_project_changed(o)}
-    @keeper.current_project = nil
-  end
-  
-  it 'emits the current_project_changed_2(QObject*, QObject*) signal, passing nil and the old current project as arguments' do
-    @keeper.instance_variable_set(:@current_project, @prj)
-    test = flexmock('test'){|m| m.should_receive(:current_project_changed).once.with(nil, @prj)}
-    @keeper.connect(SIGNAL('current_project_changed_2(QObject*, QObject*)')){|p1, p2| test.current_project_changed(p1, p2)}
-    @keeper.current_project = nil
-  end
-
-   
-end
-
-describe 'Ruber::ProjectList#add_project' do
-  
-  before do
-    app = Qt::Object.new
-    manager = flexmock('components'){|m| m.should_ignore_missing}
-    flexmock(Ruber).should_receive(:[]).with(:app).and_return(app)
-    flexmock(Ruber).should_receive(:[]).with(:components).and_return(manager)
-    flexmock(Ruber).should_receive(:[]).with(:config).and_return(nil)
-    pdf = Ruber::PluginSpecification.full({:name => :projects, :class => Ruber::ProjectList})
-    @keeper = Ruber::ProjectList.new manager, pdf
-  end
-  
-  it 'should add the project passed as argument to the list of projects' do
-    prj = Ruber::ProjectList::FakeProject.new 'Test'
-    @keeper.add_project prj
-    @keeper.instance_variable_get(:@projects)[prj.project_file].should equal(prj)
-  end
-  
-  it 'should return the project' do 
-    prj = Ruber::ProjectList::FakeProject.new 'Test'
-    @keeper.add_project( prj).should equal(prj)
-  end
-  
-  it 'should emit the "project_added(QObject*)" signal passing the added project' do
-    prj = Ruber::ProjectList::FakeProject.new 'Test'
-    m = flexmock('test'){|mk| mk.should_receive(:project_added).once.with(prj)}
-    @keeper.connect(SIGNAL('project_added(QObject*)')){|o| m.project_added(o)}
-    @keeper.add_project prj
-  end
-  
-  it 'should raise RuntimeError if the project is already in the list' do
-    prj_file = File.expand_path('test.ruprj')
-    prj1 = Ruber::ProjectList::FakeProject.new 'test1', prj_file
-    prj2 = Ruber::ProjectList::FakeProject.new 'test2', prj_file
-    @keeper.add_project prj1
-    lambda{@keeper.add_project prj2}.should raise_error(RuntimeError, "A project with project file #{prj_file} is already open")
-  end
-  
-end
-
-describe 'Ruber::ProjectList, when a project in the list is closed' do
-  
-  before do
-    app = Qt::Object.new
-    manager = flexmock('components'){|m| m.should_ignore_missing}
-    flexmock(Ruber).should_receive(:[]).with(:app).and_return(app)
-    flexmock(Ruber).should_receive(:[]).with(:components).and_return(manager)
-    flexmock(Ruber).should_receive(:[]).with(:config).and_return(nil)
-    pdf = Ruber::PluginSpecification.full({:name => :projects, :class => Ruber::ProjectList})
-    @keeper = Ruber::ProjectList.new manager, pdf
-  end
-  
-  it 'should emit the "project_closing" signal, passing the project as argument' do
-    prj = Ruber::ProjectList::FakeProject.new
-    @keeper.add_project prj
-    m = flexmock{|mk| mk.should_receive(:project_closing).once}
-    @keeper.connect(SIGNAL('closing_project(QObject*)')){|o| m.project_closing(o)}
-    prj.close
-  end
-  
-  it 'should set the current project to nil if the closed project was the current one' do
-    prj = Ruber::ProjectList::FakeProject.new
-    @keeper.add_project prj
-    @keeper.current_project = prj
-    prj.close
-    @keeper.current_project.should be_nil
-  end
-  
-end
-
-describe 'Ruber::ProjectList#close_current_project' do
-  
-  include FlexMock::ArgumentTypes
-  
-  before do
-    app = Qt::Object.new
-    manager = flexmock('components'){|m| m.should_ignore_missing}
-    flexmock(Ruber).should_receive(:[]).with(:app).and_return(app)
-    flexmock(Ruber).should_receive(:[]).with(:components).and_return(manager)
-    flexmock(Ruber).should_receive(:[]).with(:config).and_return(nil)
-    pdf = Ruber::PluginSpecification.full({:name => :projects, :class => Ruber::ProjectList})
-    @keeper = Ruber::ProjectList.new manager, pdf
-    @prj = Ruber::ProjectList::FakeProject.new{self.object_name = 'project'}
-    @keeper.add_project = @prj
-    @keeper.current_project= @prj
-  end
-  
-  it 'should set the current project to nil' do
-    flexmock(@keeper).should_receive(:current_project=).with(nil).once
-    @keeper.close_current_project
-  end
-   
-  it 'should emit the "closing_project(QObject*)" signal after setting the current_project to nil, passing the project as argument' do
-    test = flexmock("test"){|m| m.should_receive(:project_closed).once.with(on{|a| a == @prj and !a.disposed?})}
-    flexmock(Ruber).should_receive(:[]).and_return(flexmock{|m| m.should_ignore_missing})
-    @keeper.connect(SIGNAL('closing_project(QObject*)')){|o| test.project_closed(o)}
-    @keeper.close_current_project
-  end
-  
-  it 'should do nothing if the current project is nil' do
-    @keeper.instance_variable_set(:@current_project, nil)
-    lambda{@keeper.close_current_project}.should_not raise_error
-  end
-  
-end
-
-describe 'Ruber::ProjectList#new_project' do
-  
-  before do
-    app = Qt::Object.new
-    manager = flexmock('components'){|m| m.should_ignore_missing}
-    flexmock(Ruber).should_receive(:[]).with(:app).and_return(app)
-    flexmock(Ruber).should_receive(:[]).with(:components).and_return(manager)
-    flexmock(Ruber).should_receive(:[]).with(:config).and_return(nil)
-    pdf = Ruber::PluginSpecification.full({:name => :projects, :class => Ruber::ProjectList})
-    @keeper = Ruber::ProjectList.new manager, pdf
-  end
-  
-  it 'should create a new empty project and return it' do
-    prj = Ruber::ProjectList::FakeProject.new 'test.ruprj', 'Test'
-    flexmock(Ruber::Project).should_receive(:new).once.with('test.ruprj', 'Test').and_return prj
-    res = @keeper.new_project 'test.ruprj', 'Test'
-    res.should equal(prj)
-  end
-  
-  it 'should add the new project to the project list' do
-    prj = Ruber::ProjectList::FakeProject.new 'Test', 'test.ruprj'
-    flexmock(Ruber::Project).should_receive(:new).once.with('test.ruprj', 'Test').and_return prj
-    @keeper.new_project 'test.ruprj', 'Test'
-    @keeper.instance_variable_get(:@projects)['test.ruprj'].should equal(prj)
-  end
-  
-  it 'should emit the "project_added(QObject*)" signal with the new project as argument' do
-    prj = Ruber::ProjectList::FakeProject.new 'Test', 'test.ruprj'
-    flexmock(Ruber::Project).should_receive(:new).once.with('test.ruprj', 'Test').and_return prj
-    m = flexmock('test'){|mk| mk.should_receive(:project_added).once.with(prj)}
-    @keeper.connect(SIGNAL('project_added(QObject*)')){|o| m.project_added(o)}
-    @keeper.new_project 'test.ruprj', 'Test'
-  end
-  
-end
-
-describe 'Ruber::Project#project' do
-  
-  before do
-    app = Qt::Object.new
-    manager = flexmock('components'){|m| m.should_ignore_missing}
-    flexmock(Ruber).should_receive(:[]).with(:app).and_return(app)
-    flexmock(Ruber).should_receive(:[]).with(:components).and_return(manager)
-    flexmock(Ruber).should_receive(:[]).with(:config).and_return(nil)
-    pdf = Ruber::PluginSpecification.full({:name => :projects, :class => Ruber::ProjectList})
-    @keeper = Ruber::ProjectList.new manager, pdf
-  end
-  
-  it 'should return the project corresponding to the file passed as argument, if it is in the list' do
-    prj = Ruber::ProjectList::FakeProject.new 'Test', 'test.ruprj'
-    @keeper.instance_variable_get(:@projects)[prj.project_file] = prj
-    @keeper.project('test.ruprj').should equal(prj)
-  end
-  
-  it 'should load the project from the file passed as argument if it isn\'t in the list' do
-    prj = Ruber::ProjectList::FakeProject.new 'Test', 'test.ruprj'
-    flexmock(Ruber::Project).should_receive(:new).once.with('test.ruprj').and_return prj
-    @keeper.project('test.ruprj').should equal(prj)
-  end
-  
-  it 'should emit the "project_added(QObject*)" signal, passing the project as argument, if the project isn\'t in the list' do
-    prj = Ruber::ProjectList::FakeProject.new 'Test', 'test.ruprj'
-    flexmock(Ruber::Project).should_receive(:new).once.with('test.ruprj').and_return prj
-    m = flexmock{|mk| mk.should_receive(:project_added).once.with(prj)}
-    @keeper.connect(SIGNAL('project_added(QObject*)')){|o| m.project_added(o)}
-    @keeper.project 'test.ruprj'
-  end
-  
-end
-
-describe 'Ruber::Project#[]' do
-  
-  before do
-    app = Qt::Object.new
-    manager = flexmock('components'){|m| m.should_ignore_missing}
-    flexmock(Ruber).should_receive(:[]).with(:app).and_return(app)
-    flexmock(Ruber).should_receive(:[]).with(:components).and_return(manager)
-    flexmock(Ruber).should_receive(:[]).with(:config).and_return(nil)
-    pdf = Ruber::PluginSpecification.full({:name => :projects, :class => Ruber::ProjectList})
-    @keeper = Ruber::ProjectList.new manager, pdf
-  end
-  
-  it 'should return the project corresponding to the given file, if the argument is a string starting with /, if such a project exists' do
-    prj = Ruber::ProjectList::FakeProject.new 'Test', '/test.ruprj'
-    @keeper.add_project prj
-    @keeper['/test.ruprj'].should equal(prj)
-  end
-  
-  it 'should return the project with the given name if the argument is a string not starting with /, if such a project exists' do
-    prj = Ruber::ProjectList::FakeProject.new 'xyz', '/test.ruprj'
-    @keeper.add_project prj
-    @keeper['xyz'].should equal(prj)
-  end
-  
-  it 'should return nil if the requested project doesn\'t exist' do
-    prj = Ruber::ProjectList::FakeProject.new 'xyz', '/test.ruprj'
-    @keeper.add_project prj
-    @keeper['abc'].should be_nil
-    @keeper['/xyz.ruprj'].should be_nil
-  end
-  
-end
-
-describe 'Ruber::ProjectList#save_settings' do
-  
-  before do
-    app = Qt::Object.new
-    manager = flexmock('components'){|m| m.should_ignore_missing}
-    flexmock(Ruber).should_receive(:[]).with(:app).and_return(app)
-    flexmock(Ruber).should_receive(:[]).with(:components).and_return(manager)
-    flexmock(Ruber).should_receive(:[]).with(:config).and_return(nil)
-    pdf = Ruber::PluginSpecification.full({:name => :projects, :class => Ruber::ProjectList})
-    @keeper = Ruber::ProjectList.new manager, pdf
-  end
-  
-  it 'should call the save method of each open project' do
-    projects = @keeper.instance_variable_get(:@projects)
-    5.times do |i|
-      projects[i] = flexmock(i.to_s){|m| m.should_receive(:save).once}
+  describe '#each' do
+    
+    context 'when called with a block' do
+      
+      it 'calls the block once for each project' do
+        res = []
+        @list.each{|prj| res << prj}
+        res.should == @projects
+      end
+      
+      it 'returns self' do
+        @list.each{}.should equal(@list)
+      end
+      
     end
-    @keeper.save_settings
+    
+    context 'when called without a block' do
+      
+      it 'returns an Enumerator which iterates on the projects' do
+        res = []
+        enum = @list.each
+        enum.should be_an(Enumerator)
+        enum.each{|prj| res << prj}
+        res.should == @projects
+        
+      end
+      
+    end
+    
+  end
+  
+  describe '#empty?' do
+    
+    it 'returns true if the list doesn\'t contain any element' do
+      list = Ruber::World::ProjectList.new({})
+      list.should be_empty
+    end
+    
+    it 'returns false if the list contains at least one element' do
+      @list.should_not be_empty
+    end
+    
+  end
+  
+  describe '#size' do
+    
+    it 'returns the number of elements in the list' do
+      list = Ruber::World::ProjectList.new({})
+      list.size.should == 0
+      list = Ruber::World::ProjectList.new @projects
+      list.size.should == 3
+    end
+    
+  end
+  
+  describe '#==' do
+    
+    context 'when the argument is a ProjectList' do
+          
+      it 'returns true if the argument contains the same projects' do
+        other = Ruber::World::ProjectList.new @projects
+        @list.should == other
+      end
+      
+      it 'returns false if the argument contains different projects' do
+        new_prj = create_project 'project-3'
+        @projects << new_prj
+        other = Ruber::World::ProjectList.new @projects
+        @list.should_not == other
+      end
+      
+    end
+    
+    context 'when the argument is an Array' do
+      
+      it 'returns true if the argument contains the same projects' do
+        @list.should == @projects.reverse
+      end
+      
+      it 'returns false if the argument contains different projects' do
+        @list.should_not == [@projects[0], 'x']
+      end
+      
+    end
+    
+    context 'when the argument is neither a ProjectList nor an array' do
+      
+      it 'returns false' do
+        @list.should_not == {}
+        @list.should_not == 'x'
+      end
+      
+    end
+    
+  end
+  
+  describe '#eql?' do
+    
+    context 'when the argument is a ProjectList' do
+      
+      it 'returns true if the argument contains the same projects' do
+        other = Ruber::World::ProjectList.new @projects
+        @list.should eql(other)
+      end
+      
+      it 'returns false if the argument contains different projects' do
+        new_prj = create_project 'project-3'
+        @projects << new_prj
+        other = Ruber::World::ProjectList.new @projects
+        @list.should_not eql(other)
+      end
+      
+    end
+    
+    context 'when the argument is not a ProjectList' do
+      
+      it 'returns false' do
+        @list.should_not eql({})
+        @list.should_not eql('x')
+        @list.should_not eql(@projects)
+      end
+      
+    end
+    
+  end
+  
+  describe '#hash' do
+    
+    it 'returns the same value as an hash contining the same arguments' do
+      @list.hash.should == Hash[@projects.map{|prj| [prj.project_file, prj]}].hash
+    end
+    
+  end
+
+  describe "#[]" do
+    
+    context 'if the argument starts with a slash' do
+      
+      it 'retuns the project associated witt the given file' do
+        @list[@projects[0].project_file].should == @projects[0]
+      end
+      
+      it 'returns nil if there\'s no project in the list associated with the given file' do
+        @list['/xyz.ruprj'].should be_nil
+      end
+      
+    end
+    
+    context 'if the argument doesn\'t start with a slash' do
+      
+      it 'returns the project having the argument as project name' do
+        name = 'Project 1'
+        @list[name].project_name.should == 'Project 1'
+      end
+      
+      it 'returns nil if there\'s no project with the given name in the list' do
+        @list['xyz'].should be_nil
+      end
+      
+    end
+    
   end
   
 end
 
-describe Ruber::ProjectList do
+describe Ruber::World::MutableProjectList do
   
-  describe '#query_close' do
+  def create_project file, name = nil
+    name ||= file.sub(/[_-]/, ' ').sub('.ruprj','').capitalize
+    file = File.join Dir.tmpdir, file unless file.start_with? '/'
+    file += '.ruprj' unless file.end_with?('ruprj')
+    Ruber::Project.new file, name
+  end
+  
+  before do
+    @projects = 3.times.map{|i| create_project "project-#{i}"}
+    @list = Ruber::World::MutableProjectList.new
+  end
+  
+  it 'inherits from Ruber::World::ProjectList' do
+    Ruber::World::MutableProjectList.ancestors.should include(Ruber::World::ProjectList)
+  end
+  
+  describe '#initialize' do
+    
+    context 'when called with no arguments' do
+      
+      it 'creates an empty list' do
+        @list.should be_empty
+      end
+      
+    end
+    
+    context 'when called with an array as argument' do
+      
+      it 'creates a list containing the same projects as the argument' do
+        @list = Ruber::World::MutableProjectList.new @projects
+        @list.to_a.sort_by{|prj| prj.object_id}.should == @projects.sort_by{|prj| prj.object_id}
+      end
+      
+      it 'creates a duplicate of the argument' do
+        @list = Ruber::World::MutableProjectList.new @projects
+        new_prj = create_project 'project-4'
+        @projects << new_prj
+        @list.size.should == 3
+      end
+      
+    end
+    
+    context 'when called with a ProjectList as argument' do
+      
+      it 'creates a list containing the same documents as the argument' do
+        orig = Ruber::World::ProjectList.new @projects
+        @list = Ruber::World::MutableProjectList.new orig
+        @list.to_a.should == @projects
+      end
+      
+      it 'creates a duplicate of the argument' do
+        orig = Ruber::World::ProjectList.new @projects
+        @list = Ruber::World::MutableProjectList.new orig
+        new_prj = create_project 'project-4'
+        orig.send(:project_hash)[new_prj.project_file] = new_prj
+        @list.size.should == 3
+      end
+      
+    end
+    
+  end
+  
+  describe '#dup' do
+    
+    it 'duplicates the document list' do
+      @list.add @projects
+      new_list = @list.dup
+      new_list.remove @projects[1]
+      @list.should == @projects
+    end
+    
+  end
+  
+  describe '#clone' do
+    
+    it 'duplicates the document list' do
+      @list.add @projects
+      new_list = @list.clone
+      new_list.remove @projects[1]
+      @list.should == @projects
+    end
+    
+    it 'copies the frozen status of the project list' do
+      @list.freeze
+      new_list = @list.clone
+      new_list.should be_frozen
+      lambda{new_list.add create_project('project-4')}.should raise_error(RuntimeError)
+    end
+    
+  end
+  
+  describe '#add' do
+    
+    it 'appends the given projects to the list' do
+      @list.add @projects[0]
+      @list.to_a.should == [@projects[0]]
+      @list.add *@projects[1..-1]
+      @list.to_a.should == @projects
+    end
+    
+    it 'treats arrays of projects as if each project was an argument by itself' do
+      @list.add @projects
+      @list.to_a.should == @projects
+    end
+    
+    it 'returns self' do
+      @list.add(@projects).should equal(@list)
+    end
+    
+  end
+  
+  describe '#merge!' do
     
     before do
-      app = Qt::Object.new
-      manager = flexmock('components'){|m| m.should_ignore_missing}
-      flexmock(Ruber).should_receive(:[]).with(:app).and_return(app)
-      flexmock(Ruber).should_receive(:[]).with(:components).and_return(manager)
-      flexmock(Ruber).should_receive(:[]).with(:config).and_return(nil)
-      pdf = Ruber::PluginSpecification.full({:name => :projects, :class => Ruber::ProjectList})
-      @keeper = Ruber::ProjectList.new manager, pdf
-      @values = 5.times.map{|i| flexmock(:project_name => i.to_s)}
-      prjs = @keeper.instance_variable_get(:@projects)
-      @values.each{|v| prjs[v.project_name] = v}
-      def prjs.values
-        super.sort_by{|p| p.project_name}
-      end
+      @projects = 5.times.map{|i| create_project "project-#{i}"}
+      @list.add @projects[3..4]
     end
     
-    it 'calls the query_close method of all the projects and returns true if they all return true' do
-      @values.each{|pr| pr.should_receive(:query_close).once.and_return true}
-      @keeper.query_close.should be_true
+    it 'adds the contents of the argument to self' do
+      other = Ruber::World::MutableProjectList.new @projects[0..2]
+      @list.merge!(other)
+      @list.should == @projects[3..4]+@projects[0..2]
     end
     
-    it 'stops iterating through the projects and returns false if one of the project\'s query_close method returns false' do
-      @values[0].should_receive(:query_close).once.and_return true
-      @values[1].should_receive(:query_close).once.and_return true
-      @values[2].should_receive(:query_close).once.and_return false
-      @values[3].should_receive(:query_close).never
-      @values[4].should_receive(:query_close).never
-      @keeper.query_close.should be_false
+    it 'also works with an array argument' do
+      @list.merge!(@projects[0..2])
+      @list.should == @projects[3..4]+@projects[0..2]
+    end
+    
+    it 'returns self' do
+      @list.merge!(@projects[0..2]).should equal(@list)
     end
     
   end
+  
+  describe '#remove' do
+    
+    before do
+      @list.add @projects
+    end
+    
+    it 'removes the project from the list' do
+      @list.remove @projects[1]
+      @list.to_a.should == [@projects[0], @projects[2]]
+    end
+    
+    it 'does nothing if the project is not in the list' do
+      @list.remove create_project('project-4')
+      @list.to_a.should == @projects
+    end
+    
+    it 'returns the removed document, if any' do
+      @list.remove(@projects[1]).should == @projects[1]
+    end
+    
+    it 'returns nil if no document was removed' do
+      @list.remove(create_project('project-4')).should be_nil
+    end
+    
+  end
+  
+  describe '#clear' do
+    
+    it 'removes all elements from the list' do
+      @list.add @projects
+      @list.clear
+      @list.should be_empty
+    end
+    
+    it 'returns self' do
+      @list.clear.should equal(@list)
+    end
+    
+  end
+  
+  describe '#delete_if' do
+    
+    before do
+      @list.add @projects
+    end
+    
+    it 'removes all the elements for which the block returns true' do
+      @list.delete_if{|prj| prj.project_name == 'Project 1'}
+      @list.should == [@projects[0], @projects[2]]
+    end
+    
+    it 'returns self' do
+      @list.delete_if{|prj| prj.project_name == 'Project 1'}.should equal(@list)
+    end
+    
+  end
+  
 end
