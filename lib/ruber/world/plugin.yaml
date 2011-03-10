@@ -1,0 +1,4 @@
+name: world
+description: Container for all the environments
+require: world
+class: Ruber::World::World
