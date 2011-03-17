@@ -336,6 +336,9 @@ those signals, everything else will still work (in the rest of the documentation
 every time emitting a signal is mentioned, it's understood that the signal won't
 be emitted if it doesn't exist).
 
+Classes including this module may customize what is done when the state change by
+overriding the {#do_activation} and {#do_deactivation} methods.
+
 Classes mixing-in this module should initialize an instance variable called
 <tt>@active</tt>. If they don't, one initialized to *nil* will be created the first
 time it'll be needed (possibly with a warning).
@@ -374,8 +377,8 @@ If previously the object was inactive, emits the @activated@ signal.
 =begin rdoc
 Enables or disables the object
 
-If the state of the object changes, the @activated@ or @deactivated@ signal is
-emitted.
+If the state of the object changes, the {#do_activation} or {#do_deactivation}
+methods are called. This happens _after_ the state has been changed.
 
 @param [Object] val whether the object should be activated or deactivated. If the
 object is a true value, the object will be activated, otherwise it will be deactivated
@@ -385,12 +388,42 @@ object is a true value, the object will be activated, otherwise it will be deact
       old = @active
       @active = val.to_bool
       if old != @active
-        emit(@active ? activated : deactivated) rescue NameError
+        @active ? do_activation : do_deactivation
       end
     end
     
+    private
+    
+=begin rdoc
+Method called after the state changes from active to inactive
+
+It emits the @deactivated@ signal, if the class including the module has the signal.
+
+Including classes can override this method to perform other actions every time the
+object becomes inactive. In this case, they should call *super* if they want the
+signal to be emitted
+@return [nil]
+=end
+    def do_deactivation
+      emit deactivated rescue NameError
+    end
+
+=begin rdoc
+Method called after the state changes from inactive to active
+
+It emits the @activated@ signal, if the class including the module has the signal.
+
+Including classes can override this method to perform other actions every time the
+object becomes active. In this case, they should call *super* if they want the
+signal to be emitted
+@return [nil]
+=end
+    def do_activation
+      emit activated rescue NameError
+    end
+    
   end
-  
+    
 end
 
 module Shellwords

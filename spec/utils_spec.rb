@@ -214,117 +214,168 @@ describe Ruber::Activable do
     @obj = @cls.new
   end
   
-  it 'should return true or false, depending on whether it\'s active or not when the active? method is called' do
-    @obj.should_not be_active
-    @obj.instance_variable_set(:@active, true)
-    @obj.should be_active
-  end
-  
-  it 'should set the @active instance variable to false when the deactivate method is called' do
-    @obj.deactivate
-    @obj.should_not be_active
-    @obj.instance_variable_set(:@active, true)
-    @obj.deactivate
-    @obj.should_not be_active
-  end
+  describe '#active?' do
     
-  it 'should emit the "deactivated" signal when the deactivated method is called, unless it was already inactive' do
-    m1 = flexmock{|m| m.should_receive(:deactivated).once}
-    m2 = flexmock{|m| m.should_receive(:deactivated).never}
-    @obj.connect(SIGNAL(:deactivated)){m2.deactivated}
-    @obj.deactivate
-    @obj.disconnect
-    @obj.connect(SIGNAL(:deactivated)){m1.deactivated}
-    @obj.instance_variable_set(:@active, true)
-    @obj.deactivate
+    it 'returns true if the object is active' do
+      @obj.instance_variable_set(:@active, true)
+      @obj.should be_active
+    end
+    
+    it 'returns false if the the object is not active' do
+      @obj.instance_variable_set(:@active, false)
+      @obj.should_not be_active
+    end
+    
   end
   
-  it 'should set the @active instance variable to true when the activate method is called' do
-    @obj.activate
-    @obj.should be_active
-    @obj.instance_variable_set(:@active, false)
-    @obj.activate
-    @obj.should be_active
+  describe '#deactivate' do
+    
+    it 'calls #active= with false as argument' do
+      flexmock(@obj).should_receive(:active=).with(false).once
+      @obj.deactivate
+    end
+    
   end
   
-  it 'should emit the "activated" signal when the activated method is called, unless it was already active' do
-    m1 = flexmock{|m| m.should_receive(:activated).never}
-    m2 = flexmock{|m| m.should_receive(:activated).once}
-    @obj.connect(SIGNAL(:activated)){m2.activated}
-    @obj.activate
-    @obj.disconnect
-    @obj.connect(SIGNAL(:activated)){m1.activated}
-    @obj.instance_variable_set(:@active, true)
-    @obj.activate
+  describe '#activate' do
+    
+    it 'calls #active= with true as argument' do
+      flexmock(@obj).should_receive(:active=).with(true).once
+      @obj.activate
+    end
+    
   end
   
-  it 'should set the @active instance variable to the value passed as argument when the active= method is called' do
-    @obj.active= false
-    @obj.should_not be_active
-    @obj.active= true
-    @obj.should be_active
-    @obj.active= false
-    @obj.should_not be_active
+  describe '#active=' do
+    
+    it 'sets the @active instance value to the argument converted to a boolean' do
+      @obj.active = 'x'
+      @obj.instance_variable_get(:@active).should == true
+      @obj.active = nil
+      @obj.instance_variable_get(:@active).should == false
+    end
+    
+    context 'when the argument is a false value' do
+    
+      context 'if the object was active' do
+        
+        before do
+          @obj.instance_variable_set :@active, true
+        end
+        
+        it 'calls the object\'s do_deactivation method after changing the @active instance variable' do
+          $do_deactivation_called = false
+          $object_active = true
+          def @obj.do_deactivation
+            $object_active = self.active?
+            $do_deactivation_called = true
+          end
+          @obj.active = false
+          $object_active.should be_false
+          $do_deactivation_called.should be_true
+        end
+        
+      end
+      
+      context 'if the object was already inactive' do
+        
+        before do
+          @obj.instance_variable_set :@active, false
+        end
+        
+        it 'doesn\'t call the do_deactivation method' do
+          flexmock(@obj).should_receive(:do_deactivation).never
+          @obj.active = false
+        end
+        
+      end
+      
+    end
+    
+    context 'when the argument is a true value' do
+    
+      context 'if the object was inactive' do
+        
+        before do
+          @obj.instance_variable_set :@active, false
+        end
+        
+        it 'calls the object\'s do_activation method after changing the @active instance variable' do
+          $do_activation_called = false
+          $object_active = true
+          def @obj.do_activation
+            $object_active = self.active?
+            $do_activation_called = true
+          end
+          @obj.active = true
+          $object_active.should be_true
+          $do_activation_called.should be_true
+        end
+        
+      end
+      
+      context 'if the object was already active' do
+        
+        before do
+          @obj.instance_variable_set :@active, true
+        end
+        
+        it 'doesn\'t call the do_activation method' do
+          flexmock(@obj).should_receive(:do_activation).never
+          @obj.active = true
+        end
+        
+      end
+      
+    end
+    
   end
   
-  it 'should convert the argument to a boolean value when the active= method is called' do
-    @obj.active= nil
-    @obj.active?.should be_false
-    @obj.active= "abc"
-    @obj.active?.should be_true
-  end
-  
-  it 'should emit the "deactivated" signal when the active= method is called with false as argument and the object was active' do
-    m1 = flexmock{|m| m.should_receive(:deactivated).once}
-    m2 = flexmock{|m| m.should_receive(:deactivated).never}
-    @obj.connect(SIGNAL(:deactivated)){m2.deactivated}
-    @obj.active = false
-    @obj.disconnect
-    @obj.connect(SIGNAL(:deactivated)){m1.deactivated}
-    @obj.instance_variable_set(:@active, true)
-    @obj.active = false
-  end
-  
-  it 'should emit the "activated" signal when the active= method is called with true as argument and the object was inactive' do
-    m1 = flexmock{|m| m.should_receive(:activated).never}
-    m2 = flexmock{|m| m.should_receive(:activated).once}
-    @obj.connect(SIGNAL(:activated)){m2.activated}
-    @obj.active = true
-    @obj.disconnect
-    @obj.connect(SIGNAL(:activated)){m1.activated}
-    @obj.instance_variable_set(:@active, true)
-    @obj.active = true
-  end
+  describe '#do_deactivation' do
+    
+    it 'emits the deactivated signal if the class including the module has that signal' do
+      mk = flexmock{|m| m.should_receive(:deactivated).once}
+      @obj.connect(SIGNAL(:deactivated)){mk.deactivated}
+      @obj.send :do_deactivation
+    end
+    
+    it 'doesn\'t emit the signal if the including class doesn\'t have the deactivated signal' do
+      class << @obj
+        undef_method :deactivated
+      end
+      lambda{@obj.send :do_deactivation}.should_not raise_error
+    end
+    
+    it 'doesn\'t emit the signal if the including class doesn\'t inherit from Qt::Object' do
+      obj = Object.new
+      obj.extend Ruber::Activable
+      lambda{obj.send :do_deactivation}.should_not raise_error
+    end
 
-  
-  it 'should not attempt to emit signals if the object is not a Qt::Object' do
-    obj = Object.new
-    obj.extend Ruber::Activable
-    obj.instance_variable_set(:@active, false)
-    lambda{obj.activate}.should_not raise_error
-    obj.should be_active
-    lambda{obj.deactivate}.should_not raise_error
-    obj.should_not be_active
-    lambda{obj.active = true}.should_not raise_error
-    obj.should be_active
-    lambda{obj.active = false}.should_not raise_error
-    obj.should_not be_active
   end
   
-  it 'should not attempt to emit signals if the object is a Qt::Object but doesn\'t provide the needed signals' do
-    obj = Qt::Object.new
-    obj.extend Ruber::Activable
-    obj.instance_variable_set(:@active, false)
-    lambda{obj.activate}.should_not raise_error
-    obj.should be_active
-    lambda{obj.deactivate}.should_not raise_error
-    obj.should_not be_active
-    lambda{obj.active = true}.should_not raise_error
-    obj.should be_active
-    lambda{obj.active = false}.should_not raise_error
-    obj.should_not be_active
+  describe '#do_activation' do
+    
+    it 'emits the activated signal if the class including the module has that signal' do
+      mk = flexmock{|m| m.should_receive(:activated).once}
+      @obj.connect(SIGNAL(:activated)){mk.activated}
+      @obj.send :do_activation
+    end
+    
+    it 'doesn\'t emit the signal if the including class doesn\'t have the activated signal' do
+      class << @obj
+        undef_method :activated
+      end
+      lambda{@obj.send :do_activation}.should_not raise_error
+    end
+    
+    it 'doesn\'t emit the signal if the including class doesn\'t inherit from Qt::Object' do
+      obj = Object.new
+      obj.extend Ruber::Activable
+      lambda{obj.send :do_activation}.should_not raise_error
+    end
+    
   end
-
   
 end
 
