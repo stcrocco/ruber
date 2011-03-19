@@ -1,9 +1,9 @@
 require './spec/common'
-require 'ruber/main_window/hint_solver'
+require 'ruber/world/hint_solver'
 require 'ruber/editor/document'
 require 'ruber/pane'
 
-describe Ruber::MainWindow::HintSolver do
+describe Ruber::World::HintSolver do
   
   class HintSolverSpecComponentManager < Qt::Object
     extend Forwardable
@@ -29,7 +29,7 @@ describe Ruber::MainWindow::HintSolver do
     
     it 'takes the tab widget as argument' do
       tabs = KDE::TabWidget.new
-      lambda{Ruber::MainWindow::HintSolver.new tabs, KParts::PartManager.new(@main_window), []}.should_not raise_error
+      lambda{Ruber::World::HintSolver.new tabs, KParts::PartManager.new(@main_window), []}.should_not raise_error
     end
     
   end
@@ -38,7 +38,7 @@ describe Ruber::MainWindow::HintSolver do
     
     before do
       @tabs = KDE::TabWidget.new
-      @solver = Ruber::MainWindow::HintSolver.new @tabs, KParts::PartManager.new(@main_window), []
+      @solver = Ruber::World::HintSolver.new @tabs, KParts::PartManager.new(@main_window), []
       @doc = Ruber::Document.new nil
     end
     
@@ -332,7 +332,7 @@ describe Ruber::MainWindow::HintSolver do
     
     before do
       @tabs = KDE::TabWidget.new
-      @solver = Ruber::MainWindow::HintSolver.new @tabs, KParts::PartManager.new(@main_window), []
+      @solver = Ruber::World::HintSolver.new @tabs, KParts::PartManager.new(@main_window), []
       @doc = Ruber::Document.new nil
     end
     
