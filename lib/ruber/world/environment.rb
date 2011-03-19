@@ -149,6 +149,7 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
       
       def close
         emit closing(self)
+        deactivate
         views = @views_by_activation.group_by{|v| v.document}
         to_save = @documents.select do |doc|
           doc.views.all?{|v| views[doc].include? v}

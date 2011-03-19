@@ -765,4 +765,122 @@ describe Ruber::World::Environment do
     
   end
   
+  describe '#close_editor' do
+    
+    before do
+      @doc = Ruber::Document.new
+    end
+    
+    context 'if the given editor is the last editor associated with the document' do
+      
+      it 'closes the document, passing the second argument to Document#close' do
+        editor = @env.editor_for! @doc
+        flexmock(@doc).should_receive(:close).once.with(false)
+        @env.close_editor editor, false
+      end
+
+    end
+    
+    context 'if the given editor is not the only one associated with the document' do
+      
+      it 'only closes the editor' do
+        editor = @env.editor_for! @doc
+        other_editor = @doc.create_view
+        flexmock(@doc).should_receive(:close).never
+        flexmock(editor).should_receive(:close).once
+        @env.close_editor editor, false
+      end
+      
+    end
+    
+  end
+  
+  describe '#close' do
+    
+    before do
+      @docs = 4.times.map{Ruber::Document.new}
+      @env_views = []
+      @env_views += 2.times.map{@env.editor_for! @docs[0], :existing => :never}
+      @env_views += 3.times.map{@env.editor_for! @docs[1], :existing => :never}
+      @env_views << @env.editor_for!(@docs[2])
+      @other_views = [@docs[2].create_view, @docs[3].create_view]
+    end
+    
+    it 'emits the closing signal passing itself as argument' do
+      mk = flexmock{|m| m.should_receive(:env_closing).once.with(@env)}
+      @env.connect(SIGNAL('closing(QObject*)')){|e| mk.env_closing e}
+      @env.close
+    end
+    
+    it 'deactivates itself' do
+      flexmock(@env).should_receive(:deactivate).once
+      @env.close
+    end
+    
+    it 'calls MainWindow#save_documents passing the list of documents all of whose views are in the environment' do
+      flexmock(Ruber[:main_window]).should_receive(:save_documents).with( [@docs[0], @docs[1]]).once
+      @env.close
+    end
+    
+    context 'when MainWindow#save_documents returns true' do
+      
+      before do
+        flexmock(Ruber[:main_window]).should_receive(:save_documents).and_return true
+      end
+      
+      it 'closes all the documents whose views are all contained in the environment without asking' do
+        2.times{|i| flexmock(@docs[i]).should_receive(:close).with(false).once}
+        2.upto(3){|i| flexmock(@docs[i]).should_receive(:close).never}
+        @env.close
+      end
+      
+      it 'closes all the views in the environment whose documents have views not associated with the enviroment' do
+        @env_views[3..-1].each{|v| flexmock(v).should_receive(:close).once}
+        @env.close
+      end
+      
+      it 'returns true' do
+        @env.close.should be_true
+      end
+      
+    end
+    
+    context 'when MainWindow#save_documents returns false' do
+      
+      before do
+        flexmock(Ruber[:main_window]).should_receive(:save_documents).and_return false
+        flexmock(@docs[1]).should_receive(:modified?).and_return true
+      end
+      
+      it 'only closes those document not having views outside the environment which aren\'t modified' do
+        flexmock(@docs[0]).should_receive(:close).once.with(false)
+        flexmock(@docs[1]).should_receive(:close).never
+        @env.close
+      end
+      
+      it 'closes all the views in the environment whose documents have views not associated with the enviroment or whose documents are modified' do
+        @env_views[1..-1].each{|v| flexmock(v).should_receive(:close).once}
+        @env.close
+      end
+      
+      it 'returns false' do
+        @env.close.should be_false
+      end
+      
+    end
+    
+  end
+  
+  context 'when the associated project is closed' do
+    
+    it 'calls the close method' do
+      file = File.join Dir.tmpdir, 'environment_new_test'
+      project = Ruber::Project.new file, "Environment New Test"
+      env = Ruber::World::Environment.new project
+      flexmock(env).should_receive(:close).once
+      project.close false
+    end
+    
+  end
+  
 end
