@@ -46,6 +46,8 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
     signals :deactivated
     
     signals :activated
+    
+    signals 'closing(QObject*)'
       
 =begin rdoc
 @return [Project,nil] the project associated with the environment or *nil* if the
@@ -66,8 +68,11 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
       
       def initialize prj, parent = nil
         super parent
-        @project = prj
-        @project.parent = self if prj
+        if prj
+          @project = prj
+          @project.parent = self 
+          connect @project, SIGNAL('closing(QObject*)'), self, SLOT(:close)
+        end
         @tab_widget = KDE::TabWidget.new
         @views_by_activation = []
         @hint_solver = HintSolver.new @tab_widget, nil, @views_by_activation
@@ -134,6 +139,33 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
         view.document.activate if view
         view
       end
+      
+      def close_editor editor, ask = true
+        doc = editor.document
+        if doc.views.count > 1 then editor.close
+        else doc.close ask
+        end
+      end
+      
+      def close
+        emit closing(self)
+        views = @views_by_activation.group_by{|v| v.document}
+        to_save = @documents.select do |doc|
+          doc.views.all?{|v| views[doc].include? v}
+        end
+        saving_done = Ruber[:main_window].save_documents to_save
+        to_save.each do |doc|
+          if saving_done || !doc.modified?
+            views.delete doc
+            doc.close false
+          end
+        end
+        views.each_value do |a|
+          a.each{|v| v.close}
+        end
+        saving_done
+      end
+      slots :close
       
       private
       

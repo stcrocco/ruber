@@ -185,15 +185,7 @@ describe Ruber::World::World do
       flexmock(File).should_receive(:exist?).with(file).and_return true
       lambda{@world.new_project(file, "Test")}.should raise_error(Ruber::World::World::ExistingProjectFileError, "#{file} already exists")
     end
-    
-#     it 'raises ProjectFactory::MismatchingNameError if there\'s a project associated with the same file but the project name is different from the second argument' do
-#       file = File.join Dir.tmpdir, 'world_new_project_test.ruprj'
-#       old_name = 'world_new_project_test'
-#       old = @world.new_project file, old_name
-#       new_name = 'world_new_project_test_other_name'
-#       lambda{@world.new_project file, new_name}.should raise_error(Ruber::World::ProjectFactory::MismatchingNameError, "A project associated with #{file} exists, but the corresponding project name is #{old_name} instead of #{new_name}")
-#     end
-    
+        
     it 'doesn\'t return an existing project which has been closed' do
       file = File.join Dir.tmpdir, 'world_new_project_test.ruprj'
       old = @world.new_project file, 'world_new_project_test'
@@ -202,6 +194,39 @@ describe Ruber::World::World do
       new.should_not == old
     end
     
+  end
+  
+  describe 'environment' do
+    
+    context 'when called with a project as argument' do
+      
+      before do
+        file = File.join Dir.tmpdir, 'world_environment_test.ruprj'
+        @prj = @world.new_project file, 'Test'
+      end
+      
+      context 'if an environment for the given project doesn\'t already exists' do
+      
+        it 'creates a new environment for the given project' do
+          env = @world.environment(@prj)
+          env.should be_a(Ruber::World::Environment)
+          env.project.should == @prj
+        end
+        
+      end
+      
+      context 'if an environment for the given project already exists' do
+        
+        it 'returns that environment' do
+          env = @world.environment @prj
+          new_env = @world.environment @prj
+          new_env.should equal(env)
+        end
+        
+      end
+      
+    end
+        
   end
   
 end
