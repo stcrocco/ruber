@@ -361,8 +361,8 @@ on the command line)
       if sessionRestored? then Ruber[:main_window].restore 1, false
       else
         open_command_line_files
-        if Ruber[:projects].projects.empty? and Ruber[:documents].documents.empty?
-          doc = Ruber[:documents].new_document
+        if Ruber[:world].projects.empty? and Ruber[:world].documents.empty?
+          doc = Ruber[:world].new_document
           # This is the default document. Set the default_document attribute of
           # the ruber_default_document extension to true
           # TODO this extension is currently provided by the main window because
