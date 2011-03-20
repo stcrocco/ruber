@@ -21,6 +21,9 @@
 require 'ruber/plugin_like'
 require 'ruber/world/document_factory'
 require 'ruber/world/project_factory'
+require 'ruber/world/environment'
+require 'ruber/world/project_list'
+require 'ruber/world/document_list'
 
 module Ruber
   
@@ -36,6 +39,19 @@ Exception raised from {Ruber::World::World#new_project} when the given file alre
       end
 
       include PluginLike
+      
+      attr_reader :default_environment
+      
+      attr_reader :active_environment
+      
+      signals 'active_environment_changed(QObject*)'
+      
+      signals 'active_environment_changed_2(QObject*, QObject*)'
+      
+      signals 'active_project_changed(QObject*)'
+      
+      signals 'active_project_changed_2(QObject*, QObject*)'
+      
 
 =begin rdoc
 @param [ComponentManager] manager the component manager (unused)
@@ -46,7 +62,68 @@ Exception raised from {Ruber::World::World#new_project} when the given file alre
         super manager
         initialize_plugin psf
         @document_factory = DocumentFactory.new self
+        @documents = MutableDocumentList.new []
+        connect @document_factory, SIGNAL('document_created(QObject*)'), self, SLOT('document_created(QObject*)')
         @project_factory = ProjectFactory.new self
+        @environments = {}
+        @default_environment = environment nil
+      end
+      
+      def environment prj
+        env = @environments[prj] 
+        unless env
+          env = Environment.new(prj)
+          connect env, SIGNAL('closing(QObject*)'), self, SLOT('environment_closing(QObject*)')
+          @environments[prj] = env
+        end
+        env
+      end
+      
+      def active_environment= env
+        return if @active_environment == env
+        old = @active_environment
+        old.deactivate if old
+        @active_environment = env
+        emit active_environment_changed(env)
+        emit active_environment_changed_2(env, old)
+        @active_environment.activate if @active_environment
+      end
+      
+      def environments
+        @environments.values
+      end
+      
+      def each_environment
+        if block_given? 
+          @environments.each_value{|e| yield e}
+          self
+        else to_enum(:each_environment)
+        end
+      end
+      
+      def active_project= prj
+        old = @active_environment.project
+        old.deactivate if old
+        self.active_environment = @environments[prj]
+        emit active_project_changed prj
+        emit active_project_changed_2 prj, old
+        prj.activate if prj
+      end
+      
+      def active_project
+        @active_environment.project if @active_environment
+      end
+      
+      def projects
+        ProjectList.new @environments.keys.compact
+      end
+      
+      def each_project
+        if block_given?
+          @environments.each_key{|prj| yield prj if prj}
+          self
+        else self.to_enum(:each_project)
+        end
       end
       
 =begin rdoc
@@ -70,6 +147,22 @@ file to retrieve the document for
 =end
       def document file
         @document_factory.document file, self
+      end
+      
+      def documents
+        DocumentList.new @documents
+      end
+      
+      def each_document
+        if block_given?
+          @documents.each{|doc| yield doc}
+          self
+        else self.to_enum :each_document
+        end
+      end
+      
+      def active_document
+        @active_environment.active_document if @active_environment
       end
       
 =begin rdoc
@@ -101,6 +194,20 @@ is returned. Otherwise, a new project object is created.
       def project file
         @project_factory.project file
       end
+      
+      private
+      
+      def environment_closing env
+        @environments.delete env.project
+        self.active_environment = nil if @active_environment == env
+      end
+      slots 'environment_closing(QObject*)'
+      
+      def document_created doc
+        @documents.add doc
+        doc.connect(SIGNAL('closing(QObject*)')){|doc| @documents.remove doc}
+      end
+      slots 'document_created(QObject*)'
       
     end
     

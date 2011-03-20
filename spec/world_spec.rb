@@ -43,6 +43,13 @@ describe Ruber::World::World do
       world = Ruber::World::World.new Ruber[:components], @psf
     end
     
+    it 'creates a default environment associated with no project' do
+      world = Ruber::World::World.new Ruber[:components], @psf
+      env = world.default_environment
+      env.should be_a(Ruber::World::Environment)
+      env.project.should be_nil
+    end
+    
   end
   
   describe '#new_document' do
@@ -198,35 +205,533 @@ describe Ruber::World::World do
   
   describe 'environment' do
     
-    context 'when called with a project as argument' do
-      
-      before do
-        file = File.join Dir.tmpdir, 'world_environment_test.ruprj'
-        @prj = @world.new_project file, 'Test'
+    before do
+      file = File.join Dir.tmpdir, 'world_environment_test.ruprj'
+      @prj = @world.new_project file, 'Test'
+    end
+    
+    context 'if an environment for the given project doesn\'t already exists' do
+    
+      it 'creates a new environment for the given project' do
+        env = @world.environment(@prj)
+        env.should be_a(Ruber::World::Environment)
+        env.project.should == @prj
       end
       
-      context 'if an environment for the given project doesn\'t already exists' do
+    end
+    
+    context 'if an environment for the given project already exists' do
       
-        it 'creates a new environment for the given project' do
-          env = @world.environment(@prj)
-          env.should be_a(Ruber::World::Environment)
-          env.project.should == @prj
+      it 'returns that environment' do
+        env = @world.environment @prj
+        new_env = @world.environment @prj
+        new_env.should equal(env)
+      end
+      
+      it 'doesn\'t return an environment which has been closed' do
+        env = @world.environment @prj
+        env.close
+        new_env = @world.environment @prj
+        new_env.should_not == env
+      end
+        
+    end
+
+  end
+  
+  describe '#active_environment=' do
+    
+    before do
+      @prjs = 2.times.map do |i|
+        file = File.join Dir.tmpdir, "world_current_environment_test_#{i}.ruprj"
+        @world.new_project file, "Test #{i}"
+      end
+      @envs = 2.times.map{|i| @world.environment @prjs[i]}
+    end
+    
+    context 'if there is not an active environment' do
+      
+      after do
+        @world.instance_variable_set :@active_environment, nil
+      end
+      
+      context 'and the argument is an environment' do
+        
+        it 'marks the given environment as active environment' do
+          @world.active_environment = @envs[1]
+          @world.active_environment.should == @envs[1]
         end
         
-      end
-      
-      context 'if an environment for the given project already exists' do
+        it 'emits the active_environment_changed signal passing the new environment as argument' do
+          mk = flexmock{|m| m.should_receive(:active_environment_changed).once.with @envs[0]}
+          @world.connect(SIGNAL('active_environment_changed(QObject*)')){|e| mk.active_environment_changed e}
+          @world.active_environment = @envs[0]
+        end
         
-        it 'returns that environment' do
-          env = @world.environment @prj
-          new_env = @world.environment @prj
-          new_env.should equal(env)
+        it 'emits the active_environment_changed_2 signal passing the new environment and nil as arguments' do
+          mk = flexmock{|m| m.should_receive(:active_environment_changed).once.with @envs[0], nil}
+          @world.connect(SIGNAL('active_environment_changed_2(QObject*,QObject*)')){|e1, e2| mk.active_environment_changed e1, e2}
+          @world.active_environment = @envs[0]
+        end
+        
+        it 'activates the given environment' do
+          flexmock(@envs[0]).should_receive(:activate).once
+          @world.active_environment = @envs[0]
         end
         
       end
       
     end
+
+    context 'if there is an active environment' do
+      
+      before do
+        @world.instance_variable_set :@active_environment, @envs[0]
+      end
+      
+      after do
+        @world.instance_variable_set :@active_environment, @envs[0]
+      end
+      
+      context 'and the argument is an environment' do
         
+        it 'deactivates the old active environment' do
+          flexmock(@envs[0]).should_receive(:deactivate).once
+          @world.active_environment = @envs[1]
+        end
+        
+        it 'marks the given environment as active environment' do
+          @world.active_environment = @envs[1]
+          @world.active_environment.should == @envs[1]
+        end
+        
+        it 'emits the active_environment_changed signal passing the new environment as argument' do
+          mk = flexmock{|m| m.should_receive(:active_environment_changed).once.with @envs[1]}
+          @world.connect(SIGNAL('active_environment_changed(QObject*)')){|e| mk.active_environment_changed e}
+          @world.active_environment = @envs[1]
+        end
+        
+        it 'emits the active_environment_changed_2 signal passing the new environment and the old environment as arguments' do
+          mk = flexmock{|m| m.should_receive(:active_environment_changed).once.with @envs[1], @envs[0]}
+          @world.connect(SIGNAL('active_environment_changed_2(QObject*,QObject*)')){|e1, e2| mk.active_environment_changed e1, e2}
+          @world.active_environment = @envs[1]
+        end
+        
+        it 'activates the given environment' do
+          flexmock(@envs[1]).should_receive(:activate).once
+          @world.active_environment = @envs[1]
+        end
+        
+      end
+      
+      context 'and the argument is an nil' do
+        
+        it 'deactivates the old active environment' do
+          flexmock(@envs[0]).should_receive(:deactivate).once
+          @world.active_environment = nil
+        end
+        
+        it 'sets the active environment to nil' do
+          @world.active_environment = nil
+          @world.active_environment.should be_nil
+        end
+        
+        it 'emits the active_environment_changed signal passing nil as argument' do
+          mk = flexmock{|m| m.should_receive(:active_environment_changed).once.with nil}
+          @world.connect(SIGNAL('active_environment_changed(QObject*)')){|e| mk.active_environment_changed e}
+          @world.active_environment = nil
+        end
+        
+        it 'emits the active_environment_changed_2 signal passing the nil and the old active environment as arguments' do
+          mk = flexmock{|m| m.should_receive(:active_environment_changed).once.with nil, @envs[0]}
+          @world.connect(SIGNAL('active_environment_changed_2(QObject*,QObject*)')){|e1, e2| mk.active_environment_changed e1, e2}
+          @world.active_environment = nil
+        end
+        
+        it 'doesn\'t attempt to activate the new environment' do
+          lambda{@world.active_environment = nil}.should_not raise_error
+        end
+        
+      end
+      
+      it 'does nothing if the argument is the same as the active environment' do
+        @world.active_environment = nil
+        mk=flexmock{|m| m.should_receive(:test).never}
+        @world.connect(SIGNAL('active_environment_changed(QObject*)')){|e| mk.test e}
+        @world.active_environment = nil
+        @world.instance_variable_set :@active_environment, @envs[1]
+        @world.active_environment = @envs[1]
+      end
+
+    end
+    
+  end
+  
+  context 'when an environment is being closed' do
+    
+    it 'sets the active environment to nil if the environment being closed is the active one' do
+      file = File.join Dir.tmpdir, "world_environment_closing_test.ruprj"
+      prj = @world.new_project file, "Test"
+      env = @world.environment prj
+      @world.active_environment = env
+      env.close
+      @world.active_environment.should be_nil
+    end
+    
+    it 'does\'t change the active environment if the active project is not the one being closed' do
+      file = File.join Dir.tmpdir, "world_environment_closing_test.ruprj"
+      prj = @world.new_project file, "Test"
+      env = @world.environment prj
+      @world.active_environment = @world.default_environment
+      env.close
+      @world.active_environment.should == @world.default_environment
+    end
+    
+  end
+  
+  describe '#active_project=' do
+    
+    before do
+      @prjs = 2.times.map do |i|
+        file = File.join Dir.tmpdir, "world_current_project_test_#{i}.ruprj"
+        @world.new_project file, "Test #{i}"
+      end
+      @envs = 2.times.map{|i| @world.environment @prjs[i]}
+    end
+    
+    context 'if there is not an active project' do
+      
+      after do
+        @world.instance_variable_set :@active_environment, nil
+      end
+      
+      context 'and the argument is a project' do
+        
+        it 'calls the #active_environment= method with the environment associated with the project as argument' do
+          flexmock(@world).should_receive(:active_environment=).with(@envs[1]).once
+          @world.active_project = @prjs[1]
+        end
+        
+        it 'emits the active_project_changed signal passing the new active project as argument' do
+          mk = flexmock{|m| m.should_receive(:active_project_changed).once.with @prjs[0]}
+          @world.connect(SIGNAL('active_project_changed(QObject*)')){|prj| mk.active_project_changed prj}
+          @world.active_project = @prjs[0]
+        end
+        
+        it 'emits the active_project_changed_2 signal passing the new project and nil as arguments' do
+          mk = flexmock{|m| m.should_receive(:active_project_changed).once.with @prjs[0], nil}
+          @world.connect(SIGNAL('active_project_changed_2(QObject*,QObject*)')){|p1, p2| mk.active_project_changed p1, p2}
+          @world.active_project = @prjs[0]
+        end
+        
+        it 'activates the given project' do
+          flexmock(@prjs[0]).should_receive(:activate).once
+          @world.active_project = @prjs[0]
+        end
+        
+      end
+      
+    end
+    
+    context 'if there is an active project' do
+      
+      before do
+        @world.instance_variable_set :@active_environment, @envs[0]
+      end
+      
+      after do
+        @world.instance_variable_set :@active_environment, @envs[0]
+      end
+      
+      context 'and the argument is a project' do
+        
+        it 'calls the active_environment= method with the environment associated with the project' do
+          flexmock(@world).should_receive(:active_environment=).once.with @envs[1]
+          @world.active_project = @prjs[1]
+        end
+        
+        it 'deactivates the old active projecy' do
+          flexmock(@prjs[0]).should_receive(:deactivate).once
+          @world.active_project = @prjs[1]
+        end
+        
+        it 'emits the active_project_changed signal passing the new environment as argument' do
+          mk = flexmock{|m| m.should_receive(:active_project_changed).once.with @prjs[1]}
+          @world.connect(SIGNAL('active_project_changed(QObject*)')){|e| mk.active_project_changed e}
+          @world.active_project = @prjs[1]
+        end
+        
+        it 'emits the active_project_changed_2 signal passing the new environment and the old environment as arguments' do
+          mk = flexmock{|m| m.should_receive(:active_project_changed).once.with @prjs[1], @prjs[0]}
+          @world.connect(SIGNAL('active_project_changed_2(QObject*,QObject*)')){|e1, e2| mk.active_project_changed e1, e2}
+          @world.active_project = @prjs[1]
+        end
+        
+        it 'activates the given project' do
+          flexmock(@prjs[1]).should_receive(:activate).once
+          @world.active_project = @prjs[1]
+        end
+        
+      end
+      
+      context 'and the argument is an nil' do
+        
+        it 'calls the active_environment= method with nil' do
+          flexmock(@world).should_receive(:active_environment=).once.with nil
+          @world.active_project = nil
+        end
+        
+        it 'deactivates the old active environment' do
+          flexmock(@prjs[0]).should_receive(:deactivate).once
+          @world.active_project = nil
+        end
+        
+        it 'emits the active_project_changed signal passing nil as argument' do
+          mk = flexmock{|m| m.should_receive(:active_project_changed).once.with nil}
+          @world.connect(SIGNAL('active_project_changed(QObject*)')){|e| mk.active_project_changed e}
+          @world.active_project = nil
+        end
+        
+        it 'emits the active_project_changed_2 signal passing the nil and the old active environment as arguments' do
+          mk = flexmock{|m| m.should_receive(:active_project_changed).once.with nil, @prjs[0]}
+          @world.connect(SIGNAL('active_project_changed_2(QObject*,QObject*)')){|e1, e2| mk.active_project_changed e1, e2}
+          @world.active_project = nil
+        end
+        
+        it 'doesn\'t attempt to activate the new project' do
+          lambda{@world.active_project = nil}.should_not raise_error
+        end
+        
+      end
+      
+      it 'does nothing if the argument is the same as the active project' do
+        @world.active_project = nil
+        mk=flexmock{|m| m.should_receive(:test).never}
+        @world.connect(SIGNAL('active_project_changed(QObject*)')){|e| mk.test e}
+        @world.active_project = nil
+        @world.instance_variable_set :@active_environment, @envs[1]
+        @world.active_project = @prjs[1]
+      end
+      
+    end
+    
+  end
+  
+  describe '#active_project' do
+    
+    before do
+      @prjs = 2.times.map do |i|
+        file = File.join Dir.tmpdir, "world_current_project_test_#{i}.ruprj"
+        @world.new_project file, "Test #{i}"
+      end
+      @envs = 2.times.map{|i| @world.environment @prjs[i]}
+    end
+    
+    it 'returns the project associated with the active environment if it exists' do
+      @world.active_environment = @envs[1]
+      @world.active_project.should == @prjs[1]
+      @world.active_environment = @world.default_environment
+      @world.active_project.should be_nil
+    end
+    
+    it 'returns nil if there\'s no active project' do
+      @world.active_project.should be_nil
+    end
+    
+  end
+  
+  describe '#active_document' do
+    
+    before do
+      @prjs = 2.times.map do |i|
+        file = File.join Dir.tmpdir, "world_current_project_test_#{i}.ruprj"
+        @world.new_project file, "Test #{i}"
+      end
+      @envs = 2.times.map{|i| @world.environment @prjs[i]}
+    end
+    
+    it 'returns the value returned by the active project\'s active_document method' do
+      @world.active_environment = @envs[1]
+      doc = @world.new_document
+      flexmock(@envs[1]).should_receive(:active_document).once.and_return doc
+      @world.active_document.should == doc
+    end
+    
+    it 'returns nil if there\'s no active document' do
+      @world.active_document.should be_nil
+    end
+    
+  end
+  
+  describe '#environments' do
+    
+    it 'returns an array containing all the environments, including the default one' do
+      prjs = 2.times.map do |i|
+        file = File.join Dir.tmpdir, "world_current_project_test_#{i}.ruprj"
+        @world.new_project file, "Test #{i}"
+      end
+      envs = 2.times.map{|i| @world.environment prjs[i]}
+      @world.environments.should == [@world.default_environment] + envs
+    end
+    
+  end
+  
+  describe '#each_environment' do
+    
+    before do
+      @prjs = 2.times.map do |i|
+        file = File.join Dir.tmpdir, "world_current_project_test_#{i}.ruprj"
+        @world.new_project file, "Test #{i}"
+      end
+      @envs = 2.times.map{|i| @world.environment @prjs[i]}
+    end
+    
+    context 'if called with a block' do
+      
+      it 'calls the block once for each environment, passing the environment as argument' do
+        mk = flexmock do |m|
+          m.should_receive(:test).with(@world.default_environment).once
+          m.should_receive(:test).with(@envs[0]).once
+          m.should_receive(:test).with(@envs[1]).once
+        end
+        @world.each_environment{|e| mk.test e}
+      end
+      
+      it 'returns self' do
+        @world.each_environment{}.should == @world
+      end
+      
+    end
+    
+    context 'if called without a block' do
+      
+      it 'returns an enumerator which iterates on all the environments' do
+        mk = flexmock do |m|
+          m.should_receive(:test).with(@world.default_environment).once
+          m.should_receive(:test).with(@envs[0]).once
+          m.should_receive(:test).with(@envs[1]).once
+        end
+        enum = @world.each_environment
+        enum.should be_an(Enumerator)
+        enum.each{|e| mk.test e}
+      end
+      
+    end
+    
+  end
+  
+  describe '#projects' do
+    
+    before do
+      @prjs = 2.times.map do |i|
+        file = File.join Dir.tmpdir, "world_current_project_test_#{i}.ruprj"
+        @world.new_project file, "Test #{i}"
+      end
+      @envs = 2.times.map{|i| @world.environment @prjs[i]}
+    end
+    
+    it 'returns a ProjectList containing all the projects' do
+      list = @world.projects
+      list.should be_a(Ruber::World::ProjectList)
+      list.should == @prjs
+    end
+    
+  end
+  
+  describe '#each_project' do
+    before do
+      @prjs = 2.times.map do |i|
+        file = File.join Dir.tmpdir, "world_current_project_test_#{i}.ruprj"
+        @world.new_project file, "Test #{i}"
+      end
+      @envs = 2.times.map{|i| @world.environment @prjs[i]}
+    end
+    
+    context 'if called with a block' do
+      
+      it 'calls the block once for each project, passing the project as argument' do
+        mk = flexmock do |m|
+          m.should_receive(:test).with(@prjs[0]).once
+          m.should_receive(:test).with(@prjs[1]).once
+        end
+        @world.each_project{|prj| mk.test prj}
+      end
+      
+      it 'returns self' do
+        @world.each_project{}.should == @world
+      end
+      
+    end
+    
+    context 'if called without a block' do
+      
+      it 'returns an enumerator which iterates on all the projects' do
+        mk = flexmock do |m|
+          m.should_receive(:test).with(@prjs[0]).once
+          m.should_receive(:test).with(@prjs[1]).once
+        end
+        enum = @world.each_project
+        enum.should be_an(Enumerator)
+        enum.each{|e| mk.test e}
+      end
+      
+    end
+    
+  end
+
+  describe '#documents' do
+    
+    before do
+      @docs = 8.times.map{@world.new_document}
+    end
+    
+    it 'returns a DocumentList containing all the open documents' do
+      res = @world.documents
+      res.should be_instance_of(Ruber::World::DocumentList)
+      res.should == @docs
+    end
+    
+    it 'doesn\'t include documents which have been closed in the list' do
+      @docs[1].close
+      @world.documents.should == [@docs[0]] + @docs[2..-1]
+    end
+    
+  end
+  
+  describe '#each_document' do
+    
+    before do
+      @docs = 8.times.map{@world.new_document}
+    end
+    
+    context 'if called with a block' do
+    
+      it 'calls the block once for each document, passing the document as argument' do
+          mk = flexmock do |m|
+            @docs.each{|d| m.should_receive(:test).once.with d}
+          end
+          @world.each_document{|doc| mk.test doc}
+        end
+        
+        it 'returns self' do
+          @world.each_document{}.should == @world
+        end
+        
+      end
+    
+    context 'if called without a block' do
+      
+      it 'returns an enumerator which iterates on all the documents' do
+        mk = flexmock do |m|
+          @docs.each{|d| m.should_receive(:test).once.with d}
+        end
+        enum = @world.each_document
+        enum.should be_an(Enumerator)
+        enum.each{|doc| mk.test doc}
+      end
+    
+    end
+    
   end
   
 end
