@@ -1,6 +1,6 @@
 require './spec/framework'
 require './spec/common'
-require 'ruber/kernel/document_factory'
+require 'ruber/world/document_factory'
 
 describe Ruber::World::DocumentFactory do
   
@@ -88,6 +88,24 @@ describe Ruber::World::DocumentFactory do
         old = @factory.document nil
         new = @factory.document nil
         new.should_not == old
+      end
+      
+    end
+    
+    context 'when creating a new document' do
+      
+      it 'emits the document_created signal passing the document as argument' do
+        docs = [Ruber::Document.new(__FILE__), Ruber::Document.new]
+        flexmock(Ruber::Document).should_receive(:new).with(__FILE__,nil).once.and_return docs[0]
+        flexmock(Ruber::Document).should_receive(:new).with(nil,nil).once.and_return docs[1]
+        mk = flexmock do |m|
+          m.should_receive(:document_created).with(docs[0]).once
+          m.should_receive(:document_created).with(docs[1]).once
+        end
+        @factory.connect(SIGNAL('document_created(QObject*)')){|o| mk.document_created o}
+        doc = @factory.document __FILE__
+        @factory.document nil
+        @factory.document __FILE__
       end
       
     end

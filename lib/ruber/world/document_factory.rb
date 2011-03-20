@@ -35,6 +35,8 @@ given file.
 =end
     class DocumentFactory < Qt::Object
       
+      signals 'document_created(QObject*)'
+      
 =begin rdoc
 @param [Qt::Object,nil] parent the parent object
 =end
@@ -105,6 +107,7 @@ it and adds it to the internal document list if needed
 =end
       def create_document file, parent
         doc = Document.new file, parent
+        emit document_created(doc)
         connect doc, SIGNAL('closing(QObject*)'), self, SLOT('document_closed(QObject*)')
         connect doc, SIGNAL('document_url_changed(QObject*)'), self, SLOT('document_url_changed(QObject*)')
         @documents[doc.url] = doc if file
