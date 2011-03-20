@@ -140,6 +140,10 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
         view
       end
       
+      def active_document
+        @active_editor ? @active_editor.document : nil
+      end
+      
       def close_editor editor, ask = true
         doc = editor.document
         if doc.views.count > 1 then editor.close

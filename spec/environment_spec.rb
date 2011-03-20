@@ -716,6 +716,45 @@ describe Ruber::World::Environment do
     
   end
   
+  describe '#active_document' do
+    
+    context 'if the environment is active' do
+      
+      before do
+        @env.activate
+      end
+      
+      it 'returns nil if there\'s no active editor' do
+        @env.active_document.should be_nil
+      end
+      
+      it 'returns the document associated with the active editor if it exists' do
+        doc = Ruber::Document.new
+        editors = 3.times.map{@env.editor_for! doc, :existing => :never}
+        @env.activate_editor editors[1]
+        @env.active_editor.should == editors[1].document
+      end
+      
+    end
+    
+    context 'if the environment is not active' do
+      
+      it 'always returns nil' do
+        @env.deactivate
+        @env.active_document.should be_nil
+        @env.activate
+        doc = Ruber::Document.new
+        editors = 3.times.map{@env.editor_for! doc, :existing => :never}
+        @env.activate_editor editors[1]
+        @env.deactivate
+        @env.active_document.should be_nil
+      end
+      
+    end
+    
+  end
+  
+  
   describe 'when an editor is closed' do
     
     before do
