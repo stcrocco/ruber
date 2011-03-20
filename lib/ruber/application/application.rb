@@ -349,7 +349,7 @@ on the command line)
         current = 'config'
         @components.load_component 'config'
         register_with_config
-        %w[documents projects main_window].each do |i|
+        %w[world main_window].each do |i|
           current = i
           @components.load_component i
         end
