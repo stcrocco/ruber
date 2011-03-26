@@ -114,16 +114,33 @@ describe Ruber::Pane do
   
   describe '#view' do
     
-    it 'returns the view if the pane contains a single view' do
-      view = @doc.create_view(nil)
-      pane = Ruber::Pane.new view
-      pane.view.should == view
+    context 'if the pane is in single view' do
+      
+      before do
+        @view = @doc.create_view(nil)
+        @pane = Ruber::Pane.new @view
+      end
+      
+      it 'returns the view if the pane contains a single view' do
+        @pane.view.should == @view
+      end
+      
+      it 'returns nil if the view has been closed' do
+        @view.close
+        @pane.view.should be_nil
+      end
+    
     end
+    
     
     it 'returns nil if the pane contains multiple panes' do
       views = 2.times.map{@doc.create_view(nil)}
       pane = Ruber::Pane.new Qt::Vertical, views[0], views[1]
       pane.view.should be_nil
+    end
+    
+    it 'returns nil if the only view has been removed' do
+      
     end
     
   end
@@ -690,6 +707,13 @@ describe Ruber::Pane do
       res.should == [@views[0]]
     end
     
+    it 'does nothing if the pane is in single view and the only view has been closed' do
+      res = []
+      @views[0].close
+      @pane.each_view{|v| res << v}
+      res.should == []
+    end
+    
     it 'returns self' do
       @pane.each_view{}.should == @pane
       @pane.split @views[0], @views[1], Qt::Vertical
@@ -713,7 +737,7 @@ describe Ruber::Pane do
       res_single.should == [@views[0]]
       res_multi.should == [@views[0], @views[1], @views[3], @views[2]]
     end
-    
+        
   end
   
   describe '#parent_pane' do

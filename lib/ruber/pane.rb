@@ -147,6 +147,8 @@ Signal emitted whenever the single view associated with the paned is about to be
 =begin rdoc
 Signal emitted whenever a view in the pane or one of its children has been removed
 
+In slots connected to this signal, calls to {#view} will return *nil*.
+
 @param [Pane] pane the pane the view was child of
 @param [Qt::Widget] view the view which was removed from the pane. Note that when
   this signal is emitted, the view hasn't as yet been destroyed, but it has already
@@ -421,7 +423,8 @@ Iterates on all views contained in the pane
 This method always acts recursively, meaning that views indirectly contained in
 the pane are returned. 
 
-If the pane is in single view mode, that only view is passed to the block.
+If the pane is in single view mode, that only view is passed to the block. If the
+only view has been closed, the block is not called.
 
 @yieldparam [EditorView] view a view contained (directly) in the pane
 @return [Pane,Enumerator] if a block is given then *self*, otherwise an Enumerator
@@ -429,8 +432,8 @@ If the pane is in single view mode, that only view is passed to the block.
 =end
     def each_view &blk
       return to_enum(:each_view) unless block_given?
-      if single_view? then yield @view
-      else
+      if single_view? and @view.parent then yield @view
+      elsif !single_view?
         each_pane(:recursive) do |pn|
           yield pn.view if pn.single_view?
         end
@@ -634,6 +637,8 @@ Slot called when the single view contained in the pane is closed
 It emis the {#closing_last_view} signal passing *self* as argument, makes the
 view parentless and schedules *self* for deletion.
 
+After this method as been called (in particular, in slots connected to the {#remove_view} signal), calls to {#view} will return *nil*.
+
 *Note:* this method assumes the {Pane} is in single view mode
 @param [EditorView] view the view which is being closed
 @return [nil]
@@ -641,6 +646,7 @@ view parentless and schedules *self* for deletion.
     def remove_view view
       emit closing_last_view(self)
       @view.parent = nil
+      @view = nil
       emit removing_view self, view
       delete_later
       nil
