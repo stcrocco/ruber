@@ -27,6 +27,44 @@ module Ruber
     
     class Environment < Qt::Object
       
+      class ViewList
+        
+        attr_reader :by_activation, :by_document, :by_tab, :tabs
+        
+        def initialize
+          @by_activation = []
+          @by_tab = {}
+          @by_document = {}
+          @tabs = {}
+        end
+        
+        def add_view view, tab
+          @by_activation << view
+          (@by_tab[tab] ||= []) << view
+          (@by_document[view.document] ||= []) << view
+          @tabs[view] = tab
+        end
+        
+        def remove_view view
+          tab = @tabs[view]
+          @by_activation.delete view
+          @by_tab[tab].delete view
+          @by_tab.delete tab if @by_tab[tab].empty?
+          @by_document[view.document].delete view
+          @by_document.delete view.document if @by_document[view.document].empty?
+          @tabs.delete view
+        end
+        
+        def move_to_front view
+          @by_activation.unshift @by_activation.delete(view)
+          tab = @tabs[view]
+          @by_tab[tab].unshift @by_tab[tab].delete(view)
+          doc = view.document
+          @by_document[doc].unshift @by_document[doc].delete(view)
+        end
+        
+      end
+      
       include Activable
       
 =begin rdoc
@@ -73,9 +111,11 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
           @project.parent = self 
           connect @project, SIGNAL('closing(QObject*)'), self, SLOT(:close)
         end
-        @tab_widget = KDE::TabWidget.new
-        @views_by_activation = []
-        @hint_solver = HintSolver.new @tab_widget, nil, @views_by_activation
+        @tab_widget = KDE::TabWidget.new{self.document_mode = true}
+        connect @tab_widget, SIGNAL('currentChanged(int)'), self, SLOT('current_tab_changed(int)')
+        connect @tab_widget, SIGNAL('tabCloseRequested(int)'), self, SLOT('close_tab(int)')
+        @views = ViewList.new
+        @hint_solver = HintSolver.new @tab_widget, nil, @views.by_activation
         @documents = MutableDocumentList.new
         @active_editor = nil
         @active = false
@@ -87,19 +127,16 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
         editor = @hint_solver.find_editor doc, hints
         unless editor
           return nil unless hints[:create_if_needed]
-          editor = create_editor doc
-          if hints[:show]
-            view_to_split = @hint_solver.place_editor hints
-            if view_to_split
-              orientation = hints[:split] == :vertical ? Qt::Vertical : Qt::Horizontal
-              view_to_split.parent.split view_to_split, editor, orientation
-            else 
-              new_pane = create_tab(editor)
-              @tab_widget.add_tab new_pane, doc.icon, doc.document_name
-              new_pane.label = label_for_document doc
-              pane_changed new_pane
-            end
-            @views_by_activation << editor
+          view_to_split = @hint_solver.place_editor hints
+          editor = doc.create_view
+          if view_to_split
+            orientation = hints[:split] == :vertical ? Qt::Vertical : Qt::Horizontal
+            view_to_split.parent.split view_to_split, editor, orientation
+          else 
+            new_pane = create_tab(editor)
+            add_editor editor, new_pane
+            @tab_widget.add_tab new_pane, doc.icon, doc.document_name
+            new_pane.label = label_for_document doc
           end
         end
         editor
@@ -108,37 +145,48 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
       def documents
         DocumentList.new @documents
       end
+      
+      def tabs
+        @tab_widget.to_a
+      end
             
       def views doc = nil
-        doc ? @views_by_activation.select{|v| v.document == doc} : @views_by_activation
+        doc ? @views.by_document[doc].dup : @views.by_activation.dup
       end
       
       def tab arg
-        pane = arg.is_a?(Pane) ? arg : arg.parent
-        return unless pane
-        while parent = pane.parent_pane
-          pane = parent
+        if arg.is_a?(Pane)
+          pane = arg
+          while parent = pane.parent_pane
+            pane = parent
+          end
+          @tab_widget.index_of(pane) > -1 ? pane : nil
+        else @views.tabs[arg]
         end
-        @tab_widget.index_of(pane) > -1 ? pane : nil
       end
       
       def activate_editor view
-        raise "Not the active environment" if view and !active?
         return view if @active_editor == view
         deactivate_editor @active_editor
         if view
-          Ruber[:main_window].gui_factory.add_client view.send(:internal)
-          @active_editor = view
-          @views_by_activation.unshift @views_by_activation.delete view
-          idx = @tab_widget.index_of tab(view)
+          if active?
+            Ruber[:main_window].gui_factory.add_client view.send(:internal)
+            @active_editor = view
+          end
+          @views.move_to_front view
+          view_tab = tab(view)
+          idx = @tab_widget.index_of view_tab
           @tab_widget.set_tab_text idx, label_for_document(view.document)
           @tab_widget.set_tab_icon idx, view.document.icon
           @tab_widget.current_index = idx
         end
-        emit active_editor_changed(view)
-        view.document.activate if view
+        if active?
+          emit active_editor_changed(view) 
+          view.document.activate if view
+        end
         view
       end
+      slots 'activate_editor(QWidget*)'
       
       def active_document
         @active_editor ? @active_editor.document : nil
@@ -154,11 +202,12 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
       def close
         emit closing(self)
         deactivate
-        views = @views_by_activation.group_by{|v| v.document}
+        views = @views.by_document.dup
         to_save = @documents.select do |doc|
           doc.views.all?{|v| views[doc].include? v}
         end
         saving_done = Ruber[:main_window].save_documents to_save
+        @tab_widget.disconnect SIGNAL('currentChanged(int)'), self
         to_save.each do |doc|
           if saving_done || !doc.modified?
             views.delete doc
@@ -168,11 +217,75 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
         views.each_value do |a|
           a.each{|v| v.close}
         end
+        delete_later
         saving_done
       end
       slots :close
       
+      def display_document doc, hints = {}
+        ed = editor_for! doc, hints
+        activate_editor ed
+        line = hints[:line]
+        ed.go_to line, hints[:column] || 0 if hints[:line]
+      end
+      
+      def close_editors editors, ask = true
+        editors_by_doc = editors.group_by &:document
+        docs = editors_by_doc.keys
+        to_close = docs.select{|doc| (doc.views(:all) - editors_by_doc[doc]).empty?}
+        if ask
+          return unless Ruber[:main_window].save_documents to_close 
+        end
+        to_close.each do |doc| 
+          doc.close false
+          editors_by_doc.delete doc
+        end
+        editors_by_doc.each_value do |a|
+          a.each &:close
+        end
+      end
+            
       private
+      
+      def add_editor editor, pane
+        @views.add_view editor, pane
+        doc = editor.document
+        unless @documents.include? doc
+          @documents.add doc
+          connect doc, SIGNAL('document_url_changed(QObject*)'), self, SLOT('document_url_changed(QObject*)')
+        end
+        connect editor, SIGNAL('focus_in(QWidget*)'), self, SLOT('activate_editor(QWidget*)')
+        connect doc, SIGNAL('modified_changed(bool, QObject*)'), self, SLOT('document_modified_status_changed(bool, QObject*)')
+        update_pane pane
+      end
+      
+      def remove_editor pane, editor
+        editor_tab = @views.tabs[editor]
+        if @active_editor == editor
+          to_activate = @views.by_tab[editor_tab][1]
+          activate_editor to_activate
+          deactivate_editor editor
+          to_activate.set_focus if editor.is_active_window
+        end
+        disconnect editor, SIGNAL('focus_in(QWidget*)'), self, SLOT('activate_editor(QWidget*)')
+        @views.remove_view editor
+        unless @views.by_tab[editor_tab]
+          @tab_widget.remove_tab @tab_widget.index_of(editor_tab) 
+        end
+        doc = editor.document
+        unless @views.by_document[doc]
+          @documents.remove doc 
+          disconnect doc, SIGNAL('document_url_changed(QObject*)'), self, SLOT('document_url_changed(QObject*)')
+          disconnect doc, SIGNAL('modified_changed(bool, QObject*)'), self, SLOT('document_modified_status_changed(bool, QObject*)')
+        end
+      end
+      slots 'remove_editor(QWidget*, QWidget*)'
+      
+      def close_tab idx
+        views = @tab_widget.widget(idx).views
+        close_editors views
+      end
+      slots 'close_tab(int)'
       
       def do_deactivation
         @tab_widget.hide
@@ -182,7 +295,7 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
       
       def do_activation
         @tab_widget.show
-        activate_editor @views_by_activation[0]
+        activate_editor @views.by_activation[0]
         super
       end
       
@@ -197,45 +310,83 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
       
       def label_for_document doc
         url = doc.url
-        if url.local_file? then doc.path
+        label = if url.local_file? then doc.path
         elsif url.valid? then url.pretty_url
         else doc.document_name
         end
+        label << ' [modified]' if doc.modified?
+        label
       end
       
       def create_tab view
         pane = Pane.new view
-        connect pane, SIGNAL('removing_view(QWidget*, QWidget*)'), self, SLOT('pane_changed(QWidget*)')
-        connect pane, SIGNAL('pane_split(QWidget*, QWidget*, QWidget*)'), self, SLOT('pane_changed(QWidget*)')
-        connect pane, SIGNAL('view_replaced(QWidget*, QWidget*)'), self, SLOT('pane_changed(QWidget*)')
+        connect pane, SIGNAL('removing_view(QWidget*, QWidget*)'), self, SLOT('remove_editor(QWidget*, QWidget*)')
+        connect pane, SIGNAL('pane_split(QWidget*, QWidget*, QWidget*)'), self, SLOT('pane_split(QWidget*, QWidget*, QWidget*)')
+        connect pane, SIGNAL('view_replaced(QWidget*, QWidget*, QWidget*)'), self, SLOT('view_replaced(QWidget*, QWidget*, QWidget*)')
         pane
       end
       
-      def create_editor doc
-        editor = doc.create_view
-        connect editor, SIGNAL('closing(QWidget*)'), self, SLOT('editor_closing(QWidget*)')
-        editor
+      def pane_split pane, old, new
+        add_editor new, tab(pane)
       end
+      slots 'pane_split(QWidget*, QWidget*, QWidget*)'
       
-      def pane_changed pane
-        toplevel_pane = tab pane
-        return unless toplevel_pane
-        pane_docs = []
-        toplevel_pane.each_view do |v| 
-          @documents.add v.document
-          pane_docs << v.document
+      def view_replaced pane, old, new
+        toplevel_pane = tab(pane)
+        add_editor new, toplevel_pane
+        remove_editor toplevel_pane, old
+        update_pane toplevel_pane
+      end
+      slots 'view_replaced(QWidget*, QWidget*, QWidget*)'
+      
+      def update_pane pane
+        docs = @views.by_tab[pane].map(&:document).uniq
+        tool_tip = docs.map(&:document_name).join "\n"
+        @tab_widget.set_tab_tool_tip @tab_widget.index_of(pane), tool_tip
+      end
+      slots 'update_pane(QWidget*)'
+      
+      def current_tab_changed idx
+        current_tab = @tab_widget.widget idx
+        view = idx >= 0 ? @views.by_tab[current_tab][0] : nil
+        activate_editor view
+        view
+      end
+      slots 'current_tab_changed(int)'
+      
+      def remove_tab pane
+        @tab_widget.remove_tab @tab_widget.index_of(pane)
+      end
+      slots 'remove_tab(QWidget*)'
+      
+      def update_tabs_for_document doc
+        @tab_widget.each{|w| }
+      end
+      slots 'update_tabs_for_document(QObject*)'
+      
+      def document_url_changed doc
+        @tab_widget.each{|t| update_pane t}
+        label = label_for_document doc
+        @views.by_document[doc].each{|v| v.parent.label = label}
+        @tab_widget.each_with_index do |w, i|
+          if @views.by_tab[w][0].document == doc 
+            @tab_widget.set_tab_text i, doc.document_name 
+            @tab_widget.set_tab_icon i, doc.icon
+          end
         end
-        @documents.uniq!
-        pane_docs.uniq!
-        tool_tip = pane_docs.map(&:document_name).join "\n"
-        @tab_widget.set_tab_tool_tip @tab_widget.index_of(toplevel_pane), tool_tip
       end
-      slots 'pane_changed(QWidget*)'
-      
-      def editor_closing view
-        deactivate_editor view
+      slots 'document_url_changed(QObject*)'
+
+      def document_modified_status_changed mod, doc
+        label = label_for_document doc
+        @views.by_document[doc].each{|v| v.parent.label = label}
+        @tab_widget.each_with_index do |w, i|
+          if @views.by_tab[w][0].document == doc 
+            @tab_widget.set_tab_icon i, doc.icon
+          end
+        end
       end
-      slots 'editor_closing(QWidget*)'
+      slots 'document_modified_status_changed(bool, QObject*)'
       
     end
     

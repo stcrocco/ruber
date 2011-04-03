@@ -20,12 +20,83 @@ describe Ruber::World::Environment do
     @env.activate
   end
   
+  after do
+    @env.dispose
+  end
+  
   it 'inherits from Qt::Object' do
     Ruber::World::Environment.ancestors.should include(Qt::Object)
   end
   
   it 'includes the Activable module' do
     Ruber::World::Environment.ancestors.should include(Ruber::Activable)
+  end
+  
+  shared_examples_for 'when adding a view' do
+    
+    before do
+      @doc = Ruber[:world].new_document
+      @view = @doc.create_view
+    end
+    
+    it 'inserts the view in the list of views contained in the environment' do
+      @add_view_proc.call @view
+      @env.views.should include(@view)
+    end
+    
+    it 'adds the document to the list of documents associated with the environment' do
+      @add_view_proc.call @view
+      @env.documents.should include(@view.document)
+    end
+    
+    it 'doesn\'t add the document to the list if the list already includes it' do
+      @env.editor_for! @doc
+      @add_view_proc.call @view
+      @env.documents.select{|doc| doc == @doc}.count.should == 1
+    end
+    
+    it 'sets the text of the label associated with the view to the path of the document, if the document is associated with a file' do
+      @doc = Ruber[:world].document __FILE__
+      @view = @doc.create_view
+      @add_view_proc.call @view
+      @view.parent.label.should == @doc.path
+    end
+    
+    it 'sets the text of the label associated with the view to the documen name of the document, if the document is associated with a file' do
+      @add_view_proc.call @view
+      @view.parent.label.should == @doc.document_name
+    end
+    
+    it 'uses the URL of the document as label for the view if the document is associated with a remote file' do
+      url = KDE::Url.new 'http://xyz.org/abc'
+      flexmock(@doc).should_receive(:url).and_return url
+      @add_view_proc.call @view
+      @view.parent.label.should == @doc.url.pretty_url
+    end
+    
+    it 'updates the tool tip of the tab containing the view' do
+      doc = Ruber[:world].new_document
+      @add_view_proc.call @view
+      @env.editor_for! doc, :new => @view
+      exp = @doc.document_name + "\n" + doc.document_name
+      @env.tab_widget.tab_tool_tip(0).should == exp
+    end
+    
+    it 'doesn\'t repeat a document multiple times in the tool tip of the tab' do
+      doc = Ruber[:world].new_document
+      view = @env.editor_for! doc, :new => :current_tab
+      @add_view_proc.call @view
+      @env.editor_for! @doc, :existing => :never, :new => :current_tab
+      exp = [doc, @doc].map{|d| d.document_name}.join "\n"
+      @env.tab_widget.tab_tool_tip(0).should == exp
+    end
+
+    it 'reacts to the view getting focus' do
+      @add_view_proc.call @view
+      @view.instance_eval{emit focus_in(self)}
+      @env.active_editor.should == @view
+    end
+    
   end
   
   describe '.new' do
@@ -76,6 +147,11 @@ describe Ruber::World::Environment do
       env.tab_widget.parent.should be_nil
     end
     
+    it 'swtiches the document mode of the tab widget on' do
+      env = Ruber::World::Environment.new nil
+      env.tab_widget.document_mode.should be_true
+    end
+    
     it 'creates an hint solver' do
       env = Ruber::World::Environment.new nil
       hint_solver = env.instance_variable_get(:@hint_solver)
@@ -101,14 +177,14 @@ describe Ruber::World::Environment do
     end
     
     it 'uses the Ruber::World::Environment::DEFAULT_HINTS as default hints argument' do
-      doc = Ruber::Document.new
+      doc = Ruber[:world].new_document
       view = doc.create_view
       flexmock(@solver).should_receive(:find_editor).with(doc, Ruber::World::Environment::DEFAULT_HINTS).once.and_return(view)
       @env.editor_for!(doc)
     end
     
     it 'merges the given hints with the default ones' do
-      doc = Ruber::Document.new
+      doc = Ruber[:world].new_document
       view = doc.create_view
       exp_hints = Ruber::World::Environment::DEFAULT_HINTS.merge(:create_if_needed => false)
       flexmock(@solver).should_receive(:find_editor).with(doc, exp_hints).once.and_return(view)
@@ -118,7 +194,7 @@ describe Ruber::World::Environment do
     context 'when the first argument is a document' do
       
       before do
-        @doc = Ruber::Document.new
+        @doc = Ruber[:world].new_document
       end
             
       context 'when the tab widget contains an editor for the given document matching the given hints' do
@@ -144,13 +220,22 @@ describe Ruber::World::Environment do
         
         context 'if the create_if_needed hint is true' do
           
+          before do
+            @add_view_proc = lambda do |view|
+              flexmock(view.document).should_receive(:create_view).and_return view
+              @env.editor_for! view.document, :existing => :never, :new => :new_tab
+            end
+          end
+          
           it 'creates and returns a new editor' do
             @env.editor_for!(@doc, :create_if_needed => true).should be_a(Ruber::EditorView)
           end
           
           it 'places the new editor in the position returned by the hint solver #place_editor method if it is not nil' do
             old_editor = @doc.create_view
-            pane = Ruber::Pane.new old_editor
+            pane = @env.send :create_tab, old_editor
+            @env.send :add_editor, old_editor, pane
+#             pane = Ruber::Pane.new old_editor
             tabs = @env.tab_widget
             tabs.add_tab pane, 'Tab'
             tabs.current_index = 0
@@ -160,7 +245,8 @@ describe Ruber::World::Environment do
           
           it 'respects the :split hint' do
             old_editor = @doc.create_view
-            pane = Ruber::Pane.new old_editor
+            pane = @env.send :create_tab, old_editor
+            @env.send :add_editor, old_editor, pane
             tabs = @env.tab_widget
             tabs.add_tab pane, 'Tab'
             tabs.current_index = 0
@@ -170,7 +256,8 @@ describe Ruber::World::Environment do
           
           it 'places the new editor in a new tab if the hint solver\'s #place_editor method returns nil' do
             old_editor = @doc.create_view
-            pane = Ruber::Pane.new old_editor
+            pane = @env.send :create_tab, old_editor
+            @env.send :add_editor, old_editor, pane
             tabs = @env.tab_widget
             tabs.add_tab pane, 'Tab'
             tabs.current_index = 0
@@ -185,55 +272,18 @@ describe Ruber::World::Environment do
           end
           
           it 'uses the document icon as tab\'s icon when placing the editor in a new tab' do
-            doc = Ruber::Document.new __FILE__
+            doc = Ruber[:world].document __FILE__
             editor = @env.editor_for! @doc, {:existing => :never, :create_if_needed => true, :new => :newt_tab}
             exp_image = @doc.icon.pixmap(Qt::Size.new(16,16)).to_image
             @env.tab_widget.tab_icon(0).pixmap(Qt::Size.new(16,16)).to_image.should == exp_image
           end
           
-          it 'uses the document\'s name as label for the view if the document is not associated with a file' do
-            view = @env.editor_for!(@doc, :create_if_needed => true)
-            view.parent.label.should == @doc.document_name
-          end
-          
-          it 'uses the file name of the document as label for the view if the document is associated with a local file' do
-            doc = Ruber::Document.new __FILE__
-            view = @env.editor_for!(doc, :create_if_needed => true)
-            view.parent.label.should == doc.path
-          end
-          
-          it 'uses the URL of the document as label for the view if the document is associated with a remote file' do
-            doc = Ruber::Document.new
-            url = KDE::Url.new 'http://xyz.org/abc'
-            flexmock(doc).should_receive(:url).and_return url
-            view = @env.editor_for!(doc, :create_if_needed => true)
-            view.parent.label.should == doc.url.pretty_url
-          end
-          
-          it 'adds the new document to the tooltip of the tab' do
-            docs = 3.times.map{Ruber::Document.new}
-            docs.each{|d| @env.editor_for! d, :new=>:current_tab}
-            exp = [docs[0], docs[2], docs[1]].map{|d| d.document_name}.join "\n"
-            @env.tab_widget.tab_tool_tip(0).should == exp
-          end
-          
-          it 'doesn\'t repeat a document multiple times in the tool tip of the tab' do
-            docs = 3.times.map{Ruber::Document.new}
-            docs.each{|d| @env.editor_for! d, :new=>:current_tab}
-            exp = [docs[0], docs[2], docs[1]].map{|d| d.document_name}.join "\n"
-            @env.editor_for! docs[0], :existing => :never, :new => :current_tab
-            @env.tab_widget.tab_tool_tip(0).should == exp
-          end
-          
-          it 'doesn\'t insert the new editor in a pane if the :show hint is false' do
-            editor = @env.editor_for! @doc, {:existing => :never, :create_if_needed => true, :show => false}
-            editor.parent.should be_nil
-          end
-          
+          it_behaves_like 'when adding a view'
+
         end
         
       end
-      
+
     end
     
     context 'when the first argument is a string' do
@@ -341,7 +391,7 @@ describe Ruber::World::Environment do
     
     context 'when the argument is a view' do
       
-      it 'returns the toplevel view containing the argument' do
+      it 'returns the toplevel pane containing the argument' do
         view = @env.editor_for! __FILE__, :existing => :never, :new => @views[1],
             :split => :vertical
         @env.tab(view).should == @env.tab_widget.widget(0)
@@ -369,24 +419,45 @@ describe Ruber::World::Environment do
     
   end
   
-  describe 'the value returned by #documents' do
+  describe '#tabs' do
     
-    it 'is DocumentList' do
-      @env.documents.should be_a(Ruber::World::DocumentList)
+    it 'returns an array containing all the toplevel tabs contained in the environment in order' do
+      doc = Ruber[:world].new_document
+      3.times{@env.editor_for! doc, :existing => :never}
+      tab_widget = @env.tab_widget
+      @env.tabs.should == 3.times.map{|i| tab_widget.widget i}
     end
     
-    it 'contains all the documents associated with a view in the environment' do
-      doc1 = Ruber[:world].new_document
-      doc2 = @env.editor_for!( __FILE__).document
-      @env.editor_for! doc1
-      @env.documents.should == [doc2, doc1]
+    it 'returns an empty array if there is no tab in the tab widget' do
+      @env.tabs.should be_empty
     end
-    
-    it 'doesn\'t contain documents which have been closed'
     
   end
   
-  describe 'the list returned by #views' do
+  describe '#documents' do
+    
+    before do
+      @docs = [Ruber::Document.new, Ruber[:world].document(__FILE__)] 
+      @env.editor_for! @docs[0]
+      @env.editor_for! @docs[1], :existing => :never
+    end
+    
+    it 'returns DocumentList' do
+      @env.documents.should be_a(Ruber::World::DocumentList)
+    end
+    
+    it 'returns a list containing all the documents associated with a view in the environment' do
+      @env.documents.should == [@docs[0], @docs[1]]
+    end
+    
+    it 'returns a list which doesn\'t contain documents which have been closed' do
+      @docs[1].close
+      @env.documents.should == [@docs[0]]
+    end
+    
+  end
+  
+  describe '#views' do
     
     before do
       @docs = 3.times.map{Ruber::Document.new}
@@ -398,13 +469,13 @@ describe Ruber::World::Environment do
       @editors << @env.editor_for!(@docs[2], :existing => :never, :new => :new_tab)
     end
     
-    context 'when #views is called without arguments' do
+    context 'when called without arguments' do
       
-      it 'contains all the views in the environment' do
+      it 'returns a list containing all the views in the environment' do
         @env.views.sort_by{|v| v.object_id}.should == @editors.sort_by{|v| v.object_id}
       end
       
-      it 'contains the views in activation order, from most recently activated to
+      it 'returns a list containing the views in activation order, from most recently activated to
       least recently activated' do
         @env.activate_editor @editors[1]
         @env.activate_editor @editors[4]
@@ -413,16 +484,20 @@ describe Ruber::World::Environment do
         @env.views.should == exp
       end
       
+      it 'returns a list which doesn\'t contain duplicate arguments if a view is created by splitting another one' do
+        @env.views.select{|v| v == @editors[1]}.count.should == 1
+      end
+      
     end
     
     context 'when #views is called with a document as argument' do
       
-      it 'ctonains all the views in the environment which are associated with the given document' do
+      it 'returns a list containing all the views in the environment which are associated with the given document' do
         exp = @editors.select{|v| v.document == @docs[0]}.sort_by{|v| v.object_id}
         @env.views(@docs[0]).sort_by{|v| v.object_id}.should == exp
       end
       
-      it 'contains the views in activation order, from most recently activated to
+      it 'returns a list containing the views in activation order, from most recently activated to
       least recently activated' do
         @env.activate_editor @editors[3]
         @env.views(@docs[0]).should == [@editors[3], @editors[0]]
@@ -445,16 +520,6 @@ describe Ruber::World::Environment do
       @editors << @env.editor_for!(@docs[2], :new => :current_tab)
       @editors << @env.editor_for!(@docs[0], :existing => :never, :new => :new_tab)
       @editors << @env.editor_for!(@docs[2], :existing => :never, :new => :new_tab)
-    end
-    
-    it 'raises RuntimeError if the environment is not active' do
-      @env.deactivate
-      lambda{@env.activate_editor @editors[0]}.should raise_error(RuntimeError, "Not the active environment")
-    end
-    
-    it 'doesn\'t raise RuntimeError if the environment is not active if the argument is nil' do
-      @env.deactivate
-      lambda{@env.activate_editor nil}.should_not raise_error(RuntimeError, "Not the active environment")
     end
     
     context 'when there\'s no active editor' do
@@ -511,7 +576,6 @@ describe Ruber::World::Environment do
         flexmock(Ruber[:main_window]).should_receive(:gui_factory).and_return factory
         flexmock(factory).should_receive(:add_client).never
         flexmock(@editors[2].document).should_receive(:activate).never
-        flexmock(@env).should_receive(:emit).never
         @env.activate_editor nil
       end
       
@@ -612,12 +676,66 @@ describe Ruber::World::Environment do
       
     end
     
+    context 'if the environment is not active' do
+      
+      before do
+        @env.deactivate
+      end
+      
+      it 'doesn\'t attempt to merge the view\'s GUI with the main window\'s' do
+        factory = Ruber[:main_window].gui_factory
+        #MainWindow#gui_factory returns a different ruby object each time, so
+        #we can't set a mock on it.
+        flexmock(Ruber[:main_window]).should_receive(:gui_factory).and_return factory
+        flexmock(factory).should_receive(:add_client).never
+        @env.activate_editor @editors[1]
+      end
+      
+      it 'doesn\'t change the active editor' do
+        @env.activate_editor @editors[1]
+        @env.active_editor.should be_nil
+      end
+      
+      it 'marks the view as last activated' do
+        @env.activate_editor @editors[2]
+        @env.views[0].should == @editors[2]
+      end
+      
+      it 'changes the current tab index' do
+        @env.tab_widget.current_index = 0
+        @env.activate_editor @editors[3]
+        @env.tab_widget.current_index.should == 1
+      end
+      
+      it 'changes the text and icon of the tab to match those of the editor' do
+        @env.tab_widget.set_tab_icon 0, Qt::Icon.new
+        @env.tab_widget.set_tab_text 0, "Test"
+        @env.activate_editor @editors[1]
+        @env.tab_widget.tab_text(0).should == @editors[1].document.document_name
+        exp_icon = @editors[1].document.icon.pixmap(Qt::Size.new(16,16)).to_image
+        icon = @env.tab_widget.tab_icon(0).pixmap(Qt::Size.new(16,16)).to_image
+        exp_icon.should == icon
+      end
+      
+      it 'doesn\'t emit the active_editor_changed signal' do
+        mk = flexmock{|m| m.should_receive(:active_editor_changed).never}
+        @env.connect(SIGNAL('active_editor_changed(QWidget*)')){mk.active_editor_changed}
+        @env.activate_editor @editors[3]
+      end
+      
+      it 'doesn\'t activate the document associated with the editor' do
+        flexmock(@editors[2].document).should_receive(:activate).never
+        @env.activate_editor @editors[2]
+      end
+      
+    end
+    
   end
   
   describe '#deactivate' do
     
     before do
-      @doc = Ruber::Document.new
+      @doc = Ruber[:world].new_document
       @editor = @env.editor_for! @doc
       @env.activate
     end
@@ -645,7 +763,7 @@ describe Ruber::World::Environment do
   describe '#activate' do
 
     before do
-      @doc = Ruber::Document.new
+      @doc = Ruber[:world].new_document
       @env.activate
       @env.deactivate
     end
@@ -691,7 +809,7 @@ describe Ruber::World::Environment do
       end
       
       it 'returns the active editor if it exists' do
-        doc = Ruber::Document.new
+        doc = Ruber[:world].new_document
         editors = 3.times.map{@env.editor_for! doc, :existing => :never}
         @env.activate_editor editors[1]
         @env.active_editor.should == editors[1]
@@ -705,7 +823,7 @@ describe Ruber::World::Environment do
         @env.deactivate
         @env.active_editor.should be_nil
         @env.activate
-        doc = Ruber::Document.new
+        doc = Ruber[:world].new_document
         editors = 3.times.map{@env.editor_for! doc, :existing => :never}
         @env.activate_editor editors[1]
         @env.deactivate
@@ -729,10 +847,10 @@ describe Ruber::World::Environment do
       end
       
       it 'returns the document associated with the active editor if it exists' do
-        doc = Ruber::Document.new
+        doc = Ruber[:world].new_document
         editors = 3.times.map{@env.editor_for! doc, :existing => :never}
         @env.activate_editor editors[1]
-        @env.active_editor.should == editors[1].document
+        @env.active_document.should == editors[1].document
       end
       
     end
@@ -743,7 +861,7 @@ describe Ruber::World::Environment do
         @env.deactivate
         @env.active_document.should be_nil
         @env.activate
-        doc = Ruber::Document.new
+        doc = Ruber[:world].new_document
         editors = 3.times.map{@env.editor_for! doc, :existing => :never}
         @env.activate_editor editors[1]
         @env.deactivate
@@ -754,11 +872,25 @@ describe Ruber::World::Environment do
     
   end
   
+  describe 'when the current tab changes' do
+    
+    it 'activates the last active editor in the new tab' do
+      doc = Ruber[:world].new_document
+      views1 = 2.times.map{@env.editor_for! doc, :existing => :never, :new => :current_tab}
+      views2 = 2.times.map{@env.editor_for! doc, :existing => :never, :new => :new_tab}
+      @env.activate_editor views2[1]
+      @env.activate_editor views1[1]
+      @env.activate_editor views2[1]
+      @env.tab_widget.current_index = 0
+      @env.active_editor.should == views1[1]
+    end
+    
+  end
   
   describe 'when an editor is closed' do
     
     before do
-      @doc = Ruber::Document.new
+      @doc = Ruber[:world].new_document
     end
 
     context 'if the view is the active one' do
@@ -772,10 +904,8 @@ describe Ruber::World::Environment do
         @env.activate_editor @views[3]
         @env.activate_editor @views[0]
         @env.activate_editor @views[1]
-        gui_factory = Ruber[:main_window].gui_factory
-        flexmock(Ruber[:main_window]).should_receive(:gui_factory).and_return gui_factory
-        flexmock(gui_factory).should_receive(:remove_client).with(@views[1].send(:internal)).once
         @views[1].close
+        @env.active_editor.should_not == @views[1]
       end
       
     end
@@ -792,14 +922,42 @@ describe Ruber::World::Environment do
         pane.should_not include(@views[1])
       end
       
-      it 'gives focus to view which previously had focus in the same tab, if the view ha d focus' do
-        pending "Implement later"
-        @views[2].set_focus
-        @views[1].set_focus
+      it 'activates the previously activated view in the same tab if the view was active' do
+        @env.activate_editor @views[2]
+        @env.activate_editor @views[1]
+        @views[1].close
+        @env.active_editor.should == @views[2]
+      end
+      
+      it 'gives focus to view which previously had focus in the same tab, if the view had focus' do
+        @env.activate_editor @views[2]
+        @env.activate_editor @views[1]
+        @views[2].instance_eval{emit focus_in(self)}
+        @views[1].instance_eval{emit focus_in(self)}
         flexmock(@views[1]).should_receive(:is_active_window).and_return true
         flexmock(@views[2]).should_receive(:set_focus).once
+        @views[1].close
       end
-            
+
+    end
+    
+    context 'if there\'s no other editor in the same tab' do
+      
+      before do
+        @views = 2.times.map{@env.editor_for! @doc, :existing => :never, :new => :new_tab}
+      end
+      
+      it 'removes the tab' do
+        @views[1].close
+        @env.tab_widget.count.should == 1
+      end
+      
+    end
+    
+    it 'removes the view from the list of views' do
+      views = 3.times.map{@env.editor_for! @doc, :existing => :never}
+      views[1].close
+      @env.views.should == [views[0], views[2]]
     end
     
   end
@@ -807,15 +965,19 @@ describe Ruber::World::Environment do
   describe '#close_editor' do
     
     before do
-      @doc = Ruber::Document.new
+      @doc = Ruber[:world].new_document
     end
     
     context 'if the given editor is the last editor associated with the document' do
       
       it 'closes the document, passing the second argument to Document#close' do
         editor = @env.editor_for! @doc
+        class << @doc
+          alias_method :close!, :close
+        end
         flexmock(@doc).should_receive(:close).once.with(false)
         @env.close_editor editor, false
+        @doc.close!
       end
 
     end
@@ -823,11 +985,19 @@ describe Ruber::World::Environment do
     context 'if the given editor is not the only one associated with the document' do
       
       it 'only closes the editor' do
+        class << @doc
+          alias_method :close!, :close
+        end
         editor = @env.editor_for! @doc
+        class << editor
+          alias_method :close!, :close
+        end
         other_editor = @doc.create_view
         flexmock(@doc).should_receive(:close).never
         flexmock(editor).should_receive(:close).once
         @env.close_editor editor, false
+        editor.close!
+        @doc.close!
       end
       
     end
@@ -837,7 +1007,7 @@ describe Ruber::World::Environment do
   describe '#close' do
     
     before do
-      @docs = 4.times.map{Ruber::Document.new}
+      @docs = 4.times.map{Ruber[:world].new_document}
       @env_views = []
       @env_views += 2.times.map{@env.editor_for! @docs[0], :existing => :never}
       @env_views += 3.times.map{@env.editor_for! @docs[1], :existing => :never}
@@ -846,13 +1016,19 @@ describe Ruber::World::Environment do
     end
     
     it 'emits the closing signal passing itself as argument' do
-      mk = flexmock{|m| m.should_receive(:env_closing).once.with(@env)}
-      @env.connect(SIGNAL('closing(QObject*)')){|e| mk.env_closing e}
+      mk = flexmock{|m| m.should_receive(:env_closing).once.with(@env.object_id)}
+      @env.connect(SIGNAL('closing(QObject*)')){|e| mk.env_closing e.object_id}
       @env.close
     end
     
     it 'deactivates itself' do
-      flexmock(@env).should_receive(:deactivate).once
+      @env.activate
+      @env.close
+      @env.should_not be_active
+    end
+    
+    it 'disposes of itself' do
+      flexmock(@env).should_receive(:delete_later).once
       @env.close
     end
     
@@ -918,6 +1094,403 @@ describe Ruber::World::Environment do
       env = Ruber::World::Environment.new project
       flexmock(env).should_receive(:close).once
       project.close false
+    end
+    
+  end
+  
+  describe '#close_editors' do
+    
+    before do
+      @docs = 3.times.map{Ruber::Document.new}
+      @views = []
+      @docs.each_with_index do |doc, i|
+        views = 3.times.map{@env.editor_for! doc, :existing => :never}
+        @views[i] = views
+      end
+    end
+    
+    context 'if the second argument is false' do
+      
+      it 'closes without asking all documents whose views are all to be closed' do
+        flexmock(@docs[0]).should_receive(:close).once.with(false)
+        flexmock(@docs[2]).should_receive(:close).once.with(false)
+        flexmock(@docs[1]).should_receive(:close).never
+        @env.close_editors @views[0] + @views[2] + [@views[1][0]], false
+      end
+      
+      it 'closes the editors associated with documents having some views not to be closed' do
+        flexmock(@docs[0]).should_receive(:close).once.with(false)
+        flexmock(@docs[2]).should_receive(:close).never
+        flexmock(@docs[1]).should_receive(:close).never
+        other_view = @docs[2].create_view
+        (@views[2] + [@views[1][0]]).each do |v| 
+          flexmock(v).should_receive(:close).once
+        end
+        @env.close_editors @views[0] + @views[2] + [@views[1][0]], false
+      end
+      
+    end
+    
+    context 'if the second argument is true' do
+      
+      it 'calls MainWindow#save_documents passing all the documents whose views are all to be closed' do
+        flexmock(Ruber[:main_window]).should_receive(:save_documents).with([@docs[0], @docs[2]]).once
+        @env.close_editors @views[0] + @views[2] + [@views[1][0]], true
+      end
+      
+      context 'if MainWindow#save_documents returns false' do
+        
+        it 'does nothing' do
+          flexmock(Ruber[:main_window]).should_receive(:save_documents).and_return false
+          @views.flatten.each{|v| flexmock(v).should_receive(:close).never}
+          @docs.each{|d| flexmock(d).should_receive(:close).never}
+          @env.close_editors @views[0] + @views[2] + [@views[1][0]], true
+        end
+        
+      end
+      
+      context 'if MainWindow#save_documents returns true' do
+        
+        before do
+          flexmock(Ruber[:main_window]).should_receive(:save_documents).and_return true
+        end
+        
+        it 'closes without asking all documents whose views are all to be closed' do
+          flexmock(@docs[0]).should_receive(:close).once.with(false)
+          flexmock(@docs[2]).should_receive(:close).once.with(false)
+          flexmock(@docs[1]).should_receive(:close).never
+          @env.close_editors @views[0] + @views[2] + [@views[1][0]], true
+        end
+        
+        it 'closes the editors associated with documents having some views not to be closed' do
+          flexmock(@docs[0]).should_receive(:close).once.with(false)
+          flexmock(@docs[2]).should_receive(:close).never
+          flexmock(@docs[1]).should_receive(:close).never
+          other_view = @docs[2].create_view
+          (@views[2] + [@views[1][0]]).each do |v| 
+            flexmock(v).should_receive(:close).once
+          end
+          @env.close_editors @views[0] + @views[2] + [@views[1][0]], true
+        end
+        
+      end
+      
+    end
+    
+  end
+  
+  describe '#display_document' do
+    
+    before do
+      @doc = Ruber[:world].new_document
+    end
+    
+    it 'retrieves an editor for the given document according to the hints' do
+      ed = @env.editor_for! @doc
+      hints = {:existing => :always, :strategy => :last}
+      flexmock(@env).should_receive(:editor_for!).with(@doc, hints).once.and_return ed
+      @env.display_document @doc, hints
+    end
+    
+    it 'activates the editor' do
+      ed = @env.editor_for! @doc
+      hints = {:existing => :always, :strategy => :last}
+      @env.display_document @doc, hints
+      @env.active_editor.should == ed
+    end
+    
+    it 'moves the cursor to the line and column corresponding to the :line and :column hints' do
+      ed = @env.editor_for! @doc
+      flexmock(ed).should_receive(:go_to).with(10, 6).once
+      hints = {:existing => :always, :strategy => :last, :line => 10, :column => 6}
+      @env.display_document @doc, hints
+    end
+    
+    it 'uses 0 as column hint if the line hint is given and the column hint is not' do
+      ed = @env.editor_for! @doc
+      flexmock(ed).should_receive(:go_to).with(10, 0).once
+      hints = {:existing => :always, :strategy => :last, :line => 10}
+      @env.display_document @doc, hints
+    end
+    
+    it 'doesn\'t move the cursor if the line hint is not given' do
+      ed = @env.editor_for! @doc
+      flexmock(ed).should_receive(:go_to).never
+      hints = {:existing => :always, :strategy => :last}
+      @env.display_document @doc, hints
+      hints[:column] = 4
+      @env.display_document @doc, hints
+    end
+    
+  end
+  
+  context 'when a view receives focus' do
+    
+    it 'is made active' do
+      doc = Ruber[:world].new_document
+      @views = 2.times.map{@env.editor_for! doc, :existing => :never}
+      @env.activate_editor @views[0]
+      @views[1].instance_eval{emit focus_in(self)}
+      @env.active_editor.should == @views[1]
+    end
+    
+  end
+  
+  context 'when the close button on a tab is pressed' do
+    
+    before do
+      @doc = Ruber[:world].new_document
+      @views = 3.times.map{@env.editor_for! @doc, :existing => :never, :new => :current_tab}
+      @other_view = @env.editor_for! @doc, :existing => :never, :new => :new_tab
+    end
+    
+    it 'closes all the editors in the tab' do
+      flexmock(@env).should_receive(:close_editors).once.with(FlexMock.on{|a| a.sort_by(&:object_id) == @views.sort_by(&:object_id)})
+      @env.tab_widget.instance_eval{emit tabCloseRequested(0)}
+    end
+    
+    it 'does nothing if the user chooses to abort the operation' do
+      flexmock(Ruber::MainWindow).should_receive(:save_documents).and_return false
+      @views.each{|v| flexmock(v).should_receive(:close).never}
+    end
+    
+  end
+  
+  context 'when a view is split' do
+    
+    before do
+      @doc = Ruber[:world].new_document
+      @view = @env.editor_for! @doc
+    end
+    
+    it 'adds the new view to the list' do
+      new_view = @doc.create_view
+      @env.tab(@view).split @view, new_view, Qt::Vertical
+      @env.views.should include(new_view)
+    end
+    
+    it 'adds the document associated with the view to the list of documents, if needed' do
+      doc = Ruber[:world].new_document
+      new_view = doc.create_view
+      @env.tab(@view).split @view, new_view, Qt::Vertical
+      @env.documents.should include(doc)
+    end
+    
+    it 'updates the tool tip of the tab' do
+      doc = Ruber[:world].new_document
+      new_view = doc.create_view
+      @env.tab(@view).split @view, new_view, Qt::Vertical
+      exp = @doc.document_name + "\n" + doc.document_name
+      @env.tab_widget.tab_tool_tip(0).should == exp
+    end
+    
+    it 'reacts to the view getting focus' do
+      new_view = @doc.create_view
+      @env.tab(@view).split @view, new_view, Qt::Vertical
+      new_view.instance_eval{emit focus_in(self)}
+      @env.active_editor.should == new_view
+    end
+    
+    it 'reacts to the view being closed' do
+      new_view = @doc.create_view
+      @env.tab(@view).split @view, new_view, Qt::Vertical
+      new_view.close
+      @env.views.should_not include(new_view)
+    end
+      
+  end
+  
+  context 'when a view is replaced by another' do
+   
+    before do
+      @doc = Ruber[:world].new_document
+      @view = @env.editor_for! @doc
+    end
+    
+    it 'adds the new view to the list' do
+      new_view = @doc.create_view
+      @env.tab(@view).replace_view @view, new_view
+      @env.views.should include(new_view)
+    end
+    
+    it 'removes the replaced view from the list' do
+      new_view = @doc.create_view
+      @env.tab(@view).replace_view @view, new_view
+      @env.views.should_not include(@view)
+    end
+    
+    it 'adds the document associated with the view to the list of documents, if needed' do
+      doc = Ruber[:world].new_document
+      new_view = doc.create_view
+      @env.tab(@view).replace_view @view, new_view
+      @env.documents.should include(doc)
+    end
+    
+    it 'removes the document associated with the replaced view if it was the only view associated with it in the environment' do
+      doc = Ruber[:world].new_document
+      new_view = doc.create_view
+      @env.tab(@view).replace_view @view, new_view
+      @env.documents.should_not include(@doc)
+    end
+    
+    it 'doesn\'t remove the document associated with the replaced view if it wasn\'t the only view associated with it in the environment' do
+      doc = Ruber[:world].new_document
+      new_view = doc.create_view
+      @env.editor_for! @doc, :existing => :never, :new => :new_tab
+      @env.tab(@view).replace_view @view, new_view
+      @env.documents.should include(@doc)
+    end
+    
+    it 'updates the tool tip of the tab' do
+      doc = Ruber[:world].new_document
+      new_view = doc.create_view
+      @env.tab(@view).replace_view @view, new_view
+      exp = doc.document_name
+      @env.tab_widget.tab_tool_tip(0).should == exp
+    end
+    
+    it 'reacts to the new view getting focus' do
+      new_view = @doc.create_view
+      @env.tab(@view).replace_view @view, new_view
+      new_view.instance_eval{emit focus_in(self)}
+      @env.active_editor.should == new_view
+    end
+    
+    it 'doesn\'t react to the replaced view getting focus' do
+      new_view = @doc.create_view
+      @env.tab(@view).replace_view @view, new_view
+      @env.activate_editor nil
+      @view.instance_eval{emit focus_in(self)}
+      @env.active_editor.should be_nil
+    end
+    
+    it 'reacts to the view being closed' do
+      new_view = @doc.create_view
+      @env.tab(@view).replace_view @view, new_view
+      new_view.close
+      @env.views.should_not include(new_view)
+    end
+    
+    it 'doesn\'t react to the replaced view being closed anymore' do
+      new_view = @doc.create_view
+      @env.tab(@view).replace_view @view, new_view
+      flexmock(@env).should_receive(:editor_closing).never
+      @view.close
+    end
+    
+  end
+  
+  context 'when the URL of a document changes' do
+    
+    before do
+      @doc = Ruber[:world].new_document
+    end
+    
+    context 'if the document is associated with a view in the environment' do
+      
+      before do
+        @views = 2.times.map{@env.editor_for! @doc, :existing => :never}
+        @url = KDE::Url.new __FILE__
+        flexmock(@doc).should_receive(:url).and_return @url
+        flexmock(@doc).should_receive(:document_name).and_return File.basename(__FILE__)
+        flexmock(@doc).should_receive(:path).and_return(__FILE__)
+      end
+      
+      it 'updates the tool tip of the tabs containing views associated with the document' do
+        @doc.instance_eval{emit document_url_changed(self)}
+        @env.tab_widget.to_a.each_index{|i|@env.tab_widget.tab_tool_tip(i).should == File.basename(__FILE__)}
+      end
+      
+      it 'updates the label of the editors associated with the document' do
+        @doc.instance_eval{emit document_url_changed(self)}
+        @views.each{|v| v.parent.label.should == @url.path}
+      end
+      
+      it 'updates the text amd icon of any tabs having a view associated with the document as last activated view' do
+        pix = Qt::Pixmap.new(16,16)
+        pix.fill Qt::Color.new(Qt.blue)
+        icon = Qt::Icon.new pix
+        flexmock(@doc).should_receive(:icon).and_return icon
+        other_doc = Ruber[:world].new_document
+        other_views = 2.times.map{|i| @env.editor_for! other_doc, :existing => :never, :new => @views[i]}
+        @env.activate_editor other_views[1]
+        @doc.instance_eval{emit document_url_changed(self)}
+        @env.tab_widget.tab_text(0).should == File.basename(__FILE__)
+        @env.tab_widget.tab_icon(0).pixmap(16,16).to_image.should == pix.to_image
+        @env.tab_widget.tab_text(1).should == other_doc.document_name
+        @env.tab_widget.tab_icon(1).pixmap(16,16).to_image.should_not == pix.to_image
+      end
+      
+    end
+       
+  end
+  
+  describe 'when the modified status of a document associated with a view in the environment changes' do
+    
+    before do
+      @doc = Ruber[:world].new_document
+      @other_doc = Ruber[:world].new_document
+      @views = 2.times.map{@env.editor_for! @doc, :existing => :never}
+    end
+    
+    context 'if the document has become modified' do
+      
+      after do
+        @doc.close false
+      end
+      
+      it 'updates the label of the views associated with the document by putting [modified] after the name of the document' do
+        other_views=2.times.map{@env.editor_for! @other_doc, :existing => :never}
+        @doc.text = 'x'
+        @views.each do |v|
+          v.parent.label.should == @doc.document_name + ' [modified]'
+        end
+        other_views.each do |v|
+          v.parent.label.should == @other_doc.document_name
+        end
+      end
+      
+      it 'updates the icon of any tabs having a view associated with the document as last activated view' do
+        img = Ruber::Document::ICONS[:modified].pixmap(16,16).to_image
+        other_views = 2.times.map{|i| @env.editor_for! @other_doc, :existing => :never, :new => @views[i]}
+        @env.activate_editor other_views[1]
+        @doc.text = 'x'
+        @env.tab_widget.tab_icon(0).pixmap(16,16).to_image.should == img
+        @env.tab_widget.tab_icon(1).pixmap(16,16).to_image.should_not == img
+      end
+      
+    end
+    
+    context 'if the document has become not modified' do
+      
+      before do
+        @doc.text = 'x'
+      end
+      
+      after do
+        @doc.close false
+      end
+      
+      it 'updates the label of the views associated with the document' do
+        other_views=2.times.map{@env.editor_for! @other_doc, :existing => :never}
+        @doc.modified = false
+        @views.each do |v|
+          v.parent.label.should == @doc.document_name
+        end
+        other_views.each do |v|
+          v.parent.label.should == @other_doc.document_name
+        end
+      end
+      
+      it 'updates the icon of any tabs having a view associated with the document as last activated view' do
+        img = Ruber::Document::ICONS[:modified].pixmap(16,16).to_image
+        other_views = 2.times.map{|i| @env.editor_for! @other_doc, :existing => :never, :new => @views[i]}
+        @env.activate_editor other_views[1]
+        @doc.modified = false
+        @env.tab_widget.tab_icon(0).pixmap(16,16).to_image.should_not == img
+        @env.tab_widget.tab_icon(1).pixmap(16,16).to_image.should_not == img
+      end
+      
     end
     
   end
