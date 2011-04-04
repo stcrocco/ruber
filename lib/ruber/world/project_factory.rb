@@ -67,6 +67,15 @@ name contained in the project itself
       end
       
 =begin rdoc
+Signal emitted when a new project object is created
+
+The signal is emitted when a new project object is created, either from an existing project
+file or for a new project file.
+@param [Project] prj the project object
+=end
+        signals 'project_created(QObject*)'
+      
+=begin rdoc
 @param [Qt::Object,nil] parent the parent object
 =end
       def initialize parent = nil
@@ -78,7 +87,8 @@ name contained in the project itself
 Retrieves the project associated with a given project file
 
 If a project associated with the project file _file_ already exists, that project
-is returned. Otherwise, a new project is created.
+is returned. Otherwise, a new project is created. In this case, the {#project_created}
+signal is emitted
 
 @param (see Ruber::Project#initialize)
 @return [Project] a project associated with _file_
@@ -96,6 +106,8 @@ is returned. Otherwise, a new project is created.
           prj = Project.new file, name
           connect prj, SIGNAL('closing(QObject*)'), self, SLOT('project_closing(QObject*)')
           @projects[prj.project_file] = prj
+          emit project_created prj
+          prj
         end
       end
       

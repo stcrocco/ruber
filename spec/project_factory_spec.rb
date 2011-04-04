@@ -37,6 +37,14 @@ describe Ruber::World::ProjectFactory do
         new.should == old
       end
       
+      it 'emits the project_created signal passing the project as argument if a new project was created' do
+        prj = Ruber::Project.new @file.path
+        flexmock(Ruber::Project).should_receive(:new).with(@file.path, nil).once.and_return prj
+        mk = flexmock{|m| m.should_receive(:test).once.with(prj)}
+        @factory.connect(SIGNAL('project_created(QObject*)')){|pr| mk.test pr}
+        @factory.project @file.path
+      end
+      
       it 'doesn\'t return an existing project which has been closed' do
         old = @factory.project @file.path
         old.close
@@ -62,6 +70,16 @@ describe Ruber::World::ProjectFactory do
       old = @factory.project file, 'project_factory_test'
       prj = @factory.project file, 'project_factory_test'
       prj.should == old
+    end
+    
+    it 'emits the project_created signal passing the project as argument if a new project was created' do
+      name = 'project_factory_test'
+      file = File.join Dir.tmpdir, 'project_factory_test.ruprj'
+      prj = Ruber::Project.new file, name
+      flexmock(Ruber::Project).should_receive(:new).once.with(file, name).and_return prj
+      mk = flexmock{|m| m.should_receive(:test).once.with(prj)}
+      @factory.connect(SIGNAL('project_created(QObject*)')){|pr| mk.test pr}
+      @factory.project file, name
     end
     
     it 'raises ProjectFactory::MismatchingNameError if there\'s a project associated with the same file but the project name is different from the second argument' do
