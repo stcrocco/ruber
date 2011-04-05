@@ -298,13 +298,13 @@ describe 'Qt::Base#named_connect' do
   
 end
 
-describe 'Qt::Base#named_connect' do
+describe 'Qt::Base#named_disconnect' do
   
   before do 
     @sender = QtNamedConnectSpec::Sender.new
   end
     
-  it 'should allow to disconnect the block' do
+  it 'allows to disconnect the block' do
     m = flexmock{|mk| mk.should_receive(:test).never}
     @sender.named_connect(SIGNAL('s1()'), 'test'){m.test}
     @sender.named_disconnect 'test'
