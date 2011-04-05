@@ -66,10 +66,11 @@ user will become active
     def open_file
       dir = KDE::Url.from_path(Ruber.current_project.project_directory) rescue KDE::Url.new
       filenames = KDE::FileDialog.get_open_urls(dir, OPEN_DLG_FILTERS.join("\n") , self)
-      editors = []
-      without_activating do
-        filenames.each{|f| editors << gui_open_file(f)}
-      end
+#       editors = []
+#       without_activating do
+      editors = filenames.map{|f| gui_open_file(f, false)}
+#       end
+      editors[-1].set_focus
       editors
     end
     
@@ -109,19 +110,19 @@ is asked what to do. If the user cancels the dialog, nothing is done.
 @return [Boolean] *true* if the tab was closed successfully (or the tab widget was
   empty) and *false* if the user canceled the save dialog
 =end
-    def close_tab idx = nil
-      tab = idx ? @tabs.widget(idx) : @tabs.current_widget
-      return true unless tab
-      docs = tab.map(&:document).select{|d| d.views.size == 1}.uniq
-      return false unless save_documents docs
-      views = tab.to_a
-      without_activating do
-        views.each{|v| close_editor v, false} 
-      end
-      true
-    end
-    slots :close_tab
-    slots 'close_tab(int)'
+#     def close_tab idx = nil
+#       tab = idx ? @tabs.widget(idx) : @tabs.current_widget
+#       return true unless tab
+#       docs = tab.map(&:document).select{|d| d.views.size == 1}.uniq
+#       return false unless save_documents docs
+#       views = tab.to_a
+#       without_activating do
+#         views.each{|v| close_editor v, false} 
+#       end
+#       true
+#     end
+#     slots :close_tab
+#     slots 'close_tab(int)'
 
 =begin rdoc
 Slot connected to the 'Close All Other' action
@@ -135,15 +136,13 @@ don't close the views. In the latter case, nothing will be done
   otherwise
 =end
     def close_other_views
-      to_close = @tabs.inject([]) do |res, pn|
+      to_close = @active_environment.tab_widget.inject([]) do |res, pn|
         res += pn.each_view.to_a
         res
       end
       to_close.delete active_editor
       if save_documents to_close.map{|v| v.document}.uniq
-        without_activating do
-          to_close.each{|v| close_editor v, false}
-        end
+        to_close.each{|v| close_editor v, false}
         true
       else false
       end
@@ -165,13 +164,11 @@ without asking the user.
 otherwise
 =end
     def close_all_views ask = true
-      docs = Ruber[:documents].select{|d| d.has_view?}
+      views = @active_environment.views 
+      docs = views.map(&:document).uniq
       return false if ask and !save_documents docs
-      without_activating do
-        @tabs.to_a.each do |w| 
-          w.to_a.each{|v| close_editor v, false}
-        end
-      end
+      @active_environment.ativate_editor nil
+      views.to_a.each{|v| close_editor v, false}
       true
     end
     
@@ -218,7 +215,7 @@ project couldn't be saved
 @return [nil]
 =end
     def close_current_project
-      unless Ruber[:projects].current_project.close
+      unless @active_environment.project.close
         KDE::MessageBox.sorry self, "The project couldn't be saved"
       end
       nil
@@ -232,10 +229,10 @@ It opens the file chosen by the user in a quick open file dialog
 @return [EditorView,nil] the editor where the document has been displayed
 =end
     def open_file_in_project
-      dlg = OpenFileInProjectDlg.new self
+      dlg = OpenFileInProjectDlg.new @active_environment.project, self
       if dlg.exec == Qt::Dialog::Accepted
-        editor = display_doc dlg.chosen_file
-        action_collection.action( 'file_open_recent').add_url( KDE::Url.new(dlg.chosen_file) )
+        editor = @active_environment.display_document dlg.chosen_file
+        action_collection.action('file_open_recent').add_url( KDE::Url.new(dlg.chosen_file) )
         editor
       end
     end
@@ -286,7 +283,7 @@ if there's no active project
 @return [nil]
 =end
     def configure_project
-      prj = Ruber.current_project
+      prj = @active_environment.project
       raise "No project is selected" unless prj
       prj.dialog.exec
       nil
@@ -306,12 +303,12 @@ it's closed
       dlg = NewProjectDialog.new self
       return if dlg.exec == Qt::Dialog::Rejected
       dir = File.dirname dlg.project_file
-      FileUtils.mkdir dir
-      prj = Ruber[:projects].new_project dlg.project_file, dlg.project_name
+      FileUtils.mkdir dir unless File.directory? dir
+      prj = Ruber[:world].new_project dlg.project_file, dlg.project_name
       prj.save
       action_collection.action('project-open_recent').add_url KDE::Url.new(dlg.project_file)
 #       Ruber[:projects].close_current_project if Ruber[:projects].current
-      Ruber[:projects].current_project = prj
+      Ruber[:world].active_project = prj
       nil
     end
     
@@ -324,9 +321,10 @@ one, it returns to the first
 @return [EditorView,nil] the active editor
 =end
     def next_document
-      idx = @tabs.current_index
-      new_idx = idx + 1 < @tabs.count ? idx + 1 : 0
-      @tabs.current_index = new_idx
+      tabs = @active_environment.tab_widget
+      idx = tabs.current_index
+      new_idx = idx + 1 < tabs.count ? idx + 1 : 0
+      tabs.current_index = new_idx
       active_editor
     end
 
@@ -339,9 +337,10 @@ one, it jumps to the last
 @return [EditorView,nil] the active editor
 =end
     def previous_document
-      idx = @tabs.current_index
-      new_idx = idx > 0 ? idx - 1 : @tabs.count - 1
-      @tabs.current_index = new_idx
+      tabs = @active_environment.tab_widget
+      idx = tabs.current_index
+      new_idx = idx > 0 ? idx - 1 : tabs.count - 1
+      tabs.current_index = new_idx
       nil
     end
     
@@ -430,7 +429,7 @@ Displays the configuration dialog for the current document, if it exists
 @return [nil]
 =end
     def configure_document
-      current_document.own_project.dialog.exec
+      active_document.own_project.dialog.exec
       nil
     end
     
@@ -458,8 +457,9 @@ It splits the active view horizontally, so that a new copy of the view is create
 @return [EditorView] the newly created editor
 =end
     def split_horizontally
-      ed = active_editor
-      display_document ed.document, :existing => :never, :new => ed, :split => :horizontal
+      ed = @active_environment.active_editor
+      @active_environment.display_document ed.document, :existing => :never,
+          :new => ed, :split => :horizontal
     end
     slots :split_horizontally
 
@@ -472,8 +472,9 @@ It splits the active view vertically, so that a new copy of the view is created.
 @return [EditorView] the newly created editor
 =end
     def split_vertically
-      ed = active_editor
-      new_ed = display_document ed.document, :existing => :never, :new => ed, :split => :vertical
+      ed = @active_environment.active_editor
+      @active_environment.display_document ed.document, :existing => :never,
+          :new => ed, :split => :vertical
     end
     slots :split_vertically
     
@@ -508,7 +509,8 @@ the active editor with a new one associated with the document and gives focus to
       return unless filename.valid?
       Ruber::Application.process_events
       ed = replace_editor active_editor, filename
-      focus_on_editor ed if ed
+      ed.set_focus if ed
+      ed
     end
     slots :switch_to_file
     
@@ -520,7 +522,7 @@ action list so that it contains an action for each of the open documents
 =end
     def update_switch_to_list
       unplug_action_list "window-switch_to_open_document_list"
-      @switch_to_actions = Ruber[:documents].map do |doc|
+      @switch_to_actions = Ruber[:world].documents.map do |doc|
         a = action_collection.add_action "switch_to_#{doc.document_name}", self, SLOT(:switch_to_document)
         a.text = KDE.i18n("Switch to %s") % [doc.document_name]
         a.object_name = doc.document_name
@@ -545,7 +547,7 @@ Updates the Active Project menu
       activate_action.remove_all_actions
       activate_action.add_action old_actions.delete_at(0)
       old_actions.each{|a| a.delete_later}
-      Ruber[:projects].sort_by{|pr| pr.project_name}.each do |prj|
+      Ruber[:world].projects.sort_by{|pr| pr.project_name}.each do |prj|
         next if prj == project
         name = "projects-activate_project-project_file_#{prj.project_file}"
         a = activate_action.add_action prj.project_name
@@ -568,7 +570,7 @@ done.
 =end
     def select_active_project_entry
       active_project_action = action_collection.action 'project-active_project'
-      to_select = action_for_project Ruber[:projects].current_project
+      to_select = action_for_project Ruber[:world].active_project
       unless to_select == active_project_action.current_action
         active_project_action.current_action = to_select
       end
@@ -608,7 +610,7 @@ will be done
       #object_name returns nil instead of an empty string if not set
       match = (act.object_name || '').match(/projects-activate_project-project_file_(.*)$/)
       prj = match ? Ruber[:projects][match[1]] : nil
-      Ruber[:projects].current_project = prj unless prj == Ruber[:projects].current_project
+      Ruber[:world].active_project = prj
       prj
     end
     slots 'change_active_project(QAction*)'
@@ -625,9 +627,9 @@ editor with it, giving focus to it. The document to use is determined from the
 @return [EditorView] the newly created editor
 =end
     def switch_to_document
-      doc = Ruber[:documents].document_with_name sender.object_name
+      doc = Ruber[:world].documents.document_with_name sender.object_name
       ed = replace_editor active_editor, doc
-      focus_on_editor ed if ed
+      ed.set_focus if ed
     end
     slots :switch_to_document
     
@@ -644,7 +646,7 @@ for it, replaces the active editor with it and gives focus to it.
 =end
     def switch_to_recent_file url
       ed = replace_editor active_editor, url
-      focus_on_editor ed if ed
+      ed.set_focus if ed
     end
     slots 'switch_to_recent_file(KUrl)'
     
@@ -664,7 +666,8 @@ one view, nothing is done.
       direction = action_name.match('next') ? :next : :previous
       orientation = action_name.match(/horizontal/) ? Qt::Horizontal : Qt::Vertical
       pane = find_next_pane active_editor.parent, orientation, direction
-      view = pane ? pane.view : @tabs.current_widget.views[direction == :next ? 0 : -1]
+      tabs = @active_environment.tab_widget
+      view = pane ? pane.view : tabs.current_widget.views[direction == :next ? 0 : -1]
       focus_on_editor view 
     end
     slots :move_among_views

@@ -59,17 +59,7 @@ tool widgets.
         
     slots :load_settings
     
-=begin rdoc
-The default hints used by methods like {#editor_for} and {#editor_for!}
-=end
-    DEFAULT_HINTS = {
-      :exisiting => :always, 
-      :strategy => [:current, :current_tab, :first],
-      :new => :new_tab,
-      :split => :horizontal,
-      :show => true,
-      :create_if_needed => true
-    }.freeze
+    DEFAULT_HINTS = Ruber::World::Environment::DEFAULT_HINTS
     
 =begin rdoc
 The widget which contains the tool widgets.
@@ -101,11 +91,8 @@ is the plugin description for this object.
       super nil, 0
       initialize_plugin pdf
       initialize_states_handler
-      @default_environment = Environment.new nil
-      @default_environment.view_manager = ViewManager.new(KDE::TabWidget.new(self), self)
-      @view_manager = @default_environment.view_manager
-      @tabs = @view_manager.tabs
-      @workspace = Workspace.new @tabs, self
+      @active_environment = nil
+      @workspace = Workspace.new Ruber[:world].default_environment.tab_widget, self
       self.central_widget = @workspace
       @ui_states = {}
       @actions_state_handlers = Hash.new{|h, k| h[k] = []}
@@ -120,24 +107,16 @@ is the plugin description for this object.
       connect Ruber[:components], SIGNAL('component_loaded(QObject*)'), self, SLOT('add_about_plugin_action(QObject*)')
       connect Ruber[:components], SIGNAL('unloading_component(QObject*)'), self, SLOT('remove_about_plugin_action(QObject*)')
       connect Ruber[:components], SIGNAL('unloading_component(QObject*)'), self, SLOT('remove_plugin_ui_actions(QObject*)')
-      connect @view_manager, SIGNAL('active_editor_changed(QWidget*)'), self, SLOT('slot_active_editor_changed(QWidget*)')
-      connect Ruber[:documents], SIGNAL('document_created(QObject*)'), self, SLOT('document_created(QObject*)')
-      connect Ruber[:documents], SIGNAL('closing_document(QObject*)'), self, SLOT(:update_switch_to_list)
+      connect Ruber[:world], SIGNAL('active_environment_changed_2(QObject*, QObject*)'), self, SLOT('slot_active_environment_changed(QObject*, QObject*)')
+      connect Ruber[:world], SIGNAL('document_created(QObject*)'), self, SLOT('document_created(QObject*)')
+      connect Ruber[:world], SIGNAL('closing_document(QObject*)'), self, SLOT(:update_switch_to_list)
 
       setup_actions action_collection
       active_project_action = action_collection.action('project-active_project')
       default_view_action = active_project_action.add_action '&None (single files mode)'
       
-      Ruber[:projects].connect( SIGNAL('current_project_changed(QObject*)') ) do |prj|
-        ext = prj ? prj.extension(:environment) : @default_environment
-        switch_to_view_manager (ext.view_manager ||= create_view_manager)
-        change_state "active_project_exists", !prj.nil?
-        select_active_project_entry
-        change_title
-      end
-      connect Ruber[:projects], SIGNAL('project_added(QObject*)'), self, SLOT(:update_active_project_menu)
-      connect Ruber[:projects], SIGNAL('closing_project(QObject*)'), self, SLOT('close_project_files(QObject*)')
-      connect Ruber[:projects], SIGNAL('closing_project(QObject*)'), self, SLOT('update_active_project_menu(QObject*)')
+      connect Ruber[:world], SIGNAL('project_created(QObject*)'), self, SLOT(:update_active_project_menu)
+      connect Ruber[:world], SIGNAL('closing_project(QObject*)'), self, SLOT('update_active_project_menu(QObject*)')
       setup_GUI
       create_shell_GUI true
       
@@ -158,39 +137,27 @@ is the plugin description for this object.
       action_collection.action("project-open_recent").load_entries recent_projects
       status_bar.show
       setup_initial_states
-      Ruber[:projects].current_project = nil
+      Ruber[:world].active_environment = Ruber[:world].default_environment
     end
     
 =begin rdoc
-The open tabs
+The toplevel panes associated with the active environment
 
-@return [Array<Pane>] a list of the top-level pane for each tab
+@return (see World::Environment#tabs)
 =end
     def tabs
-      @tabs.to_a
+      @active_environment.tabs
     end
     
 =begin rdoc
-The views contained in the main window
+The views contained in the active environment
 
-If a document is given as argument, returns all views associated with the document;
-if no document is given, all views are returned.
-
-The order of the views in the returned list is the activation order: the view
-which was activated more recently is at position 0 in the array, the one activated
-before that is at position 1 and so on. Views which have never been activated are
-at the end of the array, in an arbitrary order
-
-@param [Document,nil] doc the document to return the views for. If *nil*, all the
-  views will be returned
-@return [Array<EditorView>] the views associated with the given document, if any,
-  or all the views, in activation order, from most recently activated to less recently
-  activated
+@see World::Environment#views
+@param (see World::Environment#views)
+@return (see World::Environment#views)
 =end
     def views doc = nil
-      if doc then @view_manager.activation_order.select{|v| v.document == doc}
-      else @view_manager.activation_order.dup
-      end
+      @active_environment.views
     end
     
     ##
@@ -307,38 +274,39 @@ hint, a new one will be created, unless the @create_if_needed@ hint is *false*.
 @raise [ArgumentError] if _doc_ is a path or a @KDE::Url@ but the corresponding
   file doesn't exist
 =end
-    def editor_for! doc, hints = DEFAULT_HINTS
-      hints = DEFAULT_HINTS.merge hints
-      if hints[:new] == :replace
-        if active_editor
-          hints[:existing] = :never
-          hints[:show] = false
-        else hints[:new] = :new_tab
-        end
-      end
-      docs = Ruber[:documents].documents
-      unless doc.is_a? Document
-        unless hints.has_key? :close_starting_document
-          hints[:close_starting_document] = docs.size == 1 && 
-              docs[0].extension(:ruber_default_document).default_document && 
-              docs[0].pristine?
-        end
-        url = doc
-        if url.is_a? String
-          url = KDE::Url.new url
-          if url.relative?
-            path = File.expand_path url.path
-            url.path = path
-          end
-        end
-        doc = Ruber[:documents].document url
-      end
-      return unless doc
-      ed = @view_manager.without_activating{@view_manager.editor_for doc, hints}
-      if hints[:new] == :replace
-        replace_editor active_editor, ed
-      else ed
-      end
+    def editor_for! doc, hints = World::Environment::DEFAULT_HINTS
+      @active_environment.editor_for! doc, hints
+#       hints = DEFAULT_HINTS.merge hints
+#       if hints[:new] == :replace
+#         if active_editor
+#           hints[:existing] = :never
+#           hints[:show] = false
+#         else hints[:new] = :new_tab
+#         end
+#       end
+#       docs = Ruber[:documents].documents
+#       unless doc.is_a? Document
+#         unless hints.has_key? :close_starting_document
+#           hints[:close_starting_document] = docs.size == 1 && 
+#               docs[0].extension(:ruber_default_document).default_document && 
+#               docs[0].pristine?
+#         end
+#         url = doc
+#         if url.is_a? String
+#           url = KDE::Url.new url
+#           if url.relative?
+#             path = File.expand_path url.path
+#             url.path = path
+#           end
+#         end
+#         doc = Ruber[:documents].document url
+#       end
+#       return unless doc
+#       ed = @view_manager.without_activating{@view_manager.editor_for doc, hints}
+#       if hints[:new] == :replace
+#         replace_editor active_editor, ed
+#       else ed
+#       end
     end
     
 =begin rdoc
@@ -354,36 +322,32 @@ editor associated with the given document exists or no document corresponds to _
 @raise [ArgumentError] if _doc_ is a path or a @KDE::Url@ but the corresponding
 file doesn't exist
 =end
-    def editor_for doc, hints = DEFAULT_HINTS
-      hints = DEFAULT_HINTS.merge hints
-      hints[:create_if_needed] = false
-      unless doc.is_a? Document
-        url = doc
-        if url.is_a? String
-          url = KDE::Url.new url
-          if url.relative?
-            path = File.expand_path url.path
-            url.path = path
-          end
-        end
-        doc = Ruber[:documents].document_for_url url
-      end
-      return unless doc
-      @view_manager.editor_for doc, hints
-    end
+#     def editor_for doc, hints = DEFAULT_HINTS
+#       hints = DEFAULT_HINTS.merge hints
+#       hints[:create_if_needed] = false
+#       unless doc.is_a? Document
+#         url = doc
+#         if url.is_a? String
+#           url = KDE::Url.new url
+#           if url.relative?
+#             path = File.expand_path url.path
+#             url.path = path
+#           end
+#         end
+#         doc = Ruber[:documents].document_for_url url
+#       end
+#       return unless doc
+#       @view_manager.editor_for doc, hints
+#     end
     
 =begin rdoc
 The active editor
     
-The active editor is the editor which has its GUI merged with the main window's.
-This means it is the editor which last received focus and the one which would receive
-focus when the tab widget does. If the focus already is in the tab widget, then
-the active editor is the one whose @is_active_window@ method returns *true*.
-
-@return [EditorView,nil] the active editor or *nil* if there's no active editor.
+@see World::Environment#active_editor
+@return (see World::Environment#active_editor)
 =end
     def active_editor
-      @view_manager.active_editor
+      @active_environment.active_editor
     end
     alias_method :current_editor, :active_editor
 
@@ -402,12 +366,7 @@ signals are emitted.
   editor will be deactivated
 =end
   def activate_editor editor
-    tab = @view_manager.tab editor
-    return unless tab
-    @tabs.current_widget = tab
-    return if active_editor == editor
-    @view_manager.make_editor_active editor
-    editor
+    @active_environment.activate_editor editor
   end
     
 =begin rdoc
@@ -444,10 +403,10 @@ it).
         close_doc = true
       end
       if editor_or_doc.is_a?(EditorView) then ed = editor_or_doc
-      else ed = editor_for! editor_or_doc, :existing => :never, :show => false
+      else ed = @active_environment. editor_for! editor_or_doc, :existing => :never, :show => false
       end
       old.parent.replace_view old, ed
-      close_editor old, false
+      @active_environment.close_editor old, false
       ed
     end
     
@@ -462,22 +421,19 @@ The toplevel pane corresponding to the given index or editor
   @return [Pane] the toplevel pane containing the given editor
 =end
     def tab arg
-      @view_manager.tab arg
+      @environment.tab arg
     end
     
 =begin rdoc
 The document associated with the active editor
 
-This is a convenience method for @active_editor.document@ which takes care of the
-case when there's no active editor.
-
-@return [Document,nil] the document associated with the active editor or *nil*
-  if there's no active editor
+@see World::Environment#active_document
+@return (see World::Environment#active_document)
 =end
-    def current_document
+    def active_document
       (ed = active_editor) ? ed.document : nil
     end
-    alias_method :active_document, :current_document
+    alias_method :current_document, :active_document
     
 =begin rdoc
 Displays an editor for the given document
@@ -498,16 +454,17 @@ Besides the keys listed in {#editor_for!}, _hints_ can also contain the two entr
 @return [EditorView,nil] the editor which has been activated or *nil* if the
   editor couldn't be found (or created)
 =end
-    def display_doc doc, hints = DEFAULT_HINTS
-      ed = editor_for! doc, hints
-      return unless ed
-      activate_editor ed
-      line = hints[:line]
-      ed.go_to line, hints[:column] || 0 if line
-      ed.set_focus
-      ed
+    def display_document doc, hints = DEFAULT_HINTS
+      @active_environment.display_document doc, hints
+#       ed = editor_for! doc, hints
+#       return unless ed
+#       activate_editor ed
+#       line = hints[:line]
+#       ed.go_to line, hints[:column] || 0 if line
+#       ed.set_focus
+#       ed
     end
-    alias_method :display_document, :display_doc
+    alias_method :display_doc, :display_document
     
 =begin rdoc
 Executes the given block without automatically activating an editor whenever the
@@ -534,35 +491,27 @@ After calling this method, the focus widget of the current tab gets focus
 @return [Object] the value returned by the block
 =end
     def without_activating &blk
-      @view_manager.without_activating &blk
+      blk.call
+#       @view_manager.without_activating &blk
     end
     
 =begin rdoc
 Closes an editor view
 
-If the editor to be closed is the last editor associated with the document the
-document will be closed. If _ask_ is *true* and the document is modified, the user
-will be asked whether to save or discard the changes and will have the possibility
-of aborting closing the editor (and the document). If _ask_ is false, the document
-will be closed without user interaction.
-
-If there are other editors associated with the document besides the one to close,
-the latter will be closed without affecting the document.
-
-@param [EditorView] editor the editor to close
-@param [Boolean] ask whether or not to ask confirmation from the user if the document
-  associated with _editor_ should be closed
-@return [Boolean] *true* if the editor is closed and *false* if it isn't.
+@see World::Environment#close_editor
+@param (see World::Environment#close_editor)
+@return (see World::Environment#close_editor)
 @note Always use this method to close an editor, rather than calling its {EditorView#close close}
   method directly, unless you want to leave the corresponding document without a view
 =end
     def close_editor editor, ask = true
-      doc = editor.document
-      if doc.views(:all).size > 1 
-        editor.close
-        true
-      else doc.close ask
-      end
+      @active_environment.close_editor editor, ask
+#       doc = editor.document
+#       if doc.views(:all).size > 1 
+#         editor.close
+#         true
+#       else doc.close ask
+#       end
     end
     
 =begin rdoc
@@ -651,25 +600,25 @@ The new project will be made active and the existing one (if any) will be closed
   (including the project being already open in case _allow_reuse_ is *false*)
 =end
     def safe_open_project file, allow_reuse = false
-      prj = Ruber[:projects][file]
+      prj = Ruber[:world].projects[file]
       if !allow_reuse and prj
-        text = "A project corresponding to the file #{file} is already open. Please, close it before attempting to open it again"
+        text = i18n("A project corresponding to the file %s is already open. Please, close it before attempting to open it again" % file)
         KDE::MessageBox.sorry self, KDE.i18n(text)
         return nil
       elsif prj then return prj
       end
       message = nil
-      begin prj = Ruber[:projects].project file
+      begin prj = Ruber[:world].project file
       rescue Project::InvalidProjectFile => ex
         text = "%s isn't a valid project file. The error reported was:\n%s"
-        message = KDE.i18n(text) % [file, ex.message]
-      rescue LoadError then message = KDE.i18n(ex.message)
+        message = i18n(text) % [file, ex.message]
+      rescue LoadError then message = i18n(ex.message)
       end
       if prj
         # The following two line should be removed when we'll allow more than one project
         # open at the same time
 #         Ruber[:projects].current_project.close if Ruber[:projects].current_project
-        Ruber[:projects].current_project = prj
+        Ruber[:projects].active_project = prj
         prj
       else
         KDE::MessageBox.sorry self, message
@@ -737,15 +686,15 @@ Giving focus to the editor implies:
 @return [EditorView,nil] the editor which was given focus or *nil* if no editor
   received focus
 =end  
-    def focus_on_editor ed = nil, hints = DEFAULT_HINTS
-      if ed
-        ed = editor_for! ed, hints unless ed.is_a? EditorView
-        activate_editor ed
-        ed.set_focus
-      else active_editor.set_focus if active_editor
-      end
-      active_editor
-    end
+#     def focus_on_editor ed = nil, hints = DEFAULT_HINTS
+#       if ed
+#         ed = editor_for! ed, hints unless ed.is_a? EditorView
+#         activate_editor ed
+#         ed.set_focus
+#       else active_editor.set_focus if active_editor
+#       end
+#       active_editor
+#     end
         
 =begin rdoc
 @return [String] the default directory where to look for, and create, projects

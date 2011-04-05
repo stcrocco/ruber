@@ -110,9 +110,9 @@ module Ruber
  =====Arguments
  _parent_:: the widget parent of the dialog
 =end
-    def initialize parent = nil
+    def initialize prj, parent = nil
       super
-      files = Ruber.current_project.project_files.to_a
+      files = prj.project_files.to_a
       @base_dir = Ruber.current_project.project_directory
       @ui = Ui::OpenFileInProjectDlg.new
       @ui.setupUi self
