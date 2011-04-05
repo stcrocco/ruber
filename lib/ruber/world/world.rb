@@ -57,7 +57,9 @@ Exception raised from {Ruber::World::World#new_project} when the given file alre
       
       signals 'project_created(QObject*)'
       
-      signals 'project_closing(QObject*)'
+      signals 'closing_project(QObject*)'
+      
+      signals 'closing_document(QObject*)'
       
 
 =begin rdoc
@@ -65,8 +67,8 @@ Exception raised from {Ruber::World::World#new_project} when the given file alre
 @param [PluginSpecification] psf the plugin specification object associated with
   the component
 =end
-      def initialize manager, psf
-        super manager
+      def initialize _, psf
+        super Ruber[:app]
         @documents = MutableDocumentList.new []
         @projects = MutableProjectList.new []
         @environments = {}
@@ -217,24 +219,30 @@ is returned. Otherwise, a new project object is created.
       
       def slot_document_created doc
         @documents.add doc
-        doc.connect(SIGNAL('closing(QObject*)')){|doc| @documents.remove doc}
+        connect doc, SIGNAL('closing(QObject*)'), self, SLOT('slot_document_closing(QObject*)')
         emit document_created(doc)
       end
       slots 'slot_document_created(QObject*)'
       
       def slot_project_created prj
         @projects.add prj
-        connect prj, SIGNAL('closing(QObject*)'), self, SLOT('slot_project_closing(QObject*)')
+        connect prj, SIGNAL('closing(QObject*)'), self, SLOT('slot_closing_project(QObject*)')
         environment prj
         emit project_created(prj)
       end
       slots 'slot_project_created(QObject*)'
       
-      def slot_project_closing prj
-        emit project_closing(prj)
+      def slot_document_closing doc
+        emit closing_document(doc)
+        @documents.remove doc
+      end
+      slots 'slot_document_closing(QObject*)'
+      
+      def slot_closing_project prj
+        emit closing_project(prj)
         @projects.remove prj
       end
-      slots 'slot_project_closing(QObject*)'
+      slots 'slot_closing_project(QObject*)'
       
       def load_settings
         tabs_closable = Ruber[:config][:workspace, :close_buttons]

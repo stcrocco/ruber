@@ -22,16 +22,20 @@ describe Ruber::World::World do
     end
   end
   
+  before do
+    #needed because otherwise the config manager would complain when running the
+    #next test because the option had already been added
+    Ruber[:config].remove_setting :workspace, :close_buttons
+    @psf = Ruber::PluginSpecification.full  File.expand_path('lib/ruber/world/plugin.yaml')
+    @world = Ruber::World::World.new Ruber[:components], @psf
+  end
+    
   it 'includes Ruber::PluginLike' do
     Ruber::World::World.ancestors.should include(Ruber::PluginLike)
   end
   
   it 'derives from Qt::Object' do
     Ruber::World::World.ancestors.should include(Qt::Object)
-  end
-  
-  before do
-    @world = Ruber[:world]
   end
   
   describe 'when created' do
@@ -41,24 +45,22 @@ describe Ruber::World::World do
       flexmock(Ruber[:components]).should_receive(:add).by_default
     end
     
-    it 'takes the component manager and the plugin specification file as arguments' do
-      res = nil
-      lambda{res = Ruber::World::World.new Ruber[:components], @psf}.should_not raise_error
-      res.should be_a(Ruber::World::World)
-    end
+#     it 'takes the component manager and the plugin specification file as arguments' do
+#       res = nil
+#       lambda{res = Ruber::World::World.new Ruber[:components], @psf}.should_not raise_error
+#       res.should be_a(Ruber::World::World)
+#     end
     
-    it 'sets the component manager as parent' do
-      Ruber::World::World.new(Ruber[:components], @psf).parent.should == Ruber[:components]
+    it 'sets the application as parent' do
+      @world.parent.should == Ruber[:app]
     end
     
     it 'registers itself with the component manager' do
-      flexmock(Ruber[:components]).should_receive(:add).with( Ruber::World::World).once
-      world = Ruber::World::World.new Ruber[:components], @psf
+      Ruber[:components][:world].should be_an_instance_of(Ruber::World::World)
     end
     
     it 'creates a default environment associated with no project' do
-      world = Ruber::World::World.new Ruber[:components], @psf
-      env = world.default_environment
+      env = @world.default_environment
       env.should be_a(Ruber::World::Environment)
       env.project.should be_nil
     end
@@ -161,6 +163,19 @@ describe Ruber::World::World do
     
   end
   
+  context 'when a document is closed' do
+    
+    it 'emits the closing_document signal passing the document as argument' do
+      doc = @world.new_document
+#       mk = flexmock{|m| m.should_receive(:test).with(doc.object_id).once}
+#       @world.connect(SIGNAL('closing_document(QObject*)')){|d| mk.test d.object_id}
+#       @world.named_connect(SIGNAL('closing_document(QObject*)'), 'document closing test'){|d| mk.test d.object_id}
+      doc.close
+#       @world.named_disconnect('document closing test')
+    end
+    
+  end
+  
   describe '#project' do
     
     context 'when called with a file name as argument' do
@@ -249,11 +264,11 @@ describe Ruber::World::World do
   
   describe 'when a project is being closed' do
     
-    it 'emits the project_closing signal passing the project as argument' do
-      file = File.join Dir.tmpdir, 'world_project_closing_test.ruprj'
+    it 'emits the closing_project signal passing the project as argument' do
+      file = File.join Dir.tmpdir, 'world_closing_project_test.ruprj'
       prj = @world.new_project file, 'Test'
       mk = flexmock{|m| m.should_receive(:test).once.with(prj.object_id)}
-      @world.connect(SIGNAL('project_closing(QObject*)')){|pr| mk.test pr.object_id}
+      @world.connect(SIGNAL('closing_project(QObject*)')){|pr| mk.test pr.object_id}
       prj.close(false)
     end
     
