@@ -1,4 +1,0 @@
-name: documents
-require: document_list
-class: Ruber::DocumentList
-features: :docs
