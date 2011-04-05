@@ -782,20 +782,6 @@ Executes a given action
       end
     end
    
-=begin rdoc
-Settings widget for the workspace group
-=end
-    class WorkspaceSettingsWidget < Qt::Widget
-=begin rdoc
-@param [Qt::Widget,nil] parent the parent widget
-=end
-      def initialize parent = nil
-        super
-        @ui = Ui::WorkspaceSettingsWidgetBase.new
-        @ui.setup_ui self
-      end
-    end
-
   end
   
 end
