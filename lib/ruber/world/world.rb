@@ -24,6 +24,7 @@ require 'ruber/world/project_factory'
 require 'ruber/world/environment'
 require 'ruber/world/project_list'
 require 'ruber/world/document_list'
+require_relative 'ui/workspace_settings_widget'
 
 module Ruber
   
@@ -52,6 +53,12 @@ Exception raised from {Ruber::World::World#new_project} when the given file alre
       
       signals 'active_project_changed_2(QObject*, QObject*)'
       
+      signals 'document_created(QObject*)'
+      
+      signals 'project_created(QObject*)'
+      
+      signals 'project_closing(QObject*)'
+      
 
 =begin rdoc
 @param [ComponentManager] manager the component manager (unused)
@@ -60,12 +67,15 @@ Exception raised from {Ruber::World::World#new_project} when the given file alre
 =end
       def initialize manager, psf
         super manager
+        @documents = MutableDocumentList.new []
+        @projects = MutableProjectList.new []
+        @environments = {}
+        
         initialize_plugin psf
         @document_factory = DocumentFactory.new self
-        @documents = MutableDocumentList.new []
-        connect @document_factory, SIGNAL('document_created(QObject*)'), self, SLOT('document_created(QObject*)')
+        connect @document_factory, SIGNAL('document_created(QObject*)'), self, SLOT('slot_document_created(QObject*)')
         @project_factory = ProjectFactory.new self
-        @environments = {}
+        connect @project_factory, SIGNAL('project_created(QObject*)'), self, SLOT('slot_project_created(QObject*)')
         @default_environment = environment nil
       end
       
@@ -102,7 +112,8 @@ Exception raised from {Ruber::World::World#new_project} when the given file alre
       end
       
       def active_project= prj
-        old = @active_environment.project
+        old = @active_environment.project if @active_environment
+        return old if old == prj
         old.deactivate if old
         self.active_environment = @environments[prj]
         emit active_project_changed prj
@@ -131,7 +142,8 @@ Creates a new document
 @return [Document] the new document. It will be a child of *self*
 =end
       def new_document
-        @document_factory.document nil, self
+        doc = @document_factory.document nil, self
+        doc
       end
       
 =begin rdoc
@@ -203,11 +215,42 @@ is returned. Otherwise, a new project object is created.
       end
       slots 'environment_closing(QObject*)'
       
-      def document_created doc
+      def slot_document_created doc
         @documents.add doc
         doc.connect(SIGNAL('closing(QObject*)')){|doc| @documents.remove doc}
+        emit document_created(doc)
       end
-      slots 'document_created(QObject*)'
+      slots 'slot_document_created(QObject*)'
+      
+      def slot_project_created prj
+        @projects.add prj
+        connect prj, SIGNAL('closing(QObject*)'), self, SLOT('slot_project_closing(QObject*)')
+        environment prj
+        emit project_created(prj)
+      end
+      slots 'slot_project_created(QObject*)'
+      
+      def slot_project_closing prj
+        emit project_closing(prj)
+        @projects.remove prj
+      end
+      slots 'slot_project_closing(QObject*)'
+      
+      def load_settings
+        tabs_closable = Ruber[:config][:workspace, :close_buttons]
+        @environments.each_value{|e| e.tab_widget.tabs_closable = tabs_closable}
+      end
+      slots :load_settings
+      
+    end
+    
+    class WorkspaceSettingsWidget < Qt::Widget
+      
+      def initialize parent = nil
+        super
+        @ui = Ui::WorkspaceSettingsWidgetBase.new
+        @ui.setup_ui self
+      end
       
     end
     

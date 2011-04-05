@@ -9,6 +9,19 @@ require 'fileutils'
 
 describe Ruber::World::World do
   
+  before :all do
+    class KDE::TabWidget
+      def show
+      end
+    end
+  end
+  
+  after :all do
+    class KDE::TabWidget
+      remove_method :show
+    end
+  end
+  
   it 'includes Ruber::PluginLike' do
     Ruber::World::World.ancestors.should include(Ruber::PluginLike)
   end
@@ -18,7 +31,7 @@ describe Ruber::World::World do
   end
   
   before do
-    @world = Ruber[:components].load_component 'world'
+    @world = Ruber[:world]
   end
   
   describe 'when created' do
@@ -65,6 +78,14 @@ describe Ruber::World::World do
       @world.new_document.parent.should == @world
     end
     
+    it 'emits the document_created signal passing the document as argument' do
+      doc = Ruber::Document.new
+      flexmock(Ruber::Document).should_receive(:new).once.and_return doc
+      mk = flexmock{|m| m.should_receive(:test).once.with(doc)}
+      @world.connect(SIGNAL('document_created(QObject*)')){|doc| mk.test doc}
+      @world.new_document
+    end
+    
   end
   
   describe '#document' do
@@ -82,6 +103,14 @@ describe Ruber::World::World do
       old = @world.document __FILE__
       new = @world.document __FILE__
       new.should == old
+    end
+    
+    it 'emits the document_created signal passing the document as argument if a new document has been created' do
+      doc = Ruber::Document.new __FILE__
+      flexmock(Ruber::Document).should_receive(:new).once.with(__FILE__, @world).and_return doc
+      mk = flexmock{|m| m.should_receive(:test).once.with(doc)}
+      @world.connect(SIGNAL('document_created(QObject*)')){|doc| mk.test doc}
+      @world.document __FILE__
     end
     
     it 'returns the existing file even if of the two calls to document one was passed a string and the other an URL' do
@@ -167,6 +196,19 @@ describe Ruber::World::World do
         new.should_not == old
       end
       
+      it 'emits the project_created signal passing the project as argument if a new project has been created' do
+        prj = Ruber::Project.new @file.path
+        flexmock(Ruber::Project).should_receive(:new).once.with(@file.path, nil).and_return prj
+        mk = flexmock{|m| m.should_receive(:test).once.with(prj)}
+        @world.connect(SIGNAL('project_created(QObject*)')){|pr| mk.test pr}
+        @world.project @file.path
+      end
+      
+      it 'creates a new environment for the project if a new project has been created' do
+        prj = @world.project @file.path
+        @world.environments.find{|env| env.project == prj}.should_not be_nil
+      end
+      
     end
     
   end
@@ -187,23 +229,37 @@ describe Ruber::World::World do
       prj.should == old
     end
     
+    it 'emits the project_created_signal passing the project as argument' do
+      name = 'world_new_project_test'
+      file = File.join Dir.tmpdir, 'world_new_project_test.ruprj'
+      prj = Ruber::Project.new file, name
+      flexmock(Ruber::Project).should_receive(:new).once.with(file, name).and_return prj
+      mk = flexmock{|m| m.should_receive(:test).once.with(prj)}
+      @world.connect(SIGNAL('project_created(QObject*)')){|pr| mk.test pr}
+      @world.new_project file, name
+    end
+    
     it 'raises ExistingProjectFileError if the given project file already exists' do
       file = File.join Dir.tmpdir, 'world_new_project_test.ruprj'
       flexmock(File).should_receive(:exist?).with(file).and_return true
       lambda{@world.new_project(file, "Test")}.should raise_error(Ruber::World::World::ExistingProjectFileError, "#{file} already exists")
     end
         
-    it 'doesn\'t return an existing project which has been closed' do
-      file = File.join Dir.tmpdir, 'world_new_project_test.ruprj'
-      old = @world.new_project file, 'world_new_project_test'
-      old.close false
-      new = @world.new_project file, 'world_new_project_test'
-      new.should_not == old
+  end
+  
+  describe 'when a project is being closed' do
+    
+    it 'emits the project_closing signal passing the project as argument' do
+      file = File.join Dir.tmpdir, 'world_project_closing_test.ruprj'
+      prj = @world.new_project file, 'Test'
+      mk = flexmock{|m| m.should_receive(:test).once.with(prj.object_id)}
+      @world.connect(SIGNAL('project_closing(QObject*)')){|pr| mk.test pr.object_id}
+      prj.close(false)
     end
     
   end
   
-  describe 'environment' do
+  describe '#environment' do
     
     before do
       file = File.join Dir.tmpdir, 'world_environment_test.ruprj'
@@ -477,7 +533,7 @@ describe Ruber::World::World do
       context 'and the argument is an nil' do
         
         it 'calls the active_environment= method with nil' do
-          flexmock(@world).should_receive(:active_environment=).once.with nil
+          flexmock(@world).should_receive(:active_environment=).once.with @world.default_environment
           @world.active_project = nil
         end
         
@@ -730,6 +786,21 @@ describe Ruber::World::World do
         enum.each{|doc| mk.test doc}
       end
     
+    end
+    
+  end
+  
+  describe '#load_settings' do
+    
+    it 'makes the tabs in the environments\' tab widgets closeable or not according to the workspace/close_buttons setting' do
+      file = File.join Dir.tmpdir, 'world_load_settings_test.ruprj'
+      prj = @world.new_project file, 'TEST'
+      flexmock(Ruber[:config]).should_receive(:[]).with(:workspace, :close_buttons).once.and_return true
+      @world.send(:load_settings)
+      @world.environments.each{|e| e.tab_widget.tabs_closable.should be_true}
+      flexmock(Ruber[:config]).should_receive(:[]).with(:workspace, :close_buttons).once.and_return false
+      @world.send(:load_settings)
+      @world.environments.each{|e| e.tab_widget.tabs_closable.should be_false}
     end
     
   end
