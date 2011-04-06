@@ -1,5 +1,5 @@
 =begin
-    Copyright (C) 2010 by Stefano Crocco   
+    Copyright (C) 2010, 2011 by Stefano Crocco   
     stefano.crocco@alice.it   
   
     This program is free software; you can redistribute it andor modify  
@@ -54,7 +54,7 @@ something can be done about it
 =end
         def initialize parent = nil
           super
-          @project = Ruber[:projects].current
+          @project = nil
           @do_filtering = true
           self.dynamic_sort_filter = true
         end
@@ -155,7 +155,7 @@ project, if any
 =end
       def initialize parent = nil
         super
-        connect Ruber[:projects], SIGNAL('current_project_changed(QObject*)'), self, SLOT('current_project_changed(QObject*)')
+        connect Ruber[:world], SIGNAL('active_project_changed(QObject*)'), self, SLOT('current_project_changed(QObject*)')
         self.layout = Qt::VBoxLayout.new self
         @view = View.new self
         @model = KDE::DirModel.new @view
@@ -168,7 +168,7 @@ project, if any
         @view.header_hidden = true
         layout.add_widget @view
         @project = nil
-        current_project_changed Ruber[:projects].current
+        current_project_changed Ruber[:world].active_project
         @view.connect(SIGNAL('only_project_files_triggered(bool)')){|val| @filter.do_filtering = val}
         connect @view, SIGNAL('activated(QModelIndex)'), self, SLOT('open_file_in_editor(QModelIndex)')
       end
