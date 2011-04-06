@@ -44,13 +44,7 @@ describe Ruber::World::World do
       @psf = Ruber::PluginSpecification.full  File.expand_path('lib/ruber/world/plugin.yaml')
       flexmock(Ruber[:components]).should_receive(:add).by_default
     end
-    
-#     it 'takes the component manager and the plugin specification file as arguments' do
-#       res = nil
-#       lambda{res = Ruber::World::World.new Ruber[:components], @psf}.should_not raise_error
-#       res.should be_a(Ruber::World::World)
-#     end
-    
+        
     it 'sets the application as parent' do
       @world.parent.should == Ruber[:app]
     end
@@ -191,7 +185,16 @@ describe Ruber::World::World do
         @world.active_document.should == @docs[0]
       end
       
-      it 'emits the active_document_changed signal passing the new active document' do
+      it 'emits the active_editor_changed signal passing the new active editor as argument' do
+        mk = flexmock{|m| m.should_receive(:test).with(@views[0].object_id).once}
+        @world.connect(SIGNAL('active_editor_changed(QWidget*)')) do |view|
+          mk.test view.object_id
+        end
+        @env.activate_editor @views[0]
+        
+      end
+      
+      it 'emits the active_document_changed signal passing the new active document as argument' do
         mk = flexmock{|m| m.should_receive(:test).with(@docs[0].object_id).once}
         @world.connect(SIGNAL('active_document_changed(QObject*)')) do |doc|
           mk.test doc.object_id
@@ -211,7 +214,15 @@ describe Ruber::World::World do
         @env.activate_editor @views[1]
       end
       
-      it 'does nothing' do
+      it 'emits the active_editor_changed signal passing the new active editor as argument' do
+        mk = flexmock{|m| m.should_receive(:test).with(@views[0].object_id).once}
+        @world.connect(SIGNAL('active_editor_changed(QWidget*)')) do |view|
+          mk.test view.object_id
+        end
+        @env.activate_editor @views[0]
+      end
+      
+      it 'does not emit the active_document_changed signal' do
         mk = flexmock{|m| m.should_receive(:test).never}
         @world.connect(SIGNAL('active_document_changed(QObject*)')) do |doc|
           mk.test doc.object_id
@@ -235,6 +246,15 @@ describe Ruber::World::World do
         @env.activate_editor nil
         @world.active_document.should be_nil
       end
+      
+      it 'emits the active_editor_changed signal passing nil as argument' do
+        mk = flexmock{|m| m.should_receive(:test).with(nil).once}
+        @world.connect(SIGNAL('active_editor_changed(QWidget*)')) do |view|
+          mk.test view
+        end
+        @env.activate_editor nil
+      end
+
       
       it 'emits the the active_document_changed signal passing nil as argument' do
         mk = flexmock{|m| m.should_receive(:test).with(nil)}

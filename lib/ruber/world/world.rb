@@ -65,6 +65,8 @@ Exception raised from {Ruber::World::World#new_project} when the given file alre
       
       signals 'active_document_changed(QObject*)'
       
+      signals 'active_editor_changed(QWidget*)'
+      
 
 =begin rdoc
 @param [ComponentManager] manager the component manager (unused)
@@ -258,6 +260,7 @@ is returned. Otherwise, a new project object is created.
           @active_document = doc
           emit active_document_changed(@active_document)
         end
+        emit active_editor_changed(editor)
       end
       slots 'slot_active_editor_changed(QWidget*)'
       
