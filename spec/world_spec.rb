@@ -167,11 +167,83 @@ describe Ruber::World::World do
     
     it 'emits the closing_document signal passing the document as argument' do
       doc = @world.new_document
-#       mk = flexmock{|m| m.should_receive(:test).with(doc.object_id).once}
-#       @world.connect(SIGNAL('closing_document(QObject*)')){|d| mk.test d.object_id}
-#       @world.named_connect(SIGNAL('closing_document(QObject*)'), 'document closing test'){|d| mk.test d.object_id}
+      mk = flexmock{|m| m.should_receive(:test).with(doc.object_id).once}
+      @world.connect(SIGNAL('closing_document(QObject*)')){|d| mk.test d.object_id}
       doc.close
-#       @world.named_disconnect('document closing test')
+    end
+    
+  end
+  
+  context 'when the active editor changes' do
+    
+    context 'if the editor associated with the new document is different from the one associated with the previously active environment' do
+      
+      before do
+        @env = @world.default_environment
+        @world.active_environment = @env
+        @docs = Array.new(2){@world.new_document}
+        @views = @docs.map{|doc| @env.editor_for! doc}
+        @env.activate_editor @views[1]
+      end
+      
+      it 'changes the active document' do
+        @env.activate_editor @views[0]
+        @world.active_document.should == @docs[0]
+      end
+      
+      it 'emits the active_document_changed signal passing the new active document' do
+        mk = flexmock{|m| m.should_receive(:test).with(@docs[0].object_id).once}
+        @world.connect(SIGNAL('active_document_changed(QObject*)')) do |doc|
+          mk.test doc.object_id
+        end
+        @env.activate_editor @views[0]
+      end
+      
+    end
+    
+    context 'if the editor associated with the new document is already active' do
+      
+      before do
+        @env = @world.default_environment
+        @world.active_environment = @env
+        @docs = Array.new(2){@world.new_document}
+        @views = Array.new(2){@env.editor_for! @docs[0], :existing => :never}
+        @env.activate_editor @views[1]
+      end
+      
+      it 'does nothing' do
+        mk = flexmock{|m| m.should_receive(:test).never}
+        @world.connect(SIGNAL('active_document_changed(QObject*)')) do |doc|
+          mk.test doc.object_id
+        end
+        @env.activate_editor @views[0]
+      end
+      
+    end
+    
+    context 'if there\'s no new active editor' do
+      
+      before do
+        @env = @world.default_environment
+        @world.active_environment = @env
+        @docs = Array.new(2){@world.new_document}
+        @views = @docs.map{|doc| @env.editor_for! doc}
+        @env.activate_editor @views[1]
+      end
+      
+      it 'sets the active document to nil' do
+        @env.activate_editor nil
+        @world.active_document.should be_nil
+      end
+      
+      it 'emits the the active_document_changed signal passing nil as argument' do
+        mk = flexmock{|m| m.should_receive(:test).with(nil)}
+        @world.connect(SIGNAL('active_document_changed(QObject*)')) do |doc|
+          mk.test doc
+        end
+        @env.activate_editor nil
+      end
+      
     end
     
   end
@@ -621,10 +693,11 @@ describe Ruber::World::World do
       @envs = 2.times.map{|i| @world.environment @prjs[i]}
     end
     
-    it 'returns the value returned by the active project\'s active_document method' do
+    it 'returns the document associated with the active editor' do
       @world.active_environment = @envs[1]
       doc = @world.new_document
-      flexmock(@envs[1]).should_receive(:active_document).once.and_return doc
+      ed = @envs[1].editor_for! doc
+      @envs[1].activate_editor ed
       @world.active_document.should == doc
     end
     

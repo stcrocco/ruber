@@ -45,6 +45,8 @@ Exception raised from {Ruber::World::World#new_project} when the given file alre
       
       attr_reader :active_environment
       
+      attr_reader :active_document
+      
       signals 'active_environment_changed(QObject*)'
       
       signals 'active_environment_changed_2(QObject*, QObject*)'
@@ -61,6 +63,8 @@ Exception raised from {Ruber::World::World#new_project} when the given file alre
       
       signals 'closing_document(QObject*)'
       
+      signals 'active_document_changed(QObject*)'
+      
 
 =begin rdoc
 @param [ComponentManager] manager the component manager (unused)
@@ -72,8 +76,9 @@ Exception raised from {Ruber::World::World#new_project} when the given file alre
         @documents = MutableDocumentList.new []
         @projects = MutableProjectList.new []
         @environments = {}
-        
         initialize_plugin psf
+        @active_environment = nil
+        @active_document = nil
         @document_factory = DocumentFactory.new self
         connect @document_factory, SIGNAL('document_created(QObject*)'), self, SLOT('slot_document_created(QObject*)')
         @project_factory = ProjectFactory.new self
@@ -86,6 +91,7 @@ Exception raised from {Ruber::World::World#new_project} when the given file alre
         unless env
           env = Environment.new(prj)
           connect env, SIGNAL('closing(QObject*)'), self, SLOT('environment_closing(QObject*)')
+          connect env, SIGNAL('active_editor_changed(QWidget*)'), self, SLOT('slot_active_editor_changed(QWidget*)')
           @environments[prj] = env
         end
         env
@@ -175,10 +181,6 @@ file to retrieve the document for
         end
       end
       
-      def active_document
-        @active_environment.active_document if @active_environment
-      end
-      
 =begin rdoc
 Creates a new project
 @param [String] file the absolute path of the project file
@@ -249,6 +251,15 @@ is returned. Otherwise, a new project object is created.
         @environments.each_value{|e| e.tab_widget.tabs_closable = tabs_closable}
       end
       slots :load_settings
+      
+      def slot_active_editor_changed editor
+        doc = editor ? editor.document : nil
+        if doc != @active_document
+          @active_document = doc
+          emit active_document_changed(@active_document)
+        end
+      end
+      slots 'slot_active_editor_changed(QWidget*)'
       
     end
     
