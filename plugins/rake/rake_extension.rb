@@ -81,7 +81,7 @@ default task
       def run_rake task
         params = gather_parameters
         files = @project.files
-        docs= Ruber[:documents].documents_with_file.select{|d| files.include? d.path}
+        docs= Ruber[:world].documents.documents_with_file.select{|d| files.include? d.path}
         return unless Ruber[:autosave].autosave Ruber[:rake], docs, :on_failure => :ask
         ruby, *ruby_opts = Ruber[:rake].ruby_command_for @project, params[:dir]
         params[:ruby_options] = ruby_opts

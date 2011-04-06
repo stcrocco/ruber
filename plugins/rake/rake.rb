@@ -142,8 +142,8 @@ Signal emitted when the rake program started with {#run_rake} has exited
           Ruber[:main_window].change_state 'rake_running', false
         end
         self.connect(SIGNAL(:process_failed_to_start)){Ruber[:main_window].change_state 'rake_running', false}
-        connect Ruber[:projects], SIGNAL('current_project_changed(QObject*)'), self, SLOT(:set_current_target)
-        connect Ruber[:main_window], SIGNAL('current_document_changed(QObject*)'), self, SLOT(:set_current_target)
+        connect Ruber[:world], SIGNAL('active_project_changed(QObject*)'), self, SLOT(:set_current_target)
+        connect Ruber[:world], SIGNAL('active_document_changed(QObject*)'), self, SLOT(:set_current_target)
         connect self, SIGNAL('process_finished(int, QString)'), self, SIGNAL(:rake_finished)
         connect self, SIGNAL('extension_added(QString, QObject*)'), self, SLOT(:set_current_target)
         connect self, SIGNAL('extension_removed(QString, QObject*)'), self, SLOT(:set_current_target)
@@ -437,9 +437,9 @@ it isn't a rakefile
 and there's no open project
 =end
       def find_current_target
-        target = Ruber[:main_window].current_document.project rescue nil
+        target = Ruber[:world].active_document.project rescue nil
         if target.nil? or !target.has_extension? :rake
-          prj = Ruber[:projects].current
+          prj = Ruber[:world].active_project
           target = if prj and prj.has_extension? :rake then prj
           else nil
           end
