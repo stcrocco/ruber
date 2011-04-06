@@ -638,7 +638,7 @@ Method required for the Plugin interface. Does nothing
       end
       file = File.join dir, 'plugin.yaml'
       pdf = PluginSpecification.full file
-      parent = Ruber[:app] rescue self
+      parent = @components[:app] || self #Ruber[:app] rescue self
       comp = pdf.class_obj.new parent, pdf
       emit component_loaded(comp)
       comp

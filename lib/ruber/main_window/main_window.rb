@@ -421,7 +421,7 @@ The toplevel pane corresponding to the given index or editor
   @return [Pane] the toplevel pane containing the given editor
 =end
     def tab arg
-      @environment.tab arg
+      @active_environment.tab arg
     end
     
 =begin rdoc
@@ -618,7 +618,7 @@ The new project will be made active and the existing one (if any) will be closed
         # The following two line should be removed when we'll allow more than one project
         # open at the same time
 #         Ruber[:projects].current_project.close if Ruber[:projects].current_project
-        Ruber[:projects].active_project = prj
+        Ruber[:world].active_project = prj
         prj
       else
         KDE::MessageBox.sorry self, message

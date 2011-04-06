@@ -153,7 +153,7 @@ Replace button
 =end
       def find_replace
         @dlg.clear
-        @dlg.allow_project = Ruber[:projects].current
+        @dlg.allow_project = Ruber[:world].active_project
         @dlg.exec
         case @dlg.action
         when :find then find @dlg.find_text, options_from_dialog
@@ -225,7 +225,7 @@ are saved.
 @return [Boolean] as {Autosave::AutosavePlugin#autosave AutosavePlugin#autosave}
 =end
       def do_autosave places
-        docs = Ruber[:docs].documents_with_file
+        docs = Ruber[:world].documents.documents_with_file
         if places.is_a? String then docs = docs.select{|d| d.path.start_with? places}
         else docs = docs.select{|d| places.include? d.path}
         end
@@ -279,9 +279,9 @@ the following entries:
         opts[:whole_words] = @dlg.whole_words?
         places = case @dlg.places
         when :custom_dir then @dlg.directory
-        when :project_dir then Ruber[:projects].current.project_directory
-        when :project_files then Ruber[:projects].current.project_files.abs.to_a
-        when :open_files then Ruber[:docs].documents_with_file.map{|d| d.path}
+        when :project_dir then Ruber[:world].active_project.project_directory
+        when :project_files then Ruber[:world].active_project.project_files.abs.to_a
+        when :open_files then Ruber[:world].documents.documents_with_file.map{|d| d.path}
         end
         opts[:places] = Array(places)
         opts[:all_files] = @dlg.all_files?

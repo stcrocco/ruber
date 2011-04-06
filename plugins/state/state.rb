@@ -82,10 +82,10 @@ was according to the user preferences.
 =end
       def delayed_initialize
         return unless Ruber[:app].starting?
-        if Ruber[:projects].to_a.empty? and Ruber[:docs].to_a.size == 1 and
-                 Ruber[:docs][0].pristine?
-          restore_last_state
-        end
+#         if Ruber[:projects].to_a.empty? and Ruber[:docs].to_a.size == 1 and
+#                  Ruber[:docs][0].pristine?
+#           restore_last_state
+#         end
         nil
       end
       
@@ -395,9 +395,9 @@ The open projects in a form suitable to be written to a configuration object
   object
 =end
       def projects_state
-        projects = Ruber[:projects].projects.map{|pr| pr.project_file}
+        projects = Ruber[:world].projects.map{|pr| pr.project_file}
         unless projects.empty?
-          active_prj = Ruber[:projects].current
+          active_prj = Ruber[:world].active_document
           projects.unshift projects.delete(active_prj.project_file) if active_prj
         end
         projects
@@ -412,7 +412,7 @@ The open documents in a form suitable to be written to a configuration object
   entry in a project or configuration object
 =end
       def documents_state
-        docs = Ruber[:documents].documents
+        docs = Ruber[:world].documents
         docs.map{ |doc| doc.has_file? ? doc.url.to_encoded.to_s : nil}
       end
 
@@ -438,7 +438,7 @@ The open tabs configuration in a form suitable to be written to a configuration 
         res = {}
         doc_map = {}
         doc_idx = 0
-        Ruber[:documents].each do |doc|
+        Ruber[:world].documents.each do |doc|
           if !doc.has_file?
             doc_map[doc] = doc_idx
             doc_idx += 1

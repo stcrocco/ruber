@@ -368,7 +368,7 @@ Return the project with wider scope the document belongs to. This is:
   associated with a file or the file doesn't belong the global project
 =end
     def project
-      prj = Ruber[:projects].current
+      prj = Ruber[:world].active_project
       return @project if path.empty? or !prj
       prj.project_files.file_in_project?(url.to_encoded.to_s) ? prj : @project
     end
@@ -483,7 +483,7 @@ encoding here is set to UTF-8 if using ruby 1.9 and to ISO-8859-1 if using ruby
 =end
     def document_save_as
       enc = RUBY_VERSION.match(/1\.9/) ? 'UTF-8' : 'ISO-8859-1'
-      prj = Ruber[:projects].current
+      prj = Ruber[:world].active_project
       path = if !self.path.empty? then self.path
       elsif prj then prj.project_directory
       else ''

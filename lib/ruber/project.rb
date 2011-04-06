@@ -367,7 +367,7 @@ AbstractProject::InvalidProjectFile will be raised.
       rescue YamlSettingsBackend::InvalidSettingsFile => e
         raise Ruber::AbstractProject::InvalidProjectFile, e.message
       end
-      super Ruber[:projects], back, name
+      super Ruber[:world], back, name
     end
     
 =begin rdoc

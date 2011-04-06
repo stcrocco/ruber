@@ -359,7 +359,7 @@ Items corresponding to successful replacements are removed from the view.
       def replace
         failed = {}
         success = []
-        docs = Ruber[:docs].documents_with_file.map{|d| [d.path, d]}.to_h
+        docs = Ruber[:world].documents.documents_with_file.map{|d| [d.path, d]}.to_h
         model.each_row.each_with_index do |r, i|
           if r[0].checked?
             res = replace_file r[0], docs[r[0].text]

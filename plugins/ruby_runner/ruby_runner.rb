@@ -355,8 +355,8 @@ to it
         when Document
           cont << (ignore_project ? (target.own_project) : target.project)
         when String
-          if !ignore_project and Ruber[:projects].project_for_file target
-            cont << Ruber[:projects].current
+          if !ignore_project and Ruber[:world].projects.project_for_file target
+            cont << Ruber[:world].active_project
           end
         end
         cont << Ruber[:config]

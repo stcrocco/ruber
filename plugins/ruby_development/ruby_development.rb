@@ -156,7 +156,7 @@ started correctly or not.
 @see #run_file  
 =end
       def run
-        if Ruber[:projects].current then run_project
+        if Ruber[:world].active_project then run_project
         elsif (doc = Ruber[:main_window].current_document) then run_document doc
         else run_file
         end
@@ -259,7 +259,7 @@ was started. If the user pressed the Cancel button of the dialog, *nil* is retur
           file = url.to_encoded.to_s
         end
         
-        if doc = Ruber[:docs].document_for_url(url)
+        if doc = Ruber[:world].documents.document_for_url(url)
          return run_document doc 
         end
         

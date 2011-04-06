@@ -489,7 +489,7 @@ associated to it and gives focus to it.
 =end
     def switch_to_new_document
       old = active_editor
-      ed = replace_editor old, Ruber[:documents].new_document
+      ed = replace_editor old, Ruber[:world].new_document
       focus_on_editor ed if ed
     end
     slots :switch_to_new_document
@@ -609,7 +609,7 @@ will be done
     def change_active_project act
       #object_name returns nil instead of an empty string if not set
       match = (act.object_name || '').match(/projects-activate_project-project_file_(.*)$/)
-      prj = match ? Ruber[:projects][match[1]] : nil
+      prj = match ? Ruber[:world].projects[match[1]] : nil
       Ruber[:world].active_project = prj
       prj
     end

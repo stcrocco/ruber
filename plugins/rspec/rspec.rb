@@ -144,7 +144,7 @@ to find out whether the file is a spec file or not.
 @return [Boolean,nil] wheter or not _file_ is a spec file for the given project
   or *nil* if no project was specified and there's no open project
 =end
-      def spec_file? file, prj = Ruber[:projects].current
+      def spec_file? file, prj = Ruber[:world].active_project
         return nil unless prj
         dir = prj[:rspec, :spec_directory, :absolute]
         return false unless file.start_with? dir
@@ -306,7 +306,7 @@ Runs all the specs for the project.
 @return [nil]
 =end
       def run_all
-        prj = Ruber[:projects].current_project
+        prj = Ruber[:world].active_project
         unless prj
           KDE::MessageBox.error nil, "You must have an open project to choose this entry.\nYOU SHOULD NEVER SEE THIS MESSAGE"
           return
@@ -337,7 +337,7 @@ which, most likely, will cause it to fail.
 (including the case when the process was already running or autosaving failed)
 =end
       def run_current what = :all
-        prj = Ruber[:projects].current_project
+        prj = Ruber[:world].active_project
         unless prj
           KDE::MessageBox.error nil, "You must have an open project to choose this entry.\nYOU SHOULD NEVER SEE THIS MESSAGE"
           return
@@ -451,7 +451,7 @@ It does nothing if the file corresponding to the current document isn't found
 =end
       def switch
         file = Ruber[:main_window].current_document.path
-        prj = Ruber[:projects].current_project
+        prj = Ruber[:world].active_project
         if spec_file? file, prj then switch_to = file_for_spec prj, file
         else switch_to = specs_for_file(options(prj), file)[0]
         end

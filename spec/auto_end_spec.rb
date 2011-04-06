@@ -71,7 +71,7 @@ describe Ruber::AutoEnd::Extension do
   before do
     Ruber[:components].load_plugin 'plugins/auto_end/'
     @file = Tempfile.new ['auto_end_test', '.rb']
-    @doc = Ruber[:documents].document @file.path
+    @doc = Ruber[:world].document @file.path
     @ext = @doc.extension(:auto_end)
   end
   
