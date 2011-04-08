@@ -213,6 +213,18 @@ is returned. Otherwise, a new project object is created.
         @project_factory.project file
       end
       
+      def save_settings
+        @documents.each{|doc| doc.save_settings}
+        @projects.each{|prj| prj.save_settings}
+      end
+      
+      def query_close
+        @documents.each{|doc| return false unless doc.own_project.query_close}
+        return false unless Ruber[:main_window].save_documents @documents.to_a
+        @projects.each{|prj| return false unless prj.query_close}
+        true
+      end
+      
       private
       
       def environment_closing env

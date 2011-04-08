@@ -913,4 +913,104 @@ describe Ruber::World::World do
     
   end
   
+  describe '#save_settings' do
+    
+    after do
+      Ruber[:world].projects.dup.each{|prj| prj.close false}
+    end
+    
+    it 'calls the #save_settings method of each document' do
+      docs = Array.new(5){@world.new_document}
+      docs.each{|doc| flexmock(doc).should_receive(:save_settings).once}
+      @world.save_settings
+    end
+    
+    it 'calls the #save_settings method of each project' do
+      files = Array.new(5)do 
+        file = Tempfile.new ['', '.ruprj']
+        file.write YAML.dump(:general => {:project_name => random_string(10)})
+        file.flush
+        file
+      end
+      projects = files.map do |f|
+        prj = Ruber[:world].project f.path
+        flexmock(prj).should_receive(:save_settings).once
+        prj
+      end
+      @world.save_settings
+    end
+    
+  end
+  
+  describe '#query_close' do
+    
+    before do
+      @docs = Array.new(5){@world.new_document}
+      @docs.each{|doc| flexmock(doc.own_project).should_receive(:query_close).by_default.and_return(true)}
+      flexmock(Ruber[:main_window]).should_receive(:save_documents).and_return(true).by_default
+      files = Array.new(5)do 
+        file = Tempfile.new ['', '.ruprj']
+        file.write YAML.dump(:general => {:project_name => random_string(10)})
+        file.flush
+        file
+      end
+      @projects = files.map do |f|
+        prj = Ruber[:world].project f.path
+        flexmock(prj).should_receive(:query_close).by_default.and_return(:true)
+        prj
+      end
+    end
+    
+    after do
+      #needed to avoid callinf main_window#save settings when closing projects
+      flexmock(Ruber[:main_window]).should_receive(:save_documents).and_return true
+      Ruber[:world].projects.dup.each{|prj| prj.close false}
+    end
+    
+    it 'calls the query_close method of the project associated with each document' do
+      @docs.each do |doc|
+        flexmock(doc.own_project).should_receive(:query_close).once.and_return true
+      end
+      @world.query_close
+    end
+    
+    it 'returns false if the query_close method of a project associated with a document returns false' do
+      @docs.each_with_index do |doc, i|
+        res = (i !=3)
+        flexmock(doc.own_project).should_receive(:query_close).and_return res
+      end
+      @world.query_close.should == false
+    end
+    
+    it 'calls the save_documents method of the main window' do
+      flexmock(Ruber[:main_window]).should_receive(:save_documents).once.with(@docs).and_return false
+      @world.query_close
+    end
+    
+    it 'returns false if the main window\'s save_documents method returns false' do
+      flexmock(Ruber[:main_window]).should_receive(:save_documents).once.with(@docs).and_return false
+      @world.query_close.should == false
+    end
+    
+    it 'calls the query_close method of each project' do
+      @projects.each do |prj|
+        flexmock(prj).should_receive(:query_close).once.and_return true
+      end
+      @world.query_close
+    end
+    
+    it 'returns false if the query_close method of a project returns false' do
+      @projects.each_with_index do |prj, i|
+        res = (i !=3)
+        flexmock(prj).should_receive(:query_close).and_return res
+      end
+      @world.query_close.should == false
+    end
+    
+    it 'returns true if the documents\' and projects\' query_close method and the main window\'s save_documents methods all return true' do
+      @world.query_close.should == true
+    end
+    
+  end
+  
 end
