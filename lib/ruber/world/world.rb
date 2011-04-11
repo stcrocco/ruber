@@ -213,6 +213,14 @@ is returned. Otherwise, a new project object is created.
         @project_factory.project file
       end
       
+      def close_all what, save_behaviour
+        close_docs = (what == :all || what == :documents)
+        close_prjs = (what == :all || what == :projects)
+        save = save_behaviour == :save
+        @projects.dup.each{|prj| prj.close save} if close_prjs
+        @documents.dup.each{|doc| doc.close save} if close_docs
+      end
+      
       def save_settings
         @documents.each{|doc| doc.save_settings}
         @projects.each{|prj| prj.save_settings}

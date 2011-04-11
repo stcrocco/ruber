@@ -364,6 +364,13 @@ describe Ruber::World::World do
       prj.close(false)
     end
     
+    it 'removes the project from the list of projects' do
+      file = File.join Dir.tmpdir, 'world_closing_project_test.ruprj'
+      prj = @world.new_project file, 'Test'
+      prj.close(false)
+      p @world.projects
+    end
+    
   end
   
   describe '#environment' do
@@ -1010,6 +1017,180 @@ describe Ruber::World::World do
     it 'returns true if the documents\' and projects\' query_close method and the main window\'s save_documents methods all return true' do
       @world.query_close.should == true
     end
+    
+  end
+  
+  describe '#close_all' do
+    
+    before do
+      @projects = Array.new(3) do |i|
+        @world.new_project File.join(Dir.tmpdir, "#{random_string}.ruprj"), "Test #{i}" 
+      end
+      @docs = Array.new(5){@world.new_document}
+    end
+    
+    context 'when called the first argument is :all' do
+      
+      context 'if the second argument is :save' do
+        
+        before do
+          @projects.each{|prj| flexmock(prj).should_receive(:close).by_default}
+          @docs.each do |doc|
+            flexmock(doc).should_receive(:close).by_default
+          end
+        end
+        
+        it 'calls the close method of each project passing true as argument' do
+          @projects.each do |prj|
+            flexmock(prj).should_receive(:close).with(true).once
+          end
+          @world.close_all :all, :save
+        end
+        
+        it 'calls the close method of each document passing true as argument' do
+          @docs.each do |doc|
+            flexmock(doc).should_receive(:close).with(true).once
+          end
+          @world.close_all :all, :save
+        end
+        
+      end
+      
+      context 'if the second argument is :discard' do
+        
+        before do
+          @projects.each{|prj| flexmock(prj).should_receive(:close).by_default}
+          @docs.each do |doc|
+            flexmock(doc).should_receive(:close).by_default
+          end
+        end
+        
+        it 'calls the close method of each project passing false as argument' do
+          @projects.each do |prj|
+            flexmock(prj).should_receive(:close).with(false).once
+          end
+          @world.close_all :all, :discard
+        end
+        
+        it 'calls the close method of each document passing false as argument' do
+          @docs.each do |doc|
+            flexmock(doc).should_receive(:close).with(false).once
+          end
+          @world.close_all :all, :discard
+        end
+        
+      end
+      
+    end
+    
+    context 'when called the first argument is :projects' do
+      
+      context 'if the second argument is :save' do
+        
+        before do
+          @projects.each{|prj| flexmock(prj).should_receive(:close).by_default}
+          @docs.each do |doc|
+            flexmock(doc).should_receive(:close).by_default
+          end
+        end
+        
+        it 'calls the close method of each project passing true as argument' do
+          @projects.each do |prj|
+            flexmock(prj).should_receive(:close).with(true).once
+          end
+          @world.close_all :projects, :save
+        end
+        
+        it 'doesn\'t close the documents' do
+          @docs.each do |doc|
+            flexmock(doc).should_receive(:close).never
+          end
+          @world.close_all :projects, :save
+        end
+        
+      end
+      
+      context 'if the second argument is :discard' do
+        
+        before do
+          @projects.each{|prj| flexmock(prj).should_receive(:close).by_default}
+          @docs.each do |doc|
+            flexmock(doc).should_receive(:close).by_default
+          end
+        end
+        
+        it 'calls the close method of each project passing false as argument' do
+          @projects.each do |prj|
+            flexmock(prj).should_receive(:close).with(false).once
+          end
+          @world.close_all :projects, :discard
+        end
+        
+        it 'doesn\'t close the documents' do
+          @docs.each do |doc|
+            flexmock(doc).should_receive(:close).never
+          end
+          @world.close_all :projects, :discard
+        end
+        
+      end
+      
+    end
+    
+    context 'when called the first argument is :documents' do
+      
+      context 'if the second argument is :save' do
+        
+        before do
+          @projects.each{|prj| flexmock(prj).should_receive(:close).by_default}
+          @docs.each do |doc|
+            flexmock(doc).should_receive(:close).by_default
+          end
+        end
+        
+        it 'doesn\'t close projects' do
+          @projects.each do |prj|
+            flexmock(prj).should_receive(:close).never
+          end
+          @world.close_all :documents, :save
+        end
+        
+        it 'calls the close method of each document passing true as argument' do
+          @docs.each do |doc|
+            flexmock(doc).should_receive(:close).with(true).once
+          end
+          @world.close_all :documents, :save
+        end
+        
+      end
+      
+      context 'if the second argument is :discard' do
+        
+        before do
+          @projects.each{|prj| flexmock(prj).should_receive(:close).by_default}
+          @docs.each do |doc|
+            flexmock(doc).should_receive(:close).by_default
+          end
+        end
+        
+        it 'doesn\'t close the projects' do
+          @projects.each do |prj|
+            flexmock(prj).should_receive(:close).never
+          end
+          @world.close_all :documents, :discard
+        end
+        
+        it 'calls the close method of each document passing false as argument' do
+          @docs.each do |doc|
+            flexmock(doc).should_receive(:close).with(false).once
+          end
+          @world.close_all :documents, :discard
+        end
+        
+      end
+      
+    end
+    
     
   end
   
