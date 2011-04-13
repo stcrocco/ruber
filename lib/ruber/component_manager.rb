@@ -805,7 +805,9 @@ Method required for the Plugin interface. Does nothing
 =end
     def unload_plugin name
       plug = @components[name]
-      raise ArgumentError, "A component can't be unloaded" unless plug.is_a?(Plugin)
+      if plug.nil? then raise ArgumentError, "No plugin with name #{name}"
+      elsif !plug.is_a?(Plugin) then raise ArgumentError, "A component can't be unloaded"
+      end
 #       plug.save_settings
       plug.plugin_description.features.each do |f|
         emit method("unloading_#{f}").call( plug )

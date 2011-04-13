@@ -1093,6 +1093,10 @@ describe 'Ruber::ComponentManager#unload_plugin' do
     @manager.instance_variable_get(:@components).keys.map(&:to_s).should =~ [:p0, :p2, :c0, :c1, :components].map(&:to_s)
   end
   
+  it 'raises ArgumentError if there\'s no plugin with that name' do
+    lambda{@manager.unload_plugin(:xyz)}.should raise_error(ArgumentError, "No plugin with name xyz")
+  end
+  
   it 'should raise ArgumentError if the name corresponds to a component instead of a plugin' do
     lambda{@manager.unload_plugin(:c1)}.should raise_error(ArgumentError, "A component can't be unloaded")
   end
