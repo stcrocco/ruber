@@ -537,7 +537,8 @@ It does nothing if the splitter is already in single view mode
       keeping_focus view do
         @view = view
         @view.parent = self unless @view.parent == self
-        @splitter.each{|w| w.disconnect SIGNAL('closing_last_view(QWidget*)'), self, SLOT('remove_pane(QWidget*)')}
+        @splitter.each{|w| take_pane w}
+#         @splitter.each{|w| w.disconnect SIGNAL('closing_last_view(QWidget*)'), self, SLOT('remove_pane(QWidget*)')}
         layout.remove_widget @splitter
         layout.insert_widget 0, @view
         self.label = label
