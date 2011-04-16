@@ -111,8 +111,6 @@ When the project is created, it's not active.
     def initialize parent, backend, name = nil
       super(parent)
       @active = false
-      Ruber[:components].named_connect(SIGNAL('component_loaded(QObject*)'), "register_component_with_project #{object_id}"){|c| c.register_with_project self}
-      Ruber[:components].named_connect(SIGNAL('unloading_component(QObject*)'), "remove_component_from_project #{object_id}"){|c| c.remove_from_project self}
       @project_file = backend.file
       setup_container backend, project_dir
       @dialog_class = ProjectDialog
@@ -130,6 +128,8 @@ When the project is created, it's not active.
         raise InvalidProjectFile, "You need to specify a project name for a new project"
       end
       @project_extensions = {}
+      Ruber[:components].named_connect(SIGNAL('component_loaded(QObject*)'), "register_component_with_project #{object_id}"){|c| c.register_with_project self}
+      Ruber[:components].named_connect(SIGNAL('unloading_component(QObject*)'), "remove_component_from_project #{object_id}"){|c| c.remove_from_project self}
       Ruber[:components].each_component{|c| c.register_with_project self}
     end
     
