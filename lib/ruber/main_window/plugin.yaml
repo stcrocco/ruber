@@ -68,5 +68,3 @@ actions:
  window-next_vertically: {text: Next View Vertically, slot: move_among_views(), state: current_document, shortcut: Ctrl+Alt+PgDown}
  window-previous_horizontally: {text: Previous View Horizontally, slot: move_among_views(), state: current_document, shortcut: Ctrl+Alt+Left}
  window-previous_vertically: {text: Previous View Vertically, slot: move_among_views(), state: current_document, shortcut: Ctrl+Alt+PgUp}
-extensions:
- ruber_default_document: {class: Ruber::Application::DefaultDocumentExtension, scope: document, place: all}
