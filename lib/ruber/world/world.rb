@@ -223,7 +223,7 @@ is returned. Otherwise, a new project object is created.
       
       def save_settings
         @documents.each{|doc| doc.save_settings}
-        @projects.each{|prj| prj.save_settings}
+        @projects.each{|prj| prj.save}
       end
       
       def query_close

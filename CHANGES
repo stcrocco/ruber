@@ -4,10 +4,13 @@ h2. Ruber 0.0.9
 
 h3. Features
 
+* Allowed more than one project open at the same time
+
+* Separated files opened for a project from those opened for other projects and
+  from those opened outside any project
+
 * Made the Auto End plugin recognize some other keywords: @unless@, @for@, @while@,
   @until@ (the last two were already recognized when followed by a @do@)
-  
-* Added environments
 
 h2. Ruber 0.0.8
 

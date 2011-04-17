@@ -117,6 +117,9 @@ is the plugin description for this object.
       
       connect Ruber[:world], SIGNAL('project_created(QObject*)'), self, SLOT(:update_active_project_menu)
       connect Ruber[:world], SIGNAL('closing_project(QObject*)'), self, SLOT('update_active_project_menu(QObject*)')
+      Ruber[:world].connect SIGNAL('active_project_changed(QObject*)') do |prj|
+        @active_environment = Ruber[:world].environment prj
+      end
       setup_GUI
       create_shell_GUI true
       

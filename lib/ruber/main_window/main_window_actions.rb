@@ -64,13 +64,13 @@ user will become active
 @return [Array<EditorView>] a list of the editors used for the files
 =end
     def open_file
-      dir = KDE::Url.from_path(Ruber.current_project.project_directory) rescue KDE::Url.new
+      dir = KDE::Url.from_path(@active_environment.project.project_directory) rescue KDE::Url.new
       filenames = KDE::FileDialog.get_open_urls(dir, OPEN_DLG_FILTERS.join("\n") , self)
 #       editors = []
 #       without_activating do
       editors = filenames.map{|f| gui_open_file(f, false)}
 #       end
-      editors[-1].set_focus
+      editors[-1].set_focus unless editors.empty?
       editors
     end
     
@@ -184,6 +184,7 @@ given URL
     def open_recent_project url
       prj = safe_open_project url.path
       return unless prj
+      Ruber[:world].active_project = prj
       action_collection.action('project-open_recent').add_url url, url.file_name
       prj
     end
@@ -202,6 +203,8 @@ It opens the project chosen by the user using an open dialog
         KDE::i18n('Open project')
       return unless filename
       prj = safe_open_project filename
+      return unless prj
+      Ruber[:world].active_project = prj
       url = KDE::Url.new prj.project_file
       action_collection.action('project-open_recent').add_url url, url.file_name
       prj
@@ -504,7 +507,7 @@ the active editor with a new one associated with the document and gives focus to
 @return [EditorView] the newly created editor
 =end
     def switch_to_file
-      dir = KDE::Url.from_path(Ruber.current_project.project_directory) rescue KDE::Url.new
+      dir = KDE::Url.from_path(@active_environment.project.project_directory) rescue KDE::Url.new
       filename = KDE::FileDialog.get_open_url(dir, OPEN_DLG_FILTERS.join("\n") , self)
       return unless filename.valid?
       Ruber::Application.process_events

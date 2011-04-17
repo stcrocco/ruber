@@ -28,6 +28,8 @@ describe Ruber::World::World do
     Ruber[:config].remove_setting :workspace, :close_buttons
     @psf = Ruber::PluginSpecification.full  File.expand_path('lib/ruber/world/plugin.yaml')
     @world = Ruber::World::World.new Ruber[:components], @psf
+    #remove the default document from the game
+    @world.default_environment.documents[0].close
   end
     
   it 'includes Ruber::PluginLike' do
@@ -938,7 +940,7 @@ describe Ruber::World::World do
       @world.save_settings
     end
     
-    it 'calls the #save_settings method of each project' do
+    it 'calls the #save method of each project' do
       files = Array.new(5)do 
         file = Tempfile.new ['', '.ruprj']
         file.write YAML.dump(:general => {:project_name => random_string(10)})
@@ -947,7 +949,7 @@ describe Ruber::World::World do
       end
       projects = files.map do |f|
         prj = Ruber[:world].project f.path
-        flexmock(prj).should_receive(:save_settings).once
+        flexmock(prj).should_receive(:save).once
         prj
       end
       @world.save_settings

@@ -178,7 +178,7 @@ started successfully.
 @see #run_ruby_for
 =end
       def run_project
-        prj = Ruber.current_project
+        prj = Ruber[:world].active_project
         data = prj[:ruby]
         prog = Pathname.new(data[:main_program, :abs])
         wdir = Pathname.new(data[:working_dir, :abs]||prj.project_dir)
