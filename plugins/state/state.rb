@@ -51,15 +51,174 @@ user preferences) when the application starts up.
 =end
   module State
     
+    module EnvironmentState
+      
+=begin rdoc
+The open tabs configuration in a form suitable to be written to a configuration object
+
+@return [Hash] A hash containing the following keys:
+ * @:tabs@: an array of arrays, with each inner array representing one tab, with
+  the format described in {#restore_pane}. This value is the one to write under
+  the @state/tabs@ entry in a project or configuration object
+ * @:cursor_positions@:an array of arrays. Each inner array corresponds to a tab
+  and contains the cursor position of each view. Each cursor position is represented
+  as an array with two elements: the first is the line, the second is the column.
+  The order the views are is the same used by {Pane#each_view}. This value is the one to write under
+  the @state/cursor_positions@ entry in a project or configuration object
+ * @:active_view@: the active view. It is represented by a size 2 array, with the
+  first element being the index of the tab of the active view and the second being
+  the index of the view in the corresponding pane (according to the order used by
+  {Pane#each_view}). If there's no active view, this entry is *nil*. This is the value to write under
+  the @state/active_view@ entry in a project or configuration object
+=end
+      def tabs_state env
+        res = {}
+        doc_map = {}
+        doc_idx = 0
+        env.documents.each do |doc|
+          if !doc.has_file?
+            doc_map[doc] = doc_idx
+            doc_idx += 1
+          end
+        end
+        tabs = env.tabs
+        tabs_tree = []
+        cursor_positions = []
+        tabs.each do |t|
+          tabs_tree << tab_to_tree(t, doc_map)
+          cursor_positions << t.map do |v|
+            pos = v.cursor_position
+            [pos.line, pos.column]
+          end
+        end
+        res[:tabs] = tabs_tree
+        res[:cursor_positions] = cursor_positions
+        active = env.views[0]
+        if active
+          active_tab = env.tab(active)
+          res[:active_view] = [tabs.index(active_tab), active_tab.to_a.index(active)]
+        end
+        res
+      end
+      
+      def restore_environment env, data
+        unnamed_docs = []
+        data[:tabs].each_with_index do |t, i|
+          restore_tab env, t, data[:cursor_positions][i] || [], unnamed_docs
+        end
+        active_editor = data[:active_view]
+        if active_editor
+          env.activate_editor env.tabs[active_editor[0]].to_a[active_editor[1]]
+        end
+      end
+      
+=begin rdoc
+Restores a pane
+
+Restoring a pane means creating the editors which were contained in the pane,
+in the correct disposition.
+
+The contents of the pane are described by the array _data_, which has the following
+format:
+
+* if it has a single element, the corresponding pane contains only a view. If the
+  element is a string, it must represent the URL of the document the view is associated
+  with. If it is a number, it means the view is associated with a document which
+  hasn't been saved
+* if it has more than one element, it means that the pane contains more than one
+  view. The first element represents the orientation of the pane and can be either
+  @Qt::Horizontal@ or @Qt::Vertical@. The other elements can be either strings,
+  numbers or arrays. A string or number means, as above, the URL of the document
+  associated with the view or a document which isn't associated with a file. An
+  array (which should have the same format as this) means a sub pane
+@param [Array] data the array containing the description of the contents of the
+  pane
+@param [Array<Document>] docs the document not associated with files to use for
+  the numeric entries of _data_. A number _n_ in _data_ means to use the entry
+  _n_ in _docs_
+@return [Pane] the new pane
+=end
+      def restore_tab env, tab, cursor_positions, unnamed_docs
+        find_first_view = lambda do |array|
+          if array.size == 1 then array[0]
+          elsif array[1].is_a? Array then find_first_view.call array[1]
+          else array[1]
+          end
+        end
+        recreate_pane = lambda do |pn, array|
+          orientation = array[0]
+          last_view = pn.view
+          array.each_with_index do |e, i|
+            #the first element of the array is the orientation; the second is
+            #the first view, which is already contained in the pane
+            next if i < 2 
+            view = e.is_a?(Array) ? find_first_view.call(e) : e
+            if view.is_a?(String) 
+              doc = Ruber[:world].document(KDE::Url.new(view))
+            else doc = unnamed_docs[view] ||= Ruber[:world].new_document
+            end
+            view = doc.create_view
+            pn.split last_view, view, orientation
+            last_view = view
+            recreate_pane.call view.parent, e if e.is_a? Array
+          end
+          recreate_pane.call pn.splitter.widget(0), array[1] if array[1].is_a?(Array)
+        end
+        view = find_first_view.call tab
+        if view.is_a?(String) 
+          doc = Ruber[:world].document(KDE::Url.new(view))
+        else doc = unnamed_docs[view] ||= Ruber[:world].new_document
+        end
+        view = env.editor_for! doc, :existing => :never, :new => :new_tab
+        pane = view.parent
+        recreate_pane.call pane, tab
+        pane.views.each_with_index do |v, i|
+          pos = cursor_positions[i]
+          v.go_to *pos if pos
+        end
+        pane
+      end
+      
+      private
+      
+=begin rdoc
+A representation of a pane's configuration suitable to be written to a configuration
+object
+
+@param [Pane] pane the pane to return the representation for
+@param [Hash{Document=>Integer}] docs a map between documents not associated
+  with files and the number to represent them
+@return [Array<Array,Integer,String>] an array as described in {#restore_pane}
+=end
+      def tab_to_tree pane, docs
+        if pane.single_view?
+          doc = pane.view.document
+          return [doc.has_file? ? doc.url.url : docs[doc]]
+        end
+        panes = {}
+        tab_to_tree_prc = lambda do |pn|
+          if pn.single_view?
+            doc = pn.view.document
+            panes[pn.parent_pane] << (doc.has_file? ? doc.url.url : docs[doc])
+          else 
+            data = [pn.orientation]
+            panes[pn] = data
+            panes[pn.parent_pane] << data if pn.parent_pane
+          end
+        end
+        tab_to_tree_prc.call pane
+        pane.each_pane :recursive, &tab_to_tree_prc
+        panes[pane]
+      end
+      
+    end
+    
 =begin rdoc
 Plugin object for the State plugin
-
-@api_method #with
-@api_method #restore
-@api_method #restore_document
-@api_method #restore_project
 =end
     class Plugin < Ruber::Plugin
+      
+      include EnvironmentState
       
 =begin rdoc
 @param [Ruber::PluginSpecification] psf the plugin specification object associated
@@ -82,10 +241,11 @@ was according to the user preferences.
 =end
       def delayed_initialize
         return unless Ruber[:app].starting?
-#         if Ruber[:projects].to_a.empty? and Ruber[:docs].to_a.size == 1 and
-#                  Ruber[:docs][0].pristine?
-#           restore_last_state
-#         end
+        docs = Ruber[:world].documents
+        if Ruber[:world].projects.empty? and docs.size == 1 and docs[0].pristine?
+          Ruber[:app].sessionRestored? ? restore_last_state(:force) : restore_last_state
+        end
+        connect Ruber[:world], SIGNAL('project_created(QObject*)'), self, SLOT('restore_project(QObject*)')
         nil
       end
       
@@ -170,17 +330,19 @@ Restores the given document
         doc.extension(:state).restore
       end
 
-=begin rdoc
-Restores the given global project
-
-@see ProjectExtension#restore ProjectExtension#restore for more information
-
-@param [Ruber::Project] prj the document to restore
-@return [nil]
-=end
       def restore_project prj
-        prj.extension(:state).restore
+        prx = prj[:state]
+        data = {
+          :tabs => prx[:tabs],
+          :cursor_positions => prx[:cursor_positions],
+          :active_view => prx[:active_view]
+        }
+        env = Ruber[:world].environment(prj)
+        if Ruber[:config][:state, :restore_projects] and env.tabs.count == 0
+          restore_environment env, data
+        end
       end
+      slots 'restore_project(QObject*)'
       
 =begin rdoc
 Restores the open projects according to a given configuration object
@@ -204,111 +366,6 @@ for more information
           Ruber[:projects].current_project = prj if prj
         end
         nil
-      end
-
-=begin rdoc
-Restores the open documents according to a given configuration object
-
-Restoring the open documents means:
-* closing all the open documents. If any of thess is modified, the user is asked
-  how to proceed. If the choses to abort, nothing else is done
-* opening the documents according to the @state/open_documents@ entry of _conf_
-* recreating the tabs and the editors according to the @state/tabs@ entry of _conf_
-* activating the editor contained in the @state/active_editor@ entry of _conf_
-
-This method is called both when the session is restored and when ruber starts
-up (if the user chose so).
-
-@param [#[Symbol, Symbol]] conf the object from which to read the state. See {#restore}
-for more information
-@return [nil]
-=end
-      def restore_documents config = Ruber[:config]
-#         return unless Ruber[:documents].close_all
-        docs = config[:state, :open_documents]
-        unnamed_docs = []
-        docs = docs.map do |i| 
-          if i.is_a?(String) then Ruber[:documents].document(i)
-          else 
-            doc = Ruber[:documents].new_document
-            unnamed_docs << doc
-            doc
-          end
-        end
-        return if docs.empty?
-        tabs = config[:state, :tabs]
-        mw = Ruber[:main_window]
-        positions = config[:state, :cursor_positions]
-        tabs.each_with_index do |t, i| 
-          pn = restore_pane t, unnamed_docs
-          views = pn.to_a
-          views.each_with_index do |v, j|
-            cursor = KTextEditor::Cursor.new(*(positions[i][j] rescue [0,0]))
-            v.cursor_position = cursor
-          end
-        end
-        active_editor = config[:state, :active_view]
-        if active_editor
-          mw.focus_on_editor mw.tabs[active_editor[0]].to_a[active_editor[1]]
-        end
-      end
-      
-=begin rdoc
-Restores a pane
-
-Restoring a pane means creating the editors which were contained in the pane,
-in the correct disposition.
-
-The contents of the pane are described by the array _data_, which has the following
-format:
-
-* if it has a single element, the corresponding pane contains only a view. If the
-  element is a string, it must represent the URL of the document the view is associated
-  with. If it is a number, it means the view is associated with a document which
-  hasn't been saved
-* if it has more than one element, it means that the pane contains more than one
-  view. The first element represents the orientation of the pane and can be either
-  @Qt::Horizontal@ or @Qt::Vertical@. The other elements can be either strings,
-  numbers or arrays. A string or number means, as above, the URL of the document
-  associated with the view or a document which isn't associated with a file. An
-  array (which should have the same format as this) means a sub pane
-@param [Array] data the array containing the description of the contents of the
-  pane
-@param [Array<Document>] docs the document not associated with files to use for
-  the numeric entries of _data_. A number _n_ in _data_ means to use the entry
-  _n_ in _docs_
-@return [Pane] the new pane
-=end
-      def restore_pane data, docs
-        mw = Ruber[:main_window]
-        find_first_view = lambda do |array|
-          if array.size == 1 then array[0]
-          elsif array[1].is_a? Array then find_first_view.call array[1]
-          else array[1]
-          end
-        end
-        recreate_pane = lambda do |pn, array|
-          orientation = array[0]
-          last_view = pn.view
-          array.each_with_index do |e, i|
-            #the first element of the array is the orientation; the second is
-            #the first view, which is already contained in the pane
-            next if i < 2 
-            view = e.is_a?(Array) ? find_first_view.call(e) : e
-            view = mw.editor_for! view.is_a?(String) ? view: docs[view], 
-                        :existing => :never, :show => false
-            pn.split last_view, view, orientation
-            last_view = view
-            recreate_pane.call view.parent, e if e.is_a? Array
-          end
-          recreate_pane.call pn.splitter.widget(0), array[1] if array[1].is_a?(Array)
-        end
-        view = find_first_view.call data
-        view = mw.editor_for! view.is_a?(String) ? view : docs[view], 
-                      :existing => :never, :new => :new_tab
-        pane = view.parent
-        recreate_pane.call pane, data
-        pane
       end
       
 =begin rdoc
@@ -335,12 +392,34 @@ The state information is read from the global configuration object.
 
 @return [nil]
 =end
-      def restore_last_state
-        case Ruber[:config][:state, :startup_behaviour]
-        when :restore_all then restore
-        when :restore_projects_only
-          with(:restore_project_files => false){restore_projects}
-        when :restore_documents_only then restore_documents
+      def restore_last_state mode = nil
+        force = mode == :force
+        cfg = Ruber[:config][:state]
+        if force or cfg[:startup_behaviour].include? :default_environment
+          default_env_data = {
+            :tabs => cfg[:default_environment_tabs],
+            :active_view => cfg[:default_environment_active_view],
+            :cursor_positions => cfg[:default_environment_cursor_positions]
+          }
+          restore_environment Ruber[:world].default_environment, default_env_data
+        end
+        active_prj = nil
+        if force || cfg[:startup_behaviour].include?(:projects)
+          cfg[:last_state].each_with_index do |f, i|
+            next if f.nil?
+            begin prj = Ruber[:world].project f
+            rescue Ruber::AbstractProject::InvalidProjectFile
+              next
+            end
+            active_prj = prj if i == 0
+            data = {
+              :tabs => prj[:state, :tabs],
+              :cursor_positions => prj[:state, :cursor_positions],
+              :active_view => prj[:state, :active_view]
+            }
+            restore_environment Ruber[:world].environment(prj), data
+          end
+          Ruber[:world].active_project = active_prj
         end
       end
       
@@ -369,11 +448,23 @@ Saves Ruber's state to the global config object
 @return [nil]
 =end
       def save_settings
-        h = gather_settings
-        cfg = Ruber[:config]
-        h.each_pair do |k, v| 
-          cfg[:state, k] = v
+        files = Ruber[:world].environments.map do |e|
+          prj = e.project
+          prj ? prj.project_file : nil
         end
+        active_env = Ruber[:world].active_environment
+        if active_env and active_env.project
+          active_project = active_env.project.project_file
+        else active_project = nil
+        end
+        files.unshift files.delete(active_project)
+        Ruber[:config][:state, :last_state] = files
+        default_env_state = tabs_state Ruber[:world].default_environment
+        Ruber[:config][:state, :default_environment_tabs] = default_env_state[:tabs]
+        Ruber[:config][:state, :default_environment_active_view] =
+            default_env_state[:active_view]
+        Ruber[:config][:state, :default_environment_cursor_positions] = 
+            default_env_state[:cursor_positions]
         nil
       end
       
@@ -415,109 +506,8 @@ The open documents in a form suitable to be written to a configuration object
         docs = Ruber[:world].documents
         docs.map{ |doc| doc.has_file? ? doc.url.to_encoded.to_s : nil}
       end
-
-=begin rdoc
-The open tabs configuration in a form suitable to be written to a configuration object
-
-@return [Hash] A hash containing the following keys:
- * @:tabs@: an array of arrays, with each inner array representing one tab, with
-  the format described in {#restore_pane}. This value is the one to write under
-  the @state/tabs@ entry in a project or configuration object
- * @:cursor_positions@:an array of arrays. Each inner array corresponds to a tab
-  and contains the cursor position of each view. Each cursor position is represented
-  as an array with two elements: the first is the line, the second is the column.
-  The order the views are is the same used by {Pane#each_view}. This value is the one to write under
-  the @state/cursor_positions@ entry in a project or configuration object
- * @:active_view@: the active view. It is represented by a size 2 array, with the
-  first element being the index of the tab of the active view and the second being
-  the index of the view in the corresponding pane (according to the order used by
-  {Pane#each_view}). If there's no active view, this entry is *nil*. This is the value to write under
-  the @state/active_view@ entry in a project or configuration object
-=end
-      def tabs_state
-        res = {}
-        doc_map = {}
-        doc_idx = 0
-        Ruber[:world].documents.each do |doc|
-          if !doc.has_file?
-            doc_map[doc] = doc_idx
-            doc_idx += 1
-          end
-        end
-        tabs = Ruber[:main_window].tabs
-        tabs_tree = []
-        cursor_positions = []
-        tabs.each do |t|
-          tabs_tree << tab_to_tree(t, doc_map)
-          cursor_positions << t.map do |v|
-            pos = v.cursor_position
-            [pos.line, pos.column]
-          end
-        end
-        res[:tabs] = tabs_tree
-        res[:cursor_positions] = cursor_positions
-        active = Ruber[:main_window].active_editor
-        if active
-          active_tab = Ruber[:main_window].tab(active)
-          res[:active_view] = [tabs.index(active_tab), active_tab.to_a.index(active)]
-        end
-        res
-      end
-      
-      private
-      
-=begin rdoc
-Creates a hash with all the data needed to restore Ruber's state
-
-@return [Hash] a hash with the following keys:
- * @:open_projects@: an array containing the project file of each open project.
-  the first entry is the active project
- * @:open_documents@: an array with the name of the file corresponding to each
-  open document (documents without an associated file can't be restored and aren't
-  included). The order is that of opening
- * @:visible_documents@: an array with the name of the files corresponding to the
-  documents associated with a file and having a view
- * @:active_document@: the name of the file associated with the active document or
-  *nil* if there's no open document
-=end
-      def gather_settings
-        res = {
-          :open_projects => projects_state,
-          :open_documents => documents_state
-        }
-        res.merge! tabs_state
-        res
-      end
-      
-=begin rdoc
-A representation of a pane's configuration suitable to be written to a configuration
-object
-
-@param [Pane] pane the pane to return the representation for
-@param [Hash{Document=>Integer}] docs a map between documents not associated
-  with files and the number to represent them
-@return [Array<Array,Integer,String>] an array as described in {#restore_pane}
-=end
-      def tab_to_tree pane, docs
-        if pane.single_view?
-          doc = pane.view.document
-          return [doc.has_file? ? doc.url.url : docs[doc]]
-        end
-        panes = {}
-        tab_to_tree_prc = lambda do |pn|
-          if pn.single_view?
-            doc = pn.view.document
-            panes[pn.parent_pane] << (doc.has_file? ? doc.url.url : docs[doc])
-          else 
-            data = [pn.orientation]
-            panes[pn] = data
-            panes[pn.parent_pane] << data if pn.parent_pane
-          end
-        end
-        tab_to_tree_prc.call pane
-        pane.each_pane :recursive, &tab_to_tree_prc
-        panes[pane]
-      end
+     
+      private      
       
     end
     
@@ -641,6 +631,8 @@ when the project was last closed
       
       include Extension
       
+      include EnvironmentState
+      
       slots :auto_restore, :save_settings
       
 =begin rdoc
@@ -675,15 +667,14 @@ in the views and the active view
 @return [nil]
 =end
       def save_settings
-        @project[:state, :open_documents] = Ruber[:state].documents_state
-        tabs_state = Ruber[:state].tabs_state
-        [:tabs, :cursor_positions, :active_view].each do |e|
-          @project[:state, e] = tabs_state[e]
-        end
+        state = tabs_state Ruber[:world].environment @project
+        @project[:state, :tabs] = state[:tabs]
+        @project[:state, :active_view] = state[:active_view]
+        @project[:state, :cursor_positions] = state[:cursor_positions]
         nil
       end
       
-      private
+      private   
 
 =begin rdoc
 Restores the project's state when a new project is activated
@@ -706,7 +697,12 @@ Configuration widget for the State plugin
 =begin rdoc
 A list of different behaviour the plugin can have at startup
 =end
-      STARTUP_BEHAVIOURS = [:restore_all, :restore_documents_only, :restore_projects_only, :restore_nothing]
+      STARTUP_BEHAVIOURS = [
+        [:default_environment, :projects],
+        [:projects],
+        [:default_environment],
+        []
+      ]
       
 =begin rdoc
 @param [Qt::Widget, nil] parent the parent widget

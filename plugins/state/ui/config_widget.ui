@@ -50,17 +50,17 @@
           </property>
           <item>
            <property name="text">
-            <string>Restore open project and files</string>
+            <string>Restore everything</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Restore open files only</string>
+            <string>Restore projects</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Restore open project only</string>
+            <string>Restore documents not associated with projects</string>
            </property>
           </item>
           <item>

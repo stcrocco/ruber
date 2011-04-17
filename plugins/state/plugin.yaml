@@ -9,17 +9,15 @@ class: Ruber::State::Plugin
 require: state
 config_options:
  state:
-  open_documents: {default: []}
-  open_projects: {default: []}
   restore_cursor_position: {default: true}
-  restore_project_files: {default: true}
-  startup_behaviour: {default: :restore_all}
-  tabs: {default: []}
-  active_view: {default: nil}
-  cursor_positions: {default: []}
+  restore_projects: {default: true}
+  startup_behaviour: {default: [:restore_all]}
+  last_state: {default: []}
+  default_environment_tabs: {default: []}
+  default_environment_active_view: {default: nil}
+  default_environment_cursor_positions: {default: []}
 project_options:
  state:
-  open_documents: {default: [], type: session, scope: global}
   tabs: {default: [], scope: global, type: session}
   cursor_positions: {default: [], type: session, scope: global }
   active_view: {default: ~, type: session, scope: global}

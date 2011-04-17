@@ -490,7 +490,7 @@ describe Ruber::World::Environment do
       
     end
     
-    context 'when #views is called with a document as argument' do
+    context 'when called with a document as argument' do
       
       it 'returns a list containing all the views in the environment which are associated with the given document' do
         exp = @editors.select{|v| v.document == @docs[0]}.sort_by{|v| v.object_id}
@@ -938,7 +938,7 @@ describe Ruber::World::Environment do
         flexmock(@views[2]).should_receive(:set_focus).once
         @views[1].close
       end
-
+      
     end
     
     context 'if there\'s no other editor in the same tab' do
