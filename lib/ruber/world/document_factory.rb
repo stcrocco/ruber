@@ -108,9 +108,9 @@ it and adds it to the internal document list if needed
       def create_document file, parent
         doc = Document.new file, parent
         @documents[doc.url] = doc if file
-        emit document_created(doc)
         connect doc, SIGNAL('closing(QObject*)'), self, SLOT('document_closed(QObject*)')
         connect doc, SIGNAL('document_url_changed(QObject*)'), self, SLOT('document_url_changed(QObject*)')
+        emit document_created(doc)
         doc
       end
       

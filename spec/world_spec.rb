@@ -82,6 +82,12 @@ describe Ruber::World::World do
       @world.new_document
     end
     
+    it 'add the document to the list of documents' do
+      docs = Array.new{@world.new_document}
+      list = @world.documents
+      docs.each{|d| list.should include(d)}
+    end
+    
   end
   
   describe '#document' do

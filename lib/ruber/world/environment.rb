@@ -119,10 +119,17 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
         @documents = MutableDocumentList.new
         @active_editor = nil
         @active = false
+        unless prj
+          @default_document = Ruber[:world].new_document
+          @default_document.object_name = 'default_document'
+          @default_document.connect(SIGNAL('closing(QObject*)')){@default_document = nil}
+          editor_for! @default_document
+        end
       end
       
       def editor_for! doc, hints = DEFAULT_HINTS
         doc = Ruber[:world].document doc unless doc.is_a? Document
+        maybe_close_default_document doc
         hints = DEFAULT_HINTS.merge hints
         editor = @hint_solver.find_editor doc, hints
         unless editor
@@ -246,6 +253,14 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
       end
             
       private
+      
+      def maybe_close_default_document doc
+        return unless @default_document
+        return if @default_document == doc
+        return unless @default_document.pristine?
+        return if @default_document.views.count != 1
+        @default_document.close
+      end
       
       def add_editor editor, pane
         @views.add_view editor, pane

@@ -359,20 +359,7 @@ on the command line)
         exit 1
       end
       if sessionRestored? then Ruber[:main_window].restore 1, false
-      else
-        open_command_line_files
-        if Ruber[:world].projects.empty? and Ruber[:world].documents.empty?
-          doc = Ruber[:world].new_document
-          # This is the default document. Set the default_document attribute of
-          # the ruber_default_document extension to true
-          # TODO this extension is currently provided by the main window because
-          # the application component is actually loaded after the other. This
-          # is wrong. To avoid it, don't call load_core_components from initialize
-          # but have the ruber starting code (in bin/ruber) start it manually. Then
-          # move the extension to the application
-          doc.extension(:ruber_default_document).default_document = true
-          Ruber[:main_window].display_doc doc
-        end
+      else open_command_line_files
       end
     end
 
@@ -418,14 +405,6 @@ necessary to to them later
       nil
     end
     
-    class DefaultDocumentExtension
-      include Extension
-      attr_accessor :default_document
-      def initialize doc
-        @default_document = false
-      end
-    end
-
   end
   
 end

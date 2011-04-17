@@ -14,6 +14,7 @@ describe Ruber::World::Environment do
   end
   
   before do
+    Ruber[:world].close_all(:documents, :discard)
     @env = Ruber::World::Environment.new nil
     #without this, the tab widgets become visible, slowing down tests noticeably
     flexmock(@env.tab_widget).should_receive(:show).by_default
@@ -124,6 +125,11 @@ describe Ruber::World::Environment do
         @project.parent.should == env
       end
       
+      it 'doesn\'t create empty documents' do
+        env = Ruber::World::Environment.new @project
+        env.views.should be_empty
+      end
+      
     end
     
     context 'when the first argument is nil' do
@@ -168,6 +174,13 @@ describe Ruber::World::Environment do
       env.tab_widget.should be_hidden
     end
     
+    it 'creates a view for a new, empty document with object name default_document' do
+      env = Ruber::World::Environment.new nil
+      env.views.count.should == 1
+      env.views[0].document.text.should == ''
+      env.views[0].document.object_name.should == 'default_document'
+    end
+        
   end
   
   describe '#editor_for!' do
@@ -189,6 +202,36 @@ describe Ruber::World::Environment do
       exp_hints = Ruber::World::Environment::DEFAULT_HINTS.merge(:create_if_needed => false)
       flexmock(@solver).should_receive(:find_editor).with(doc, exp_hints).once.and_return(view)
       @env.editor_for!(doc, :create_if_needed => false)
+    end
+    
+    it 'closes the default document if it\'s pristine' do
+      @env.editor_for! __FILE__
+      Ruber[:world].documents.find{|d| d.object_name == 'default_document'}.should be_nil
+    end
+    
+    it 'doesn\'t close the default environment if the first argument is the default document itself' do
+      @env.editor_for! Ruber[:world].documents.find{|d| d.object_name == "default_document"}
+      Ruber[:world].documents.find{|d| d.object_name == "default_document"}.should_not be_nil
+    end
+    
+    it 'doesn\'t close the default document if it is not pristine' do
+      flexmock(@env.documents[0]).should_receive(:pristine?).and_return false
+      @env.editor_for! __FILE__
+      Ruber[:world].documents.find{|d| d.object_name == 'default_document'}.should_not be_nil
+    end
+    
+    it 'doesn\'t close the default document if it has no view associated with it' do
+      default_doc = Ruber[:world].documents.find{|d| d.object_name == 'default_document'}
+      default_doc.views[0].close
+      @env.editor_for! __FILE__
+      Ruber[:world].documents.should include(default_doc)
+    end
+    
+    it 'doesn\'t close the default document if it has more than one view associated with it' do
+      default_doc = Ruber[:world].documents.find{|d| d.object_name == 'default_document'}
+      default_doc.create_view
+      @env.editor_for! __FILE__
+      Ruber[:world].documents.should include(default_doc)
     end
     
     context 'when the first argument is a document' do
@@ -429,6 +472,7 @@ describe Ruber::World::Environment do
     end
     
     it 'returns an empty array if there is no tab in the tab widget' do
+      @env.documents[0].close false
       @env.tabs.should be_empty
     end
     
