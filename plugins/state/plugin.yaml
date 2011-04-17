@@ -11,7 +11,7 @@ config_options:
  state:
   restore_cursor_position: {default: true}
   restore_projects: {default: true}
-  startup_behaviour: {default: [:restore_all]}
+  startup_behaviour: {default: [:projects, :default_environment]}
   last_state: {default: []}
   default_environment_tabs: {default: []}
   default_environment_active_view: {default: nil}
