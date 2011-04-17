@@ -362,6 +362,25 @@ describe Ruber::State::Plugin do
       @plug.send :restore_environment, Ruber[:world].default_environment, data
     end
     
+    it 'gives focus to the active window' do
+      data = { 
+        :tabs => [
+                  [Qt::Vertical,'file://'+__FILE__],
+                  [Qt::Horizontal, 'file://'+__FILE__]
+                 ],
+        :cursor_positions => [],
+        :active_view => [1,0]
+      }
+      doc = Ruber[:world].document __FILE__
+      views = Array.new(2){doc.create_view}
+      views.each do |v| 
+        flexmock(doc).should_receive(:create_view).once.and_return v
+      end
+      flexmock(views[1]).should_receive(:set_focus).once
+      @plug.send :restore_environment, Ruber[:world].default_environment, data
+      
+    end
+    
     it 'does nothing if there are no views' do
       Ruber[:config][:state, :startup_behaviour] = [:default_environment]
       Ruber[:config][:state, :default_environment_tabs] = []

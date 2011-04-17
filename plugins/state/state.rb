@@ -108,7 +108,9 @@ The open tabs configuration in a form suitable to be written to a configuration 
         end
         active_editor = data[:active_view]
         if active_editor
-          env.activate_editor env.tabs[active_editor[0]].to_a[active_editor[1]]
+          editor = env.tabs[active_editor[0]].to_a[active_editor[1]]
+          env.activate_editor editor
+          editor.set_focus if editor
         end
       end
       
