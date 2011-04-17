@@ -139,6 +139,7 @@ format:
 @return [Pane] the new pane
 =end
       def restore_tab env, tab, cursor_positions, unnamed_docs
+        world = Ruber[:world]
         find_first_view = lambda do |array|
           if array.size == 1 then array[0]
           elsif array[1].is_a? Array then find_first_view.call array[1]
@@ -154,8 +155,8 @@ format:
             next if i < 2 
             view = e.is_a?(Array) ? find_first_view.call(e) : e
             if view.is_a?(String) 
-              doc = Ruber[:world].document(KDE::Url.new(view))
-            else doc = unnamed_docs[view] ||= Ruber[:world].new_document
+              doc = world.document(KDE::Url.new(view)) || world.new_document
+            else doc = unnamed_docs[view] ||= world.new_document
             end
             view = doc.create_view
             pn.split last_view, view, orientation
@@ -166,7 +167,7 @@ format:
         end
         view = find_first_view.call tab
         if view.is_a?(String) 
-          doc = Ruber[:world].document(KDE::Url.new(view))
+          doc = world.document(KDE::Url.new(view))
         else doc = unnamed_docs[view] ||= Ruber[:world].new_document
         end
         view = env.editor_for! doc, :existing => :never, :new => :new_tab

@@ -304,6 +304,28 @@ describe Ruber::State::Plugin do
       env.tabs[0].views[0].document.should_not == env.tabs[0].views[1].document
     end
     
+    it 'creates empty documents for local files which do not exist' do
+      data = {
+        :tabs => [[Qt::Vertical, 0, 'file://'+__FILE__, 'file:///xyz.rb']],
+        :cursor_positions => [],
+        :active_view => [0,0]
+      }
+      env = Ruber[:world].default_environment
+      lambda{@plug.send :restore_environment, env, data}.should_not raise_error
+      env.views[2].document.should be_pristine
+    end
+    
+    it 'creates empty documents for remote files which do not exist' do
+      data = {
+        :tabs => [[Qt::Vertical, 0, 'file://'+__FILE__, 'http:///xyz.org/abc.txt']],
+        :cursor_positions => [],
+        :active_view => [0,0]
+      }
+      env = Ruber[:world].default_environment
+      lambda{@plug.send :restore_environment, env, data}.should_not raise_error
+      env.views[2].document.should be_pristine
+    end
+    
     it 'activates the view which was active last time' do
       data = {
         :tabs => [
