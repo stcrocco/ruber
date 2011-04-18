@@ -102,7 +102,7 @@ It adds the document to the part manager and makes several signal-slot connectio
 #       connect doc, SIGNAL('modified_on_disk(QObject*, bool, KTextEditor::ModificationInterface::ModifiedOnDiskReason)'), self, SLOT('update_document_icon(QObject*)')
       connect doc, SIGNAL('document_url_changed(QObject*)'), self, SLOT(:document_url_changed)
       connect doc, SIGNAL(:completed), self, SLOT(:document_url_changed)
-      connect doc, SIGNAL('closing(QObject*)'), self, SLOT('remove_document_from_part_manager(QObject*)')
+#      connect doc, SIGNAL('closing(QObject*)'), self, SLOT('remove_document_from_part_manager(QObject*)')
       update_switch_to_list
     end
     slots 'document_created(QObject*)'
