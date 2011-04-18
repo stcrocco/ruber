@@ -698,6 +698,12 @@ Giving focus to the editor implies:
 #       end
 #       active_editor
 #     end
+    
+    def focus_on_editor
+      active_editor.set_focus if active_editor
+      active_editor
+    end
+    slots :focus_on_editor
         
 =begin rdoc
 @return [String] the default directory where to look for, and create, projects
