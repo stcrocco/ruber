@@ -38,7 +38,7 @@ actions:
  file_open_recent: {standard_action: open_recent, signal: urlSelected(KUrl), slot: open_recent_file(KUrl)}
  file-save_all: {text: Save &All, icon: document-save-all, slot: save_all()}
  file_close: {standard_action: close, slot: close_current_editor()}
- file-close_tab: {text: Close Current &Tab, slot: close_tab(), state: current_document}
+ file-close_tab: {text: Close Current &Tab, slot: close_current_tab(), state: current_document}
  file-close_all: {text: Clos&e All, slot: close_all_views(), state: current_document}
  file-close_other: {text: Close All O&ther, slot: close_other_views(), state: current_document}
  file_quit: {standard_action: quit, receiver: 'Ruber[:app]', slot: closeAllWindows()}

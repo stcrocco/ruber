@@ -98,6 +98,11 @@ save it, discard changes or not close the view.
     def close_current_editor
       close_editor active_editor if active_editor
     end
+    
+    def close_current_tab
+      @active_environment.close_tab @active_environment.tab_widget.current_index
+    end
+    slots :close_current_tab
 
 =begin rdoc
 Slot connected to the Close Current Tab action
@@ -463,6 +468,7 @@ It splits the active view horizontally, so that a new copy of the view is create
       ed = @active_environment.active_editor
       @active_environment.display_document ed.document, :existing => :never,
           :new => ed, :split => :horizontal
+      ed.set_focus
     end
     slots :split_horizontally
 
@@ -478,6 +484,7 @@ It splits the active view vertically, so that a new copy of the view is created.
       ed = @active_environment.active_editor
       @active_environment.display_document ed.document, :existing => :never,
           :new => ed, :split => :vertical
+      ed.set_focus
     end
     slots :split_vertically
     
