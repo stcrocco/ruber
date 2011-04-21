@@ -119,6 +119,7 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
         @documents = MutableDocumentList.new
         @active_editor = nil
         @active = false
+        @focus_on_editors = true
         unless prj
           @default_document = Ruber[:world].new_document
           @default_document.object_name = 'default_document'
@@ -183,7 +184,7 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
           @views.move_to_front view
           view_tab = tab(view)
           idx = @tab_widget.index_of view_tab
-          @tab_widget.set_tab_text idx, label_for_document(view.document)
+          @tab_widget.set_tab_text idx, view.document.document_name
           @tab_widget.set_tab_icon idx, view.document.icon
           @tab_widget.current_index = idx
         end
@@ -191,6 +192,7 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
           emit active_editor_changed(view) 
           view.document.activate if view
         end
+        view.set_focus if view and focus_on_editors?
         view
       end
       slots 'activate_editor(QWidget*)'
@@ -251,6 +253,10 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
           a.each &:close
         end
       end
+      
+      def focus_on_editors?
+        @views.tabs.empty? || @focus_on_editors
+      end
             
       private
       
@@ -265,12 +271,17 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
       def add_editor editor, pane
         @views.add_view editor, pane
         doc = editor.document
+        editor.parent.label = label_for_document doc
         unless @documents.include? doc
           @documents.add doc
           connect doc, SIGNAL('document_url_changed(QObject*)'), self, SLOT('document_url_changed(QObject*)')
         end
-        connect editor, SIGNAL('focus_in(QWidget*)'), self, SLOT('activate_editor(QWidget*)')
+        editor.connect SIGNAL('focus_in(QWidget*)') do |w|
+          @focus_on_editors = true
+          activate_editor w
+        end
         connect doc, SIGNAL('modified_changed(bool, QObject*)'), self, SLOT('document_modified_status_changed(bool, QObject*)')
+        editor.connect(SIGNAL('focus_out(QWidget*)')){@focus_on_editors = false}
         update_pane pane
       end
       
@@ -280,7 +291,6 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
           to_activate = @views.by_tab[editor_tab][1]
           activate_editor to_activate
           deactivate_editor editor
-          to_activate.set_focus if editor.is_active_window
         end
         disconnect editor, SIGNAL('focus_in(QWidget*)'), self, SLOT('activate_editor(QWidget*)')
         @views.remove_view editor
@@ -303,13 +313,23 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
       slots 'close_tab(int)'
       
       def do_deactivation
+        #hiding the tab widget would make the editors all loose focus, but we
+        #want that setting to be kept until the environment becomes active again,
+        #so we store the original value in a temp variable and restore it afterwards
+        old_focus_on_editors = @focus_on_editors
         @tab_widget.hide
         deactivate_editor @active_editor
+        @focus_on_editors = old_focus_on_editors
         super
       end
       
       def do_activation
+        #showing the tab widget may make some editors all receive focus, but we
+        #want that setting to be kept until the environment becomes active again,
+        #so we store the original value in a temp variable and restore it afterwards
+        old_focus_on_editors = @focus_on_editors
         @tab_widget.show
+        @focus_on_editors = old_focus_on_editors
         activate_editor @views.by_activation[0]
         super
       end
@@ -335,6 +355,7 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
       
       def create_tab view
         pane = Pane.new view
+        pane.label = label_for_document view.document
         connect pane, SIGNAL('removing_view(QWidget*, QWidget*)'), self, SLOT('remove_editor(QWidget*, QWidget*)')
         connect pane, SIGNAL('pane_split(QWidget*, QWidget*, QWidget*)'), self, SLOT('pane_split(QWidget*, QWidget*, QWidget*)')
         connect pane, SIGNAL('view_replaced(QWidget*, QWidget*, QWidget*)'), self, SLOT('view_replaced(QWidget*, QWidget*, QWidget*)')

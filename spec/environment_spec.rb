@@ -774,6 +774,18 @@ describe Ruber::World::Environment do
       
     end
     
+    it 'gives focus to the editor if #focus_on_editors? returns true' do
+      flexmock(@env).should_receive(:focus_on_editors?).and_return(true)
+      flexmock(@editors[2]).should_receive(:set_focus).once
+      @env.activate_editor @editors[2]
+    end
+    
+    it 'doesn\'t give focus to the editor if #focus_on_editors? returns false' do
+      flexmock(@env).should_receive(:focus_on_editors?).and_return(false)
+      flexmock(@editors[2]).should_receive(:set_focus).never
+      @env.activate_editor @editors[2]
+    end
+    
   end
   
   describe '#deactivate' do
@@ -973,13 +985,23 @@ describe Ruber::World::Environment do
         @env.active_editor.should == @views[2]
       end
       
-      it 'gives focus to view which previously had focus in the same tab, if the view had focus' do
+      it 'gives focus to view which previously had focus in the same tab, if the closed view was active and focus_on_editors? returns true' do
+        flexmock(@env).should_receive(:focus_on_editor?).and_return true
         @env.activate_editor @views[2]
         @env.activate_editor @views[1]
         @views[2].instance_eval{emit focus_in(self)}
         @views[1].instance_eval{emit focus_in(self)}
-        flexmock(@views[1]).should_receive(:is_active_window).and_return true
         flexmock(@views[2]).should_receive(:set_focus).once
+        @views[1].close
+      end
+      
+      it 'doesn\'t give focus to view which previously had focus in the same tab, if focus_on_editors? returns false' do
+        flexmock(@env).should_receive(:focus_on_editors?).and_return false
+        @env.activate_editor @views[2]
+        @env.activate_editor @views[1]
+        @views[2].instance_eval{emit focus_in(self)}
+        @views[1].instance_eval{emit focus_in(self)}
+        flexmock(@views[2]).should_receive(:set_focus).never
         @views[1].close
       end
       
@@ -1535,6 +1557,31 @@ describe Ruber::World::Environment do
         @env.tab_widget.tab_icon(1).pixmap(16,16).to_image.should_not == img
       end
       
+    end
+    
+  end
+  
+  describe "#focus_on_editors?" do
+    
+    before do
+      @views = Array.new(3){@env.editor_for! @doc, :existing => :never}
+    end
+    
+    it 'returns true if one of the views in the environment received focus after the last one lost focus' do
+      @views[1].instance_eval{emit focus_out(self)}
+      @views[2].instance_eval{emit focus_in(self)}
+      @env.focus_on_editors?.should be_true
+    end
+    
+    it 'returns false if no view in the environment got focus after the last one
+    lost focus' do
+      @views[1].instance_eval{emit focus_out(self)}
+      @env.focus_on_editors?.should be_false
+    end
+    
+    it 'returns true if there are no views' do
+      @views.each{|v| @env.close_editor v, false}
+      @env.focus_on_editors?.should be_true
     end
     
   end
