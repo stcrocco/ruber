@@ -236,7 +236,7 @@ into account the enabled option and always attempt to save the documents.
 @return [Boolean] see {#autosave}
 =end
       def save_project_files opts, blk
-        docs = Ruber[:world].documents.documents_with_file
+        docs = Ruber[:world].active_environment.documents.documents_with_file
         prj_files = Ruber[:world].active_project.project_files.abs
         docs = docs.select{|d| prj_files.include? d.path}
         save_files docs, opts, blk
@@ -253,7 +253,7 @@ into account the enabled option and always attempt to save the documents.
 @return [Boolean] see {#autosave}
 =end
       def save_open_documents opts, blk
-        save_files Ruber[:docs].documents, opts, blk
+        save_files Ruber[:world].documents, opts, blk
       end
       
 =begin rdoc
@@ -267,7 +267,7 @@ into account the enabled option and always attempt to save the documents.
 @return [Boolean] see {#autosave}
 =end
       def save_documents_with_file opts, blk
-        save_files Ruber[:docs].documents_with_file, opts, blk
+        save_files Ruber[:world].documents.documents_with_file, opts, blk
       end
       
 =begin rdoc
