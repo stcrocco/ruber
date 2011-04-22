@@ -29,8 +29,6 @@ require 'ruber/gui_states_handler'
 
 require 'ruber/main_window/main_window_internal'
 require 'ruber/main_window/main_window_actions'
-require 'ruber/main_window/hint_solver'
-require 'ruber/main_window/environment'
 
 require 'ruber/main_window/status_bar'
 require 'ruber/main_window/workspace'

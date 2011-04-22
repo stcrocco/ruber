@@ -24,8 +24,6 @@ module Ruber
   
   class MainWindow < KParts::MainWindow
     
-    require 'ruber/main_window/view_manager'
-     
 =begin rdoc
 A list of strings to be used to create the filter for open file dialogs
 =end
