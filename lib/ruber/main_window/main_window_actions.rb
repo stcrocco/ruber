@@ -240,6 +240,7 @@ It opens the file chosen by the user in a quick open file dialog
       dlg = OpenFileInProjectDlg.new @active_environment.project, self
       if dlg.exec == Qt::Dialog::Accepted
         editor = @active_environment.display_document dlg.chosen_file
+        editor.set_focus
         action_collection.action('file_open_recent').add_url( KDE::Url.new(dlg.chosen_file) )
         editor
       end
