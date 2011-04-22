@@ -501,7 +501,7 @@ associated to it and gives focus to it.
     def switch_to_new_document
       old = active_editor
       ed = replace_editor old, Ruber[:world].new_document
-      focus_on_editor ed if ed
+      ed.set_focus if ed
     end
     slots :switch_to_new_document
     
@@ -679,7 +679,7 @@ one view, nothing is done.
       pane = find_next_pane active_editor.parent, orientation, direction
       tabs = @active_environment.tab_widget
       view = pane ? pane.view : tabs.current_widget.views[direction == :next ? 0 : -1]
-      focus_on_editor view 
+      view.set_focus
     end
     slots :move_among_views
     
