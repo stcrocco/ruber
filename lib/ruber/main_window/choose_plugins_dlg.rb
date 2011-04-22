@@ -144,9 +144,9 @@ deselected.
       
       connect m, SIGNAL('itemChanged(QStandardItem*)'), self, SLOT('plugin_toggled(QStandardItem*)')
       
-      def m.flags idx
-        Qt::ItemIsSelectable|Qt::ItemIsEnabled| Qt::ItemIsUserCheckable
-      end
+#       def m.flags idx
+#         Qt::ItemIsSelectable|Qt::ItemIsEnabled| Qt::ItemIsUserCheckable
+#       end
       
       @url = KDE::UrlRequester.new self
       @ui.directories.custom_editor = @url.custom_editor
@@ -276,7 +276,10 @@ size of the contents.
         name.data = Qt::Variant.new(k.to_s)
         desc = Qt::StandardItem.new v.about.description
         dir = Qt::StandardItem.new v.directory
-        m.append_row [name, desc, dir]
+        row = [name, desc, dir]
+        row.each{|i| i.flags = Qt::ItemIsSelectable|Qt::ItemIsEnabled}
+        name.flags |= Qt::ItemIsUserCheckable
+        m.append_row row
       end
       update_plugin_status
       3.times{|i| @ui.plugins.resize_column_to_contents i}
