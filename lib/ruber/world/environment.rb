@@ -236,6 +236,7 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
         activate_editor ed
         line = hints[:line]
         ed.go_to line, hints[:column] || 0 if hints[:line]
+        ed
       end
       
       def close_editors editors, ask = true

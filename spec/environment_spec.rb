@@ -1288,6 +1288,12 @@ describe Ruber::World::Environment do
       @env.display_document @doc, hints
     end
     
+    it 'returns the editor' do
+      ed = @env.display_document @doc
+      ed.should be_a(Ruber::EditorView)
+      ed.document.should == @doc
+    end
+    
   end
   
   context 'when a view receives focus' do
