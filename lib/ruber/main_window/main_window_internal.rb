@@ -43,13 +43,11 @@ A list of strings to be used to create the filter for open file dialogs
 =begin rdoc
 Override of @KParts::MainWindow#queryClose@ 
     
-It calls which calls the {ComponentManager#query_close query_close} method of the
-component manager.
-@return [Boolean] what the {ComponentManager#query_close query_close} method of
-  the component manager returns
+It calls the {Application#ask_to_quit ask_to_quit} method of the application.
+@return [Boolean] what {Application#ask_to_quit} returns
 =end
     def queryClose
-      Ruber[:components].query_close
+      Ruber[:app].ask_to_quit
     end
     
 =begin rdoc

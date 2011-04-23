@@ -85,6 +85,7 @@ Ruber can be in three states:
   it (either with the @File/Quit@ menu entry or clicking on the button on the title
   bar)
 - *quitting*:= from when the user chooses to quit Ruber onwards
+- *asking_to_quit*:= while asking the user to confirm quitting Ruber
 
 >>>>>>> master
 @return [Symbol] the status of the application. It can be: @:starting@, @:running@
@@ -140,6 +141,25 @@ write the change to file. It's up to whoever called this method to do so.
       Ruber[:config][:general, :plugin_dirs] = @plugin_directories
     end
     alias :plugin_dirs= :plugin_directories=
+    
+=begin rdoc
+Asks the user to confirm quitting Ruber
+
+This method is called whenever Ruber needs to be closed and, in turn, calls the
+{PluginLike#query_close query_close} method of each plugin and component (using
+{ComponentManager#query_close}).
+
+During the execution of this method, {#status} returns @:asking_to_quit@. After
+this method returns, the status returns what it was before.
+@return [Boolean] *true* if the application can be closed and *false* otherwise
+=end
+    def ask_to_quit
+      old_status = @status
+      @status = :asking_to_quit
+      res = @components.query_close
+      @status = old_status
+      res
+    end
     
 =begin rdoc
 Quits ruber
