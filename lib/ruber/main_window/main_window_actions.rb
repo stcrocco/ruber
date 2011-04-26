@@ -47,7 +47,7 @@ It creates and activates a new, empty file
 @return [EditorView] the editor used to display the new file
 =end
     def new_file
-      display_doc Ruber[:docs].new_document
+      display_doc Ruber[:world].new_document
     end
     
 =begin rdoc
@@ -172,7 +172,7 @@ otherwise
       views = @active_environment.views 
       docs = views.map(&:document).uniq
       return false if ask and !save_documents docs
-      @active_environment.ativate_editor nil
+      @active_environment.activate_editor nil
       views.to_a.each{|v| close_editor v, false}
       true
     end
