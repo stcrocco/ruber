@@ -289,17 +289,27 @@ writing the settings to file
     end
     
 =begin rdoc
-Closes the project. This means:
-* calling the +save+ method if _save_ is *true*
-* removing all the project extensions
-* emitting the <tt>closing(QObject*)</tt> signal
+Closes the project
 
-If _save_ is *true*, returns *false* if an error occurred while saving
-and *true* if no error occurred. If _save_ is *false*, it always
-returns *true*
+According to the _save_ parameter, the project may save itself and its extensions\'
+settings or not. In the first case, extensions may stop the project from closing
+by having their @query_close@ method return *false*. If _save_ is false, nothing
+will be saved and the closing can't be interrupted.
+    
+Before closing the project, the {#closing} signal is emitted. After that, all extensions
+will be removed (calling their @remove_from_project@ method if they have one).
+
+@param [Boolean] save whether or not to save the project and the extensions\'
+  settings. If *true*, the extensions will also have a chance to abort closing by
+  returning *false* from their @query_close@ method
+@return [Boolean] *true* if the project was closed correctly and *false* if the
+  project couldn\'t be closed, either because some of the extensions\' @query_close@
+  method returned *false* or because the project itself couldn\'t be saved for some
+  reason.
 =end
     def close save = true
       if save
+        return false unless query_close
         return false unless self.save
       end
       emit closing(self)
