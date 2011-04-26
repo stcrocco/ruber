@@ -85,18 +85,18 @@ Exception raised from {Ruber::World::World#new_project} when the given file alre
         connect @document_factory, SIGNAL('document_created(QObject*)'), self, SLOT('slot_document_created(QObject*)')
         @project_factory = ProjectFactory.new self
         connect @project_factory, SIGNAL('project_created(QObject*)'), self, SLOT('slot_project_created(QObject*)')
-        @default_environment = environment nil
+        @default_environment = Environment.new(nil, self)
+        add_environment @default_environment, nil
       end
       
       def environment prj
-        env = @environments[prj] 
-        unless env
-          env = Environment.new(prj)
-          connect env, SIGNAL('closing(QObject*)'), self, SLOT('environment_closing(QObject*)')
-          connect env, SIGNAL('active_editor_changed(QWidget*)'), self, SLOT('slot_active_editor_changed(QWidget*)')
-          @environments[prj] = env
-        end
-        env
+        @environments[prj] 
+#         unless env
+#           env = Environment.new(prj)
+#           connect env, SIGNAL('closing(QObject*)'), self, SLOT('environment_closing(QObject*)')
+#           connect env, SIGNAL('active_editor_changed(QWidget*)'), self, SLOT('slot_active_editor_changed(QWidget*)')
+#           @environments[prj] = env
+#         end
       end
       
       def active_environment= env
@@ -213,7 +213,7 @@ is returned. Otherwise, a new project object is created.
         @project_factory.project file
       end
       
-      def close_all what, save_behaviour
+      def close_all what, save_behaviour = :save
         close_docs = (what == :all || what == :documents)
         close_prjs = (what == :all || what == :projects)
         save = save_behaviour == :save
@@ -235,6 +235,12 @@ is returned. Otherwise, a new project object is created.
       
       private
       
+      def add_environment env, prj
+        @environments[prj] = env
+        connect env, SIGNAL('closing(QObject*)'), self, SLOT('environment_closing(QObject*)')
+        connect env, SIGNAL('active_editor_changed(QWidget*)'), self, SLOT('slot_active_editor_changed(QWidget*)')
+      end
+      
       def environment_closing env
         @environments.delete env.project
         self.active_environment = nil if @active_environment == env
@@ -251,7 +257,7 @@ is returned. Otherwise, a new project object is created.
       def slot_project_created prj
         @projects.add prj
         connect prj, SIGNAL('closing(QObject*)'), self, SLOT('slot_closing_project(QObject*)')
-        environment prj
+        add_environment prj.extension(:environment), prj
         emit project_created(prj)
       end
       slots 'slot_project_created(QObject*)'

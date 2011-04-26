@@ -27,7 +27,7 @@ module Ruber
     
     class Environment < Qt::Object
       
-      class ViewList
+     class ViewList
         
         attr_reader :by_activation, :by_document, :by_tab, :tabs
         
@@ -66,6 +66,8 @@ module Ruber
       end
       
       include Activable
+      
+      include Extension
       
 =begin rdoc
 The default hints used by methods like {#editor_for} and {#editor_for!}
@@ -106,11 +108,7 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
       
       def initialize prj, parent = nil
         super parent
-        if prj
-          @project = prj
-          @project.parent = self 
-          connect @project, SIGNAL('closing(QObject*)'), self, SLOT(:close)
-        end
+        @project = prj
         @tab_widget = KDE::TabWidget.new{self.document_mode = true}
         connect @tab_widget, SIGNAL('currentChanged(int)'), self, SLOT('current_tab_changed(int)')
         connect @tab_widget, SIGNAL('tabCloseRequested(int)'), self, SLOT('close_tab(int)')
@@ -130,7 +128,6 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
       
       def editor_for! doc, hints = DEFAULT_HINTS
         doc = Ruber[:world].document doc unless doc.is_a? Document
-        maybe_close_default_document doc
         hints = DEFAULT_HINTS.merge hints
         editor = @hint_solver.find_editor doc, hints
         unless editor
@@ -208,26 +205,41 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
         end
       end
       
-      def close
-        emit closing(self)
-        deactivate
-        views = @views.by_document.dup
-        to_save = @documents.select do |doc|
-          doc.views.all?{|v| views[doc].include? v}
-        end
-        saving_done = Ruber[:main_window].save_documents to_save
-        @tab_widget.disconnect SIGNAL('currentChanged(int)'), self
-        to_save.each do |doc|
-          if saving_done || !doc.modified?
-            views.delete doc
-            doc.close false
+      def close mode = :save
+        if @project then @project.close mode == :save
+        else 
+          docs_to_close = @views.by_document.to_a.select{|d, v| (d.views(:all) - v).empty?}
+          docs_to_close.map!{|d| d[0]}
+          if mode == :save
+            return false unless Ruber[:main_window].save_documents docs_to_close
           end
+          emit closing(self)
+          self.active = false
+          docs_to_close.each{|d| d.close false}
+          @views.by_activation.dup.each{|v| v.close}
+          delete_later
+          true
         end
-        views.each_value do |a|
-          a.each{|v| v.close}
-        end
-        delete_later
-        saving_done
+        
+#         emit closing(self)
+#         deactivate
+#         views = @views.by_document.dup
+#         to_save = @documents.select do |doc|
+#           doc.views.all?{|v| views[doc].include? v}
+#         end
+#         saving_done = Ruber[:main_window].save_documents to_save
+#         @tab_widget.disconnect SIGNAL('currentChanged(int)'), self
+#         to_save.each do |doc|
+#           if saving_done || !doc.modified?
+#             views.delete doc
+#             doc.close false
+#           end
+#         end
+#         views.each_value do |a|
+#           a.each{|v| v.close}
+#         end
+#         delete_later
+#         saving_done
       end
       slots :close
       
@@ -258,7 +270,24 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
       def focus_on_editors?
         @views.tabs.empty? || @focus_on_editors
       end
-            
+      
+      def query_close
+        if Ruber[:app].status != :asking_to_quit
+          docs = @views.by_document.select{|d, v| (d.views(:all) - v).empty?}
+          Ruber[:main_window].save_documents docs.map{|a| a[0]}
+        else true
+        end
+      end
+      
+      def remove_from_project
+        raise "environment not associated with a project" unless @project
+        emit closing(self)
+        self.active = false
+        docs_to_close = @views.by_document.select{|d, v| (d.views(:all) - v).empty?}
+        docs_to_close.each{|d| d[0].close false}
+        @views.dup.by_activation.each{|v| v.close}
+      end
+      
       private
       
       def maybe_close_default_document doc
@@ -270,6 +299,7 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
       end
       
       def add_editor editor, pane
+        maybe_close_default_document editor.document
         @views.add_view editor, pane
         doc = editor.document
         editor.parent.label = label_for_document doc
@@ -277,10 +307,7 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
           @documents.add doc
           connect doc, SIGNAL('document_url_changed(QObject*)'), self, SLOT('document_url_changed(QObject*)')
         end
-        editor.connect SIGNAL('focus_in(QWidget*)') do |w|
-          @focus_on_editors = true
-          activate_editor w
-        end
+        connect editor, SIGNAL('focus_in(QWidget*)'), self, SLOT('editor_got_focus(QWidget*)')
         connect doc, SIGNAL('modified_changed(bool, QObject*)'), self, SLOT('document_modified_status_changed(bool, QObject*)')
         editor.connect(SIGNAL('focus_out(QWidget*)')){@focus_on_editors = false}
         update_pane pane
@@ -293,7 +320,7 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
           activate_editor to_activate
           deactivate_editor editor
         end
-        disconnect editor, SIGNAL('focus_in(QWidget*)'), self, SLOT('activate_editor(QWidget*)')
+        disconnect editor, SIGNAL('focus_in(QWidget*)'), self, SLOT('editor_got_focus(QWidget*)')
         @views.remove_view editor
         unless @views.by_tab[editor_tab]
           @tab_widget.remove_tab @tab_widget.index_of(editor_tab) 
@@ -312,6 +339,12 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
         close_editors views
       end
       slots 'close_tab(int)'
+      
+      def editor_got_focus editor
+        @focus_on_editors = true
+        activate_editor editor
+      end
+      slots 'editor_got_focus(QWidget*)'
       
       def do_deactivation
         #hiding the tab widget would make the editors all loose focus, but we

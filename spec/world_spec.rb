@@ -344,6 +344,14 @@ describe Ruber::World::World do
       prj.should == old
     end
     
+    it 'adds the environment associated with the project to the environment list' do
+      file = File.join Dir.tmpdir, 'world_new_project_test.ruprj'
+      prj = @world.new_project file, 'world_new_project_test'
+      env = @world.environment prj
+      env.should be_a(Ruber::World::Environment)
+      env.project.should == prj
+    end
+    
     it 'emits the project_created_signal passing the project as argument' do
       name = 'world_new_project_test'
       file = File.join Dir.tmpdir, 'world_new_project_test.ruprj'
@@ -384,16 +392,18 @@ describe Ruber::World::World do
   describe '#environment' do
     
     before do
-      file = File.join Dir.tmpdir, 'world_environment_test.ruprj'
-      @prj = @world.new_project file, 'Test'
+      @file = File.join Dir.tmpdir, 'world_environment_test.ruprj'
+      @prj = @world.new_project @file, 'Test'
+    end
+    
+    after do
+      FileUtils.rm_f @file
     end
     
     context 'if an environment for the given project doesn\'t already exists' do
     
-      it 'creates a new environment for the given project' do
-        env = @world.environment(@prj)
-        env.should be_a(Ruber::World::Environment)
-        env.project.should == @prj
+      it 'returns nil' do
+        @world.environment('x').should be_nil
       end
       
     end
@@ -546,6 +556,10 @@ describe Ruber::World::World do
   end
   
   context 'when an environment is being closed' do
+    
+    after do
+      FileUtils.rm_r File.join( Dir.tmpdir, "world_environment_closing_test.ruprj")
+    end
     
     it 'sets the active environment to nil if the environment being closed is the active one' do
       file = File.join Dir.tmpdir, "world_environment_closing_test.ruprj"
