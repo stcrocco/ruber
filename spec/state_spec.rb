@@ -286,6 +286,17 @@ describe Ruber::State::Plugin do
   
   context 'when restoring an environment' do
     
+    it 'closes all the editors in the environment' do
+      data = {
+        :tabs => [],
+        :cursor_positions => []
+      }
+      env = Ruber[:world].default_environment
+      env.editor_for! __FILE__
+      @plug.send :restore_environment, env, data
+      env.tabs.should be_empty
+    end
+    
     it 'recreates the tabs contained in the environment' do
       data = {
         :tabs => [
@@ -376,7 +387,7 @@ describe Ruber::State::Plugin do
       views.each do |v| 
         flexmock(doc).should_receive(:create_view).once.and_return v
       end
-      flexmock(views[1]).should_receive(:set_focus).once
+      flexmock(views[1]).should_receive(:set_focus).at_least.once
       @plug.send :restore_environment, Ruber[:world].default_environment, data
       
     end

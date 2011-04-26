@@ -103,6 +103,7 @@ The open tabs configuration in a form suitable to be written to a configuration 
       
       def restore_environment env, data
         unnamed_docs = []
+        env.close_editors env.views, false
         data[:tabs].each_with_index do |t, i|
           restore_tab env, t, data[:cursor_positions][i] || [], unnamed_docs
         end
@@ -251,87 +252,6 @@ was according to the user preferences.
         connect Ruber[:world], SIGNAL('project_created(QObject*)'), self, SLOT('restore_project(QObject*)')
         nil
       end
-      
-=begin rdoc
-Tells whether or not the cursor position should be restored.
-
-This takes into account user settings and eventual requests made by the programmer
-using the {#with} method
-@return [Boolean] *true* if the cursor position should be restored and *false*
-otherwise
-=end
-      def restore_cursor_position?
-        if @force_restore_cursor_position.nil?
-          Ruber[:config][:state, :restore_cursor_position]
-        else @force_restore_cursor_position
-        end
-      end
-
-=begin rdoc
-Tells whether or not the open files in the project should be restored.
-
-This takes into account user settings and eventual requests made by the programmer
-using the {#with} method
-@return [Boolean] *true* if the open files in the project should be restored and *false*
-otherwise
-=end
-      def restore_project_files?
-        if @force_restore_project_files.nil?
-          Ruber[:config][:state, :restore_project_files]
-        else @force_restore_project_files
-        end
-      end
-      
-=begin rdoc
-Executes a block temporarily overriding the user's settings about what should be
-restored and what shouldn't.
-
-Nested calls to this method are allowed. By default, the outer call wins over the
-inner, meaning that a value set by the inner call are only used if the outer
-call didn't set that value. You can change this behaviour by passing the @:force@
-option.
-@param [Hash] hash the settings to change. All settings not specified here will
-remain as chosen by the user
-@option hash [Boolean] :force (false) if *true*, in case of a nested call to this
-method, the values specified by the inner call will override values set by the
-outer call.
-@option hash [Boolean] :restore_cursor_position (false) whether or not the cursor position
-in documents should be restored, regardless of what the user chose
-@option hash [Boolean] :restore_project_files (false) whether or not the open
-files in projects should be restored, regardless of what the user chose
-@return [Object] the value returned by the block
-=end
-      def with hash
-        old_doc = @force_restore_cursor_position
-        old_projects = @force_restore_project_files
-        if hash.has_key? :restore_cursor_position
-          if @force_restore_cursor_position.nil? or hash[:force]
-            @force_restore_cursor_position = hash[:restore_cursor_position] || false 
-          end
-        end
-        if hash.has_key? :restore_project_files
-          if @force_restore_project_files.nil? or hash[:force]
-            @force_restore_project_files = hash[:restore_project_files] || false 
-          end
-        end
-        begin yield
-        ensure
-          @force_restore_cursor_position = old_doc
-          @force_restore_project_files = old_projects
-        end
-      end
-      
-=begin rdoc
-Restores the given document
-
-@see DocumentExtension#restore DocumentExtension#restore for more information
-
-@param [Ruber::Document] doc the document to restore
-@return [nil]
-=end
-      def restore_document doc
-        doc.extension(:state).restore
-      end
 
       def restore_project prj
         prx = prj[:state]
@@ -346,47 +266,7 @@ Restores the given document
         end
       end
       slots 'restore_project(QObject*)'
-      
-=begin rdoc
-Restores the open projects according to a given configuration object
-
-Restoring the project means closing all the open projects and opening the projects
-and setting the active project according to the information in _conf_
-
-This method is called both when the session is restored and when ruber starts
-up (if the user chose so).
-
-@param [#[Symbol, Symbol]] conf the object from which to read the state. See {#restore}
-for more information
-@return [nil]
-=end
-      def restore_projects conf = Ruber[:config]
-#         projects = Ruber[:projects]
-#         projects.to_a.each{|pr| projects.close_project pr}
-        file = conf[:state, :open_projects][0]
-        if file
-          prj = Ruber[:main_window].safe_open_project file
-          Ruber[:projects].current_project = prj if prj
-        end
-        nil
-      end
-      
-=begin rdoc
-Restores ruber state according to the user settings and the data stored in the given object
-
-The argument can be any object which has a @[]@ method which takes two arguments
-and behaves as the hash returned by {#gather_settings}.
-
-@param [#[Symbol, Symbol]] conf the object from which to read the state
-@return [nil]
-=end
-      def restore cfg = Ruber[:config]
-        if !cfg[:state, :open_projects].empty? then restore_projects cfg
-        else restore_documents cfg
-        end
-        nil
-      end
-
+           
 =begin rdoc
 Restores Ruber's state according to the user settings so that it matches the state
 it was when it was last shut down
@@ -425,26 +305,7 @@ The state information is read from the global configuration object.
           Ruber[:world].active_project = active_prj
         end
       end
-      
-=begin rdoc
-Restores Ruber's state as it was in last session
-
-Since this method deals with session management, it ignores the user settings
-
-@return [nil]
-=end
-      def restore_session data
-        hash = data['State'] || {:open_projects => [], :open_documents => [], :active_view => nil, :tabs => []}
-        hash = hash.map_hash{|k, v| [[:state, k], v]}
-        def hash.[] k, v
-          super [k, v]
-        end
-        with(:restore_project_files => true, :restore_cursor_position => true, :force => true) do
-          restore hash
-        end
-        nil
-      end
-      
+            
 =begin rdoc
 Saves Ruber's state to the global config object
 
@@ -472,15 +333,6 @@ Saves Ruber's state to the global config object
       end
       
 =begin rdoc
-Override of {PluginLike#session_data}
-
-@return [Hash] a hash containing the session information under the @State@ key
-=end
-      def session_data
-        {'State' => gather_settings}
-      end
-      
-=begin rdoc
 The open projects in a form suitable to be written to a configuration object
 
 @return [Array<String>] an array containing the names of the project files for
@@ -496,21 +348,6 @@ The open projects in a form suitable to be written to a configuration object
         end
         projects
       end
-
-=begin rdoc
-The open documents in a form suitable to be written to a configuration object
-
-@return [Array<String,nil>] an array containing the names of the URLs associated with
-  the currently open documents. Documents not associated with files are represented
-  by *nil*s in the array. This value is the one to write under the @state/open_documents@
-  entry in a project or configuration object
-=end
-      def documents_state
-        docs = Ruber[:world].documents
-        docs.map{ |doc| doc.has_file? ? doc.url.to_encoded.to_s : nil}
-      end
-     
-      private      
       
     end
     
@@ -587,7 +424,7 @@ is created
 @return [nil]
 =end
       def auto_restore view
-        restore view if Ruber[:state].restore_cursor_position?
+        restore view if Ruber[:config][:state, :restore_cursor_position] #.restore_cursor_position?
         connect view, SIGNAL('focus_in(QWidget*)'), self, SLOT('view_received_focus(QWidget*)')
         nil
       end
@@ -644,21 +481,8 @@ when the project was last closed
       def initialize prj
         super
         @project = prj
-        connect @project, SIGNAL(:activated), self, SLOT(:auto_restore)
-        connect @project, SIGNAL(:deactivated), self, SLOT(:save_settings)
-      end
-      
-=begin rdoc
-Restore Ruber's state as it was when the project was last closed
-
-See {Plugin#restore_documents} for more information
-
-@return [nil]
-=end
-
-      def restore
-        Ruber[:state].restore_documents @project
-        nil
+#         connect @project, SIGNAL(:activated), self, SLOT(:auto_restore)
+#         connect @project, SIGNAL(:deactivated), self, SLOT(:save_settings)
       end
       
 =begin rdoc
@@ -675,19 +499,6 @@ in the views and the active view
         @project[:state, :active_view] = state[:active_view]
         @project[:state, :cursor_positions] = state[:cursor_positions]
         nil
-      end
-      
-      private   
-
-=begin rdoc
-Restores the project's state when a new project is activated
-
-It does nothing if the user choosed not to restore the projects's state.
-@return [nil]
-=end
-      def auto_restore
-        @project.disconnect SIGNAL(:activated), self, SLOT(:auto_restore)
-        restore if Ruber[:state].restore_project_files?
       end
       
     end
