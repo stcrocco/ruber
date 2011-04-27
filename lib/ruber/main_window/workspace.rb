@@ -23,24 +23,34 @@ require 'facets/enumerable/sum'
 module Ruber
   
 =begin rdoc
-Widget representing the main area of Ruber's main window, containing the tool
-widgets, together with their tab bars, and the tab widget containing the views.
+Widget representing the main area of Ruber's main window. It contains the space
+for the main widget (that is, the tab widget where the editors are located) and
+the tool widgets, together with their tab bars.
 
-===Tool Widgets
-The workspace provides three <i>tool widgets containers</i>, on all sides of the
-editor views except above them. The container on each side is indipendent from the
-others.
+To allow for several main widgets existing (but not being visible) at the same time
+(one main widget for each environment) the space for the main widget is given by
+a single @Qt::StackedWidget@, where the different main widgets are placed using
+{#add_widget}. {#main_widget=} is then used to bring one of the main widgets to
+the foreground; {#remove_widget} removes a widget from the stacked widget (to be
+used when a project is closed).
 
-A tool widget can be
-* +raised+ or +lowered+: a raised tool widget is the only one which can bee seen
-  and interact with the user. There can be only one raised tool widget for side.
-  All other tool widgets are said to be lowered.
-* +visible+ or +hidden+: while a lowered tool widget is can never be seen, the
-  opposite is not necessarily true. A raised tool widget will be visible only if
-  its container is visible, otherwise it will be hidden, too
-* +active+ or +inactive+: a tool widget is active only if it has focus, otherwise
-  it's inactive. Obviously, only visible tool widgets can be active and there can
-  be at most one active tool widget in all the workspace.
+The workspace provides three _tool widgets containers_, one on each side of the
+main widget except above it. The container on each side is indipendent from the
+others. The containers have buttons for their tool widgets and a @Qt::StackedWidget@
+for the widget themselves. Each container is indipendent from the other ones
+
+A tool widget can be in several different states:
+* _raised_ or _lowered_: a tool widget is _raised_ when it's on the top of its container
+  stacked widget. There can be only one raised tool widget for side. All tool widgets
+  which aren't raised are said to be _lowered_
+* _visible_ or _hidden_: each tool widget container can be visible or hidden. The
+  raised tool widget in a visible container is said to be _visible_. Widgets in
+  an hidden container are said to be _hidden_.
+* _active_ or _inactive_: the _active_ tool widget is the one which has keyboard
+  focus; all others are _inactive_. Of course there can be at most one active tool
+  widget across the whole workspace. If the focus is not in one of the tool widgets
+  (most likely meaning one of the editors has focus), all tool widgets will be
+  inactive.
 =end
   class Workspace < Qt::Widget
     
@@ -112,18 +122,11 @@ Internal class used to store information about the position of a tool widget
     signals 'tool_shown(QWidget*)'
     
     slots 'toggle_tool(int)'
-    
+       
 =begin rdoc
-@return [Qt::Widget] the widget in the center of the workspace
-=end
-    attr_reader :main_widget
-    
-=begin rdoc
-@param [Qt::Widget] main_widget the widget in the center of the workspace. Usually
-  it's the tab widget which contains the editor views
 @param [Qt::Widget,nil] parent the parent widget
 =end
-    def initialize main_widget, parent = nil
+    def initialize parent = nil
       super parent
       @button_bars = {}
       @splitters = {}
@@ -132,20 +135,28 @@ Internal class used to store information about the position of a tool widget
       @next_id = 0
       @tool_sizes = {}
       @sizes = Ruber[:config][:workspace, :tools_sizes].dup
-      create_skeleton main_widget
+      create_skeleton
     end
     
-=begin rdoc
-Changes the main widget
-
-The previous main widget won't be deleted, closed or hidden, but becomes parentless
-@param [Qt::Widget] w the new main widget
-=end
+    def add_widget w
+      @main_widget.add_widget w
+    end
+    
+    def remove_widget w
+      @main_widget.remove_widget w
+    end
+    
+    def main_widget
+      @main_widget.current_widget
+    end
+    
     def main_widget= w
-      @splitters[:horizontal].widget(1).parent = nil
-      @splitters[:horizontal].insert_widget 1, w
+      unless @main_widget.include? w
+        Kernel.raise ArgumentError, "a widget which has not been added to the workspace can\'t become the main widget"
+      end
+      @main_widget.current_widget = w
     end
-    
+
 =begin rdoc
 Adds a tool widget to the workspace
 
@@ -353,7 +364,7 @@ Returns the active tool widget, or *nil* if there's no active tool widget.
 Helper method which creates the structure of the workspace (layout, button bars,
 splitters and tab view)
 =end
-    def create_skeleton main_widget
+    def create_skeleton
       self.layout = Qt::GridLayout.new self
       layout.set_contents_margins 0,0,0,0
       layout.vertical_spacing = 0
@@ -376,7 +387,7 @@ splitters and tab view)
       v.add_widget h
       v.add_widget @stacks[:bottom]
       h.add_widget @stacks[:left]
-      @main_widget = main_widget
+      @main_widget = Qt::StackedWidget.new self
       h.add_widget @main_widget
       h.add_widget @stacks[:right]
     end

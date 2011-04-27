@@ -7,13 +7,13 @@ describe 'Ruber::Workspace, when created' do
   before do
     @config = flexmock{|m| m.should_receive(:[]).with(:workspace, :tools_sizes).and_return({}).by_default}
     flexmock(Ruber).should_receive(:[]).with(:config).and_return(@config).by_default
-    @ws = Ruber::Workspace.new KDE::TabWidget.new
+    @ws = Ruber::Workspace.new
   end
   
   it 'should read the sizes of the tool widgets from the configuration manager' do
     exp = {'Tool1' => 30, 'Tool2' => 50}
     @config.should_receive(:[]).with(:workspace, :tools_sizes).once.and_return(exp)
-    ws = Ruber::Workspace.new KDE::TabWidget.new
+    ws = Ruber::Workspace.new
     ws.instance_variable_get(:@sizes).should == exp
   end
   
@@ -45,10 +45,10 @@ describe 'Ruber::Workspace, when created' do
     hsplit.widget(2).should be_a(Qt::StackedWidget)
   end
   
-  it 'puts the first argument passed to the constructor in the middle of the horizontal splitter' do
-    @ws = Ruber::Workspace.new Qt::Label.new('text')
+  it 'puts a stacked widget in the middle of the horizontal splitter' do
+    @ws = Ruber::Workspace.new
     hsplit = @ws.layout.item_at_position(0,1).widget.widget(0)
-    hsplit.widget(1).should be_a(Qt::Label)
+    hsplit.widget(1).should be_a(Qt::StackedWidget)
   end
   
   it 'should have all the stacks hidden' do
@@ -62,7 +62,7 @@ describe 'Ruber::Workspace#add_tool_widget' do
   before do
     @config = flexmock{|m| m.should_receive(:[]).with(:workspace, :tools_sizes).and_return({}).by_default}
     flexmock(Ruber).should_receive(:[]).with(:config).and_return(@config).by_default
-    @ws = Ruber::Workspace.new KDE::TabWidget.new
+    @ws = Ruber::Workspace.new
   end
   
   it 'should add a tab to the button bar on the given side' do
@@ -95,7 +95,7 @@ describe 'Ruber::Workspace#remove_tool_widget' do
   before do
     @config = flexmock{|m| m.should_receive(:[]).with(:workspace, :tools_sizes).and_return({}).by_default}
     flexmock(Ruber).should_receive(:[]).with(:config).and_return(@config).by_default
-    @ws = Ruber::Workspace.new KDE::TabWidget.new
+    @ws = Ruber::Workspace.new
     @widget = Qt::Label.new
     @bar = @ws.instance_variable_get(:@button_bars)[:bottom]
     @pix = KDE::IconLoader.global.load_icon('document-new', KDE::IconLoader::Toolbar)
@@ -171,7 +171,7 @@ describe 'Ruber::Workspace#raise_tool' do
   before do
     @config = flexmock{|m| m.should_receive(:[]).with(:workspace, :tools_sizes).and_return({}).by_default}
     flexmock(Ruber).should_receive(:[]).with(:config).and_return(@config).by_default
-    @ws = Ruber::Workspace.new KDE::TabWidget.new
+    @ws = Ruber::Workspace.new
     @widgets = [Qt::Label.new, Qt::TextEdit.new]
     pix = KDE::IconLoader.global.load_icon('document-new', KDE::IconLoader::Toolbar)
     @ws.add_tool_widget :bottom, @widgets[0], pix, 'Tool1'
@@ -297,7 +297,7 @@ describe 'Ruber::Workspace#show_tool' do
   before do
     @config = flexmock{|m| m.should_receive(:[]).with(:workspace, :tools_sizes).and_return({}).by_default}
     flexmock(Ruber).should_receive(:[]).with(:config).and_return(@config).by_default
-    @ws = Ruber::Workspace.new KDE::TabWidget.new
+    @ws = Ruber::Workspace.new
     @widgets = [Qt::Label.new, Qt::TextEdit.new]
     pix = KDE::IconLoader.global.load_icon('document-new', KDE::IconLoader::Toolbar)
     @ws.add_tool_widget :bottom, @widgets[0], pix, 'Tool1'
@@ -389,7 +389,7 @@ describe 'Ruber::Workspace#activate_tool' do
   before do
     @config = flexmock{|m| m.should_receive(:[]).with(:workspace, :tools_sizes).and_return({}).by_default}
     flexmock(Ruber).should_receive(:[]).with(:config).and_return(@config).by_default
-    @ws = Ruber::Workspace.new KDE::TabWidget.new
+    @ws = Ruber::Workspace.new
     @widgets = [Qt::Label.new, Qt::TextEdit.new]
     pix = KDE::IconLoader.global.load_icon('document-new', KDE::IconLoader::Toolbar)
     @ws.add_tool_widget :bottom, @widgets[0], pix, 'Tool1'
@@ -441,7 +441,7 @@ describe 'Ruber::Workspace#hide_tool' do
     @mw = flexmock{|m| m.should_receive(:focus_on_editor).by_default}
     flexmock(Ruber).should_receive(:[]).with(:config).and_return(@config).by_default
     flexmock(Ruber).should_receive(:[]).with(:main_window).and_return(@mw).by_default
-    @ws = Ruber::Workspace.new KDE::TabWidget.new
+    @ws = Ruber::Workspace.new 
     @widgets = [Qt::LineEdit.new, Qt::GraphicsView.new]
     @ws.add_tool_widget :left, @widgets[0], Qt::Pixmap.new, 'Tool1'
     @ws.add_tool_widget :left, @widgets[1], Qt::Pixmap.new, 'Tool2'
@@ -562,7 +562,7 @@ describe 'Ruber::Workspace#toggle_tool' do
   before do
     @config = flexmock{|m| m.should_receive(:[]).with(:workspace, :tools_sizes).and_return({}).by_default}
     flexmock(Ruber).should_receive(:[]).with(:config).and_return(@config).by_default
-    @ws = Ruber::Workspace.new KDE::TabWidget.new
+    @ws = Ruber::Workspace.new
     @widgets = [Qt::LineEdit.new, Qt::GraphicsView.new]
     @ws.add_tool_widget :left, @widgets[0], Qt::Pixmap.new, 'Tool1'
     @ws.add_tool_widget :left, @widgets[1], Qt::Pixmap.new, 'Tool2'
@@ -620,7 +620,7 @@ describe 'Ruber::Workspace, when a tool widget tab is clicked' do
   before do
     @config = flexmock{|m| m.should_receive(:[]).with(:workspace, :tools_sizes).and_return({}).by_default}
     flexmock(Ruber).should_receive(:[]).with(:config).and_return(@config).by_default
-    @ws = Ruber::Workspace.new KDE::TabWidget.new
+    @ws = Ruber::Workspace.new
     @widgets = [Qt::LineEdit.new, Qt::GraphicsView.new]
     @ws.add_tool_widget :left, @widgets[0], Qt::Pixmap.new, 'Tool1'
     @ws.add_tool_widget :left, @widgets[1], Qt::Pixmap.new, 'Tool2'
@@ -640,7 +640,7 @@ describe 'Ruber::Workspace#resize_tool' do
   before do
     @config = flexmock{|m| m.should_receive(:[]).with(:workspace, :tools_sizes).and_return({}).by_default}
     flexmock(Ruber).should_receive(:[]).with(:config).and_return(@config).by_default
-    @ws = Ruber::Workspace.new KDE::TabWidget.new
+    @ws = Ruber::Workspace.new
     @widgets = {:left => Qt::LineEdit.new, :right => Qt::GraphicsView.new, :bottom => Qt::TextEdit.new}
     @widgets.each_pair do |side, w|
       @ws.add_tool_widget side, w, Qt::Pixmap.new, "Tool #{side}"
@@ -693,7 +693,7 @@ describe 'Ruber::Workspace#store_tool_size' do
   before do
     @config = flexmock{|m| m.should_receive(:[]).with(:workspace, :tools_sizes).and_return({}).by_default}
     flexmock(Ruber).should_receive(:[]).with(:config).and_return(@config).by_default
-    @ws = Ruber::Workspace.new KDE::TabWidget.new
+    @ws = Ruber::Workspace.new
     @widgets = {:left => Qt::LineEdit.new, :right => Qt::GraphicsView.new, :bottom => Qt::TextEdit.new}
     @widgets.each_pair do |side, w|
       @ws.add_tool_widget side, w, Qt::Pixmap.new, "Tool #{side}"
@@ -731,7 +731,7 @@ describe 'Ruber::Workspace#store_sizes' do
       m.should_receive(:[]=).by_default
     end
     flexmock(Ruber).should_receive(:[]).with(:config).and_return(@config).by_default
-    @ws = Ruber::Workspace.new KDE::TabWidget.new
+    @ws = Ruber::Workspace.new
     @widgets = {:left => Qt::LineEdit.new, :right => Qt::GraphicsView.new, :bottom => Qt::TextEdit.new}
     @widgets.each_pair do |side, w|
       @ws.add_tool_widget side, w, Qt::Pixmap.new, "Tool #{side}"
@@ -771,7 +771,7 @@ describe 'Ruber::Workspace#tool_widgets' do
       m.should_receive(:[]=).by_default
     end
     flexmock(Ruber).should_receive(:[]).with(:config).and_return(@config).by_default
-    @ws = Ruber::Workspace.new KDE::TabWidget.new
+    @ws = Ruber::Workspace.new
     @widgets = {:left => Qt::LineEdit.new, :right => Qt::GraphicsView.new, :bottom => Qt::TextEdit.new}
     @widgets.each_pair do |side, w|
       @ws.add_tool_widget side, w, Qt::Pixmap.new, "Tool #{side}"
@@ -789,7 +789,7 @@ describe 'Ruber::Workspace#active_tool' do
   before do
     @config = flexmock{|m| m.should_receive(:[]).with(:workspace, :tools_sizes).and_return({}).by_default}
     flexmock(Ruber).should_receive(:[]).with(:config).and_return(@config).by_default
-    @ws = Ruber::Workspace.new KDE::TabWidget.new
+    @ws = Ruber::Workspace.new
     @widgets = [Qt::LineEdit.new, Qt::TextEdit.new, Qt::CheckBox.new, Qt::Widget.new]
     w = @widgets[-1]
     @inner = [Qt::ListView.new(w), Qt::TreeWidget.new(w)]
@@ -827,7 +827,7 @@ describe Ruber::Workspace do
   before do
     @config = flexmock{|m| m.should_receive(:[]).with(:workspace, :tools_sizes).and_return({}).by_default}
     flexmock(Ruber).should_receive(:[]).with(:config).and_return(@config).by_default
-    @ws = Ruber::Workspace.new KDE::TabWidget.new
+    @ws = Ruber::Workspace.new
     @widgets = [Qt::LineEdit.new, Qt::TextEdit.new, Qt::CheckBox.new, Qt::Widget.new]
     w = @widgets[-1]
     @sides = [:left, :right, :bottom, :bottom]
@@ -879,8 +879,80 @@ describe Ruber::Workspace do
     @config = flexmock{|m| m.should_receive(:[]).with(:workspace, :tools_sizes).and_return({}).by_default}
     flexmock(Ruber).should_receive(:[]).with(:config).and_return(@config).by_default
 
-    @main_widget = KDE::TabWidget.new
-    @ws = Ruber::Workspace.new @main_widget
+#     @main_widget = KDE::TabWidget.new
+    @ws = Ruber::Workspace.new
+  end
+  
+  describe '#add_widget' do
+    
+    it 'adds the argument to the main stacked widget' do
+      hsplit = @ws.layout.item_at_position(0,1).widget.widget(0)
+      stack = hsplit.widget(1)
+      tab_widget = KDE::TabWidget.new
+      @ws.add_widget tab_widget
+      stack.should include(tab_widget)
+    end
+    
+  end
+  
+  describe '#remove_widget' do
+    
+    it 'removes the widget from the stacked widget' do
+      hsplit = @ws.layout.item_at_position(0,1).widget.widget(0)
+      stack = hsplit.widget(1)
+      tab_widget = KDE::TabWidget.new
+      @ws.add_widget tab_widget
+      @ws.remove_widget tab_widget
+      stack.should_not include(tab_widget)
+    end
+    
+    it 'does nothing if the widget is not contained in the stacked widget' do
+      hsplit = @ws.layout.item_at_position(0,1).widget.widget(0)
+      stack = hsplit.widget(1)
+      tab_widget = KDE::TabWidget.new
+      lambda{@ws.remove_widget tab_widget}.should_not raise_error
+      stack.should_not include(tab_widget)
+    end
+    
+  end
+  
+  describe '#main_widget=' do
+    
+    it 'brings the given widget to the front of the main stacked widget' do
+      hsplit = @ws.layout.item_at_position(0,1).widget.widget(0)
+      stack = hsplit.widget(1)
+      tabs = Array.new(3){|i| KDE::TabWidget.new}
+      tabs.each{|w| @ws.add_widget w}
+      stack.current_widget = tabs[1]
+      @ws.main_widget= tabs[0]
+      stack.current_widget.should == tabs[0]
+    end
+    
+    it 'raises ArgumentError if the widget has not been added to the stacked widget' do
+      tabs = Array.new(3){|i| KDE::TabWidget.new}
+      tabs.each{|w| @ws.add_widget w}
+      @ws.main_widget= tabs[0]
+      lambda{@ws.main_widget = KDE::TabWidget.new}.should raise_error(ArgumentError, "a widget which has not been added to the workspace can\'t become the main widget")
+      @ws.main_widget.should == tabs[0]
+    end
+    
+  end
+  
+  describe '#main_widget' do
+    
+    it 'returns the widget set with main_widget=' do
+      tabs = Array.new(3){|i| KDE::TabWidget.new}
+      tabs.each{|w| @ws.add_widget w}
+      @ws.main_widget= tabs[1]
+      @ws.main_widget.should == tabs[1]
+    end
+    
+    it 'returns the first added widget if main_widget= was never called' do
+      tabs = Array.new(3){|i| KDE::TabWidget.new}
+      tabs.each{|w| @ws.add_widget w}
+      @ws.main_widget.should == tabs[0]
+    end
+    
   end
   
   describe '#central_widget=' do
