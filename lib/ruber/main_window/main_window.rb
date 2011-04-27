@@ -275,7 +275,7 @@ hint, a new one will be created, unless the @create_if_needed@ hint is *false*.
 @raise [ArgumentError] if _doc_ is a path or a @KDE::Url@ but the corresponding
   file doesn't exist
 =end
-    def editor_for! doc, hints = World::Environment::DEFAULT_HINTS
+    def editor_for! doc, hints = {}
       @active_environment.editor_for! doc, hints
 #       hints = DEFAULT_HINTS.merge hints
 #       if hints[:new] == :replace
@@ -455,7 +455,7 @@ Besides the keys listed in {#editor_for!}, _hints_ can also contain the two entr
 @return [EditorView,nil] the editor which has been activated or *nil* if the
   editor couldn't be found (or created)
 =end
-    def display_document doc, hints = DEFAULT_HINTS
+    def display_document doc, hints = {}
       @active_environment.display_document doc, hints
 #       ed = editor_for! doc, hints
 #       return unless ed
