@@ -93,21 +93,13 @@ It adds the document to the part manager and makes several signal-slot connectio
 @return [nil]
 =end
     def document_created doc
-#       @view_manager.part_manager.add_part doc.send(:internal)
       connect doc, SIGNAL('modified_changed(bool, QObject*)'), self, SLOT('document_modified_changed(bool)')
-#       connect doc, SIGNAL('modified_on_disk(QObject*, bool, KTextEditor::ModificationInterface::ModifiedOnDiskReason)'), self, SLOT('update_document_icon(QObject*)')
       connect doc, SIGNAL('document_url_changed(QObject*)'), self, SLOT(:document_url_changed)
       connect doc, SIGNAL(:completed), self, SLOT(:document_url_changed)
-#      connect doc, SIGNAL('closing(QObject*)'), self, SLOT('remove_document_from_part_manager(QObject*)')
       update_switch_to_list
     end
     slots 'document_created(QObject*)'
 
-#     def remove_document_from_part_manager doc
-#       @view_manager.part_manager.remove_part doc.send(:internal)
-#     end
-#     slots 'remove_document_from_part_manager(QObject*)'
-    
     def slot_active_environment_changed(new, old)
       if old
         old.disconnect SIGNAL('active_editor_changed(QWidget*)'), self, SLOT('slot_active_editor_changed(QWidget*)')
@@ -142,6 +134,19 @@ and updates the title and the statusbar
       nil
     end
     slots 'slot_active_editor_changed(QWidget*)'
+    
+    def slot_project_created prj
+      @workspace.add_widget prj.environment.tab_widget
+      update_active_project_menu
+    end
+    slots 'slot_project_created(QObject*)'
+    
+    def slot_project_closing prj
+      @workspace.remove_widget prj.environment.tab_widget
+      update_active_project_menu prj
+    end
+    slots 'slot_project_closing(QObject*)'
+    
 
 =begin rdoc
 Changes the icon in the tab corresponding to a document so that it reflects its

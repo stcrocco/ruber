@@ -90,8 +90,9 @@ is the plugin description for this object.
       initialize_plugin pdf
       initialize_states_handler
       @active_environment = nil
-      @workspace = Workspace.new Ruber[:world].default_environment.tab_widget, self
+      @workspace = Workspace.new self
       self.central_widget = @workspace
+      @workspace.add_widget Ruber[:world].default_environment.tab_widget
       @ui_states = {}
       @actions_state_handlers = Hash.new{|h, k| h[k] = []}
       @about_plugin_actions = []
@@ -113,8 +114,8 @@ is the plugin description for this object.
       active_project_action = action_collection.action('project-active_project')
       default_view_action = active_project_action.add_action '&None (single files mode)'
       
-      connect Ruber[:world], SIGNAL('project_created(QObject*)'), self, SLOT(:update_active_project_menu)
-      connect Ruber[:world], SIGNAL('closing_project(QObject*)'), self, SLOT('update_active_project_menu(QObject*)')
+      connect Ruber[:world], SIGNAL('project_created(QObject*)'), self, SLOT('slot_project_created(QObject*)')
+      connect Ruber[:world], SIGNAL('closing_project(QObject*)'), self, SLOT('slot_project_closing(QObject*)')
       Ruber[:world].connect SIGNAL('active_project_changed(QObject*)') do |prj|
         @active_environment = Ruber[:world].environment prj
       end
