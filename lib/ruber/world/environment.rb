@@ -351,7 +351,7 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
         #want that setting to be kept until the environment becomes active again,
         #so we store the original value in a temp variable and restore it afterwards
         old_focus_on_editors = @focus_on_editors
-        @tab_widget.hide
+#         @tab_widget.hide
         deactivate_editor @active_editor
         @focus_on_editors = old_focus_on_editors
         super
@@ -362,7 +362,7 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
         #want that setting to be kept until the environment becomes active again,
         #so we store the original value in a temp variable and restore it afterwards
         old_focus_on_editors = @focus_on_editors
-        @tab_widget.show
+#         @tab_widget.show
         @focus_on_editors = old_focus_on_editors
         activate_editor @views.by_activation[0]
         super
