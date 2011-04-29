@@ -11,7 +11,13 @@ h3. Features
 
 * Made the Auto End plugin recognize some other keywords: @unless@, @for@, @while@,
   @until@ (the last two were already recognized when followed by a @do@)
+  
+h3. Bug fixes
 
+* The RSpec plugin now correctly displays pending examples
+* Fixed a crash when creating a new document and saving it as a ruby file while
+  using the Syntax Checker plugin
+  
 h2. Ruber 0.0.8
 
 h3. Features
