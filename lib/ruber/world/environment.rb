@@ -309,7 +309,7 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
         end
         connect editor, SIGNAL('focus_in(QWidget*)'), self, SLOT('editor_got_focus(QWidget*)')
         connect doc, SIGNAL('modified_changed(bool, QObject*)'), self, SLOT('document_modified_status_changed(bool, QObject*)')
-        editor.connect(SIGNAL('focus_out(QWidget*)')){@focus_on_editors = false}
+        connect editor, SIGNAL('focus_out(QWidget*)'), self, SLOT('editor_lost_focus(QWidget*)')
         update_pane pane
       end
       
@@ -321,6 +321,7 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
           deactivate_editor editor
         end
         disconnect editor, SIGNAL('focus_in(QWidget*)'), self, SLOT('editor_got_focus(QWidget*)')
+        disconnect editor, SIGNAL('focus_out(QWidget*)'), self, SLOT('editor_lost_focus(QWidget*)')
         @views.remove_view editor
         unless @views.by_tab[editor_tab]
           @tab_widget.remove_tab @tab_widget.index_of(editor_tab) 
@@ -346,6 +347,20 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
       end
       slots 'editor_got_focus(QWidget*)'
       
+      def editor_lost_focus editor
+        #When an editor is closed, the editor's parent pane is made parentless before the removing_editor
+        #signal is emitted by the pane, which means the editor is hidden (and thus
+        #looses focus) before it is actually closed. We don't want @focus_on_editors
+        #to be changed in that case (otherwise closing an editor which had focus
+        #would cause focus not to be given to the next active editor). The only
+        #check I can think of is whether the editor's parent pane has a parent pane
+        #or not
+        if editor.is_active_window and editor.parent.parent_pane
+          @focus_on_editors = false 
+        end
+      end
+      slots 'editor_lost_focus(QWidget*)'
+      
       def do_deactivation
         #hiding the tab widget would make the editors all loose focus, but we
         #want that setting to be kept until the environment becomes active again,
@@ -361,9 +376,9 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
         #showing the tab widget may make some editors all receive focus, but we
         #want that setting to be kept until the environment becomes active again,
         #so we store the original value in a temp variable and restore it afterwards
-        old_focus_on_editors = @focus_on_editors
+#         old_focus_on_editors = @focus_on_editors
 #         @tab_widget.show
-        @focus_on_editors = old_focus_on_editors
+#         @focus_on_editors = old_focus_on_editors
         activate_editor @views.by_activation[0]
         super
       end
