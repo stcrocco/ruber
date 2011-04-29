@@ -68,6 +68,9 @@ Saves the properties for session management
 =end
     def saveProperties conf
       data = YAML.dump @session_data 
+      #Without this, there's a crash from the C++ side in KateViewInternal::~KateViewInternal
+      #I don't know why this happens
+      @active_environment.tab(active_editor).hide
       conf.write_entry 'Ruber', data
       nil
     end
