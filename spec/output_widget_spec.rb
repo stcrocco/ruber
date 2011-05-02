@@ -1089,36 +1089,165 @@ describe Ruber::OutputWidget do
       @mod.append_row Qt::StandardItem.new('')
     end
     
-    it 'calls the find_filename_in_string method, passing it the text of the index, if the argument is a Qt::ModelIndex' do
-      @mod.item(0,0).text = __FILE__
-      flexmock(@ow).should_receive(:find_filename_in_string).once.with __FILE__
-      @ow.send :find_filename_in_index, @mod.index(0,0)
+    context 'when the argument is a Qt::ModelIndex' do
+      
+      it 'calls #find_filename_in_string passing the text associated with the index as argument' do
+        @mod.item(0,0).text = __FILE__
+        flexmock(@ow).should_receive(:find_filename_in_string).with __FILE__
+        @ow.send :find_filename_in_index, @mod.index(0,0)
+      end
+      
     end
     
-    it 'calls the find_filename_in_string method, passing it the argument, if the argument is a string' do
-      @mod.item(0,0).text = __FILE__
-      flexmock(@ow).should_receive(:find_filename_in_string).once.with __FILE__
-      @ow.send :find_filename_in_index, __FILE__
+    context 'when the argument is a string' do
+      
+      it 'calls #find_filename_in_string passing the string as argument' do
+        @mod.item(0,0).text = __FILE__
+        flexmock(@ow).should_receive(:find_filename_in_string).once.with __FILE__
+        @ow.send :find_filename_in_index, __FILE__
+      end
+      
+    end
+    
+    context 'when #find_filename_in_string returns nil' do
+      
+      it 'returns nil' do
+        flexmock(@ow).should_receive(:find_filename_in_string).once.with('').and_return nil
+        @ow.send(:find_filename_in_index, @mod.index(0,0)).should be_nil
+      end
+      
+    end
+    
+    context 'when #find_filename_in_string returns a string' do
+      
+      it 'returns an array with the string as first argument and 0 as second argument' do
+        flexmock(@ow).should_receive(:find_filename_in_string).once.with('').and_return __FILE__
+        @ow.send(:find_filename_in_index, @mod.index(0,0)).should == [__FILE__, 0]
+      end
+      
+    end
+    
+    context 'when #find_filename_in_string returns an array with one element' do
+      
+      it 'returns the array after appending a 0 to it' do
+        flexmock(@ow).should_receive(:find_filename_in_string).once.with('').and_return [__FILE__]
+        @ow.send(:find_filename_in_index, @mod.index(0,0)).should == [__FILE__, 0]
+      end
+      
+    end
+    
+    context 'when #find_filename_in_string returns an array with two elements' do
+      
+      it 'returns the array' do
+        flexmock(@ow).should_receive(:find_filename_in_string).once.with('').and_return [__FILE__, 6]
+        @ow.send(:find_filename_in_index, @mod.index(0,0)).should == [__FILE__, 6]
+      end
+      
     end
 
-    it 'returns nil if find_filename_in_string returns nil' do
-      flexmock(@ow).should_receive(:find_filename_in_string).once.with('').and_return nil
-      @ow.send(:find_filename_in_index, @mod.index(0,0)).should be_nil
+    context 'when the string or first element of the array returned by #find_filename_in_string is an absolute path' do
+      
+      it 'transforms it in a canonical path' do
+        path_parts = __FILE__.split('/')
+        orig_path = path_parts[0..-2].join('/') + '/../' + path_parts[-2..-1].join('/')
+        flexmock(@ow).should_receive(:find_filename_in_string).once.and_return [orig_path, 0]
+        @ow.send(:find_filename_in_index, @mod.index(0,0)).should == [__FILE__, 0]
+        flexmock(@ow).should_receive(:find_filename_in_string).once.and_return orig_path
+        @ow.send(:find_filename_in_index, @mod.index(0,0)).should == [__FILE__, 0]
+      end
+      
     end
     
-    it 'returns an array having the value returned by find_filename_in_string as first element and 0 as second if find_filename_in_string returns a string' do
-      flexmock(@ow).should_receive(:find_filename_in_string).once.with('').and_return __FILE__
-      @ow.send(:find_filename_in_index, @mod.index(0,0)).should == [__FILE__, 0]
+    context 'when the string or first element of the array returned by #find_filename_in_string is a relative path' do
+      
+      it 'transforms it into an absolute filename relative to the working directory' do
+        @ow.working_dir = File.dirname __FILE__
+        flexmock(@ow).should_receive(:find_filename_in_string).once.with('').and_return [File.basename(__FILE__), 6]
+        flexmock(@ow).should_receive(:find_filename_in_string).once.with('').and_return [File.basename(__FILE__)]
+        flexmock(@ow).should_receive(:find_filename_in_string).once.with('').and_return File.basename(__FILE__)
+        @ow.send(:find_filename_in_index, @mod.index(0,0)).should == [__FILE__, 6]
+        @ow.send(:find_filename_in_index, @mod.index(0,0)).should == [__FILE__, 0]
+        @ow.send(:find_filename_in_index, @mod.index(0,0)).should == [__FILE__, 0]
+      end
+      
+      it 'transforms it in a canonical path' do
+        @ow.working_dir = File.dirname File.dirname(__FILE__)
+        path_parts = __FILE__.split('/')
+        orig_path = "spec/../spec/#{File.basename(__FILE__)}"
+        
+        flexmock(@ow).should_receive(:find_filename_in_string).once.with('').and_return [orig_path, 6]
+        flexmock(@ow).should_receive(:find_filename_in_string).once.with('').and_return [orig_path]
+        flexmock(@ow).should_receive(:find_filename_in_string).once.with('').and_return orig_path
+        @ow.send(:find_filename_in_index, @mod.index(0,0)).should == [__FILE__, 6]
+        @ow.send(:find_filename_in_index, @mod.index(0,0)).should == [__FILE__, 0]
+        @ow.send(:find_filename_in_index, @mod.index(0,0)).should == [__FILE__, 0]
+      end
+
     end
     
-    it 'returns an array having the value returned by find_filename_in_string as first element and 0 as second if find_filename_in_string returns an array with one element' do
-      flexmock(@ow).should_receive(:find_filename_in_string).once.with('').and_return [__FILE__]
-      @ow.send(:find_filename_in_index, @mod.index(0,0)).should == [__FILE__, 0]
+    context 'when the string or first element of the array returned by #find_filename_in_string is an URL with the file scheme' do
+      
+      context 'if the name of the file is an absolute path' do
+        
+        it 'returns the path corresponding to the URL as first element of the array' do
+          url = 'file://' + __FILE__
+          flexmock(@ow).should_receive(:find_filename_in_string).once.and_return [url, 0]
+          @ow.send(:find_filename_in_index, @mod.index(0,0)).should == [__FILE__, 0]
+          flexmock(@ow).should_receive(:find_filename_in_string).once.and_return url
+          @ow.send(:find_filename_in_index, @mod.index(0,0)).should == [__FILE__, 0]
+        end
+        
+        it 'transforms it in a canonical path' do
+          path_parts = __FILE__.split('/')
+          url = 'file://' + path_parts[0..-2].join('/') + '/../' + path_parts[-2..-1].join('/')
+          flexmock(@ow).should_receive(:find_filename_in_string).once.and_return [url, 0]
+          @ow.send(:find_filename_in_index, @mod.index(0,0)).should == [__FILE__, 0]
+          flexmock(@ow).should_receive(:find_filename_in_string).once.and_return url
+          @ow.send(:find_filename_in_index, @mod.index(0,0)).should == [__FILE__, 0]
+        end
+      
+      end
+      
+      context 'if the name of the file is a relative path' do
+        
+        it 'transforms it into an absolute filename relative to the working directory' do
+          @ow.working_dir = File.dirname __FILE__
+          url = 'file://' + File.basename(__FILE__)
+          flexmock(@ow).should_receive(:find_filename_in_string).once.with('').and_return [url, 6]
+          flexmock(@ow).should_receive(:find_filename_in_string).once.with('').and_return [url]
+          flexmock(@ow).should_receive(:find_filename_in_string).once.with('').and_return url
+          @ow.send(:find_filename_in_index, @mod.index(0,0)).should == [__FILE__, 6]
+          @ow.send(:find_filename_in_index, @mod.index(0,0)).should == [__FILE__, 0]
+          @ow.send(:find_filename_in_index, @mod.index(0,0)).should == [__FILE__, 0]
+        end
+        
+        it 'transforms it in a canonical path' do
+          @ow.working_dir = File.dirname File.dirname(__FILE__)
+          url = "file://spec/../spec/#{File.basename(__FILE__)}"
+          flexmock(@ow).should_receive(:find_filename_in_string).once.with('').and_return [url, 6]
+          flexmock(@ow).should_receive(:find_filename_in_string).once.with('').and_return [url]
+          flexmock(@ow).should_receive(:find_filename_in_string).once.with('').and_return url
+          @ow.send(:find_filename_in_index, @mod.index(0,0)).should == [__FILE__, 6]
+          @ow.send(:find_filename_in_index, @mod.index(0,0)).should == [__FILE__, 0]
+          @ow.send(:find_filename_in_index, @mod.index(0,0)).should == [__FILE__, 0]
+        end
+        
+      end
+      
     end
     
-    it 'returns the value returned by find_filename_in_string if it is an array with two elements' do
-      flexmock(@ow).should_receive(:find_filename_in_string).once.with('').and_return [__FILE__, 6]
-      @ow.send(:find_filename_in_index, @mod.index(0,0)).should == [__FILE__, 6]
+    context 'when the string or first element of the array returned by #find_filename_in_string is an URL with a scheme different from file' do
+    
+      it 'returns the URL as it is as the first element of the array' do
+        url = 'http://xyz/abc.it'
+        flexmock(@ow).should_receive(:find_filename_in_string).once.with('').and_return [url, 6]
+        flexmock(@ow).should_receive(:find_filename_in_string).once.with('').and_return [url]
+        flexmock(@ow).should_receive(:find_filename_in_string).once.with('').and_return url
+        @ow.send(:find_filename_in_index, @mod.index(0,0)).should == [url, 6]
+        @ow.send(:find_filename_in_index, @mod.index(0,0)).should == [url, 0]
+        @ow.send(:find_filename_in_index, @mod.index(0,0)).should == [url, 0]
+      end
+      
     end
     
     it 'removes the first filename from the index text before passing it to find_filename_in_string if the index corresponds to the title and the @skip_first_file_in_title instance variable is true' do
@@ -1425,37 +1554,6 @@ describe Ruber::OutputWidget::Model do
     
   end
   
-  describe '#flags' do
-    
-    before do
-      @mod = @ow.model
-    end
-    
-    it 'returns the value specified in the @flags variable if the index is valid and the global_flags attribute is not nil' do
-      flags = Qt::ItemIsEnabled | Qt::ItemIsUserCheckable
-      @mod.global_flags = flags
-      @mod.append_row Qt::StandardItem.new('x')
-      @mod.flags(@mod.index(0,0)).should == flags.to_i
-    end
-    
-    it 'returns Qt::NoItemFlags if the inxed is not valid and the global_flags attribute is not nil' do
-      flags = Qt::ItemIsEnabled | Qt::ItemIsUserCheckable
-      @mod.global_flags = flags
-      @mod.append_row Qt::StandardItem.new('x')
-      @mod.flags(Qt::ModelIndex.new).should == Qt::NoItemFlags.to_i
-    end
-    
-    it 'calls super if the global_flags attribute is nil' do
-      @mod.global_flags = nil
-      it = Qt::StandardItem.new('x')
-      flags = Qt::ItemIsEnabled|Qt::ItemIsEditable|Qt::ItemIsDragEnabled
-      it.flags = flags
-      @mod.append_row it
-      @mod.flags(it.index).to_i.should == flags.to_i
-      @mod.flags(Qt::ModelIndex.new).to_i.should == Qt::ItemIsDropEnabled.to_i
-    end
-    
-  end
   
   describe '#set' do
     
@@ -1493,6 +1591,19 @@ describe Ruber::OutputWidget::Model do
       flexmock(@mod.item(0)).should_receive(:set_child).once.with(2, 4, FlexMock.on{|i| i.text == 'Test'})
       @mod.set 'Test', :message, 5, :parent => @mod.item(4,0)
       @mod.set 'Test', :message, 2, :col => 4, :parent => @mod.item(0,0)
+    end
+    
+    it 'sets the flags of the new item to the value returned by #global_flags' do
+      flags = Qt::ItemIsEnabled | Qt::ItemIsUserCheckable
+      @mod.global_flags = flags
+      it = @mod.set 'test', :message, 0
+      it.flags.should == flags
+    end
+    
+    it 'leaves the default flags for the item if #global_flags returns nil' do
+      @mod.global_flags = nil
+      it = @mod.set 'test', :message, 0
+      it.flags.should == Qt::ItemIsEnabled|Qt::ItemIsSelectable|Qt::ItemIsEditable|Qt::ItemIsDropEnabled|Qt::ItemIsDragEnabled
     end
     
     it 'calls the set_output_type method of the output widget passing it the index of the item and the type argument' do
@@ -1664,6 +1775,21 @@ describe '#insert' do
       lambda{@mod.insert 'x', :message, 15}.should raise_error(IndexError, "Row index 15 is out of range. The allowed values are from 0 to 5")
       lambda{@mod.insert 'x', :message, -15}.should raise_error(IndexError, "Row index -10 is out of range. The allowed values are from 0 to 5")
     end
+    
+    it 'sets the flags of the new item to the value returned by #global_flags' do
+      flags = Qt::ItemIsEnabled | Qt::ItemIsUserCheckable
+      @mod.global_flags = flags
+      row = @mod.insert ['x', 'y'], :message, 0
+      row.each{|it| it.flags.should == flags}
+    end
+    
+    it 'leaves the default flags for the item if #global_flags returns nil' do
+      @mod.global_flags = nil
+      flags = Qt::ItemIsEnabled|Qt::ItemIsSelectable|Qt::ItemIsEditable|Qt::ItemIsDropEnabled|Qt::ItemIsDragEnabled
+      row = @mod.insert ['x', 'y'], :message, 0
+      row.each{|it| it.flags.should == flags}
+    end
+
     
   end
   

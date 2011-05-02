@@ -826,17 +826,17 @@ corresponding item by overriding this method to always return *nil*.
       return unless res
       res = Array res
       res << 0 if res.size == 1
-      #if res[0] is an url with scheme file:, transform it into a regular file
-      #name by removing the scheme and the two following slash
-      res[0].sub! %r{^file://}, ''
-      if KDE::Url.file_url?(res[0]) then res
-      else
-        res[0] = File.join (@working_dir || Dir.pwd), res[0] unless Pathname.new(res[0]).absolute?
-        if File.exist?(res[0]) and !File.directory?(res[0])
-          res
-        else nil
+      res[0].sub!(%r{^file://},'')
+      unless res[0].match(%r{^.+://})
+        path = Pathname.new(res[0])
+        begin
+          res[0] = path.realpath(@working_dir).to_s
+          return nil unless File.file? res[0]
+        rescue Errno::ENOENT 
+          return nil
         end
       end
+      res
     end
     
 =begin rdoc
@@ -966,6 +966,7 @@ Returns the new item.
         col = opts[:col] || 0
         parent = opts[:parent]
         it = Qt::StandardItem.new(text)
+        it.flags = @global_flags if @global_flags
         row = (parent || self).row_count + row if row < 0
         col = (parent || self).column_count + col if col < 0
         if parent then parent.set_child row, col, it

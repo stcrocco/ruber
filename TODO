@@ -11,7 +11,6 @@ carry out
 
 h2. Ruber Core
 
-* Support for multiple open projects
 * ? Blocking signals. For example, if the user chooses to close a project, then
   chooses not to save one of the file, maybe the project shouldn't be closed at
   all. It can be implemented having slots connecting to the signal raising an
