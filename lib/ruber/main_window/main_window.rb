@@ -116,6 +116,7 @@ is the plugin description for this object.
       
       connect Ruber[:world], SIGNAL('project_created(QObject*)'), self, SLOT('slot_project_created(QObject*)')
       connect Ruber[:world], SIGNAL('closing_project(QObject*)'), self, SLOT('slot_project_closing(QObject*)')
+      
       Ruber[:world].connect SIGNAL('active_project_changed(QObject*)') do |prj|
         @active_environment = Ruber[:world].environment prj
       end

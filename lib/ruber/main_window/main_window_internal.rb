@@ -70,7 +70,7 @@ Saves the properties for session management
       data = YAML.dump @session_data 
       #Without this, there's a crash from the C++ side in KateViewInternal::~KateViewInternal
       #I don't know why this happens
-      @active_environment.tab(active_editor).hide
+      @active_environment.tab(active_editor).hide if active_editor
       conf.write_entry 'Ruber', data
       nil
     end
