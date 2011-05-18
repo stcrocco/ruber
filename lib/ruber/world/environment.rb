@@ -200,7 +200,7 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
       
       def close_editor editor, ask = true
         doc = editor.document
-        if doc.views.count > 1 then editor.close
+        if doc.views(:all).count > 1 then editor.close
         else doc.close ask
         end
       end
@@ -220,26 +220,6 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
           delete_later
           true
         end
-        
-#         emit closing(self)
-#         deactivate
-#         views = @views.by_document.dup
-#         to_save = @documents.select do |doc|
-#           doc.views.all?{|v| views[doc].include? v}
-#         end
-#         saving_done = Ruber[:main_window].save_documents to_save
-#         @tab_widget.disconnect SIGNAL('currentChanged(int)'), self
-#         to_save.each do |doc|
-#           if saving_done || !doc.modified?
-#             views.delete doc
-#             doc.close false
-#           end
-#         end
-#         views.each_value do |a|
-#           a.each{|v| v.close}
-#         end
-#         delete_later
-#         saving_done
       end
       slots :close
       
@@ -265,6 +245,21 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
         editors_by_doc.each_value do |a|
           a.each &:close
         end
+      end
+      
+      def replace_editor old, new
+        if new.is_a? Document
+          new = new.create_view
+        elsif new.is_a? String or new.is_a? KDE::Url
+          new = Ruber[:world].document(new).create_view
+        end
+        if old.document.views(:all).count == 1
+          return unless old.document.query_close
+          close_doc = true
+        end
+        old.parent.replace_view old, new
+        close_editor old, false
+        new
       end
       
       def focus_on_editors?

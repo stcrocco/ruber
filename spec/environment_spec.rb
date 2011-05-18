@@ -1782,4 +1782,125 @@ describe Ruber::World::Environment do
     
   end
   
+  describe '#replace_editor' do
+    
+    before do
+      Ruber[:world].close_all :all, :discard
+      @old_view = @env.editor_for! __FILE__
+      
+      @new_view = Ruber[:world].new_document.create_view
+    end
+    
+    it 'replaces the editor given as first argument with the one given as second argument' do
+      flexmock(@old_view.parent).should_receive(:replace_view).with(@old_view, @new_view).once
+      @env.replace_editor @old_view, @new_view
+    end
+    
+    it 'returns the new editor' do
+      @env.replace_editor(@old_view, @new_view).should == @new_view
+    end
+    
+    context 'if the view to replace is the last view associated with its document' do
+      
+      it 'calls the document\'s query_close method before replacing the view' do
+        flexmock(@old_view.document).should_receive(:query_close).globally.ordered.once.and_return true
+        flexmock(@old_view.parent).should_receive(:replace_view).with(@old_view, @new_view).once.globally.ordered
+        @env.replace_editor @old_view, @new_view
+      end
+      
+      it 'does nothing if the document\'s query_close method returns false' do
+        flexmock(@old_view.document).should_receive(:query_close).and_return false
+        flexmock(@old_view.parent).should_receive(:replace_view).with(@old_view, @new_view).never
+        @env.replace_editor @old_view, @new_view
+      end
+      
+      it 'closes the document after replacing the view' do
+        mk = flexmock do |m|
+          m.should_receive(:document_closing).with(@old_view.document).once
+        end
+        @old_view.document.connect(SIGNAL('closing(QObject*)')) do |doc|
+          mk.document_closing doc
+        end
+        @env.replace_editor @old_view, @new_view
+      end
+      
+    end
+    
+    context 'if the view to replace is not the last associated with its document' do
+      
+      before do
+        @other_view = @old_view.document.create_view
+      end
+      
+      it 'doesn\'t call the query_close method of the document associated with the view to replace' do
+        flexmock(@old_view.document).should_receive(:query_close).never
+        @env.replace_editor @old_view, @new_view
+      end
+      
+      it 'doesn\'t close the document associated with the view to replace' do
+        mk = flexmock do |m|
+          m.should_receive(:document_closing).with(@old_view.document).never
+        end
+        @old_view.document.connect(SIGNAL('closing(QObject*)')) do |doc|
+          mk.document_closing doc
+        end
+        @env.replace_editor @old_view, @new_view
+      end
+      
+      it 'closes the replaced editor' do
+        flexmock(@old_view).should_receive(:close).once
+        @env.replace_editor @old_view, @new_view
+      end
+      
+    end
+    
+    context 'if the second argument is a Document' do
+      
+      before do
+        @new_view = nil
+        @doc = Ruber[:world].new_document
+      end
+      
+      it 'creates a new view for the document using the document\'s create_view method' do
+        view = @doc.create_view
+        flexmock(@doc).should_receive(:create_view).once.and_return view
+        flexmock(@env).should_receive(:editor_for!).never
+        flexmock(@old_view.parent).should_receive(:replace_view).once.with(@old_view, view)
+        @env.replace_editor @old_view, @doc
+      end
+      
+    end
+    
+    context 'if the second argument is a String' do
+      
+      it 'creates a new view for the document associated to that string' do
+        file = '/xyz/abc.rb'
+        doc = Ruber[:world].new_document
+        flexmock(Ruber[:world]).should_receive(:document).with(file).once.and_return doc
+        view = doc.create_view
+        flexmock(doc).should_receive(:create_view).once.and_return view
+        flexmock(@env).should_receive(:editor_for!).never
+        flexmock(@old_view.parent).should_receive(:replace_view).once.with(@old_view, view)
+        @env.replace_editor @old_view, file
+      end
+      
+    end
+    
+    context 'if the second argument is a KDE::Url' do
+      
+      it 'creates a new view for the document associated to that string' do
+        url = KDE::Url.new 'file:///xyz/abc.rb'
+        doc = Ruber[:world].new_document
+        flexmock(Ruber[:world]).should_receive(:document).with(url).once.and_return doc
+        view = doc.create_view
+        flexmock(doc).should_receive(:create_view).once.and_return view
+        flexmock(@env).should_receive(:editor_for!).never
+        flexmock(@old_view.parent).should_receive(:replace_view).once.with(@old_view, view)
+        @env.replace_editor @old_view, url
+      end
+      
+    end
+    
+  end
+    
 end
