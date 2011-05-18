@@ -401,16 +401,7 @@ it).
 @return [EditorView,nil] the new editor or *nil* if the user choose to abort
 =end
     def replace_editor old, editor_or_doc
-      if old.document.views.size == 1
-        return unless old.document.query_close
-        close_doc = true
-      end
-      if editor_or_doc.is_a?(EditorView) then ed = editor_or_doc
-      else ed = @active_environment. editor_for! editor_or_doc, :existing => :never, :show => false
-      end
-      old.parent.replace_view old, ed
-      @active_environment.close_editor old, false
-      ed
+      @active_environment.replace_editor old, editor_or_doc
     end
     
 =begin rdoc
