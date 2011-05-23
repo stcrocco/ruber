@@ -70,7 +70,10 @@ user will become active
 #       without_activating do
       editors = filenames.map{|f| gui_open_file(f, false)}
 #       end
-      editors[-1].set_focus unless editors.empty?
+      unless editors.empty?
+        @active_environment.activate_editor editors[0]
+        editors[-1].set_focus
+      end
       editors
     end
     
