@@ -157,26 +157,6 @@ In slots connected to this signal, calls to {#view} will return *nil*.
     signals 'removing_view(QWidget*, QWidget*)'
     
 =begin rdoc
-Signal emitted just before the pane is hidden
-
-The signal is only emitted if the pane is hidden because of a reason internal to
-Ruber and won't be emitted, for example, when Ruber itself is minimized or otherwise
-hidden. To be more specific, it's only emitted if the underlying @Qt::HideEvent@
-is not spontaneous
-@param [Qt::Widget] pane *self*
-=end
-    signals 'about_to_hide(QWidget*)'
-    
-=begin rdoc
-Signal emitted just before the pane is shown
-
-The signal is only emitted if the pane is show because of a reason internal to
-Ruber and won't be emitted, for example, when Ruber itself becomes visible. To be more specific, it's only emitted if the underlying @Qt::ShowEvent@ is not spontaneous
-@param [Qt::Widget] pane *self*
-=end
-    signals 'about_to_show(QWidget*)'
-
-=begin rdoc
 Signal emitted after the pane has been split
 
 @param [Pane] pane the pane which has been split
@@ -550,30 +530,6 @@ It does nothing if the splitter is already in single view mode
       end
     end
 
-    protected
-    
-=begin rdoc
-Override of @Qt::Widget#hideEvent@
-
-It emits the {#about_to_hide} signal if the event is not spontaneous
-@param [Qt::HideEvent] e the event
-@return [nil]
-=end
-    def hideEvent e
-      emit about_to_hide(self) unless e.spontaneous
-    end
-
-=begin rdoc
-Override of @Qt::Widget#showEvent@
-
-It emits the {#about_to_show} signal if the event is not spontaneous
-@param [Qt::ShowEvent] e the event
-@return [nil]
-=end
-    def showEvent e
-      emit about_to_show(self) unless e.spontaneous
-    end
-    
     private
     
     def keeping_focus *widgets
