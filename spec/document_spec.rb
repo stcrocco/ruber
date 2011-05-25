@@ -221,8 +221,8 @@ describe Ruber::Document do
     before do
       @list = flexmock
       @prj = flexmock(:project_files => @list)
-      @projects = flexmock{|m| m.should_receive(:current).and_return(@prj).by_default}
-      flexmock(Ruber).should_receive(:[]).with(:projects).and_return(@projects)
+      @world = flexmock{|m| m.should_receive(:active_project).and_return(@prj).by_default}
+      flexmock(Ruber).should_receive(:[]).with(:world).and_return(@world)
       @doc = Ruber::Document.new __FILE__, @app
     end
     
@@ -242,7 +242,7 @@ describe Ruber::Document do
     end
     
     it 'returns the document project if there isn\'t a project open' do
-      @projects.should_receive(:current).and_return nil
+      @world.should_receive(:active_project).and_return nil
       @doc.project.should be_a(Ruber::DocumentProject)
     end
     
@@ -370,9 +370,10 @@ describe Ruber::Document do
     @doc.should be_pristine
     @doc.text = "a"
     @doc.should_not be_pristine
-    projects = flexmock(:current => nil)
+#     projects = flexmock(:current => nil)
     config = flexmock{|m| m.should_receive(:[]).with(:general, :default_script_directory).and_return ENV['HOME']}
-    flexmock(Ruber).should_receive(:[]).with(:projects).and_return(projects)
+    world = flexmock(:active_project => nil)
+    flexmock(Ruber).should_receive(:[]).with(:world).and_return(world)
     flexmock(Ruber).should_receive(:[]).with(:config).and_return(config)
     flexmock(Ruber).should_receive(:[]).with(:main_window).and_return(Qt::Widget.new)
     Tempfile.open('ruber_document_test') do |f|
@@ -537,20 +538,7 @@ describe 'Ruber::Document#close' do
     flexmock(doc).should_receive(:query_close).and_return true
     doc.close false
   end
-  
-  it 'also closes hidden views if any' do
-    doc = Ruber::Document.new __FILE__
-    views = 3.times.map{doc.create_view}
-    views[1].instance_eval{about_to_hide(self)}
-    exp = doc.object_id
-    m = flexmock('test'){|mk| mk.should_receive(:document_closing).once.with(exp).globally.ordered}
-    views.each{|v| flexmock(v).should_receive(:close).once.globally.ordered}
-    flexmock(doc).should_receive(:close_url).and_return true
-    doc.connect(SIGNAL('closing(QObject*)')){|d| m.document_closing d.object_id}
-    flexmock(doc).should_receive(:query_close).and_return true
-    doc.close false
-  end
-  
+   
   it 'calls the #save method of the project if the document path is not empty' do
     doc = Ruber::Document.new __FILE__
     exp = doc.object_id
@@ -698,8 +686,8 @@ describe 'Ruber::Document#document_save_as' do
     flexmock(Ruber).should_receive(:[]).with(:main_window).and_return(@w).by_default
     @comp = DocumentSpecComponentManager.new
     flexmock(Ruber).should_receive(:[]).with(:components).and_return(@comp).by_default
-    @projects = flexmock{|m| m.should_receive(:current).and_return(nil).by_default}
-    flexmock(Ruber).should_receive(:[]).with(:projects).and_return(@projects).by_default
+    @world = flexmock{|m| m.should_receive(:active_project).and_return(nil).by_default}
+    flexmock(Ruber).should_receive(:[]).with(:world).and_return(@world).by_default
     @config = flexmock('config')
     @config.should_receive(:[]).with(:general, :default_script_directory).and_return('/').by_default
     flexmock(Ruber).should_receive(:[]).with(:config).and_return(@config).by_default
@@ -728,7 +716,7 @@ describe 'Ruber::Document#document_save_as' do
   
   it 'uses the current project\'s project directory as default directory if there is a current project' do
     prj = flexmock(:project_directory => File.dirname(__FILE__))
-    @projects.should_receive(:current).once.and_return prj
+    @world.should_receive(:active_project).once.and_return prj
     res = OpenStruct.new(:file_names => ['/test.rb'], :encoding => 'UTF-16')
     flexmock(KDE::EncodingFileDialog).should_receive(:get_save_file_name_and_encoding).once.with(String, File.dirname(__FILE__), String, Qt::Widget, String).and_return(res)
     @doc.send :document_save_as
@@ -974,48 +962,13 @@ describe Ruber::Document do
       @doc = Ruber::Document.new
     end
     
-    context 'when called with no argument' do
-      it 'returns a list of the visible views associated with the document' do
-        views = 3.times.map{@doc.create_view}
-        views[1].instance_eval{emit about_to_hide(self)}
-        @doc.views.should == [views[0], views[2]]
-      end
-      
-      context 'when one of the views has been hidden then shown again' do
-        it 'includes that view in the returned array' do
-          views = 3.times.map{@doc.create_view}
-          views[1].instance_eval{emit about_to_hide(self)}
-          views[1].instance_eval{emit about_to_show(self)}
-          @doc.views.sort_by{|v| v.object_id}.should == views.sort_by{|v| v.object_id}
-        end
-      end
-      
-      context 'after a view has been closed' do
-        it 'doesn\'t include the closed view in the returned array' do
-          views = 3.times.map{@doc.create_view}
-          views[1].close
-          @doc.views.should == [views[0], views[2]]
-        end
-      end
-      
+    it 'returns a list of all the views associated with the document' do
+      views = 3.times.map{@doc.create_view}
+      @doc.views.should == views
     end
     
-    context 'when called with the :all argument' do
-      
-      it 'returns a list of all the views associated with the document' do
-        views = 3.times.map{@doc.create_view}
-        views[1].instance_eval{emit about_to_hide(self)}
-        @doc.views(:all).should == views
-      end
-      
-      context 'after a view has been closed' do
-        it 'doesn\'t include the closed view in the returned array' do
-          views = 3.times.map{@doc.create_view}
-          views[1].close
-          @doc.views(:all).should == [views[0], views[2]]
-        end
-      end
-
+    it 'returns an empty list if there\'s no view associated with the document' do
+      @doc.views.should == []
     end
     
   end
