@@ -200,7 +200,7 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
       
       def close_editor editor, ask = true
         doc = editor.document
-        if doc.views(:all).count > 1 then editor.close
+        if doc.views.count > 1 then editor.close
         else doc.close ask
         end
       end
@@ -208,7 +208,7 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
       def close mode = :save
         if @project then @project.close mode == :save
         else 
-          docs_to_close = @views.by_document.to_a.select{|d, v| (d.views(:all) - v).empty?}
+          docs_to_close = @views.by_document.to_a.select{|d, v| (d.views - v).empty?}
           docs_to_close.map!{|d| d[0]}
           if mode == :save
             return false unless Ruber[:main_window].save_documents docs_to_close
@@ -234,7 +234,7 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
       def close_editors editors, ask = true
         editors_by_doc = editors.group_by &:document
         docs = editors_by_doc.keys
-        to_close = docs.select{|doc| (doc.views(:all) - editors_by_doc[doc]).empty?}
+        to_close = docs.select{|doc| (doc.views - editors_by_doc[doc]).empty?}
         if ask
           return unless Ruber[:main_window].save_documents to_close 
         end
@@ -253,7 +253,7 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
         elsif new.is_a? String or new.is_a? KDE::Url
           new = Ruber[:world].document(new).create_view
         end
-        if old.document.views(:all).count == 1
+        if old.document.views.count == 1
           return unless old.document.query_close
           close_doc = true
         end
@@ -268,7 +268,7 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
       
       def query_close
         if Ruber[:app].status != :asking_to_quit
-          docs = @views.by_document.select{|d, v| (d.views(:all) - v).empty?}
+          docs = @views.by_document.select{|d, v| (d.views - v).empty?}
           Ruber[:main_window].save_documents docs.map{|a| a[0]}
         else true
         end
@@ -278,7 +278,7 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
         raise "environment not associated with a project" unless @project
         emit closing(self)
         self.active = false
-        docs_to_close = @views.by_document.select{|d, v| (d.views(:all) - v).empty?}
+        docs_to_close = @views.by_document.select{|d, v| (d.views - v).empty?}
         docs_to_close.each{|d| d[0].close false}
         @views.dup.by_activation.each{|v| v.close}
       end
@@ -348,9 +348,9 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
         #looses focus) before it is actually closed. We don't want @focus_on_editors
         #to be changed in that case (otherwise closing an editor which had focus
         #would cause focus not to be given to the next active editor). The only
-        #check I can think of is whether the editor's parent pane has a parent pane
+        #check I can think of is whether the editor's parent pane has a parent
         #or not
-        if editor.is_active_window and editor.parent.parent_pane
+        if editor.is_active_window and editor.parent.parent
           @focus_on_editors = false 
         end
       end
@@ -438,11 +438,6 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
         @tab_widget.remove_tab @tab_widget.index_of(pane)
       end
       slots 'remove_tab(QWidget*)'
-      
-      def update_tabs_for_document doc
-        @tab_widget.each{|w| }
-      end
-      slots 'update_tabs_for_document(QObject*)'
       
       def document_url_changed doc
         @tab_widget.each{|t| update_pane t}

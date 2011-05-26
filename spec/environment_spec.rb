@@ -96,6 +96,7 @@ describe Ruber::World::Environment do
     end
     
     it 'doesn\'t repeat a document multiple times in the tool tip of the tab' do
+      Ruber[:world].close_all :documents, :discard
       doc = Ruber[:world].new_document
       view = @env.editor_for! doc, :new => :current_tab
       @add_view_proc.call @view
@@ -797,12 +798,7 @@ describe Ruber::World::Environment do
       @editor = @env.editor_for! @doc
       @env.activate
     end
-    
-    it 'hides the tab widget' do
-      flexmock(@env.tab_widget).should_receive(:hide).once
-      @env.deactivate
-    end
-    
+       
     it 'deactivates the active editor if it exists' do
       @env.activate_editor @editor
       flexmock(@env).should_receive(:deactivate_editor).with(@editor).once
@@ -825,11 +821,6 @@ describe Ruber::World::Environment do
       @doc = Ruber[:world].new_document
       @env.activate
       @env.deactivate
-    end
-    
-    it 'shows the tab widget' do
-      flexmock(@env.tab_widget).should_receive(:show).once
-      @env.activate
     end
     
     it 'activates the last activated editor' do
@@ -1400,6 +1391,7 @@ describe Ruber::World::Environment do
   context 'when the close button on a tab is pressed' do
     
     before do
+      Ruber[:world].close_all :documents, :discard
       @doc = Ruber[:world].new_document
       @views = 3.times.map{@env.editor_for! @doc, :existing => :never, :new => :current_tab}
       @other_view = @env.editor_for! @doc, :existing => :never, :new => :new_tab
@@ -1670,6 +1662,8 @@ describe Ruber::World::Environment do
     
     it 'returns false if no view in the environment got focus after the last one
     lost focus' do
+      @env.activate_editor @views[1]
+      flexmock(@views[1]).should_receive(:is_active_window).once.and_return true
       @views[1].instance_eval{emit focus_out(self)}
       @env.focus_on_editors?.should be_false
     end
