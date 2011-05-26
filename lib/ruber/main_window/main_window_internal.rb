@@ -47,7 +47,8 @@ It calls the {Application#ask_to_quit ask_to_quit} method of the application.
 @return [Boolean] what {Application#ask_to_quit} returns
 =end
     def queryClose
-      Ruber[:app].ask_to_quit
+      res = Ruber[:app].ask_to_quit
+      res
     end
     
 =begin rdoc
@@ -57,7 +58,25 @@ It calls the {Application#quit_ruber quit_ruber} method of the application
 @return [TrueClass] *true*
 =end
     def queryExit
-      Ruber[:app].quit_ruber
+      #There's a C++-side crash in any view is open after this method when closing
+      #a session. As I have no clue as why this happens, for the time being, as
+      #a workaround, we close all the documents.
+      
+      #For some reason, this method is called twice when closing a session
+      #but only when Ruber is launched from the global installation (that is, typing
+      #ruber in the shell), and not when testing from xsm. This causes a number of
+      #problems, the most evident is the save_settings method being called twice,
+      #one of the times after all documents have been closed. This obviously breaks
+      #the state plugin. To avoid the issue, we use an instance variable to keep
+      #trace of whether the method has already been called or not. Ruber[:app].quit_ruber
+      #is only called the first time, while the documents are only closed the
+      #second time
+      if @query_exit_called
+        Ruber[:world].close_all :documents, :discard
+      else 
+        Ruber[:app].quit_ruber
+        @query_exit_called = true
+      end
       true
     end
     
@@ -68,9 +87,6 @@ Saves the properties for session management
 =end
     def saveProperties conf
       data = YAML.dump @session_data 
-      #Without this, there's a crash from the C++ side in KateViewInternal::~KateViewInternal
-      #I don't know why this happens
-      @active_environment.tab(active_editor).hide if active_editor
       conf.write_entry 'Ruber', data
       nil
     end
