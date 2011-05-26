@@ -501,7 +501,7 @@ Closes an editor view
     def close_editor editor, ask = true
       @active_environment.close_editor editor, ask
 #       doc = editor.document
-#       if doc.views(:all).size > 1 
+#       if doc.views.size > 1 
 #         editor.close
 #         true
 #       else doc.close ask
