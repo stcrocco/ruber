@@ -4,11 +4,14 @@ h2. Ruber 0.0.9
 
 h3. Features
 
-* Allowed more than one project open at the same time
+h2. Ruber 0.0.9
 
-* Separated files opened for a project from those opened for other projects and
-  from those opened outside any project
+h3. Features
 
+* It is now possible to have more than one open project at the same time
+* When a project is active, only the editors associated with it are visibile
+* Editors not associated with a project are visible only when there's no active
+  project
 * Made the Auto End plugin recognize some other keywords: @unless@, @for@, @while@,
   @until@ (the last two were already recognized when followed by a @do@)
   
