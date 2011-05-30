@@ -2,7 +2,7 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <meta name="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Class: Ruber::Pane</title>
 <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
@@ -226,6 +226,28 @@ contains a single view.</p></div></span>
 
   
     <span class="summary_desc"><div class='inline'><p>Iterates on all views contained in the pane.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="protected ">
+  <span class="summary_signature">
+    
+      <a href="#hideEvent-instance_method" title="#hideEvent (instance method)">- (nil) <strong>hideEvent</strong>(e) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title protected">protected</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Override of <code>Qt::Widget#hideEvent</code>.</p></div></span>
   
 </li>
 
@@ -545,6 +567,28 @@ contains a single view.</p></div></span>
 
       
         <!-- Provides the  slot annotation -->
+<li class="protected ">
+  <span class="summary_signature">
+    
+      <a href="#showEvent-instance_method" title="#showEvent (instance method)">- (nil) <strong>showEvent</strong>(e) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title protected">protected</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Override of <code>Qt::Widget#showEvent</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
 <li class="public ">
   <span class="summary_signature">
     
@@ -570,8 +614,7 @@ contains a single view.</p></div></span>
 <li class="protected ">
   <span class="summary_signature">
     
-      <a href="#single_view_mode-instance_method" title="#single_view_mode (instance method)">- (Pane) <strong>single_view_mode</strong>(view, label = ''
-) </a>
+      <a href="#single_view_mode-instance_method" title="#single_view_mode (instance method)">- (Pane) <strong>single_view_mode</strong>(view, label = '') </a>
     
 
     
@@ -739,97 +782,17 @@ in the pane.</p></div></span>
     <li class="public ">
       <span class="summary_signature">
 <!-- The sub is needed to remove the (Object) part -->
-      <a href="#pane_split-signalcode" title="pane_split (signalcode)">- <strong>pane_split</strong>(QWidget* pane, QWidget* old_view, QWidget* new_view) </a>
+      <a href="#about_to_hide-signalcode" title="about_to_hide (signalcode)">- <strong>about_to_hide</strong>(QWidget* pane) </a>
       </span>
-      <span class="summary_desc"><div class='inline'><p>Signal emitted after the pane has been split.</p></div></span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted just before the pane is hidden.</p></div></span>
     </li>
   
     <li class="public ">
       <span class="summary_signature">
 <!-- The sub is needed to remove the (Object) part -->
-      <a href="#view_replaced-signalcode" title="view_replaced (signalcode)">- <strong>view_replaced</strong>(QWidget* pane, QWidget* old_view, QWidget* replacement) </a>
+      <a href="#about_to_show-signalcode" title="about_to_show (signalcode)">- <strong>about_to_show</strong>(QWidget* pane) </a>
       </span>
-      <span class="summary_desc"><div class='inline'><p>Signal emitted after a view has been replaced.</p></div></span>
-    </li>
-  
-    <li class="public ">
-      <span class="summary_signature">
-<!-- The sub is needed to remove the (Object) part -->
-      <a href="#closing_last_view-signalcode" title="closing_last_view (signalcode)">- <strong>closing_last_view</strong>(QWidget* pane) </a>
-      </span>
-      <span class="summary_desc"><div class='inline'><p>Signal emitted whenever the single view associated with the paned is about to be closed.</p></div></span>
-    </li>
-  
-    <li class="public ">
-      <span class="summary_signature">
-<!-- The sub is needed to remove the (Object) part -->
-      <a href="#removing_view-signalcode" title="removing_view (signalcode)">- <strong>removing_view</strong>(QWidget* pane, QWidget* view) </a>
-      </span>
-      <span class="summary_desc"><div class='inline'><p>Signal emitted whenever a view in the pane or one of its children has been removed.</p></div></span>
-    </li>
-  
-    <li class="public ">
-      <span class="summary_signature">
-<!-- The sub is needed to remove the (Object) part -->
-      <a href="#pane_split-signalcode" title="pane_split (signalcode)">- <strong>pane_split</strong>(QWidget* pane, QWidget* old_view, QWidget* new_view) </a>
-      </span>
-      <span class="summary_desc"><div class='inline'><p>Signal emitted after the pane has been split.</p></div></span>
-    </li>
-  
-    <li class="public ">
-      <span class="summary_signature">
-<!-- The sub is needed to remove the (Object) part -->
-      <a href="#view_replaced-signalcode" title="view_replaced (signalcode)">- <strong>view_replaced</strong>(QWidget* pane, QWidget* old_view, QWidget* replacement) </a>
-      </span>
-      <span class="summary_desc"><div class='inline'><p>Signal emitted after a view has been replaced.</p></div></span>
-    </li>
-  
-    <li class="public ">
-      <span class="summary_signature">
-<!-- The sub is needed to remove the (Object) part -->
-      <a href="#closing_last_view-signalcode" title="closing_last_view (signalcode)">- <strong>closing_last_view</strong>(QWidget* pane) </a>
-      </span>
-      <span class="summary_desc"><div class='inline'><p>Signal emitted whenever the single view associated with the paned is about to be closed.</p></div></span>
-    </li>
-  
-    <li class="public ">
-      <span class="summary_signature">
-<!-- The sub is needed to remove the (Object) part -->
-      <a href="#removing_view-signalcode" title="removing_view (signalcode)">- <strong>removing_view</strong>(QWidget* pane, QWidget* view) </a>
-      </span>
-      <span class="summary_desc"><div class='inline'><p>Signal emitted whenever a view in the pane or one of its children has been removed.</p></div></span>
-    </li>
-  
-    <li class="public ">
-      <span class="summary_signature">
-<!-- The sub is needed to remove the (Object) part -->
-      <a href="#pane_split-signalcode" title="pane_split (signalcode)">- <strong>pane_split</strong>(QWidget* pane, QWidget* old_view, QWidget* new_view) </a>
-      </span>
-      <span class="summary_desc"><div class='inline'><p>Signal emitted after the pane has been split.</p></div></span>
-    </li>
-  
-    <li class="public ">
-      <span class="summary_signature">
-<!-- The sub is needed to remove the (Object) part -->
-      <a href="#view_replaced-signalcode" title="view_replaced (signalcode)">- <strong>view_replaced</strong>(QWidget* pane, QWidget* old_view, QWidget* replacement) </a>
-      </span>
-      <span class="summary_desc"><div class='inline'><p>Signal emitted after a view has been replaced.</p></div></span>
-    </li>
-  
-    <li class="public ">
-      <span class="summary_signature">
-<!-- The sub is needed to remove the (Object) part -->
-      <a href="#closing_last_view-signalcode" title="closing_last_view (signalcode)">- <strong>closing_last_view</strong>(QWidget* pane) </a>
-      </span>
-      <span class="summary_desc"><div class='inline'><p>Signal emitted whenever the single view associated with the paned is about to be closed.</p></div></span>
-    </li>
-  
-    <li class="public ">
-      <span class="summary_signature">
-<!-- The sub is needed to remove the (Object) part -->
-      <a href="#removing_view-signalcode" title="removing_view (signalcode)">- <strong>removing_view</strong>(QWidget* pane, QWidget* view) </a>
-      </span>
-      <span class="summary_desc"><div class='inline'><p>Signal emitted whenever a view in the pane or one of its children has been removed.</p></div></span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted just before the pane is shown.</p></div></span>
     </li>
   
     <li class="public ">
@@ -1126,12 +1089,12 @@ contains a single view</p></div>
       <pre class="lines">
 
 
-179
-180
-181</pre>
+205
+206
+207</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 179</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 205</span>
 
 <span class='kw'>def</span> <span class='id splitter'>splitter</span>
   <span class='ivar'>@splitter</span>
@@ -1289,17 +1252,17 @@ pane and <strong>false</strong> if it isn&#8217;t contained in it or it&#8217;s 
       <pre class="lines">
 
 
-128
-129
-130
-131
 132
 133
 134
-135</pre>
+135
+136
+137
+138
+139</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 128</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 132</span>
 
 <span class='kw'>def</span> <span class='id contain?'>contain?</span> <span class='id widget'>widget</span><span class='comma'>,</span> <span class='id mode'>mode</span> <span class='op'>=</span> <span class='kw'>nil</span>
   <span class='kw'>if</span> <span class='id mode'>mode</span>
@@ -1428,21 +1391,21 @@ which of the two forms is called</p></div>
       <pre class="lines">
 
 
-304
-305
-306
-307
-308
-309
-310
-311
-312
-313
-314
-315</pre>
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 304</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 330</span>
 
 <span class='kw'>def</span> <span class='id each_pane'>each_pane</span> <span class='id mode'>mode</span> <span class='op'>=</span> <span class='symbol'>:flat</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id blk'>blk</span>
   <span class='kw'>return</span> <span class='id to_enum'>to_enum</span><span class='lparen'>(</span><span class='symbol'>:each_pane</span><span class='comma'>,</span> <span class='id mode'>mode</span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id block_given?'>block_given?</span>
@@ -1477,7 +1440,8 @@ which of the two forms is called</p></div>
     <p>Iterates on all views contained in the pane</p>
 <p>This method always acts recursively, meaning that views indirectly contained in
 the pane are returned.</p>
-<p>If the pane is in single view mode, that only view is passed to the block.</p>
+<p>If the pane is in single view mode, that only view is passed to the block. If the
+only view has been closed, the block is not called.</p>
 
   </div>
 </div>
@@ -1524,29 +1488,97 @@ which iterates on all the views</p></div>
       <pre class="lines">
 
 
-390
-391
-392
-393
-394
-395
-396
-397
-398
-399</pre>
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 390</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 433</span>
 
 <span class='kw'>def</span> <span class='id each_view'>each_view</span> <span class='op'>&amp;</span><span class='id blk'>blk</span>
   <span class='kw'>return</span> <span class='id to_enum'>to_enum</span><span class='lparen'>(</span><span class='symbol'>:each_view</span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id block_given?'>block_given?</span>
-  <span class='kw'>if</span> <span class='id single_view?'>single_view?</span> <span class='kw'>then</span> <span class='kw'>yield</span> <span class='ivar'>@view</span>
-  <span class='kw'>else</span>
+  <span class='kw'>if</span> <span class='id single_view?'>single_view?</span> <span class='kw'>and</span> <span class='ivar'>@view</span><span class='period'>.</span><span class='id parent'>parent</span> <span class='kw'>then</span> <span class='kw'>yield</span> <span class='ivar'>@view</span>
+  <span class='kw'>elsif</span> <span class='op'>!</span><span class='id single_view?'>single_view?</span>
     <span class='id each_pane'>each_pane</span><span class='lparen'>(</span><span class='symbol'>:recursive</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id pn'>pn</span><span class='op'>|</span>
       <span class='kw'>yield</span> <span class='id pn'>pn</span><span class='period'>.</span><span class='id view'>view</span> <span class='kw'>if</span> <span class='id pn'>pn</span><span class='period'>.</span><span class='id single_view?'>single_view?</span>
     <span class='kw'>end</span>
   <span class='kw'>end</span>
   <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="hideEvent-instance_method">
+  
+    - (<tt>nil</tt>) <strong>hideEvent</strong>(e)  <span class="extras">(protected)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Override of <code>Qt::Widget#hideEvent</code></p>
+<p>It emits the <span class='object_link'><a href="#about_to_hide-signalcode" title="Ruber::Pane#about_to_hide (signalcode)">#about_to_hide</a></span> signal if the event is not spontaneous</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>Qt::HideEvent</tt>)</span>
+      
+      
+        <span class='name'>e</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the event</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+562
+563
+564</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 562</span>
+
+<span class='kw'>def</span> <span class='id hideEvent'>hideEvent</span> <span class='id e'>e</span>
+  <span class='id emit'>emit</span> <span class='id about_to_hide'>about_to_hide</span><span class='lparen'>(</span><span class='kw'>self</span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id e'>e</span><span class='period'>.</span><span class='id spontaneous'>spontaneous</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1617,15 +1649,15 @@ this method returns <strong>nil</strong>.</p>
       <pre class="lines">
 
 
-539
-540
-541
-542
-543
-544</pre>
+608
+609
+610
+611
+612
+613</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 539</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 608</span>
 
 <span class='kw'>def</span> <span class='id index_of_contained_view'>index_of_contained_view</span> <span class='id view'>view</span>
   <span class='kw'>if</span> <span class='ivar'>@splitter</span> <span class='kw'>then</span> <span class='ivar'>@splitter</span><span class='period'>.</span><span class='id find_index'>find_index</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id w'>w</span><span class='op'>|</span> <span class='id w'>w</span><span class='period'>.</span><span class='id view'>view</span> <span class='op'>==</span> <span class='id view'>view</span><span class='rbrace'>}</span>
@@ -1713,18 +1745,18 @@ a <span class='object_link'><a href="" title="Ruber::Pane (class)">Ruber::Pane</
       <pre class="lines">
 
 
-443
-444
-445
-446
-447
-448
-449
-450
-451</pre>
+486
+487
+488
+489
+490
+491
+492
+493
+494</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 443</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 486</span>
 
 <span class='kw'>def</span> <span class='id insert_widget'>insert_widget</span> <span class='id idx'>idx</span><span class='comma'>,</span> <span class='id widget'>widget</span>
   <span class='id widget'>widget</span> <span class='op'>=</span> <span class='const'>Pane</span><span class='period'>.</span><span class='id new'>new</span> <span class='id widget'>widget</span><span class='comma'>,</span> <span class='ivar'>@splitter</span> <span class='kw'>unless</span> <span class='id widget'>widget</span><span class='period'>.</span><span class='id is_a?'>is_a?</span> <span class='const'>Pane</span>
@@ -1753,19 +1785,19 @@ a <span class='object_link'><a href="" title="Ruber::Pane (class)">Ruber::Pane</
       <pre class="lines">
 
 
-510
-511
-512
-513
-514
-515
-516
-517
-518
-519</pre>
+579
+580
+581
+582
+583
+584
+585
+586
+587
+588</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 510</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 579</span>
 
 <span class='kw'>def</span> <span class='id keeping_focus'>keeping_focus</span> <span class='op'>*</span><span class='id widgets'>widgets</span>
   <span class='id active_window'>active_window</span> <span class='op'>=</span> <span class='id widgets'>widgets</span><span class='period'>.</span><span class='id find'>find</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id w'>w</span><span class='op'>|</span> <span class='id w'>w</span><span class='period'>.</span><span class='id is_active_window'>is_active_window</span><span class='rbrace'>}</span>
@@ -1820,14 +1852,14 @@ the pane is in multiple view mode</p></div>
       <pre class="lines">
 
 
-372
-373
-374
-375
-376</pre>
+414
+415
+416
+417
+418</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 372</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 414</span>
 
 <span class='kw'>def</span> <span class='id label'>label</span>
   <span class='comment'># For some reason, Qt::Label#text returns nil if the text hasn't been set
@@ -1883,12 +1915,12 @@ the view to change the label for and always acts on the view contained in this p
       <pre class="lines">
 
 
-362
-363
-364</pre>
+404
+405
+406</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 362</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 404</span>
 
 <span class='kw'>def</span> <span class='id label='>label=</span> <span class='id text'>text</span>
   <span class='id set_view_label'>set_view_label</span> <span class='ivar'>@view</span><span class='comma'>,</span> <span class='id text'>text</span> <span class='kw'>if</span> <span class='ivar'>@view</span>
@@ -1957,25 +1989,25 @@ and inserts a new pane for the view in it.</p>
       <pre class="lines">
 
 
-464
-465
-466
-467
-468
-469
-470
-471
-472
-473
-474
-475
-476
-477
-478
-479</pre>
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 464</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 507</span>
 
 <span class='kw'>def</span> <span class='id multiple_view_mode'>multiple_view_mode</span> <span class='id orientation'>orientation</span>
   <span class='kw'>return</span> <span class='kw'>if</span> <span class='ivar'>@splitter</span>
@@ -2036,12 +2068,12 @@ of the splitter or <strong>nil</strong> if the pane contains a single view</p></
       <pre class="lines">
 
 
-205
-206
-207</pre>
+231
+232
+233</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 205</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 231</span>
 
 <span class='kw'>def</span> <span class='id orientation'>orientation</span>
   <span class='ivar'>@splitter</span> <span class='op'>?</span> <span class='ivar'>@splitter</span><span class='period'>.</span><span class='id orientation'>orientation</span> <span class='op'>:</span> <span class='kw'>nil</span>
@@ -2160,12 +2192,12 @@ Returns an empty array if the pane is in single view mode</p></div>
       <pre class="lines">
 
 
-333
-334
-335</pre>
+355
+356
+357</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 333</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 355</span>
 
 <span class='kw'>def</span> <span class='id panes'>panes</span> <span class='id mode'>mode</span> <span class='op'>=</span> <span class='symbol'>:flat</span>
   <span class='id single_view?'>single_view?</span> <span class='op'>?</span> <span class='lbracket'>[</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='id each_pane'>each_pane</span><span class='lparen'>(</span><span class='id mode'>mode</span><span class='rparen'>)</span><span class='period'>.</span><span class='id to_a'>to_a</span>
@@ -2212,15 +2244,15 @@ Returns an empty array if the pane is in single view mode</p></div>
       <pre class="lines">
 
 
-106
-107
-108
-109
 110
-111</pre>
+111
+112
+113
+114
+115</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 106</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 110</span>
 
 <span class='kw'>def</span> <span class='id parent_pane'>parent_pane</span>
   <span class='kw'>if</span> <span class='id parent'>parent</span><span class='period'>.</span><span class='id is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Qt</span><span class='op'>::</span><span class='const'>Splitter</span><span class='rparen'>)</span>
@@ -2296,26 +2328,26 @@ emitted by a chid pane, so it assumes the pane is in single view mode.</li>
       <pre class="lines">
 
 
-600
-601
-602
-603
-604
-605
-606
-607
-608
-609
-610
-611
-612
-613
-614
-615
-616</pre>
+672
+673
+674
+675
+676
+677
+678
+679
+680
+681
+682
+683
+684
+685
+686
+687
+688</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 600</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 672</span>
 
 <span class='kw'>def</span> <span class='id remove_pane'>remove_pane</span> <span class='id pane'>pane</span>
   <span class='id pane'>pane</span><span class='period'>.</span><span class='id parent'>parent</span> <span class='op'>=</span> <span class='kw'>nil</span>
@@ -2353,6 +2385,7 @@ emitted by a chid pane, so it assumes the pane is in single view mode.</li>
     <p>Slot called when the single view contained in the pane is closed</p>
 <p>It emis the <span class='object_link'><a href="#closing_last_view-signalcode" title="Ruber::Pane#closing_last_view (signalcode)">#closing_last_view</a></span> signal passing <strong>self</strong> as argument, makes the
 view parentless and schedules <strong>self</strong> for deletion.</p>
+<p>After this method as been called (in particular, in slots connected to the <span class='object_link'><a href="#remove_view-instance_method" title="Ruber::Pane#remove_view (method)">#remove_view</a></span> signal), calls to <span class='object_link'><a href="#view-instance_method" title="Ruber::Pane#view (method)">#view</a></span> will return <strong>nil</strong>.</p>
 <p><strong>Note:</strong> this method assumes the <span class='object_link'><a href="" title="Ruber::Pane (class)">Ruber::Pane</a></span> is in single view mode</p>
 
   </div>
@@ -2396,20 +2429,22 @@ view parentless and schedules <strong>self</strong> for deletion.</p>
       <pre class="lines">
 
 
-576
-577
-578
-579
-580
-581
-582</pre>
+647
+648
+649
+650
+651
+652
+653
+654</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 576</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 647</span>
 
 <span class='kw'>def</span> <span class='id remove_view'>remove_view</span> <span class='id view'>view</span>
   <span class='id emit'>emit</span> <span class='id closing_last_view'>closing_last_view</span><span class='lparen'>(</span><span class='kw'>self</span><span class='rparen'>)</span>
   <span class='ivar'>@view</span><span class='period'>.</span><span class='id parent'>parent</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='ivar'>@view</span> <span class='op'>=</span> <span class='kw'>nil</span>
   <span class='id emit'>emit</span> <span class='id removing_view'>removing_view</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='id view'>view</span>
   <span class='id delete_later'>delete_later</span>
   <span class='kw'>nil</span>
@@ -2496,24 +2531,24 @@ or one of its children contained <em>old</em>) and <strong>false</strong> otherw
       <pre class="lines">
 
 
-273
-274
-275
-276
-277
-278
-279
-280
-281
-282
-283
-284
-285
-286
-287</pre>
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 273</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 299</span>
 
 <span class='kw'>def</span> <span class='id replace_view'>replace_view</span> <span class='id old'>old</span><span class='comma'>,</span> <span class='id replacement'>replacement</span>
   <span class='kw'>if</span> <span class='ivar'>@view</span>
@@ -2616,18 +2651,18 @@ of its children and <strong>false</strong> if neither this pane nor any of its c
       <pre class="lines">
 
 
-339
-340
-341
-342
-343
-344
-345
-346
-347</pre>
+381
+382
+383
+384
+385
+386
+387
+388
+389</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 339</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 381</span>
 
 <span class='kw'>def</span> <span class='id set_view_label'>set_view_label</span> <span class='id view'>view</span><span class='comma'>,</span> <span class='id text'>text</span>
   <span class='kw'>if</span> <span class='id single_view?'>single_view?</span>
@@ -2637,6 +2672,74 @@ of its children and <strong>false</strong> if neither this pane nor any of its c
     <span class='kw'>true</span>
   <span class='kw'>else</span> <span class='id each_pane'>each_pane</span><span class='period'>.</span><span class='id any?'>any?</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id pn'>pn</span><span class='op'>|</span> <span class='id pn'>pn</span><span class='period'>.</span><span class='id set_view_label'>set_view_label</span> <span class='id view'>view</span><span class='comma'>,</span> <span class='id text'>text</span><span class='rbrace'>}</span>
   <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="showEvent-instance_method">
+  
+    - (<tt>nil</tt>) <strong>showEvent</strong>(e)  <span class="extras">(protected)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Override of <code>Qt::Widget#showEvent</code></p>
+<p>It emits the <span class='object_link'><a href="#about_to_show-signalcode" title="Ruber::Pane#about_to_show (signalcode)">#about_to_show</a></span> signal if the event is not spontaneous</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>Qt::ShowEvent</tt>)</span>
+      
+      
+        <span class='name'>e</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the event</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+573
+574
+575</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 573</span>
+
+<span class='kw'>def</span> <span class='id showEvent'>showEvent</span> <span class='id e'>e</span>
+  <span class='id emit'>emit</span> <span class='id about_to_show'>about_to_show</span><span class='lparen'>(</span><span class='kw'>self</span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id e'>e</span><span class='period'>.</span><span class='id spontaneous'>spontaneous</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2681,12 +2784,12 @@ a splitter with multiple panes</p></div>
       <pre class="lines">
 
 
-187
-188
-189</pre>
+213
+214
+215</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 187</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 213</span>
 
 <span class='kw'>def</span> <span class='id single_view?'>single_view?</span>
   <span class='ivar'>@view</span><span class='period'>.</span><span class='id to_b'>to_b</span>
@@ -2699,8 +2802,7 @@ a splitter with multiple panes</p></div>
       <div class="method_details ">
   <p class="signature " id="single_view_mode-instance_method">
   
-    - (<tt><span class='object_link'><a href="" title="Ruber::Pane (class)">Pane</a></span></tt>) <strong>single_view_mode</strong>(view, label = ''
-)  <span class="extras">(protected)</span>
+    - (<tt><span class='object_link'><a href="" title="Ruber::Pane (class)">Pane</a></span></tt>) <strong>single_view_mode</strong>(view, label = '')  <span class="extras">(protected)</span>
   
 
   
@@ -2739,8 +2841,7 @@ self, deletes the splitter then sets the given view as single view for <strong>s
         <span class='name'>label</span>
       
       
-        <em class="default">(defaults to: <tt>''
-</tt>)</em>
+        <em class="default">(defaults to: <tt>''</tt>)</em>
       
       
         &mdash;
@@ -2772,33 +2873,35 @@ self, deletes the splitter then sets the given view as single view for <strong>s
       <pre class="lines">
 
 
-492
-493
-494
-495
-496
-497
-498
-499
-500
-501
-502
-503
-504
-505
-506
-507</pre>
+535
+536
+537
+538
+539
+540
+541
+542
+543
+544
+545
+546
+547
+548
+549
+550
+551</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 492</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 535</span>
 
 <span class='kw'>def</span> <span class='id single_view_mode'>single_view_mode</span> <span class='id view'>view</span><span class='comma'>,</span> <span class='id label'>label</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span>
   <span class='kw'>return</span> <span class='kw'>unless</span> <span class='ivar'>@splitter</span>
   <span class='id keeping_focus'>keeping_focus</span> <span class='id view'>view</span> <span class='kw'>do</span>
     <span class='ivar'>@view</span> <span class='op'>=</span> <span class='id view'>view</span>
     <span class='ivar'>@view</span><span class='period'>.</span><span class='id parent'>parent</span> <span class='op'>=</span> <span class='kw'>self</span> <span class='kw'>unless</span> <span class='ivar'>@view</span><span class='period'>.</span><span class='id parent'>parent</span> <span class='op'>==</span> <span class='kw'>self</span>
-    <span class='ivar'>@splitter</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id w'>w</span><span class='op'>|</span> <span class='id w'>w</span><span class='period'>.</span><span class='id disconnect'>disconnect</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>closing_last_view(QWidget*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>remove_pane(QWidget*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='rbrace'>}</span>
-    <span class='id layout'>layout</span><span class='period'>.</span><span class='id remove_widget'>remove_widget</span> <span class='ivar'>@splitter</span>
+    <span class='ivar'>@splitter</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id w'>w</span><span class='op'>|</span> <span class='id take_pane'>take_pane</span> <span class='id w'>w</span><span class='rbrace'>}</span>
+<span class='comment'>#         @splitter.each{|w| w.disconnect SIGNAL('closing_last_view(QWidget*)'), self, SLOT('remove_pane(QWidget*)')}
+</span>    <span class='id layout'>layout</span><span class='period'>.</span><span class='id remove_widget'>remove_widget</span> <span class='ivar'>@splitter</span>
     <span class='id layout'>layout</span><span class='period'>.</span><span class='id insert_widget'>insert_widget</span> <span class='int'>0</span><span class='comma'>,</span> <span class='ivar'>@view</span>
     <span class='kw'>self</span><span class='period'>.</span><span class='id label'>label</span> <span class='op'>=</span> <span class='id label'>label</span>
     <span class='ivar'>@label</span><span class='period'>.</span><span class='id visible'>visible</span> <span class='op'>=</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='id parent_pane'>parent_pane</span>
@@ -2926,29 +3029,29 @@ and with <em>new_view</em>. If <em>view</em> wasn&#8217;t contained in the pane,
       <pre class="lines">
 
 
-237
-238
-239
-240
-241
-242
-243
-244
-245
-246
-247
-248
-249
-250
-251
-252
-253
-254
-255
-256</pre>
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 237</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 263</span>
 
 <span class='kw'>def</span> <span class='id split'>split</span> <span class='id view'>view</span><span class='comma'>,</span> <span class='id new_view'>new_view</span><span class='comma'>,</span> <span class='id orientation'>orientation</span><span class='comma'>,</span> <span class='id pos'>pos</span> <span class='op'>=</span> <span class='symbol'>:after</span>
   <span class='id idx'>idx</span> <span class='op'>=</span> <span class='id index_of_contained_view'>index_of_contained_view</span> <span class='id view'>view</span>
@@ -3079,17 +3182,17 @@ can be <code>:after</code> or <code>:before</code></p></div>
       <pre class="lines">
 
 
-557
-558
-559
-560
-561
-562
-563
-564</pre>
+626
+627
+628
+629
+630
+631
+632
+633</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 557</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 626</span>
 
 <span class='kw'>def</span> <span class='id split_recursive'>split_recursive</span> <span class='id view'>view</span><span class='comma'>,</span> <span class='id new_view'>new_view</span><span class='comma'>,</span> <span class='id orientation'>orientation</span><span class='comma'>,</span> <span class='id pos'>pos</span>
   <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>unless</span> <span class='ivar'>@splitter</span>
@@ -3158,17 +3261,17 @@ signal from <strong>self</strong>.</p>
       <pre class="lines">
 
 
-420
-421
-422
-423
-424
-425
-426
-427</pre>
+463
+464
+465
+466
+467
+468
+469
+470</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 420</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 463</span>
 
 <span class='kw'>def</span> <span class='id take_pane'>take_pane</span> <span class='id pane'>pane</span>
   <span class='id pane'>pane</span><span class='period'>.</span><span class='id parent'>parent</span> <span class='op'>=</span> <span class='kw'>nil</span>
@@ -3221,12 +3324,12 @@ multiple panes</p></div>
       <pre class="lines">
 
 
-196
-197
-198</pre>
+222
+223
+224</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 196</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 222</span>
 
 <span class='kw'>def</span> <span class='id view'>view</span>
   <span class='ivar'>@view</span>
@@ -3275,12 +3378,12 @@ in the pane</p></div>
       <pre class="lines">
 
 
-406
-407
-408</pre>
+449
+450
+451</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 406</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/pane.rb', line 449</span>
 
 <span class='kw'>def</span> <span class='id views'>views</span>
   <span class='id to_a'>to_a</span>
@@ -3337,6 +3440,7 @@ in the pane</p></div>
 </p><div class="docstring">
   <div class="discussion">
     <p>Signal emitted whenever a view in the pane or one of its children has been removed</p>
+<p>In slots connected to this signal, calls to <span class='object_link'><a href="#view-instance_method" title="Ruber::Pane#view (method)">#view</a></span> will return <strong>nil</strong>.</p>
 
   </div>
 </div>
@@ -3380,12 +3484,16 @@ been removed from the pane (<code>view.parent</code> returns <strong>nil</strong
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="pane_split-signalcode">
+  <p class="signature " id="about_to_hide-signalcode">
 <!-- The sub is needed to remove the (Object) part -->
-  - <strong>pane_split</strong>(QWidget* pane, QWidget* old_view, QWidget* new_view) 
+  - <strong>about_to_hide</strong>(QWidget* pane) 
 </p><div class="docstring">
   <div class="discussion">
-    <p>Signal emitted after the pane has been split</p>
+    <p>Signal emitted just before the pane is hidden</p>
+<p>The signal is only emitted if the pane is hidden because of a reason internal to
+Ruber and won&#8217;t be emitted, for example, when Ruber itself is minimized or otherwise
+hidden. To be more specific, it&#8217;s only emitted if the underlying <code>Qt::HideEvent</code>
+is not spontaneous</p>
 
   </div>
 </div>
@@ -3395,7 +3503,7 @@ been removed from the pane (<code>view.parent</code> returns <strong>nil</strong
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="" title="Ruber::Pane (class)">Pane</a></span></tt>)</span>
+        <span class='type'>(<tt>Qt::Widget</tt>)</span>
       
       
         <span class='name'>pane</span>
@@ -3403,35 +3511,7 @@ been removed from the pane (<code>view.parent</code> returns <strong>nil</strong
       
       
         &mdash;
-        <div class='inline'><p>the pane which has been split</p></div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='type'>(<tt>Qt::Widget</tt>)</span>
-      
-      
-        <span class='name'>old_view</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>the view which has been split</p></div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='type'>(<tt>Qt::Widget</tt>)</span>
-      
-      
-        <span class='name'>new_view</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>the view which has been inserted</p></div>
+        <div class='inline'><p><strong>self</strong></p></div>
       
     </li>
   
@@ -3441,12 +3521,14 @@ been removed from the pane (<code>view.parent</code> returns <strong>nil</strong
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="view_replaced-signalcode">
+  <p class="signature " id="about_to_show-signalcode">
 <!-- The sub is needed to remove the (Object) part -->
-  - <strong>view_replaced</strong>(QWidget* pane, QWidget* old_view, QWidget* replacement) 
+  - <strong>about_to_show</strong>(QWidget* pane) 
 </p><div class="docstring">
   <div class="discussion">
-    <p>Signal emitted after a view has been replaced</p>
+    <p>Signal emitted just before the pane is shown</p>
+<p>The signal is only emitted if the pane is show because of a reason internal to
+Ruber and won&#8217;t be emitted, for example, when Ruber itself becomes visible. To be more specific, it&#8217;s only emitted if the underlying <code>Qt::ShowEvent</code> is not spontaneous</p>
 
   </div>
 </div>
@@ -3456,7 +3538,7 @@ been removed from the pane (<code>view.parent</code> returns <strong>nil</strong
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="" title="Ruber::Pane (class)">Pane</a></span></tt>)</span>
+        <span class='type'>(<tt>Qt::Widget</tt>)</span>
       
       
         <span class='name'>pane</span>
@@ -3464,537 +3546,7 @@ been removed from the pane (<code>view.parent</code> returns <strong>nil</strong
       
       
         &mdash;
-        <div class='inline'><p>the pane the original view was child of</p></div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='type'>(<tt>Qt::Widget</tt>)</span>
-      
-      
-        <span class='name'>old_view</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>the view which was replaced. Note that when
-this signal is emitted, the view hasn&#8217;t been destroyed, but it has
-been removed from the pane (<code>old_view.parent</code> returns <strong>nil</strong>)</p></div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='type'>(<tt>Qt::Widget</tt>)</span>
-      
-      
-        <span class='name'>replacement</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>the view which replaced <em>old_view</em>. Note that at
-the time this signal is emitted, the new view has already been made a child of
-the pane</p></div>
-      
-    </li>
-  
-</ul>
-
-</div>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="closing_last_view-signalcode">
-<!-- The sub is needed to remove the (Object) part -->
-  - <strong>closing_last_view</strong>(QWidget* pane) 
-</p><div class="docstring">
-  <div class="discussion">
-    <p>Signal emitted whenever the single view associated with the paned is about to be closed</p>
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Parameters:</h3>
-<ul class="param">
-  
-    <li>
-      
-        <span class='type'>(<tt><span class='object_link'><a href="" title="Ruber::Pane (class)">Pane</a></span></tt>)</span>
-      
-      
-        <span class='name'>pane</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>the pane which emitted the signal</p></div>
-      
-    </li>
-  
-</ul>
-
-</div>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="removing_view-signalcode">
-<!-- The sub is needed to remove the (Object) part -->
-  - <strong>removing_view</strong>(QWidget* pane, QWidget* view) 
-</p><div class="docstring">
-  <div class="discussion">
-    <p>Signal emitted whenever a view in the pane or one of its children has been removed</p>
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Parameters:</h3>
-<ul class="param">
-  
-    <li>
-      
-        <span class='type'>(<tt><span class='object_link'><a href="" title="Ruber::Pane (class)">Pane</a></span></tt>)</span>
-      
-      
-        <span class='name'>pane</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>the pane the view was child of</p></div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='type'>(<tt>Qt::Widget</tt>)</span>
-      
-      
-        <span class='name'>view</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>the view which was removed from the pane. Note that when
-this signal is emitted, the view hasn&#8217;t as yet been destroyed, but it has already
-been removed from the pane (<code>view.parent</code> returns <strong>nil</strong>)</p></div>
-      
-    </li>
-  
-</ul>
-
-</div>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="pane_split-signalcode">
-<!-- The sub is needed to remove the (Object) part -->
-  - <strong>pane_split</strong>(QWidget* pane, QWidget* old_view, QWidget* new_view) 
-</p><div class="docstring">
-  <div class="discussion">
-    <p>Signal emitted after the pane has been split</p>
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Parameters:</h3>
-<ul class="param">
-  
-    <li>
-      
-        <span class='type'>(<tt><span class='object_link'><a href="" title="Ruber::Pane (class)">Pane</a></span></tt>)</span>
-      
-      
-        <span class='name'>pane</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>the pane which has been split</p></div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='type'>(<tt>Qt::Widget</tt>)</span>
-      
-      
-        <span class='name'>old_view</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>the view which has been split</p></div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='type'>(<tt>Qt::Widget</tt>)</span>
-      
-      
-        <span class='name'>new_view</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>the view which has been inserted</p></div>
-      
-    </li>
-  
-</ul>
-
-</div>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="view_replaced-signalcode">
-<!-- The sub is needed to remove the (Object) part -->
-  - <strong>view_replaced</strong>(QWidget* pane, QWidget* old_view, QWidget* replacement) 
-</p><div class="docstring">
-  <div class="discussion">
-    <p>Signal emitted after a view has been replaced</p>
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Parameters:</h3>
-<ul class="param">
-  
-    <li>
-      
-        <span class='type'>(<tt><span class='object_link'><a href="" title="Ruber::Pane (class)">Pane</a></span></tt>)</span>
-      
-      
-        <span class='name'>pane</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>the pane the original view was child of</p></div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='type'>(<tt>Qt::Widget</tt>)</span>
-      
-      
-        <span class='name'>old_view</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>the view which was replaced. Note that when
-this signal is emitted, the view hasn&#8217;t been destroyed, but it has
-been removed from the pane (<code>old_view.parent</code> returns <strong>nil</strong>)</p></div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='type'>(<tt>Qt::Widget</tt>)</span>
-      
-      
-        <span class='name'>replacement</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>the view which replaced <em>old_view</em>. Note that at
-the time this signal is emitted, the new view has already been made a child of
-the pane</p></div>
-      
-    </li>
-  
-</ul>
-
-</div>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="closing_last_view-signalcode">
-<!-- The sub is needed to remove the (Object) part -->
-  - <strong>closing_last_view</strong>(QWidget* pane) 
-</p><div class="docstring">
-  <div class="discussion">
-    <p>Signal emitted whenever the single view associated with the paned is about to be closed</p>
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Parameters:</h3>
-<ul class="param">
-  
-    <li>
-      
-        <span class='type'>(<tt><span class='object_link'><a href="" title="Ruber::Pane (class)">Pane</a></span></tt>)</span>
-      
-      
-        <span class='name'>pane</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>the pane which emitted the signal</p></div>
-      
-    </li>
-  
-</ul>
-
-</div>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="removing_view-signalcode">
-<!-- The sub is needed to remove the (Object) part -->
-  - <strong>removing_view</strong>(QWidget* pane, QWidget* view) 
-</p><div class="docstring">
-  <div class="discussion">
-    <p>Signal emitted whenever a view in the pane or one of its children has been removed</p>
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Parameters:</h3>
-<ul class="param">
-  
-    <li>
-      
-        <span class='type'>(<tt><span class='object_link'><a href="" title="Ruber::Pane (class)">Pane</a></span></tt>)</span>
-      
-      
-        <span class='name'>pane</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>the pane the view was child of</p></div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='type'>(<tt>Qt::Widget</tt>)</span>
-      
-      
-        <span class='name'>view</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>the view which was removed from the pane. Note that when
-this signal is emitted, the view hasn&#8217;t as yet been destroyed, but it has already
-been removed from the pane (<code>view.parent</code> returns <strong>nil</strong>)</p></div>
-      
-    </li>
-  
-</ul>
-
-</div>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="pane_split-signalcode">
-<!-- The sub is needed to remove the (Object) part -->
-  - <strong>pane_split</strong>(QWidget* pane, QWidget* old_view, QWidget* new_view) 
-</p><div class="docstring">
-  <div class="discussion">
-    <p>Signal emitted after the pane has been split</p>
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Parameters:</h3>
-<ul class="param">
-  
-    <li>
-      
-        <span class='type'>(<tt><span class='object_link'><a href="" title="Ruber::Pane (class)">Pane</a></span></tt>)</span>
-      
-      
-        <span class='name'>pane</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>the pane which has been split</p></div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='type'>(<tt>Qt::Widget</tt>)</span>
-      
-      
-        <span class='name'>old_view</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>the view which has been split</p></div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='type'>(<tt>Qt::Widget</tt>)</span>
-      
-      
-        <span class='name'>new_view</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>the view which has been inserted</p></div>
-      
-    </li>
-  
-</ul>
-
-</div>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="view_replaced-signalcode">
-<!-- The sub is needed to remove the (Object) part -->
-  - <strong>view_replaced</strong>(QWidget* pane, QWidget* old_view, QWidget* replacement) 
-</p><div class="docstring">
-  <div class="discussion">
-    <p>Signal emitted after a view has been replaced</p>
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Parameters:</h3>
-<ul class="param">
-  
-    <li>
-      
-        <span class='type'>(<tt><span class='object_link'><a href="" title="Ruber::Pane (class)">Pane</a></span></tt>)</span>
-      
-      
-        <span class='name'>pane</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>the pane the original view was child of</p></div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='type'>(<tt>Qt::Widget</tt>)</span>
-      
-      
-        <span class='name'>old_view</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>the view which was replaced. Note that when
-this signal is emitted, the view hasn&#8217;t been destroyed, but it has
-been removed from the pane (<code>old_view.parent</code> returns <strong>nil</strong>)</p></div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='type'>(<tt>Qt::Widget</tt>)</span>
-      
-      
-        <span class='name'>replacement</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>the view which replaced <em>old_view</em>. Note that at
-the time this signal is emitted, the new view has already been made a child of
-the pane</p></div>
-      
-    </li>
-  
-</ul>
-
-</div>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="closing_last_view-signalcode">
-<!-- The sub is needed to remove the (Object) part -->
-  - <strong>closing_last_view</strong>(QWidget* pane) 
-</p><div class="docstring">
-  <div class="discussion">
-    <p>Signal emitted whenever the single view associated with the paned is about to be closed</p>
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Parameters:</h3>
-<ul class="param">
-  
-    <li>
-      
-        <span class='type'>(<tt><span class='object_link'><a href="" title="Ruber::Pane (class)">Pane</a></span></tt>)</span>
-      
-      
-        <span class='name'>pane</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>the pane which emitted the signal</p></div>
-      
-    </li>
-  
-</ul>
-
-</div>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="removing_view-signalcode">
-<!-- The sub is needed to remove the (Object) part -->
-  - <strong>removing_view</strong>(QWidget* pane, QWidget* view) 
-</p><div class="docstring">
-  <div class="discussion">
-    <p>Signal emitted whenever a view in the pane or one of its children has been removed</p>
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Parameters:</h3>
-<ul class="param">
-  
-    <li>
-      
-        <span class='type'>(<tt><span class='object_link'><a href="" title="Ruber::Pane (class)">Pane</a></span></tt>)</span>
-      
-      
-        <span class='name'>pane</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>the pane the view was child of</p></div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='type'>(<tt>Qt::Widget</tt>)</span>
-      
-      
-        <span class='name'>view</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>the view which was removed from the pane. Note that when
-this signal is emitted, the view hasn&#8217;t as yet been destroyed, but it has already
-been removed from the pane (<code>view.parent</code> returns <strong>nil</strong>)</p></div>
+        <div class='inline'><p><strong>self</strong></p></div>
       
     </li>
   
@@ -4134,9 +3686,9 @@ the pane</p></div>
 </div>
     
     <div id="footer">
-  Generated on Wed Jan 19 10:03:40 2011 by 
+  Generated on Fri Apr 29 10:51:01 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.4 (ruby-1.9.2).
+  0.6.8 (ruby-1.9.2).
 </div>
 
   </body>

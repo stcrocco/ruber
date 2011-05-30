@@ -2,7 +2,7 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <meta name="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Class: Ruber::FindInFiles::FindInFilesPlugin</title>
 <link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
@@ -1000,7 +1000,7 @@ are saved.</p>
       <pre class="code"><span class="info file"># File 'plugins/find_in_files/find_in_files.rb', line 227</span>
 
 <span class='kw'>def</span> <span class='id do_autosave'>do_autosave</span> <span class='id places'>places</span>
-  <span class='id docs'>docs</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:docs</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id documents_with_file'>documents_with_file</span>
+  <span class='id docs'>docs</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:world</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id documents'>documents</span><span class='period'>.</span><span class='id documents_with_file'>documents_with_file</span>
   <span class='kw'>if</span> <span class='id places'>places</span><span class='period'>.</span><span class='id is_a?'>is_a?</span> <span class='const'>String</span> <span class='kw'>then</span> <span class='id docs'>docs</span> <span class='op'>=</span> <span class='id docs'>docs</span><span class='period'>.</span><span class='id select'>select</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id d'>d</span><span class='op'>|</span> <span class='id d'>d</span><span class='period'>.</span><span class='id path'>path</span><span class='period'>.</span><span class='id start_with?'>start_with?</span> <span class='id places'>places</span><span class='rbrace'>}</span>
   <span class='kw'>else</span> <span class='id docs'>docs</span> <span class='op'>=</span> <span class='id docs'>docs</span><span class='period'>.</span><span class='id select'>select</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id d'>d</span><span class='op'>|</span> <span class='id places'>places</span><span class='period'>.</span><span class='id include?'>include?</span> <span class='id d'>d</span><span class='period'>.</span><span class='id path'>path</span><span class='rbrace'>}</span>
   <span class='kw'>end</span>
@@ -1130,7 +1130,7 @@ Replace button</p>
 
 <span class='kw'>def</span> <span class='id find_replace'>find_replace</span>
   <span class='ivar'>@dlg</span><span class='period'>.</span><span class='id clear'>clear</span>
-  <span class='ivar'>@dlg</span><span class='period'>.</span><span class='id allow_project'>allow_project</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current'>current</span>
+  <span class='ivar'>@dlg</span><span class='period'>.</span><span class='id allow_project'>allow_project</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:world</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id active_project'>active_project</span>
   <span class='ivar'>@dlg</span><span class='period'>.</span><span class='id exec'>exec</span>
   <span class='kw'>case</span> <span class='ivar'>@dlg</span><span class='period'>.</span><span class='id action'>action</span>
   <span class='kw'>when</span> <span class='symbol'>:find</span> <span class='kw'>then</span> <span class='id find'>find</span> <span class='ivar'>@dlg</span><span class='period'>.</span><span class='id find_text'>find_text</span><span class='comma'>,</span> <span class='id options_from_dialog'>options_from_dialog</span>
@@ -1259,9 +1259,9 @@ Replace button</p>
   <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:whole_words</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='ivar'>@dlg</span><span class='period'>.</span><span class='id whole_words?'>whole_words?</span>
   <span class='id places'>places</span> <span class='op'>=</span> <span class='kw'>case</span> <span class='ivar'>@dlg</span><span class='period'>.</span><span class='id places'>places</span>
   <span class='kw'>when</span> <span class='symbol'>:custom_dir</span> <span class='kw'>then</span> <span class='ivar'>@dlg</span><span class='period'>.</span><span class='id directory'>directory</span>
-  <span class='kw'>when</span> <span class='symbol'>:project_dir</span> <span class='kw'>then</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current'>current</span><span class='period'>.</span><span class='id project_directory'>project_directory</span>
-  <span class='kw'>when</span> <span class='symbol'>:project_files</span> <span class='kw'>then</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current'>current</span><span class='period'>.</span><span class='id project_files'>project_files</span><span class='period'>.</span><span class='id abs'>abs</span><span class='period'>.</span><span class='id to_a'>to_a</span>
-  <span class='kw'>when</span> <span class='symbol'>:open_files</span> <span class='kw'>then</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:docs</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id documents_with_file'>documents_with_file</span><span class='period'>.</span><span class='id map'>map</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id d'>d</span><span class='op'>|</span> <span class='id d'>d</span><span class='period'>.</span><span class='id path'>path</span><span class='rbrace'>}</span>
+  <span class='kw'>when</span> <span class='symbol'>:project_dir</span> <span class='kw'>then</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:world</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id active_project'>active_project</span><span class='period'>.</span><span class='id project_directory'>project_directory</span>
+  <span class='kw'>when</span> <span class='symbol'>:project_files</span> <span class='kw'>then</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:world</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id active_project'>active_project</span><span class='period'>.</span><span class='id project_files'>project_files</span><span class='period'>.</span><span class='id abs'>abs</span><span class='period'>.</span><span class='id to_a'>to_a</span>
+  <span class='kw'>when</span> <span class='symbol'>:open_files</span> <span class='kw'>then</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:world</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id documents'>documents</span><span class='period'>.</span><span class='id documents_with_file'>documents_with_file</span><span class='period'>.</span><span class='id map'>map</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id d'>d</span><span class='op'>|</span> <span class='id d'>d</span><span class='period'>.</span><span class='id path'>path</span><span class='rbrace'>}</span>
   <span class='kw'>end</span>
   <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:places</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'>Array</span><span class='lparen'>(</span><span class='id places'>places</span><span class='rparen'>)</span>
   <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:all_files</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='ivar'>@dlg</span><span class='period'>.</span><span class='id all_files?'>all_files?</span>
@@ -1608,9 +1608,9 @@ displays the Replace tool widget.</p>
 </div>
     
     <div id="footer">
-  Generated on Tue Jan 11 14:27:00 2011 by 
+  Generated on Fri Apr 29 10:51:24 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.4 (ruby-1.9.2).
+  0.6.8 (ruby-1.9.2).
 </div>
 
   </body>

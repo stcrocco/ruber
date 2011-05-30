@@ -2,7 +2,7 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <meta name="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Class: Ruber::MainWindowSettingsWidget</title>
 <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
@@ -76,9 +76,7 @@
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">lib/ruber/main_window/main_window_actions.rb<span class="defines">,<br />
-  lib/ruber/main_window/main_window_actions.rb,<br /> lib/ruber/main_window/main_window_actions.rb,<br /> lib/ruber/main_window/main_window_actions.rb</span>
-</dd>
+    <dd class="r2 last">lib/ruber/main_window/main_window_actions.rb</dd>
   
 </dl>
 <div class="clear"></div>
@@ -268,16 +266,16 @@ combo box</p>
       <pre class="lines">
 
 
-580
-581
-582
-583
-584
-585
-586</pre>
+748
+749
+750
+751
+752
+753
+754</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 580</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 748</span>
 
 <span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id parent'>parent</span> <span class='op'>=</span> <span class='kw'>nil</span>
   <span class='kw'>super</span>
@@ -335,12 +333,12 @@ combo box</p>
       <pre class="lines">
 
 
-593
-594
-595</pre>
+761
+762
+763</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 593</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 761</span>
 
 <span class='kw'>def</span> <span class='id sizeHint'>sizeHint</span>
   <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Size</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='int'>380</span><span class='comma'>,</span><span class='int'>150</span><span class='rparen'>)</span>
@@ -388,12 +386,12 @@ combo box</p>
       <pre class="lines">
 
 
-687
-688
-689</pre>
+782
+783
+784</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 687</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 782</span>
 
 <span class='kw'>def</span> <span class='id tool_open_files'>tool_open_files</span>
   <span class='const'>TOOL_OPEN_FILES</span><span class='lbracket'>[</span><span class='ivar'>@ui</span><span class='period'>.</span><span class='id _general__tool_open_files'>_general__tool_open_files</span><span class='period'>.</span><span class='id current_index'>current_index</span><span class='rbracket'>]</span>
@@ -459,13 +457,13 @@ in the <span class='object_link'><a href="#TOOL_OPEN_FILES-constant" title="Rube
       <pre class="lines">
 
 
-676
-677
-678
-679</pre>
+771
+772
+773
+774</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 676</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 771</span>
 
 <span class='kw'>def</span> <span class='id tool_open_files='>tool_open_files=</span> <span class='id value'>value</span>
   <span class='ivar'>@ui</span><span class='period'>.</span><span class='id _general__tool_open_files'>_general__tool_open_files</span><span class='period'>.</span><span class='id current_index'>current_index</span> <span class='op'>=</span> <span class='const'>TOOL_OPEN_FILES</span><span class='period'>.</span><span class='id index'>index</span><span class='lparen'>(</span><span class='id value'>value</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='int'>0</span>
@@ -483,9 +481,9 @@ in the <span class='object_link'><a href="#TOOL_OPEN_FILES-constant" title="Rube
 </div>
     
     <div id="footer">
-  Generated on Mon Feb  7 15:09:11 2011 by 
+  Generated on Fri Apr 29 10:51:29 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.4 (ruby-1.9.2).
+  0.6.8 (ruby-1.9.2).
 </div>
 
   </body>

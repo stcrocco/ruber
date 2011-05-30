@@ -2,7 +2,7 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <meta name="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Class: Ruber::Rake::Plugin</title>
 <link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
@@ -609,22 +609,6 @@ the given options.</p></div></span>
       <span class="summary_desc"><div class='inline'><p>Signal emitted when the rake program started with <span class='object_link'><a href="#run_rake-instance_method" title="Ruber::Rake::Plugin#run_rake (method)">#run_rake</a></span> has exited.</p></div></span>
     </li>
   
-    <li class="public ">
-      <span class="summary_signature">
-<!-- The sub is needed to remove the (Object) part -->
-      <a href="#rake_finished-signalcode" title="rake_finished (signalcode)">- <strong>rake_finished</strong> </a>
-      </span>
-      <span class="summary_desc"><div class='inline'><p>Signal emitted when the rake program started with <span class='object_link'><a href="#run_rake-instance_method" title="Ruber::Rake::Plugin#run_rake (method)">#run_rake</a></span> has exited.</p></div></span>
-    </li>
-  
-    <li class="public ">
-      <span class="summary_signature">
-<!-- The sub is needed to remove the (Object) part -->
-      <a href="#rake_finished-signalcode" title="rake_finished (signalcode)">- <strong>rake_finished</strong> </a>
-      </span>
-      <span class="summary_desc"><div class='inline'><p>Signal emitted when the rake program started with <span class='object_link'><a href="#run_rake-instance_method" title="Ruber::Rake::Plugin#run_rake (method)">#run_rake</a></span> has exited.</p></div></span>
-    </li>
-  
   </ul>
 
 
@@ -716,8 +700,8 @@ the given options.</p></div></span>
     <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id change_state'>change_state</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rake_running</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='kw'>false</span>
   <span class='kw'>end</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id connect'>connect</span><span class='lparen'>(</span><span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:process_failed_to_start</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='lbrace'>{</span><span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id change_state'>change_state</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>rake_running</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='kw'>false</span><span class='rbrace'>}</span>
-  <span class='id connect'>connect</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>current_project_changed(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:set_current_target</span><span class='rparen'>)</span>
-  <span class='id connect'>connect</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>current_document_changed(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:set_current_target</span><span class='rparen'>)</span>
+  <span class='id connect'>connect</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:world</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>active_project_changed(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:set_current_target</span><span class='rparen'>)</span>
+  <span class='id connect'>connect</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:world</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>active_document_changed(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:set_current_target</span><span class='rparen'>)</span>
   <span class='id connect'>connect</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>process_finished(int, QString)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:rake_finished</span><span class='rparen'>)</span>
   <span class='id connect'>connect</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>extension_added(QString, QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:set_current_target</span><span class='rparen'>)</span>
   <span class='id connect'>connect</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>extension_removed(QString, QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:set_current_target</span><span class='rparen'>)</span>
@@ -1354,9 +1338,9 @@ and there&#8217;s no open project</p>
       <pre class="code"><span class="info file"># File 'plugins/rake/rake.rb', line 439</span>
 
 <span class='kw'>def</span> <span class='id find_current_target'>find_current_target</span>
-  <span class='id target'>target</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current_document'>current_document</span><span class='period'>.</span><span class='id project'>project</span> <span class='kw'>rescue</span> <span class='kw'>nil</span>
+  <span class='id target'>target</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:world</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id active_document'>active_document</span><span class='period'>.</span><span class='id project'>project</span> <span class='kw'>rescue</span> <span class='kw'>nil</span>
   <span class='kw'>if</span> <span class='id target'>target</span><span class='period'>.</span><span class='id nil?'>nil?</span> <span class='kw'>or</span> <span class='op'>!</span><span class='id target'>target</span><span class='period'>.</span><span class='id has_extension?'>has_extension?</span> <span class='symbol'>:rake</span>
-    <span class='id prj'>prj</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current'>current</span>
+    <span class='id prj'>prj</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:world</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id active_project'>active_project</span>
     <span class='id target'>target</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='id prj'>prj</span> <span class='kw'>and</span> <span class='id prj'>prj</span><span class='period'>.</span><span class='id has_extension?'>has_extension?</span> <span class='symbol'>:rake</span> <span class='kw'>then</span> <span class='id prj'>prj</span>
     <span class='kw'>else</span> <span class='kw'>nil</span>
     <span class='kw'>end</span>
@@ -2324,44 +2308,14 @@ rake hasn&#8217;t finished</p>
 </div>
 </div>
     
-      <div class="method_details ">
-  <p class="signature " id="rake_finished-signalcode">
-<!-- The sub is needed to remove the (Object) part -->
-  - <strong>rake_finished</strong> 
-</p><div class="docstring">
-  <div class="discussion">
-    <p>Signal emitted when the rake program started with <span class='object_link'><a href="#run_rake-instance_method" title="Ruber::Rake::Plugin#run_rake (method)">#run_rake</a></span> has exited</p>
-
-  </div>
-</div>
-<div class="tags">
-  
-</div>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="rake_finished-signalcode">
-<!-- The sub is needed to remove the (Object) part -->
-  - <strong>rake_finished</strong> 
-</p><div class="docstring">
-  <div class="discussion">
-    <p>Signal emitted when the rake program started with <span class='object_link'><a href="#run_rake-instance_method" title="Ruber::Rake::Plugin#run_rake (method)">#run_rake</a></span> has exited</p>
-
-  </div>
-</div>
-<div class="tags">
-  
-</div>
-</div>
-    
   </div>
 
 </div>
     
     <div id="footer">
-  Generated on Mon Jan 17 11:11:48 2011 by 
+  Generated on Fri Apr 29 10:51:03 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.4 (ruby-1.9.2).
+  0.6.8 (ruby-1.9.2).
 </div>
 
   </body>

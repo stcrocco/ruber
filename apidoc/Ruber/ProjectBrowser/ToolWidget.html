@@ -2,7 +2,7 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <meta name="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Class: Ruber::ProjectBrowser::ToolWidget</title>
 <link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
@@ -288,7 +288,7 @@ project, if any</p>
 
 <span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id parent'>parent</span> <span class='op'>=</span> <span class='kw'>nil</span>
   <span class='kw'>super</span>
-  <span class='id connect'>connect</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>current_project_changed(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>current_project_changed(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+  <span class='id connect'>connect</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:world</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>active_project_changed(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>current_project_changed(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id layout'>layout</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>VBoxLayout</span><span class='period'>.</span><span class='id new'>new</span> <span class='kw'>self</span>
   <span class='ivar'>@view</span> <span class='op'>=</span> <span class='const'>View</span><span class='period'>.</span><span class='id new'>new</span> <span class='kw'>self</span>
   <span class='ivar'>@model</span> <span class='op'>=</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>DirModel</span><span class='period'>.</span><span class='id new'>new</span> <span class='ivar'>@view</span>
@@ -301,7 +301,7 @@ project, if any</p>
   <span class='ivar'>@view</span><span class='period'>.</span><span class='id header_hidden'>header_hidden</span> <span class='op'>=</span> <span class='kw'>true</span>
   <span class='id layout'>layout</span><span class='period'>.</span><span class='id add_widget'>add_widget</span> <span class='ivar'>@view</span>
   <span class='ivar'>@project</span> <span class='op'>=</span> <span class='kw'>nil</span>
-  <span class='id current_project_changed'>current_project_changed</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current'>current</span>
+  <span class='id current_project_changed'>current_project_changed</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:world</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id active_project'>active_project</span>
   <span class='ivar'>@view</span><span class='period'>.</span><span class='id connect'>connect</span><span class='lparen'>(</span><span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>only_project_files_triggered(bool)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='rparen'>)</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id val'>val</span><span class='op'>|</span> <span class='ivar'>@filter</span><span class='period'>.</span><span class='id do_filtering'>do_filtering</span> <span class='op'>=</span> <span class='id val'>val</span><span class='rbrace'>}</span>
   <span class='id connect'>connect</span> <span class='ivar'>@view</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>activated(QModelIndex)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>open_file_in_editor(QModelIndex)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
@@ -594,9 +594,9 @@ setting has changed</p>
 </div>
     
     <div id="footer">
-  Generated on Tue Jan 11 14:27:02 2011 by 
+  Generated on Fri Apr 29 10:51:26 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.4 (ruby-1.9.2).
+  0.6.8 (ruby-1.9.2).
 </div>
 
   </body>

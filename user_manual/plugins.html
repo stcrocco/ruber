@@ -26,6 +26,8 @@
         <div class="announce">
           <h2>Latest news:</h2>
           
+            <p><a href="../news.html#Ruber-0-0-9-released-2011-05-30">Ruber 0.0.9 released</a></p>
+          
             <p><a href="../news.html#Ruber-0-0-8-released-2011-02-07">Ruber 0.0.8 released</a></p>
           
             <p><a href="../news.html#Ruber-0-0-7-released-2011-01-12">Ruber 0.0.7 released</a></p>
@@ -35,8 +37,6 @@
             <p><a href="../news.html#Ruber-0-0-5-released-2010-11-03">Ruber 0.0.5 released</a></p>
           
             <p><a href="../news.html#Ruber-0-0-4-released-2010-11-03">Ruber 0.0.4 released</a></p>
-          
-            <p><a href="../news.html#Ruber-0-0-2-released-2010-11-03">Ruber 0.0.2 released</a></p>
           
         </div>
       </div>
@@ -368,9 +368,9 @@ is next reopened.</p>
 <p>By <i>state</i>, this plugin mean:</p>
 <dl>
 	<dt>for Ruber</dt>
-	<dd>the list of open projects and files not belonging to any project</dd>
+	<dd>the list of open projects and editors not associated with any project</dd>
 	<dt>for a project</dt>
-	<dd>the list of files belonging to the project</dd>
+	<dd>the list of editors associated with to the project</dd>
 	<dt>for a file</dt>
 	<dd>the cursor position in the file.</dd>
 </dl>
@@ -379,17 +379,15 @@ in the Ruber configuration dialog. The options you can change are:</p>
 <ul>
 	<li>when opening a document, whether to move the cursor to the position it was when
   the document was last closed</li>
-	<li>when opening a project, whether to open the files which were opened when the project
-  was last closed</li>
 	<li>what to do when Ruber starts up. You can decide to:
 	<ul>
-		<li>Restore all the open projects and documents</li>
-		<li>Open all the projects which were open last time, but don&#8217;t open any file</li>
-		<li>Open all the files which were open last time, but don&#8217;t open any project</li>
-		<li>Restore nothing (this will start Ruber with no open project and a single, empty
-   document</li>
+		<li>Restore all the open projects and editors</li>
+		<li>Restore all projects, but not editors not associated with any projects</li>
+		<li>Restore editors not associated with any projects, but not open projects</li>
+		<li>Keep the default workspace</li>
 	</ul></li>
 </ul>
+<p>When restoring sessions, editors associated with an unsaved files will become empty.</p>
 <h3 id="syntax-checker">Syntax Checker</h3>
 <p>The sytnax checker plugin allows to check the syntax of a ruby or <span class="caps">YAML</span> file.</p>
 <p>The syntax check is done every time the file is saved and after a pause of at least

@@ -2,7 +2,7 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <meta name="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Class: KDE::Url</title>
 <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
@@ -183,6 +183,51 @@
 
   
     <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#eql%3F-instance_method" title="#eql? (instance method)">- (Boolean) <strong>eql?</strong>(other) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p><strong>true</strong> if the two URLs are equal according to <code>==</code> and <strong>false</strong>
+otherwise.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#hash-instance_method" title="#hash (instance method)">- (Integer) <strong>hash</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Override of Object#hash.</p></div></span>
   
 </li>
 
@@ -455,6 +500,112 @@ to an absolute file if <em>abs_only</em> is <strong>true</strong>) and <strong>f
 </div>
     
       <div class="method_details ">
+  <p class="signature " id="eql?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>eql?</strong>(other) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p><strong>true</strong> if the two URLs are equal according to <code>==</code> and <strong>false</strong>
+otherwise</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><strong>true</strong> if the two URLs are equal according to <code>==</code> and <strong>false</strong>
+otherwise</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+81
+82
+83</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/kde_sugar.rb', line 81</span>
+
+<span class='kw'>def</span> <span class='id eql?'>eql?</span> <span class='id other'>other</span>
+  <span class='kw'>self</span> <span class='op'>==</span> <span class='id other'>other</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="hash-instance_method">
+  
+    - (<tt>Integer</tt>) <strong>hash</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Override of Object#hash</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the hash value of the path associated with the <span class="caps">URL</span></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+89
+90
+91</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/kde_sugar.rb', line 89</span>
+
+<span class='kw'>def</span> <span class='id hash'>hash</span>
+  <span class='id path'>path</span><span class='period'>.</span><span class='id hash'>hash</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <p class="signature " id="local_file?-instance_method">
   
     - (<tt>Boolean</tt>) <strong>local_file?</strong> 
@@ -591,9 +742,9 @@ to an absolute file if <em>abs_only</em> is <strong>true</strong>) and <strong>f
 </div>
     
     <div id="footer">
-  Generated on Tue Jan 11 14:26:42 2011 by 
+  Generated on Fri Apr 29 10:51:07 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.4 (ruby-1.9.2).
+  0.6.8 (ruby-1.9.2).
 </div>
 
   </body>

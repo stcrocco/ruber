@@ -2,7 +2,7 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <meta name="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Class: Ruber::RSpec::Plugin</title>
 <link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
@@ -84,9 +84,7 @@
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">plugins/rspec/rspec.rb<span class="defines">,<br />
-  plugins/rspec/rspec.rb</span>
-</dd>
+    <dd class="r2 last">plugins/rspec/rspec.rb</dd>
   
 </dl>
 <div class="clear"></div>
@@ -298,54 +296,6 @@ document is a spec or code file.</p></div></span>
 
   
     <span class="summary_desc"><div class='inline'><p>The name of the code file associated with a given spec file.</p></div></span>
-  
-</li>
-
-      
-        <!-- Provides the  slot annotation -->
-<li class="private ">
-  <span class="summary_signature">
-    
-      <a href="#go_to_file-instance_method" title="#go_to_file (instance method)">- (nil) <strong>go_to_file</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-    <span class="note title"><strong>slot</strong></span>
-  
-  <span class="note title private">private</span>
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>Opens the code file associated with the current spec file in the editor.</p></div></span>
-  
-</li>
-
-      
-        <!-- Provides the  slot annotation -->
-<li class="private ">
-  <span class="summary_signature">
-    
-      <a href="#go_to_spec-instance_method" title="#go_to_spec (instance method)">- (nil) <strong>go_to_spec</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-    <span class="note title"><strong>slot</strong></span>
-  
-  <span class="note title private">private</span>
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>Opens the spec file(s) associated with the current document in the editor.</p></div></span>
   
 </li>
 
@@ -582,7 +532,7 @@ document is a spec or code file.</p></div></span>
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#spec_file%3F-instance_method" title="#spec_file? (instance method)">- (Boolean<sup>?</sup>) <strong>spec_file?</strong>(file, prj = Ruber[:projects].current) </a>
+      <a href="#spec_file%3F-instance_method" title="#spec_file? (instance method)">- (Boolean<sup>?</sup>) <strong>spec_file?</strong>(file, prj = Ruber[:world].active_project) </a>
     
 
     
@@ -755,33 +705,33 @@ document is a spec or code file.</p></div></span>
       <pre class="lines">
 
 
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96
-97
-98
-99
-100
-101
-102
-103
-104
-105
-106
-107</pre>
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 84</span>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 110</span>
 
 <span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id psf'>psf</span>
   <span class='kw'>super</span> <span class='id psf'>psf</span><span class='comma'>,</span> <span class='symbol'>:rspec</span><span class='comma'>,</span> <span class='lbrace'>{</span><span class='symbol'>:scope</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='symbol'>:global</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='kw'>false</span>
@@ -859,16 +809,16 @@ if no rspec program was found</p>
       <pre class="lines">
 
 
-69
-70
-71
-72
-73
-74
-75</pre>
+95
+96
+97
+98
+99
+100
+101</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 69</span>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 95</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id find_default_executable'>find_default_executable</span>
   <span class='id path'>path</span> <span class='op'>=</span> <span class='const'>Open3</span><span class='period'>.</span><span class='id popen3'>popen3</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>which rspec</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id stdin'>stdin</span><span class='comma'>,</span> <span class='id stdout'>stdout</span><span class='comma'>,</span> <span class='id stderr'>stderr</span><span class='op'>|</span> <span class='id stdout'>stdout</span><span class='period'>.</span><span class='id read'>read</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id strip'>strip</span>
@@ -1068,12 +1018,12 @@ in which case it does nothing.</p>
       <pre class="lines">
 
 
-475
-476
-477</pre>
+514
+515
+516</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 475</span>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 514</span>
 
 <span class='kw'>def</span> <span class='id display_exit_message'>display_exit_message</span> <span class='id code'>code</span><span class='comma'>,</span> <span class='id reason'>reason</span>
   <span class='kw'>super</span> <span class='kw'>unless</span> <span class='id reason'>reason</span><span class='period'>.</span><span class='id empty?'>empty?</span>
@@ -1157,14 +1107,14 @@ the generated file names matches the given spec file, the generating file is ret
       <pre class="lines">
 
 
-459
-460
-461
-462
-463</pre>
+498
+499
+500
+501
+502</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 459</span>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 498</span>
 
 <span class='kw'>def</span> <span class='id file_for_spec'>file_for_spec</span> <span class='id prj'>prj</span><span class='comma'>,</span> <span class='id file'>file</span>
   <span class='id pattern'>pattern</span> <span class='op'>=</span> <span class='id prj'>prj</span><span class='lbracket'>[</span><span class='symbol'>:spec_pattern</span><span class='rbracket'>]</span>
@@ -1175,170 +1125,6 @@ the generated file names matches the given spec file, the generating file is ret
   </tr>
 </table>
 </div>
-    
-      <div class="method_details ">
-  <p class="signature " id="go_to_file-instance_method">
-  
-    - (<tt>nil</tt>) <strong>go_to_file</strong>  <span class="extras">(private)</span>
-  
-
-  
-</p><div class="docstring">
-  <div class="discussion">
-    <p>Opens the code file associated with the current spec file in the editor</p>
-<p>This method assumes the current file is a spec file and attempts to find the
-correspondent code file and open it in the editor. It does nothing if no correspondent
-code file can be found.</p>
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Returns:</h3>
-<ul class="return">
-  
-    <li>
-      
-        <span class='type'>(<tt>nil</tt>)</span>
-      
-      
-      
-      
-    </li>
-  
-</ul>
-
-  <h3>See Also:</h3>
-  <ul class="see">
-    
-      <li><span class='object_link'><a href="#file_for_spec-instance_method" title="Ruber::RSpec::Plugin#file_for_spec (method)">#file_for_spec</a></span></li>
-    
-  </ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-413
-414
-415
-416
-417
-418
-419
-420
-421
-422
-423
-424
-425
-426
-427
-428</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 413</span>
-
-<span class='kw'>def</span> <span class='id go_to_file'>go_to_file</span>
-  <span class='id prj'>prj</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current_project'>current_project</span>
-  <span class='kw'>unless</span> <span class='id prj'>prj</span>
-    <span class='const'>KDE</span><span class='op'>::</span><span class='const'>MessageBox</span><span class='period'>.</span><span class='id error'>error</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>You must have an open project to choose this entry.\nYOU SHOULD NEVER SEE THIS MESSAGE</span><span class='tstring_end'>&quot;</span></span>
-    <span class='kw'>return</span>
-  <span class='kw'>end</span>
-  <span class='id opts'>opts</span> <span class='op'>=</span> <span class='id options'>options</span> <span class='id prj'>prj</span>
-  <span class='id doc'>doc</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current_document'>current_document</span>
-  <span class='kw'>unless</span> <span class='id prj'>prj</span>
-    <span class='const'>KDE</span><span class='op'>::</span><span class='const'>MessageBox</span><span class='period'>.</span><span class='id error'>error</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>You must have an open document to choose this entry.\nYOU SHOULD NEVER SEE THIS MESSAGE</span><span class='tstring_end'>&quot;</span></span>
-    <span class='kw'>return</span>
-  <span class='kw'>end</span>
-  <span class='id file'>file</span> <span class='op'>=</span> <span class='id file_for_spec'>file_for_spec</span> <span class='id prj'>prj</span><span class='comma'>,</span> <span class='id doc'>doc</span><span class='period'>.</span><span class='id path'>path</span>
-  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id display_document'>display_document</span> <span class='id file'>file</span> <span class='kw'>if</span> <span class='id file'>file</span> <span class='kw'>and</span> <span class='const'>File</span><span class='period'>.</span><span class='id exist?'>exist?</span> <span class='id file'>file</span>
-  <span class='kw'>nil</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
-      <p style="margin-top: 5pt;"><tt>go_to_file()</tt></p>
-
-    
-      <div class="method_details ">
-  <p class="signature " id="go_to_spec-instance_method">
-  
-    - (<tt>nil</tt>) <strong>go_to_spec</strong>  <span class="extras">(private)</span>
-  
-
-  
-</p><div class="docstring">
-  <div class="discussion">
-    <p>Opens the spec file(s) associated with the current document in the editor</p>
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Returns:</h3>
-<ul class="return">
-  
-    <li>
-      
-        <span class='type'>(<tt>nil</tt>)</span>
-      
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-387
-388
-389
-390
-391
-392
-393
-394
-395
-396
-397
-398
-399
-400
-401
-402</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 387</span>
-
-<span class='kw'>def</span> <span class='id go_to_spec'>go_to_spec</span>
-  <span class='id prj'>prj</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current_project'>current_project</span>
-  <span class='kw'>unless</span> <span class='id prj'>prj</span>
-    <span class='const'>KDE</span><span class='op'>::</span><span class='const'>MessageBox</span><span class='period'>.</span><span class='id error'>error</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>You must have an open project to choose this entry.\nYOU SHOULD NEVER SEE THIS MESSAGE</span><span class='tstring_end'>&quot;</span></span>
-    <span class='kw'>return</span>
-  <span class='kw'>end</span>
-  <span class='id opts'>opts</span> <span class='op'>=</span> <span class='id options'>options</span> <span class='id prj'>prj</span>
-  <span class='id doc'>doc</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current_document'>current_document</span>
-  <span class='kw'>unless</span> <span class='id prj'>prj</span>
-    <span class='const'>KDE</span><span class='op'>::</span><span class='const'>MessageBox</span><span class='period'>.</span><span class='id error'>error</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>You must have an open document to choose this entry.\nYOU SHOULD NEVER SEE THIS MESSAGE</span><span class='tstring_end'>&quot;</span></span>
-    <span class='kw'>return</span>
-  <span class='kw'>end</span>
-  <span class='id files'>files</span> <span class='op'>=</span> <span class='id specs_for_file'>specs_for_file</span> <span class='id opts'>opts</span><span class='comma'>,</span> <span class='id doc'>doc</span><span class='period'>.</span><span class='id path'>path</span>
-  <span class='id files'>files</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id f'>f</span><span class='op'>|</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id display_document'>display_document</span> <span class='id f'>f</span> <span class='kw'>if</span> <span class='const'>File</span><span class='period'>.</span><span class='id exist?'>exist?</span> <span class='id f'>f</span><span class='rbrace'>}</span>
-  <span class='kw'>nil</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
-      <p style="margin-top: 5pt;"><tt>go_to_spec()</tt></p>
-
     
       <div class="method_details ">
   <p class="signature " id="options-instance_method">
@@ -1409,20 +1195,20 @@ the project directory.</p>
       <pre class="lines">
 
 
-370
-371
-372
-373
-374
-375
-376
-377
-378
-379
-380</pre>
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 370</span>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 428</span>
 
 <span class='kw'>def</span> <span class='id options'>options</span> <span class='id prj'>prj</span>
   <span class='id res'>res</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
@@ -1503,25 +1289,25 @@ preserved.</p>
       <pre class="lines">
 
 
-229
-230
-231
-232
-233
-234
-235
-236
-237
-238
-239
-240
-241
-242
-243
-244</pre>
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 229</span>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 287</span>
 
 <span class='kw'>def</span> <span class='id parse_spec_output'>parse_spec_output</span> <span class='id str'>str</span>
   <span class='id sc'>sc</span> <span class='op'>=</span> <span class='const'>StringScanner</span><span class='period'>.</span><span class='id new'>new</span> <span class='id str'>str</span>
@@ -1596,13 +1382,13 @@ preserved.</p>
       <pre class="lines">
 
 
-209
-210
-211
-212</pre>
+267
+268
+269
+270</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 209</span>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 267</span>
 
 <span class='kw'>def</span> <span class='id process_standard_error'>process_standard_error</span> <span class='id lines'>lines</span>
   <span class='ivar'>@widget</span><span class='period'>.</span><span class='id model'>model</span><span class='period'>.</span><span class='id insert_lines'>insert_lines</span> <span class='id lines'>lines</span><span class='comma'>,</span> <span class='symbol'>:output1</span><span class='comma'>,</span> <span class='kw'>nil</span>
@@ -1668,18 +1454,18 @@ appropriately.</p>
       <pre class="lines">
 
 
-194
-195
-196
-197
-198
-199
-200
-201
-202</pre>
+252
+253
+254
+255
+256
+257
+258
+259
+260</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 194</span>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 252</span>
 
 <span class='kw'>def</span> <span class='id process_standard_output'>process_standard_output</span> <span class='id lines'>lines</span>
   <span class='id items'>items</span> <span class='op'>=</span> <span class='id parse_spec_output'>parse_spec_output</span> <span class='id lines'>lines</span><span class='period'>.</span><span class='id join'>join</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span>
@@ -1729,23 +1515,23 @@ appropriately.</p>
       <pre class="lines">
 
 
-250
-251
-252
-253
-254
-255
-256
-257
-258
-259
-260</pre>
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 250</span>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 308</span>
 
 <span class='kw'>def</span> <span class='id run_all'>run_all</span>
-  <span class='id prj'>prj</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current_project'>current_project</span>
+  <span class='id prj'>prj</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:world</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id active_project'>active_project</span>
   <span class='kw'>unless</span> <span class='id prj'>prj</span>
     <span class='const'>KDE</span><span class='op'>::</span><span class='const'>MessageBox</span><span class='period'>.</span><span class='id error'>error</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>You must have an open project to choose this entry.\nYOU SHOULD NEVER SEE THIS MESSAGE</span><span class='tstring_end'>&quot;</span></span>
     <span class='kw'>return</span>
@@ -1810,39 +1596,39 @@ which, most likely, will cause it to fail.</p>
       <pre class="lines">
 
 
-281
-282
-283
-284
-285
-286
-287
-288
-289
-290
-291
-292
-293
-294
-295
-296
-297
-298
-299
-300
-301
-302
-303
-304
-305
-306
-307</pre>
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 281</span>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 339</span>
 
 <span class='kw'>def</span> <span class='id run_current'>run_current</span> <span class='id what'>what</span> <span class='op'>=</span> <span class='symbol'>:all</span>
-  <span class='id prj'>prj</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current_project'>current_project</span>
+  <span class='id prj'>prj</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:world</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id active_project'>active_project</span>
   <span class='kw'>unless</span> <span class='id prj'>prj</span>
     <span class='const'>KDE</span><span class='op'>::</span><span class='const'>MessageBox</span><span class='period'>.</span><span class='id error'>error</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>You must have an open project to choose this entry.\nYOU SHOULD NEVER SEE THIS MESSAGE</span><span class='tstring_end'>&quot;</span></span>
     <span class='kw'>return</span>
@@ -1917,12 +1703,12 @@ current file is the example file, not the source.</p>
       <pre class="lines">
 
 
-320
-321
-322</pre>
+378
+379
+380</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 320</span>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 378</span>
 
 <span class='kw'>def</span> <span class='id run_current_line'>run_current_line</span>
   <span class='id run_current'>run_current</span> <span class='symbol'>:current_line</span>
@@ -2197,39 +1983,39 @@ as first argument to <span class='object_link'><a href="../Autosave/AutosavePlug
       <pre class="lines">
 
 
-148
-149
-150
-151
-152
-153
-154
-155
-156
-157
-158
-159
-160
-161
-162
-163
-164
-165
-166
-167
-168
-169
-170
-171
-172
-173
-174
-175
-176
-177</pre>
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 148</span>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 192</span>
 
 <span class='kw'>def</span> <span class='id run_rspec'>run_rspec</span> <span class='id files'>files</span><span class='comma'>,</span> <span class='id opts'>opts</span><span class='comma'>,</span> <span class='id autosave_opts'>autosave_opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id blk'>blk</span>
   <span class='id default_opts'>default_opts</span> <span class='op'>=</span> <span class='lbrace'>{</span>
@@ -2395,15 +2181,15 @@ entry (see below)
       <pre class="lines">
 
 
-343
-344
-345
-346
-347
-348</pre>
+401
+402
+403
+404
+405
+406</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 343</span>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 401</span>
 
 <span class='kw'>def</span> <span class='id run_rspec_for'>run_rspec_for</span> <span class='id origin'>origin</span><span class='comma'>,</span> <span class='id opts'>opts</span><span class='comma'>,</span> <span class='id autosave_opts'>autosave_opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id blk'>blk</span>
   <span class='id process'>process</span><span class='period'>.</span><span class='id kill'>kill</span>
@@ -2419,7 +2205,7 @@ entry (see below)
       <div class="method_details ">
   <p class="signature " id="spec_file?-instance_method">
   
-    - (<tt>Boolean</tt><sup>?</sup>) <strong>spec_file?</strong>(file, prj = Ruber[:projects].current) 
+    - (<tt>Boolean</tt><sup>?</sup>) <strong>spec_file?</strong>(file, prj = Ruber[:world].active_project) 
   
 
   
@@ -2457,7 +2243,7 @@ to find out whether the file is a spec file or not.</p>
         <span class='name'>prj</span>
       
       
-        <em class="default">(defaults to: <tt>Ruber[:projects].current</tt>)</em>
+        <em class="default">(defaults to: <tt>Ruber[:world].active_project</tt>)</em>
       
       
         &mdash;
@@ -2501,7 +2287,7 @@ or <strong>nil</strong> if no project was specified and there&#8217;s no open pr
     <td>
       <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 147</span>
 
-<span class='kw'>def</span> <span class='id spec_file?'>spec_file?</span> <span class='id file'>file</span><span class='comma'>,</span> <span class='id prj'>prj</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current'>current</span>
+<span class='kw'>def</span> <span class='id spec_file?'>spec_file?</span> <span class='id file'>file</span><span class='comma'>,</span> <span class='id prj'>prj</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:world</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id active_project'>active_project</span>
   <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>unless</span> <span class='id prj'>prj</span>
   <span class='id dir'>dir</span> <span class='op'>=</span> <span class='id prj'>prj</span><span class='lbracket'>[</span><span class='symbol'>:rspec</span><span class='comma'>,</span> <span class='symbol'>:spec_directory</span><span class='comma'>,</span> <span class='symbol'>:absolute</span><span class='rbracket'>]</span>
   <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='id file'>file</span><span class='period'>.</span><span class='id start_with?'>start_with?</span> <span class='id dir'>dir</span>
@@ -2570,14 +2356,14 @@ whether the files actually exist).</p>
       <pre class="lines">
 
 
-440
-441
-442
-443
-444</pre>
+479
+480
+481
+482
+483</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 440</span>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 479</span>
 
 <span class='kw'>def</span> <span class='id specs_for_file'>specs_for_file</span> <span class='id opts'>opts</span><span class='comma'>,</span> <span class='id file'>file</span>
   <span class='id file'>file</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id basename'>basename</span> <span class='id file'>file</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>.rb</span><span class='tstring_end'>'</span></span>
@@ -2658,7 +2444,7 @@ with the current document or <strong>nil</strong> if no such file is found</p></
 
 <span class='kw'>def</span> <span class='id switch'>switch</span>
   <span class='id file'>file</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current_document'>current_document</span><span class='period'>.</span><span class='id path'>path</span>
-  <span class='id prj'>prj</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current_project'>current_project</span>
+  <span class='id prj'>prj</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:world</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id active_project'>active_project</span>
   <span class='kw'>if</span> <span class='id spec_file?'>spec_file?</span> <span class='id file'>file</span><span class='comma'>,</span> <span class='id prj'>prj</span> <span class='kw'>then</span> <span class='id switch_to'>switch_to</span> <span class='op'>=</span> <span class='id file_for_spec'>file_for_spec</span> <span class='id prj'>prj</span><span class='comma'>,</span> <span class='id file'>file</span>
   <span class='kw'>else</span> <span class='id switch_to'>switch_to</span> <span class='op'>=</span> <span class='id specs_for_file'>specs_for_file</span><span class='lparen'>(</span><span class='id options'>options</span><span class='lparen'>(</span><span class='id prj'>prj</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id file'>file</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
   <span class='kw'>end</span>
@@ -2685,9 +2471,9 @@ with the current document or <strong>nil</strong> if no such file is found</p></
 </div>
     
     <div id="footer">
-  Generated on Mon Feb  7 15:09:03 2011 by 
+  Generated on Fri Apr 29 10:51:09 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.4 (ruby-1.9.2).
+  0.6.8 (ruby-1.9.2).
 </div>
 
   </body>

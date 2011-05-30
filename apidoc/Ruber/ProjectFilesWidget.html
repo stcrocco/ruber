@@ -2,7 +2,7 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <meta name="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Class: Ruber::ProjectFilesWidget</title>
 <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
@@ -78,7 +78,7 @@
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">lib/ruber/projects/project_files_widget.rb</dd>
+    <dd class="r2 last">lib/ruber/application/project_files_widget.rb</dd>
   
 </dl>
 <div class="clear"></div>
@@ -265,7 +265,7 @@ in the dialg can be enabled accordingly.</p></div></span>
 268</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_files_widget.rb', line 260</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/project_files_widget.rb', line 260</span>
 
 <span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id prj'>prj</span>
   <span class='kw'>super</span>
@@ -332,7 +332,7 @@ in the dialg can be enabled accordingly.</p></div></span>
 282</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_files_widget.rb', line 275</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/project_files_widget.rb', line 275</span>
 
 <span class='kw'>def</span> <span class='id read_settings'>read_settings</span>
   <span class='id rules'>rules</span> <span class='op'>=</span> <span class='id project'>project</span><span class='lbracket'>[</span><span class='symbol'>:general</span><span class='comma'>,</span> <span class='symbol'>:project_files</span><span class='rbracket'>]</span>
@@ -394,7 +394,7 @@ in the dialg can be enabled accordingly.</p></div></span>
 297</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_files_widget.rb', line 289</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/project_files_widget.rb', line 289</span>
 
 <span class='kw'>def</span> <span class='id store_settings'>store_settings</span>
   <span class='id res'>res</span> <span class='op'>=</span> <span class='lbrace'>{</span>
@@ -440,9 +440,9 @@ in the dialg can be enabled accordingly</p>
 </div>
     
     <div id="footer">
-  Generated on Tue Jan 11 14:27:02 2011 by 
+  Generated on Fri Apr 29 10:51:30 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.4 (ruby-1.9.2).
+  0.6.8 (ruby-1.9.2).
 </div>
 
   </body>

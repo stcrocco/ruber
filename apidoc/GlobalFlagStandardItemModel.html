@@ -2,7 +2,7 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <meta name="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Class: GlobalFlagStandardItemModel</title>
 <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
@@ -76,9 +76,7 @@
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">lib/ruber/qt_sugar.rb<span class="defines">,<br />
-  lib/ruber/qt_sugar.rb</span>
-</dd>
+    <dd class="r2 last">lib/ruber/qt_sugar.rb</dd>
   
 </dl>
 <div class="clear"></div>
@@ -230,13 +228,13 @@ the Qt::StandardItemModel#flags method.</p>
       <pre class="lines">
 
 
-749
-750
-751
-752</pre>
+760
+761
+762
+763</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/qt_sugar.rb', line 749</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/qt_sugar.rb', line 760</span>
 
 <span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id parent'>parent</span> <span class='op'>=</span> <span class='kw'>nil</span>
   <span class='kw'>super</span>
@@ -276,12 +274,12 @@ the Qt::StandardItemModel#flags method.</p>
       <pre class="lines">
 
 
-742
-743
-744</pre>
+753
+754
+755</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/qt_sugar.rb', line 742</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/qt_sugar.rb', line 753</span>
 
 <span class='kw'>def</span> <span class='id global_flags'>global_flags</span>
   <span class='ivar'>@global_flags</span>
@@ -321,12 +319,12 @@ Qt::StandardItemModel#flags and return that value</p>
       <pre class="lines">
 
 
-759
-760
-761</pre>
+770
+771
+772</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/qt_sugar.rb', line 759</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/qt_sugar.rb', line 770</span>
 
 <span class='kw'>def</span> <span class='id flags'>flags</span> <span class='id idx'>idx</span>
   <span class='ivar'>@global_flags</span> <span class='op'>||</span> <span class='kw'>super</span>
@@ -343,9 +341,9 @@ Qt::StandardItemModel#flags and return that value</p>
 </div>
     
     <div id="footer">
-  Generated on Mon Feb  7 15:09:01 2011 by 
+  Generated on Fri Apr 29 10:51:06 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.4 (ruby-1.9.2).
+  0.6.8 (ruby-1.9.2).
 </div>
 
   </body>

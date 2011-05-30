@@ -2,7 +2,7 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <meta name="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Class: KDE::XMLGUIClient</title>
 <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
@@ -174,14 +174,14 @@ depending on which argument was passed to stateChanged
       <pre class="lines">
 
 
-185
-186
-187
-188
-189</pre>
+201
+202
+203
+204
+205</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/kde_sugar.rb', line 185</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/kde_sugar.rb', line 201</span>
 
 <span class='kw'>def</span> <span class='id change_state'>change_state</span> <span class='id state'>state</span><span class='comma'>,</span> <span class='id value'>value</span>
   <span class='id value'>value</span> <span class='op'>=</span> <span class='id value'>value</span> <span class='op'>?</span> <span class='const'>StateNoReverse</span> <span class='op'>:</span> <span class='const'>StateReverse</span>
@@ -219,18 +219,18 @@ otherwise.
       <pre class="lines">
 
 
-200
-201
-202
-203
-204
-205
-206
-207
-208</pre>
+216
+217
+218
+219
+220
+221
+222
+223
+224</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/kde_sugar.rb', line 200</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/kde_sugar.rb', line 216</span>
 
 <span class='kw'>def</span> <span class='id global_change_state'>global_change_state</span> <span class='id state'>state</span><span class='comma'>,</span> <span class='id value'>value</span>
   <span class='id res'>res</span> <span class='op'>=</span> <span class='id change_state'>change_state</span> <span class='id state'>state</span><span class='comma'>,</span> <span class='id value'>value</span>
@@ -253,9 +253,9 @@ otherwise.
 </div>
     
     <div id="footer">
-  Generated on Tue Jan 11 14:26:43 2011 by 
+  Generated on Fri Apr 29 10:51:07 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.4 (ruby-1.9.2).
+  0.6.8 (ruby-1.9.2).
 </div>
 
   </body>

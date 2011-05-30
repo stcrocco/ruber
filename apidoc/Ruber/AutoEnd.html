@@ -2,7 +2,7 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <meta name="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Module: Ruber::AutoEnd</title>
 <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
@@ -64,7 +64,35 @@
 </dl>
 <div class="clear"></div>
 
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+  <div class="note notetag">
+    <strong>Note:</strong> 
+    <div class='inline'><p>This plugin does nothing unless the text is inserted in the document while
+one of the views associated with it has focus</p></div>
+  </div>
 
+<p>Plugin which automatically inserts an <code>end</code> keyword after the user presses Enter
+after a line starting a construct which requires it.</p>
+<p>The algorithm used to find out whether an end should be inserted after the current
+line is very simple: the line is checked against several possible regexps. The <code>end</code>
+is inserted if any of the regexps matches.</p>
+<p>The above algorithm has the limitation of not being able to tell whether the line
+is inside a multiline string or a block comment, and can thus lead to spurious @end@s
+being added.</p>
+<p>Another problem with the way the plugin works now is that it has no way to know
+whether a given keyword already has its closing <code>end</code>. To try to lessen this issue,
+before inserting an <code>end</code>, this plugin checks the indentation of the following line,
+comparing it to the indentation of the line where Enter has been pressed. If the
+former is greater than the latter, it assumes that the user is editing an already-existing
+construct and doesn&#8217;t insert the <code>end</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
 
 
 
@@ -86,9 +114,9 @@
 </div>
     
     <div id="footer">
-  Generated on Mon Feb  7 15:09:12 2011 by 
+  Generated on Fri Apr 29 10:51:14 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.4 (ruby-1.9.2).
+  0.6.8 (ruby-1.9.2).
 </div>
 
   </body>

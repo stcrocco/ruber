@@ -2,7 +2,7 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <meta name="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Class: Ruber::AutoEnd::Extension</title>
 <link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
@@ -85,7 +85,30 @@
 </dl>
 <div class="clear"></div>
 
-<h2>Defined Under Namespace</h2>
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>Extension object for the Auto End plugin</p>
+<p>The procedure of inserting an <code>end</code> is split in two parts, performed in separate
+moments:</p>
+<ol>
+	<li>finding out whether the current line needs an end inserted after it. This is
+  done in response to the <span class='object_link'><a href="../Document.html#text_inserted-signalcode" title="Ruber::Document#text_inserted (signalcode)">Document#text_inserted</a></span> signal</li>
+	<li>inserting the text. This is done in response to the <span class='object_link'><a href="../Document.html#text_changed-signalcode" title="Ruber::Document#text_changed (signalcode)">Document#text_changed</a></span> signal</li>
+</ol>
+<p>The reason for this two-step behaviour is that <span class='object_link'><a href="../Document.html#text_inserted-signalcode" title="Ruber::Document#text_inserted (signalcode)">Document#text_inserted</a></span> is emitted
+multiple times in case of a Paste operation. Thus, inserting the <code>end</code> keywords
+in it would cause them to be added in the middle of the pasted text, which is
+wrong. What we do instead is to analyze each line in response to <span class='object_link'><a href="../Document.html#text_inserted-signalcode" title="Ruber::Document#text_inserted (signalcode)">Document#text_inserted</a></span>,
+storing the line position and the text to insert if appropriate, overwriting any
+other information so that only the last position is recorded. When all text has
+been processed, the document emits the <span class='object_link'><a href="../Document.html#text_changed-signalcode" title="Ruber::Document#text_changed (signalcode)">Document#text_changed</a></span> signal and, in response
+to this we insert the end keyword (if appropriate).</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div><h2>Defined Under Namespace</h2>
 <p class="children">
    
     
@@ -101,30 +124,73 @@
     <dl class="constants">
       
         <dt id="IDENTIFIER_PATTERN-constant" class="">IDENTIFIER_PATTERN =
-          
+          <div class="docstring">
+  <div class="discussion">
+    <p>The regexp fragment which matches an identifier. In theory, this should
+just be <code>\w+</code>. However, from ruby 1.9.2, <code>\w</code> only matches <span class="caps">ASCII</span> characters, while
+identifiers can also contain unicode characters. To allow for this, the <code>\p{Word}</code>
+character class is used from ruby 1.9.2 onward, while <code>\w</code> is used for previous
+versions</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
         </dt>
         <dd><pre class="code"><span class='const'>RUBY_VERSION</span> <span class='op'>&gt;=</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>1.9.2</span><span class='tstring_end'>'</span></span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>\p{Word}+</span><span class='tstring_end'>'</span></span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>\w+</span><span class='tstring_end'>'</span></span></pre></dd>
       
         <dt id="MULTI_ID_PATTERN-constant" class="">MULTI_ID_PATTERN =
-          
+          <div class="docstring">
+  <div class="discussion">
+    <p>The regexp fragment which matches a multiple identifier (that is, an identifier
+maybe followed by several other identifiers separated by <code>::</code>)</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
         </dt>
         <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='const'>IDENTIFIER_PATTERN</span><span class='rbrace'>}</span><span class='tstring_content'>(?:::</span><span class='embexpr_beg'>#{</span><span class='const'>IDENTIFIER_PATTERN</span><span class='rbrace'>}</span><span class='tstring_content'>)*</span><span class='tstring_end'>&quot;</span></span></pre></dd>
       
         <dt id="PATTERNS-constant" class="">PATTERNS =
-          
+          <div class="docstring">
+  <div class="discussion">
+    <p>The patterns used to find out whether an <code>end</code> keyword should be inserted after
+a line.</p>
+<p>Each entry is itself an array with three elements:</p>
+<ul>
+	<li>the regexp to match agains the line</li>
+	<li>the text to insert if the regexp match</li>
+	<li>an array with two elements, representing the position where the cursor should be
+  moved to after the insertion, as described in <span class='object_link'><a href="Extension/Insertion.html#final_position-instance_method" title="Ruber::AutoEnd::Extension::Insertion#final_position (method)">Insertion#final_position</a></span></li>
+</ul>
+
+  </div>
+</div>
+<div class="tags">
+  
+</div>
         </dt>
         <dd><pre class="code"><span class='lbracket'>[</span>
   <span class='lbracket'>[</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^\s*if\s</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\nend</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='comma'>,</span>
   <span class='lbracket'>[</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>=\s*if\s</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\nend</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='lbracket'>[</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^\s*unless\s</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\nend</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='lbracket'>[</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>=\s*unless\s</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\nend</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='comma'>,</span>
   <span class='lbracket'>[</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\bdo\s*$</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\nend</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='comma'>,</span>
   <span class='lbracket'>[</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>\bdo\s+\|</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\nend</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='comma'>,</span>
   <span class='lbracket'>[</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^\s*def\s</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\nend</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='comma'>,</span>
   <span class='lbracket'>[</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^class\s+</span><span class='embexpr_beg'>#{</span><span class='const'>IDENTIFIER_PATTERN</span><span class='rbrace'>}</span><span class='tstring_content'>\s*$</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\nend</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='comma'>,</span>
   <span class='lbracket'>[</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^class\s+</span><span class='embexpr_beg'>#{</span><span class='const'>MULTI_ID_PATTERN</span><span class='rbrace'>}</span><span class='tstring_content'>\s*&lt;{1,2}\s*</span><span class='embexpr_beg'>#{</span><span class='const'>MULTI_ID_PATTERN</span><span class='rbrace'>}</span><span class='tstring_content'>\s*$</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\nend</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='comma'>,</span>
   <span class='lbracket'>[</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^\s*module\s+</span><span class='embexpr_beg'>#{</span><span class='const'>MULTI_ID_PATTERN</span><span class='rbrace'>}</span><span class='tstring_content'>\s*$</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\nend</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='comma'>,</span>
-  <span class='lbracket'>[</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^=begin(\s|$)</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n=end</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='comma'>,</span>
-  <span class='lbracket'>[</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^\s*begin\s</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\nend</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='comma'>,</span>
-  <span class='lbracket'>[</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>=\s*begin\s</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\nend</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='lbracket'>[</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^\s*while\s</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\nend</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='lbracket'>[</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^\s*until\s</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\nend</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='comma'>,</span>
+<span class='comment'>#         [/^=begin(\s|$)/, &quot;\n=end&quot;, [0, -1]],
+</span>  <span class='lbracket'>[</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^\s*begin\s</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\nend</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='lbracket'>[</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>(^=\s+|.=\s*)begin\s</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\nend</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='lbracket'>[</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^\s*for\s+</span><span class='embexpr_beg'>#{</span><span class='const'>IDENTIFIER_PATTERN</span><span class='rbrace'>}</span><span class='tstring_content'>\s+in.+$</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\nend</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='lbracket'>[</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>=\s*for\s+</span><span class='embexpr_beg'>#{</span><span class='const'>IDENTIFIER_PATTERN</span><span class='rbrace'>}</span><span class='tstring_content'>\s+in.+$</span><span class='regexp_end'>/</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\nend</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
 <span class='rbracket'>]</span></pre></dd>
       
     </dl>
@@ -149,7 +215,7 @@
 <li class="private ">
   <span class="summary_signature">
     
-      <a href="#connect_slots-instance_method" title="#connect_slots (instance method)">- (Object) <strong>connect_slots</strong> </a>
+      <a href="#connect_slots-instance_method" title="#connect_slots (instance method)">- (nil) <strong>connect_slots</strong> </a>
     
 
     
@@ -162,7 +228,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'><p>Makes connections to the document&#8217;s signals.</p></div></span>
   
 </li>
 
@@ -171,7 +237,7 @@
 <li class="private ">
   <span class="summary_signature">
     
-      <a href="#disconnect_slots-instance_method" title="#disconnect_slots (instance method)">- (Object) <strong>disconnect_slots</strong> </a>
+      <a href="#disconnect_slots-instance_method" title="#disconnect_slots (instance method)">- (nil) <strong>disconnect_slots</strong> </a>
     
 
     
@@ -184,29 +250,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
-  
-</li>
-
-      
-        <!-- Provides the  slot annotation -->
-<li class="private ">
-  <span class="summary_signature">
-    
-      <a href="#do_indentation-instance_method" title="#do_indentation (instance method)">- (Object) <strong>do_indentation</strong>(view) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  <span class="note title private">private</span>
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'><p>Disconnects connections to the document&#8217;s signals.</p></div></span>
   
 </li>
 
@@ -252,16 +296,16 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'><p>Inserts text at the given position and moves the cursor to the specified position.</p></div></span>
   
 </li>
 
       
         <!-- Provides the  slot annotation -->
-<li class="public ">
+<li class="private ">
   <span class="summary_signature">
     
-      <a href="#remove_from_project-instance_method" title="#remove_from_project (instance method)">- (Object) <strong>remove_from_project</strong> </a>
+      <a href="#remove_from_project-instance_method" title="#remove_from_project (instance method)">- (nil) <strong>remove_from_project</strong> </a>
     
 
     
@@ -269,21 +313,21 @@
   
   
   
-  
+  <span class="note title private">private</span>
   
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'><p>Override of <span class='object_link'><a href="#remove_from_project-instance_method" title="Ruber::AutoEnd::Extension#remove_from_project (method)">#remove_from_project</a></span>.</p></div></span>
   
 </li>
 
       
         <!-- Provides the  slot annotation -->
-<li class="public ">
+<li class="private ">
   <span class="summary_signature">
     
-      <a href="#text_changed-instance_method" title="#text_changed (instance method)">- (Object) <strong>text_changed</strong> </a>
+      <a href="#text_changed-instance_method" title="#text_changed (instance method)">- (nil) <strong>text_changed</strong> </a>
     
 
     
@@ -293,18 +337,18 @@
   
     <span class="note title"><strong>slot</strong></span>
   
-  
+  <span class="note title private">private</span>
   
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'><p>Slot called in response to the <span class='object_link'><a href="../Document.html#text_changed-signalcode" title="Ruber::Document#text_changed (signalcode)">Document#text_changed</a></span> signal.</p></div></span>
   
 </li>
 
       
         <!-- Provides the  slot annotation -->
-<li class="public ">
+<li class="private ">
   <span class="summary_signature">
     
       <a href="#text_inserted-instance_method" title="#text_inserted (instance method)">- (Object) <strong>text_inserted</strong>(range) </a>
@@ -317,12 +361,12 @@
   
     <span class="note title"><strong>slot</strong></span>
   
-  
+  <span class="note title private">private</span>
   
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'><p>Slot called when some text is inserted.</p></div></span>
   
 </li>
 
@@ -364,22 +408,40 @@
   </div>
 </div>
 <div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
   
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../DocumentProject.html" title="Ruber::DocumentProject (class)">DocumentProject</a></span></tt>)</span>
+      
+      
+        <span class='name'>prj</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the project associated with the document</p></div>
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-49
-50
-51
-52
-53
-54</pre>
+130
+131
+132
+133
+134
+135</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/auto_end/auto_end.rb', line 49</span>
+      <pre class="code"><span class="info file"># File 'plugins/auto_end/auto_end.rb', line 130</span>
 
 <span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id prj'>prj</span>
   <span class='kw'>super</span>
@@ -402,27 +464,50 @@
       <div class="method_details first">
   <p class="signature first" id="connect_slots-instance_method">
   
-    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>connect_slots</strong>  <span class="extras">(private)</span>
+    - (<tt>nil</tt>) <strong>connect_slots</strong>  <span class="extras">(private)</span>
   
 
   
-</p><table class="source_code">
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Makes connections to the document&#8217;s signals</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-87
-88
-89
-90</pre>
+199
+200
+201
+202
+203</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/auto_end/auto_end.rb', line 87</span>
+      <pre class="code"><span class="info file"># File 'plugins/auto_end/auto_end.rb', line 199</span>
 
 <span class='kw'>def</span> <span class='id connect_slots'>connect_slots</span>
   <span class='id connect'>connect</span> <span class='ivar'>@doc</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>text_inserted(KTextEditor::Range, QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>text_inserted(KTextEditor::Range)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
   <span class='id connect'>connect</span> <span class='ivar'>@doc</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>text_changed(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:text_changed</span><span class='rparen'>)</span>
+  <span class='kw'>nil</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -432,55 +517,48 @@
       <div class="method_details ">
   <p class="signature " id="disconnect_slots-instance_method">
   
-    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>disconnect_slots</strong>  <span class="extras">(private)</span>
+    - (<tt>nil</tt>) <strong>disconnect_slots</strong>  <span class="extras">(private)</span>
   
 
   
-</p><table class="source_code">
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Disconnects connections to the document&#8217;s signals</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-92
-93
-94
-95</pre>
+209
+210
+211
+212</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/auto_end/auto_end.rb', line 92</span>
+      <pre class="code"><span class="info file"># File 'plugins/auto_end/auto_end.rb', line 209</span>
 
 <span class='kw'>def</span> <span class='id disconnect_slots'>disconnect_slots</span>
   <span class='id disconnect'>disconnect</span> <span class='ivar'>@doc</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>text_inserted(KTextEditor::Range, QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>text_inserted(KTextEditor::Range)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
   <span class='id disconnect'>disconnect</span> <span class='ivar'>@doc</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>text_changed(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:text_changed</span><span class='rparen'>)</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="do_indentation-instance_method">
-  
-    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>do_indentation</strong>(view)  <span class="extras">(private)</span>
-  
-
-  
-</p><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-114
-115
-116</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'plugins/auto_end/auto_end.rb', line 114</span>
-
-<span class='kw'>def</span> <span class='id do_indentation'>do_indentation</span> <span class='id view'>view</span>
-  <span class='id view'>view</span><span class='period'>.</span><span class='id execute_action'>execute_action</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>tools_align</span><span class='tstring_end'>'</span></span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -494,31 +572,95 @@
   
 
   
-</p><table class="source_code">
+</p><div class="docstring">
+  <div class="discussion">
+    
+  <div class="note notetag">
+    <strong>Note:</strong> 
+    <div class='inline'><p>nothing is done unless the active view (according to <span class='object_link'><a href="../Document.html#active_view-instance_method" title="Ruber::Document#active_view (method)">Document#active_view</a></span>)
+is associated with the document</p></div>
+  </div>
+
+<p>Inserts text at the given position and moves the cursor to the specified position</p>
+<p>To avoid the possibility of infinite recursion, before inserting text <span class='object_link'><a href="#disconnect_slots-instance_method" title="Ruber::AutoEnd::Extension#disconnect_slots (method)">#disconnect_slots</a></span>
+is called. After the text has been inserted <span class='object_link'><a href="#connect_slots-instance_method" title="Ruber::AutoEnd::Extension#connect_slots (method)">#connect_slots</a></span> is called.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../KTextEditor/Cursor.html" title="KTextEditor::Cursor (class)">KTextEditor::Cursor</a></span></tt>)</span>
+      
+      
+        <span class='name'>insert_pos</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the position where the text should be inserted</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>lines</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the text to insert</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>(Integer,Integer)</tt>)</span>
+      
+      
+        <span class='name'>dest</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the position to move the cursor to, relative
+to the insertion position, as described in <span class='object_link'><a href="Extension/Insertion.html#final_position-instance_method" title="Ruber::AutoEnd::Extension::Insertion#final_position (method)">Ruber::AutoEnd::Extension::Insertion#final_position</a></span></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-97
-98
-99
-100
-101
-102
-103
-104
-105
-106
-107
-108
-109
-110
-111
-112</pre>
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/auto_end/auto_end.rb', line 97</span>
+      <pre class="code"><span class="info file"># File 'plugins/auto_end/auto_end.rb', line 227</span>
 
 <span class='kw'>def</span> <span class='id insert_text'>insert_text</span> <span class='id insert_pos'>insert_pos</span><span class='comma'>,</span> <span class='id lines'>lines</span><span class='comma'>,</span> <span class='id dest'>dest</span>
   <span class='id view'>view</span> <span class='op'>=</span> <span class='ivar'>@doc</span><span class='period'>.</span><span class='id active_view'>active_view</span>
@@ -529,7 +671,7 @@
   <span class='ivar'>@doc</span><span class='period'>.</span><span class='id insert_text'>insert_text</span> <span class='id insert_pos'>insert_pos</span><span class='comma'>,</span> <span class='id lines'>lines</span> 
   <span class='id final_pos'>final_pos</span> <span class='op'>=</span> <span class='const'>KTextEditor</span><span class='op'>::</span><span class='const'>Cursor</span><span class='period'>.</span><span class='id new'>new</span> <span class='id insert_pos'>insert_pos</span><span class='period'>.</span><span class='id line'>line</span> <span class='op'>+</span> <span class='id lines'>lines</span><span class='period'>.</span><span class='id size'>size</span> <span class='op'>-</span> <span class='int'>1</span><span class='comma'>,</span>
       <span class='id lines'>lines</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id size'>size</span>
-  <span class='id do_indentation'>do_indentation</span> <span class='id view'>view</span>
+  <span class='id view'>view</span><span class='period'>.</span><span class='id execute_action'>execute_action</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>tools_align</span><span class='tstring_end'>'</span></span>
   <span class='id dest_line'>dest_line</span> <span class='op'>=</span> <span class='id insert_pos'>insert_pos</span><span class='period'>.</span><span class='id line'>line</span><span class='op'>+</span><span class='id dest'>dest</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
   <span class='id dest_col'>dest_col</span> <span class='op'>=</span> <span class='id dest'>dest</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span>
   <span class='id dest_col'>dest_col</span> <span class='op'>+=</span> <span class='ivar'>@doc</span><span class='period'>.</span><span class='id line_length'>line_length</span><span class='lparen'>(</span><span class='id dest_line'>dest_line</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='int'>1</span> <span class='kw'>if</span> <span class='id dest_col'>dest_col</span> <span class='op'>&lt;</span> <span class='int'>0</span>
@@ -544,22 +686,43 @@
       <div class="method_details ">
   <p class="signature " id="remove_from_project-instance_method">
   
-    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>remove_from_project</strong> 
+    - (<tt>nil</tt>) <strong>remove_from_project</strong>  <span class="extras">(private)</span>
   
 
   
-</p><table class="source_code">
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Override of <span class='object_link'><a href="#remove_from_project-instance_method" title="Ruber::AutoEnd::Extension#remove_from_project (method)">#remove_from_project</a></span></p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-81
-82
-83</pre>
+191
+192
+193</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/auto_end/auto_end.rb', line 81</span>
+      <pre class="code"><span class="info file"># File 'plugins/auto_end/auto_end.rb', line 191</span>
 
 <span class='kw'>def</span> <span class='id remove_from_project'>remove_from_project</span>
   <span class='id disconnect_slots'>disconnect_slots</span>
@@ -572,26 +735,51 @@
       <div class="method_details ">
   <p class="signature " id="text_changed-instance_method">
   
-    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>text_changed</strong> 
+    - (<tt>nil</tt>) <strong>text_changed</strong>  <span class="extras">(private)</span>
   
 
   
-</p><table class="source_code">
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Slot called in response to the <span class='object_link'><a href="../Document.html#text_changed-signalcode" title="Ruber::Document#text_changed (signalcode)">Document#text_changed</a></span> signal</p>
+<p>If there&#8217;s an insertion position memorized, inserts the corresponding text after
+the current line, then moves the cursor to the position stored with the insertion
+object.</p>
+<p>The current insertion is forgotten.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-72
-73
-74
-75
-76
-77
-78</pre>
+178
+179
+180
+181
+182
+183
+184</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/auto_end/auto_end.rb', line 72</span>
+      <pre class="code"><span class="info file"># File 'plugins/auto_end/auto_end.rb', line 178</span>
 
 <span class='kw'>def</span> <span class='id text_changed'>text_changed</span>
   <span class='kw'>if</span> <span class='ivar'>@insertion</span>
@@ -610,33 +798,66 @@
       <div class="method_details ">
   <p class="signature " id="text_inserted-instance_method">
   
-    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>text_inserted</strong>(range) 
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>text_inserted</strong>(range)  <span class="extras">(private)</span>
   
 
   
-</p><table class="source_code">
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Slot called when some text is inserted</p>
+<p>If one of the recognized patterns match the current line, memorizes an <span class='object_link'><a href="Extension/Insertion.html" title="Ruber::AutoEnd::Extension::Insertion (class)">Insertion</a></span>
+object pointing to the current line and using the parameters associated with the
+matching pattern.</p>
+<p>If the inserted text doesn&#8217;t end in a newline, nothing is done.</p>
+<p>If the current line doesn&#8217;t match any pattern, the currently memorized insertion
+position (if any) is forgotten</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../KTextEditor/Range.html" title="KTextEditor::Range (class)">KTextEditor::Range</a></span></tt>)</span>
+      
+      
+        <span class='name'>the</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>range corresponding to the inserted text</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69</pre>
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/auto_end/auto_end.rb', line 56</span>
+      <pre class="code"><span class="info file"># File 'plugins/auto_end/auto_end.rb', line 151</span>
 
 <span class='kw'>def</span> <span class='id text_inserted'>text_inserted</span> <span class='id range'>range</span>
   <span class='id text'>text</span> <span class='op'>=</span> <span class='ivar'>@doc</span><span class='period'>.</span><span class='id text'>text</span> <span class='id range'>range</span>
@@ -651,6 +872,7 @@
       <span class='ivar'>@insertion</span> <span class='op'>=</span> <span class='const'>Insertion</span><span class='period'>.</span><span class='id new'>new</span> <span class='id range'>range</span><span class='period'>.</span><span class='id end'>end</span><span class='period'>.</span><span class='id line'>line</span><span class='comma'>,</span> <span class='id pattern'>pattern</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id pattern'>pattern</span><span class='lbracket'>[</span><span class='int'>2</span><span class='rbracket'>]</span>
     <span class='kw'>end</span>
   <span class='kw'>end</span>
+  <span class='kw'>nil</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -666,9 +888,9 @@
 </div>
     
     <div id="footer">
-  Generated on Mon Feb  7 15:09:12 2011 by 
+  Generated on Fri Apr 29 10:51:14 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.4 (ruby-1.9.2).
+  0.6.8 (ruby-1.9.2).
 </div>
 
   </body>

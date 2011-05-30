@@ -2,7 +2,7 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <meta name="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Class: Ruber::FilesRunner::Plugin</title>
 <link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
@@ -1098,7 +1098,7 @@ project nor a document, then <span class='object_link'><a href="#run_file-instan
       <pre class="code"><span class="info file"># File 'plugins/ruby_development/ruby_development.rb', line 158</span>
 
 <span class='kw'>def</span> <span class='id run'>run</span>
-  <span class='kw'>if</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current'>current</span> <span class='kw'>then</span> <span class='id run_project'>run_project</span>
+  <span class='kw'>if</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:world</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id active_project'>active_project</span> <span class='kw'>then</span> <span class='id run_project'>run_project</span>
   <span class='kw'>elsif</span> <span class='lparen'>(</span><span class='id doc'>doc</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current_document'>current_document</span><span class='rparen'>)</span> <span class='kw'>then</span> <span class='id run_document'>run_document</span> <span class='id doc'>doc</span>
   <span class='kw'>else</span> <span class='id run_file'>run_file</span>
   <span class='kw'>end</span>
@@ -1412,7 +1412,7 @@ was started. If the user pressed the Cancel button of the dialog, <strong>nil</s
     <span class='id file'>file</span> <span class='op'>=</span> <span class='id url'>url</span><span class='period'>.</span><span class='id to_encoded'>to_encoded</span><span class='period'>.</span><span class='id to_s'>to_s</span>
   <span class='kw'>end</span>
   
-  <span class='kw'>if</span> <span class='id doc'>doc</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:docs</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id document_for_url'>document_for_url</span><span class='lparen'>(</span><span class='id url'>url</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id doc'>doc</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:world</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id documents'>documents</span><span class='period'>.</span><span class='id document_for_url'>document_for_url</span><span class='lparen'>(</span><span class='id url'>url</span><span class='rparen'>)</span>
    <span class='kw'>return</span> <span class='id run_document'>run_document</span> <span class='id doc'>doc</span> 
   <span class='kw'>end</span>
   
@@ -1585,7 +1585,7 @@ started successfully.</p>
       <pre class="code"><span class="info file"># File 'plugins/ruby_development/ruby_development.rb', line 180</span>
 
 <span class='kw'>def</span> <span class='id run_project'>run_project</span>
-  <span class='id prj'>prj</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='period'>.</span><span class='id current_project'>current_project</span>
+  <span class='id prj'>prj</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:world</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id active_project'>active_project</span>
   <span class='id data'>data</span> <span class='op'>=</span> <span class='id prj'>prj</span><span class='lbracket'>[</span><span class='symbol'>:ruby</span><span class='rbracket'>]</span>
   <span class='id prog'>prog</span> <span class='op'>=</span> <span class='const'>Pathname</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id data'>data</span><span class='lbracket'>[</span><span class='symbol'>:main_program</span><span class='comma'>,</span> <span class='symbol'>:abs</span><span class='rbracket'>]</span><span class='rparen'>)</span>
   <span class='id wdir'>wdir</span> <span class='op'>=</span> <span class='const'>Pathname</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id data'>data</span><span class='lbracket'>[</span><span class='symbol'>:working_dir</span><span class='comma'>,</span> <span class='symbol'>:abs</span><span class='rbracket'>]</span><span class='op'>||</span><span class='id prj'>prj</span><span class='period'>.</span><span class='id project_dir'>project_dir</span><span class='rparen'>)</span>
@@ -2203,9 +2203,9 @@ passed to <span class='object_link'><a href="../ExternalProgramPlugin.html#run_p
 </div>
     
     <div id="footer">
-  Generated on Mon Jan 17 11:11:56 2011 by 
+  Generated on Fri Apr 29 10:51:29 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.4 (ruby-1.9.2).
+  0.6.8 (ruby-1.9.2).
 </div>
 
   </body>

@@ -2,7 +2,7 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <meta name="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Class: Ruber::ComponentManager</title>
 <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
@@ -337,7 +337,7 @@
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#each_component-instance_method" title="#each_component (instance method)">- (Object) <strong>each_component</strong> </a>
+      <a href="#each_component-instance_method" title="#each_component (instance method)">- (Object) <strong>each_component</strong>(order = :normal) </a>
     
 
     
@@ -359,7 +359,7 @@
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#each_plugin-instance_method" title="#each_plugin (instance method)">- (Object) <strong>each_plugin</strong> </a>
+      <a href="#each_plugin-instance_method" title="#each_plugin (instance method)">- (Object) <strong>each_plugin</strong>(order = :normal) </a>
     
 
     
@@ -1103,13 +1103,13 @@ of sorted components.
       <pre class="lines">
 
 
-600
-601
-602
-603</pre>
+603
+604
+605
+606</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 600</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 603</span>
 
 <span class='kw'>def</span> <span class='id add'>add</span> <span class='id comp'>comp</span>
   <span class='ivar'>@components</span><span class='op'>&lt;&lt;</span> <span class='lbracket'>[</span><span class='id comp'>comp</span><span class='period'>.</span><span class='id component_name'>component_name</span><span class='comma'>,</span> <span class='id comp'>comp</span><span class='rbracket'>]</span>
@@ -1222,11 +1222,6 @@ for the plugins is returned.
       <pre class="lines">
 
 
-879
-880
-881
-882
-883
 884
 885
 886
@@ -1238,10 +1233,15 @@ for the plugins is returned.
 892
 893
 894
-895</pre>
+895
+896
+897
+898
+899
+900</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 879</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 884</span>
 
 <span class='kw'>def</span> <span class='id create_plugins_info'>create_plugins_info</span> <span class='id plugins'>plugins</span><span class='comma'>,</span> <span class='id files'>files</span><span class='comma'>,</span> <span class='id dirs'>dirs</span>
   <span class='id missing'>missing</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -1268,7 +1268,7 @@ for the plugins is returned.
       <div class="method_details ">
   <p class="signature " id="each_component-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>each_component</strong> 
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>each_component</strong>(order = :normal) 
   
 
   
@@ -1290,13 +1290,17 @@ for the plugins is returned.
 
 577
 578
-579</pre>
+579
+580
+581</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 577</span>
 
-<span class='kw'>def</span> <span class='id each_component'>each_component</span> <span class='comment'>#:yields: comp
-</span>  <span class='ivar'>@components</span><span class='period'>.</span><span class='id reverse_each'>reverse_each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id k'>k</span><span class='comma'>,</span> <span class='id v'>v</span><span class='op'>|</span> <span class='kw'>yield</span> <span class='id v'>v</span><span class='rbrace'>}</span>
+<span class='kw'>def</span> <span class='id each_component'>each_component</span> <span class='id order'>order</span> <span class='op'>=</span> <span class='symbol'>:normal</span> <span class='comment'>#:yields: comp
+</span>  <span class='kw'>if</span> <span class='id order'>order</span> <span class='op'>==</span> <span class='symbol'>:reverse</span> <span class='kw'>then</span> <span class='ivar'>@components</span><span class='period'>.</span><span class='id reverse_each'>reverse_each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id k'>k</span><span class='comma'>,</span> <span class='id v'>v</span><span class='op'>|</span> <span class='kw'>yield</span> <span class='id v'>v</span><span class='rbrace'>}</span>
+  <span class='kw'>else</span> <span class='ivar'>@components</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id k'>k</span><span class='comma'>,</span> <span class='id v'>v</span><span class='op'>|</span> <span class='kw'>yield</span> <span class='id v'>v</span><span class='rbrace'>}</span>
+  <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1306,7 +1310,7 @@ for the plugins is returned.
       <div class="method_details ">
   <p class="signature " id="each_plugin-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>each_plugin</strong> 
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>each_plugin</strong>(order = :normal) 
   
 
   
@@ -1331,17 +1335,19 @@ for the plugins is returned.
       <pre class="lines">
 
 
-587
-588
 589
 590
-591</pre>
+591
+592
+593
+594</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 587</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 589</span>
 
-<span class='kw'>def</span> <span class='id each_plugin'>each_plugin</span> <span class='comment'>#:yields: plug
-</span>  <span class='ivar'>@components</span><span class='period'>.</span><span class='id reverse_each'>reverse_each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id k'>k</span><span class='comma'>,</span> <span class='id v'>v</span><span class='op'>|</span> 
+<span class='kw'>def</span> <span class='id each_plugin'>each_plugin</span> <span class='id order'>order</span> <span class='op'>=</span> <span class='symbol'>:normal</span> <span class='comment'>#:yields: plug
+</span>  <span class='id meth'>meth</span> <span class='op'>=</span> <span class='ivar'>@components</span><span class='period'>.</span><span class='id method'>method</span><span class='lparen'>(</span><span class='id order'>order</span> <span class='op'>==</span> <span class='symbol'>:reverse</span> <span class='op'>?</span> <span class='symbol'>:reverse_each</span> <span class='op'>:</span> <span class='symbol'>:each</span><span class='rparen'>)</span>
+  <span class='id meth'>meth</span><span class='period'>.</span><span class='id call'>call</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id k'>k</span><span class='comma'>,</span> <span class='id v'>v</span><span class='op'>|</span> 
     <span class='kw'>yield</span> <span class='id v'>v</span> <span class='kw'>if</span> <span class='id v'>v</span><span class='period'>.</span><span class='id is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Ruber</span><span class='op'>::</span><span class='const'>Plugin</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
@@ -1392,9 +1398,6 @@ list: the component should take care to do it itself, using the <ins>add</ins> m
       <pre class="lines">
 
 
-629
-630
-631
 632
 633
 634
@@ -1405,10 +1408,13 @@ list: the component should take care to do it itself, using the <ins>add</ins> m
 639
 640
 641
-642</pre>
+642
+643
+644
+645</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 629</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 632</span>
 
 <span class='kw'>def</span> <span class='id load_component'>load_component</span> <span class='id name'>name</span>
   <span class='id dir'>dir</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id expand_path'>expand_path</span> <span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id name'>name</span><span class='rparen'>)</span>
@@ -1419,8 +1425,8 @@ list: the component should take care to do it itself, using the <ins>add</ins> m
   <span class='kw'>end</span>
   <span class='id file'>file</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span> <span class='id dir'>dir</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>plugin.yaml</span><span class='tstring_end'>'</span></span>
   <span class='id pdf'>pdf</span> <span class='op'>=</span> <span class='const'>PluginSpecification</span><span class='period'>.</span><span class='id full'>full</span> <span class='id file'>file</span>
-  <span class='id parent'>parent</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:app</span><span class='rbracket'>]</span> <span class='kw'>rescue</span> <span class='kw'>self</span>
-  <span class='id comp'>comp</span> <span class='op'>=</span> <span class='id pdf'>pdf</span><span class='period'>.</span><span class='id class_obj'>class_obj</span><span class='period'>.</span><span class='id new'>new</span> <span class='id parent'>parent</span><span class='comma'>,</span> <span class='id pdf'>pdf</span>
+  <span class='id parent'>parent</span> <span class='op'>=</span> <span class='ivar'>@components</span><span class='lbracket'>[</span><span class='symbol'>:app</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='kw'>self</span> <span class='comment'>#Ruber[:app] rescue self
+</span>  <span class='id comp'>comp</span> <span class='op'>=</span> <span class='id pdf'>pdf</span><span class='period'>.</span><span class='id class_obj'>class_obj</span><span class='period'>.</span><span class='id new'>new</span> <span class='id parent'>parent</span><span class='comma'>,</span> <span class='id pdf'>pdf</span>
   <span class='id emit'>emit</span> <span class='id component_loaded'>component_loaded</span><span class='lparen'>(</span><span class='id comp'>comp</span><span class='rparen'>)</span>
   <span class='id comp'>comp</span>
 <span class='kw'>end</span></pre>
@@ -1474,9 +1480,6 @@ list: the plugin should take care to do it itself, using the <ins>add</ins> meth
       <pre class="lines">
 
 
-671
-672
-673
 674
 675
 676
@@ -1489,10 +1492,13 @@ list: the plugin should take care to do it itself, using the <ins>add</ins> meth
 683
 684
 685
-686</pre>
+686
+687
+688
+689</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 671</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 674</span>
 
 <span class='kw'>def</span> <span class='id load_plugin'>load_plugin</span> <span class='id dir'>dir</span>
   <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Global</span><span class='period'>.</span><span class='id dirs'>dirs</span><span class='period'>.</span><span class='id add_resource_dir'>add_resource_dir</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>pixmap</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='id dir'>dir</span>
@@ -1583,9 +1589,6 @@ fails to load, there are several behaviours:
       <pre class="lines">
 
 
-736
-737
-738
 739
 740
 741
@@ -1606,10 +1609,13 @@ fails to load, there are several behaviours:
 756
 757
 758
-759</pre>
+759
+760
+761
+762</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 736</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 739</span>
 
 <span class='kw'>def</span> <span class='id load_plugins'>load_plugins</span><span class='lparen'>(</span> <span class='id plugins'>plugins</span><span class='comma'>,</span> <span class='id dirs'>dirs</span> <span class='rparen'>)</span> <span class='comment'>#:yields: ex
 </span>  <span class='id plugins'>plugins</span> <span class='op'>=</span> <span class='id plugins'>plugins</span><span class='period'>.</span><span class='id map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:to_s</span><span class='rparen'>)</span>
@@ -1664,21 +1670,21 @@ fails to load, there are several behaviours:
       <pre class="lines">
 
 
-856
-857
-858
-859
-860
 861
 862
 863
 864
 865
 866
-867</pre>
+867
+868
+869
+870
+871
+872</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 856</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 861</span>
 
 <span class='kw'>def</span> <span class='id locate_plugins'>locate_plugins</span> <span class='id dirs'>dirs</span>
   <span class='id plugin_files'>plugin_files</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
@@ -1763,20 +1769,20 @@ This method is intented to be called from <tt>MainWindow#queryClose</tt>.
       <pre class="lines">
 
 
-824
-825
-826
-827
-828
 829
 830
-831</pre>
+831
+832
+833
+834
+835
+836</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 824</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 829</span>
 
 <span class='kw'>def</span> <span class='id query_close'>query_close</span> 
-  <span class='id res'>res</span> <span class='op'>=</span> <span class='id each_component'>each_component</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id c'>c</span><span class='op'>|</span> 
+  <span class='id res'>res</span> <span class='op'>=</span> <span class='id each_component'>each_component</span><span class='lparen'>(</span><span class='symbol'>:reverse</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id c'>c</span><span class='op'>|</span> 
     <span class='kw'>unless</span> <span class='id c'>c</span><span class='period'>.</span><span class='id equal?'>equal?</span> <span class='kw'>self</span>
       <span class='kw'>break</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='id c'>c</span><span class='period'>.</span><span class='id query_close'>query_close</span> 
     <span class='kw'>end</span>
@@ -1869,14 +1875,14 @@ This method is intented to be called from <tt>MainWindow#queryClose</tt>.
       <pre class="lines">
 
 
-841
-842
-843
-844
-845</pre>
+846
+847
+848
+849
+850</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 841</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 846</span>
 
 <span class='kw'>def</span> <span class='id restore_session'>restore_session</span> <span class='id data'>data</span>
   <span class='id each_component'>each_component</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id c'>c</span><span class='op'>|</span>
@@ -1901,16 +1907,16 @@ This method is intented to be called from <tt>MainWindow#queryClose</tt>.
       <pre class="lines">
 
 
-833
-834
-835
-836
-837
 838
-839</pre>
+839
+840
+841
+842
+843
+844</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 833</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 838</span>
 
 <span class='kw'>def</span> <span class='id session_data'>session_data</span>
   <span class='id res'>res</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
@@ -1955,9 +1961,6 @@ This method is intented to be called from <tt>MainWindow#queryClose</tt>.
       <pre class="lines">
 
 
-772
-773
-774
 775
 776
 777
@@ -1972,15 +1975,18 @@ This method is intented to be called from <tt>MainWindow#queryClose</tt>.
 786
 787
 788
-789</pre>
+789
+790
+791
+792</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 772</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 775</span>
 
 <span class='kw'>def</span> <span class='id shutdown'>shutdown</span>
-  <span class='id each_component'>each_component</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id c'>c</span><span class='op'>|</span> <span class='id c'>c</span><span class='period'>.</span><span class='id save_settings'>save_settings</span> <span class='kw'>unless</span> <span class='id c'>c</span><span class='period'>.</span><span class='id equal?'>equal?</span><span class='lparen'>(</span><span class='kw'>self</span><span class='rparen'>)</span><span class='rbrace'>}</span>
+  <span class='id each_component'>each_component</span><span class='lparen'>(</span><span class='symbol'>:reverse</span><span class='rparen'>)</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id c'>c</span><span class='op'>|</span> <span class='id c'>c</span><span class='period'>.</span><span class='id save_settings'>save_settings</span> <span class='kw'>unless</span> <span class='id c'>c</span><span class='period'>.</span><span class='id equal?'>equal?</span><span class='lparen'>(</span><span class='kw'>self</span><span class='rparen'>)</span><span class='rbrace'>}</span>
   <span class='ivar'>@components</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id write'>write</span>
-  <span class='id each_component'>each_component</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id c'>c</span><span class='op'>|</span> <span class='id c'>c</span><span class='period'>.</span><span class='id shutdown'>shutdown</span> <span class='kw'>unless</span> <span class='id c'>c</span><span class='period'>.</span><span class='id equal?'>equal?</span> <span class='kw'>self</span><span class='rbrace'>}</span>
+  <span class='id each_component'>each_component</span><span class='lparen'>(</span><span class='symbol'>:reverse</span><span class='rparen'>)</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id c'>c</span><span class='op'>|</span> <span class='id c'>c</span><span class='period'>.</span><span class='id shutdown'>shutdown</span> <span class='kw'>unless</span> <span class='id c'>c</span><span class='period'>.</span><span class='id equal?'>equal?</span> <span class='kw'>self</span><span class='rbrace'>}</span>
 <span class='comment'>#       @components[:config].write
 </span><span class='comment'>#       each_component do |c|
 </span><span class='comment'>#         unless c.equal? self
@@ -2024,29 +2030,13 @@ will be raised (you can&#8217;t unload a basic component).
   </div>
 </div>
 <div class="tags">
-  <h3>Raises:</h3>
-<ul class="raise">
   
-    <li>
-      
-        <span class='type'>(<tt>ArgumentError</tt>)</span>
-      
-      
-      
-      
-    </li>
-  
-</ul>
-
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-803
-804
-805
 806
 807
 808
@@ -2056,14 +2046,21 @@ will be raised (you can&#8217;t unload a basic component).
 812
 813
 814
-815</pre>
+815
+816
+817
+818
+819
+820</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 803</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/component_manager.rb', line 806</span>
 
 <span class='kw'>def</span> <span class='id unload_plugin'>unload_plugin</span> <span class='id name'>name</span>
   <span class='id plug'>plug</span> <span class='op'>=</span> <span class='ivar'>@components</span><span class='lbracket'>[</span><span class='id name'>name</span><span class='rbracket'>]</span>
-  <span class='id raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>A component can't be unloaded</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id plug'>plug</span><span class='period'>.</span><span class='id is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Plugin</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id plug'>plug</span><span class='period'>.</span><span class='id nil?'>nil?</span> <span class='kw'>then</span> <span class='id raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No plugin with name </span><span class='embexpr_beg'>#{</span><span class='id name'>name</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>elsif</span> <span class='op'>!</span><span class='id plug'>plug</span><span class='period'>.</span><span class='id is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Plugin</span><span class='rparen'>)</span> <span class='kw'>then</span> <span class='id raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>A component can't be unloaded</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
 <span class='comment'>#       plug.save_settings
 </span>  <span class='id plug'>plug</span><span class='period'>.</span><span class='id plugin_description'>plugin_description</span><span class='period'>.</span><span class='id features'>features</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id f'>f</span><span class='op'>|</span>
     <span class='id emit'>emit</span> <span class='id method'>method</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>unloading_</span><span class='embexpr_beg'>#{</span><span class='id f'>f</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id call'>call</span><span class='lparen'>(</span> <span class='id plug'>plug</span> <span class='rparen'>)</span>
@@ -2153,9 +2150,9 @@ will be raised (you can&#8217;t unload a basic component).
 </div>
     
     <div id="footer">
-  Generated on Tue Jan 11 14:26:51 2011 by 
+  Generated on Fri Apr 29 10:51:15 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.4 (ruby-1.9.2).
+  0.6.8 (ruby-1.9.2).
 </div>
 
   </body>

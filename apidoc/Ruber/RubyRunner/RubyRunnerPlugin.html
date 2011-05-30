@@ -2,7 +2,7 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <meta name="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Class: Ruber::RubyRunner::RubyRunnerPlugin</title>
 <link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
@@ -82,9 +82,7 @@
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">plugins/ruby_runner/ruby_runner.rb<span class="defines">,<br />
-  plugins/ruby_runner/ruby_runner.rb</span>
-</dd>
+    <dd class="r2 last">plugins/ruby_runner/ruby_runner.rb</dd>
   
 </dl>
 <div class="clear"></div>
@@ -456,7 +454,6 @@ must be an array, even if it only contains one entry</p>
       <pre class="lines">
 
 
-304
 305
 306
 307
@@ -473,10 +470,11 @@ must be an array, even if it only contains one entry</p>
 318
 319
 320
-321</pre>
+321
+322</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/ruby_runner/ruby_runner.rb', line 304</span>
+      <pre class="code"><span class="info file"># File 'plugins/ruby_runner/ruby_runner.rb', line 305</span>
 
 <span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id pso'>pso</span><span class='comma'>,</span> <span class='id group'>group</span><span class='comma'>,</span> <span class='id rules'>rules</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='id order'>order</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id line_buffered'>line_buffered</span> <span class='op'>=</span> <span class='kw'>true</span>
   <span class='id group'>group</span> <span class='op'>=</span> <span class='id group'>group</span><span class='period'>.</span><span class='id to_sym'>to_sym</span>
@@ -567,13 +565,13 @@ and takes into account the selected entry in the &#8220;Interpreters&#8221; subm
       <pre class="lines">
 
 
-380
 381
 382
-383</pre>
+383
+384</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/ruby_runner/ruby_runner.rb', line 380</span>
+      <pre class="code"><span class="info file"># File 'plugins/ruby_runner/ruby_runner.rb', line 381</span>
 
 <span class='kw'>def</span> <span class='id interpreter_for'>interpreter_for</span> <span class='id target'>target</span><span class='comma'>,</span> <span class='id ignore_project'>ignore_project</span> <span class='op'>=</span> <span class='kw'>false</span>
   <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:ruby_interpreters</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id chosen_interpreter'>chosen_interpreter</span> <span class='op'>||</span> 
@@ -716,7 +714,6 @@ to it</p>
       <pre class="lines">
 
 
-350
 351
 352
 353
@@ -735,10 +732,11 @@ to it</p>
 366
 367
 368
-369</pre>
+369
+370</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/ruby_runner/ruby_runner.rb', line 350</span>
+      <pre class="code"><span class="info file"># File 'plugins/ruby_runner/ruby_runner.rb', line 351</span>
 
 <span class='kw'>def</span> <span class='id option_for'>option_for</span> <span class='id target'>target</span><span class='comma'>,</span> <span class='id group'>group</span><span class='comma'>,</span> <span class='id name'>name</span><span class='comma'>,</span> <span class='id ignore_project'>ignore_project</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='id abs'>abs</span> <span class='op'>=</span> <span class='kw'>false</span>
   <span class='id cont'>cont</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -747,8 +745,8 @@ to it</p>
   <span class='kw'>when</span> <span class='const'>Document</span>
     <span class='id cont'>cont</span> <span class='op'>&lt;&lt;</span> <span class='lparen'>(</span><span class='id ignore_project'>ignore_project</span> <span class='op'>?</span> <span class='lparen'>(</span><span class='id target'>target</span><span class='period'>.</span><span class='id own_project'>own_project</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='id target'>target</span><span class='period'>.</span><span class='id project'>project</span><span class='rparen'>)</span>
   <span class='kw'>when</span> <span class='const'>String</span>
-    <span class='kw'>if</span> <span class='op'>!</span><span class='id ignore_project'>ignore_project</span> <span class='kw'>and</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id project_for_file'>project_for_file</span> <span class='id target'>target</span>
-      <span class='id cont'>cont</span> <span class='op'>&lt;&lt;</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current'>current</span>
+    <span class='kw'>if</span> <span class='op'>!</span><span class='id ignore_project'>ignore_project</span> <span class='kw'>and</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:world</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id projects'>projects</span><span class='period'>.</span><span class='id project_for_file'>project_for_file</span> <span class='id target'>target</span>
+      <span class='id cont'>cont</span> <span class='op'>&lt;&lt;</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:world</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id active_project'>active_project</span>
     <span class='kw'>end</span>
   <span class='kw'>end</span>
   <span class='id cont'>cont</span> <span class='op'>&lt;&lt;</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span>
@@ -919,7 +917,6 @@ to use and whose other elements are the options to pass to the interpreter.</p>
       <pre class="lines">
 
 
-407
 408
 409
 410
@@ -929,10 +926,11 @@ to use and whose other elements are the options to pass to the interpreter.</p>
 414
 415
 416
-417</pre>
+417
+418</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/ruby_runner/ruby_runner.rb', line 407</span>
+      <pre class="code"><span class="info file"># File 'plugins/ruby_runner/ruby_runner.rb', line 408</span>
 
 <span class='kw'>def</span> <span class='id ruby_command_for'>ruby_command_for</span> <span class='id target'>target</span><span class='comma'>,</span> <span class='id dir'>dir</span><span class='comma'>,</span> <span class='id opts'>opts</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
   <span class='id ruby'>ruby</span> <span class='op'>=</span>  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:ruby_interpreters</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id chosen_interpreter'>chosen_interpreter</span>
@@ -957,9 +955,9 @@ to use and whose other elements are the options to pass to the interpreter.</p>
 </div>
     
     <div id="footer">
-  Generated on Mon Feb  7 15:09:03 2011 by 
+  Generated on Fri Apr 29 10:51:20 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.4 (ruby-1.9.2).
+  0.6.8 (ruby-1.9.2).
 </div>
 
   </body>

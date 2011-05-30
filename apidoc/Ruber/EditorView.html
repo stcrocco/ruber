@@ -2,7 +2,7 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <meta name="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Class: Ruber::EditorView</title>
 <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
@@ -251,6 +251,28 @@ collection.</p></div></span>
 
       
         <!-- Provides the  slot annotation -->
+<li class="protected ">
+  <span class="summary_signature">
+    
+      <a href="#hideEvent-instance_method" title="#hideEvent (instance method)">- (Object) <strong>hideEvent</strong>(e) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title protected">protected</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
 <li class="public ">
   <span class="summary_signature">
     
@@ -331,6 +353,28 @@ collection.</p></div></span>
   
   
   
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="protected ">
+  <span class="summary_signature">
+    
+      <a href="#showEvent-instance_method" title="#showEvent (instance method)">- (Object) <strong>showEvent</strong>(e) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title protected">protected</span>
   
   
 
@@ -442,7 +486,7 @@ collection.</p></div></span>
     <li class="public ">
       <span class="summary_signature">
 <!-- The sub is needed to remove the (Object) part -->
-      <a href="#closing-signalcode" title="closing (signalcode)">- <strong>closing</strong>(QWidget* arg1) </a>
+      <a href="#about_to_hide-signalcode" title="about_to_hide (signalcode)">- <strong>about_to_hide</strong>(QWidget* arg1) </a>
       </span>
       <span class="summary_desc"><div class='inline'></div></span>
     </li>
@@ -450,47 +494,7 @@ collection.</p></div></span>
     <li class="public ">
       <span class="summary_signature">
 <!-- The sub is needed to remove the (Object) part -->
-      <a href="#cursor_position_changed-signalcode" title="cursor_position_changed (signalcode)">- <strong>cursor_position_changed</strong>(KTextEditor::Cursor arg1, QWidget* arg2) </a>
-      </span>
-      <span class="summary_desc"><div class='inline'></div></span>
-    </li>
-  
-    <li class="public ">
-      <span class="summary_signature">
-<!-- The sub is needed to remove the (Object) part -->
-      <a href="#view_mode_changed-signalcode" title="view_mode_changed (signalcode)">- <strong>view_mode_changed</strong>(QString arg1, QWidget* arg2) </a>
-      </span>
-      <span class="summary_desc"><div class='inline'></div></span>
-    </li>
-  
-    <li class="public ">
-      <span class="summary_signature">
-<!-- The sub is needed to remove the (Object) part -->
-      <a href="#edit_mode_changed-signalcode" title="edit_mode_changed (signalcode)">- <strong>edit_mode_changed</strong>(KTextEditor::View::EditMode arg1, QWidget* arg2) </a>
-      </span>
-      <span class="summary_desc"><div class='inline'></div></span>
-    </li>
-  
-    <li class="public ">
-      <span class="summary_signature">
-<!-- The sub is needed to remove the (Object) part -->
-      <a href="#selection_mode_changed-signalcode" title="selection_mode_changed (signalcode)">- <strong>selection_mode_changed</strong>(bool arg1, QWidget* arg2) </a>
-      </span>
-      <span class="summary_desc"><div class='inline'></div></span>
-    </li>
-  
-    <li class="public ">
-      <span class="summary_signature">
-<!-- The sub is needed to remove the (Object) part -->
-      <a href="#mouse_position_changed-signalcode" title="mouse_position_changed (signalcode)">- <strong>mouse_position_changed</strong>(KTextEditor::Cursor arg1, QWidget* arg2) </a>
-      </span>
-      <span class="summary_desc"><div class='inline'></div></span>
-    </li>
-  
-    <li class="public ">
-      <span class="summary_signature">
-<!-- The sub is needed to remove the (Object) part -->
-      <a href="#selection_changed-signalcode" title="selection_changed (signalcode)">- <strong>selection_changed</strong>(QWidget* arg1) </a>
+      <a href="#about_to_show-signalcode" title="about_to_show (signalcode)">- <strong>about_to_show</strong>(QWidget* arg1) </a>
       </span>
       <span class="summary_desc"><div class='inline'></div></span>
     </li>
@@ -719,12 +723,12 @@ collection.</p></div></span>
       <pre class="lines">
 
 
-123
-124
-125</pre>
+143
+144
+145</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/editor/editor_view.rb', line 123</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/editor/editor_view.rb', line 143</span>
 
 <span class='kw'>def</span> <span class='id block_selection?'>block_selection?</span>
   <span class='ivar'>@view</span><span class='period'>.</span><span class='id block_selection'>block_selection</span><span class='period'>.</span><span class='id to_bool'>to_bool</span>
@@ -747,13 +751,13 @@ collection.</p></div></span>
       <pre class="lines">
 
 
-127
-128
-129
-130</pre>
+147
+148
+149
+150</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/editor/editor_view.rb', line 127</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/editor/editor_view.rb', line 147</span>
 
 <span class='kw'>def</span> <span class='id close'>close</span>
   <span class='id emit'>emit</span> <span class='id closing'>closing</span> <span class='kw'>self</span>
@@ -790,18 +794,18 @@ the signal.</p>
       <pre class="lines">
 
 
-146
-147
-148
-149
-150
-151
-152
-153
-154</pre>
+165
+166
+167
+168
+169
+170
+171
+172
+173</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/editor/editor_view.rb', line 146</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/editor/editor_view.rb', line 165</span>
 
 <span class='kw'>def</span> <span class='id execute_action'>execute_action</span> <span class='id name'>name</span><span class='comma'>,</span> <span class='id arg'>arg</span> <span class='op'>=</span> <span class='kw'>nil</span>
   <span class='id a'>a</span> <span class='op'>=</span> <span class='id action_collection'>action_collection</span><span class='period'>.</span><span class='id action'>action</span><span class='lparen'>(</span><span class='id name'>name</span><span class='rparen'>)</span>
@@ -830,12 +834,12 @@ the signal.</p>
       <pre class="lines">
 
 
-111
-112
-113</pre>
+131
+132
+133</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/editor/editor_view.rb', line 111</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/editor/editor_view.rb', line 131</span>
 
 <span class='kw'>def</span> <span class='id go_to'>go_to</span> <span class='id row'>row</span><span class='comma'>,</span> <span class='id col'>col</span>
   <span class='ivar'>@view</span><span class='period'>.</span><span class='id set_cursor_position'>set_cursor_position</span> <span class='const'>KTextEditor</span><span class='op'>::</span><span class='const'>Cursor</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id row'>row</span><span class='comma'>,</span> <span class='id col'>col</span><span class='rparen'>)</span>
@@ -858,15 +862,43 @@ the signal.</p>
       <pre class="lines">
 
 
-119
-120
-121</pre>
+139
+140
+141</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/editor/editor_view.rb', line 119</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/editor/editor_view.rb', line 139</span>
 
 <span class='kw'>def</span> <span class='id hide_annotation_border'>hide_annotation_border</span>
   <span class='id set_annotation_border_visible'>set_annotation_border_visible</span> <span class='kw'>false</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="hideEvent-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>hideEvent</strong>(e)  <span class="extras">(protected)</span>
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+177
+178
+179</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/editor/editor_view.rb', line 177</span>
+
+<span class='kw'>def</span> <span class='id hideEvent'>hideEvent</span> <span class='id e'>e</span>
+  <span class='id emit'>emit</span> <span class='id about_to_hide'>about_to_hide</span><span class='lparen'>(</span><span class='kw'>self</span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id e'>e</span><span class='period'>.</span><span class='id spontaneous'>spontaneous</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -980,12 +1012,12 @@ was out of range</p></div>
       <pre class="lines">
 
 
-133
-134
-135</pre>
+152
+153
+154</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/editor/editor_view.rb', line 133</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/editor/editor_view.rb', line 152</span>
 
 <span class='kw'>def</span> <span class='id set_annotation_border_visible'>set_annotation_border_visible</span> <span class='id vis'>vis</span>
   <span class='ivar'>@view</span><span class='period'>.</span><span class='id qobject_cast'>qobject_cast</span><span class='lparen'>(</span><span class='const'>KTextEditor</span><span class='op'>::</span><span class='const'>AnnotationViewInterface</span><span class='rparen'>)</span><span class='period'>.</span><span class='id set_annotation_border_visible'>set_annotation_border_visible</span> <span class='id vis'>vis</span>
@@ -1008,15 +1040,43 @@ was out of range</p></div>
       <pre class="lines">
 
 
-115
-116
-117</pre>
+135
+136
+137</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/editor/editor_view.rb', line 115</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/editor/editor_view.rb', line 135</span>
 
 <span class='kw'>def</span> <span class='id show_annotation_border'>show_annotation_border</span>
   <span class='id set_annotation_border_visible'>set_annotation_border_visible</span> <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="showEvent-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>showEvent</strong>(e)  <span class="extras">(protected)</span>
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+181
+182
+183</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/editor/editor_view.rb', line 181</span>
+
+<span class='kw'>def</span> <span class='id showEvent'>showEvent</span> <span class='id e'>e</span>
+  <span class='id emit'>emit</span> <span class='id about_to_show'>about_to_show</span><span class='lparen'>(</span><span class='kw'>self</span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id e'>e</span><span class='period'>.</span><span class='id spontaneous'>spontaneous</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1036,17 +1096,17 @@ was out of range</p></div>
       <pre class="lines">
 
 
-158
-159
-160
-161
-162
-163
-164
-165</pre>
+187
+188
+189
+190
+191
+192
+193
+194</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/editor/editor_view.rb', line 158</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/editor/editor_view.rb', line 187</span>
 
 <span class='kw'>def</span> <span class='id slot_selection_changed'>slot_selection_changed</span> <span class='id v'>v</span>
   <span class='id emit'>emit</span> <span class='id selection_changed'>selection_changed</span><span class='lparen'>(</span><span class='kw'>self</span><span class='rparen'>)</span>
@@ -1120,51 +1180,16 @@ was out of range</p></div>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="closing-signalcode">
+  <p class="signature " id="about_to_hide-signalcode">
 <!-- The sub is needed to remove the (Object) part -->
-  - <strong>closing</strong>(QWidget* arg1) 
+  - <strong>about_to_hide</strong>(QWidget* arg1) 
 </p>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="cursor_position_changed-signalcode">
+  <p class="signature " id="about_to_show-signalcode">
 <!-- The sub is needed to remove the (Object) part -->
-  - <strong>cursor_position_changed</strong>(KTextEditor::Cursor arg1, QWidget* arg2) 
-</p>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="view_mode_changed-signalcode">
-<!-- The sub is needed to remove the (Object) part -->
-  - <strong>view_mode_changed</strong>(QString arg1, QWidget* arg2) 
-</p>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="edit_mode_changed-signalcode">
-<!-- The sub is needed to remove the (Object) part -->
-  - <strong>edit_mode_changed</strong>(KTextEditor::View::EditMode arg1, QWidget* arg2) 
-</p>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="selection_mode_changed-signalcode">
-<!-- The sub is needed to remove the (Object) part -->
-  - <strong>selection_mode_changed</strong>(bool arg1, QWidget* arg2) 
-</p>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="mouse_position_changed-signalcode">
-<!-- The sub is needed to remove the (Object) part -->
-  - <strong>mouse_position_changed</strong>(KTextEditor::Cursor arg1, QWidget* arg2) 
-</p>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="selection_changed-signalcode">
-<!-- The sub is needed to remove the (Object) part -->
-  - <strong>selection_changed</strong>(QWidget* arg1) 
+  - <strong>about_to_show</strong>(QWidget* arg1) 
 </p>
 </div>
     
@@ -1173,9 +1198,9 @@ was out of range</p></div>
 </div>
     
     <div id="footer">
-  Generated on Mon Feb  7 15:09:09 2011 by 
+  Generated on Fri Apr 29 10:51:18 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.4 (ruby-1.9.2).
+  0.6.8 (ruby-1.9.2).
 </div>
 
   </body>

@@ -2,7 +2,7 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <meta name="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Class: Ruber::State::ConfigWidget</title>
 <link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
@@ -105,7 +105,12 @@
   
 </div>
         </dt>
-        <dd><pre class="code"><span class='lbracket'>[</span><span class='symbol'>:restore_all</span><span class='comma'>,</span> <span class='symbol'>:restore_documents_only</span><span class='comma'>,</span> <span class='symbol'>:restore_projects_only</span><span class='comma'>,</span> <span class='symbol'>:restore_nothing</span><span class='rbracket'>]</span></pre></dd>
+        <dd><pre class="code"><span class='lbracket'>[</span>
+  <span class='lbracket'>[</span><span class='symbol'>:default_environment</span><span class='comma'>,</span> <span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='lbracket'>[</span><span class='symbol'>:default_environment</span><span class='rbracket'>]</span><span class='comma'>,</span>
+  <span class='lbracket'>[</span><span class='rbracket'>]</span>
+<span class='rbracket'>]</span></pre></dd>
       
     </dl>
   
@@ -244,14 +249,14 @@ entry in the <em>Startup behaviour</em> widget.</p></div></span>
       <pre class="lines">
 
 
-714
-715
-716
-717
-718</pre>
+524
+525
+526
+527
+528</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 714</span>
+      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 524</span>
 
 <span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id parent'>parent</span> <span class='op'>=</span> <span class='kw'>nil</span>
   <span class='kw'>super</span>
@@ -308,12 +313,12 @@ entry in the <em>Startup behaviour</em> widget</p>
       <pre class="lines">
 
 
-736
-737
-738</pre>
+546
+547
+548</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 736</span>
+      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 546</span>
 
 <span class='kw'>def</span> <span class='id startup_behaviour'>startup_behaviour</span>
   <span class='const'>STARTUP_BEHAVIOURS</span><span class='lbracket'>[</span><span class='ivar'>@ui</span><span class='period'>.</span><span class='id _state__startup_behaviour'>_state__startup_behaviour</span><span class='period'>.</span><span class='id current_index'>current_index</span><span class='rbracket'>]</span>
@@ -363,13 +368,13 @@ entry in the <em>Startup behaviour</em> widget</p>
       <pre class="lines">
 
 
-726
-727
-728
-729</pre>
+536
+537
+538
+539</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 726</span>
+      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 536</span>
 
 <span class='kw'>def</span> <span class='id startup_behaviour='>startup_behaviour=</span> <span class='id val'>val</span>
   <span class='ivar'>@ui</span><span class='period'>.</span><span class='id _state__startup_behaviour'>_state__startup_behaviour</span><span class='period'>.</span><span class='id current_index'>current_index</span> <span class='op'>=</span> <span class='const'>STARTUP_BEHAVIOURS</span><span class='period'>.</span><span class='id index'>index</span> <span class='id val'>val</span>
@@ -387,9 +392,9 @@ entry in the <em>Startup behaviour</em> widget</p>
 </div>
     
     <div id="footer">
-  Generated on Tue Jan 11 14:26:46 2011 by 
+  Generated on Fri Apr 29 10:51:07 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.4 (ruby-1.9.2).
+  0.6.8 (ruby-1.9.2).
 </div>
 
   </body>

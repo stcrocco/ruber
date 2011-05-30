@@ -2,7 +2,7 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <meta name="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Class: Ruber::CommandPlugin::ToolWidget</title>
 <link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
@@ -76,9 +76,7 @@
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">plugins/command/command.rb<span class="defines">,<br />
-  plugins/command/command.rb</span>
-</dd>
+    <dd class="r2 last">plugins/command/command.rb</dd>
   
 </dl>
 <div class="clear"></div>
@@ -254,19 +252,19 @@ in.</p></div></span>
       <pre class="lines">
 
 
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36</pre>
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/command/command.rb', line 27</span>
+      <pre class="code"><span class="info file"># File 'plugins/command/command.rb', line 52</span>
 
 <span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id parent'>parent</span> <span class='op'>=</span> <span class='kw'>nil</span>
   <span class='kw'>super</span>
@@ -330,29 +328,29 @@ it will be displayed on standard error and in a message box.</p>
       <pre class="lines">
 
 
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65</pre>
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/command/command.rb', line 46</span>
+      <pre class="code"><span class="info file"># File 'plugins/command/command.rb', line 71</span>
 
 <span class='kw'>def</span> <span class='id execute_command'>execute_command</span>
   <span class='id code'>code</span> <span class='op'>=</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id editor'>editor</span><span class='period'>.</span><span class='id to_plain_text'>to_plain_text</span>
@@ -416,19 +414,19 @@ it will be displayed on standard error and in a message box.</p>
       <pre class="lines">
 
 
-65
-66
-67
-68
-69
-70
-71
-72
-73
-74</pre>
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/command/command.rb', line 65</span>
+      <pre class="code"><span class="info file"># File 'plugins/command/command.rb', line 98</span>
 
 <span class='kw'>def</span> <span class='id load_settings'>load_settings</span>
   <span class='id font'>font</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:general</span><span class='comma'>,</span> <span class='symbol'>:output_font</span><span class='rbracket'>]</span>
@@ -533,9 +531,9 @@ if the button is visible.</p>
 </div>
     
     <div id="footer">
-  Generated on Mon Feb  7 15:09:05 2011 by 
+  Generated on Fri Apr 29 10:51:11 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.4 (ruby-1.9.2).
+  0.6.8 (ruby-1.9.2).
 </div>
 
   </body>

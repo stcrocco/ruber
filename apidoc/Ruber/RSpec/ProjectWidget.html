@@ -2,7 +2,7 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <meta name="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Class: Ruber::RSpec::ProjectWidget</title>
 <link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
@@ -78,9 +78,7 @@
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">plugins/rspec/rspec.rb<span class="defines">,<br />
-  plugins/rspec/rspec.rb,<br /> plugins/rspec/rspec.rb</span>
-</dd>
+    <dd class="r2 last">plugins/rspec/rspec.rb</dd>
   
 </dl>
 <div class="clear"></div>
@@ -279,14 +277,14 @@ the text to put in the widget.</p></div></span>
       <pre class="lines">
 
 
-887
-888
-889
-890
-891</pre>
+976
+977
+978
+979
+980</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 887</span>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 976</span>
 
 <span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id prj'>prj</span>
   <span class='kw'>super</span>
@@ -342,12 +340,12 @@ the text to put in the widget.</p></div></span>
       <pre class="lines">
 
 
-908
-909
-910</pre>
+997
+998
+999</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 908</span>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 997</span>
 
 <span class='kw'>def</span> <span class='id pattern'>pattern</span>
   <span class='ivar'>@ui</span><span class='period'>.</span><span class='id _rspec__spec_pattern'>_rspec__spec_pattern</span><span class='period'>.</span><span class='id text'>text</span><span class='period'>.</span><span class='id split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>;\s*</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span>
@@ -397,12 +395,12 @@ the text to put in the widget</p>
       <pre class="lines">
 
 
-900
-901
-902</pre>
+989
+990
+991</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 900</span>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 989</span>
 
 <span class='kw'>def</span> <span class='id pattern='>pattern=</span> <span class='id value'>value</span>
   <span class='id value'>value</span><span class='period'>.</span><span class='id join'>join</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>, </span><span class='tstring_end'>'</span></span>
@@ -450,12 +448,12 @@ the text to put in the widget</p>
       <pre class="lines">
 
 
-928
-929
-930</pre>
+1017
+1018
+1019</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 928</span>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 1017</span>
 
 <span class='kw'>def</span> <span class='id spec_options'>spec_options</span>
   <span class='const'>Shellwords</span><span class='period'>.</span><span class='id split_with_quotes'>split_with_quotes</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id _rspec__options'>_rspec__options</span><span class='period'>.</span><span class='id text'>text</span>
@@ -505,12 +503,12 @@ the text to put in the widget</p>
       <pre class="lines">
 
 
-918
-919
-920</pre>
+1007
+1008
+1009</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 918</span>
+      <pre class="code"><span class="info file"># File 'plugins/rspec/rspec.rb', line 1007</span>
 
 <span class='kw'>def</span> <span class='id spec_options='>spec_options=</span> <span class='id value'>value</span>
   <span class='ivar'>@ui</span><span class='period'>.</span><span class='id _rspec__options'>_rspec__options</span><span class='period'>.</span><span class='id text'>text</span> <span class='op'>=</span> <span class='id value'>value</span><span class='period'>.</span><span class='id join'>join</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'> </span><span class='tstring_end'>'</span></span>
@@ -527,9 +525,9 @@ the text to put in the widget</p>
 </div>
     
     <div id="footer">
-  Generated on Mon Feb  7 15:09:05 2011 by 
+  Generated on Fri Apr 29 10:51:09 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.4 (ruby-1.9.2).
+  0.6.8 (ruby-1.9.2).
 </div>
 
   </body>

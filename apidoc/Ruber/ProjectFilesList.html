@@ -2,7 +2,7 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <meta name="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Class: Ruber::ProjectFilesList</title>
 <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
@@ -80,7 +80,7 @@
   
   
     <dt class="r1 last">Defined in:</dt>
-    <dd class="r1 last">lib/ruber/projects/project_files_list.rb</dd>
+    <dd class="r1 last">lib/ruber/application/project_files_list.rb</dd>
   
 </dl>
 <div class="clear"></div>
@@ -485,7 +485,7 @@ is deleted.</p>
 139</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_files_list.rb', line 115</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/project_files_list.rb', line 115</span>
 
 <span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id prj'>prj</span>
   <span class='kw'>super</span>
@@ -557,7 +557,7 @@ any enumerable method returned by the object is called</p>
 203</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_files_list.rb', line 201</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/project_files_list.rb', line 201</span>
 
 <span class='kw'>def</span> <span class='id abs'>abs</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>true</span>
@@ -608,7 +608,7 @@ the project will be re-scanned</p>
 180</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_files_list.rb', line 169</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/project_files_list.rb', line 169</span>
 
 <span class='kw'>def</span> <span class='id each'>each</span> <span class='id abs'>abs</span> <span class='op'>=</span> <span class='kw'>true</span>
   <span class='kw'>if</span> <span class='id block_given?'>block_given?</span>
@@ -693,7 +693,7 @@ and the extensions.</p>
 259</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_files_list.rb', line 238</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/project_files_list.rb', line 238</span>
 
 <span class='kw'>def</span> <span class='id file_in_project?'>file_in_project?</span> <span class='id file'>file</span>
   <span class='kw'>if</span> <span class='id file'>file</span><span class='period'>.</span><span class='id match'>match</span> <span class='tstring'><span class='regexp_beg'>%r{</span><span class='tstring_content'>^([\w+-.]+)://(.+)</span><span class='regexp_end'>}</span></span>
@@ -759,7 +759,7 @@ and the extensions.</p>
 316</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_files_list.rb', line 304</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/project_files_list.rb', line 304</span>
 
 <span class='kw'>def</span> <span class='id make_rules'>make_rules</span>
   <span class='id rules'>rules</span> <span class='op'>=</span> <span class='ivar'>@project</span><span class='lbracket'>[</span><span class='symbol'>:general</span><span class='comma'>,</span> <span class='symbol'>:project_files</span><span class='rbracket'>]</span>
@@ -814,7 +814,7 @@ or <tt>list.rel.to_a</tt></p>
 156</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_files_list.rb', line 149</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/project_files_list.rb', line 149</span>
 
 <span class='kw'>def</span> <span class='id project_files'>project_files</span> <span class='id abs'>abs</span> <span class='op'>=</span> <span class='kw'>true</span>
   <span class='id refresh'>refresh</span> <span class='kw'>unless</span> <span class='ivar'>@up_to_date</span>
@@ -858,7 +858,7 @@ or <tt>list.rel.to_a</tt></p>
 215</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_files_list.rb', line 211</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/project_files_list.rb', line 211</span>
 
 <span class='kw'>def</span> <span class='id refresh'>refresh</span>
   <span class='id scan_project'>scan_project</span>
@@ -903,7 +903,7 @@ any enumerable method returned by the object is called</p>
 191</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_files_list.rb', line 189</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/project_files_list.rb', line 189</span>
 
 <span class='kw'>def</span> <span class='id rel'>rel</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>false</span>
@@ -968,7 +968,7 @@ threads. This created problems with syntax checker, for example.</p>
 298</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_files_list.rb', line 273</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/project_files_list.rb', line 273</span>
 
 <span class='kw'>def</span> <span class='id scan_project'>scan_project</span>
   <span class='ivar'>@lock</span><span class='period'>.</span><span class='id synchronize'>synchronize</span> <span class='kw'>do</span>
@@ -1041,7 +1041,7 @@ threads. This created problems with syntax checker, for example.</p>
 224</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_files_list.rb', line 222</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/project_files_list.rb', line 222</span>
 
 <span class='kw'>def</span> <span class='id up_to_date?'>up_to_date?</span>
   <span class='ivar'>@up_to_date</span>
@@ -1058,9 +1058,9 @@ threads. This created problems with syntax checker, for example.</p>
 </div>
     
     <div id="footer">
-  Generated on Tue Jan 11 14:27:01 2011 by 
+  Generated on Fri Apr 29 10:51:27 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.4 (ruby-1.9.2).
+  0.6.8 (ruby-1.9.2).
 </div>
 
   </body>

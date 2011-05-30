@@ -2,7 +2,7 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <meta name="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Module: Ruber::Activable</title>
 <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
@@ -58,7 +58,7 @@
   
   
     <dt class="r1">Included in:</dt>
-    <dd class="r1"><span class='object_link'><a href="Document.html" title="Ruber::Document (class)">Document</a></span>, <span class='object_link'><a href="Project.html" title="Ruber::Project (class)">Project</a></span></dd>
+    <dd class="r1"><span class='object_link'><a href="Document.html" title="Ruber::Document (class)">Document</a></span>, <span class='object_link'><a href="Project.html" title="Ruber::Project (class)">Project</a></span>, <span class='object_link'><a href="World/Environment.html" title="Ruber::World::Environment (class)">World::Environment</a></span></dd>
     
   
   
@@ -77,6 +77,8 @@ emitted when the state change. If the object is not a <code>Qt::Object</code>, o
 those signals, everything else will still work (in the rest of the documentation,
 every time emitting a signal is mentioned, it&#8217;s understood that the signal won&#8217;t
 be emitted if it doesn&#8217;t exist).</p>
+<p>Classes including this module may customize what is done when the state change by
+overriding the <span class='object_link'><a href="#do_activation-instance_method" title="Ruber::Activable#do_activation (method)">#do_activation</a></span> and <span class='object_link'><a href="#do_deactivation-instance_method" title="Ruber::Activable#do_deactivation (method)">#do_deactivation</a></span> methods.</p>
 <p>Classes mixing-in this module should initialize an instance variable called
 <tt>@active</tt>. If they don&#8217;t, one initialized to <strong>nil</strong> will be created the first
 time it&#8217;ll be needed (possibly with a warning).</p>
@@ -188,6 +190,50 @@ time it&#8217;ll be needed (possibly with a warning).</p>
 </li>
 
       
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#do_activation-instance_method" title="#do_activation (instance method)">- (nil) <strong>do_activation</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Method called after the state changes from inactive to active.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#do_deactivation-instance_method" title="#do_deactivation (instance method)">- (nil) <strong>do_deactivation</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Method called after the state changes from active to inactive.</p></div></span>
+  
+</li>
+
+      
     </ul>
   
 
@@ -232,13 +278,13 @@ time it&#8217;ll be needed (possibly with a warning).</p>
       <pre class="lines">
 
 
-369
-370
-371
-372</pre>
+372
+373
+374
+375</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/utils.rb', line 369</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/utils.rb', line 372</span>
 
 <span class='kw'>def</span> <span class='id activate'>activate</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id active'>active</span> <span class='op'>=</span> <span class='kw'>true</span>
@@ -259,8 +305,8 @@ time it&#8217;ll be needed (possibly with a warning).</p>
 </p><div class="docstring">
   <div class="discussion">
     <p>Enables or disables the object</p>
-<p>If the state of the object changes, the <code>activated</code> or <code>deactivated</code> signal is
-emitted.</p>
+<p>If the state of the object changes, the <span class='object_link'><a href="#do_activation-instance_method" title="Ruber::Activable#do_activation (method)">#do_activation</a></span> or <span class='object_link'><a href="#do_deactivation-instance_method" title="Ruber::Activable#do_deactivation (method)">#do_deactivation</a></span>
+methods are called. This happens <em>after</em> the state has been changed.</p>
 <p>object is a true value, the object will be activated, otherwise it will be deactivated</p>
 
   </div>
@@ -307,22 +353,22 @@ emitted.</p>
       <pre class="lines">
 
 
-384
-385
-386
 387
 388
 389
-390</pre>
+390
+391
+392
+393</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/utils.rb', line 384</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/utils.rb', line 387</span>
 
 <span class='kw'>def</span> <span class='id active='>active=</span> <span class='id val'>val</span>
   <span class='id old'>old</span> <span class='op'>=</span> <span class='ivar'>@active</span>
   <span class='ivar'>@active</span> <span class='op'>=</span> <span class='id val'>val</span><span class='period'>.</span><span class='id to_bool'>to_bool</span>
   <span class='kw'>if</span> <span class='id old'>old</span> <span class='op'>!=</span> <span class='ivar'>@active</span>
-    <span class='id emit'>emit</span><span class='lparen'>(</span><span class='ivar'>@active</span> <span class='op'>?</span> <span class='id activated'>activated</span> <span class='op'>:</span> <span class='id deactivated'>deactivated</span><span class='rparen'>)</span> <span class='kw'>rescue</span> <span class='const'>NameError</span>
+    <span class='ivar'>@active</span> <span class='op'>?</span> <span class='id do_activation'>do_activation</span> <span class='op'>:</span> <span class='id do_deactivation'>do_deactivation</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -367,12 +413,12 @@ emitted.</p>
       <pre class="lines">
 
 
-348
-349
-350</pre>
+351
+352
+353</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/utils.rb', line 348</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/utils.rb', line 351</span>
 
 <span class='kw'>def</span> <span class='id active?'>active?</span>
   <span class='ivar'>@active</span>
@@ -417,17 +463,123 @@ emitted.</p>
       <pre class="lines">
 
 
-358
-359
-360
-361</pre>
+361
+362
+363
+364</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/utils.rb', line 358</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/utils.rb', line 361</span>
 
 <span class='kw'>def</span> <span class='id deactivate'>deactivate</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id active'>active</span> <span class='op'>=</span> <span class='kw'>false</span>
   <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="do_activation-instance_method">
+  
+    - (<tt>nil</tt>) <strong>do_activation</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Method called after the state changes from inactive to active</p>
+<p>It emits the <code>activated</code> signal, if the class including the module has the signal.</p>
+<p>Including classes can override this method to perform other actions every time the
+object becomes active. In this case, they should call <strong>super</strong> if they want the
+signal to be emitted</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+421
+422
+423</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/utils.rb', line 421</span>
+
+<span class='kw'>def</span> <span class='id do_activation'>do_activation</span>
+  <span class='id emit'>emit</span> <span class='id activated'>activated</span> <span class='kw'>rescue</span> <span class='const'>NameError</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="do_deactivation-instance_method">
+  
+    - (<tt>nil</tt>) <strong>do_deactivation</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Method called after the state changes from active to inactive</p>
+<p>It emits the <code>deactivated</code> signal, if the class including the module has the signal.</p>
+<p>Including classes can override this method to perform other actions every time the
+object becomes inactive. In this case, they should call <strong>super</strong> if they want the
+signal to be emitted</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+407
+408
+409</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/utils.rb', line 407</span>
+
+<span class='kw'>def</span> <span class='id do_deactivation'>do_deactivation</span>
+  <span class='id emit'>emit</span> <span class='id deactivated'>deactivated</span> <span class='kw'>rescue</span> <span class='const'>NameError</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -439,9 +591,9 @@ emitted.</p>
 </div>
     
     <div id="footer">
-  Generated on Tue Jan 11 14:26:38 2011 by 
+  Generated on Fri Apr 29 10:51:02 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.4 (ruby-1.9.2).
+  0.6.8 (ruby-1.9.2).
 </div>
 
   </body>

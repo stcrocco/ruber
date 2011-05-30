@@ -2,7 +2,7 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <meta name="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Class: Ruber::OpenFileInProjectDlg</title>
 <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
@@ -196,7 +196,7 @@ filter model derived from <tt>Qt::SortFilterProxyModel</tt>.
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">- (OpenFileInProjectDlg) <strong>initialize</strong>(parent = nil) </a>
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (OpenFileInProjectDlg) <strong>initialize</strong>(prj, parent = nil) </a>
     
 
     
@@ -256,7 +256,7 @@ filter model derived from <tt>Qt::SortFilterProxyModel</tt>.
     <div class="method_details first">
   <p class="signature first" id="initialize-instance_method">
   
-    - (<tt><span class='object_link'><a href="" title="Ruber::OpenFileInProjectDlg (class)">OpenFileInProjectDlg</a></span></tt>) <strong>initialize</strong>(parent = nil) 
+    - (<tt><span class='object_link'><a href="" title="Ruber::OpenFileInProjectDlg (class)">OpenFileInProjectDlg</a></span></tt>) <strong>initialize</strong>(prj, parent = nil) 
   
 
   
@@ -306,10 +306,10 @@ filter model derived from <tt>Qt::SortFilterProxyModel</tt>.
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/main_window/open_file_in_project_dlg.rb', line 113</span>
 
-<span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id parent'>parent</span> <span class='op'>=</span> <span class='kw'>nil</span>
-  <span class='kw'>super</span>
-  <span class='id files'>files</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='period'>.</span><span class='id current_project'>current_project</span><span class='period'>.</span><span class='id project_files'>project_files</span><span class='period'>.</span><span class='id to_a'>to_a</span>
-  <span class='ivar'>@base_dir</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='period'>.</span><span class='id current_project'>current_project</span><span class='period'>.</span><span class='id project_directory'>project_directory</span>
+<span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id prj'>prj</span><span class='comma'>,</span> <span class='id parent'>parent</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='kw'>super</span> <span class='id parent'>parent</span>
+  <span class='id files'>files</span> <span class='op'>=</span> <span class='id prj'>prj</span><span class='period'>.</span><span class='id project_files'>project_files</span><span class='period'>.</span><span class='id to_a'>to_a</span>
+  <span class='ivar'>@base_dir</span> <span class='op'>=</span> <span class='id prj'>prj</span><span class='period'>.</span><span class='id project_directory'>project_directory</span>
   <span class='ivar'>@ui</span> <span class='op'>=</span> <span class='const'>Ui</span><span class='op'>::</span><span class='const'>OpenFileInProjectDlg</span><span class='period'>.</span><span class='id new'>new</span>
   <span class='ivar'>@ui</span><span class='period'>.</span><span class='id setupUi'>setupUi</span> <span class='kw'>self</span>
   <span class='ivar'>@ui</span><span class='period'>.</span><span class='id regexp_error'>regexp_error</span><span class='period'>.</span><span class='id hide'>hide</span>
@@ -565,9 +565,9 @@ filter model derived from <tt>Qt::SortFilterProxyModel</tt>.
 </div>
     
     <div id="footer">
-  Generated on Tue Jan 11 14:27:06 2011 by 
+  Generated on Fri Apr 29 10:51:31 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.4 (ruby-1.9.2).
+  0.6.8 (ruby-1.9.2).
 </div>
 
   </body>

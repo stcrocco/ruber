@@ -2,7 +2,7 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <meta name="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Class: Ruber::State::Plugin</title>
 <link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
@@ -74,11 +74,15 @@
     
   
     
+      <dt class="r2">Includes:</dt>
+      <dd class="r2"><span class='object_link'><a href="EnvironmentState.html" title="Ruber::State::EnvironmentState (module)">EnvironmentState</a></span></dd>
+      
+    
   
   
   
-    <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">plugins/state/state.rb</dd>
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">plugins/state/state.rb</dd>
   
 </dl>
 <div class="clear"></div>
@@ -96,6 +100,10 @@
   
 
 
+  
+  
+  
+  
   
   
   
@@ -135,50 +143,6 @@
 
   
     <span class="summary_desc"><div class='inline'><p>Override of <span class='object_link'><a href="../PluginLike.html#delayed_initialize-instance_method" title="Ruber::PluginLike#delayed_initialize (method)">PluginLike#delayed_initialize</a></span>.</p></div></span>
-  
-</li>
-
-      
-        <!-- Provides the  slot annotation -->
-<li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#documents_state-instance_method" title="#documents_state (instance method)">- (Array&lt;String,nil&gt;) <strong>documents_state</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>The open documents in a form suitable to be written to a configuration object.</p></div></span>
-  
-</li>
-
-      
-        <!-- Provides the  slot annotation -->
-<li class="private ">
-  <span class="summary_signature">
-    
-      <a href="#gather_settings-instance_method" title="#gather_settings (instance method)">- (Hash) <strong>gather_settings</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  <span class="note title private">private</span>
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>Creates a hash with all the data needed to restore Ruber&#8217;s state.</p></div></span>
   
 </li>
 
@@ -233,95 +197,7 @@
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#restore-instance_method" title="#restore (instance method)">- (nil) <strong>restore</strong>(cfg = Ruber[:config]) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>Restores ruber state according to the user settings and the data stored in the given object.</p></div></span>
-  
-</li>
-
-      
-        <!-- Provides the  slot annotation -->
-<li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#restore_cursor_position%3F-instance_method" title="#restore_cursor_position? (instance method)">- (Boolean) <strong>restore_cursor_position?</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>Tells whether or not the cursor position should be restored.</p></div></span>
-  
-</li>
-
-      
-        <!-- Provides the  slot annotation -->
-<li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#restore_document-instance_method" title="#restore_document (instance method)">- (nil) <strong>restore_document</strong>(doc) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>Restores the given document.</p></div></span>
-  
-</li>
-
-      
-        <!-- Provides the  slot annotation -->
-<li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#restore_documents-instance_method" title="#restore_documents (instance method)">- (nil) <strong>restore_documents</strong>(config = Ruber[:config]) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>Restores the open documents according to a given configuration object.</p></div></span>
-  
-</li>
-
-      
-        <!-- Provides the  slot annotation -->
-<li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#restore_last_state-instance_method" title="#restore_last_state (instance method)">- (nil) <strong>restore_last_state</strong> </a>
+      <a href="#restore_last_state-instance_method" title="#restore_last_state (instance method)">- (nil) <strong>restore_last_state</strong>(mode = nil) </a>
     
 
     
@@ -344,7 +220,7 @@ it was when it was last shut down.</p></div></span>
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#restore_pane-instance_method" title="#restore_pane (instance method)">- (Pane) <strong>restore_pane</strong>(data, docs) </a>
+      <a href="#restore_project-instance_method" title="#restore_project (instance method)">- (Object) <strong>restore_project</strong>(prj) </a>
     
 
     
@@ -352,100 +228,14 @@ it was when it was last shut down.</p></div></span>
   
   
   
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>Restores a pane.</p></div></span>
-  
-</li>
-
-      
-        <!-- Provides the  slot annotation -->
-<li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#restore_project-instance_method" title="#restore_project (instance method)">- (nil) <strong>restore_project</strong>(prj) </a>
-    
-
-    
-  </span>
-  
-  
+    <span class="note title"><strong>slot</strong></span>
   
   
   
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Restores the given global project.</p></div></span>
-  
-</li>
-
-      
-        <!-- Provides the  slot annotation -->
-<li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#restore_project_files%3F-instance_method" title="#restore_project_files? (instance method)">- (Boolean) <strong>restore_project_files?</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>Tells whether or not the open files in the project should be restored.</p></div></span>
-  
-</li>
-
-      
-        <!-- Provides the  slot annotation -->
-<li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#restore_projects-instance_method" title="#restore_projects (instance method)">- (nil) <strong>restore_projects</strong>(conf = Ruber[:config]) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>Restores the open projects according to a given configuration object.</p></div></span>
-  
-</li>
-
-      
-        <!-- Provides the  slot annotation -->
-<li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#restore_session-instance_method" title="#restore_session (instance method)">- (nil) <strong>restore_session</strong>(data) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>Restores Ruber&#8217;s state as it was in last session.</p></div></span>
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -472,99 +262,19 @@ it was when it was last shut down.</p></div></span>
 </li>
 
       
-        <!-- Provides the  slot annotation -->
-<li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#session_data-instance_method" title="#session_data (instance method)">- (Hash) <strong>session_data</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>Override of <span class='object_link'><a href="../PluginLike.html#session_data-instance_method" title="Ruber::PluginLike#session_data (method)">PluginLike#session_data</a></span>.</p></div></span>
-  
-</li>
-
-      
-        <!-- Provides the  slot annotation -->
-<li class="private ">
-  <span class="summary_signature">
-    
-      <a href="#tab_to_tree-instance_method" title="#tab_to_tree (instance method)">- (Array&lt;Array,Integer,String&gt;) <strong>tab_to_tree</strong>(pane, docs) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  <span class="note title private">private</span>
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>A representation of a pane&#8217;s configuration suitable to be written to a configuration
-object.</p></div></span>
-  
-</li>
-
-      
-        <!-- Provides the  slot annotation -->
-<li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#tabs_state-instance_method" title="#tabs_state (instance method)">- (Hash) <strong>tabs_state</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>The open tabs configuration in a form suitable to be written to a configuration object.</p></div></span>
-  
-</li>
-
-      
-        <!-- Provides the  slot annotation -->
-<li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#with-instance_method" title="#with (instance method)">- (Object) <strong>with</strong>(hash) </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>Executes a block temporarily overriding the user&#8217;s settings about what should be
-restored and what shouldn&#8217;t.</p></div></span>
-  
-</li>
-
-      
     </ul>
   
 
+
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="EnvironmentState.html" title="Ruber::State::EnvironmentState (module)">EnvironmentState</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="EnvironmentState.html#restore_environment-instance_method" title="Ruber::State::EnvironmentState#restore_environment (method)">#restore_environment</a></span>, <span class='object_link'><a href="EnvironmentState.html#restore_tab-instance_method" title="Ruber::State::EnvironmentState#restore_tab (method)">#restore_tab</a></span>, <span class='object_link'><a href="EnvironmentState.html#tab_to_tree-instance_method" title="Ruber::State::EnvironmentState#tab_to_tree (method)">#tab_to_tree</a></span>, <span class='object_link'><a href="EnvironmentState.html#tabs_state-instance_method" title="Ruber::State::EnvironmentState#tabs_state (method)">#tabs_state</a></span></p>
 
   
   
@@ -584,7 +294,7 @@ restored and what shouldn&#8217;t.</p></div></span>
   
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="../PluginLike.html" title="Ruber::PluginLike (module)">PluginLike</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="../PluginLike.html#add_extensions_to_project-instance_method" title="Ruber::PluginLike#add_extensions_to_project (method)">#add_extensions_to_project</a></span>, <span class='object_link'><a href="../PluginLike.html#add_options_to_project-instance_method" title="Ruber::PluginLike#add_options_to_project (method)">#add_options_to_project</a></span>, <span class='object_link'><a href="../PluginLike.html#add_widgets_to_project-instance_method" title="Ruber::PluginLike#add_widgets_to_project (method)">#add_widgets_to_project</a></span>, <span class='object_link'><a href="../PluginLike.html#create_tool_widget-instance_method" title="Ruber::PluginLike#create_tool_widget (method)">#create_tool_widget</a></span>, <span class='object_link'><a href="../PluginLike.html#initialize_plugin-instance_method" title="Ruber::PluginLike#initialize_plugin (method)">#initialize_plugin</a></span>, <span class='object_link'><a href="../PluginLike.html#load_settings-instance_method" title="Ruber::PluginLike#load_settings (method)">#load_settings</a></span>, <span class='object_link'><a href="../PluginLike.html#plugin_name-instance_method" title="Ruber::PluginLike#plugin_name (method)">#plugin_name</a></span>, <span class='object_link'><a href="../PluginLike.html#query_close-instance_method" title="Ruber::PluginLike#query_close (method)">#query_close</a></span>, <span class='object_link'><a href="../PluginLike.html#register_options-instance_method" title="Ruber::PluginLike#register_options (method)">#register_options</a></span>, <span class='object_link'><a href="../PluginLike.html#register_with_project-instance_method" title="Ruber::PluginLike#register_with_project (method)">#register_with_project</a></span>, <span class='object_link'><a href="../PluginLike.html#remove_extensions_from_project-instance_method" title="Ruber::PluginLike#remove_extensions_from_project (method)">#remove_extensions_from_project</a></span>, <span class='object_link'><a href="../PluginLike.html#remove_from_project-instance_method" title="Ruber::PluginLike#remove_from_project (method)">#remove_from_project</a></span>, <span class='object_link'><a href="../PluginLike.html#remove_options_from_project-instance_method" title="Ruber::PluginLike#remove_options_from_project (method)">#remove_options_from_project</a></span>, <span class='object_link'><a href="../PluginLike.html#remove_widgets_from_project-instance_method" title="Ruber::PluginLike#remove_widgets_from_project (method)">#remove_widgets_from_project</a></span>, <span class='object_link'><a href="../PluginLike.html#setup_action-instance_method" title="Ruber::PluginLike#setup_action (method)">#setup_action</a></span>, <span class='object_link'><a href="../PluginLike.html#setup_actions-instance_method" title="Ruber::PluginLike#setup_actions (method)">#setup_actions</a></span>, <span class='object_link'><a href="../PluginLike.html#shutdown-instance_method" title="Ruber::PluginLike#shutdown (method)">#shutdown</a></span>, <span class='object_link'><a href="../PluginLike.html#unload-instance_method" title="Ruber::PluginLike#unload (method)">#unload</a></span>, <span class='object_link'><a href="../PluginLike.html#update_project-instance_method" title="Ruber::PluginLike#update_project (method)">#update_project</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="../PluginLike.html#add_extensions_to_project-instance_method" title="Ruber::PluginLike#add_extensions_to_project (method)">#add_extensions_to_project</a></span>, <span class='object_link'><a href="../PluginLike.html#add_options_to_project-instance_method" title="Ruber::PluginLike#add_options_to_project (method)">#add_options_to_project</a></span>, <span class='object_link'><a href="../PluginLike.html#add_widgets_to_project-instance_method" title="Ruber::PluginLike#add_widgets_to_project (method)">#add_widgets_to_project</a></span>, <span class='object_link'><a href="../PluginLike.html#create_tool_widget-instance_method" title="Ruber::PluginLike#create_tool_widget (method)">#create_tool_widget</a></span>, <span class='object_link'><a href="../PluginLike.html#initialize_plugin-instance_method" title="Ruber::PluginLike#initialize_plugin (method)">#initialize_plugin</a></span>, <span class='object_link'><a href="../PluginLike.html#load_settings-instance_method" title="Ruber::PluginLike#load_settings (method)">#load_settings</a></span>, <span class='object_link'><a href="../PluginLike.html#plugin_name-instance_method" title="Ruber::PluginLike#plugin_name (method)">#plugin_name</a></span>, <span class='object_link'><a href="../PluginLike.html#query_close-instance_method" title="Ruber::PluginLike#query_close (method)">#query_close</a></span>, <span class='object_link'><a href="../PluginLike.html#register_options-instance_method" title="Ruber::PluginLike#register_options (method)">#register_options</a></span>, <span class='object_link'><a href="../PluginLike.html#register_with_project-instance_method" title="Ruber::PluginLike#register_with_project (method)">#register_with_project</a></span>, <span class='object_link'><a href="../PluginLike.html#remove_extensions_from_project-instance_method" title="Ruber::PluginLike#remove_extensions_from_project (method)">#remove_extensions_from_project</a></span>, <span class='object_link'><a href="../PluginLike.html#remove_from_project-instance_method" title="Ruber::PluginLike#remove_from_project (method)">#remove_from_project</a></span>, <span class='object_link'><a href="../PluginLike.html#remove_options_from_project-instance_method" title="Ruber::PluginLike#remove_options_from_project (method)">#remove_options_from_project</a></span>, <span class='object_link'><a href="../PluginLike.html#remove_widgets_from_project-instance_method" title="Ruber::PluginLike#remove_widgets_from_project (method)">#remove_widgets_from_project</a></span>, <span class='object_link'><a href="../PluginLike.html#restore_session-instance_method" title="Ruber::PluginLike#restore_session (method)">#restore_session</a></span>, <span class='object_link'><a href="../PluginLike.html#session_data-instance_method" title="Ruber::PluginLike#session_data (method)">#session_data</a></span>, <span class='object_link'><a href="../PluginLike.html#setup_action-instance_method" title="Ruber::PluginLike#setup_action (method)">#setup_action</a></span>, <span class='object_link'><a href="../PluginLike.html#setup_actions-instance_method" title="Ruber::PluginLike#setup_actions (method)">#setup_actions</a></span>, <span class='object_link'><a href="../PluginLike.html#shutdown-instance_method" title="Ruber::PluginLike#shutdown (method)">#shutdown</a></span>, <span class='object_link'><a href="../PluginLike.html#unload-instance_method" title="Ruber::PluginLike#unload (method)">#unload</a></span>, <span class='object_link'><a href="../PluginLike.html#update_project-instance_method" title="Ruber::PluginLike#update_project (method)">#update_project</a></span></p>
 
   
 
@@ -592,13 +302,6 @@ restored and what shouldn&#8217;t.</p></div></span>
 
 
 
-<h4>Methods API</h4>
-<ul>
-<li><span class='object_link'><a href="#with-instance_method" title="Ruber::State::Plugin#with (method)">#with</a></span></li>
-<li><span class='object_link'><a href="#restore-instance_method" title="Ruber::State::Plugin#restore (method)">#restore</a></span></li>
-<li><span class='object_link'><a href="#restore_document-instance_method" title="Ruber::State::Plugin#restore_document (method)">#restore_document</a></span></li>
-<li><span class='object_link'><a href="#restore_project-instance_method" title="Ruber::State::Plugin#restore_project (method)">#restore_project</a></span></li>
-</ul>
 <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
   
@@ -642,14 +345,14 @@ with the plugin</p></div>
       <pre class="lines">
 
 
-68
-69
-70
-71
-72</pre>
+231
+232
+233
+234
+235</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 68</span>
+      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 231</span>
 
 <span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id psf'>psf</span>
   <span class='kw'>super</span>
@@ -705,155 +408,27 @@ was according to the user preferences.</p>
       <pre class="lines">
 
 
-83
-84
-85
-86
-87
-88
-89
-90</pre>
+246
+247
+248
+249
+250
+251
+252
+253
+254</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 83</span>
+      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 246</span>
 
 <span class='kw'>def</span> <span class='id delayed_initialize'>delayed_initialize</span>
   <span class='kw'>return</span> <span class='kw'>unless</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:app</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id starting?'>starting?</span>
-  <span class='kw'>if</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id to_a'>to_a</span><span class='period'>.</span><span class='id empty?'>empty?</span> <span class='kw'>and</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:docs</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id to_a'>to_a</span><span class='period'>.</span><span class='id size'>size</span> <span class='op'>==</span> <span class='int'>1</span> <span class='kw'>and</span>
-           <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:docs</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id pristine?'>pristine?</span>
-    <span class='id restore_last_state'>restore_last_state</span>
+  <span class='id docs'>docs</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:world</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id documents'>documents</span>
+  <span class='kw'>if</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:world</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id projects'>projects</span><span class='period'>.</span><span class='id empty?'>empty?</span> <span class='kw'>and</span> <span class='id docs'>docs</span><span class='period'>.</span><span class='id size'>size</span> <span class='op'>==</span> <span class='int'>1</span> <span class='kw'>and</span> <span class='id docs'>docs</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id pristine?'>pristine?</span>
+    <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:app</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id sessionRestored?'>sessionRestored?</span> <span class='op'>?</span> <span class='id restore_last_state'>restore_last_state</span><span class='lparen'>(</span><span class='symbol'>:force</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='id restore_last_state'>restore_last_state</span>
   <span class='kw'>end</span>
+  <span class='id connect'>connect</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:world</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>project_created(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>restore_project(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
   <span class='kw'>nil</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="documents_state-instance_method">
-  
-    - (<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>,nil&gt;</tt>) <strong>documents_state</strong> 
-  
-
-  
-</p><div class="docstring">
-  <div class="discussion">
-    <p>The open documents in a form suitable to be written to a configuration object</p>
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Returns:</h3>
-<ul class="return">
-  
-    <li>
-      
-        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>,nil&gt;</tt>)</span>
-      
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>an array containing the names of the URLs associated with
-the currently open documents. Documents not associated with files are represented
-by *nil*s in the array. This value is the one to write under the <code>state/open_documents</code>
-entry in a project or configuration object</p></div>
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-414
-415
-416
-417</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 414</span>
-
-<span class='kw'>def</span> <span class='id documents_state'>documents_state</span>
-  <span class='id docs'>docs</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:documents</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id documents'>documents</span>
-  <span class='id docs'>docs</span><span class='period'>.</span><span class='id map'>map</span><span class='lbrace'>{</span> <span class='op'>|</span><span class='id doc'>doc</span><span class='op'>|</span> <span class='id doc'>doc</span><span class='period'>.</span><span class='id has_file?'>has_file?</span> <span class='op'>?</span> <span class='id doc'>doc</span><span class='period'>.</span><span class='id url'>url</span><span class='period'>.</span><span class='id to_encoded'>to_encoded</span><span class='period'>.</span><span class='id to_s'>to_s</span> <span class='op'>:</span> <span class='kw'>nil</span><span class='rbrace'>}</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="gather_settings-instance_method">
-  
-    - (<tt>Hash</tt>) <strong>gather_settings</strong>  <span class="extras">(private)</span>
-  
-
-  
-</p><div class="docstring">
-  <div class="discussion">
-    <p>Creates a hash with all the data needed to restore Ruber&#8217;s state</p>
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Returns:</h3>
-<ul class="return">
-  
-    <li>
-      
-        <span class='type'>(<tt>Hash</tt>)</span>
-      
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>a hash with the following keys:</p>
-<ul>
-	<li><code>:open_projects</code>: an array containing the project file of each open project.
- the first entry is the active project</li>
-	<li><code>:open_documents</code>: an array with the name of the file corresponding to each
- open document (documents without an associated file can&#8217;t be restored and aren&#8217;t
- included). The order is that of opening</li>
-	<li><code>:visible_documents</code>: an array with the name of the files corresponding to the
- documents associated with a file and having a view</li>
-	<li><code>:active_document</code>: the name of the file associated with the active document or
- <strong>nil</strong> if there&#8217;s no open document</li>
-</ul></div>
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-483
-484
-485
-486
-487
-488
-489
-490</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 483</span>
-
-<span class='kw'>def</span> <span class='id gather_settings'>gather_settings</span>
-  <span class='id res'>res</span> <span class='op'>=</span> <span class='lbrace'>{</span>
-    <span class='symbol'>:open_projects</span> <span class='op'>=&gt;</span> <span class='id projects_state'>projects_state</span><span class='comma'>,</span>
-    <span class='symbol'>:open_documents</span> <span class='op'>=&gt;</span> <span class='id documents_state'>documents_state</span>
-  <span class='rbrace'>}</span>
-  <span class='id res'>res</span><span class='period'>.</span><span class='id merge!'>merge!</span> <span class='id tabs_state'>tabs_state</span>
-  <span class='id res'>res</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -900,22 +475,22 @@ object</p></div>
       <pre class="lines">
 
 
-397
-398
-399
-400
-401
-402
-403
-404</pre>
+343
+344
+345
+346
+347
+348
+349
+350</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 397</span>
+      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 343</span>
 
 <span class='kw'>def</span> <span class='id projects_state'>projects_state</span>
-  <span class='id projects'>projects</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id projects'>projects</span><span class='period'>.</span><span class='id map'>map</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id pr'>pr</span><span class='op'>|</span> <span class='id pr'>pr</span><span class='period'>.</span><span class='id project_file'>project_file</span><span class='rbrace'>}</span>
+  <span class='id projects'>projects</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:world</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id projects'>projects</span><span class='period'>.</span><span class='id map'>map</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id pr'>pr</span><span class='op'>|</span> <span class='id pr'>pr</span><span class='period'>.</span><span class='id project_file'>project_file</span><span class='rbrace'>}</span>
   <span class='kw'>unless</span> <span class='id projects'>projects</span><span class='period'>.</span><span class='id empty?'>empty?</span>
-    <span class='id active_prj'>active_prj</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current'>current</span>
+    <span class='id active_prj'>active_prj</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:world</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id active_document'>active_document</span>
     <span class='id projects'>projects</span><span class='period'>.</span><span class='id unshift'>unshift</span> <span class='id projects'>projects</span><span class='period'>.</span><span class='id delete'>delete</span><span class='lparen'>(</span><span class='id active_prj'>active_prj</span><span class='period'>.</span><span class='id project_file'>project_file</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id active_prj'>active_prj</span>
   <span class='kw'>end</span>
   <span class='id projects'>projects</span>
@@ -926,349 +501,9 @@ object</p></div>
 </div>
     
       <div class="method_details ">
-  <p class="signature " id="restore-instance_method">
-  
-    - (<tt>nil</tt>) <strong>restore</strong>(cfg = Ruber[:config]) 
-  
-
-  
-</p><div class="docstring">
-  <div class="discussion">
-    <p>Restores ruber state according to the user settings and the data stored in the given object</p>
-<p>The argument can be any object which has a <code>[]</code> method which takes two arguments
-and behaves as the hash returned by <span class='object_link'><a href="#gather_settings-instance_method" title="Ruber::State::Plugin#gather_settings (method)">#gather_settings</a></span>.</p>
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Parameters:</h3>
-<ul class="param">
-  
-    <li>
-      
-        <span class='type'>(<tt>#[<span class='object_link'><a href="../../Symbol.html" title="Symbol (class)">Symbol</a></span>, <span class='object_link'><a href="../../Symbol.html" title="Symbol (class)">Symbol</a></span>]</tt>)</span>
-      
-      
-        <span class='name'>conf</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>the object from which to read the state</p></div>
-      
-    </li>
-  
-</ul>
-<h3>Returns:</h3>
-<ul class="return">
-  
-    <li>
-      
-        <span class='type'>(<tt>nil</tt>)</span>
-      
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-323
-324
-325
-326
-327
-328</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 323</span>
-
-<span class='kw'>def</span> <span class='id restore'>restore</span> <span class='id cfg'>cfg</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span>
-  <span class='kw'>if</span> <span class='op'>!</span><span class='id cfg'>cfg</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='comma'>,</span> <span class='symbol'>:open_projects</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id empty?'>empty?</span> <span class='kw'>then</span> <span class='id restore_projects'>restore_projects</span> <span class='id cfg'>cfg</span>
-  <span class='kw'>else</span> <span class='id restore_documents'>restore_documents</span> <span class='id cfg'>cfg</span>
-  <span class='kw'>end</span>
-  <span class='kw'>nil</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="restore_cursor_position?-instance_method">
-  
-    - (<tt>Boolean</tt>) <strong>restore_cursor_position?</strong> 
-  
-
-  
-</p><div class="docstring">
-  <div class="discussion">
-    <p>Tells whether or not the cursor position should be restored.</p>
-<p>This takes into account user settings and eventual requests made by the programmer
-using the <span class='object_link'><a href="#with-instance_method" title="Ruber::State::Plugin#with (method)">#with</a></span> method
-otherwise</p>
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Returns:</h3>
-<ul class="return">
-  
-    <li>
-      
-        <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
-      
-      
-        &mdash;
-        <div class='inline'><p><strong>true</strong> if the cursor position should be restored and <strong>false</strong></p></div>
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-100
-101
-102
-103
-104
-105</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 100</span>
-
-<span class='kw'>def</span> <span class='id restore_cursor_position?'>restore_cursor_position?</span>
-  <span class='kw'>if</span> <span class='ivar'>@force_restore_cursor_position</span><span class='period'>.</span><span class='id nil?'>nil?</span>
-    <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='comma'>,</span> <span class='symbol'>:restore_cursor_position</span><span class='rbracket'>]</span>
-  <span class='kw'>else</span> <span class='ivar'>@force_restore_cursor_position</span>
-  <span class='kw'>end</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="restore_document-instance_method">
-  
-    - (<tt>nil</tt>) <strong>restore_document</strong>(doc) 
-  
-
-  
-</p><div class="docstring">
-  <div class="discussion">
-    <p>Restores the given document</p>
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Parameters:</h3>
-<ul class="param">
-  
-    <li>
-      
-        <span class='type'>(<tt><span class='object_link'><a href="../Document.html" title="Ruber::Document (class)">Ruber::Document</a></span></tt>)</span>
-      
-      
-        <span class='name'>doc</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>the document to restore</p></div>
-      
-    </li>
-  
-</ul>
-<h3>Returns:</h3>
-<ul class="return">
-  
-    <li>
-      
-        <span class='type'>(<tt>nil</tt>)</span>
-      
-      
-      
-      
-    </li>
-  
-</ul>
-
-  <h3>See Also:</h3>
-  <ul class="see">
-    
-      <li><span class='object_link'><a href="DocumentExtension.html#restore-instance_method" title="Ruber::State::DocumentExtension#restore (method)">DocumentExtension#restore for more information</a></span></li>
-    
-  </ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-169
-170
-171</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 169</span>
-
-<span class='kw'>def</span> <span class='id restore_document'>restore_document</span> <span class='id doc'>doc</span>
-  <span class='id doc'>doc</span><span class='period'>.</span><span class='id extension'>extension</span><span class='lparen'>(</span><span class='symbol'>:state</span><span class='rparen'>)</span><span class='period'>.</span><span class='id restore'>restore</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="restore_documents-instance_method">
-  
-    - (<tt>nil</tt>) <strong>restore_documents</strong>(config = Ruber[:config]) 
-  
-
-  
-</p><div class="docstring">
-  <div class="discussion">
-    <p>Restores the open documents according to a given configuration object</p>
-<p>Restoring the open documents means:</p>
-<ul>
-	<li>closing all the open documents. If any of thess is modified, the user is asked
-  how to proceed. If the choses to abort, nothing else is done</li>
-	<li>opening the documents according to the <code>state/open_documents</code> entry of <em>conf</em></li>
-	<li>recreating the tabs and the editors according to the <code>state/tabs</code> entry of <em>conf</em></li>
-	<li>activating the editor contained in the <code>state/active_editor</code> entry of <em>conf</em></li>
-</ul>
-<p>This method is called both when the session is restored and when ruber starts
-up (if the user chose so).</p>
-<p>for more information</p>
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Parameters:</h3>
-<ul class="param">
-  
-    <li>
-      
-        <span class='type'>(<tt>#[<span class='object_link'><a href="../../Symbol.html" title="Symbol (class)">Symbol</a></span>, <span class='object_link'><a href="../../Symbol.html" title="Symbol (class)">Symbol</a></span>]</tt>)</span>
-      
-      
-        <span class='name'>conf</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>the object from which to read the state. See <span class='object_link'><a href="#restore-instance_method" title="Ruber::State::Plugin#restore (method)">#restore</a></span></p></div>
-      
-    </li>
-  
-</ul>
-<h3>Returns:</h3>
-<ul class="return">
-  
-    <li>
-      
-        <span class='type'>(<tt>nil</tt>)</span>
-      
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-226
-227
-228
-229
-230
-231
-232
-233
-234
-235
-236
-237
-238
-239
-240
-241
-242
-243
-244
-245
-246
-247
-248
-249
-250
-251
-252
-253
-254</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 226</span>
-
-<span class='kw'>def</span> <span class='id restore_documents'>restore_documents</span> <span class='id config'>config</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span>
-  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:documents</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id close_all'>close_all</span>
-  <span class='id docs'>docs</span> <span class='op'>=</span> <span class='id config'>config</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='comma'>,</span> <span class='symbol'>:open_documents</span><span class='rbracket'>]</span>
-  <span class='id unnamed_docs'>unnamed_docs</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-  <span class='id docs'>docs</span> <span class='op'>=</span> <span class='id docs'>docs</span><span class='period'>.</span><span class='id map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span> 
-    <span class='kw'>if</span> <span class='id i'>i</span><span class='period'>.</span><span class='id is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span> <span class='kw'>then</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:documents</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id document'>document</span><span class='lparen'>(</span><span class='id i'>i</span><span class='rparen'>)</span>
-    <span class='kw'>else</span> 
-      <span class='id doc'>doc</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:documents</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id new_document'>new_document</span>
-      <span class='id unnamed_docs'>unnamed_docs</span> <span class='op'>&lt;&lt;</span> <span class='id doc'>doc</span>
-      <span class='id doc'>doc</span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
-  <span class='kw'>return</span> <span class='kw'>if</span> <span class='id docs'>docs</span><span class='period'>.</span><span class='id empty?'>empty?</span>
-  <span class='id tabs'>tabs</span> <span class='op'>=</span> <span class='id config'>config</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='comma'>,</span> <span class='symbol'>:tabs</span><span class='rbracket'>]</span>
-  <span class='id mw'>mw</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span>
-  <span class='id positions'>positions</span> <span class='op'>=</span> <span class='id config'>config</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='comma'>,</span> <span class='symbol'>:cursor_positions</span><span class='rbracket'>]</span>
-  <span class='id tabs'>tabs</span><span class='period'>.</span><span class='id each_with_index'>each_with_index</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id t'>t</span><span class='comma'>,</span> <span class='id i'>i</span><span class='op'>|</span> 
-    <span class='id pn'>pn</span> <span class='op'>=</span> <span class='id restore_pane'>restore_pane</span> <span class='id t'>t</span><span class='comma'>,</span> <span class='id unnamed_docs'>unnamed_docs</span>
-    <span class='id views'>views</span> <span class='op'>=</span> <span class='id pn'>pn</span><span class='period'>.</span><span class='id to_a'>to_a</span>
-    <span class='id views'>views</span><span class='period'>.</span><span class='id each_with_index'>each_with_index</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id v'>v</span><span class='comma'>,</span> <span class='id j'>j</span><span class='op'>|</span>
-      <span class='id cursor'>cursor</span> <span class='op'>=</span> <span class='const'>KTextEditor</span><span class='op'>::</span><span class='const'>Cursor</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='op'>*</span><span class='lparen'>(</span><span class='id positions'>positions</span><span class='lbracket'>[</span><span class='id i'>i</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='id j'>j</span><span class='rbracket'>]</span> <span class='kw'>rescue</span> <span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span><span class='int'>0</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='rparen'>)</span>
-      <span class='id v'>v</span><span class='period'>.</span><span class='id cursor_position'>cursor_position</span> <span class='op'>=</span> <span class='id cursor'>cursor</span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
-  <span class='id active_editor'>active_editor</span> <span class='op'>=</span> <span class='id config'>config</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='comma'>,</span> <span class='symbol'>:active_view</span><span class='rbracket'>]</span>
-  <span class='kw'>if</span> <span class='id active_editor'>active_editor</span>
-    <span class='id mw'>mw</span><span class='period'>.</span><span class='id focus_on_editor'>focus_on_editor</span> <span class='id mw'>mw</span><span class='period'>.</span><span class='id tabs'>tabs</span><span class='lbracket'>[</span><span class='id active_editor'>active_editor</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id to_a'>to_a</span><span class='lbracket'>[</span><span class='id active_editor'>active_editor</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
-  <span class='kw'>end</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
   <p class="signature " id="restore_last_state-instance_method">
   
-    - (<tt>nil</tt>) <strong>restore_last_state</strong> 
+    - (<tt>nil</tt>) <strong>restore_last_state</strong>(mode = nil) 
   
 
   
@@ -1301,119 +536,10 @@ it was when it was last shut down</p>
       <pre class="lines">
 
 
-338
-339
-340
-341
-342
-343
-344
-345</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 338</span>
-
-<span class='kw'>def</span> <span class='id restore_last_state'>restore_last_state</span>
-  <span class='kw'>case</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='comma'>,</span> <span class='symbol'>:startup_behaviour</span><span class='rbracket'>]</span>
-  <span class='kw'>when</span> <span class='symbol'>:restore_all</span> <span class='kw'>then</span> <span class='id restore'>restore</span>
-  <span class='kw'>when</span> <span class='symbol'>:restore_projects_only</span>
-    <span class='id with'>with</span><span class='lparen'>(</span><span class='symbol'>:restore_project_files</span> <span class='op'>=&gt;</span> <span class='kw'>false</span><span class='rparen'>)</span><span class='lbrace'>{</span><span class='id restore_projects'>restore_projects</span><span class='rbrace'>}</span>
-  <span class='kw'>when</span> <span class='symbol'>:restore_documents_only</span> <span class='kw'>then</span> <span class='id restore_documents'>restore_documents</span>
-  <span class='kw'>end</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="restore_pane-instance_method">
-  
-    - (<tt><span class='object_link'><a href="../Pane.html" title="Ruber::Pane (class)">Pane</a></span></tt>) <strong>restore_pane</strong>(data, docs) 
-  
-
-  
-</p><div class="docstring">
-  <div class="discussion">
-    <p>Restores a pane</p>
-<p>Restoring a pane means creating the editors which were contained in the pane,
-in the correct disposition.</p>
-<p>The contents of the pane are described by the array <em>data</em>, which has the following
-format:</p>
-<ul>
-	<li>if it has a single element, the corresponding pane contains only a view. If the
-  element is a string, it must represent the <span class="caps">URL</span> of the document the view is associated
-  with. If it is a number, it means the view is associated with a document which
-  hasn&#8217;t been saved</li>
-	<li>if it has more than one element, it means that the pane contains more than one
-  view. The first element represents the orientation of the pane and can be either
-  <code>Qt::Horizontal</code> or <code>Qt::Vertical</code>. The other elements can be either strings,
-  numbers or arrays. A string or number means, as above, the <span class="caps">URL</span> of the document
-  associated with the view or a document which isn&#8217;t associated with a file. An
-  array (which should have the same format as this) means a sub pane</li>
-</ul>
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Parameters:</h3>
-<ul class="param">
-  
-    <li>
-      
-        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span></tt>)</span>
-      
-      
-        <span class='name'>data</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>the array containing the description of the contents of the
-pane</p></div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Document.html" title="Ruber::Document (class)">Document</a></span>&gt;</tt>)</span>
-      
-      
-        <span class='name'>docs</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>the document not associated with files to use for
-the numeric entries of <em>data</em>. A number <em>n</em> in <em>data</em> means to use the entry
-<em>n</em> in <em>docs</em></p></div>
-      
-    </li>
-  
-</ul>
-<h3>Returns:</h3>
-<ul class="return">
-  
-    <li>
-      
-        <span class='type'>(<tt><span class='object_link'><a href="../Pane.html" title="Ruber::Pane (class)">Pane</a></span></tt>)</span>
-      
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>the new pane</p></div>
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
+278
+279
+280
+281
 282
 283
 284
@@ -1439,46 +565,40 @@ the numeric entries of <em>data</em>. A number <em>n</em> in <em>data</em> means
 304
 305
 306
-307
-308
-309
-310
-311
-312</pre>
+307</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 282</span>
+      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 278</span>
 
-<span class='kw'>def</span> <span class='id restore_pane'>restore_pane</span> <span class='id data'>data</span><span class='comma'>,</span> <span class='id docs'>docs</span>
-  <span class='id mw'>mw</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span>
-  <span class='id find_first_view'>find_first_view</span> <span class='op'>=</span> <span class='id lambda'>lambda</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id array'>array</span><span class='op'>|</span>
-    <span class='kw'>if</span> <span class='id array'>array</span><span class='period'>.</span><span class='id size'>size</span> <span class='op'>==</span> <span class='int'>1</span> <span class='kw'>then</span> <span class='id array'>array</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
-    <span class='kw'>elsif</span> <span class='id array'>array</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id is_a?'>is_a?</span> <span class='const'>Array</span> <span class='kw'>then</span> <span class='id find_first_view'>find_first_view</span><span class='period'>.</span><span class='id call'>call</span> <span class='id array'>array</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span>
-    <span class='kw'>else</span> <span class='id array'>array</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span>
-    <span class='kw'>end</span>
+<span class='kw'>def</span> <span class='id restore_last_state'>restore_last_state</span> <span class='id mode'>mode</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='id force'>force</span> <span class='op'>=</span> <span class='id mode'>mode</span> <span class='op'>==</span> <span class='symbol'>:force</span>
+  <span class='id cfg'>cfg</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='rbracket'>]</span>
+  <span class='kw'>if</span> <span class='id force'>force</span> <span class='kw'>or</span> <span class='id cfg'>cfg</span><span class='lbracket'>[</span><span class='symbol'>:startup_behaviour</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id include?'>include?</span> <span class='symbol'>:default_environment</span>
+    <span class='id default_env_data'>default_env_data</span> <span class='op'>=</span> <span class='lbrace'>{</span>
+      <span class='symbol'>:tabs</span> <span class='op'>=&gt;</span> <span class='id cfg'>cfg</span><span class='lbracket'>[</span><span class='symbol'>:default_environment_tabs</span><span class='rbracket'>]</span><span class='comma'>,</span>
+      <span class='symbol'>:active_view</span> <span class='op'>=&gt;</span> <span class='id cfg'>cfg</span><span class='lbracket'>[</span><span class='symbol'>:default_environment_active_view</span><span class='rbracket'>]</span><span class='comma'>,</span>
+      <span class='symbol'>:cursor_positions</span> <span class='op'>=&gt;</span> <span class='id cfg'>cfg</span><span class='lbracket'>[</span><span class='symbol'>:default_environment_cursor_positions</span><span class='rbracket'>]</span>
+    <span class='rbrace'>}</span>
+    <span class='id restore_environment'>restore_environment</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:world</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id default_environment'>default_environment</span><span class='comma'>,</span> <span class='id default_env_data'>default_env_data</span>
   <span class='kw'>end</span>
-  <span class='id recreate_pane'>recreate_pane</span> <span class='op'>=</span> <span class='id lambda'>lambda</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id pn'>pn</span><span class='comma'>,</span> <span class='id array'>array</span><span class='op'>|</span>
-    <span class='id orientation'>orientation</span> <span class='op'>=</span> <span class='id array'>array</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
-    <span class='id last_view'>last_view</span> <span class='op'>=</span> <span class='id pn'>pn</span><span class='period'>.</span><span class='id view'>view</span>
-    <span class='id array'>array</span><span class='period'>.</span><span class='id each_with_index'>each_with_index</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id e'>e</span><span class='comma'>,</span> <span class='id i'>i</span><span class='op'>|</span>
-      <span class='comment'>#the first element of the array is the orientation; the second is
-</span>      <span class='comment'>#the first view, which is already contained in the pane
-</span>      <span class='kw'>next</span> <span class='kw'>if</span> <span class='id i'>i</span> <span class='op'>&lt;</span> <span class='int'>2</span> 
-      <span class='id view'>view</span> <span class='op'>=</span> <span class='id e'>e</span><span class='period'>.</span><span class='id is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Array</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id find_first_view'>find_first_view</span><span class='period'>.</span><span class='id call'>call</span><span class='lparen'>(</span><span class='id e'>e</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='id e'>e</span>
-      <span class='id view'>view</span> <span class='op'>=</span> <span class='id mw'>mw</span><span class='period'>.</span><span class='id editor_for!'>editor_for!</span> <span class='id view'>view</span><span class='period'>.</span><span class='id is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id view'>view</span><span class='op'>:</span> <span class='id docs'>docs</span><span class='lbracket'>[</span><span class='id view'>view</span><span class='rbracket'>]</span><span class='comma'>,</span> 
-                  <span class='symbol'>:existing</span> <span class='op'>=&gt;</span> <span class='symbol'>:never</span><span class='comma'>,</span> <span class='symbol'>:show</span> <span class='op'>=&gt;</span> <span class='kw'>false</span>
-      <span class='id pn'>pn</span><span class='period'>.</span><span class='id split'>split</span> <span class='id last_view'>last_view</span><span class='comma'>,</span> <span class='id view'>view</span><span class='comma'>,</span> <span class='id orientation'>orientation</span>
-      <span class='id last_view'>last_view</span> <span class='op'>=</span> <span class='id view'>view</span>
-      <span class='id recreate_pane'>recreate_pane</span><span class='period'>.</span><span class='id call'>call</span> <span class='id view'>view</span><span class='period'>.</span><span class='id parent'>parent</span><span class='comma'>,</span> <span class='id e'>e</span> <span class='kw'>if</span> <span class='id e'>e</span><span class='period'>.</span><span class='id is_a?'>is_a?</span> <span class='const'>Array</span>
+  <span class='id active_prj'>active_prj</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='kw'>if</span> <span class='id force'>force</span> <span class='op'>||</span> <span class='id cfg'>cfg</span><span class='lbracket'>[</span><span class='symbol'>:startup_behaviour</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id include?'>include?</span><span class='lparen'>(</span><span class='symbol'>:projects</span><span class='rparen'>)</span>
+    <span class='id cfg'>cfg</span><span class='lbracket'>[</span><span class='symbol'>:last_state</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id each_with_index'>each_with_index</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id f'>f</span><span class='comma'>,</span> <span class='id i'>i</span><span class='op'>|</span>
+      <span class='kw'>next</span> <span class='kw'>if</span> <span class='id f'>f</span><span class='period'>.</span><span class='id nil?'>nil?</span>
+      <span class='kw'>begin</span> <span class='id prj'>prj</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:world</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id project'>project</span> <span class='id f'>f</span>
+      <span class='kw'>rescue</span> <span class='const'>Ruber</span><span class='op'>::</span><span class='const'>AbstractProject</span><span class='op'>::</span><span class='const'>InvalidProjectFile</span>
+        <span class='kw'>next</span>
+      <span class='kw'>end</span>
+      <span class='id active_prj'>active_prj</span> <span class='op'>=</span> <span class='id prj'>prj</span> <span class='kw'>if</span> <span class='id i'>i</span> <span class='op'>==</span> <span class='int'>0</span>
+      <span class='id data'>data</span> <span class='op'>=</span> <span class='lbrace'>{</span>
+        <span class='symbol'>:tabs</span> <span class='op'>=&gt;</span> <span class='id prj'>prj</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='comma'>,</span> <span class='symbol'>:tabs</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='symbol'>:cursor_positions</span> <span class='op'>=&gt;</span> <span class='id prj'>prj</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='comma'>,</span> <span class='symbol'>:cursor_positions</span><span class='rbracket'>]</span><span class='comma'>,</span>
+        <span class='symbol'>:active_view</span> <span class='op'>=&gt;</span> <span class='id prj'>prj</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='comma'>,</span> <span class='symbol'>:active_view</span><span class='rbracket'>]</span>
+      <span class='rbrace'>}</span>
+      <span class='id restore_environment'>restore_environment</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:world</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id environment'>environment</span><span class='lparen'>(</span><span class='id prj'>prj</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id data'>data</span>
     <span class='kw'>end</span>
-    <span class='id recreate_pane'>recreate_pane</span><span class='period'>.</span><span class='id call'>call</span> <span class='id pn'>pn</span><span class='period'>.</span><span class='id splitter'>splitter</span><span class='period'>.</span><span class='id widget'>widget</span><span class='lparen'>(</span><span class='int'>0</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id array'>array</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id array'>array</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Array</span><span class='rparen'>)</span>
+    <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:world</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id active_project'>active_project</span> <span class='op'>=</span> <span class='id active_prj'>active_prj</span>
   <span class='kw'>end</span>
-  <span class='id view'>view</span> <span class='op'>=</span> <span class='id find_first_view'>find_first_view</span><span class='period'>.</span><span class='id call'>call</span> <span class='id data'>data</span>
-  <span class='id view'>view</span> <span class='op'>=</span> <span class='id mw'>mw</span><span class='period'>.</span><span class='id editor_for!'>editor_for!</span> <span class='id view'>view</span><span class='period'>.</span><span class='id is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id view'>view</span> <span class='op'>:</span> <span class='id docs'>docs</span><span class='lbracket'>[</span><span class='id view'>view</span><span class='rbracket'>]</span><span class='comma'>,</span> 
-                <span class='symbol'>:existing</span> <span class='op'>=&gt;</span> <span class='symbol'>:never</span><span class='comma'>,</span> <span class='symbol'>:new</span> <span class='op'>=&gt;</span> <span class='symbol'>:new_tab</span>
-  <span class='id pane'>pane</span> <span class='op'>=</span> <span class='id view'>view</span><span class='period'>.</span><span class='id parent'>parent</span>
-  <span class='id recreate_pane'>recreate_pane</span><span class='period'>.</span><span class='id call'>call</span> <span class='id pane'>pane</span><span class='comma'>,</span> <span class='id data'>data</span>
-  <span class='id pane'>pane</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1488,291 +608,50 @@ the numeric entries of <em>data</em>. A number <em>n</em> in <em>data</em> means
       <div class="method_details ">
   <p class="signature " id="restore_project-instance_method">
   
-    - (<tt>nil</tt>) <strong>restore_project</strong>(prj) 
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>restore_project</strong>(prj) 
   
 
   
-</p><div class="docstring">
-  <div class="discussion">
-    <p>Restores the given global project</p>
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Parameters:</h3>
-<ul class="param">
-  
-    <li>
-      
-        <span class='type'>(<tt><span class='object_link'><a href="../Project.html" title="Ruber::Project (class)">Ruber::Project</a></span></tt>)</span>
-      
-      
-        <span class='name'>prj</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>the document to restore</p></div>
-      
-    </li>
-  
-</ul>
-<h3>Returns:</h3>
-<ul class="return">
-  
-    <li>
-      
-        <span class='type'>(<tt>nil</tt>)</span>
-      
-      
-      
-      
-    </li>
-  
-</ul>
-
-  <h3>See Also:</h3>
-  <ul class="see">
-    
-      <li><span class='object_link'><a href="ProjectExtension.html#restore-instance_method" title="Ruber::State::ProjectExtension#restore (method)">ProjectExtension#restore for more information</a></span></li>
-    
-  </ul>
-
-</div><table class="source_code">
+</p><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-181
-182
-183</pre>
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 181</span>
+      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 256</span>
 
 <span class='kw'>def</span> <span class='id restore_project'>restore_project</span> <span class='id prj'>prj</span>
-  <span class='id prj'>prj</span><span class='period'>.</span><span class='id extension'>extension</span><span class='lparen'>(</span><span class='symbol'>:state</span><span class='rparen'>)</span><span class='period'>.</span><span class='id restore'>restore</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="restore_project_files?-instance_method">
-  
-    - (<tt>Boolean</tt>) <strong>restore_project_files?</strong> 
-  
-
-  
-</p><div class="docstring">
-  <div class="discussion">
-    <p>Tells whether or not the open files in the project should be restored.</p>
-<p>This takes into account user settings and eventual requests made by the programmer
-using the <span class='object_link'><a href="#with-instance_method" title="Ruber::State::Plugin#with (method)">#with</a></span> method
-otherwise</p>
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Returns:</h3>
-<ul class="return">
-  
-    <li>
-      
-        <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
-      
-      
-        &mdash;
-        <div class='inline'><p><strong>true</strong> if the open files in the project should be restored and <strong>false</strong></p></div>
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-115
-116
-117
-118
-119
-120</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 115</span>
-
-<span class='kw'>def</span> <span class='id restore_project_files?'>restore_project_files?</span>
-  <span class='kw'>if</span> <span class='ivar'>@force_restore_project_files</span><span class='period'>.</span><span class='id nil?'>nil?</span>
-    <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='comma'>,</span> <span class='symbol'>:restore_project_files</span><span class='rbracket'>]</span>
-  <span class='kw'>else</span> <span class='ivar'>@force_restore_project_files</span>
+  <span class='id prx'>prx</span> <span class='op'>=</span> <span class='id prj'>prj</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='rbracket'>]</span>
+  <span class='id data'>data</span> <span class='op'>=</span> <span class='lbrace'>{</span>
+    <span class='symbol'>:tabs</span> <span class='op'>=&gt;</span> <span class='id prx'>prx</span><span class='lbracket'>[</span><span class='symbol'>:tabs</span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='symbol'>:cursor_positions</span> <span class='op'>=&gt;</span> <span class='id prx'>prx</span><span class='lbracket'>[</span><span class='symbol'>:cursor_positions</span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='symbol'>:active_view</span> <span class='op'>=&gt;</span> <span class='id prx'>prx</span><span class='lbracket'>[</span><span class='symbol'>:active_view</span><span class='rbracket'>]</span>
+  <span class='rbrace'>}</span>
+  <span class='id env'>env</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:world</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id environment'>environment</span><span class='lparen'>(</span><span class='id prj'>prj</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='comma'>,</span> <span class='symbol'>:restore_projects</span><span class='rbracket'>]</span> <span class='kw'>and</span> <span class='id env'>env</span><span class='period'>.</span><span class='id tabs'>tabs</span><span class='period'>.</span><span class='id count'>count</span> <span class='op'>==</span> <span class='int'>0</span>
+    <span class='id restore_environment'>restore_environment</span> <span class='id env'>env</span><span class='comma'>,</span> <span class='id data'>data</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="restore_projects-instance_method">
-  
-    - (<tt>nil</tt>) <strong>restore_projects</strong>(conf = Ruber[:config]) 
-  
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>restore_project(QObject*)</tt></p>
 
-  
-</p><div class="docstring">
-  <div class="discussion">
-    <p>Restores the open projects according to a given configuration object</p>
-<p>Restoring the project means closing all the open projects and opening the projects
-and setting the active project according to the information in <em>conf</em></p>
-<p>This method is called both when the session is restored and when ruber starts
-up (if the user chose so).</p>
-<p>for more information</p>
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Parameters:</h3>
-<ul class="param">
-  
-    <li>
-      
-        <span class='type'>(<tt>#[<span class='object_link'><a href="../../Symbol.html" title="Symbol (class)">Symbol</a></span>, <span class='object_link'><a href="../../Symbol.html" title="Symbol (class)">Symbol</a></span>]</tt>)</span>
-      
-      
-        <span class='name'>conf</span>
-      
-      
-        <em class="default">(defaults to: <tt>Ruber[:config]</tt>)</em>
-      
-      
-        &mdash;
-        <div class='inline'><p>the object from which to read the state. See <span class='object_link'><a href="#restore-instance_method" title="Ruber::State::Plugin#restore (method)">#restore</a></span></p></div>
-      
-    </li>
-  
-</ul>
-<h3>Returns:</h3>
-<ul class="return">
-  
-    <li>
-      
-        <span class='type'>(<tt>nil</tt>)</span>
-      
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-198
-199
-200
-201
-202
-203
-204
-205
-206
-207</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 198</span>
-
-<span class='kw'>def</span> <span class='id restore_projects'>restore_projects</span> <span class='id conf'>conf</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span>
-  <span class='id projects'>projects</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span>
-  <span class='id projects'>projects</span><span class='period'>.</span><span class='id to_a'>to_a</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id pr'>pr</span><span class='op'>|</span> <span class='id projects'>projects</span><span class='period'>.</span><span class='id close_project'>close_project</span> <span class='id pr'>pr</span><span class='rbrace'>}</span>
-  <span class='id file'>file</span> <span class='op'>=</span> <span class='id conf'>conf</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='comma'>,</span> <span class='symbol'>:open_projects</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
-  <span class='kw'>if</span> <span class='id file'>file</span>
-    <span class='id prj'>prj</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id safe_open_project'>safe_open_project</span> <span class='id file'>file</span>
-    <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current_project'>current_project</span> <span class='op'>=</span> <span class='id prj'>prj</span> <span class='kw'>if</span> <span class='id prj'>prj</span>
-  <span class='kw'>end</span>
-  <span class='kw'>nil</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="restore_session-instance_method">
-  
-    - (<tt>nil</tt>) <strong>restore_session</strong>(data) 
-  
-
-  
-</p><div class="docstring">
-  <div class="discussion">
-    <p>Restores Ruber&#8217;s state as it was in last session</p>
-<p>Since this method deals with session management, it ignores the user settings</p>
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Returns:</h3>
-<ul class="return">
-  
-    <li>
-      
-        <span class='type'>(<tt>nil</tt>)</span>
-      
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-354
-355
-356
-357
-358
-359
-360
-361
-362
-363
-364</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 354</span>
-
-<span class='kw'>def</span> <span class='id restore_session'>restore_session</span> <span class='id data'>data</span>
-  <span class='id hash'>hash</span> <span class='op'>=</span> <span class='id data'>data</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>State</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='lbrace'>{</span><span class='symbol'>:open_projects</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:open_documents</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:active_view</span> <span class='op'>=&gt;</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='symbol'>:tabs</span> <span class='op'>=&gt;</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
-  <span class='id hash'>hash</span> <span class='op'>=</span> <span class='id hash'>hash</span><span class='period'>.</span><span class='id map_hash'>map_hash</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id k'>k</span><span class='comma'>,</span> <span class='id v'>v</span><span class='op'>|</span> <span class='lbracket'>[</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='comma'>,</span> <span class='id k'>k</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id v'>v</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
-  <span class='kw'>def</span> <span class='id hash'>hash</span><span class='period'>.</span><span class='op'>[]</span> <span class='id k'>k</span><span class='comma'>,</span> <span class='id v'>v</span>
-    <span class='kw'>super</span> <span class='lbracket'>[</span><span class='id k'>k</span><span class='comma'>,</span> <span class='id v'>v</span><span class='rbracket'>]</span>
-  <span class='kw'>end</span>
-  <span class='id with'>with</span><span class='lparen'>(</span><span class='symbol'>:restore_project_files</span> <span class='op'>=&gt;</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='symbol'>:restore_cursor_position</span> <span class='op'>=&gt;</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='symbol'>:force</span> <span class='op'>=&gt;</span> <span class='kw'>true</span><span class='rparen'>)</span> <span class='kw'>do</span>
-    <span class='id restore'>restore</span> <span class='id hash'>hash</span>
-  <span class='kw'>end</span>
-  <span class='kw'>nil</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
     
       <div class="method_details ">
   <p class="signature " id="save_settings-instance_method">
@@ -1808,473 +687,49 @@ up (if the user chose so).</p>
       <pre class="lines">
 
 
-371
-372
-373
-374
-375
-376
-377
-378</pre>
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 371</span>
+      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 314</span>
 
 <span class='kw'>def</span> <span class='id save_settings'>save_settings</span>
-  <span class='id h'>h</span> <span class='op'>=</span> <span class='id gather_settings'>gather_settings</span>
-  <span class='id cfg'>cfg</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span>
-  <span class='id h'>h</span><span class='period'>.</span><span class='id each_pair'>each_pair</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id k'>k</span><span class='comma'>,</span> <span class='id v'>v</span><span class='op'>|</span> 
-    <span class='id cfg'>cfg</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='comma'>,</span> <span class='id k'>k</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id v'>v</span>
+  <span class='id files'>files</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:world</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id environments'>environments</span><span class='period'>.</span><span class='id map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id e'>e</span><span class='op'>|</span>
+    <span class='id prj'>prj</span> <span class='op'>=</span> <span class='id e'>e</span><span class='period'>.</span><span class='id project'>project</span>
+    <span class='id prj'>prj</span> <span class='op'>?</span> <span class='id prj'>prj</span><span class='period'>.</span><span class='id project_file'>project_file</span> <span class='op'>:</span> <span class='kw'>nil</span>
   <span class='kw'>end</span>
+  <span class='id active_env'>active_env</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:world</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id active_environment'>active_environment</span>
+  <span class='kw'>if</span> <span class='id active_env'>active_env</span> <span class='kw'>and</span> <span class='id active_env'>active_env</span><span class='period'>.</span><span class='id project'>project</span>
+    <span class='id active_project'>active_project</span> <span class='op'>=</span> <span class='id active_env'>active_env</span><span class='period'>.</span><span class='id project'>project</span><span class='period'>.</span><span class='id project_file'>project_file</span>
+  <span class='kw'>else</span> <span class='id active_project'>active_project</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='kw'>end</span>
+  <span class='id files'>files</span><span class='period'>.</span><span class='id unshift'>unshift</span> <span class='id files'>files</span><span class='period'>.</span><span class='id delete'>delete</span><span class='lparen'>(</span><span class='id active_project'>active_project</span><span class='rparen'>)</span>
+  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='comma'>,</span> <span class='symbol'>:last_state</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id files'>files</span>
+  <span class='id default_env_state'>default_env_state</span> <span class='op'>=</span> <span class='id tabs_state'>tabs_state</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:world</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id default_environment'>default_environment</span>
+  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='comma'>,</span> <span class='symbol'>:default_environment_tabs</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id default_env_state'>default_env_state</span><span class='lbracket'>[</span><span class='symbol'>:tabs</span><span class='rbracket'>]</span>
+  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='comma'>,</span> <span class='symbol'>:default_environment_active_view</span><span class='rbracket'>]</span> <span class='op'>=</span>
+      <span class='id default_env_state'>default_env_state</span><span class='lbracket'>[</span><span class='symbol'>:active_view</span><span class='rbracket'>]</span>
+  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='comma'>,</span> <span class='symbol'>:default_environment_cursor_positions</span><span class='rbracket'>]</span> <span class='op'>=</span> 
+      <span class='id default_env_state'>default_env_state</span><span class='lbracket'>[</span><span class='symbol'>:cursor_positions</span><span class='rbracket'>]</span>
   <span class='kw'>nil</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="session_data-instance_method">
-  
-    - (<tt>Hash</tt>) <strong>session_data</strong> 
-  
-
-  
-</p><div class="docstring">
-  <div class="discussion">
-    <p>Override of <span class='object_link'><a href="../PluginLike.html#session_data-instance_method" title="Ruber::PluginLike#session_data (method)">PluginLike#session_data</a></span></p>
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Returns:</h3>
-<ul class="return">
-  
-    <li>
-      
-        <span class='type'>(<tt>Hash</tt>)</span>
-      
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>a hash containing the session information under the <code>State</code> key</p></div>
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-385
-386
-387</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 385</span>
-
-<span class='kw'>def</span> <span class='id session_data'>session_data</span>
-  <span class='lbrace'>{</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>State</span><span class='tstring_end'>'</span></span> <span class='op'>=&gt;</span> <span class='id gather_settings'>gather_settings</span><span class='rbrace'>}</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="tab_to_tree-instance_method">
-  
-    - (<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>,Integer,<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>&gt;</tt>) <strong>tab_to_tree</strong>(pane, docs)  <span class="extras">(private)</span>
-  
-
-  
-</p><div class="docstring">
-  <div class="discussion">
-    <p>A representation of a pane&#8217;s configuration suitable to be written to a configuration
-object</p>
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Parameters:</h3>
-<ul class="param">
-  
-    <li>
-      
-        <span class='type'>(<tt><span class='object_link'><a href="../Pane.html" title="Ruber::Pane (class)">Pane</a></span></tt>)</span>
-      
-      
-        <span class='name'>pane</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>the pane to return the representation for</p></div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='type'>(<tt>Hash{<span class='object_link'><a href="../Document.html" title="Ruber::Document (class)">Document</a></span>=&gt;Integer}</tt>)</span>
-      
-      
-        <span class='name'>docs</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>a map between documents not associated
-with files and the number to represent them</p></div>
-      
-    </li>
-  
-</ul>
-<h3>Returns:</h3>
-<ul class="return">
-  
-    <li>
-      
-        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>,Integer,<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
-      
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>an array as described in <span class='object_link'><a href="#restore_pane-instance_method" title="Ruber::State::Plugin#restore_pane (method)">#restore_pane</a></span></p></div>
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-501
-502
-503
-504
-505
-506
-507
-508
-509
-510
-511
-512
-513
-514
-515
-516
-517
-518
-519
-520</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 501</span>
-
-<span class='kw'>def</span> <span class='id tab_to_tree'>tab_to_tree</span> <span class='id pane'>pane</span><span class='comma'>,</span> <span class='id docs'>docs</span>
-  <span class='kw'>if</span> <span class='id pane'>pane</span><span class='period'>.</span><span class='id single_view?'>single_view?</span>
-    <span class='id doc'>doc</span> <span class='op'>=</span> <span class='id pane'>pane</span><span class='period'>.</span><span class='id view'>view</span><span class='period'>.</span><span class='id document'>document</span>
-    <span class='kw'>return</span> <span class='lbracket'>[</span><span class='id doc'>doc</span><span class='period'>.</span><span class='id has_file?'>has_file?</span> <span class='op'>?</span> <span class='id doc'>doc</span><span class='period'>.</span><span class='id url'>url</span><span class='period'>.</span><span class='id url'>url</span> <span class='op'>:</span> <span class='id docs'>docs</span><span class='lbracket'>[</span><span class='id doc'>doc</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
-  <span class='kw'>end</span>
-  <span class='id panes'>panes</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
-  <span class='id tab_to_tree_prc'>tab_to_tree_prc</span> <span class='op'>=</span> <span class='id lambda'>lambda</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id pn'>pn</span><span class='op'>|</span>
-    <span class='kw'>if</span> <span class='id pn'>pn</span><span class='period'>.</span><span class='id single_view?'>single_view?</span>
-      <span class='id doc'>doc</span> <span class='op'>=</span> <span class='id pn'>pn</span><span class='period'>.</span><span class='id view'>view</span><span class='period'>.</span><span class='id document'>document</span>
-      <span class='id panes'>panes</span><span class='lbracket'>[</span><span class='id pn'>pn</span><span class='period'>.</span><span class='id parent_pane'>parent_pane</span><span class='rbracket'>]</span> <span class='op'>&lt;&lt;</span> <span class='lparen'>(</span><span class='id doc'>doc</span><span class='period'>.</span><span class='id has_file?'>has_file?</span> <span class='op'>?</span> <span class='id doc'>doc</span><span class='period'>.</span><span class='id url'>url</span><span class='period'>.</span><span class='id url'>url</span> <span class='op'>:</span> <span class='id docs'>docs</span><span class='lbracket'>[</span><span class='id doc'>doc</span><span class='rbracket'>]</span><span class='rparen'>)</span>
-    <span class='kw'>else</span> 
-      <span class='id data'>data</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id pn'>pn</span><span class='period'>.</span><span class='id orientation'>orientation</span><span class='rbracket'>]</span>
-      <span class='id panes'>panes</span><span class='lbracket'>[</span><span class='id pn'>pn</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id data'>data</span>
-      <span class='id panes'>panes</span><span class='lbracket'>[</span><span class='id pn'>pn</span><span class='period'>.</span><span class='id parent_pane'>parent_pane</span><span class='rbracket'>]</span> <span class='op'>&lt;&lt;</span> <span class='id data'>data</span> <span class='kw'>if</span> <span class='id pn'>pn</span><span class='period'>.</span><span class='id parent_pane'>parent_pane</span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
-  <span class='id tab_to_tree_prc'>tab_to_tree_prc</span><span class='period'>.</span><span class='id call'>call</span> <span class='id pane'>pane</span>
-  <span class='id pane'>pane</span><span class='period'>.</span><span class='id each_pane'>each_pane</span> <span class='symbol'>:recursive</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id tab_to_tree_prc'>tab_to_tree_prc</span>
-  <span class='id panes'>panes</span><span class='lbracket'>[</span><span class='id pane'>pane</span><span class='rbracket'>]</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="tabs_state-instance_method">
-  
-    - (<tt>Hash</tt>) <strong>tabs_state</strong> 
-  
-
-  
-</p><div class="docstring">
-  <div class="discussion">
-    <p>The open tabs configuration in a form suitable to be written to a configuration object</p>
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Returns:</h3>
-<ul class="return">
-  
-    <li>
-      
-        <span class='type'>(<tt>Hash</tt>)</span>
-      
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>A hash containing the following keys:</p>
-<ul>
-	<li><code>:tabs</code>: an array of arrays, with each inner array representing one tab, with
- the format described in <span class='object_link'><a href="#restore_pane-instance_method" title="Ruber::State::Plugin#restore_pane (method)">#restore_pane</a></span>. This value is the one to write under
- the <code>state/tabs</code> entry in a project or configuration object</li>
-	<li><code>:cursor_positions</code>:an array of arrays. Each inner array corresponds to a tab
- and contains the cursor position of each view. Each cursor position is represented
- as an array with two elements: the first is the line, the second is the column.
- The order the views are is the same used by <span class='object_link'><a href="../Pane.html#each_view-instance_method" title="Ruber::Pane#each_view (method)">Pane#each_view</a></span>. This value is the one to write under
- the <code>state/cursor_positions</code> entry in a project or configuration object</li>
-	<li><code>:active_view</code>: the active view. It is represented by a size 2 array, with the
- first element being the index of the tab of the active view and the second being
- the index of the view in the corresponding pane (according to the order used by
- <span class='object_link'><a href="../Pane.html#each_view-instance_method" title="Ruber::Pane#each_view (method)">Pane#each_view</a></span>). If there&#8217;s no active view, this entry is <strong>nil</strong>. This is the value to write under
- the <code>state/active_view</code> entry in a project or configuration object</li>
-</ul></div>
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-437
-438
-439
-440
-441
-442
-443
-444
-445
-446
-447
-448
-449
-450
-451
-452
-453
-454
-455
-456
-457
-458
-459
-460
-461
-462
-463
-464
-465</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 437</span>
-
-<span class='kw'>def</span> <span class='id tabs_state'>tabs_state</span>
-  <span class='id res'>res</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
-  <span class='id doc_map'>doc_map</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
-  <span class='id doc_idx'>doc_idx</span> <span class='op'>=</span> <span class='int'>0</span>
-  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:documents</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id doc'>doc</span><span class='op'>|</span>
-    <span class='kw'>if</span> <span class='op'>!</span><span class='id doc'>doc</span><span class='period'>.</span><span class='id has_file?'>has_file?</span>
-      <span class='id doc_map'>doc_map</span><span class='lbracket'>[</span><span class='id doc'>doc</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id doc_idx'>doc_idx</span>
-      <span class='id doc_idx'>doc_idx</span> <span class='op'>+=</span> <span class='int'>1</span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
-  <span class='id tabs'>tabs</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id tabs'>tabs</span>
-  <span class='id tabs_tree'>tabs_tree</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-  <span class='id cursor_positions'>cursor_positions</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-  <span class='id tabs'>tabs</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id t'>t</span><span class='op'>|</span>
-    <span class='id tabs_tree'>tabs_tree</span> <span class='op'>&lt;&lt;</span> <span class='id tab_to_tree'>tab_to_tree</span><span class='lparen'>(</span><span class='id t'>t</span><span class='comma'>,</span> <span class='id doc_map'>doc_map</span><span class='rparen'>)</span>
-    <span class='id cursor_positions'>cursor_positions</span> <span class='op'>&lt;&lt;</span> <span class='id t'>t</span><span class='period'>.</span><span class='id map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id v'>v</span><span class='op'>|</span>
-      <span class='id pos'>pos</span> <span class='op'>=</span> <span class='id v'>v</span><span class='period'>.</span><span class='id cursor_position'>cursor_position</span>
-      <span class='lbracket'>[</span><span class='id pos'>pos</span><span class='period'>.</span><span class='id line'>line</span><span class='comma'>,</span> <span class='id pos'>pos</span><span class='period'>.</span><span class='id column'>column</span><span class='rbracket'>]</span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
-  <span class='id res'>res</span><span class='lbracket'>[</span><span class='symbol'>:tabs</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id tabs_tree'>tabs_tree</span>
-  <span class='id res'>res</span><span class='lbracket'>[</span><span class='symbol'>:cursor_positions</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id cursor_positions'>cursor_positions</span>
-  <span class='id active'>active</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id active_editor'>active_editor</span>
-  <span class='kw'>if</span> <span class='id active'>active</span>
-    <span class='id active_tab'>active_tab</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id tab'>tab</span><span class='lparen'>(</span><span class='id active'>active</span><span class='rparen'>)</span>
-    <span class='id res'>res</span><span class='lbracket'>[</span><span class='symbol'>:active_view</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id tabs'>tabs</span><span class='period'>.</span><span class='id index'>index</span><span class='lparen'>(</span><span class='id active_tab'>active_tab</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id active_tab'>active_tab</span><span class='period'>.</span><span class='id to_a'>to_a</span><span class='period'>.</span><span class='id index'>index</span><span class='lparen'>(</span><span class='id active'>active</span><span class='rparen'>)</span><span class='rbracket'>]</span>
-  <span class='kw'>end</span>
-  <span class='id res'>res</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="with-instance_method">
-  
-    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>with</strong>(hash) 
-  
-
-  
-</p><div class="docstring">
-  <div class="discussion">
-    <p>Executes a block temporarily overriding the user&#8217;s settings about what should be
-restored and what shouldn&#8217;t.</p>
-<p>Nested calls to this method are allowed. By default, the outer call wins over the
-inner, meaning that a value set by the inner call are only used if the outer
-call didn&#8217;t set that value. You can change this behaviour by passing the <code>:force</code>
-option.
-remain as chosen by the user
-method, the values specified by the inner call will override values set by the
-outer call.
-in documents should be restored, regardless of what the user chose
-files in projects should be restored, regardless of what the user chose</p>
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Parameters:</h3>
-<ul class="param">
-  
-    <li>
-      
-        <span class='type'>(<tt>Hash</tt>)</span>
-      
-      
-        <span class='name'>hash</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>the settings to change. All settings not specified here will</p></div>
-      
-    </li>
-  
-</ul>
-
-  
-    
-    
-    <h3>Options Hash (<tt>hash</tt>):</h3>
-    <ul class="option">
-      
-        <li>
-          <span class="type">(<tt>Boolean</tt>)</span>
-          <span class="name">:force</span>
-          <span class="default">
-            
-              &mdash; default:
-              <tt>false</tt>
-            
-          </span>
-          &mdash; <div class='inline'><p>if <strong>true</strong>, in case of a nested call to this</p></div>
-        </tr>
-      
-        <li>
-          <span class="type">(<tt>Boolean</tt>)</span>
-          <span class="name">:restore_cursor_position</span>
-          <span class="default">
-            
-              &mdash; default:
-              <tt>false</tt>
-            
-          </span>
-          &mdash; <div class='inline'><p>whether or not the cursor position</p></div>
-        </tr>
-      
-        <li>
-          <span class="type">(<tt>Boolean</tt>)</span>
-          <span class="name">:restore_project_files</span>
-          <span class="default">
-            
-              &mdash; default:
-              <tt>false</tt>
-            
-          </span>
-          &mdash; <div class='inline'><p>whether or not the open</p></div>
-        </tr>
-      
-    </ul>
-  
-<h3>Returns:</h3>
-<ul class="return">
-  
-    <li>
-      
-        <span class='type'>(<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>)</span>
-      
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>the value returned by the block</p></div>
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-141
-142
-143
-144
-145
-146
-147
-148
-149
-150
-151
-152
-153
-154
-155
-156
-157
-158
-159</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 141</span>
-
-<span class='kw'>def</span> <span class='id with'>with</span> <span class='id hash'>hash</span>
-  <span class='id old_doc'>old_doc</span> <span class='op'>=</span> <span class='ivar'>@force_restore_cursor_position</span>
-  <span class='id old_projects'>old_projects</span> <span class='op'>=</span> <span class='ivar'>@force_restore_project_files</span>
-  <span class='kw'>if</span> <span class='id hash'>hash</span><span class='period'>.</span><span class='id has_key?'>has_key?</span> <span class='symbol'>:restore_cursor_position</span>
-    <span class='kw'>if</span> <span class='ivar'>@force_restore_cursor_position</span><span class='period'>.</span><span class='id nil?'>nil?</span> <span class='kw'>or</span> <span class='id hash'>hash</span><span class='lbracket'>[</span><span class='symbol'>:force</span><span class='rbracket'>]</span>
-      <span class='ivar'>@force_restore_cursor_position</span> <span class='op'>=</span> <span class='id hash'>hash</span><span class='lbracket'>[</span><span class='symbol'>:restore_cursor_position</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='kw'>false</span> 
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
-  <span class='kw'>if</span> <span class='id hash'>hash</span><span class='period'>.</span><span class='id has_key?'>has_key?</span> <span class='symbol'>:restore_project_files</span>
-    <span class='kw'>if</span> <span class='ivar'>@force_restore_project_files</span><span class='period'>.</span><span class='id nil?'>nil?</span> <span class='kw'>or</span> <span class='id hash'>hash</span><span class='lbracket'>[</span><span class='symbol'>:force</span><span class='rbracket'>]</span>
-      <span class='ivar'>@force_restore_project_files</span> <span class='op'>=</span> <span class='id hash'>hash</span><span class='lbracket'>[</span><span class='symbol'>:restore_project_files</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='kw'>false</span> 
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
-  <span class='kw'>begin</span> <span class='kw'>yield</span>
-  <span class='kw'>ensure</span>
-    <span class='ivar'>@force_restore_cursor_position</span> <span class='op'>=</span> <span class='id old_doc'>old_doc</span>
-    <span class='ivar'>@force_restore_project_files</span> <span class='op'>=</span> <span class='id old_projects'>old_projects</span>
-  <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2288,9 +743,9 @@ files in projects should be restored, regardless of what the user chose</p>
 </div>
     
     <div id="footer">
-  Generated on Tue Jan 11 14:26:46 2011 by 
+  Generated on Fri Apr 29 10:51:06 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.4 (ruby-1.9.2).
+  0.6.8 (ruby-1.9.2).
 </div>
 
   </body>

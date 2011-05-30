@@ -2,7 +2,7 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <meta name="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Class: Ruber::ProjectFilesRuleChooser</title>
 <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
@@ -76,7 +76,7 @@
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">lib/ruber/projects/project_files_widget.rb</dd>
+    <dd class="r2 last">lib/ruber/application/project_files_widget.rb</dd>
   
 </dl>
 <div class="clear"></div>
@@ -444,7 +444,7 @@ rules or file rules).</p>
 96</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_files_widget.rb', line 83</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/project_files_widget.rb', line 83</span>
 
 <span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id parent'>parent</span> <span class='op'>=</span> <span class='kw'>nil</span>
   <span class='kw'>super</span> 
@@ -515,7 +515,7 @@ rules or file rules).</p>
 51</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_files_widget.rb', line 49</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/project_files_widget.rb', line 49</span>
 
 <span class='kw'>def</span> <span class='id project='>project=</span><span class='lparen'>(</span><span class='id value'>value</span><span class='rparen'>)</span>
   <span class='ivar'>@project</span> <span class='op'>=</span> <span class='id value'>value</span>
@@ -581,7 +581,7 @@ rules or file rules).</p>
 203</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_files_widget.rb', line 192</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/project_files_widget.rb', line 192</span>
 
 <span class='kw'>def</span> <span class='id add_path_rule'>add_path_rule</span>
   <span class='id rule'>rule</span> <span class='op'>=</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>FileDialog</span><span class='period'>.</span><span class='id get_open_file_name'>get_open_file_name</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Url</span><span class='period'>.</span><span class='id from_path'>from_path</span><span class='lparen'>(</span><span class='ivar'>@project</span><span class='period'>.</span><span class='id project_dir'>project_dir</span><span class='rparen'>)</span><span class='comma'>,</span>
@@ -646,7 +646,7 @@ rules or file rules).</p>
 218</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_files_widget.rb', line 212</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/project_files_widget.rb', line 212</span>
 
 <span class='kw'>def</span> <span class='id add_regexp_rule'>add_regexp_rule</span>
   <span class='id rule'>rule</span> <span class='op'>=</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>InputDialog</span><span class='period'>.</span><span class='id get_text'>get_text</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Add regexp rule</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Regexp</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> 
@@ -747,7 +747,7 @@ model</p>
 170</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_files_widget.rb', line 162</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/project_files_widget.rb', line 162</span>
 
 <span class='kw'>def</span> <span class='id add_rule'>add_rule</span> <span class='id text'>text</span><span class='comma'>,</span> <span class='id type'>type</span>
   <span class='id row'>row</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='const'>Qt</span><span class='op'>::</span><span class='const'>StandardItem</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id text'>text</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>StandardItem</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id type'>type</span><span class='rparen'>)</span><span class='rbracket'>]</span>
@@ -805,7 +805,7 @@ model</p>
 183</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_files_widget.rb', line 179</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/project_files_widget.rb', line 179</span>
 
 <span class='kw'>def</span> <span class='id change_button_state'>change_button_state</span>
   <span class='ivar'>@ui</span><span class='period'>.</span><span class='id remove_rule_btn'>remove_rule_btn</span><span class='period'>.</span><span class='id enabled'>enabled</span> <span class='op'>=</span> 
@@ -864,7 +864,7 @@ if it isn&#8217;t so</p>
 234</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_files_widget.rb', line 229</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/project_files_widget.rb', line 229</span>
 
 <span class='kw'>def</span> <span class='id remove_rule'>remove_rule</span>
   <span class='id row'>row</span> <span class='op'>=</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id rules_widget'>rules_widget</span><span class='period'>.</span><span class='id selection_model'>selection_model</span><span class='period'>.</span><span class='id selected_rows'>selected_rows</span><span class='period'>.</span><span class='id first'>first</span>
@@ -927,7 +927,7 @@ rules</p>
 120</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_files_widget.rb', line 114</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/project_files_widget.rb', line 114</span>
 
 <span class='kw'>def</span> <span class='id rules'>rules</span>
   <span class='ivar'>@ui</span><span class='period'>.</span><span class='id rules_widget'>rules_widget</span><span class='period'>.</span><span class='id model'>model</span><span class='period'>.</span><span class='id enum_for'>enum_for</span><span class='lparen'>(</span><span class='symbol'>:each_row</span><span class='rparen'>)</span><span class='period'>.</span><span class='id map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id rule'>rule</span><span class='comma'>,</span> <span class='id type'>type</span><span class='op'>|</span>
@@ -1012,7 +1012,7 @@ regexp rules</p>
 145</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_files_widget.rb', line 132</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/project_files_widget.rb', line 132</span>
 
 <span class='kw'>def</span> <span class='id rules='>rules=</span> <span class='id list'>list</span>
   <span class='id model'>model</span> <span class='op'>=</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id rules_widget'>rules_widget</span><span class='period'>.</span><span class='id model'>model</span>
@@ -1075,7 +1075,7 @@ regexp rules</p>
 105</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/projects/project_files_widget.rb', line 103</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/project_files_widget.rb', line 103</span>
 
 <span class='kw'>def</span> <span class='id sizeHint'>sizeHint</span>
   <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Size</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='int'>350</span><span class='comma'>,</span><span class='int'>200</span><span class='rparen'>)</span>
@@ -1112,9 +1112,9 @@ regexp rules</p>
 </div>
     
     <div id="footer">
-  Generated on Tue Jan 11 14:27:02 2011 by 
+  Generated on Fri Apr 29 10:51:29 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.4 (ruby-1.9.2).
+  0.6.8 (ruby-1.9.2).
 </div>
 
   </body>

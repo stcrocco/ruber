@@ -2,7 +2,7 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <meta name="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Class: Ruber::State::ProjectExtension</title>
 <link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
@@ -73,7 +73,7 @@
   
     
       <dt class="r2">Includes:</dt>
-      <dd class="r2"><span class='object_link'><a href="../Extension.html" title="Ruber::Extension (module)">Extension</a></span></dd>
+      <dd class="r2"><span class='object_link'><a href="../Extension.html" title="Ruber::Extension (module)">Extension</a></span>, <span class='object_link'><a href="EnvironmentState.html" title="Ruber::State::EnvironmentState (module)">EnvironmentState</a></span></dd>
       
     
   
@@ -102,6 +102,10 @@ when the project was last closed</p>
   
   
   
+  
+  
+  
+  
 
   
     <h2>
@@ -110,30 +114,6 @@ when the project was last closed</p>
     </h2>
 
     <ul class="summary">
-      
-        <!-- Provides the  slot annotation -->
-<li class="private ">
-  <span class="summary_signature">
-    
-      <a href="#auto_restore-instance_method" title="#auto_restore (instance method)">- (nil) <strong>auto_restore</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-    <span class="note title"><strong>slot</strong></span>
-  
-  <span class="note title private">private</span>
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>Restores the project&#8217;s state when a new project is activated.</p></div></span>
-  
-</li>
-
       
         <!-- Provides the  slot annotation -->
 <li class="public ">
@@ -155,28 +135,6 @@ when the project was last closed</p>
 
   
     <span class="summary_desc"><div class='inline'><p>A new instance of ProjectExtension.</p></div></span>
-  
-</li>
-
-      
-        <!-- Provides the  slot annotation -->
-<li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#restore-instance_method" title="#restore (instance method)">- (nil) <strong>restore</strong> </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'><p>Restore Ruber&#8217;s state as it was when the project was last closed.</p></div></span>
   
 </li>
 
@@ -208,6 +166,16 @@ when the project was last closed</p>
     </ul>
   
 
+
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="EnvironmentState.html" title="Ruber::State::EnvironmentState (module)">EnvironmentState</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="EnvironmentState.html#restore_environment-instance_method" title="Ruber::State::EnvironmentState#restore_environment (method)">#restore_environment</a></span>, <span class='object_link'><a href="EnvironmentState.html#restore_tab-instance_method" title="Ruber::State::EnvironmentState#restore_tab (method)">#restore_tab</a></span>, <span class='object_link'><a href="EnvironmentState.html#tab_to_tree-instance_method" title="Ruber::State::EnvironmentState#tab_to_tree (method)">#tab_to_tree</a></span>, <span class='object_link'><a href="EnvironmentState.html#tabs_state-instance_method" title="Ruber::State::EnvironmentState#tabs_state (method)">#tabs_state</a></span></p>
 
   
   
@@ -267,22 +235,22 @@ when the project was last closed</p>
       <pre class="lines">
 
 
-649
-650
-651
-652
-653
-654</pre>
+481
+482
+483
+484
+485
+486</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 649</span>
+      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 481</span>
 
 <span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id prj'>prj</span>
   <span class='kw'>super</span>
   <span class='ivar'>@project</span> <span class='op'>=</span> <span class='id prj'>prj</span>
-  <span class='id connect'>connect</span> <span class='ivar'>@project</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:activated</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:auto_restore</span><span class='rparen'>)</span>
-  <span class='id connect'>connect</span> <span class='ivar'>@project</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:deactivated</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:save_settings</span><span class='rparen'>)</span>
-<span class='kw'>end</span></pre>
+<span class='comment'>#         connect @project, SIGNAL(:activated), self, SLOT(:auto_restore)
+</span><span class='comment'>#         connect @project, SIGNAL(:deactivated), self, SLOT(:save_settings)
+</span><span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -296,113 +264,7 @@ when the project was last closed</p>
     
     
       <div class="method_details first">
-  <p class="signature first" id="auto_restore-instance_method">
-  
-    - (<tt>nil</tt>) <strong>auto_restore</strong>  <span class="extras">(private)</span>
-  
-
-  
-</p><div class="docstring">
-  <div class="discussion">
-    <p>Restores the project&#8217;s state when a new project is activated</p>
-<p>It does nothing if the user choosed not to restore the projects&#8217;s state.</p>
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Returns:</h3>
-<ul class="return">
-  
-    <li>
-      
-        <span class='type'>(<tt>nil</tt>)</span>
-      
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-694
-695
-696
-697</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 694</span>
-
-<span class='kw'>def</span> <span class='id auto_restore'>auto_restore</span>
-  <span class='ivar'>@project</span><span class='period'>.</span><span class='id disconnect'>disconnect</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:activated</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:auto_restore</span><span class='rparen'>)</span>
-  <span class='id restore'>restore</span> <span class='kw'>if</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id restore_project_files?'>restore_project_files?</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
-      <p style="margin-top: 5pt;"><tt>auto_restore()</tt></p>
-
-    
-      <div class="method_details ">
-  <p class="signature " id="restore-instance_method">
-  
-    - (<tt>nil</tt>) <strong>restore</strong> 
-  
-
-  
-</p><div class="docstring">
-  <div class="discussion">
-    <p>Restore Ruber&#8217;s state as it was when the project was last closed</p>
-<p>See <span class='object_link'><a href="Plugin.html#restore_documents-instance_method" title="Ruber::State::Plugin#restore_documents (method)">Ruber::State::Plugin#restore_documents</a></span> for more information</p>
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Returns:</h3>
-<ul class="return">
-  
-    <li>
-      
-        <span class='type'>(<tt>nil</tt>)</span>
-      
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-664
-665
-666
-667</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 664</span>
-
-<span class='kw'>def</span> <span class='id restore'>restore</span>
-  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id restore_documents'>restore_documents</span> <span class='ivar'>@project</span>
-  <span class='kw'>nil</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="save_settings-instance_method">
+  <p class="signature first" id="save_settings-instance_method">
   
     - (<tt>nil</tt>) <strong>save_settings</strong> 
   
@@ -437,24 +299,22 @@ in the views and the active view</p>
       <pre class="lines">
 
 
-677
-678
-679
-680
-681
-682
-683
-684</pre>
+496
+497
+498
+499
+500
+501
+502</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 677</span>
+      <pre class="code"><span class="info file"># File 'plugins/state/state.rb', line 496</span>
 
 <span class='kw'>def</span> <span class='id save_settings'>save_settings</span>
-  <span class='ivar'>@project</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='comma'>,</span> <span class='symbol'>:open_documents</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id documents_state'>documents_state</span>
-  <span class='id tabs_state'>tabs_state</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id tabs_state'>tabs_state</span>
-  <span class='lbracket'>[</span><span class='symbol'>:tabs</span><span class='comma'>,</span> <span class='symbol'>:cursor_positions</span><span class='comma'>,</span> <span class='symbol'>:active_view</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id e'>e</span><span class='op'>|</span>
-    <span class='ivar'>@project</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='comma'>,</span> <span class='id e'>e</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id tabs_state'>tabs_state</span><span class='lbracket'>[</span><span class='id e'>e</span><span class='rbracket'>]</span>
-  <span class='kw'>end</span>
+  <span class='id state'>state</span> <span class='op'>=</span> <span class='id tabs_state'>tabs_state</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:world</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id environment'>environment</span> <span class='ivar'>@project</span>
+  <span class='ivar'>@project</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='comma'>,</span> <span class='symbol'>:tabs</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id state'>state</span><span class='lbracket'>[</span><span class='symbol'>:tabs</span><span class='rbracket'>]</span>
+  <span class='ivar'>@project</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='comma'>,</span> <span class='symbol'>:active_view</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id state'>state</span><span class='lbracket'>[</span><span class='symbol'>:active_view</span><span class='rbracket'>]</span>
+  <span class='ivar'>@project</span><span class='lbracket'>[</span><span class='symbol'>:state</span><span class='comma'>,</span> <span class='symbol'>:cursor_positions</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id state'>state</span><span class='lbracket'>[</span><span class='symbol'>:cursor_positions</span><span class='rbracket'>]</span>
   <span class='kw'>nil</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -471,9 +331,9 @@ in the views and the active view</p>
 </div>
     
     <div id="footer">
-  Generated on Tue Jan 11 14:26:46 2011 by 
+  Generated on Fri Apr 29 10:51:06 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.4 (ruby-1.9.2).
+  0.6.8 (ruby-1.9.2).
 </div>
 
   </body>

@@ -2,7 +2,7 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <meta name="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Class: Ruber::Workspace</title>
 <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
@@ -83,23 +83,32 @@
 
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
-    <p>Widget representing the main area of Ruber&#8217;s main window, containing the tool
-widgets, together with their tab bars, and the tab widget containing the views.</p>
-<p>===Tool Widgets
-The workspace provides three <i>tool widgets containers</i>, on all sides of the
-editor views except above them. The container on each side is indipendent from the
-others.</p>
-<p>A tool widget can be</p>
+    <p>Widget representing the main area of Ruber&#8217;s main window. It contains the space
+for the main widget (that is, the tab widget where the editors are located) and
+the tool widgets, together with their tab bars.</p>
+<p>To allow for several main widgets existing (but not being visible) at the same time
+(one main widget for each environment) the space for the main widget is given by
+a single <code>Qt::StackedWidget</code>, where the different main widgets are placed using
+<span class='object_link'><a href="#add_widget-instance_method" title="Ruber::Workspace#add_widget (method)">#add_widget</a></span>. <span class='object_link'><a href="#main_widget%3D-instance_method" title="Ruber::Workspace#main_widget= (method)">#main_widget=</a></span> is then used to bring one of the main widgets to
+the foreground; <span class='object_link'><a href="#remove_widget-instance_method" title="Ruber::Workspace#remove_widget (method)">#remove_widget</a></span> removes a widget from the stacked widget (to be
+used when a project is closed).</p>
+<p>The workspace provides three <em>tool widgets containers</em>, one on each side of the
+main widget except above it. The container on each side is indipendent from the
+others. The containers have buttons for their tool widgets and a <code>Qt::StackedWidget</code>
+for the widget themselves. Each container is indipendent from the other ones</p>
+<p>A tool widget can be in several different states:</p>
 <ul>
-	<li><ins>raised</ins> or <ins>lowered</ins>: a raised tool widget is the only one which can bee seen
-  and interact with the user. There can be only one raised tool widget for side.
-  All other tool widgets are said to be lowered.</li>
-	<li><ins>visible</ins> or <ins>hidden</ins>: while a lowered tool widget is can never be seen, the
-  opposite is not necessarily true. A raised tool widget will be visible only if
-  its container is visible, otherwise it will be hidden, too</li>
-	<li><ins>active</ins> or <ins>inactive</ins>: a tool widget is active only if it has focus, otherwise
-  it&#8217;s inactive. Obviously, only visible tool widgets can be active and there can
-  be at most one active tool widget in all the workspace.</li>
+	<li><em>raised</em> or <em>lowered</em>: a tool widget is <em>raised</em> when it&#8217;s on the top of its container
+  stacked widget. There can be only one raised tool widget for side. All tool widgets
+  which aren&#8217;t raised are said to be <em>lowered</em></li>
+	<li><em>visible</em> or <em>hidden</em>: each tool widget container can be visible or hidden. The
+  raised tool widget in a visible container is said to be <em>visible</em>. Widgets in
+  an hidden container are said to be <em>hidden</em>.</li>
+	<li><em>active</em> or <em>inactive</em>: the <em>active</em> tool widget is the one which has keyboard
+  focus; all others are <em>inactive</em>. Of course there can be at most one active tool
+  widget across the whole workspace. If the focus is not in one of the tool widgets
+  (most likely meaning one of the editors has focus), all tool widgets will be
+  inactive.</li>
 </ul>
 
   </div>
@@ -176,7 +185,7 @@ others.</p>
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#add_tool_widget-instance_method" title="#add_tool_widget (instance method)">- (Object) <strong>add_tool_widget</strong>(side, widget, icon, caption) </a>
+      <a href="#add_tool_widget-instance_method" title="#add_tool_widget (instance method)">- (nil) <strong>add_tool_widget</strong>(side, widget, icon, caption) </a>
     
 
     
@@ -190,6 +199,28 @@ others.</p>
 
   
     <span class="summary_desc"><div class='inline'><p>Adds a tool widget to the workspace.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#add_widget-instance_method" title="#add_widget (instance method)">- (Object) <strong>add_widget</strong>(w) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -281,7 +312,51 @@ if <em>tool</em> is raised (that is, if it is the current widget of its stack).<
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Creates a new Workspace.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>A new instance of Workspace.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#main_widget-instance_method" title="#main_widget (instance method)">- (Object) <strong>main_widget</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#main_widget%3D-instance_method" title="#main_widget= (instance method)">- (Object) <strong>main_widget</strong>(w) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -327,6 +402,28 @@ if <em>tool</em> is raised (that is, if it is the current widget of its stack).<
 
   
     <span class="summary_desc"><div class='inline'><p>Removes a tool widget.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#remove_widget-instance_method" title="#remove_widget (instance method)">- (Object) <strong>remove_widget</strong>(w) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -543,35 +640,55 @@ matches that of the last time it was used.</p></div></span>
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Creates a new Workspace. <em>parent</em> is the workspace&#8217;s parent widget</p>
+    <p>A new instance of Workspace</p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
   
+    <li>
+      
+        <span class='type'>(<tt>Qt::Widget</tt>, <tt>nil</tt>)</span>
+      
+      
+        <span class='name'>parent</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>the parent widget</p></div>
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-124
-125
-126
-127
-128
 129
 130
 131
 132
 133
-134</pre>
+134
+135
+136
+137
+138
+139</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/workspace.rb', line 124</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/workspace.rb', line 129</span>
 
 <span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id parent'>parent</span> <span class='op'>=</span> <span class='kw'>nil</span>
-  <span class='kw'>super</span>
+  <span class='kw'>super</span> <span class='id parent'>parent</span>
   <span class='ivar'>@button_bars</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
   <span class='ivar'>@splitters</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
   <span class='ivar'>@stacks</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
@@ -618,15 +735,15 @@ which one will obtain focus is undefined.</p>
       <pre class="lines">
 
 
-240
-241
-242
-243
-244
-245</pre>
+270
+271
+272
+273
+274
+275</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/workspace.rb', line 240</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/workspace.rb', line 270</span>
 
 <span class='kw'>def</span> <span class='id activate_tool'>activate_tool</span> <span class='id tool'>tool</span>
   <span class='id tool'>tool</span><span class='comma'>,</span> <span class='id data'>data</span> <span class='op'>=</span> <span class='id tool_and_data'>tool_and_data</span> <span class='id tool'>tool</span>
@@ -660,15 +777,15 @@ which one will obtain focus is undefined.</p>
       <pre class="lines">
 
 
-324
-325
-326
-327
-328
-329</pre>
+354
+355
+356
+357
+358
+359</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/workspace.rb', line 324</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/workspace.rb', line 354</span>
 
 <span class='kw'>def</span> <span class='id active_tool'>active_tool</span>
   <span class='id fw'>fw</span> <span class='op'>=</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Application</span><span class='period'>.</span><span class='id focus_widget'>focus_widget</span>
@@ -684,44 +801,133 @@ which one will obtain focus is undefined.</p>
       <div class="method_details ">
   <p class="signature " id="add_tool_widget-instance_method">
   
-    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>add_tool_widget</strong>(side, widget, icon, caption) 
+    - (<tt>nil</tt>) <strong>add_tool_widget</strong>(side, widget, icon, caption) 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Adds a tool widget to the workspace. <em>side</em> is the side where the widget should
-be put. It can be <tt>:left</tt>, <tt>:right</tt> or <tt>:bottom</tt>. <em>widget</em>
-is the widget to add; <em>icon</em> is the <tt>Qt::Pixmap</tt> containing the icon to
-put on the tab bar and <em>caption</em> is the text to display on the same caption.</p>
-<p>If <em>widget</em> had already been added as a tool widget (either on the same side or
-another side, then ArgumentError is raised).</p>
+    <p>Adds a tool widget to the workspace</p>
 
   </div>
 </div>
 <div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
   
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
+      
+      
+        <span class='name'>side</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the side where the tool widget should be put. It can be
+<code>:left</code>, <code>:right</code> or <code>:bottom</code></p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Qt::Widget</tt>)</span>
+      
+      
+        <span class='name'>widget</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the widget to add</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Qt::Pixmap</tt>)</span>
+      
+      
+        <span class='name'>icon</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the icon to show on the button associated with the tool
+widget</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+        <span class='name'>caption</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the text to show on the button associated with the tool
+widget</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+        <span class='type'>(<tt>ArgumentError</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>if the same tool widget had already been added to the workspace
+(either on the same side or on another side)</p></div>
+      
+    </li>
+  
+</ul>
+
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-145
-146
-147
-148
-149
-150
-151
-152
-153
-154
-155
-156</pre>
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/workspace.rb', line 145</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/workspace.rb', line 174</span>
 
 <span class='kw'>def</span> <span class='id add_tool_widget'>add_tool_widget</span> <span class='id side'>side</span><span class='comma'>,</span> <span class='id widget'>widget</span><span class='comma'>,</span> <span class='id icon'>icon</span><span class='comma'>,</span> <span class='id caption'>caption</span>
   <span class='kw'>if</span> <span class='ivar'>@stacks</span><span class='period'>.</span><span class='id values'>values</span><span class='period'>.</span><span class='id include?'>include?</span> <span class='id widget'>widget</span><span class='period'>.</span><span class='id parent'>parent</span>
@@ -734,6 +940,35 @@ another side, then ArgumentError is raised).</p>
   <span class='ivar'>@stacks</span><span class='lbracket'>[</span><span class='id side'>side</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id add_widget'>add_widget</span> <span class='id widget'>widget</span>
   <span class='id connect'>connect</span> <span class='id bar'>bar</span><span class='period'>.</span><span class='id tab'>tab</span><span class='lparen'>(</span><span class='id id'>id</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>clicked(int)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>toggle_tool(int)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
   <span class='ivar'>@next_id</span> <span class='op'>+=</span> <span class='int'>1</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="add_widget-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>add_widget</strong>(w) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+141
+142
+143</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/workspace.rb', line 141</span>
+
+<span class='kw'>def</span> <span class='id add_widget'>add_widget</span> <span class='id w'>w</span>
+  <span class='ivar'>@main_widget</span><span class='period'>.</span><span class='id add_widget'>add_widget</span> <span class='id w'>w</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -762,36 +997,36 @@ splitters and tab view)</p>
       <pre class="lines">
 
 
-337
-338
-339
-340
-341
-342
-343
-344
-345
-346
-347
-348
-349
-350
-351
-352
-353
-354
-355
-356
-357
-358
-359
-360
-361
-362
-363</pre>
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/workspace.rb', line 337</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/workspace.rb', line 367</span>
 
 <span class='kw'>def</span> <span class='id create_skeleton'>create_skeleton</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id layout'>layout</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>GridLayout</span><span class='period'>.</span><span class='id new'>new</span> <span class='kw'>self</span>
@@ -816,8 +1051,8 @@ splitters and tab view)</p>
   <span class='id v'>v</span><span class='period'>.</span><span class='id add_widget'>add_widget</span> <span class='id h'>h</span>
   <span class='id v'>v</span><span class='period'>.</span><span class='id add_widget'>add_widget</span> <span class='ivar'>@stacks</span><span class='lbracket'>[</span><span class='symbol'>:bottom</span><span class='rbracket'>]</span>
   <span class='id h'>h</span><span class='period'>.</span><span class='id add_widget'>add_widget</span> <span class='ivar'>@stacks</span><span class='lbracket'>[</span><span class='symbol'>:left</span><span class='rbracket'>]</span>
-  <span class='ivar'>@views</span> <span class='op'>=</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>TabWidget</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id h'>h</span><span class='rparen'>)</span><span class='lbrace'>{</span><span class='kw'>self</span><span class='period'>.</span><span class='id document_mode'>document_mode</span> <span class='op'>=</span> <span class='kw'>true</span><span class='rbrace'>}</span>
-  <span class='id h'>h</span><span class='period'>.</span><span class='id add_widget'>add_widget</span> <span class='ivar'>@views</span>
+  <span class='ivar'>@main_widget</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>StackedWidget</span><span class='period'>.</span><span class='id new'>new</span> <span class='kw'>self</span>
+  <span class='id h'>h</span><span class='period'>.</span><span class='id add_widget'>add_widget</span> <span class='ivar'>@main_widget</span>
   <span class='id h'>h</span><span class='period'>.</span><span class='id add_widget'>add_widget</span> <span class='ivar'>@stacks</span><span class='lbracket'>[</span><span class='symbol'>:right</span><span class='rbracket'>]</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -838,12 +1073,12 @@ splitters and tab view)</p>
       <pre class="lines">
 
 
-317
-318
-319</pre>
+347
+348
+349</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/workspace.rb', line 317</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/workspace.rb', line 347</span>
 
 <span class='kw'>def</span> <span class='id current_widget'>current_widget</span> <span class='id side'>side</span>
   <span class='ivar'>@stacks</span><span class='lbracket'>[</span><span class='id side'>side</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id current_widget'>current_widget</span>
@@ -879,22 +1114,22 @@ with the same name exists, which one will be used is undefined.</p>
       <pre class="lines">
 
 
-278
-279
-280
-281
-282
-283
-284
-285
-286
-287
-288
-289
-290</pre>
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/workspace.rb', line 278</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/workspace.rb', line 308</span>
 
 <span class='kw'>def</span> <span class='id hide_tool'>hide_tool</span> <span class='id tool'>tool</span>
   <span class='id tool'>tool</span><span class='comma'>,</span> <span class='id data'>data</span> <span class='op'>=</span> <span class='id tool_and_data'>tool_and_data</span> <span class='id tool'>tool</span>
@@ -908,6 +1143,68 @@ with the same name exists, which one will be used is undefined.</p>
       <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id focus_on_editor'>focus_on_editor</span>
     <span class='kw'>end</span>
   <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="main_widget-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>main_widget</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+149
+150
+151</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/workspace.rb', line 149</span>
+
+<span class='kw'>def</span> <span class='id main_widget'>main_widget</span>
+  <span class='ivar'>@main_widget</span><span class='period'>.</span><span class='id current_widget'>current_widget</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="main_widget=-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>main_widget=</strong>(w) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+153
+154
+155
+156
+157
+158</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/workspace.rb', line 153</span>
+
+<span class='kw'>def</span> <span class='id main_widget='>main_widget=</span> <span class='id w'>w</span>
+  <span class='kw'>unless</span> <span class='ivar'>@main_widget</span><span class='period'>.</span><span class='id include?'>include?</span> <span class='id w'>w</span>
+    <span class='const'>Kernel</span><span class='period'>.</span><span class='id raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>a widget which has not been added to the workspace can\'t become the main widget</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  <span class='ivar'>@main_widget</span><span class='period'>.</span><span class='id current_widget'>current_widget</span> <span class='op'>=</span> <span class='id w'>w</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -940,28 +1237,28 @@ which one is raised is undefined.</p>
       <pre class="lines">
 
 
-188
-189
-190
-191
-192
-193
-194
-195
-196
-197
-198
-199
-200
-201
-202
-203
-204
-205
-206</pre>
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/workspace.rb', line 188</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/workspace.rb', line 218</span>
 
 <span class='kw'>def</span> <span class='id raise_tool'>raise_tool</span> <span class='id tool'>tool</span>
   <span class='id tool'>tool</span><span class='comma'>,</span> <span class='id data'>data</span> <span class='op'>=</span> <span class='id tool_and_data'>tool_and_data</span> <span class='id tool'>tool</span>
@@ -1010,24 +1307,24 @@ happens.</p>
       <pre class="lines">
 
 
-163
-164
-165
-166
-167
-168
-169
-170
-171
-172
-173
-174
-175
-176
-177</pre>
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/workspace.rb', line 163</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/workspace.rb', line 193</span>
 
 <span class='kw'>def</span> <span class='id remove_tool_widget'>remove_tool_widget</span> <span class='id arg'>arg</span>
   <span class='id widget'>widget</span><span class='comma'>,</span> <span class='id data'>data</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='id arg'>arg</span><span class='period'>.</span><span class='id is_a?'>is_a?</span> <span class='const'>String</span> <span class='kw'>or</span> <span class='id arg'>arg</span><span class='period'>.</span><span class='id is_a?'>is_a?</span> <span class='const'>Symbol</span>
@@ -1043,6 +1340,34 @@ happens.</p>
   <span class='kw'>else</span> <span class='id raise_tool'>raise_tool</span> <span class='id stack'>stack</span><span class='period'>.</span><span class='id current_widget'>current_widget</span>
   <span class='kw'>end</span>
   <span class='ivar'>@button_bars</span><span class='lbracket'>[</span><span class='id data'>data</span><span class='period'>.</span><span class='id side'>side</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id remove_tab'>remove_tab</span> <span class='id data'>data</span><span class='period'>.</span><span class='id id'>id</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="remove_widget-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>remove_widget</strong>(w) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+145
+146
+147</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/workspace.rb', line 145</span>
+
+<span class='kw'>def</span> <span class='id remove_widget'>remove_widget</span> <span class='id w'>w</span>
+  <span class='ivar'>@main_widget</span><span class='period'>.</span><span class='id remove_widget'>remove_widget</span> <span class='id w'>w</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1073,35 +1398,35 @@ from the editor.</p>
       <pre class="lines">
 
 
-372
-373
-374
-375
-376
-377
-378
-379
-380
-381
-382
-383
-384
-385
-386
-387
-388
-389
-390
-391
-392
-393
-394
-395
-396
-397</pre>
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/workspace.rb', line 372</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/workspace.rb', line 402</span>
 
 <span class='kw'>def</span> <span class='id resize_tool'>resize_tool</span> <span class='id tool'>tool</span>
   <span class='id data'>data</span> <span class='op'>=</span> <span class='ivar'>@widgets</span><span class='lbracket'>[</span><span class='id tool'>tool</span><span class='rbracket'>]</span>
@@ -1162,21 +1487,21 @@ the same <tt>object_name</tt>, it&#8217;s undefined which one will be shown.</p>
       <pre class="lines">
 
 
-220
-221
-222
-223
-224
-225
-226
-227
-228
-229
-230
-231</pre>
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/workspace.rb', line 220</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/workspace.rb', line 250</span>
 
 <span class='kw'>def</span> <span class='id show_tool'>show_tool</span> <span class='id tool'>tool</span>
   <span class='id tool'>tool</span><span class='comma'>,</span> <span class='id data'>data</span> <span class='op'>=</span> <span class='id tool_and_data'>tool_and_data</span> <span class='id tool'>tool</span>
@@ -1218,17 +1543,17 @@ previously for the others.</p>
       <pre class="lines">
 
 
-298
-299
-300
-301
-302
-303
-304
-305</pre>
+328
+329
+330
+331
+332
+333
+334
+335</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/workspace.rb', line 298</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/workspace.rb', line 328</span>
 
 <span class='kw'>def</span> <span class='id store_sizes'>store_sizes</span>
   <span class='ivar'>@stacks</span><span class='period'>.</span><span class='id each_value'>each_value</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id s'>s</span><span class='op'>|</span>
@@ -1265,20 +1590,20 @@ previously for the others.</p>
       <pre class="lines">
 
 
-403
-404
-405
-406
-407
-408
-409
-410
-411
-412
-413</pre>
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/workspace.rb', line 403</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/workspace.rb', line 433</span>
 
 <span class='kw'>def</span> <span class='id store_tool_size'>store_tool_size</span> <span class='id tool'>tool</span>
   <span class='id data'>data</span> <span class='op'>=</span> <span class='ivar'>@widgets</span><span class='lbracket'>[</span><span class='id tool'>tool</span><span class='rbracket'>]</span>
@@ -1325,16 +1650,16 @@ which one will obtain focus is undefined.</p>
       <pre class="lines">
 
 
-261
-262
-263
-264
-265
-266
-267</pre>
+291
+292
+293
+294
+295
+296
+297</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/workspace.rb', line 261</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/workspace.rb', line 291</span>
 
 <span class='kw'>def</span> <span class='id toggle_tool'>toggle_tool</span> <span class='id tool'>tool</span>
   <span class='id tool'>tool</span><span class='comma'>,</span> <span class='id data'>data</span> <span class='op'>=</span> <span class='id tool_and_data'>tool_and_data</span> <span class='id tool'>tool</span>
@@ -1380,23 +1705,23 @@ is returned.</li>
       <pre class="lines">
 
 
-425
-426
-427
-428
-429
-430
-431
-432
-433
-434
-435
-436
-437
-438</pre>
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/workspace.rb', line 425</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/workspace.rb', line 455</span>
 
 <span class='kw'>def</span> <span class='id tool_and_data'>tool_and_data</span> <span class='id arg'>arg</span>
   <span class='kw'>case</span> <span class='id arg'>arg</span>
@@ -1439,14 +1764,14 @@ is returned.</li>
       <pre class="lines">
 
 
-311
-312
-313
-314
-315</pre>
+341
+342
+343
+344
+345</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/workspace.rb', line 311</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/workspace.rb', line 341</span>
 
 <span class='kw'>def</span> <span class='id tool_widgets'>tool_widgets</span>
   <span class='id res'>res</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
@@ -1524,9 +1849,9 @@ has been raised</p>
 </div>
     
     <div id="footer">
-  Generated on Tue Jan 11 14:26:53 2011 by 
+  Generated on Fri Apr 29 10:51:19 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.4 (ruby-1.9.2).
+  0.6.8 (ruby-1.9.2).
 </div>
 
   </body>

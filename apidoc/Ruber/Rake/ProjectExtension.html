@@ -2,7 +2,7 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <meta name="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Class: Ruber::Rake::ProjectExtension</title>
 <link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
@@ -529,7 +529,7 @@ the corresponding document will be saved).</p>
 <span class='kw'>def</span> <span class='id run_rake'>run_rake</span> <span class='id task'>task</span>
   <span class='id params'>params</span> <span class='op'>=</span> <span class='id gather_parameters'>gather_parameters</span>
   <span class='id files'>files</span> <span class='op'>=</span> <span class='ivar'>@project</span><span class='period'>.</span><span class='id files'>files</span>
-  <span class='id docs'>docs</span><span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:documents</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id documents_with_file'>documents_with_file</span><span class='period'>.</span><span class='id select'>select</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id d'>d</span><span class='op'>|</span> <span class='id files'>files</span><span class='period'>.</span><span class='id include?'>include?</span> <span class='id d'>d</span><span class='period'>.</span><span class='id path'>path</span><span class='rbrace'>}</span>
+  <span class='id docs'>docs</span><span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:world</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id documents'>documents</span><span class='period'>.</span><span class='id documents_with_file'>documents_with_file</span><span class='period'>.</span><span class='id select'>select</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id d'>d</span><span class='op'>|</span> <span class='id files'>files</span><span class='period'>.</span><span class='id include?'>include?</span> <span class='id d'>d</span><span class='period'>.</span><span class='id path'>path</span><span class='rbrace'>}</span>
   <span class='kw'>return</span> <span class='kw'>unless</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:autosave</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id autosave'>autosave</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:rake</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id docs'>docs</span><span class='comma'>,</span> <span class='symbol'>:on_failure</span> <span class='op'>=&gt;</span> <span class='symbol'>:ask</span>
   <span class='id ruby'>ruby</span><span class='comma'>,</span> <span class='op'>*</span><span class='id ruby_opts'>ruby_opts</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:rake</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id ruby_command_for'>ruby_command_for</span> <span class='ivar'>@project</span><span class='comma'>,</span> <span class='id params'>params</span><span class='lbracket'>[</span><span class='symbol'>:dir</span><span class='rbracket'>]</span>
   <span class='id params'>params</span><span class='lbracket'>[</span><span class='symbol'>:ruby_options</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id ruby_opts'>ruby_opts</span>
@@ -740,9 +740,9 @@ by rake.</p>
 </div>
     
     <div id="footer">
-  Generated on Tue Jan 11 14:26:51 2011 by 
+  Generated on Fri Apr 29 10:51:17 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.4 (ruby-1.9.2).
+  0.6.8 (ruby-1.9.2).
 </div>
 
   </body>

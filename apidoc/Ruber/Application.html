@@ -2,7 +2,7 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <meta name="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Class: Ruber::Application</title>
 <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
@@ -85,16 +85,6 @@
 </dl>
 <div class="clear"></div>
 
-<h2>Defined Under Namespace</h2>
-<p class="children">
-   
-    
-   
-    
-      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Application/DefaultDocumentExtension.html" title="Ruber::Application::DefaultDocumentExtension (class)">DefaultDocumentExtension</a></span>
-    
-  
-</p>
 
   <h2>Constant Summary</h2>
   
@@ -208,6 +198,28 @@ The state Ruber is in.</p></div></span>
     </h2>
 
     <ul class="summary">
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#ask_to_quit-instance_method" title="#ask_to_quit (instance method)">- (Boolean) <strong>ask_to_quit</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Asks the user to confirm quitting Ruber.</p></div></span>
+  
+</li>
+
       
         <!-- Provides the  slot annotation -->
 <li class="public ">
@@ -593,7 +605,6 @@ application component</p></div>
       <pre class="lines">
 
 
-105
 106
 107
 108
@@ -608,10 +619,11 @@ application component</p></div>
 117
 118
 119
-120</pre>
+120
+121</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 105</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 106</span>
 
 <span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id manager'>manager</span><span class='comma'>,</span> <span class='id psf'>psf</span>
   <span class='kw'>super</span><span class='lparen'>(</span><span class='rparen'>)</span>
@@ -719,6 +731,8 @@ The state Ruber is in</p>
   bar)</dd>
 	<dt><strong>quitting</strong></dt>
 	<dd>from when the user chooses to quit Ruber onwards</dd>
+	<dt><strong>asking_to_quit</strong></dt>
+	<dd>while asking the user to confirm quitting Ruber</dd>
 </dl>
 <p>&gt;&gt;&gt;&gt;&gt;&gt;&gt; master</p>
 
@@ -749,12 +763,12 @@ or <code>:quitting</code></p></div>
       <pre class="lines">
 
 
-93
 94
-95</pre>
+95
+96</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 93</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 94</span>
 
 <span class='kw'>def</span> <span class='id status'>status</span>
   <span class='ivar'>@status</span>
@@ -772,7 +786,72 @@ or <code>:quitting</code></p></div>
     
     
       <div class="method_details first">
-  <p class="signature first" id="load_core_components-instance_method">
+  <p class="signature first" id="ask_to_quit-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>ask_to_quit</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Asks the user to confirm quitting Ruber</p>
+<p>This method is called whenever Ruber needs to be closed and, in turn, calls the
+<span class='object_link'><a href="PluginLike.html#query_close-instance_method" title="Ruber::PluginLike#query_close (method)">query_close</a></span> method of each plugin and component (using
+<span class='object_link'><a href="ComponentManager.html#query_close-instance_method" title="Ruber::ComponentManager#query_close (method)">ComponentManager#query_close</a></span>).</p>
+<p>During the execution of this method, <span class='object_link'><a href="#status-instance_method" title="Ruber::Application#status (method)">#status</a></span> returns <code>:asking_to_quit</code>. After
+this method returns, the status returns what it was before.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><strong>true</strong> if the application can be closed and <strong>false</strong> otherwise</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+156
+157
+158
+159
+160
+161
+162</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 156</span>
+
+<span class='kw'>def</span> <span class='id ask_to_quit'>ask_to_quit</span>
+  <span class='id old_status'>old_status</span> <span class='op'>=</span> <span class='ivar'>@status</span>
+  <span class='ivar'>@status</span> <span class='op'>=</span> <span class='symbol'>:asking_to_quit</span>
+  <span class='id res'>res</span> <span class='op'>=</span> <span class='ivar'>@components</span><span class='period'>.</span><span class='id query_close'>query_close</span>
+  <span class='ivar'>@status</span> <span class='op'>=</span> <span class='id old_status'>old_status</span>
+  <span class='id res'>res</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="load_core_components-instance_method">
   
     - (<tt>nil</tt>) <strong>load_core_components</strong>  <span class="extras">(private)</span>
   
@@ -818,26 +897,6 @@ on the command line)</p>
       <pre class="lines">
 
 
-347
-348
-349
-350
-351
-352
-353
-354
-355
-356
-357
-358
-359
-360
-361
-362
-363
-364
-365
-366
 367
 368
 369
@@ -848,17 +907,24 @@ on the command line)</p>
 374
 375
 376
-377</pre>
+377
+378
+379
+380
+381
+382
+383
+384</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 347</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 367</span>
 
 <span class='kw'>def</span> <span class='id load_core_components'>load_core_components</span>
   <span class='kw'>begin</span>
     <span class='id current'>current</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>config</span><span class='tstring_end'>'</span></span>
     <span class='ivar'>@components</span><span class='period'>.</span><span class='id load_component'>load_component</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>config</span><span class='tstring_end'>'</span></span>
     <span class='id register_with_config'>register_with_config</span>
-    <span class='qwords_beg'>%w[</span><span class='tstring_content'>documents</span><span class='words_sep'> </span><span class='tstring_content'>projects</span><span class='words_sep'> </span><span class='tstring_content'>main_window</span><span class='words_sep'>]</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span>
+    <span class='qwords_beg'>%w[</span><span class='tstring_content'>world</span><span class='words_sep'> </span><span class='tstring_content'>main_window</span><span class='words_sep'>]</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span>
       <span class='id current'>current</span> <span class='op'>=</span> <span class='id i'>i</span>
       <span class='ivar'>@components</span><span class='period'>.</span><span class='id load_component'>load_component</span> <span class='id i'>i</span>
     <span class='kw'>end</span>
@@ -868,20 +934,7 @@ on the command line)</p>
     <span class='id exit'>exit</span> <span class='int'>1</span>
   <span class='kw'>end</span>
   <span class='kw'>if</span> <span class='id sessionRestored?'>sessionRestored?</span> <span class='kw'>then</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id restore'>restore</span> <span class='int'>1</span><span class='comma'>,</span> <span class='kw'>false</span>
-  <span class='kw'>else</span>
-    <span class='id open_command_line_files'>open_command_line_files</span>
-    <span class='kw'>if</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:projects</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id projects'>projects</span><span class='period'>.</span><span class='id empty?'>empty?</span> <span class='kw'>and</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:documents</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id documents'>documents</span><span class='period'>.</span><span class='id empty?'>empty?</span>
-      <span class='id doc'>doc</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:documents</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id new_document'>new_document</span>
-      <span class='comment'># This is the default document. Set the default_document attribute of
-</span>      <span class='comment'># the ruber_default_document extension to true
-</span>      <span class='comment'># TODO this extension is currently provided by the main window because
-</span>      <span class='comment'># the application component is actually loaded after the other. This
-</span>      <span class='comment'># is wrong. To avoid it, don't call load_core_components from initialize
-</span>      <span class='comment'># but have the ruber starting code (in bin/ruber) start it manually. Then
-</span>      <span class='comment'># move the extension to the application
-</span>      <span class='id doc'>doc</span><span class='period'>.</span><span class='id extension'>extension</span><span class='lparen'>(</span><span class='symbol'>:ruber_default_document</span><span class='rparen'>)</span><span class='period'>.</span><span class='id default_document'>default_document</span> <span class='op'>=</span> <span class='kw'>true</span>
-      <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id display_doc'>display_doc</span> <span class='id doc'>doc</span>
-    <span class='kw'>end</span>
+  <span class='kw'>else</span> <span class='id open_command_line_files'>open_command_line_files</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -927,22 +980,22 @@ directories</p>
       <pre class="lines">
 
 
-246
-247
-248
-249
-250
-251
-252
-253
-254
-255
-256
-257
-258</pre>
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 246</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 266</span>
 
 <span class='kw'>def</span> <span class='id load_settings'>load_settings</span>
   <span class='ivar'>@plugin_dirs</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:general</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id plugin_dirs'>plugin_dirs</span>
@@ -988,13 +1041,6 @@ a single empty document is created.
       <pre class="lines">
 
 
-405
-406
-407
-408
-409
-410
-411
 412
 413
 414
@@ -1002,10 +1048,17 @@ a single empty document is created.
 416
 417
 418
-419</pre>
+419
+420
+421
+422
+423
+424
+425
+426</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 405</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 412</span>
 
 <span class='kw'>def</span> <span class='id open_command_line_files'>open_command_line_files</span>
   <span class='id urls'>urls</span> <span class='op'>=</span> <span class='ivar'>@cmd_line_options</span><span class='period'>.</span><span class='id urls'>urls</span>
@@ -1068,12 +1121,12 @@ a single empty document is created.
       <pre class="lines">
 
 
-125
 126
-127</pre>
+127
+128</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 125</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 126</span>
 
 <span class='kw'>def</span> <span class='id plugin_directories'>plugin_directories</span>
   <span class='ivar'>@plugin_dirs</span><span class='period'>.</span><span class='id dup'>dup</span>
@@ -1128,13 +1181,13 @@ write the change to file. It&#8217;s up to whoever called this method to do so.<
       <pre class="lines">
 
 
-138
 139
 140
-141</pre>
+141
+142</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 138</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 139</span>
 
 <span class='kw'>def</span> <span class='id plugin_directories='>plugin_directories=</span> <span class='id dirs'>dirs</span>
   <span class='ivar'>@plugin_directories</span> <span class='op'>=</span> <span class='id dirs'>dirs</span>
@@ -1180,14 +1233,14 @@ write the change to file. It&#8217;s up to whoever called this method to do so.<
       <pre class="lines">
 
 
-150
-151
-152
-153
-154</pre>
+170
+171
+172
+173
+174</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 150</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 170</span>
 
 <span class='kw'>def</span> <span class='id quit_ruber'>quit_ruber</span>
   <span class='ivar'>@status</span> <span class='op'>=</span> <span class='symbol'>:quitting</span>
@@ -1244,12 +1297,12 @@ write the change to file. It&#8217;s up to whoever called this method to do so.<
       <pre class="lines">
 
 
-189
-190
-191</pre>
+209
+210
+211</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 189</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 209</span>
 
 <span class='kw'>def</span> <span class='id quitting?'>quitting?</span>
   <span class='ivar'>@status</span> <span class='op'>==</span> <span class='symbol'>:quitting</span>
@@ -1298,16 +1351,16 @@ necessary to to them later</p>
       <pre class="lines">
 
 
-390
-391
-392
-393
-394
-395
-396</pre>
+397
+398
+399
+400
+401
+402
+403</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 390</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 397</span>
 
 <span class='kw'>def</span> <span class='id register_with_config'>register_with_config</span>
   <span class='id config'>config</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span>
@@ -1366,12 +1419,12 @@ necessary to to them later</p>
       <pre class="lines">
 
 
-178
-179
-180</pre>
+198
+199
+200</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 178</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 198</span>
 
 <span class='kw'>def</span> <span class='id running?'>running?</span>
   <span class='ivar'>@status</span> <span class='op'>==</span> <span class='symbol'>:running</span>
@@ -1544,17 +1597,17 @@ with the plugin which raised the exception</p></div>
       <pre class="lines">
 
 
-226
-227
-228
-229
-230
-231
-232
-233</pre>
+246
+247
+248
+249
+250
+251
+252
+253</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 226</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 246</span>
 
 <span class='kw'>def</span> <span class='id safe_load_plugins'>safe_load_plugins</span> <span class='id plugins'>plugins</span><span class='comma'>,</span> <span class='id silent'>silent</span> <span class='op'>=</span> <span class='kw'>false</span><span class='comma'>,</span> <span class='id dirs'>dirs</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id blk'>blk</span>
   <span class='kw'>if</span> <span class='id blk'>blk</span><span class='period'>.</span><span class='id nil?'>nil?</span> <span class='kw'>and</span> <span class='id silent'>silent</span> <span class='kw'>then</span> <span class='id blk'>blk</span> <span class='op'>=</span> <span class='id proc'>proc</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id _pl'>_pl</span><span class='comma'>,</span> <span class='id _e'>_e</span><span class='op'>|</span> <span class='symbol'>:silent</span><span class='rbrace'>}</span>
@@ -1612,26 +1665,6 @@ specified in it.</p>
       <pre class="lines">
 
 
-276
-277
-278
-279
-280
-281
-282
-283
-284
-285
-286
-287
-288
-289
-290
-291
-292
-293
-294
-295
 296
 297
 298
@@ -1661,10 +1694,30 @@ specified in it.</p>
 322
 323
 324
-325</pre>
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 276</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 296</span>
 
 <span class='kw'>def</span> <span class='id setup'>setup</span>
   <span class='comment'># Create $KDEHOME/share/apps/ruber/plugins if it's missing
@@ -1771,12 +1824,12 @@ otherwise</p></div>
       <pre class="lines">
 
 
-167
-168
-169</pre>
+187
+188
+189</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 167</span>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 187</span>
 
 <span class='kw'>def</span> <span class='id starting?'>starting?</span>
   <span class='ivar'>@status</span> <span class='op'>==</span> <span class='symbol'>:starting</span>
@@ -1793,9 +1846,9 @@ otherwise</p></div>
 </div>
     
     <div id="footer">
-  Generated on Mon Feb  7 15:09:09 2011 by 
+  Generated on Fri Apr 29 10:51:21 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.4 (ruby-1.9.2).
+  0.6.8 (ruby-1.9.2).
 </div>
 
   </body>

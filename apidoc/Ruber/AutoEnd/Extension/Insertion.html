@@ -2,7 +2,7 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <meta name="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Class: Ruber::AutoEnd::Extension::Insertion</title>
 <link rel="stylesheet" href="../../../css/style.css" type="text/css" media="screen" charset="utf-8" />
 <link rel="stylesheet" href="../../../css/common.css" type="text/css" media="screen" charset="utf-8" />
@@ -81,7 +81,15 @@
 </dl>
 <div class="clear"></div>
 
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>Contains the information about the next insertion to do</p>
 
+  </div>
+</div>
+<div class="tags">
+  
+</div>
 
   
   <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
@@ -91,7 +99,7 @@
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#final_position-instance_method" title="#final_position (instance method)">- (Object) <strong>final_position</strong> </a>
+      <a href="#final_position-instance_method" title="#final_position (instance method)">- (Array(Integer,Integer)) <strong>final_position</strong> </a>
     
 
     
@@ -107,7 +115,10 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute final_position.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>the position to move after the insertion
+The first element is the line number, relative to the insertion line (for example,
+a value of 1 means to move the cursor to the line after the insertion line, while
+a value of -1 means to move it to the line before).</p></div></span>
   
 </li>
 
@@ -116,7 +127,7 @@
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#line_number-instance_method" title="#line_number (instance method)">- (Object) <strong>line_number</strong> </a>
+      <a href="#line_number-instance_method" title="#line_number (instance method)">- (Integer) <strong>line_number</strong> </a>
     
 
     
@@ -132,7 +143,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute line_number.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>the number of the line where the insertion should be done.</p></div></span>
   
 </li>
 
@@ -141,7 +152,7 @@
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#lines-instance_method" title="#lines (instance method)">- (Object) <strong>lines</strong> </a>
+      <a href="#lines-instance_method" title="#lines (instance method)">- (String) <strong>lines</strong> </a>
     
 
     
@@ -157,7 +168,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute lines.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>the text to insert.</p></div></span>
   
 </li>
 
@@ -182,13 +193,17 @@
       <div class="method_details first">
   <p class="signature first" id="final_position-instance_method">
   
-    - (<tt><span class='object_link'><a href="../../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>final_position</strong> 
+    - (<tt><span class='object_link'><a href="../../../Array.html" title="Array (class)">Array</a></span>(Integer,Integer)</tt>) <strong>final_position</strong> 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Returns the value of attribute final_position</p>
+    <p>the position to move after the insertion
+The first element is the line number, relative to the insertion line (for example,
+a value of 1 means to move the cursor to the line after the insertion line, while
+a value of -1 means to move it to the line before). The second element is the
+column number. If negative, it&#8217;s counted from the end of the line</p>
 
   </div>
 </div>
@@ -198,7 +213,7 @@
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="../../../Object.html" title="Object (class)">Object</a></span></tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="../../../Array.html" title="Array (class)">Array</a></span>(Integer,Integer)</tt>)</span>
       
       
       
@@ -216,12 +231,12 @@
       <pre class="lines">
 
 
-29
-30
-31</pre>
+80
+81
+82</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/auto_end/auto_end.rb', line 29</span>
+      <pre class="code"><span class="info file"># File 'plugins/auto_end/auto_end.rb', line 80</span>
 
 <span class='kw'>def</span> <span class='id final_position'>final_position</span>
   <span class='ivar'>@final_position</span>
@@ -237,13 +252,13 @@
       <div class="method_details ">
   <p class="signature " id="line_number-instance_method">
   
-    - (<tt><span class='object_link'><a href="../../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>line_number</strong> 
+    - (<tt>Integer</tt>) <strong>line_number</strong> 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Returns the value of attribute line_number</p>
+    <p>the number of the line where the insertion should be done</p>
 
   </div>
 </div>
@@ -253,7 +268,7 @@
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="../../../Object.html" title="Object (class)">Object</a></span></tt>)</span>
+        <span class='type'>(<tt>Integer</tt>)</span>
       
       
       
@@ -271,12 +286,12 @@
       <pre class="lines">
 
 
-29
-30
-31</pre>
+80
+81
+82</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/auto_end/auto_end.rb', line 29</span>
+      <pre class="code"><span class="info file"># File 'plugins/auto_end/auto_end.rb', line 80</span>
 
 <span class='kw'>def</span> <span class='id line_number'>line_number</span>
   <span class='ivar'>@line_number</span>
@@ -292,13 +307,13 @@
       <div class="method_details ">
   <p class="signature " id="lines-instance_method">
   
-    - (<tt><span class='object_link'><a href="../../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>lines</strong> 
+    - (<tt><span class='object_link'><a href="../../../String.html" title="String (class)">String</a></span></tt>) <strong>lines</strong> 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>Returns the value of attribute lines</p>
+    <p>the text to insert</p>
 
   </div>
 </div>
@@ -308,7 +323,7 @@
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="../../../Object.html" title="Object (class)">Object</a></span></tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="../../../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
       
@@ -326,12 +341,12 @@
       <pre class="lines">
 
 
-29
-30
-31</pre>
+80
+81
+82</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'plugins/auto_end/auto_end.rb', line 29</span>
+      <pre class="code"><span class="info file"># File 'plugins/auto_end/auto_end.rb', line 80</span>
 
 <span class='kw'>def</span> <span class='id lines'>lines</span>
   <span class='ivar'>@lines</span>
@@ -349,9 +364,9 @@
 </div>
     
     <div id="footer">
-  Generated on Mon Feb  7 15:09:12 2011 by 
+  Generated on Fri Apr 29 10:51:14 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.4 (ruby-1.9.2).
+  0.6.8 (ruby-1.9.2).
 </div>
 
   </body>

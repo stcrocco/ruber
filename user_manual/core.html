@@ -26,6 +26,8 @@
         <div class="announce">
           <h2>Latest news:</h2>
           
+            <p><a href="../news.html#Ruber-0-0-9-released-2011-05-30">Ruber 0.0.9 released</a></p>
+          
             <p><a href="../news.html#Ruber-0-0-8-released-2011-02-07">Ruber 0.0.8 released</a></p>
           
             <p><a href="../news.html#Ruber-0-0-7-released-2011-01-12">Ruber 0.0.7 released</a></p>
@@ -36,8 +38,6 @@
           
             <p><a href="../news.html#Ruber-0-0-4-released-2010-11-03">Ruber 0.0.4 released</a></p>
           
-            <p><a href="../news.html#Ruber-0-0-2-released-2010-11-03">Ruber 0.0.2 released</a></p>
-          
         </div>
       </div>
 
@@ -46,6 +46,25 @@
 <h3>Basic usage</h3>
 <p>By design, Ruber can be used to work on both stand-alone files (for example, a
 small ruby script) or projects containing multiple files.</p>
+<p>At any given time, you can have multiple projects open, but can work on only one
+of them: this is called the <em>active project</em>. When a project is opened using the
+<code>Project/Open Project</code>, <code>Project/Open Recent Project</code> or <code>Project/New Project</code>
+menu entries, it automaticaly becomes active. You can later change the active
+project selecting it in the <code>Project/Active Project</code> menu entry.</p>
+<p>All editors open while a given
+project is active are said to be <em>associated</em> with the project itself. When another
+project becomes active the editors associated with the previous project are hidden,
+while the ones associated with the new project become visible (note that this doesn&#8217;t
+discard changes to existing files. Also, while there may be more than one editor
+for a single file, there&#8217;s only a single document associated with them so that
+changes made to a document in an editor are reflected in all the editors associated
+with that document, even if associated with another project).</p>
+<p>When there&#8217;s no open project, or the <code>Project/Active Project/None</code> menu entry is
+selected, Ruber is in <em>stand-alone files mode</em>. The editors opened while in this
+mode are not associated with any projects and will be hidden when a project is 
+activated.</p>
+<p><strong>Note:</strong> multiple projects and the distinction between <em>stand-alone files mode</em> and
+<em>projects mode</em> are implemented only from version 0.0.9.</p>
 <h4>Editing stand-alone files</h4>
 <p>The basic operations to work with a single file are those common to most editors:
 use the <code>File/New</code> menu entry to create a new file or the <code>File/Open</code> menu entry
