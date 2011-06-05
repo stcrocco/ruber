@@ -538,13 +538,14 @@ In the second and third cases, the method simply returns respectively *true* or
   can be carried on and *false* if the user chose to abort it
 =end
     def save_documents docs = nil
-      docs ||= Ruber[:docs]
+      docs ||= Ruber[:world].documents
       to_save = docs.select{|d| d.modified?}
       until to_save.empty?
         dlg = SaveModifiedFilesDlg.new to_save, self
+        to_save = dlg.to_save
         case dlg.exec
         when KDE::Dialog::Yes
-          to_save = Ruber[:docs].save_documents dlg.to_save
+          to_save.delete_if{|doc| doc.save}
           unless to_save.empty?
             msg = "The following documents couldn't be saved: #{to_save.join "\n"}\nPlease, choose how to proceed"
             KDE::MessageBox.sorry nil, KDE.i18n(msg)
