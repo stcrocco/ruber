@@ -304,7 +304,7 @@ At the end, the main window is shown
         #{e.message}
         
         Ruber will start with no plugin loaded. Please, use the Choose Plugins menu entry in the Settings menu to solve the issue.
-        EOS
+EOS
       end
       begin 
         availlable_plugins = ComponentManager.find_plugins @plugin_dirs, true
@@ -316,7 +316,7 @@ At the end, the main window is shown
 Ruber couldn't find some plugins it has been configured to automatically load at startup. They are:
 #{missing.join("\n")}
 Do you want to start the application without them or to quit Ruber?
-          EOS
+EOS
           ans = KDE::MessageBox.question_yes_no nil, question, 'Missing plugins',
               KDE::GuiItem.new('Start Ruber'), KDE::GuiItem.new('Quit')
           exit if ans == KDE::MessageBox::No

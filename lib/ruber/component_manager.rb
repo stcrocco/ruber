@@ -429,7 +429,7 @@ possible kinds of dependency errors.
     def self.find_plugins dirs, info = false
       res = {}
       dirs.each do |dir|
-        Dir.entries(dir)[2..-1].each do |name|
+        Dir.entries(dir).sort[2..-1].each do |name|
           next if res[name.to_sym]
           d = File.join dir, name
           if File.directory?(d) and File.exist?(File.join d, 'plugin.yaml')
@@ -861,7 +861,7 @@ Method required for the Plugin interface. Does nothing
     def locate_plugins dirs
       plugin_files = {}
       dirs.reverse.each do |d|
-        Dir.entries(d)[2..-1].each do |f| 
+        Dir.entries(d).sort[2..-1].each do |f| 
           full_dir = File.join d, f
           if File.directory?(full_dir) and File.exist?(File.join(full_dir, 'plugin.yaml'))
             plugin_files[f] = File.join full_dir, 'plugin.yaml'
