@@ -183,6 +183,18 @@ describe Ruber::World::Environment do
       env.views[0].document.text.should == ''
       env.views[0].document.object_name.should == 'default_document'
     end
+    
+    it 'enables the close buttons on the tab bar if the workspace/close_buttons option is true' do
+      Ruber[:config][:workspace, :close_buttons] = true
+      env = Ruber::World::Environment.new nil
+      env.tab_widget.tabs_closable.should be_true
+    end
+    
+    it 'doesn\'t enable the close buttons on the tab bar if the workspace/close_buttons option is false' do
+      Ruber[:config][:workspace, :close_buttons] = false
+      env = Ruber::World::Environment.new nil
+      env.tab_widget.tabs_closable.should be_false
+    end
         
   end
   

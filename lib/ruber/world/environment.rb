@@ -110,6 +110,7 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
         super parent
         @project = prj
         @tab_widget = KDE::TabWidget.new{self.document_mode = true}
+        @tab_widget.tabs_closable = true if Ruber[:config][:workspace, :close_buttons]
         connect @tab_widget, SIGNAL('currentChanged(int)'), self, SLOT('current_tab_changed(int)')
         connect @tab_widget, SIGNAL('tabCloseRequested(int)'), self, SLOT('close_tab(int)')
         @views = ViewList.new
