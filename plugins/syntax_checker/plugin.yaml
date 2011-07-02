@@ -3,16 +3,21 @@ version: 0.0.1
 about:
  authors: [Stefano Crocco, stefano.crocco@alice.it]
  license: :gpl
- description: Checks the syntax of the current document
+ description: Infrastructure to check the syntax of documents (needs other plugins to perform the actual syntax check)
  icon: tools-check-spelling
  bug_address: http://github.com/stcrocco/ruber/issues
-class: Ruber::SyntaxChecker::SyntaxCheckerPlugin
+class: Ruber::SyntaxChecker::Plugin
 require: syntax_checker
 deps: ruby_development
 config_options:
  syntax_checker:
-  automatic_check: {default: true}
+  time_interval: {default: 1}
+project_options:
+ syntax_checker:
+  auto_check: {scope: document, :default: true}
 config_widgets:
- {caption: Syntax, code: 'Qt::CheckBox.new("&Automatically check syntax"){self.object_name = "_syntax_checker__automatic_check"}', pixmap: tools-check-spelling.png}
+ {caption: Syntax, class: Ruber::SyntaxChecker::ConfigWidget, pixmap: tools-check-spelling.png}
+project_widgets:
+ {caption: Syntax, code: 'Qt::CheckBox.new("&Automatically check syntax for this document"){self.object_name = "_syntax_checker__check"}', pixmap: tools-check-spelling.png, scope: document}
 extensions:
- syntax_checker: {class: Ruber::SyntaxChecker::SyntaxCheckerExtension, scope: document}
+ syntax_checker: {class: Ruber::SyntaxChecker::Extension, scope: document}
