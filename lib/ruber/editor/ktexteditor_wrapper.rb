@@ -133,7 +133,7 @@ containing the information for the signal and slot to create.
 def __emit_#{name}_signal(#{old_args.size.times.map{|i| "a#{i}"}.join ', '})
   emit #{name}(#{d[1].map{|i| i ? "a#{i}" : 'self'}.join ', '})
 end
-        EOS
+EOS
         cls.class_eval method_def
       end
       res

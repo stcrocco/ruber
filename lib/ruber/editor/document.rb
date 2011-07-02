@@ -92,7 +92,8 @@ module Ruber
 'view_created(QObject*, QObject*)', 'closing(QObject*)', :activated, :deactivated,
 'modified_on_disk(QObject*, bool, KTextEditor::ModificationInterface::ModifiedOnDiskReason)',
 'sig_query_close(bool*, bool*)', 'canceled(QString)', 'completed()', 'completed1(bool)',
-'started(KIO::Job*)', 'set_status_bar_text(QString)', 'setWindowCaption(QString)'
+'started(KIO::Job*)', 'set_status_bar_text(QString)', 'setWindowCaption(QString)',
+'document_saved_or_uploaded(QObject*, bool)' 
     
 =begin rdoc
 Signal emitted before a view associated with the document is closed
