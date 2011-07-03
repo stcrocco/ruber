@@ -1,5 +1,5 @@
 =begin 
-    Copyright (C) 2010 by Stefano Crocco   
+    Copyright (C) 2010, 2011 by Stefano Crocco   
     stefano.crocco@alice.it   
   
     This program is free software; you can redistribute it andor modify  
