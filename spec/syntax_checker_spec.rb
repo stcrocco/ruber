@@ -398,7 +398,7 @@ describe Ruber::SyntaxChecker::Plugin do
     
     context 'if a syntax checker for which the document\'s file_type_match? method returns true exists' do
       
-      it 'returns an instance of the syntax checker' do
+      it 'returns the syntax checker class' do
         doc = Ruber[:world].new_document
         checkers = Array.new(2){Class.new}
         @plug.register_syntax_checker checkers[0], ['text/x-python']
@@ -406,10 +406,10 @@ describe Ruber::SyntaxChecker::Plugin do
         flexmock(doc).should_receive(:file_type_match?).with(['text/x-python'], []).and_return false
         flexmock(doc).should_receive(:file_type_match?).with(['application/x-ruby'], []).and_return true
         checker = @plug.syntax_checker_for doc
-        checker.should be_instance_of(checkers[1])
+        checker.should == checkers[1]
       end
       
-      it 'returns an instance of the first syntax checker with matches if there are more than one of them' do
+      it 'returns the first syntax checker with matches if there are more than one of them' do
         doc = Ruber[:world].new_document
         checkers = Array.new(2){Class.new}
         @plug.register_syntax_checker checkers[0], ['text/x-python']
@@ -417,7 +417,7 @@ describe Ruber::SyntaxChecker::Plugin do
         flexmock(doc).should_receive(:file_type_match?).with(['text/x-python'], []).and_return true
         flexmock(doc).should_receive(:file_type_match?).with(['application/x-ruby'], []).and_return true
         checker = @plug.syntax_checker_for doc
-        checker.should be_instance_of(checkers[0])
+        checker.should == checkers[0]
       end
       
     end

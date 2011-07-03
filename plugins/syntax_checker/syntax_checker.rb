@@ -172,7 +172,7 @@ Plugin object for the @syntax_checker@ feature
           doc.file_type_match?(rules[0], rules[1])
         end
         return unless cls
-        cls[0].new
+        cls[0]
       end
       
       def load_settings
