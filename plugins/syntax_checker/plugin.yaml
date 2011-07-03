@@ -8,7 +8,6 @@ about:
  bug_address: http://github.com/stcrocco/ruber/issues
 class: Ruber::SyntaxChecker::Plugin
 require: syntax_checker
-deps: ruby_development
 config_options:
  syntax_checker:
   time_interval: {default: 1}
