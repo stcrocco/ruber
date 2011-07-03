@@ -68,8 +68,8 @@ syntax checks after one second of inactivity
       
       def format
         res = ""
-        res << KDE.i18n("Line %d") % line if line
-        res << KDE.i18n(", column %d") % column if line and column
+        res << KDE.i18n("Line %d") % (line + 1) if line
+        res << KDE.i18n(", column %d") % (column + 1) if line and column
         msg = formatted_message || message
         res << ": " if msg and !res.empty?
         res << msg

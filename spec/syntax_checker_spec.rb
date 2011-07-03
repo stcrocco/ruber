@@ -126,10 +126,10 @@ describe Ruber::SyntaxChecker::Plugin do
           @plug.current_errors.should_not equal(@errors)
         end
       
-        it 'sets the tooltip of the led to a list of the formatted_message for the errors given as second argument, preceded by lines and columns' do
+        it 'sets the tooltip of the led to a list of the formatted_message for the errors given as second argument, preceded by lines and columns (increased by 1)' do
           led = Ruber[:main_window].status_bar.find_children(KDE::Led)[0]
           @plug.set_current_status :incorrect, @errors
-          led.tool_tip.should == "Line 15, column 2: XYZ\nLine 15, column 0: ABC"
+          led.tool_tip.should == "Line 16, column 3: XYZ\nLine 16, column 1: ABC"
         end
         
       end
@@ -222,8 +222,8 @@ describe Ruber::SyntaxChecker::Plugin do
           @plug.set_current_status :incorrect, @errors
         end
         
-        it 'displays a menu with an entry for each error' do
-          exp_texts = ["Line 15, column 2: XYZ", "Line 15: ABC"]
+        it 'displays a menu with an entry for each error (increasing lines and columns by 1)' do
+          exp_texts = ["Line 16, column 3: XYZ", "Line 16: ABC"]
           actions_prc = Proc.new{|list| list.map{|a| a.text} == exp_texts}
           flexmock(Qt::Menu).should_receive(:exec).once.with(FlexMock.on(&actions_prc), Qt::Point)
           ev = Qt::ContextMenuEvent.new Qt::ContextMenuEvent::Mouse, Qt::Point.new(0,0)
