@@ -13,10 +13,10 @@ config_options:
   time_interval: {default: 1}
 project_options:
  syntax_checker:
-  auto_check: {scope: document, :default: true}
+  auto_check: {scope: document, default: true}
 config_widgets:
  {caption: Syntax, class: Ruber::SyntaxChecker::ConfigWidget, pixmap: tools-check-spelling.png}
 project_widgets:
- {caption: Syntax, code: 'Qt::CheckBox.new("&Automatically check syntax for this document"){self.object_name = "_syntax_checker__check"}', pixmap: tools-check-spelling.png, scope: document}
+ {caption: Syntax, code: 'Qt::CheckBox.new("&Automatically check syntax for this document"){self.object_name = "_syntax_checker__auto_check"}', pixmap: tools-check-spelling.png, scope: document}
 extensions:
  syntax_checker: {class: Ruber::SyntaxChecker::Extension, scope: document}
