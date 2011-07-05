@@ -1,0 +1,11 @@
+name: ruby_syntax_checker
+version: 0.0.1
+about:
+ authors: [Stefano Crocco, stefano.crocco@alice.it]
+ license: gpl
+ description: Syntax checker for ruby documents. Requires the syntax checker plugin
+ bug_address: http://github.com/stcrocco/ruber/issues
+ icon: tools-check-spelling
+deps: [syntax_checker, ruby_development]
+class: Ruber::RubySyntaxChecker::Plugin
+require: ruby_syntax_checker
