@@ -129,6 +129,12 @@ will fail with an +ArgumentError+.
 If the path of the file associated with the document changes (usually because of
 a "Save As" action), the file associated with the backend is changed automatically
 
+@note Document extensions which need to access settings stored in the project from
+  their @initialize@ method can't do that using {Document#own_project}, because
+  they're created before the project is added to the document. However, there's
+  no need to do that, as the document project is passed to their constructor and
+  can be used as usual.
+
 @todo in classes derived from Qt::Object, korundum executes the code in initialize,
 up until the call to super twice. This means that two Backend items will be created.
 See if something can be done to avoid it. I don't know whether this has any bad

@@ -240,7 +240,7 @@ describe Ruber::DocumentProject do
       prj = Ruber::DocumentProject.new doc
       prj.instance_variable_get(:@backend).should be_a(Ruber::DocumentProject::Backend)
     end
-    
+        
     context 'if the document is associated with a file' do
       
       before do
