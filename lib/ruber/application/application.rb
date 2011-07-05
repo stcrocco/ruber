@@ -62,7 +62,8 @@ The default plugins to load
     
 Currently, they are: ruby_development, find_in_files, syntax_checker, command and state
 =end
-    DEFAULT_PLUGINS = %w[ruby_development find_in_files rake command syntax_checker state auto_end project_browser]
+    DEFAULT_PLUGINS = %w[ruby_development find_in_files rake command syntax_checker
+    state auto_end project_browser ruby_syntax_checker yaml_syntax_checker]
     
     include PluginLike
     
