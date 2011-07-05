@@ -121,6 +121,10 @@ Plugin object for the @syntax_checker@ feature
       
       signals :settings_changed
       
+      signals :syntax_checker_added
+      
+      signals :syntax_checker_removed
+      
       def initialize psf
         super
         self.connect(SIGNAL('extension_added(QString, QObject*)')) do |name, prj|
@@ -161,10 +165,11 @@ Plugin object for the @syntax_checker@ feature
           raise ArgumentError, "#{cls} has already been registered as syntax checker"
         end
         @syntax_checkers[cls] = [mimetypes, patterns]
+        emit syntax_checker_added
       end
       
       def remove_syntax_checker cls
-        @syntax_checkers.delete cls
+        emit syntax_checker_removed if @syntax_checkers.delete cls
       end
       
       def syntax_checker_for doc
@@ -234,15 +239,19 @@ Plugin object for the @syntax_checker@ feature
         @status = :unknown
         @errors = nil
         @doc = prj.document
-        connect @doc, SIGNAL('document_url_changed(QObject*)'), self, SLOT('create_syntax_checker(QObject*)')
+        @project = prj
+        connect @doc, SIGNAL('document_url_changed(QObject*)'), self, SLOT(:create_syntax_checker)
         connect @doc, SIGNAL('document_saved_or_uploaded(QObject*, bool)'), self,
             SLOT(:auto_check)
         connect @doc, SIGNAL('text_changed(QObject*)'), self, SLOT(:start_waiting)
-        create_syntax_checker @doc
+        create_syntax_checker
         connect @doc, SIGNAL(:activated), self, SLOT(:document_activated)
         connect @doc, SIGNAL(:deactivated), self, SLOT(:delete_timer)
         connect Ruber[:syntax_checker], SIGNAL(:settings_changed), self, SLOT(:load_settings)
+        connect Ruber[:syntax_checker], SIGNAL(:syntax_checker_added), self, SLOT(:create_syntax_checker_if_needed)
+        connect Ruber[:syntax_checker], SIGNAL(:syntax_checker_removed), self, SLOT(:create_syntax_checker)
         load_settings
+        document_activated false if @doc.active?
       end
       
       def check_syntax options = DEFAULT_CHECK_OPTIONS
@@ -275,22 +284,30 @@ Plugin object for the @syntax_checker@ feature
       
       private
       
-      def create_syntax_checker doc
-        checker_cls = Ruber[:syntax_checker].syntax_checker_for doc
-        @checker = checker_cls ? checker_cls.new : nil
+      def create_syntax_checker_if_needed
+        unless @checker
+          create_syntax_checker
+        end
       end
-      slots 'create_syntax_checker(QObject*)'
+      slots :create_syntax_checker_if_needed
+      
+      def create_syntax_checker
+        checker_cls = Ruber[:syntax_checker].syntax_checker_for @doc
+        @checker = checker_cls ? checker_cls.new(@doc) : nil
+        auto_check
+      end
+      slots :create_syntax_checker
       
       def auto_check
-        check_syntax if @doc.own_project[:syntax_checker, :auto_check]
+        check_syntax if @project[:syntax_checker, :auto_check]
       end
       slots :auto_check
       
-      def document_activated
+      def document_activated check_syntax = true
         @timer = Qt::Timer.new self
         @timer.singleShot = true
         connect @timer, SIGNAL(:timeout), self, SLOT(:auto_check)
-        auto_check
+        auto_check if check_syntax
       end
       slots :document_activated
       
