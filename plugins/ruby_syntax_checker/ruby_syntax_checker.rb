@@ -34,15 +34,20 @@ module Ruber
     
     class Checker
       
+      SPECIAL_ERROR_STRINGS = [
+        'unmatched close parenthesis:',
+        'unmatched open parenthesis:'
+      ]
+      
       def initialize doc
         @doc = doc
+        @regexp = %r{^-e:(\d+):\s+(?:syntax error,|(#{SPECIAL_ERROR_STRINGS.join '|'}))\s+(.*)}
       end
       
       def check_syntax text, formatted
         ruby = Ruber[:ruby_development].interpreter_for @doc
         msg = Open3.popen3(ruby, '-c', '-e', text) do |in_s, out_s, err_s|
           error = err_s.read
-          error.gsub! %r{^-e(?=:\d+:\s+syntax error,)}, @doc.path
           out_s.read.strip != 'Syntax OK' ? error : ''
         end
         parse_output msg, formatted
@@ -55,8 +60,8 @@ module Ruber
         lines = str.split_lines
         return if lines.empty?
         lines.each do |l|
-          if l.match(/^#{Regexp.quote(@doc.path||'-e')}:(\d+):\s+syntax error,\s+(.*)/)
-            error_lines << [$1.to_i - 1, [$2]]
+            if l.match @regexp
+            error_lines << [$1.to_i - 1, [$2 ? "#{$2} #{$3}" : $3]]
           else error_lines[-1][1] << l
           end
         end
@@ -75,9 +80,9 @@ module Ruber
           end
           if formatted
             msg = error.message.dup
-            msg.gsub! '$end', 'end of file'
-            msg.gsub! 'kend', '`end` keyword'
-            msg.gsub! 'keyword_end', '`end` keyword'
+            msg.gsub! /expect(ed|ing)\s+\$end/, 'expect\1 end of file'
+            msg.gsub! /expect(ed|ing)\s+kEND/, 'expect\1 `end` keyword'
+            msg.gsub! /expect(ed|ing)\s+keyword_end/, 'expect\1 `end` keyword'
             error.formatted_message = msg
           end
           error
