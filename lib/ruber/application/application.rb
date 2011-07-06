@@ -75,7 +75,6 @@ Currently, they are: ruby_development, find_in_files, syntax_checker, command an
     attr_reader :cmd_line_options
     
 =begin rdoc
-<<<<<<< HEAD
 =======
 The state Ruber is in
 
@@ -88,7 +87,6 @@ Ruber can be in three states:
 - *quitting*:= from when the user chooses to quit Ruber onwards
 - *asking_to_quit*:= while asking the user to confirm quitting Ruber
 
->>>>>>> master
 @return [Symbol] the status of the application. It can be: @:starting@, @:running@
   or @:quitting@
 =end

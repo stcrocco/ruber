@@ -163,9 +163,12 @@ The comparison is made using <tt>Document#file_type_match?</tt>. This method ret
 rule's scope includes +:document+
 =end
     def match_rule? obj
+      doc_place  = if !@document.path.empty?
+        @document.url.local_file? ? :local : :remote
+      else :local
+      end
       if !super then false
-      elsif !obj.place.include?(@document.url.local_file? ? :local : :remote) 
-        false
+      elsif !obj.place.include? doc_place then false
       elsif !@document.file_type_match? obj.mimetype, obj.file_extension then false
       else true
       end

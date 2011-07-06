@@ -342,6 +342,14 @@ describe Ruber::DocumentProject do
       prj.match_rule?(o1).should be_false
     end
     
+    it 'considers documents not associated with a file as local files' do
+      doc = create_doc KDE::Url.new
+      prj = Ruber::DocumentProject.new doc
+      o1 = OS.new(:file_extension => [], :scope => [:document], :mimetype => [], :place => [:local])
+      flexmock(doc).should_receive(:file_type_match?).with([], []).and_return true
+      prj.match_rule?(o1).should be_true
+    end
+    
     it 'returns true if both the mimetype and the file extension of the rule match those of the document and the rule\'s scope include :document' do
       doc = create_doc __FILE__
       prj = Ruber::DocumentProject.new doc
