@@ -37,12 +37,13 @@ module Ruber
       SPECIAL_ERROR_STRINGS = [
         'unmatched close parenthesis:',
         'unmatched open parenthesis:',
-        'unknown regexp options -'
+        'unknown regexp options -',
+        'class|module definition in method body'
       ]
       
       def initialize doc
         @doc = doc
-        @regexp = %r{^-e:(\d+):\s+(?:syntax error,|(#{SPECIAL_ERROR_STRINGS.join '|'}))\s+(.*)}
+        @regexp = %r{^-e:(\d+):\s+(?:syntax error,|(#{SPECIAL_ERROR_STRINGS.join '|'}))(?:\s+(.*)|$)}
       end
       
       def check_syntax text, formatted
@@ -61,17 +62,17 @@ module Ruber
         # recognized format (for example, regexp syntax errors don\'t have a standard
         # format). Without this, in the lins cycle, the else clause would be
         # executed and would fail because the error_lines array is empty.
-        error_lines = [ [] ]
+        error_lines = [ [ [] ] ]
         lines = str.split_lines
         return if lines.empty?
         lines.each do |l|
-            if l.match @regexp
-            error_lines << [$1.to_i - 1, [$2 ? "#{$2} #{$3}" : $3]]
-          else error_lines[-1][1] << l
+          if l.match @regexp
+            error_lines << [[$2 ? "#{$2} #{$3}" : $3], $1.to_i - 1]
+          else error_lines[-1][0] << l
           end
         end
-        error_lines.shift if error_lines.first.empty?
-        errors = error_lines.map do |number, a|
+        error_lines.shift if error_lines.first.first.empty?
+        errors = error_lines.map do |a, number|
           error = Ruber::SyntaxChecker::SyntaxError.new number, nil, a.shift
           a.each_with_index do |l, i|
             if l.match %r{^\s*^\s*$} 
