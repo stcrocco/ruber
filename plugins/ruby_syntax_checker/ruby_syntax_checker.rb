@@ -34,15 +34,22 @@ module Ruber
     
     class Checker
       
+      SPECIAL_ERROR_STRINGS = [
+        'unmatched close parenthesis:',
+        'unmatched open parenthesis:',
+        'unknown regexp options -',
+        'class|module definition in method body'
+      ]
+      
       def initialize doc
         @doc = doc
+        @regexp = %r{^-e:(\d+):\s+(?:syntax error,|(#{SPECIAL_ERROR_STRINGS.join '|'}))(?:\s+(.*)|$)}
       end
       
       def check_syntax text, formatted
         ruby = Ruber[:ruby_development].interpreter_for @doc
         msg = Open3.popen3(ruby, '-c', '-e', text) do |in_s, out_s, err_s|
           error = err_s.read
-          error.gsub! %r{^-e(?=:\d+:\s+syntax error,)}, @doc.path
           out_s.read.strip != 'Syntax OK' ? error : ''
         end
         parse_output msg, formatted
@@ -51,16 +58,21 @@ module Ruber
       private
       
       def parse_output str, formatted
-        error_lines = []
+        # The inner array is needed in case the first message doesn\'t use a
+        # recognized format (for example, regexp syntax errors don\'t have a standard
+        # format). Without this, in the lins cycle, the else clause would be
+        # executed and would fail because the error_lines array is empty.
+        error_lines = [ [ [] ] ]
         lines = str.split_lines
         return if lines.empty?
         lines.each do |l|
-          if l.match(/^#{Regexp.quote(@doc.path||'-e')}:(\d+):\s+syntax error,\s+(.*)/)
-            error_lines << [$1.to_i - 1, [$2]]
-          else error_lines[-1][1] << l
+          if l.match @regexp
+            error_lines << [[$2 ? "#{$2} #{$3}" : $3], $1.to_i - 1]
+          else error_lines[-1][0] << l
           end
         end
-        errors = error_lines.map do |number, a|
+        error_lines.shift if error_lines.first.first.empty?
+        errors = error_lines.map do |a, number|
           error = Ruber::SyntaxChecker::SyntaxError.new number, nil, a.shift
           a.each_with_index do |l, i|
             if l.match %r{^\s*^\s*$} 
@@ -75,9 +87,9 @@ module Ruber
           end
           if formatted
             msg = error.message.dup
-            msg.gsub! '$end', 'end of file'
-            msg.gsub! 'kend', '`end` keyword'
-            msg.gsub! 'keyword_end', '`end` keyword'
+            msg.gsub! /expect(ed|ing)\s+\$end/, 'expect\1 end of file'
+            msg.gsub! /expect(ed|ing)\s+kEND/, 'expect\1 `end` keyword'
+            msg.gsub! /expect(ed|ing)\s+keyword_end/, 'expect\1 `end` keyword'
             error.formatted_message = msg
           end
           error
