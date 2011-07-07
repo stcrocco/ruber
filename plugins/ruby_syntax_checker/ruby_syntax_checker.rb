@@ -38,7 +38,8 @@ module Ruber
         'unmatched close parenthesis:',
         'unmatched open parenthesis:',
         'unknown regexp options -',
-        'class|module definition in method body'
+        'class|module definition in method body',
+        'dynamic constant assignment'
       ]
       
       def initialize doc
