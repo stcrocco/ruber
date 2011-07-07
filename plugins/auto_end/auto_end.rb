@@ -124,6 +124,8 @@ Each entry is itself an array with three elements:
         [/=\s*for\s+#{IDENTIFIER_PATTERN}\s+in.+$/, "\nend", [0,-1]]
       ]
       
+      MISSING_END_REGEXP = %r{expecting\s+kEND|keyword_end}
+      
 =begin rdoc
 @param [DocumentProject] prj the project associated with the document
 =end
@@ -156,8 +158,8 @@ position (if any) is forgotten
         pattern = PATTERNS.find{|pat| pat[0].match line}
         if pattern and !line.start_with? '#'
           errors = @doc.extension(:syntax_checker).check_syntax(:format => false, 
-              :update => false)[:errors] || []
-          if errors[0] and errors[0].message.match %r{expecting\s+kEND|keyword_end}
+              :update => false)[:errors]
+          if errors && errors[0] && errors[0].message =~ MISSING_END_REGEXP
 #           indentation = line.match(/^\s*/)[0].size
 #           next_indentation = @doc.line(range.end.line + 1).match(/^\s*/)[0].size
 #           unless next_indentation > indentation
