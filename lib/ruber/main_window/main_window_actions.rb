@@ -280,7 +280,7 @@ informing the user
         pl.save_settings
         loaded << pl.plugin_name
       end
-      loaded.each{|pl| Ruber[:components].unload_plugin pl}
+      loaded.reverse_each{|pl| Ruber[:components].unload_plugin pl}
       res = Ruber[:app].safe_load_plugins dlg.plugins.keys.map(&:to_s)
       close unless res
       nil
