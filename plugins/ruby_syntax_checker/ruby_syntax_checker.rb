@@ -29,7 +29,11 @@ module Ruber
         Ruber[:syntax_checker].register_syntax_checker RubySyntaxChecker::Checker, ['application/x-ruby'],
             %w[*.rb rakefile Rakefile]
       end
-      
+
+      def unload
+        Ruber[:syntax_checker].remove_syntax_checker RubySyntaxChecker::Checker
+      end
+
     end
     
     class Checker
