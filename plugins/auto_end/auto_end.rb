@@ -155,9 +155,12 @@ position (if any) is forgotten
         line = @doc.line( range.end.line - 1)
         pattern = PATTERNS.find{|pat| pat[0].match line}
         if pattern and !line.start_with? '#'
-          indentation = line.match(/^\s*/)[0].size
-          next_indentation = @doc.line(range.end.line + 1).match(/^\s*/)[0].size
-          unless next_indentation > indentation
+          errors = @doc.extension(:syntax_checker).check_syntax(:format => false, 
+              :update => false)[:errors] || []
+          if errors[0] and errors[0].message.match %r{expecting\s+kEND|keyword_end}
+#           indentation = line.match(/^\s*/)[0].size
+#           next_indentation = @doc.line(range.end.line + 1).match(/^\s*/)[0].size
+#           unless next_indentation > indentation
             @insertion = Insertion.new range.end.line, pattern[1], pattern[2]
           end
         end
