@@ -36,7 +36,8 @@ module Ruber
       
       SPECIAL_ERROR_STRINGS = [
         'unmatched close parenthesis:',
-        'unmatched open parenthesis:'
+        'unmatched open parenthesis:',
+        'unknown regexp options -'
       ]
       
       def initialize doc
@@ -56,7 +57,11 @@ module Ruber
       private
       
       def parse_output str, formatted
-        error_lines = []
+        # The inner array is needed in case the first message doesn\'t use a
+        # recognized format (for example, regexp syntax errors don\'t have a standard
+        # format). Without this, in the lins cycle, the else clause would be
+        # executed and would fail because the error_lines array is empty.
+        error_lines = [ [] ]
         lines = str.split_lines
         return if lines.empty?
         lines.each do |l|
@@ -65,6 +70,7 @@ module Ruber
           else error_lines[-1][1] << l
           end
         end
+        error_lines.shift if error_lines.first.empty?
         errors = error_lines.map do |number, a|
           error = Ruber::SyntaxChecker::SyntaxError.new number, nil, a.shift
           a.each_with_index do |l, i|
