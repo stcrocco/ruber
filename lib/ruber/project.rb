@@ -130,7 +130,6 @@ When the project is created, it's not active.
       @project_extensions = {}
       Ruber[:components].named_connect(SIGNAL('component_loaded(QObject*)'), "register_component_with_project #{object_id}"){|c| c.register_with_project self}
       Ruber[:components].named_connect(SIGNAL('unloading_component(QObject*)'), "remove_component_from_project #{object_id}"){|c| c.remove_from_project self}
-      Ruber[:components].each_component{|c| c.register_with_project self}
     end
     
 =begin rdoc
@@ -324,6 +323,22 @@ will be removed (calling their @remove_from_project@ method if they have one).
       true
     end
     
+=begin rdoc
+Registers each component with the project
+
+This is done in {#initialize} because, at least for {DocumentProject}, the extensions
+may try to access the project (directly or not) before it has fully been created.
+
+This method should only be called from the object calling {.new}
+
+@note This method has nothing to do with finalizers
+@return [nil]
+=end
+    def finalize
+      Ruber[:components].each_component{|c| c.register_with_project self}
+      nil
+    end
+    
   end
   
 =begin rdoc
@@ -378,6 +393,7 @@ AbstractProject::InvalidProjectFile will be raised.
         raise Ruber::AbstractProject::InvalidProjectFile, e.message
       end
       super Ruber[:world], back, name
+      finalize
     end
     
 =begin rdoc

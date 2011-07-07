@@ -136,6 +136,15 @@ describe Ruber::Document do
       prj.project_name.should == KDE::Url.new(__FILE__).to_encoded.to_s
     end
     
+    it 'calls the finalize method of the the document project' do
+      mk = flexmock do |m|
+        m.should_ignore_missing
+        m.should_receive(:finalize).once
+      end
+      flexmock(Ruber::DocumentProject).should_receive(:new).and_return mk
+      Ruber::Document.new nil, @app
+    end
+    
     it 'isn\'t active' do
       doc = Ruber::Document.new __FILE__, @app
       doc.should_not be_active

@@ -128,7 +128,7 @@ Creates a new Ruber::Document.
       interface('modification_interface').modified_on_disk_warning = true
       @modified_on_disk = false
       @project = DocumentProject.new self
-      
+      @project.finalize
       @doc.connect(SIGNAL('modifiedChanged(KTextEditor::Document*)')) do |doc|
         emit modified_changed(@doc.modified?, self)
       end
