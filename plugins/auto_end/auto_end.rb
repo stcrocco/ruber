@@ -159,7 +159,8 @@ position (if any) is forgotten
         if pattern and !line.start_with? '#'
           errors = @doc.extension(:syntax_checker).check_syntax(:format => false, 
               :update => false)[:errors]
-          if errors && errors[0] && errors[0].message =~ MISSING_END_REGEXP
+          # Usually, missing end errors are the last ones to be reported
+          if errors && !errors.empty? && errors[-1].message =~ MISSING_END_REGEXP
 #           indentation = line.match(/^\s*/)[0].size
 #           next_indentation = @doc.line(range.end.line + 1).match(/^\s*/)[0].size
 #           unless next_indentation > indentation
