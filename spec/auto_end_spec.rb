@@ -68,6 +68,14 @@ describe Ruber::AutoEnd::Extension do
   
   extend InsertionChecker
   
+  before :all do
+    Ruber[:components].load_plugin 'plugins/autosave'
+    Ruber[:components].load_plugin 'plugins/ruby_runner'
+    Ruber[:components].load_plugin 'plugins/ruby_development'
+    Ruber[:components].load_plugin 'plugins/syntax_checker'
+    Ruber[:components].load_plugin 'plugins/ruby_syntax_checker'
+  end
+  
   before do
     Ruber[:components].load_plugin 'plugins/auto_end/'
     @file = Tempfile.new ['auto_end_test', '.rb']
@@ -78,6 +86,14 @@ describe Ruber::AutoEnd::Extension do
   after do
     Ruber[:components].unload_plugin :auto_end
     @file.close true
+  end
+  
+  after :all do
+    Ruber[:components].unload_plugin :ruby_syntax_checker
+    Ruber[:components].unload_plugin :syntax_checker
+    Ruber[:components].unload_plugin :ruby_development
+    Ruber[:components].unload_plugin :autosave
+    Ruber[:components].unload_plugin :ruby_runner
   end
   
   it 'includes the Extension module' do
