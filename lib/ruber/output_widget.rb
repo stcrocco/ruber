@@ -757,7 +757,8 @@ option is used.
       existing = (Qt::MetaModifier & modifiers) == 0 ? :always : :never
       display_hints = hints.merge(:line =>  line, :existing => existing)
       ed = Ruber[:main_window].display_document file, display_hints
-      Ruber[:main_window].hide_tool self unless pinned_down?
+      hide_tool = pinned_down? and Qt::Application.mouse_buttons != Qt::MidButton
+      Ruber[:main_window].hide_tool self if hide_tool
       ed
     end
     

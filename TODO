@@ -111,7 +111,6 @@ h3. Find in Files
   
 h3. Syntax Checker
 
-* Put the ruby and yaml syntax checkers in a separate plugin
 * See whether it's possible to have syntax checking for unsaved files (of course,
   if the user sets the mode or the highlighting properties for the document)
   

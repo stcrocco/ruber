@@ -999,6 +999,13 @@ describe Ruber::OutputWidget do
         @ow.send :maybe_open_file, @mod.index(0,0)
       end
       
+      it 'doesn\'t hide the tool widget if the user pressed the middle mouse button' do
+        flexmock(Ruber::Application).should_receive(:mouse_buttons).and_return(Qt::MidButton)
+        flexmock(@ow).should_receive(:pinned_down?).and_return false
+        @mw.should_receive(:hide_tool).with(@ow).never
+        @ow.send :maybe_open_file, @mod.index(0,0)
+      end
+      
       it 'does nothing if the Control and/or Shift modifiers are pressed' do
         flexmock(@ow).should_receive(:find_filename_in_index).never
         flexmock(Ruber::Application).should_receive(:keyboard_modifiers).once.and_return(Qt::ShiftModifier.to_i)
