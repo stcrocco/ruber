@@ -1,5 +1,24 @@
 h1. Changes
 
+h2. Ruber 0.0.10
+
+h3. Features
+
+* The syntax checker plugin has been rewritten. Now other plugins can check the
+  syntax of a document
+* Ruby and YAML syntax checker now are in their own plugin, rather than being part
+  of the syntax checker plugin
+* The auto end plugin doesn't use indentation to decide whether the end keyword
+  should be inserted or not. It performs a syntax check instead and only inserts
+  end if ruby reports a missing end keyword. This should improve the accuracy of
+  the plugin
+* Clicking on a file name in an output widget now prevents the tool widget from
+  being hidden, as if the pin button were clicked
+  
+h3. Bug fixes
+
+* Do not crash when closing with unsaved files
+
 h2. Ruber 0.0.9
 
 h3. Features
