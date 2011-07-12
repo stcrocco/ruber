@@ -1,6 +1,6 @@
 name: world
 description: Container for all the environments
-require: [world, environment]
+require: [world, environment, project_files_widget, project_files_list]
 class: Ruber::World::World
 config_options:
  workspace:
@@ -9,3 +9,9 @@ config_widgets:
  - {caption: Workspace, pixmap: workspace.png, class: Ruber::World::WorkspaceSettingsWidget}
 extensions:
  environment: {class: Ruber::World::Environment, scope: global}
+ project_files: {class: ProjectFilesList}
+project_options:
+ general:
+  project_files: {default: {:include: [], :exclude: [], :extensions: ["*.rb"]}}
+project_widgets:
+ - {caption: Files, pixmap: configure, class: Ruber::ProjectFilesWidget}

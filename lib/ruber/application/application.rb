@@ -396,6 +396,7 @@ necessary to to them later
     def register_with_config
       config = Ruber[:config]
       @plugin_description.config_options.each_value{|o| config.add_option o}
+      @plugin_description.config_widgets.each{|w| config.add_widget w}
       load_settings
       connect config, SIGNAL(:settings_changed), self, SLOT(:load_settings)
       nil
