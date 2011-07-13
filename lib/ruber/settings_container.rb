@@ -367,15 +367,15 @@ This method resets the dialog.
 @param [Object] w the object describing the widget. It must have the methods documented
 below
 @option w [String] caption the name of the page the widget should be put into. If
-the page doesn't exist in the dialog, it will be added. Otherwise, the widget will
-be added to the one already existing in the page
+  the page doesn't exist in the dialog, it will be added. Otherwise, the widget will
+  be added to the one already existing in the page
 @option w [Class] class_obj (nil) the class of the widget to create. The class's
-@initialize@ method must take no parameters. Either this method or the @code@
-method must not be *nil*
+  @initialize@ method must take no parameters. Either this method or the @code@
+  method must not be *nil*
 @option w [String] code (nil) a piece of ruby code which, when executed in the
-@TOPLEVEL_BINDING@, will return the widget to add to the dialog. Either this
-method or the @class_obje@ method must not be *nil*. If both are not *nil*, this
-method will have the precedence
+  @TOPLEVEL_BINDING@, will return the widget to add to the dialog. Either this
+  method or the @class_obje@ method must not be *nil*. If both are not *nil*, this
+  method will have the precedence
 @option w [String] pixmap ('') the path of the pixmap to associate to the page
 @return [nil]
 @see SettingsDialog#initialize
