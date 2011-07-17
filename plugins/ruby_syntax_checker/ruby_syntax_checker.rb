@@ -40,8 +40,8 @@ module Ruber
       
       SPECIAL_ERROR_STRINGS = [
         'unmatched close parenthesis:',
-        'unmatched open parenthesis:',
-        'unknown regexp options -',
+        'end pattern with unmatched parenthesis:',
+        'unknown regexp option -',
         'class|module definition in method body',
         'dynamic constant assignment'
       ]
@@ -53,9 +53,13 @@ module Ruber
       
       def check_syntax text, formatted
         ruby = Ruber[:ruby_development].interpreter_for @doc
-        msg = Open3.popen3(ruby, '-c', '-e', text) do |in_s, out_s, err_s|
-          error = err_s.read
-          out_s.read.strip != 'Syntax OK' ? error : ''
+        begin
+          msg = Open3.popen3(ruby, '-c', '-e', text) do |in_s, out_s, err_s|
+            error = err_s.read
+            out_s.read.strip != 'Syntax OK' ? error : ''
+          end
+        rescue SystemCallError
+          raise Ruber::SyntaxChecker::SyntaxNotChecked
         end
         parse_output msg, formatted
       end
@@ -80,7 +84,7 @@ module Ruber
         errors = error_lines.map do |a, number|
           error = Ruber::SyntaxChecker::SyntaxError.new number, nil, a.shift
           a.each_with_index do |l, i|
-            if l.match %r{^\s*^\s*$} 
+            if l.match %r{^\s*\^\s*$} 
               error.column = l.index '^'
               previous_line = a[i-1]
               if previous_line and previous_line.match /^\.{3}/
@@ -96,6 +100,7 @@ module Ruber
             msg.gsub! /expect(ed|ing)\s+kEND/, 'expect\1 `end` keyword'
             msg.gsub! /expect(ed|ing)\s+keyword_end/, 'expect\1 `end` keyword'
             error.formatted_message = msg
+          else error.formatted_message = error.message.dup
           end
           error
         end
