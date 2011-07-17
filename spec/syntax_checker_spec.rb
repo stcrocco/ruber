@@ -14,6 +14,7 @@ describe Ruber::SyntaxChecker::Plugin do
   end
 
   after do
+    Ruber[:world].close_all :documents, :discard
     Ruber[:components].unload_plugin :syntax_checker
     led = Ruber[:main_window].status_bar.find_children(KDE::Led)[0]
     led.delete_later
@@ -718,6 +719,15 @@ describe Ruber::SyntaxChecker::Extension do
           @ext.check_syntax.should == {:result => :incorrect, :errors => errors}
         end
         
+      end
+      
+      context 'and the #check_syntax method of the syntax checker raises Ruber::SyntaxChecker::SyntaxNotChecked' do
+        
+        it 'returns a hash with the :result entry set to :unknown and the :errors entry set to nil' do
+          flexmock(@checker).should_receive(:check_syntax).and_raise(Ruber::SyntaxChecker::SyntaxNotChecked)
+          @ext.check_syntax.should == {:result => :unknown, :errors => nil}
+        end
+
       end
       
     end

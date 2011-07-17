@@ -64,6 +64,9 @@ syntax checks after one second of inactivity
 
     SyntaxError = Struct.new :line, :column, :message, :formatted_message
     
+    class SyntaxNotChecked < Exception
+    end
+    
     class SyntaxError
       
       def format
@@ -257,8 +260,12 @@ Plugin object for the @syntax_checker@ feature
       def check_syntax options = DEFAULT_CHECK_OPTIONS
         options = DEFAULT_CHECK_OPTIONS.merge options
         if @checker
-          errors = @checker.check_syntax @doc.text, options[:format]
-          res = {:errors => errors, :result => errors ? :incorrect : :correct}
+          begin
+            errors = @checker.check_syntax @doc.text, options[:format]
+            res = {:errors => errors, :result => errors ? :incorrect : :correct}
+          rescue SyntaxNotChecked 
+            res = {:result => :unknown, :errors => nil}
+          end
         else res = {:result => :unknown, :errors => nil}
         end
         if options[:format] and options[:update]
