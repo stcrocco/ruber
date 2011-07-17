@@ -114,7 +114,7 @@ describe Ruber::AutoEnd::Extension do
       
       it_should_insert_end "if the module is at the beginning of the line and followed by spaces, an identifier, possible spaces and end of line", "module xY_12a\n", "module X\n%\nend", "module X\nmodule xY_12a\n\nend\nend"
       
-      it_should_insert_end "if the module is at the beginning of the line, preceded only by spaces and followed by spaces, an identifier, possible spaces and end of line", "  module xY_12a \n", "module X\n%\nend", "module X\n  module xY_12a \n\nend\nend"
+      it_should_insert_end "if the module is preceded only by spaces and followed by spaces, an identifier, possible spaces and end of line", "  module xY_12a \n", "module X\n%\nend", "module X\n  module xY_12a \n\nend\nend"
       
       it 'does not insert an end keyword if the identifier is followed by anything but spaces or other identifers separated by ::' do
         @doc.block_signals true
@@ -125,18 +125,24 @@ describe Ruber::AutoEnd::Extension do
       end
       
       it_should_insert_end "if the module is at the beginning of the line and followed by spaces, a sequence of identifiers separated by ::, possible spaces and end of line", "module xY_12a::Ac::By\n", "module X\n%\nend", "module X\nmodule xY_12a::Ac::By\n\nend\nend"
-
+      
     end
     
     context 'and the last line contains a class' do
       
       it_should_insert_end "if the class is at the beginning of the line and followed by spaces, an identifier, possible spaces and end of line", "class xY_12a\n", "module X\n%\nend", "module X\nclass xY_12a\n\nend\nend"
       
+      it_should_insert_end "if the class is preceeded only by spaces and followed by spaces, an identifier, possible spaces and end of line", "  class xY_12a\n", "module X\n%\nend", "module X\n  class xY_12a\n\nend\nend"
+      
       it_should_insert_end "if the class is at the beginning of the line and followed by spaces, an identifier, a <, another identifier, possible spaces and end of line", "class xY_12a < Ba6_1\n", "module X\n%\nend", "module X\nclass xY_12a < Ba6_1\n\nend\nend"
+      
+      it_should_insert_end "if the class is preceeded only by spaces and followed by spaces, an identifier, a <, another identifier, possible spaces and end of line", "  class xY_12a < Ba6_1\n", "module X\n%\nend", "module X\n  class xY_12a < Ba6_1\n\nend\nend"
       
       it_should_insert_end "if the class is at the beginning of the line and followed by spaces, an identifier, a <<, another identifier, possible spaces and end of line", "class xY_12a << Ba6_1\n", "module X\n%\nend", "module X\nclass xY_12a << Ba6_1\n\nend\nend"
       
-      it_should_insert_end "in all the previous cases if there are more than one identifier separated by :: instead of a single identifier", "class A::B < C::D\n", "module X\n%\nend", "module X\nclass A::B < C::D\n\nend\nend"
+      it_should_insert_end "if the class is preceeded only by spacess and followed by spaces, an identifier, a <<, another identifier, possible spaces and end of line", "  class xY_12a << Ba6_1\n", "module X\n%\nend", "module X\n  class xY_12a << Ba6_1\n\nend\nend"
+      
+      it_should_insert_end "in all the previous cases if there are more than one identifier separated by :: instead of a single identifier", "  class A::B < C::D\n", "module X\n%\nend", "module X\n  class A::B < C::D\n\nend\nend"
       
     end
     
