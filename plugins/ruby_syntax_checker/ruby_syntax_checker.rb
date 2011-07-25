@@ -22,6 +22,8 @@ module Ruber
   
   module RubySyntaxChecker
     
+    SyntaxError = Struct.new :line, :column, :message, :formatted_message
+    
     class Plugin < Ruber::Plugin
       
       def initialize psf
@@ -82,7 +84,7 @@ module Ruber
         end
         error_lines.shift if error_lines.first.first.empty?
         errors = error_lines.map do |a, number|
-          error = Ruber::SyntaxChecker::SyntaxError.new number, nil, a.shift
+          error = SyntaxError.new number, nil, a.shift
           a.each_with_index do |l, i|
             if l.match %r{^\s*\^\s*$} 
               error.column = l.index '^'

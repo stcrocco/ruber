@@ -112,7 +112,7 @@ EOS
     
     context 'when the first argument is not valid ruby' do
       
-      it 'returns an array of Ruber::SyntaxChecker::SyntaxError with the line of the error if the column is unknown' do
+      it 'returns an array of Ruber::RubySyntaxChecker::SyntaxError with the line of the error if the column is unknown' do
         str = <<-EOS
 class X
   def y
@@ -120,7 +120,7 @@ class X
   end
 end
 EOS
-        exp = [Ruber::SyntaxChecker::SyntaxError.new(3, nil, 'unexpected keyword_end', 'unexpected keyword_end')]
+        exp = [Ruber::RubySyntaxChecker::SyntaxError.new(3, nil, 'unexpected keyword_end', 'unexpected keyword_end')]
         @checker.check_syntax(str, false).should == exp
       end
       
@@ -141,21 +141,21 @@ EOS
       it 'works correctly when ruby reports unmatched close parenthesis in a regexp' do
         str = '/xy )/'
         @doc.text = str
-        exp = [Ruber::SyntaxChecker::SyntaxError.new(0, nil, 'unmatched close parenthesis: /xy )/', 'unmatched close parenthesis: /xy )/')]
+        exp = [Ruber::RubySyntaxChecker::SyntaxError.new(0, nil, 'unmatched close parenthesis: /xy )/', 'unmatched close parenthesis: /xy )/')]
         @checker.check_syntax(str, false).should == exp
       end
       
       it 'works correctly when ruby reports unmatched open parenthesis in a regexp' do
         str = '/xy ( a/'
         @doc.text = str
-        exp = [Ruber::SyntaxChecker::SyntaxError.new(0, nil, 'end pattern with unmatched parenthesis: /xy ( a/', 'end pattern with unmatched parenthesis: /xy ( a/')]
+        exp = [Ruber::RubySyntaxChecker::SyntaxError.new(0, nil, 'end pattern with unmatched parenthesis: /xy ( a/', 'end pattern with unmatched parenthesis: /xy ( a/')]
         @checker.check_syntax(str, false).should == exp
       end
 
       it 'works correctly when ruby reports an invalid regexp option' do
         str = '/xy/t'
         @doc.text = str
-        exp = [Ruber::SyntaxChecker::SyntaxError.new(0, nil, 'unknown regexp option - t', 'unknown regexp option - t')]
+        exp = [Ruber::RubySyntaxChecker::SyntaxError.new(0, nil, 'unknown regexp option - t', 'unknown regexp option - t')]
         @checker.check_syntax(str, false).should == exp
       end
       
@@ -168,7 +168,7 @@ end
 EOS
         @doc.text = str
         msg = 'class definition in method body'
-        exp = [Ruber::SyntaxChecker::SyntaxError.new(1, nil, msg, msg)]
+        exp = [Ruber::RubySyntaxChecker::SyntaxError.new(1, nil, msg, msg)]
         @checker.check_syntax(str, false).should == exp
       end
 
@@ -181,7 +181,7 @@ end
 EOS
         @doc.text = str
         msg = 'module definition in method body '
-        exp = [Ruber::SyntaxChecker::SyntaxError.new(1, nil, msg, msg)]
+        exp = [Ruber::RubySyntaxChecker::SyntaxError.new(1, nil, msg, msg)]
         @checker.check_syntax(str, false).should == exp
       end
 
@@ -193,14 +193,14 @@ end
 EOS
         @doc.text = str
         msg = "dynamic constant assignment \n  Y = 1"
-        exp = [Ruber::SyntaxChecker::SyntaxError.new(1, 5, msg, msg)]
+        exp = [Ruber::RubySyntaxChecker::SyntaxError.new(1, 5, msg, msg)]
         @checker.check_syntax(str, false).should == exp
       end
       
       it 'works correctly with unknown syntax errors' do
         error_msg = '-e:10:xyz'
         flexmock(Open3).should_receive(:popen3).once.and_return error_msg
-        exp = [Ruber::SyntaxChecker::SyntaxError.new(nil, nil, error_msg, error_msg)]
+        exp = [Ruber::RubySyntaxChecker::SyntaxError.new(nil, nil, error_msg, error_msg)]
         @checker.check_syntax('', false).should == exp
       end
       
