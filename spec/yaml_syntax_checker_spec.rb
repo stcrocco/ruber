@@ -95,25 +95,25 @@ EOS
     
     context 'when the first argument is not valid YAML' do
       
-      it 'returns an array of Ruber::SyntaxChecker::SyntaxError with the line and column of the error' do
+      it 'returns an array of Ruber::YAMLSyntaxChecker::SyntaxError with the line and column of the error' do
         str = <<-EOS
 - x
 - y
 - {
 EOS
-        exp = [Ruber::SyntaxChecker::SyntaxError.new(3, 0, 'Syntax error', 'Syntax error')]
+        exp = [Ruber::YAMLSyntaxChecker::SyntaxError.new(3, 0, 'Syntax error', 'Syntax error')]
         @checker.check_syntax(str, true).should == exp
       end
       
       it 'reports 0 as line number if the line number is less than 0' do
         flexmock(YAML).should_receive(:parse).once.and_raise(ArgumentError, 'Syntax error on line -1, col 2')
-        exp = [Ruber::SyntaxChecker::SyntaxError.new(0, 2, 'Syntax error', 'Syntax error')]
+        exp = [Ruber::YAMLSyntaxChecker::SyntaxError.new(0, 2, 'Syntax error', 'Syntax error')]
         @checker.check_syntax('', true).should == exp
       end
       
       it 'reports 0 as column number if the column number is less than 0' do
         flexmock(YAML).should_receive(:parse).once.and_raise(ArgumentError, 'Syntax error on line 3, col -2')
-        exp = [Ruber::SyntaxChecker::SyntaxError.new(3, 0, 'Syntax error', 'Syntax error')]
+        exp = [Ruber::YAMLSyntaxChecker::SyntaxError.new(3, 0, 'Syntax error', 'Syntax error')]
         @checker.check_syntax('', true).should == exp
       end
 

@@ -24,6 +24,8 @@ module Ruber
   
   module YAMLSyntaxChecker
     
+    SyntaxError = Struct.new :line, :column, :message, :formatted_message
+    
     class Plugin < Ruber::Plugin
       
       def initialize psf
@@ -49,7 +51,7 @@ module Ruber
           return [] unless match
           line = [match[1].to_i, 0].max
           col = [match[2].to_i, 0].max
-          [Ruber::SyntaxChecker::SyntaxError.new(line, col, 'Syntax error', 'Syntax error')]
+          [SyntaxError.new(line, col, 'Syntax error', 'Syntax error')]
         end
       end
       
