@@ -51,6 +51,75 @@ describe Ruber::SyntaxChecker::Plugin do
     end
     
   end
+  
+  describe 'format_error' do
+    
+    context 'if the argument\'s line, column and formatted_message methods all return non nil' do
+      
+      it 'returns a string of the form "Line lineno+1, column columnno+1: formatted_message"' do
+        err = OpenStruct.new :line => 5, :column => 3, :formatted_message => 'Xyz'
+        @plug.format_error(err).should == 'Line 6, column 4: Xyz'
+      end
+      
+    end
+    
+    context 'if the argument\'s line and formatted_message methods all return non nil but the column method returns nil' do
+      
+      it 'returns a string of the form "Line lineno+1: formatted_message"' do
+        err = OpenStruct.new :line => 5, :formatted_message => 'Xyz'
+        @plug.format_error(err).should == 'Line 6: Xyz'
+      end
+      
+    end
+    
+    context 'if the line method of the argument returns nil and the formatted_message method does not' do
+      
+      it 'returns a string containing only the formatted message' do
+        err = OpenStruct.new :formatted_message => 'Xyz'
+        @plug.format_error(err).should == 'Xyz'
+        err = OpenStruct.new :column => 4, :formatted_message => 'Xyz'
+        @plug.format_error(err).should == 'Xyz'
+      end
+      
+    end
+    
+    context 'if the formatted_message method of the argument returns nil' do
+      
+      it 'uses the value returned by the message method of the argument if not nil' do
+        err = OpenStruct.new :line => 5, :column => 3, :message => 'Xyz'
+        @plug.format_error(err).should == 'Line 6, column 4: Xyz'
+        err = OpenStruct.new :line => 5, :message => 'Xyz'
+        @plug.format_error(err).should == 'Line 6: Xyz'
+        err = OpenStruct.new :message => 'Xyz'
+        @plug.format_error(err).should == 'Xyz'
+        err = OpenStruct.new :column => 5, :message => 'Xyz'
+        @plug.format_error(err).should == 'Xyz'
+      end
+      
+      it 'uses the string "UNKNOWN ERROR" if the message method also returns nil' do
+        err = OpenStruct.new :line => 5, :column => 3
+        @plug.format_error(err).should == 'Line 6, column 4: UNKNOWN ERROR'
+        err = OpenStruct.new :line => 5
+        @plug.format_error(err).should == 'Line 6: UNKNOWN ERROR'
+        err = OpenStruct.new
+        @plug.format_error(err).should == 'UNKNOWN ERROR'
+        err = OpenStruct.new :column => 5
+        @plug.format_error(err).should == 'UNKNOWN ERROR'
+      end
+      
+    end
+    
+    it 'translates all messages using KDE.i18n' do
+      flexmock(KDE).should_receive(:i18n).once.with('Line %d').and_return('Riga %d')
+      flexmock(KDE).should_receive(:i18n).once.with(', column %d: ').and_return(', colonna %d: ')
+      flexmock(KDE).should_receive(:i18n).once.with('Xyz').and_return('Abc')
+      flexmock(KDE).should_receive(:i18n).once.with('UNKNOWN ERROR').and_return('ERRORE SCONOSCIUTO')
+      err = OpenStruct.new :line => 5, :column => 3, :formatted_message => 'Xyz'
+      @plug.format_error(err).should == 'Riga 6, colonna 4: Abc'
+      @plug.format_error(OpenStruct.new).should == 'ERRORE SCONOSCIUTO'
+    end
+    
+  end
 
   describe '#set_current_status' do
     
@@ -114,8 +183,8 @@ describe Ruber::SyntaxChecker::Plugin do
       
       before do
         @errors = [
-          Ruber::SyntaxChecker::SyntaxError.new(15, 2, 'xyz', 'XYZ'),
-          Ruber::SyntaxChecker::SyntaxError.new(15, 0, 'abc', 'ABC'),
+          OpenStruct.new( :line => 15, :column => 2, :message => 'xyz', :formatted_message=> 'XYZ'),
+          OpenStruct.new( :line => 15, :column => 0, :message => 'abc', :formatted_message=> 'ABC'),
         ]
       end
       
@@ -217,8 +286,8 @@ describe Ruber::SyntaxChecker::Plugin do
         
         before do
           @errors = [
-            Ruber::SyntaxChecker::SyntaxError.new(15, 2, 'xyz', 'XYZ'),
-            Ruber::SyntaxChecker::SyntaxError.new(15, nil, 'abc', 'ABC'),
+            OpenStruct.new(:line => 15, :column => 2, :message => 'xyz', :formatted_message => 'XYZ'),
+            OpenStruct.new(:line => 15, :mesage => 'abc', :formatted_message => 'ABC'),
           ]
           @plug.set_current_status :incorrect, @errors
         end
@@ -250,10 +319,10 @@ describe Ruber::SyntaxChecker::Plugin do
       
       before do
         @errors = [
-        Ruber::SyntaxChecker::SyntaxError.new(15, 2, 'xyz', 'XYZ'),
-            Ruber::SyntaxChecker::SyntaxError.new(15, nil, 'abc', 'ABC'),
-            Ruber::SyntaxChecker::SyntaxError.new(nil, nil, 'fgh', nil),
-            ]
+          OpenStruct.new(:line => 15, :column => 2, :message => 'xyz', :formatted_message=> 'XYZ'),
+          OpenStruct.new(:line => 15, :message => 'abc', :formatted_message => 'ABC'),
+          OpenStruct.new(:message =>'fgh'),
+        ]
         @plug.set_current_status :incorrect, @errors
       end
       
@@ -327,10 +396,10 @@ describe Ruber::SyntaxChecker::Plugin do
       
       before do
         @errors = [
-        Ruber::SyntaxChecker::SyntaxError.new(15, 2, 'xyz', 'XYZ'),
-            Ruber::SyntaxChecker::SyntaxError.new(15, nil, 'abc', 'ABC'),
-            Ruber::SyntaxChecker::SyntaxError.new(nil, nil, 'fgh', nil),
-            ]
+          OpenStruct.new(:line => 15, :column => 2, :message => 'xyz', :formatted_message=> 'XYZ'),
+          OpenStruct.new(:line => 15, :message => 'abc', :formatted_message => 'ABC'),
+          OpenStruct.new(:message =>'fgh'),
+        ]
         @plug.set_current_status :incorrect, @errors
       end
       
@@ -491,6 +560,7 @@ describe Ruber::SyntaxChecker::Plugin do
     before do
       @doc = Ruber[:world].document __FILE__
       @ext = @doc.extension(:syntax_checker)
+      @errors = [OpenStruct.new(:line => 2, :column => 5, :message => 'X', :formatted_message=> 'x')]
     end
     
     after do
@@ -500,17 +570,15 @@ describe Ruber::SyntaxChecker::Plugin do
     it 'updates the current state accordingly if the extension is associated with the active document' do
       flexmock(@doc).should_receive(:active?).and_return true
       flexmock(@ext).should_receive(:status).and_return(:incorrect)
-      errors = [Ruber::SyntaxChecker::SyntaxError.new(2, 5, 'X', 'x')]
-      flexmock(@ext).should_receive(:errors).and_return errors
-      flexmock(@plug).should_receive(:set_current_status).once.with(:incorrect, errors)
+      flexmock(@ext).should_receive(:errors).and_return @errors
+      flexmock(@plug).should_receive(:set_current_status).once.with(:incorrect, @errors)
       @ext.instance_eval{emit syntax_checked(@doc)}
     end
     
     it 'does nothing if the extension is not associated with the active document' do
       flexmock(@doc).should_receive(:active?).and_return false
       flexmock(@ext).should_receive(:status).and_return(:incorrect)
-      errors = [Ruber::SyntaxChecker::SyntaxError.new(2, 5, 'X', 'x')]
-      flexmock(@ext).should_receive(:errors).and_return errors
+      flexmock(@ext).should_receive(:errors).and_return @errors
       flexmock(@plug).should_receive(:set_current_status).never
       @ext.instance_eval{emit syntax_checked(@doc)}
     end
@@ -714,7 +782,7 @@ describe Ruber::SyntaxChecker::Extension do
       context 'and the #check_syntax method of the syntax checker returns an array' do
 
         it 'returns a hash with the :result entry set to :incorrect and the :errors entry set to the array' do
-          errors = [Ruber::SyntaxChecker::SyntaxError.new(0,2)]
+          errors = [OpenStruct.new(:line => 0, :column => 2)]
           @checker.should_receive(:check_syntax).and_return errors
           @ext.check_syntax.should == {:result => :incorrect, :errors => errors}
         end
@@ -765,8 +833,8 @@ describe Ruber::SyntaxChecker::Extension do
       
       it 'sets the errors attribute to the value returned by the #check_syntax method of the checker' do
         errors = [
-          Ruber::SyntaxChecker::SyntaxError.new(0,2),
-          Ruber::SyntaxChecker::SyntaxError.new(1,0)
+          OpenStruct.new(:line => 0, :column => 2),
+          OpenStruct.new(:line => 1, :column => 0),
         ]
         flexmock(@checker).should_receive(:check_syntax).once.and_return errors
         flexmock(@checker).should_receive(:check_syntax).once.and_return nil
@@ -860,8 +928,8 @@ describe Ruber::SyntaxChecker::Extension do
       
       it 'doesn\'t change the errors attribute' do
         errors = [
-          Ruber::SyntaxChecker::SyntaxError.new(0,2),
-          Ruber::SyntaxChecker::SyntaxError.new(nil, 2)
+          OpenStruct.new(:line => 0, :column => 2),
+          OpenStruct.new(:column => 2)
         ]
         @ext.instance_variable_set :@errors, errors
         flexmock(@checker).should_receive(:check_syntax).and_return nil

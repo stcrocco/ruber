@@ -62,24 +62,24 @@ syntax checks after one second of inactivity
 =end
   module SyntaxChecker
 
-    SyntaxError = Struct.new :line, :column, :message, :formatted_message
+#     SyntaxError = Struct.new :line, :column, :message, :formatted_message
     
     class SyntaxNotChecked < Exception
     end
-    
-    class SyntaxError
-      
-      def format
-        res = ""
-        res << KDE.i18n("Line %d") % (line + 1) if line
-        res << KDE.i18n(", column %d") % (column + 1) if line and column
-        msg = formatted_message || message
-        res << ": " if msg and !res.empty?
-        res << msg
-        res
-      end
-      
-    end
+#     
+#     class SyntaxError
+#       
+#       def format
+#         res = ""
+#         res << KDE.i18n("Line %d") % (line + 1) if line
+#         res << KDE.i18n(", column %d") % (column + 1) if line and column
+#         msg = formatted_message || message
+#         res << ": " if msg and !res.empty?
+#         res << msg
+#         res
+#       end
+#       
+#     end
     
 =begin rdoc
 Plugin object for the @syntax_checker@ feature
@@ -147,11 +147,21 @@ Plugin object for the @syntax_checker@ feature
         self
       end
       
+      def format_error error
+        msg = ''
+        if error.line
+          msg << KDE.i18n("Line %d") % (error.line + 1)
+          msg << (error.column ? (KDE.i18n(", column %d: ")) % (error.column + 1) : ': ')
+        end
+        msg << KDE.i18n(error.formatted_message || error.message || 'UNKNOWN ERROR')
+        msg
+      end
+      
       def set_current_status status, errors = []
         @led.color = COLORS[status]
         if status == :incorrect and !errors.empty?
           tool_tip = errors.map do |e|
-            e.format
+            format_error e
           end.join "\n"
           @led.tool_tip = tool_tip
         else @led.tool_tip = i18n(MESSAGES[status])
@@ -193,7 +203,7 @@ Plugin object for the @syntax_checker@ feature
         return if @current_status == :unknown
         if !@current_errors || @current_errors.empty?
           actions = [KDE::Action.new(i18n(MESSAGES[@current_status]), @led)]
-        else actions = @current_errors.map{|e| KDE::Action.new e.format, @led}
+        else actions = @current_errors.map{|e| KDE::Action.new format_error(e), @led}
         end
         choice = Qt::Menu.exec actions, pt
         return if !choice or !@current_errors or @current_errors.empty?
