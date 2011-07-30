@@ -168,6 +168,8 @@ EOS
           [:extra_when, "ruby reports an unexpected when keyword", 'when 2 then 3'],
           [:extra_rescue, "ruby reports an unexpected rescue keyword", 'rescue'],
           [:extra_ensure, "ruby reports an unexpected ensure keyword", 'ensure'],
+          [:missing_block_comment_end, "ruby reports an embedded document meets end of file", '=begin'],
+          [:missing_heredoc_end, "ruby reports it can't find the end of a heredoc", "str=<<EOS"]
         ]
 
         error_types.each do |type, cond, code|
@@ -229,6 +231,20 @@ EOS
       it 'works correctly when ruby reports an unterminated string' do
         @doc.text = 'def x;"'
         msg = "unterminated string meets end of file "
+        exp = Ruber::RubySyntaxChecker::SyntaxError.new(0, nil, msg, msg)
+        @checker.check_syntax(@doc.text, false)[0].should be_same_error_as(exp)
+      end
+      
+      it 'works correctly when ruby reports an unterminated block comment' do
+        @doc.text = '=begin x'
+        msg = "embedded document meets end of file "
+        exp = Ruber::RubySyntaxChecker::SyntaxError.new(0, nil, msg, msg)
+        @checker.check_syntax(@doc.text, false)[0].should be_same_error_as(exp)
+      end
+      
+      it 'works correctly when ruby reports an unterminated heredoc' do
+        @doc.text = "str=<<EOS"
+        msg = 'can\'t find string "EOS" anywhere before EOF '
         exp = Ruber::RubySyntaxChecker::SyntaxError.new(0, nil, msg, msg)
         @checker.check_syntax(@doc.text, false)[0].should be_same_error_as(exp)
       end

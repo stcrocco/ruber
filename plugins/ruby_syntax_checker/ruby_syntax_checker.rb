@@ -47,7 +47,9 @@ module Ruber
         'class|module definition in method body',
         'dynamic constant assignment',
         'unterminated string meets end of file',
-        'premature end of char-class:'
+        'premature end of char-class:',
+        'embedded document meets end of file',
+        'can\'t find string "[^"]+" anywhere before EOF'
       ]
       
       ERROR_TYPES=[
@@ -70,6 +72,8 @@ module Ruber
         [/premature end of char-class/, :missing_regexp_close_bracket],
         [/unknown regexp option/, :unknown_regexp_option],
         [/dynamic constant assignment/, :dynamic_constant_assignment],
+        [/embedded document meets end of file/, :missing_block_comment_end],
+        [/can't find string "[^"]+" anywhere before EOF/, :missing_heredoc_end]
       ]
       
       def initialize doc
