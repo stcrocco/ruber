@@ -22,7 +22,7 @@ module Ruber
   
   module RubySyntaxChecker
     
-    SyntaxError = Struct.new :line, :column, :message, :formatted_message
+    SyntaxError = Struct.new :line, :column, :message, :formatted_message, :error_type
     
     class Plugin < Ruber::Plugin
       
@@ -45,7 +45,31 @@ module Ruber
         'end pattern with unmatched parenthesis:',
         'unknown regexp option -',
         'class|module definition in method body',
-        'dynamic constant assignment'
+        'dynamic constant assignment',
+        'unterminated string meets end of file',
+        'premature end of char-class:'
+      ]
+      
+      ERROR_TYPES=[
+        [/\bexpecting (?:keyword_end|kEND)/, :missing_end],
+        [/\bunexpected (?:keyword_end|kEND),\s+expecting \$end/, :extra_end],
+        [/\bexpecting '\)/, :missing_close_paren],
+        [/\bunexpected '\)/, :extra_close_paren],
+        [/\bexpecting '\]'/, :missing_close_bracket],
+        [/\bunexpected '\]/, :extra_close_bracket],
+        [/\bexpecting '\}'/, :missing_close_brace],
+        [/\bunexpected '\}/, :extra_close_brace],
+        [/\bunexpected (?:keyword_else|kELSE)/, :extra_else],
+        [/\bunexpected (?:keyword_when|kWHEN)/, :extra_when],
+        [/\bunexpected (?:keyword_rescue|kRESCUE)/, :extra_rescue],
+        [/\bunexpected (?:keyword_ensure|kENSURE)/, :extra_ensure],
+        [/\bunterminated string/, :missing_quote],
+        [/\bunexpected (?:keyword_end|kEND)/, :misplaced_end],
+        [/end pattern with unmatched parenthesis/, :missing_regexp_close_paren],
+        [/unmatched close parenthesis/, :extra_regexp_close_paren],
+        [/premature end of char-class/, :missing_regexp_close_bracket],
+        [/unknown regexp option/, :unknown_regexp_option],
+        [/dynamic constant assignment/, :dynamic_constant_assignment],
       ]
       
       def initialize doc
@@ -78,13 +102,16 @@ module Ruber
         return if lines.empty?
         lines.each do |l|
           if l.match @regexp
-            error_lines << [[$2 ? "#{$2} #{$3}" : $3], $1.to_i - 1]
+            error = [[$2 ? "#{$2} #{$3}" : $3], $1.to_i - 1]
+            error_type = ERROR_TYPES.find{|a| a[0] =~ l}
+            error << error_type[1] if error_type
+            error_lines << error
           else error_lines[-1][0] << l
           end
         end
         error_lines.shift if error_lines.first.first.empty?
-        errors = error_lines.map do |a, number|
-          error = SyntaxError.new number, nil, a.shift
+        errors = error_lines.map do |a, number, type|
+          error = SyntaxError.new number, nil, a.shift, nil, type
           a.each_with_index do |l, i|
             if l.match %r{^\s*\^\s*$} 
               error.column = l.index '^'
