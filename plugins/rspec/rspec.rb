@@ -621,6 +621,7 @@ While the examples are being run, a progress bar is shown.
 =end
       def initialize parent = nil
         super parent, :view => :tree, :filter => FilterModel.new
+        @toplevel_width = 0
         @ignore_word_wrap_option = true
         view.text_elide_mode = Qt::ElideNone
         model.append_column [] if model.column_count < 2
@@ -630,6 +631,7 @@ While the examples are being run, a progress bar is shown.
         view.header.resize_mode = Qt::HeaderView::ResizeToContents
         connect Ruber[:rspec], SIGNAL(:process_started), self, SLOT(:spec_started)
         connect Ruber[:rspec], SIGNAL('process_finished(int, QString)'), self, SLOT('spec_finished(int, QString)')
+        view.word_wrap = true
         filter.connect(SIGNAL('rowsInserted(QModelIndex, int, int)')) do |par, st, en|
           if !par.valid?
             st.upto(en) do |i|
@@ -637,13 +639,9 @@ While the examples are being run, a progress bar is shown.
             end
           end
         end
-        #without this, the horizontal scrollbars won't be shown
-        view.connect(SIGNAL('expanded(QModelIndex)')) do |_|
-          view.resize_column_to_contents 1
-        end
-        view.connect(SIGNAL('collapsed(QModelIndex)')) do |_|
-          view.resize_column_to_contents 1
-        end
+        #without these, the horizontal scrollbars won't be shown
+        connect view, SIGNAL('expanded(QModelIndex)'), self, SLOT(:resize_columns)
+        connect view, SIGNAL('collapsed(QModelIndex)'), self, SLOT(:resize_columns)
         setup_actions
       end
       
@@ -680,6 +678,12 @@ converted to a string and displayed in the widget
         when :summary then display_summary data
         else model.insert_lines data.to_s, :output, nil
         end
+      end
+      
+      def load_settings
+        super
+        compute_spanning_cols_size
+        resize_columns
       end
       
 =begin rdoc
@@ -866,6 +870,7 @@ It hides the progress widget and restores the default cursor.
             model.insert "spec wasn't able to run the examples", :message_bad, nil
           end
         end
+        compute_spanning_cols_size
         auto_expand_items
         nil
       end
@@ -885,12 +890,35 @@ is @:expand_none@, nothing is done
             item = model.each_row.find{|items| items[0].has_children}
             view.expand filter_model.map_from_source(item[0].index) if item
           when :expand_all
-            model.each_row do |items|
-              view.expand filter_model.map_from_source(items[0].index)
+            without_resizing_columns do
+              model.each_row do |items|
+                view.expand filter_model.map_from_source(items[0].index)
+              end
             end
+            resize_columns
           end
         end
         nil
+      end
+      
+      def compute_spanning_cols_size
+        metrics = view.font_metrics
+        @toplevel_width = source_model.each_row.map{|r| metrics.bounding_rect(r[0].text).width}.max || 0
+      end
+      
+      def resize_columns
+        view.resize_column_to_contents 0
+        view.resize_column_to_contents 1
+        min_width = @toplevel_width - view.column_width(0) + 30
+        view.set_column_width 1, min_width if view.column_width(1) < min_width
+      end
+      slots :resize_columns
+      
+      def without_resizing_columns
+        disconnect view, SIGNAL('expanded(QModelIndex)'), self, SLOT(:resize_columns)
+        begin yield
+        ensure connect view, SIGNAL('expanded(QModelIndex)'), self, SLOT(:resize_columns)
+        end
       end
       
 =begin rdoc

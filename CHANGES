@@ -18,6 +18,8 @@ h3. Features
 h3. Bug fixes
 
 * Do not crash when closing with unsaved files
+* Horizontal scrollbar in the RSpec tool widget will be displayed when the spec
+  description is larger than the widget but the rest of the text isn't
 
 h2. Ruber 0.0.9
 
