@@ -12,8 +12,19 @@ h3. Features
   should be inserted or not. It performs a syntax check instead and only inserts
   end if ruby reports a missing end keyword. This should improve the accuracy of
   the plugin
-* Clicking on a file name in an output widget now prevents the tool widget from
-  being hidden, as if the pin button were clicked
+* Clicking on a file name in an output widget with the middle mouse button now
+  prevents the tool widget from being hidden, as if the pin button were clicked
+* Changed the interface to specify patterns in the RSpec plugin
+* The RSpec plugin now supports specs inside subdirectories. You can also specify
+  subdirectories inside the pattern to match code file and the respective spec
+  file
+* When choosing the Run Specs for Current File action in the RSpec plugin, if the current
+  document is associated with a code file, all the specs associated with it are
+  run (previously, only one of them was run)
+* When choosing the Run Current Spec action in the RSpec plugin, if the current
+  document is a code file, the plugin will look at the most recently activated
+  editor containing a spec file for the current file to determine which is the
+  current spec.
   
 h3. Bug fixes
 

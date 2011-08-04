@@ -243,7 +243,14 @@ as first argument to {Autosave::AutosavePlugin#autosave}
       end
       
       def spec_for_pattern pattern, file
-        pattern[:spec].sub(/%f/, File.basename(file, '.rb'))
+        spec = pattern[:spec].gsub(/%f/, File.basename(file, '.rb'))
+        dir = File.dirname(file)
+        dir_parts = dir.split '/'
+        spec.gsub! %r{%d\d+} do |str|
+          dir_parts[str[2..-1].to_i-1] || ''
+        end
+        spec.gsub! %r{%d}, dir
+        spec
       end
       
       private
@@ -338,7 +345,7 @@ Runs all the specs for the project.
           return
         end
         opts = options prj
-        opts[:files] = Dir.glob File.join(opts[:specs_dir], opts[:filter])
+        opts[:files] = Dir.glob File.join(opts[:specs_dir], '**', opts[:filter])
         run_rspec_for prj, opts, :files => :project_files, :on_failure => :ask, :message => 'Do you want to run the tests all the same?'
         nil
       end
@@ -505,7 +512,7 @@ It does nothing if the file corresponding to the current document isn't found
         file = Ruber[:main_window].current_document.path
         prj = Ruber[:world].active_project
         ext = prj.extension(:rspec)
-        if ext.spec_file? file then switch_to = ext.code_for_spec file
+        if ext.spec_file? file then ;switch_to = ext.code_for_spec file
         else switch_to = ext.specs_for_code(file)[0]
         end
         if switch_to and File.exist? switch_to
@@ -545,8 +552,9 @@ signal.
 @return [nil]
 =end
       def change_switch_name doc
-        return unless doc
-        if spec_file? doc.path then text = 'Switch to &Code'
+        prj = Ruber[:world].active_project
+        return unless doc and prj
+        if prj.extension(:rspec).spec_file? doc.path then text = 'Switch to &Code'
         else text = 'Switch to &Spec'
         end
         action_collection.action('rspec-switch').text = i18n(text)
@@ -586,8 +594,8 @@ signal.
       def code_for_spec file
         return nil unless @project.project_files.file_in_project? file
         return nil unless spec_file? file
-        @project.project_files.abs.each do |f|
-          return f if specs_for_code(f).include? file
+        @project.project_files.abs.find do |f|
+          specs_for_code(f).include? file
         end
       end
       
