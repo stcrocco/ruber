@@ -24,8 +24,8 @@ project_options:
   executable: {default: 'Ruber::RSpec::Plugin.find_default_executable'}
   options: {default: []}
   spec_directory: {relative_path: true, default: spec}
-  patterns: {default: [{:code: **/*.rb, :spec: %f_spec.rb, :glob: true}]}
-  spec_pattern: {default: ['%f_spec.rb']}
+  patterns: {default: [{:code: **/*.rb, :spec: %f_spec.rb}]}
+  spec_files: {default: '*_spec.rb'}
   full_backtraces: {default: true}
 extensions:
  rspec: {class: Ruber::RSpec::ProjectExtension}
