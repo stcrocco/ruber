@@ -7,27 +7,17 @@
     <x>0</x>
     <y>0</y>
     <width>447</width>
-    <height>315</height>
+    <height>650</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_3">
-   <item row="0" column="0">
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>10</height>
-      </size>
-     </property>
-    </spacer>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <widget class="RubyOptionsWidget" name="_rspec__ruby_options" native="true"/>
    </item>
-   <item row="2" column="0" colspan="2">
+   <item>
     <widget class="QGroupBox" name="groupBox_2">
      <property name="title">
       <string>RSpec</string>
@@ -73,39 +63,26 @@
      </layout>
     </widget>
    </item>
-   <item row="3" column="1">
-    <spacer name="verticalSpacer_3">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>0</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="4" column="0" colspan="2">
+   <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
       <string>Spec files</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="0">
+      <item row="1" column="0">
        <widget class="QLabel" name="label">
         <property name="text">
-         <string>Spec &amp;directory</string>
+         <string>&amp;Spec directory</string>
         </property>
         <property name="buddy">
          <cstring>_rspec__spec_directory</cstring>
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
+      <item row="1" column="1">
        <widget class="KUrlRequester" name="_rspec__spec_directory"/>
       </item>
-      <item row="1" column="0">
+      <item row="2" column="0">
        <widget class="QLabel" name="label_2">
         <property name="text">
          <string>&amp;Filter</string>
@@ -115,64 +92,92 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
+      <item row="2" column="1">
        <widget class="KLineEdit" name="_rspec__spec_files">
         <property name="text">
          <string>*_spec.rb</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="0">
+      <item row="0" column="1">
+       <widget class="KUrlRequester" name="_rspec__code_directory"/>
+      </item>
+      <item row="0" column="0">
        <widget class="QLabel" name="label_3">
         <property name="text">
-         <string>&amp;Pattern</string>
+         <string>&amp;Code directory</string>
         </property>
         <property name="buddy">
-         <cstring>_rspec__spec_pattern</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="KLineEdit" name="_rspec__spec_pattern">
-        <property name="text">
-         <string>%f_spec.rb</string>
-        </property>
-        <property name="access" stdset="0">
-         <string>$pattern</string>
+         <cstring>_rspec__code_directory</cstring>
         </property>
        </widget>
       </item>
      </layout>
     </widget>
    </item>
-   <item row="5" column="0" colspan="2">
-    <spacer name="verticalSpacer_2">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
+   <item>
+    <widget class="QGroupBox" name="groupBox_3">
+     <property name="title">
+      <string>&amp;Patterns</string>
      </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>0</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="1" column="0">
-    <widget class="RubyOptionsWidget" name="_rspec__ruby_options" native="true"/>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="0" column="0" colspan="2">
+       <widget class="QTreeView" name="_rspec__patterns">
+        <property name="rootIsDecorated">
+         <bool>false</bool>
+        </property>
+        <property name="uniformRowHeights">
+         <bool>true</bool>
+        </property>
+        <property name="itemsExpandable">
+         <bool>false</bool>
+        </property>
+        <property name="allColumnsShowFocus">
+         <bool>true</bool>
+        </property>
+        <property name="expandsOnDoubleClick">
+         <bool>false</bool>
+        </property>
+        <property name="access" stdset="0">
+         <string>$patterns</string>
+        </property>
+        <property name="signal" stdset="0">
+         <string>activated</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QPushButton" name="add_pattern">
+        <property name="text">
+         <string>&amp;Add pattern</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QPushButton" name="remove_pattern">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="text">
+         <string>&amp;Remove selected pattern</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
    </item>
   </layout>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KUrlRequester</class>
-   <extends>QFrame</extends>
-   <header>kurlrequester.h</header>
-  </customwidget>
-  <customwidget>
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KUrlRequester</class>
+   <extends>QFrame</extends>
+   <header>kurlrequester.h</header>
   </customwidget>
   <customwidget>
    <class>RubyOptionsWidget</class>
@@ -186,7 +191,6 @@
   <tabstop>_rspec__options</tabstop>
   <tabstop>_rspec__spec_directory</tabstop>
   <tabstop>_rspec__spec_files</tabstop>
-  <tabstop>_rspec__spec_pattern</tabstop>
  </tabstops>
  <resources/>
  <connections/>

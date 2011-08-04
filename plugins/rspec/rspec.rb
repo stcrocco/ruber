@@ -84,6 +84,8 @@ Symbolic values associated with the @rspec/switch_behaviour@ settings
 =end
       SWITCH_BEHAVIOUR = [:new_tab, :horizontal, :vertical]
       
+      signals :settings_changed
+      
 =begin rdoc
 Finds the rspec program to use by default
 
@@ -133,7 +135,7 @@ the plugin
       end
 
 =begin rdoc
-Whether a file is a spec file or a code file for a given project
+Whether or not a file is a spec file for a given project
 
 It uses the @rspec/spec_directory@ and @rspec/spec_pattern@ options from the project
 to find out whether the file is a spec file or not.
@@ -146,9 +148,24 @@ to find out whether the file is a spec file or not.
 =end
       def spec_file? file, prj = Ruber[:world].active_project
         return nil unless prj
-        dir = prj[:rspec, :spec_directory, :absolute]
-        return false unless file.start_with? dir
-        File.fnmatch File.join(dir, prj[:rspec, :spec_files]), file
+        prj.extension(:rspec).spec_file? file
+      end
+
+=begin rdoc
+Whether or not file is a code file for a given project
+
+It uses the @rspec/spec_directory@ and @rspec/spec_pattern@ options from the project
+to find out whether the file is a spec file or not.
+
+@param [String] file the file to test
+@param [Project,nil] prj the project _file_ could be a spec for. If *nil*, the
+  current project, if any, will be used
+@return [Boolean,nil] wheter or not _file_ is a spec file for the given project
+  or *nil* if no project was specified and there's no open project
+=end
+      def code_file? file, prj = Ruber[:world].active_project
+        return nil unless prj
+        prj.extension(:rspec).code_file? file
       end
       
 =begin rdoc
@@ -218,6 +235,15 @@ as first argument to {Autosave::AutosavePlugin#autosave}
         run_process opts[:ruby], opts[:dir], opts[:ruby_options] + args, title
         @widget.model.item(0,0).tool_tip = ([opts[:ruby]] + opts[:ruby_options] + args).join " "
         true
+      end
+      
+      def load_settings
+        super
+        emit settings_changed
+      end
+      
+      def spec_for_pattern pattern, file
+        pattern[:spec].sub(/%f/, File.basename(file, '.rb'))
       end
       
       private
@@ -335,34 +361,30 @@ which, most likely, will cause it to fail.
 
 @return [Boolean] *true* if the spec program is started and *false* otherwise
 (including the case when the process was already running or autosaving failed)
-=end
-      def run_current what = :all
+=end      
+      def run_current_document
+        doc = Ruber[:world].active_document
+        unless doc
+          raise "It shouldn't be possible to call #{self.class}#run_current_document when there's no active document"
+        end
         prj = Ruber[:world].active_project
-        unless prj
-          KDE::MessageBox.error nil, "You must have an open project to choose this entry.\nYOU SHOULD NEVER SEE THIS MESSAGE"
-          return
+        unless doc
+          raise "It shouldn't be possible to call #{self.class}#run_current_document when there's no active project"
         end
         opts = options prj
-        view = Ruber[:main_window].active_editor
-        doc = view.document
-        unless doc.url.local_file?
-          KDE::MessageBox.sorry nil, 'You can\'t run rspec for remote files'
+        ext = prj.extension(:rspec)
+        if doc.path.empty?
+          KDE::MessageBox.sorry nil, KDE.i18n("You must save the document to a file before running rspec on it")
           return
-        end
-        unless doc
-          KDE::MessageBox.error nil, "You must have an open editor to choose this entry.\nYOU SHOULD NEVER SEE THIS MESSAGE"
-          return
-        end
-        files = specs_for_file opts, doc.path
-        files.reject!{|f| !File.exist? f}
-        opts[:files] = files.empty? ? [doc.path] : files
-        if what == :current_line
-          line = view.cursor_position.line + 1
-          opts[:spec_options] += ["-l", line.to_s]
+        elsif ext.spec_file? doc.path
+          opts[:files] = [doc.path]
+        elsif ext.code_file?(doc.path) 
+          files = ext.specs_for_code doc.path
         end
         run_rspec_for prj, opts, :files => :documents_with_file, :on_failure => :ask,
             :message => 'Do you want to run the tests all the same?'
       end
+      slots :run_current_document
       
 =begin rdoc
 Runs the example(s) in the current line
@@ -376,7 +398,37 @@ current file is the example file, not the source.
 (including the case when the process was already running or autosaving failed)
 =end
       def run_current_line
-        run_current :current_line
+        doc = Ruber[:world].active_document
+        unless doc
+          raise "It shouldn't be possible to call #{self.class}#run_current_document when there's no active document"
+        end
+        prj = Ruber[:world].active_project
+        unless doc
+          raise "It shouldn't be possible to call #{self.class}#run_current_document when there's no active project"
+        end
+        opts = options prj
+        ext = prj.extension(:rspec)
+        if doc.path.empty?
+          KDE::MessageBox.sorry nil, KDE.i18n("You must save the document to a file before running rspec on it")
+          return
+        elsif ext.spec_file? doc.path
+          view = Ruber[:main_window].active_editor
+        elsif ext.code_file?(doc.path) 
+          specs = ext.specs_for_code doc.path
+          view = Ruber[:world].active_environment.views.find do |v| 
+            specs.include? v.document.path
+          end
+          unless view
+            KDE::MessageBox.sorry nil, KDE.i18n('You don\'t have any spec file for %s opened. Without it it\'s impossible to find out what the current line is', doc.path)
+            return
+          end
+          doc = view.document
+        end
+        opts[:files] = [view.document.path]
+        line = view.cursor_position.line + 1
+        opts[:spec_options] += ["-l", line.to_s]
+        run_rspec_for prj, opts, :files => :documents_with_file, :on_failure => :ask,
+            :message => 'Do you want to run the tests all the same?'
       end
       
 =begin rdoc
@@ -452,8 +504,9 @@ It does nothing if the file corresponding to the current document isn't found
       def switch
         file = Ruber[:main_window].current_document.path
         prj = Ruber[:world].active_project
-        if spec_file? file, prj then switch_to = file_for_spec prj, file
-        else switch_to = specs_for_file(options(prj), file)[0]
+        ext = prj.extension(:rspec)
+        if ext.spec_file? file then switch_to = ext.code_for_spec file
+        else switch_to = ext.specs_for_code(file)[0]
         end
         if switch_to and File.exist? switch_to
           behaviour = Ruber[:config][:rspec, :switch_behaviour]
@@ -466,41 +519,6 @@ It does nothing if the file corresponding to the current document isn't found
       end
       slots :switch
 
-=begin rdoc
-Determines all possible specs files associated with a code file
-
-The names of the possible spec files are obtained replacing the @%f@ tag in each
-entry of the @rspec/pattern@ setting with the name of the file (without checking
-whether the files actually exist).
-
-@param [String] file the name of the code file
-@return [<String>] the names of the possible spec file associated with _file_
-=end
-      def specs_for_file opts, file
-        file = File.basename file, '.rb'
-        res = opts[:pattern].map{|i| File.join opts[:specs_dir], i.gsub('%f', file)}
-        res
-      end
-
-=begin rdoc
-The name of the code file associated with a given spec file
-
-To find out which code file is associated with the given spec file, this method
-takes all the project files and constructs the file names of all the specs associated
-to them according to the @rspec/spec_pattern@ project option. As soon as one of
-the generated file names matches the given spec file, the generating file is returned.
-
-@param [Ruber::AbstractProject] prj the project containing the settings to use
-@param [String] file the name of the spec file to find the code file for
-@return [String] the absolute path of a file _file_ is a spec of, according
-to the settings contained in _prj_.
-=end
-      def file_for_spec prj, file
-        pattern = prj[:spec_pattern]
-        opts = options prj
-        prj.project_files.abs.find{|f| specs_for_file( opts, f).include? file}
-      end
-      
 =begin rdoc
 Override of {ExternalProgramPlugin#display_exit_message}
 
@@ -538,459 +556,73 @@ signal.
       
     end
     
-=begin rdoc
-Filter model used by the RSpec output widget
-
-It allows to choose whether to accept items corresponding to output to standard error or to reject
-it. To find out if a given item corresponds to the output of standard error or 
-standard output, this model uses the data contained in a custom role in the output.
-The index of this role is {RSpec::OutputWidget::OutputTypeRole}.
-=end
-    class FilterModel < FilteredOutputWidget::FilterModel
-      
-      slots 'toggle_display_stderr(bool)'
-      
-=begin rdoc
-Whether output from standard error should be displayed or not
-@return [Boolean]
-=end
-      attr_reader :display_stderr
-      
-=begin rdoc
-Create a new instance
-
-The new instance is set not to show the output from standard error
-
-@param [Qt::Object, nil] parent the parent object
-=end
-      def initialize parent = nil
-        super
-        @display_stderr = false
-      end
-      
-=begin rdoc
-Sets whether to display or ignore items corresponding to output to standard error
-
-If this choice has changed, the model is invalidated.
-
-@param [Boolean] val whether to display or ignore the output to standard error
-@return [Boolean] _val_
-=end
-      def display_stderr= val
-        old, @display_stderr = @display_stderr, val
-        invalidate if old != @display_stderr
-        @display_standard_error
-      end
-      alias_method :toggle_display_stderr, :display_stderr=
-      
-=begin rdoc
-Override of {FilteredOutputWidget::FilterModel#filterAcceptsRow}
-
-According to the value of {#display_stderr}, it can filter out items corresponding
-to standard error. In all other respects, it behaves as the base class method.
-@param [Integer] r the row number
-@param [Qt::ModelIndex] parent the parent index
-@return [Boolean] *true* if the row should be displayed and *false* otherwise
-=end
-      def filterAcceptsRow r, parent
-        if !@display_stderr
-          idx = source_model.index(r,0,parent)
-          return false if idx.data(OutputWidget::OutputTypeRole).to_string == 'output1'
-        end
-        super
-      end
-      
-    end
     
-=begin rdoc
-Tool widget used by the rspec plugin.
-
-It displays the output from the spec program in a multi column tree. The name of
-failing or pending examples are displayed in a full line; all other information,
-such as the location of the example, the error message and so on are displayed
-in child items.
-
-While the examples are being run, a progress bar is shown.
-=end
-    class ToolWidget < FilteredOutputWidget
+    class ProjectExtension < Qt::Object
       
-      slots :spec_started, 'spec_finished(int, QString)'
+      include Ruber::Extension
       
-=begin rdoc
-@param [Qt::Widget, nil] parent the parent widget
-=end
-      def initialize parent = nil
-        super parent, :view => :tree, :filter => FilterModel.new
-        @toplevel_width = 0
-        @ignore_word_wrap_option = true
-        view.text_elide_mode = Qt::ElideNone
-        model.append_column [] if model.column_count < 2
-        @progress_bar = Qt::ProgressBar.new(self){|w| w.hide}
-        layout.add_widget @progress_bar, 2,0
-        view.header_hidden = true
-        view.header.resize_mode = Qt::HeaderView::ResizeToContents
-        connect Ruber[:rspec], SIGNAL(:process_started), self, SLOT(:spec_started)
-        connect Ruber[:rspec], SIGNAL('process_finished(int, QString)'), self, SLOT('spec_finished(int, QString)')
-        view.word_wrap = true
-        filter.connect(SIGNAL('rowsInserted(QModelIndex, int, int)')) do |par, st, en|
-          if !par.valid?
-            st.upto(en) do |i|
-              view.set_first_column_spanned i, par, true
-            end
-          end
-        end
-        #without these, the horizontal scrollbars won't be shown
-        connect view, SIGNAL('expanded(QModelIndex)'), self, SLOT(:resize_columns)
-        connect view, SIGNAL('collapsed(QModelIndex)'), self, SLOT(:resize_columns)
-        setup_actions
-      end
-      
-=begin rdoc
-Displays the data relative to an example in the widget
-
-Actually, this method simply passes its argument to a more specific method, depending
-on the data it contains.
-
-@param [Hash] data a hash containing the data describing the results of running
-the example. This hash must contain the @:type@ key, which tells which kind of
-event the hash describes. The other entries change depending on the method which
-will be called, which is determined according to the @:type@ entry:
- * @:success@: {#display_successful_example}
- * @:failure@: {#display_failed_example}
- * @:pending@: {#display_pending_example}
- * @:new_example@: {#change_current_example}
- * @:start@: {#set_example_count}
- * @:summary@: {#display_summary}
-If the @:type@ entry doesn't have one of the previous values, the hash will be
-converted to a string and displayed in the widget
-=end
-      def display_example data
-        unless data.is_a?(Hash)
-          model.insert_lines data.to_s, :output, nil
-          return
-        end
-        case data[:type]
-        when :success then display_successful_example data
-        when :failure then display_failed_example data
-        when :pending then display_pending_example data
-        when :new_example then change_current_example data
-        when :start then set_example_count data
-        when :summary then display_summary data
-        else model.insert_lines data.to_s, :output, nil
-        end
-      end
-      
-      def load_settings
+      def initialize prj
         super
-        compute_spanning_cols_size
-        resize_columns
+        @project = prj
+        @categories = {}
+        connect Ruber[:rspec], SIGNAL(:settings_changed), self, SLOT(:clear)
       end
       
-=begin rdoc
-Changes the current example
-
-Currently, this only affects the tool tip displayed by the progress bar.
-
-@param [Hash] data the data to use. It must contain the @:description@ entry,
-which contains the text of the tool tip to use.
-@return [nil]
-=end
-      def change_current_example data
-        @progress_bar.tool_tip = data[:description]
-        nil
-      end
-      
-=begin rdoc
-Sets the number of examples found by the spec program.
-
-This is used to set the maximum value of the progress bar.
-
-@param [Hash] data the data to use. It must contain the @:count@ entry,
-which contains the number of examples
-@return [nil]
-=end
-      def set_example_count data
-        @progress_bar.maximum = data[:count]
-        nil
-      end
-      
-      
-=begin rdoc
-Updates the progress bar by incrementing its value by one
-
-@param [Hash] data the data to use. Currently it's unused
-@return [nil]
-=end
-      def display_successful_example data
-        @progress_bar.value += 1
-        nil
-      end
-      
-=begin rdoc
-Displays information about a failed example in the tool widget.
-
-@param [Hash] data the data about the example.
-
-@option data [String] :location the line number where the error occurred
-@option data [String] :description the name of the failed example
-@option data [String] :message the explaination of why the example failed
-@option data [String] :exception the content of the exception
-@option data [String] :backtrace the backtrace of the exception (a single new-line separated string)
-@return [nil]
-=end
-      def display_failed_example data
-        @progress_bar.value += 1
-        top = model.insert("[FAILURE] #{data[:description]}", :error, nil).first
-        model.insert ['From:', data[:location]], :message, nil, :parent => top
-        ex_label = model.insert('Exception:', :message, nil, :parent => top).first
-        exception_body = "#{data[:message]} (#{data[:exception]})".split_lines.delete_if{|l| l.strip.empty?}
-        #exception_body may contain more than one line and some of them may be empty
-        model.set exception_body.shift, :message, ex_label.row, :col => 1, :parent => top
-        exception_body.each do |l|
-          unless l.strip.empty?
-            model.set l, :message, top.row_count, :col => 1, :parent => top
+      def specs_for_code file
+        return [] unless @project.project_files.file_in_project? file
+        return [] unless code_file? file
+        file.sub(@project.project_directory + '/', '')
+        res = []
+        @project[:rspec, :patterns].each do |pn|
+          if File.fnmatch pn[:code], file
+            basename = Ruber[:rspec].spec_for_pattern pn, file
+            spec = File.join(@project.project_directory, @project[:rspec, :spec_directory], basename)
+            res << spec
           end
         end
-        backtrace = data[:backtrace].split_lines
-        back_label, back = model.insert(['Backtrace:', backtrace.shift], :message, nil, :parent => top)
-        backtrace.each do |l|
-          model.insert [nil, l], :message, nil, :parent => back_label
+        res.select{|f| File.exist? f}
+      end
+      
+      def code_for_spec file
+        return nil unless @project.project_files.file_in_project? file
+        return nil unless spec_file? file
+        @project.project_files.abs.each do |f|
+          return f if specs_for_code(f).include? file
         end
-        top_index = filter.map_from_source(top.index)
-        view.collapse top_index
-        view.set_first_column_spanned top_index.row, Qt::ModelIndex.new, true
-        view.expand filter.map_from_source(back_label.index)
-        nil
       end
       
-=begin rdoc
-Displays information about a pending example in the tool widget
-
-@param [Hash] data
-@option data [String] :location the line number where the error occurred
-@option data [String] :description the name of the failed example
-@option data [String] :message the explaination of why the example failed
-@return [nil]
-=end
-      def display_pending_example data
-        @progress_bar.value += 1
-        top = model.insert("[PENDING] #{data[:description]}", :warning, nil)[0]
-        model.insert ['From:', data[:location]], :message, nil, :parent => top
-        model.insert ['Message: ', "#{data[:message]} (#{data[:exception]})"], :message, nil, :parent => top
-        nil
+      def code_file? file
+        category(file) == :code
       end
       
-=begin rdoc
-Displays a summary of the spec run in the tool widget
-
-The summary is a single title line which contains the number or successful, pending
-and failed example.
-
-@param [Hash] data
-@option data [Integer] :total the number of run examples
-@option data [Integer] :passed the number of passed examples
-@option data [Integer] :failed the number of failed examples
-@option data [Integer] :pending the number of pending examples
-@return [nil]
-=end
-      def display_summary data
-        @progress_bar.hide
-        if data[:passed] == data[:total]
-          self.title = "[SUMMARY] All #{data[:total]} examples passed"
-          set_output_type model.index(0,0), :message_good
-        else
-          text = "[SUMMARY]      Examples: #{data[:total]}"
-          text << "      Failed: #{data[:failure]}" if data[:failure] > 0
-          text << "      Pending: #{data[:pending]}" if data[:pending] > 0
-          text << "      Passed: #{data[:passed]}"
-          self.title = text
-          type = data[:failure] > 0 ? :message_bad : :message
-          set_output_type model.index(0,0), type
-        end
-        nil
+      def spec_file? file
+        category(file) == :spec
       end
-      
-=begin rdoc
-Override of {OutputWidget#title=}
 
-It's needed to have the title element span all columns
-
-@param [String] val the new title
-=end
-      def title= val
-        super
-        model.item(0,0).tool_tip = val
-        view.set_first_column_spanned 0, Qt::ModelIndex.new, true
-      end
-      
-      private
-      
-=begin rdoc
-Resets the tool widget and sets the cursor to busy
-@return [nil]
-=end
-      def spec_started
-        @progress_bar.maximum = 0
-        @progress_bar.value = 0
-        @progress_bar.show
-        @progress_bar.tool_tip = ''
-        actions['show_stderr'].checked = false
-        self.cursor = Qt::Cursor.new(Qt::BusyCursor)
-        nil
-      end
-      
-=begin rdoc
-Does the necessary cleanup for when spec finishes running
-
-It hides the progress widget and restores the default cursor.
-
-@param [Integer] code the exit code
-@param [String] reason why the program exited
-@return [nil]
-=end
-      def spec_finished code, reason
-        @progress_bar.hide
-        @progress_bar.value = 0
-        @progress_bar.maximum = 100
-        self.set_focus
-        unset_cursor
-        unless reason == 'killed'
-          non_stderr_types = %w[message message_good message_bad warning error]
-          only_stderr = !model.item(0,0).text.match(/^\[SUMMARY\]/)
-          if only_stderr
-            1.upto(model.row_count - 1) do |i|
-              if non_stderr_types.include? model.item(i,0).data(OutputWidget::OutputTypeRole).to_string
-                only_stderr = false
-                break
-              end
+      def category file
+        cat = @categories[file]
+        return cat if cat
+        spec_dir = @project[:rspec, :spec_directory, :abs]
+        code_dir = @project[:rspec, :code_directory, :abs]
+        if @project.project_files.file_in_project? file
+          if file.start_with? spec_dir
+            if File.fnmatch @project[:rspec, :spec_files], file.sub(spec_dir + '/', '')
+              @categories[file] = :spec
+            else @categories[file] = :unknown
             end
+          elsif file.start_with?(code_dir) and @project.project_files.file_in_project?(file)
+            @categories[file] = :code
+          else @categories[file] = :unknown
           end
-          if only_stderr
-            actions['show_stderr'].checked = true
-            model.insert "spec wasn't able to run the examples", :message_bad, nil
-          end
-        end
-        compute_spanning_cols_size
-        auto_expand_items
-        nil
-      end
-      
-=begin rdoc
-Expands items according to the @rspec/auto_expand@ option
-
-If the option is @:expand_first@, the first failed example is expanded; if the
-option is @:expand_all@, all failed or pending examples are expanded. If the option
-is @:expand_none@, nothing is done
-@return [nil]
-=end
-      def auto_expand_items
-        if model.row_count > 1
-          case Ruber[:config][:rspec, :auto_expand]
-          when :expand_first
-            item = model.each_row.find{|items| items[0].has_children}
-            view.expand filter_model.map_from_source(item[0].index) if item
-          when :expand_all
-            without_resizing_columns do
-              model.each_row do |items|
-                view.expand filter_model.map_from_source(items[0].index)
-              end
-            end
-            resize_columns
-          end
-        end
-        nil
-      end
-      
-      def compute_spanning_cols_size
-        metrics = view.font_metrics
-        @toplevel_width = source_model.each_row.map{|r| metrics.bounding_rect(r[0].text).width}.max || 0
-      end
-      
-      def resize_columns
-        view.resize_column_to_contents 0
-        view.resize_column_to_contents 1
-        min_width = @toplevel_width - view.column_width(0) + 30
-        view.set_column_width 1, min_width if view.column_width(1) < min_width
-      end
-      slots :resize_columns
-      
-      def without_resizing_columns
-        disconnect view, SIGNAL('expanded(QModelIndex)'), self, SLOT(:resize_columns)
-        begin yield
-        ensure connect view, SIGNAL('expanded(QModelIndex)'), self, SLOT(:resize_columns)
+        else @categories[file] = :unknown
         end
       end
       
-=begin rdoc
-Creates the additional actions.
-
-It adds a single action, which allows the user to chose whether messages from
-standard error should be displayed or not.
-
-@return [nil]
-=end
-      def setup_actions
-        action_list << nil << 'show_stderr'
-        a = KDE::ToggleAction.new 'S&how Standard Error', self
-        actions['show_stderr'] = a
-        a.checked = false
-        connect a, SIGNAL('toggled(bool)'), filter, SLOT('toggle_display_stderr(bool)')
+      def clear
+        @categories.clear
       end
+      slots :clear
       
-=begin rdoc
-Override of {OutputWidget#find_filename_in_index}
-
-It works as the base class method, but, if it doesn't find a result in _idx_,
-it looks for it in the parent indexes
-
-@param [Qt::ModelIndex] idx the index where to look for a file name
-@return [Array<String,Integer>,String,nil] see {OutputWidget#find_filename_in_index}
-=end
-      def find_filename_in_index idx
-        res = super
-        unless res
-          idx = idx.parent while idx.parent.valid?
-          idx = idx.child(0,1)
-          res = super idx if idx.valid?
-        end
-        res
-      end
-      
-=begin rdoc
-Override of {OutputWidget#text_for_clipboard}
-
-@param [<Qt::ModelIndex>] idxs the selected indexes
-@return [QString] the text to copy to the clipboard
-=end
-      def text_for_clipboard idxs
-        order = {}
-        idxs.each do |i|
-          val = []
-          parent = i
-          while parent.parent.valid?
-            parent = parent.parent
-            val.unshift parent.row
-          end
-          val << [i.row, i.column]
-          order[val] = i
-        end
-        order = order.sort do |a, b|
-          a, b = a[0], b[0]
-          res = a[0..-2] <=>  b[0..-2]
-          if res == 0 then a[-1] <=> b[-1]
-          else res
-          end
-        end
-        prev = order.shift[1]
-        text = prev.data.valid? ? prev.data.to_string : ''
-        order.each do |_, v|
-          text << ( (prev.parent == v.parent and prev.row == v.row) ? "\t" : "\n") 
-          text << (v.data.valid? ? v.data.to_string : '')
-          prev = v
-        end
-        text
-      end
-
     end
     
 =begin rdoc
@@ -1005,7 +637,25 @@ Project widget for the RSpec frontend plugin
         super
         @ui = Ui::RSpecProjectWidget.new
         @ui.setupUi self
+        view = @ui._rspec__patterns
+        mod = Qt::StandardItemModel.new 
+        view.model = mod
+        mod.horizontal_header_labels = ['Code file', 'Spec file']
+        @ui.add_pattern.connect(SIGNAL(:clicked)) do
+          row = [Qt::StandardItem.new, Qt::StandardItem.new]
+          mod.append_row row
+          view.current_index = row[0].index
+          view.edit row[0].index
+        end
+        @ui.remove_pattern.connect(SIGNAL(:clicked)) do
+          sel = view.selection_model.selected_indexes
+          mod.remove_row sel[0].row
+        end
+        view.selection_model.connect(SIGNAL('selectionChanged(QItemSelection,QItemSelection)')) do
+          @ui.remove_pattern.enabled = view.selection_model.has_selection
+        end
       end
+      
       
       private
       
@@ -1014,16 +664,30 @@ Sets the text of the pattern widget
 @param [Array<String>] the pattern to use. They'll be joined with commas to create
 the text to put in the widget
 =end
-      def pattern= value
-        value.join ', '
+      def patterns= value
+        view = @ui._rspec__patterns
+        value.each do |h|
+          row = [Qt::StandardItem.new(h[:code]), 
+                 Qt::StandardItem.new(h[:spec])]
+          view.model.append_row row
+        end
+        2.times{|i| view.resize_column_to_contents i}
       end
       
 =begin rdoc
 Parses the content of the pattern widget
-@return [Array<String>] an array containing the patterns
+@return [Array<Hash>] an array containing the patterns
 =end
-      def pattern
-        @ui._rspec__spec_pattern.text.split(/;\s*/)
+      def patterns
+        mod = @ui._rspec__patterns.model
+        mod.each_row.map do |cols|
+          code = cols[0].text
+          {:code => code, :spec => cols[1].text, :glob => text_glob?(code)}
+        end
+      end
+      
+      def text_glob? text
+        text=~ /[*?{}\[\]]/
       end
       
 =begin rdoc
