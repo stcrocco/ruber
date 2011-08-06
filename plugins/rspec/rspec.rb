@@ -490,7 +490,6 @@ the project directory.
         res[:spec_options] = prj[:rspec, :options]
         res[:specs_dir] = prj[:rspec, :spec_directory, :absolute]
         res[:filter] = prj[:rspec, :spec_files]
-        res[:pattern] = prj[:rspec, :spec_pattern]
         res[:dir] = prj.project_directory
         res[:full_backtraces] = prj[:rspec, :full_backtraces]
         res
