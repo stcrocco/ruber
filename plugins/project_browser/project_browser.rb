@@ -74,7 +74,7 @@ otherwise
           return true if @project.nil? or !@do_filtering
           it = source_model.item_for_index source_model.index(row,0,parent)
           return true if it.dir?
-          @project.project_files.file_in_project? it.local_path
+          @project.file_in_project? it.local_path
         end
         
 =begin rdoc

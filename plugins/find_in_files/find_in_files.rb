@@ -280,7 +280,7 @@ the following entries:
         places = case @dlg.places
         when :custom_dir then @dlg.directory
         when :project_dir then Ruber[:world].active_project.project_directory
-        when :project_files then Ruber[:world].active_project.project_files.abs.to_a
+        when :project_files then Ruber[:world].active_project.project_files.to_a
         when :open_files then Ruber[:world].documents.documents_with_file.map{|d| d.path}
         end
         opts[:places] = Array(places)

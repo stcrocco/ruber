@@ -576,7 +576,7 @@ signal.
       end
       
       def specs_for_code file
-        return [] unless @project.project_files.file_in_project? file
+        return [] unless @project.file_in_project? file
         return [] unless code_file? file
         file.sub(@project.project_directory + '/', '')
         res = []
@@ -591,9 +591,9 @@ signal.
       end
       
       def code_for_spec file
-        return nil unless @project.project_files.file_in_project? file
+        return nil unless @project.file_in_project? file
         return nil unless spec_file? file
-        @project.project_files.abs.find do |f|
+        @project.project_files.find do |f|
           specs_for_code(f).include? file
         end
       end
@@ -611,13 +611,13 @@ signal.
         return cat if cat
         spec_dir = @project[:rspec, :spec_directory, :abs]
         code_dir = @project[:rspec, :code_directory, :abs]
-        if @project.project_files.file_in_project? file
+        if @project.file_in_project? file
           if file.start_with? spec_dir
             if File.fnmatch @project[:rspec, :spec_files], file.sub(spec_dir + '/', '')
               @categories[file] = :spec
             else @categories[file] = :unknown
             end
-          elsif file.start_with?(code_dir) and @project.project_files.file_in_project?(file)
+          elsif file.start_with?(code_dir) and @project.file_in_project?(file)
             @categories[file] = :code
           else @categories[file] = :unknown
           end

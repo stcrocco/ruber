@@ -237,7 +237,7 @@ into account the enabled option and always attempt to save the documents.
 =end
       def save_project_files opts, blk
         docs = Ruber[:world].active_environment.documents.documents_with_file
-        prj_files = Ruber[:world].active_project.project_files.abs
+        prj_files = Ruber[:world].active_project.project_files
         docs = docs.select{|d| prj_files.include? d.path}
         save_files docs, opts, blk
       end
