@@ -116,6 +116,7 @@ and is fired as soon as the event loop starts.
       @plugin_dirs = []
       load_core_components
       @status = :starting
+      @chdir_lock = Mutex.new
       Qt::Timer.single_shot(0, self, SLOT(:setup))
     end
     
@@ -249,6 +250,25 @@ or sorting dependencies.
       end
       @components.load_plugins plugins, dirs || @plugin_dirs, &blk
       
+    end
+    
+=begin rdoc
+Thread-safe Dir.chdir
+
+@Dir.chdir@ is not thread-safe, meaning that a Dir.chdir done in a thread will
+change the directory in all other threads. To avoid this unpleasant behaviour,
+don't use Dir.chdir. Instead, use this method, which uses a mutex to control calls
+to Dir.chdir.
+@param [String] dir the directory to change to
+@yield the block to execute from within _dir_. The current directory will
+  be changed back after executing the block.
+@raise [LocalJumpError] if no block is given
+@return [Object] the value returned by the block otherwise
+=end
+    def chdir dir
+      @chdir_lock.synchronize do
+        Dir.chdir(dir){yield}
+      end
     end
 
     private
