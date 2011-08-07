@@ -24,6 +24,7 @@ require 'yaml'
 require 'ruber/plugin'
 require 'ruber/settings_container'
 require 'ruber/project_backend'
+require 'ruber/project_dir_scanner'
 
 module Ruber
 
@@ -394,6 +395,15 @@ AbstractProject::InvalidProjectFile will be raised.
       end
       super Ruber[:world], back, name
       finalize
+      @dir_scanner = ProjectDirScanner.new self
+      @dir_scanner.connect(SIGNAL('file_added(QString)')) do |f|
+        @files << f if @files
+      end
+      @dir_scanner.connect(SIGNAL('file_removed(QString)')) do |f|
+        @files.delete f if @files
+      end
+      @dir_scanner.connect(SIGNAL(:rules_changed)){@files = nil}
+      @files = nil
     end
     
 =begin rdoc
@@ -433,9 +443,14 @@ to the project.
 <b>Note:</b> this method uses the <tt>project_files</tt> extension
 =end
     def files
-      @project_extensions[:project_files].project_files
+      @files ||= @dir_scanner.project_files
+      ProjectFiles.new project_directory, @files
     end
-    
+    alias_method :project_files, :files
+
+    def file_in_project? file
+      @dir_scanner.file_in_project? file
+    end
   end
   
 =begin rdoc

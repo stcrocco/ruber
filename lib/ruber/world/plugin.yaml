@@ -9,7 +9,6 @@ config_widgets:
  - {caption: Workspace, pixmap: workspace.png, class: Ruber::World::WorkspaceSettingsWidget}
 extensions:
  environment: {class: Ruber::World::Environment, scope: global}
- project_files: {class: ProjectFilesList}
 project_options:
  general:
   project_files: {default: {:include: [], :exclude: [], :extensions: ["*.rb"]}}

@@ -8,6 +8,7 @@ require 'pathname'
 require 'ostruct'
 require 'forwardable'
 require 'dictionary'
+require 'fileutils'
 
 require 'ruber/project'
 require 'ruber/plugin'
@@ -73,7 +74,7 @@ describe 'Ruber::AbstractProject, when created' do
     contents = <<-EOS
 :general:
  :project_name: Test
-    EOS
+EOS
     @dir = make_dir_tree ['f1.ruprj'], '/tmp', {'f1.ruprj'=>contents}
     @file = File.join @dir, 'f1.ruprj'
   end
@@ -276,7 +277,7 @@ describe 'Ruber::AbstractProject#[]=' do
 :g2:
  :o2: xyz
  :o3: [a, b]
-    EOS
+EOS
     @dir = make_dir_tree ['test.ruprj'], '/tmp', {'test.ruprj' => contents}
     @file = File.join @dir, 'test.ruprj'
     @options = [
@@ -695,15 +696,6 @@ describe Ruber::Project do
   describe 'when created' do
     
     before do
-      @comp = TestComponentManager.new
-      @projects = Qt::Object.new
-      @fake_app = Application.new
-      @dlg = flexmock('dialog', :read_settings => nil, :dispose => nil)
-      @mw = Qt::Widget.new
-      flexmock(Ruber).should_receive(:[]).with(:components).and_return(  @comp).by_default
-      flexmock(Ruber).should_receive(:[]).with(:app).and_return( @fake_app).by_default
-      flexmock(Ruber).should_receive(:[]).with(:main_window).and_return( @mw).by_default
-      flexmock(Ruber).should_receive(:[]).with(:projects).and_return( @projects).by_default
       @file = File.join Dir.pwd, 'test.ruprj'
       @dir = nil
     end
@@ -712,9 +704,9 @@ describe Ruber::Project do
       FileUtils.rm_rf @dir if @dir
     end
     
-    it 'uses the projects component as parent' do
+    it 'uses the world component as parent' do
       prj = Ruber::Project.new @file, 'Test'
-      prj.parent.should equal(@projects)
+      prj.parent.should equal(Ruber[:world])
     end
     
     it 'uses Ruber::ProjectBackend as backend' do
@@ -741,15 +733,6 @@ describe Ruber::Project do
   describe ', when closing' do
     
     before do
-      @comp = TestComponentManager.new
-      @fake_app = Application.new
-      @dlg = flexmock('dialog', :read_settings => nil, :dispose => nil)
-      @mw = Qt::Widget.new
-      @projects = Qt::Object.new
-      flexmock(Ruber).should_receive(:[]).with(:components).and_return(  @comp).by_default
-      flexmock(Ruber).should_receive(:[]).with(:app).and_return( @fake_app).by_default
-      flexmock(Ruber).should_receive(:[]).with(:main_window).and_return( @mw).by_default
-      flexmock(Ruber).should_receive(:[]).with(:projects).and_return( @projects).by_default
       @file = File.join Dir.pwd, 'test.ruprj'
     end
     
@@ -797,15 +780,6 @@ describe Ruber::Project do
   describe '#activate' do
     
     before do
-      @comp = TestComponentManager.new
-      @fake_app = Application.new
-      @dlg = flexmock('dialog', :read_settings => nil, :dispose => nil)
-      @mw = Qt::Widget.new
-      @projects = Qt::Object.new
-      flexmock(Ruber).should_receive(:[]).with(:components).and_return(  @comp).by_default
-      flexmock(Ruber).should_receive(:[]).with(:app).and_return( @fake_app).by_default
-      flexmock(Ruber).should_receive(:[]).with(:main_window).and_return( @mw).by_default
-      flexmock(Ruber).should_receive(:[]).with(:projects).and_return( @projects).by_default
       @file = File.join Dir.pwd, 'test.ruprj'
     end
     
@@ -835,15 +809,6 @@ describe Ruber::Project do
   describe '#deactivate' do
     
     before do
-      @comp = TestComponentManager.new
-      @fake_app = Application.new
-      @dlg = flexmock('dialog', :read_settings => nil, :dispose => nil)
-      @mw = Qt::Widget.new
-      @projects = Qt::Object.new
-      flexmock(Ruber).should_receive(:[]).with(:components).and_return(  @comp).by_default
-      flexmock(Ruber).should_receive(:[]).with(:app).and_return( @fake_app).by_default
-      flexmock(Ruber).should_receive(:[]).with(:main_window).and_return( @mw).by_default
-      flexmock(Ruber).should_receive(:[]).with(:projects).and_return( @projects).by_default
       @file = File.join Dir.pwd, 'test.ruprj'
     end
     
@@ -872,16 +837,8 @@ describe Ruber::Project do
   end
   
   describe '#scope' do
+    
     before do
-      @comp = TestComponentManager.new
-      @fake_app = Application.new
-      @dlg = flexmock('dialog', :read_settings => nil, :dispose => nil)
-      @mw = Qt::Widget.new
-      @projects = Qt::Object.new
-      flexmock(Ruber).should_receive(:[]).with(:components).and_return(  @comp).by_default
-      flexmock(Ruber).should_receive(:[]).with(:app).and_return( @fake_app).by_default
-      flexmock(Ruber).should_receive(:[]).with(:main_window).and_return( @mw).by_default
-      flexmock(Ruber).should_receive(:[]).with(:projects).and_return( @projects).by_default
       @file = File.join Dir.pwd, 'test.ruprj'
     end
     
@@ -893,15 +850,6 @@ describe Ruber::Project do
   describe '#add_option' do
     
     before do
-      @comp = TestComponentManager.new
-      @fake_app = Application.new
-      @dlg = flexmock('dialog', :read_settings => nil, :dispose => nil)
-      @mw = Qt::Widget.new
-      @projects = Qt::Object.new
-      flexmock(Ruber).should_receive(:[]).with(:components).and_return(  @comp).by_default
-      flexmock(Ruber).should_receive(:[]).with(:app).and_return( @fake_app).by_default
-      flexmock(Ruber).should_receive(:[]).with(:main_window).and_return( @mw).by_default
-      flexmock(Ruber).should_receive(:[]).with(:projects).and_return( @projects).by_default
       @file = File.join Dir.pwd, 'test.ruprj'
       @prj = Ruber::Project.new(@file, 'Test')
     end
@@ -926,24 +874,46 @@ describe Ruber::Project do
   describe '#files' do
     
     before do
-      @comp = TestComponentManager.new
-      @fake_app = Application.new
-      @dlg = flexmock('dialog', :read_settings => nil, :dispose => nil)
-      @mw = Qt::Widget.new
-      @projects = Qt::Object.new
-      flexmock(Ruber).should_receive(:[]).with(:components).and_return(  @comp).by_default
-      flexmock(Ruber).should_receive(:[]).with(:app).and_return( @fake_app).by_default
-      flexmock(Ruber).should_receive(:[]).with(:main_window).and_return( @mw).by_default
-      flexmock(Ruber).should_receive(:[]).with(:projects).and_return( @projects).by_default
-      @file = File.join Dir.pwd, 'test.ruprj'
+      @dir = make_dir_tree %w[f1.rb f2.rb f3.rb f4.xyz f5.xyz f6.xyz]
+      @file = File.join @dir, 'test.ruprj'
       @prj = Ruber::Project.new(@file, 'Test')
+      @prj[:general, :project_files] = {:extensions => ['*.rb'], :include => [], :exclude => []}
     end
     
-    it 'returns an array containing the files belonging to the project' do
-      files = %w[/a /b /c]
-      project_files = flexmock{|m| m.should_receive(:project_files).once.and_return files}
-      @prj.instance_variable_get(:@project_extensions)[:project_files] = project_files
-      @prj.files.should == %w[/a /b /c] 
+    after do
+      FileUtils.rm_rf @dir
+    end
+    
+    it 'returns a ProjectFiles object containing all the files in the project' do
+      res = @prj.files
+      res.should be_a(Ruber::ProjectFiles)
+      exp = Dir.entries(@dir).select{|f| f.end_with?('.rb')}.map{|f| File.join @dir, f}
+      res.should == Set.new(exp)
+    end
+    
+    it 'takes into account files added after previous calls to this method' do
+      @prj.files
+      file = File.join @dir, 'f8.rb'
+      `touch #{file}`
+      @prj.instance_variable_get(:@dir_scanner).instance_eval{emit file_added(file)}
+      exp = exp = Dir.entries(@dir).select{|f| f.end_with?('.rb')}.map{|f| File.join @dir, f}
+      @prj.files.should == Set.new(exp)
+    end
+    
+    it 'takes into account files removed after previous calls to this method' do
+      @prj.files
+      file = File.join @dir, 'f1.rb'
+      `rm #{file}`
+      @prj.instance_variable_get(:@dir_scanner).instance_eval{emit file_removed(file)}
+      exp = exp = Dir.entries(@dir).select{|f| f.end_with?('.rb')}.map{|f| File.join @dir, f}
+      @prj.files.should == Set.new(exp)
+    end
+    
+    it 'takes into account rule changes after previous calls to this method' do
+      @prj.files
+      @prj[:general, :project_files] = {:extensions => ['*.xyz'], :include => [], :exclude => []}
+      exp = exp = Dir.entries(@dir).select{|f| f.end_with?('.xyz')}.map{|f| File.join @dir, f}
+      @prj.files.should == Set.new(exp)
     end
 
   end
