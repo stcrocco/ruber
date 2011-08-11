@@ -1,6 +1,6 @@
 name: world
 description: Container for all the environments
-require: [world, environment, project_files_widget, project_files_list]
+require: [world, environment, project_files_widget]
 class: Ruber::World::World
 config_options:
  workspace:
