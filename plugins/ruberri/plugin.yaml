@@ -1,0 +1,13 @@
+name: ruberri
+version: 0.0.1
+about:
+ authors: [Stefano Crocco, stefano.crocco@alice.it]
+ license: gpl
+ description: Search the ri documentation from within Ruber
+ bug_address: http://github.com/stcrocco/ruber/issues
+ icon: ruber.png
+ human_name: RI
+deps: [ruby_development]
+class: Ruber::RI::Plugin
+require: ruberri
+tool_widgets: {:class: Ruber::RI::ToolWidget, :caption: RI, :position: :bottom, :name: ri_widget, pixmap: ruber.png, var_name: tool_widget}
