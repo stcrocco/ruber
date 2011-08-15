@@ -156,7 +156,7 @@ Creates a new Ruber::Document.
         begin
           emit text_inserted(r, self)
         rescue ArgumentError => e
-          ExceptionDialog.new e, nil, true, "An exception was raised when writing text. See issue number 6 at http://github.com/stcrocco/ruber/issues"
+          ExceptionDialog.new e, nil, true, "An exception was raised from emit text_inserted. See issue number 6 at http://github.com/stcrocco/ruber/issues"
         end
       end
       
@@ -358,7 +358,7 @@ Return the project with wider scope the document belongs to. This is:
     def project
       prj = Ruber[:world].active_project
       return @project if path.empty? or !prj
-      prj.project_files.file_in_project?(url.to_encoded.to_s) ? prj : @project
+      prj.file_in_project?(url.to_encoded.to_s) ? prj : @project
     end
     
 =begin rdoc
