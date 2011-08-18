@@ -772,11 +772,20 @@ however, that the @:existing@ entry won't be used.
 @return [Hash] see the description for the _hints_ argument of {MainWindow#editor_for!}
 =end
     def hints
-      case Ruber[:config][:general, :tool_open_files]
-      when :split_horizontally then {:new => :current_tab, :split => :horizontal}
-      when :split_vertically then {:new => :current_tab, :split => :vertical}
-      else {:new => :new_tab}
+      hints = {:new => :new_tab}
+      choice = Ruber[:config][:general, :tool_open_files]
+      case choice
+      when :split_horizontally then hints[:split] = :horizontal
+      when :split_vertically then hints[:split] = :vertical
       end
+      if hints[:split]
+        env = Ruber[:world].active_environment
+        n_views = env.tab(env.active_editor).views.count
+        if n_views < 2 then hints[:new] = :current_tab
+        else hints.delete :split
+        end
+      end
+      hints
     end
     
 =begin rdoc

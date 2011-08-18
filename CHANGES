@@ -4,6 +4,9 @@ h2. Ruber 0.0.10
 
 h3. Features
 
+* Added a RI plugin. You can now insert the class or method name in the RI tool widget
+  and see the documentation in a nice HTML format inside the tool widget itself.
+  This plugin requires RDoc version 3.x (maybe version 2.x will also work).
 * The syntax checker plugin has been rewritten. Now other plugins can check the
   syntax of a document
 * Ruby and YAML syntax checker now are in their own plugin, rather than being part
@@ -25,6 +28,12 @@ h3. Features
   document is a code file, the plugin will look at the most recently activated
   editor containing a spec file for the current file to determine which is the
   current spec.
+* The behaviour of output widgets when clicking on a file name which requires
+  opening a new editor has changed. The choice made by the user to open the editor
+  in the current tab by splitting the current editor is ignored if the current 
+  tab already contains more than one editor. The reason is that usually there
+  won't be enough space on the sceen to comfortably accomodate more than two
+  editors.
   
 h3. Bug fixes
 

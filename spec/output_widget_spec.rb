@@ -1046,24 +1046,56 @@ describe Ruber::OutputWidget do
     before do
       @ow = Ruber::OutputWidget.new
       @cfg = flexmock{|m| m.should_ignore_missing}
+      @world = flexmock{|m| m.should_ignore_missing}
+      flexmock(Ruber).should_receive(:[]).with(:main_window).and_return(@mw).by_default
       flexmock(Ruber).should_receive(:[]).with(:config).and_return(@cfg).by_default
+      flexmock(Ruber).should_receive(:[]).with(:world).and_return(@world).by_default
     end
     
     context 'when the general/tool_open_files setting is :split_horizontally' do
       
+      before do
+        @cfg.should_receive(:[]).with(:general, :tool_open_files).and_return(:split_horizontally).by_default
+      end
+      
       it 'returns {:new => :current_tab, :split => :horizontal}' do
-        @cfg.should_receive(:[]).with(:general, :tool_open_files).and_return(:split_horizontally)
         @ow.send(:hints).should == {:new => :current_tab, :split => :horizontal}
+      end
+      
+      it 'returns {:new => :new_tab} if there is more than one view in the current tab' do
+        views = Array.new(2){|i| flexmock("view #{i}")}
+        tab = flexmock{|m| m.should_receive(:views).and_return views}
+        env = flexmock do |m| 
+          m.should_receive(:tab).with(views[1]).and_return tab
+          m.should_receive(:active_editor).once.and_return views[1]
+        end
+        @world.should_receive(:active_environment).once.and_return env
+        @ow.send(:hints).should == {:new => :new_tab}
       end
       
     end
     
     context 'when the general/tool_open_files setting is :split_vertically' do
       
+      before do
+        @cfg.should_receive(:[]).with(:general, :tool_open_files).and_return(:split_vertically).by_default
+      end
+
       it 'returns {:new => :current_tab, :split => :vertical}' do
-        @cfg.should_receive(:[]).with(:general, :tool_open_files).and_return(:split_vertically)
         @ow.send(:hints).should == {:new => :current_tab, :split => :vertical}
       end
+      
+      it 'returns {:new => :new_tab} if there is more than one view in the current tab' do
+        views = Array.new(2){|i| flexmock("view #{i}")}
+        tab = flexmock{|m| m.should_receive(:views).and_return views}
+        env = flexmock do |m| 
+          m.should_receive(:tab).with(views[1]).and_return tab
+          m.should_receive(:active_editor).once.and_return views[1]
+        end
+        @world.should_receive(:active_environment).once.and_return env
+        @ow.send(:hints).should == {:new => :new_tab}
+      end
+
       
     end
     
