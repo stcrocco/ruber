@@ -19,11 +19,11 @@
 =end
 
 require_relative 'ui/tool_widget'
-require_relative 'class_formatter'
-require_relative 'method_formatter'
 
 require 'rdoc/ri/driver'
 require 'rdoc/ri/store'
+require 'open3'
+require 'yaml'
 
 module Ruber
   
@@ -32,71 +32,129 @@ module Ruber
     class Plugin < Ruber::Plugin
       
       def search text
-        drv = RDoc::RI::Driver.new
-        classes = find_classes drv, text
-        methods = find_methods drv, text
-        if classes and classes.count > 1 
-          content = format_class_list classes
-        elsif classes and classes.count == 1 
-          content = format_class *classes[0]
-        elsif methods and methods.count > 1
-          content = format_method_list methods
-        elsif methods and methods.count == 1
-          content = format_method *methods[0]
-        elsif !(hash = drv.classes).empty?
-          regexp = /::#{Regexp.quote text}$/
-          list = []
-          hash.each_key do |cls|
-            list << find_classes(drv, cls) if cls =~ regexp
-          end
-          content = format_class_list list
-        else content = '<h1>Nothing found</h1>'
+        cmd = [ruby, File.join(File.dirname(__FILE__), 'search.rb'), text]
+        list = nil
+        err = nil
+        status = nil
+        Open3.popen3(*cmd) do |stdin, stdout, stderr, thr|
+          list = stdout.read
+          err = stderr.read
+          status = thr.value
         end
-        @tool_widget.content = content
+        if status.success?
+          display_search_result YAML.load(list)
+        else
+          text = <<-EOS
+<h1>Error</h1>
+<p>It was impossible to search the RI database. The reported error was:</p>
+<verbatim>
+#{err}
+</verbatim>
+EOS
+          @tool_widget.content = text
+        end
+        
       end
       
-      private 
+      private
+      
+      def ruby
+        Ruber[:ruby_development].interpreter_for Ruber[:world].active_document
+      end
+      
+      def display_search_result found
+        if found[:list] and found[:list].count > 1
+          if found[:type] == :class then content = format_class_list found[:list]
+          else content = format_method_list found[:list]
+          end
+          @tool_widget.content = content
+        elsif found[:list] and found[:list].count == 1
+          obj = found[:list][0]
+          display found[:type], obj[:store], obj[:store_type], obj[:name]
+        else @tool_widget.content = '<h1>Nothing found</h1>'
+        end
+      end
       
       def display_url url
         scheme = url.scheme
         store, type, name = url.path.split('$', 3)
-        store = RDoc::RI::Store.new store, type.to_sym
-        if scheme == 'method'
-          cls= name.split(/(?:::)|#/, 2)[0]
-          @tool_widget.content = format_method store.load_method( cls, name), store
-        else 
-          @tool_widget.content = format_class(store.load_class(name), store)
-        end
+        display scheme.to_sym, store, type.to_sym, name
       end
       slots 'display_url(QUrl)'
       
+      def display type, store, store_type, name
+        if type == :method
+          @tool_widget.content = format_method name, store, store_type
+        else 
+          @tool_widget.content = format_class name, store, store_type
+        end
+      end
+      
       def format_class_list classes
         res = "<h1>Results from RI</h1>"
-        classes.each do |cls, store|
-          url = "class://#{store.path}$#{store.type}$#{cls.full_name}"
-          res << %[<p><a href="#{url}">#{cls.full_name} &ndash; from #{store.friendly_path}</a></p>]
+        classes.each do |data|
+          encoded_name = Qt::Url.to_percent_encoding data[:name]
+          url = "class://#{data[:store]}$#{data[:store_type]}$#{encoded_name}"
+          res << %[<p><a href="#{url}">#{data[:name]} &ndash; from #{data[:friendly_store]}</a></p>]
         end
         res
       end
       
       def format_method_list methods
         res = "<h1>Results from RI</h1>"
-        methods.each do |mth, store|
-          encoded_name = Qt::Url.to_percent_encoding(mth.full_name)
-          url = "method://#{store.path}$#{store.type}$#{encoded_name}"
-          res << %[<p><a href="#{url}">#{mth.full_name} &ndash; from #{store.friendly_path}</a></p>]
+        methods.each do |data|
+          encoded_name = Qt::Url.to_percent_encoding(data[:name])
+          url = "method://#{data[:store]}$#{data[:store_type]}$#{encoded_name}"
+          res << %[<p><a href="#{url}">#{data[:name]} &ndash; from #{data[:friendly_store]}</a></p>]
         end
         res
       end
       
-      def format_class cls, store
-        formatter = ClassFormatter.new cls, store
-        formatter.to_html
+      def format_class cls, store, store_type
+        cmd = [ruby, File.join(File.dirname(__FILE__), 'class_formatter.rb'), cls, store, store_type.to_s]
+        html = nil
+        err = nil
+        status = nil
+        Open3.popen3(*cmd) do |stdin, stdout, stderr, thr|
+          html = stdout.read
+          err = stderr.read
+          status = thr.value
+        end
+        if status.success?
+          @tool_widget.content = html
+        else
+          text = <<-EOS
+<h1>Error</h1>
+<p>It was impossible to loop #{cls} up in the RI database. The reported error was:</p>
+<verbatim>
+#{err}
+</verbatim>
+EOS
+        end
+        
       end
       
-      def format_method method, store
-        formatter = MethodFormatter.new method, store
-        formatter.to_html
+      def format_method method, store, store_type
+        cmd = [ruby, File.join(File.dirname(__FILE__), 'method_formatter.rb'), method, store, store_type.to_s]
+        html = nil
+        err = nil
+        status = nil
+        Open3.popen3(*cmd) do |stdin, stdout, stderr, thr|
+          html = stdout.read
+          err = stderr.read
+          status = thr.value
+        end
+        if status.success?
+          @tool_widget.content = html
+        else
+          text = <<-EOS
+<h1>Error</h1>
+<p>It was impossible to look #{method} up the RI database. The reported error was:</p>
+<verbatim>
+#{err}
+</verbatim>
+EOS
+        end
       end
       
       def find_classes drv, name
@@ -136,6 +194,10 @@ module Ruber
         connect @ui.search, SIGNAL(:clicked), self, SLOT(:start_search)
         @ui.content.open_links = false
         connect @ui.content, SIGNAL('anchorClicked(QUrl)'), Ruber[:ruberri], SLOT('display_url(QUrl)')
+      end
+      
+      def content
+        @ui.content.to_html
       end
       
       def content= txt

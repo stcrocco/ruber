@@ -29,15 +29,17 @@ module Ruber
     
     class MethodFormatter
       
-      def initialize method, store
-        @method = method
-        @store = store
+      def initialize method, store, store_type
+        @store = RDoc::RI::Store.new store, store_type
+        cls= method.split(/(?:::)|#/, 2)[0]
+        @method = @store.load_method cls, method
       end
       
       def to_html
         title = "#{@method.full_name}"
         title << " (from #{@store.friendly_path})" unless @store.friendly_path =~ /ruby core/
         parts = [RDoc::Markup::Heading.new(1, title)]
+        parts << format_aliases
         parts << format_arglists
         parts << @method.comment
         parts.compact!
@@ -65,8 +67,24 @@ module Ruber
         res
       end
       
+      def format_aliases
+        return if @method.aliases.empty?
+        res = [RDoc::Markup::Heading.new(1, 'Also known as')]
+        items = @method.aliases.map do |a|
+          RDoc::Markup::ListItem.new nil, RDoc::Markup::Paragraph.new(a)
+        end
+        list = RDoc::Markup::List.new :BULLET, *items
+        res << list
+        res
+      end
+      
     end
     
   end
   
+end
+
+if $0 == __FILE__
+  mth, store, store_type = *ARGV
+  puts Ruber::RI::MethodFormatter.new(mth, store, store_type.to_sym).to_html
 end

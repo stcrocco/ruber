@@ -29,9 +29,9 @@ module Ruber
     
     class ClassFormatter
       
-      def initialize cls, store
-        @cls = cls
-        @store = store
+      def initialize cls, store, store_type
+        @store = RDoc::RI::Store.new store, store_type
+        @cls = @store.load_class cls
       end
       
       def to_html
@@ -81,9 +81,9 @@ module Ruber
           res = []
           res << RDoc::Markup::Heading.new(2, "Class methods")
           method_list = methods.map do |m|
-            m.name
+            RDoc::Markup::ListItem.new nil, RDoc::Markup::Verbatim.new(m.name)
           end
-          res << RDoc::Markup::Paragraph.new(method_list.join(' '))
+          res << RDoc::Markup::List.new(:BULLET, *method_list)
           res
         end
       end
@@ -93,8 +93,10 @@ module Ruber
         unless methods.empty?
           res = []
           res << RDoc::Markup::Heading.new(2, "Instance methods")
-          method_list = methods.map{|m| "<tt>#{m.name}</tt>"}
-          res << RDoc::Markup::Paragraph.new(method_list.join(' '))
+          method_list = methods.map do |m| 
+            RDoc::Markup::ListItem.new nil, RDoc::Markup::Verbatim.new(m.name)
+          end
+          res << RDoc::Markup::List.new(:BULLET, *method_list)
           res
         end
       end
@@ -116,4 +118,9 @@ module Ruber
     
   end
   
+end
+
+if $0 == __FILE__
+  cls, store, store_type = *ARGV
+  puts Ruber::RI::ClassFormatter.new(cls, store, store_type.to_sym).to_html
 end
