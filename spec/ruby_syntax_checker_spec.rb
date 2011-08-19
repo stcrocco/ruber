@@ -199,7 +199,7 @@ EOS
         str = '/xy/t'
         @doc.text = str
         exp = [Ruber::RubySyntaxChecker::SyntaxError.new(0, nil, 'unknown regexp option - t', 'unknown regexp option - t')]
-        @checker.check_syntax(str, false).should == exp
+        @checker.check_syntax(str, false).should be_same_error_as(exp)
       end
       
       it 'works correctly when ruby reports a class definition in a method body' do

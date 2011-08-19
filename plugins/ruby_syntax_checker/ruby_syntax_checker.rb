@@ -53,7 +53,7 @@ module Ruber
       ]
       
       ERROR_TYPES=[
-        [/\bexpecting (?:keyword_end|kEND)/, :missing_end],
+        [/\bunexpected \$end,\s+expecting (?:keyword_end|kEND)/, :missing_end],
         [/\bunexpected (?:keyword_end|kEND),\s+expecting \$end/, :extra_end],
         [/\bexpecting '\)/, :missing_close_paren],
         [/\bunexpected '\)/, :extra_close_paren],
