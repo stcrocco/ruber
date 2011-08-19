@@ -5,9 +5,9 @@ about:
  license: gpl
  description: Search the ri documentation from within Ruber
  bug_address: http://github.com/stcrocco/ruber/issues
- icon: ruber.png
+ icon: help-contents
  human_name: RI
 deps: [ruby_development]
 class: Ruber::RI::Plugin
 require: ruberri
-tool_widgets: {:class: Ruber::RI::ToolWidget, :caption: RI, :position: :bottom, :name: ri_widget, pixmap: ruber.png, var_name: tool_widget}
+tool_widgets: {:class: Ruber::RI::ToolWidget, :caption: RI, :position: :bottom, :name: ri_widget, var_name: tool_widget}
