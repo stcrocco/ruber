@@ -1073,6 +1073,15 @@ describe Ruber::OutputWidget do
         @ow.send(:hints).should == {:new => :new_tab}
       end
       
+      it 'returns {:new => :new_tab} if there are no tabs' do
+        env = flexmock do |m| 
+          m.should_receive(:tab).and_return nil
+          m.should_receive(:active_editor).and_return nil
+        end
+        @world.should_receive(:active_environment).once.and_return env
+        @ow.send(:hints).should == {:new => :new_tab}
+      end
+      
     end
     
     context 'when the general/tool_open_files setting is :split_vertically' do
@@ -1096,6 +1105,14 @@ describe Ruber::OutputWidget do
         @ow.send(:hints).should == {:new => :new_tab}
       end
 
+      it 'returns {:new => :new_tab} if there are no tabs' do
+        env = flexmock do |m| 
+          m.should_receive(:tab).and_return nil
+          m.should_receive(:active_editor).and_return nil
+        end
+        @world.should_receive(:active_environment).once.and_return env
+        @ow.send(:hints).should == {:new => :new_tab}
+      end
       
     end
     

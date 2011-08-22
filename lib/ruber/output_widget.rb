@@ -780,8 +780,9 @@ however, that the @:existing@ entry won't be used.
       end
       if hints[:split]
         env = Ruber[:world].active_environment
-        n_views = env.tab(env.active_editor).views.count
-        if n_views < 2 then hints[:new] = :current_tab
+        view = env.active_editor
+        n_views = view ? env.tab(view).views.count : 0
+        if n_views == 1 then hints[:new] = :current_tab
         else hints.delete :split
         end
       end
