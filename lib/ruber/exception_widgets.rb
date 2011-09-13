@@ -233,7 +233,7 @@ are suitable for use by a block passed to {ComponentManager#load_plugins}.
     def exec
       res = super
       case res
-      when KDE::Dialog::Yes then dlg.silently? ? :silent : true
+      when KDE::Dialog::Yes then silently? ? :silent : true
       when KDE::Dialog::No then false
       when KDE::Dialog::Cancel then :skip
       else res
