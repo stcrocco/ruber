@@ -52,7 +52,7 @@ module Ruber
         @display_output = true
         @controller.prompts = PROMPTS
         @controller.start_irb
-        @input.connect(SIGNAL('activated(QString)')){|s| send_to_irb s}
+        @input.connect(SIGNAL('returnPressed(QString)')){|s| send_to_irb s}
         @input.completion_mode = KDE::GlobalSettings::CompletionAuto
         @controller.connect SIGNAL(:ready) do
           @input.enabled = true
@@ -91,6 +91,7 @@ module Ruber
       
       def send_to_irb line
         @input.completion_object.add_item line
+        @input.insert_item 0, line
         @input.edit_text = ''
         @input.enabled = false
         @controller.send_to_irb [line]
