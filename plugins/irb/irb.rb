@@ -56,6 +56,7 @@ module Ruber
         @input.completion_mode = KDE::GlobalSettings::CompletionAuto
         @controller.connect SIGNAL(:ready) do
           @input.enabled = true
+          @input.set_focus if is_active_window
         end
         @ui.restart_irb.connect(SIGNAL(:clicked)) do
           @controller.restart_irb
