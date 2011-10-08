@@ -1,0 +1,18 @@
+:name: :irb
+version: 0.0.1
+about:
+ authors: [Stefano Crocco, stefano.crocco@alice.it]
+ license: :gpl
+ description: Use IRB from within Ruber
+ bug_address: http://github.com/stcrocco/ruber/issues
+ icon: konsole
+class: Ruber::IRB::Plugin
+deps: ruby_development
+require: irb
+tool_widgets: 
+ - {class: Ruber::IRB::IRBWidget, :caption: IRB, :position: :bottom, :name: irb_widget}
+:config_widgets:
+ - {:caption: IRB, :class: Ruber::IRB::ConfigWidget}
+:config_options:
+ irb:
+  irb: {default: `which irb`.strip}
