@@ -271,7 +271,7 @@ module Ruber
             IrbLine.new :output, l
           end
         end
-        if @status == :input_sent and filtered_lines[0].type == :output
+        if @in_evaluation and filtered_lines[0].type == :output
           line = @prompt.add_prompt lines[0], :normal 
           match = @prompt.match line
           filtered_lines[0] = IrbLine.new match[0], match[1]
