@@ -54,6 +54,9 @@ module Ruber
         @controller.start_irb
         @input.connect(SIGNAL('activated(QString)')){|s| send_to_irb s}
         @input.completion_mode = KDE::GlobalSettings::CompletionAuto
+        @controller.connect SIGNAL(:ready) do
+          @input.enabled = true
+        end
         @ui.restart_irb.connect(SIGNAL(:clicked)) do
           @controller.restart_irb
         end
@@ -88,6 +91,7 @@ module Ruber
       def send_to_irb line
         @input.completion_object.add_item line
         @input.edit_text = ''
+        @input.enabled = false
         @controller.send_to_irb [line]
       end
       

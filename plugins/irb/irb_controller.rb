@@ -87,6 +87,8 @@ module Ruber
       signals :interrupting_evaluation
       
       signals :evaluation_interrupted
+      
+      signals :ready
             
       attr_accessor :irb_options
       
@@ -99,22 +101,26 @@ module Ruber
         @irb_options = options.dup
         @timer = Qt::Timer.new self
         connect @timer, SIGNAL(:timeout), self, SLOT(:timer_ticked)
-        @status = :waiting
         @interrupting = false
+        @in_evaluation = false
+        @input = []
         @output = []
       end
       
       def interrupt
         @interrupting = true
         @timer.stop
+        @input.clear
         emit interrupting_evaluation
         Process.kill :INT, @irb.pid
       end
       
       def send_to_irb input
-        @status = :sending
-        input.each{|l| @irb.write l + "\n"}
-        @status = :input_sent
+        @input.concat input
+        unless @in_evaluation
+          @in_evaluation = true
+          send_next_line
+        end
       end
       slots :send_to_irb
       
@@ -210,24 +216,37 @@ module Ruber
       end
       slots :irb_finished
       
+      def send_next_line
+        if @input.empty? 
+          @in_evaluation = false
+          emit ready
+        else @irb.write @input.shift + "\n" unless @input.empty?
+        end
+      end
+      
       def output_ready
         new_lines = @irb.read_all_standard_output.to_s.split "\n"
-        lines = process_output new_lines, !@interrupting
+        lines = process_output new_lines, false
         return unless lines
         @output.concat lines
         if @prompt and !@interrupting
+          if lines.last and lines.last.category == :input and lines.last.text.empty?
+            is_ready = true
+            @output.pop
+          end
           emit output_received if @output.count <= 100
           @timer.start(TIMER_INTERVAL) if !@output.empty? and !@timer.active?
+          send_next_line if (@in_evaluation and is_ready) or !@in_evaluation
         elsif @interrupting
           prompt_line = lines.find{|l| l.category == :input and l.text.empty?}
           if prompt_line
-            Qt::MessageBox.information nil, 'RUber', 'Interrupeted'
             @interrupting = false
             idx = lines.index prompt_line
             lines = @output.pop lines.size - idx + 1
             emit evaluation_interrupted
             @output = lines
             emit output_received
+            send_next_line
           end
         end
       end
