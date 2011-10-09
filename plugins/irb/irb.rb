@@ -46,7 +46,7 @@ module Ruber
       
       def initialize parent = nil
         super
-        @ui =   Ui::ToolWidget.new
+        @ui = Ui::ToolWidget.new
         @ui.setup_ui self
         @view = @ui.view
         @input = @ui.input

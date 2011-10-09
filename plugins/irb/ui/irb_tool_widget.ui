@@ -58,7 +58,7 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>&amp;Send Abort Signal</string>
+        <string>&amp;Interrupt Evaluation</string>
        </property>
       </widget>
      </item>
