@@ -95,6 +95,9 @@ module Ruber
       attr_accessor :irb_program
       
       TIMER_INTERVAL = 100
+      
+      DEFAULT_OUTPUT_LINES = 100
+      
       def initialize irb, options, parent = nil
         super parent
         @irb_program = irb
@@ -191,8 +194,10 @@ module Ruber
         @irb.write cmd
       end
       
-      def output
-        n = [100, @output.size].min
+      def output n = DEFAULT_OUTPUT_LINES
+        if n then n = [n, @output.size].min
+        else n = @output.count
+        end
         @output.shift n
       end
       
