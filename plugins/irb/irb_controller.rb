@@ -124,6 +124,17 @@ module Ruber
       end
       slots :send_to_irb
       
+      def stop
+        disconnect @irb, SIGNAL('finished(int, QProcess::ExitStatus)'), self, SLOT(:irb_finished)
+        process_output nil
+        emit about_to_stop_irb unless @output.empty?
+        @timer.stop
+        @irb.disconnect SIGNAL(:readyReadStandardOutput)
+        @irb.kill
+        # It seems it takes some time before irb is killed.
+        @irb.wait_for_finished 2000
+      end
+      
       def restart_irb
         process_output nil
         emit about_to_stop_irb unless @output.empty?
@@ -159,7 +170,10 @@ module Ruber
       end
       
       def start_irb
-        @irb.delete_later if @irb
+        if @irb
+          @irb.kill
+          @irb.delete_later 
+        end
         @irb = Qt::Process.new self
         @irb.process_channel_mode = Qt::Process::MergedChannels
         set_irb_env

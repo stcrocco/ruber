@@ -26,6 +26,12 @@ module Ruber
   module IRB
     
     class Plugin < Ruber::Plugin
+      
+      def shutdown
+        @widget.stop
+        super
+      end
+      
     end
     
     class IRBWidget < Qt::Widget
@@ -75,6 +81,10 @@ module Ruber
           :input => Qt::TextCharFormat.new{|c| c.foreground = Qt::Brush.new Ruber[:config][:output_colors, :message]},
           :output => Qt::TextCharFormat.new{|c| c.foreground = Qt::Brush.new Ruber[:config][:output_colors, :output]}
         }
+      end
+      
+      def stop
+        @controller.stop
       end
       
       private
