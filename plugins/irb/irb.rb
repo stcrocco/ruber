@@ -41,7 +41,7 @@ module Ruber
         :PROMPT_N => '',
         :PROMPT_S => '',
         :PROMPT_C => '',
-        :RETURN => "==> %s"
+        :RETURN => "==> "
       }
       
       def initialize parent = nil
@@ -95,7 +95,7 @@ module Ruber
         lines.each do |l|
           Ruber[:app].process_events
           @cursor.char_format = @formats[l.category]
-          @cursor.insert_text l.text+"\n"
+          @cursor.insert_text l.full_text+"\n"
         end
       end
       

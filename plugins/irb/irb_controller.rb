@@ -28,7 +28,7 @@ module Ruber
       
       def initialize id, prompts
         @id = id
-        names = {:PROMPT_I => :normal, :PROMPT_N => :indent, :PROMPT_S => :string, :PROMPT_c => :statement, :RETURN => :return}
+        names = {:PROMPT_I => :normal, :PROMPT_N => :indent, :PROMPT_S => :string, :PROMPT_C => :statement, :RETURN => :return}
         @prompts = {}
         names.each_pair{|k, v| @prompts[v] = prompts[k]}
       end
@@ -37,11 +37,10 @@ module Ruber
         res = str.split "quirb:#{@id}:", 3
         return if !res or !res[0].empty? or res.size < 3
         res[1].slice! 0 #removes a leading :
+        res[1].slice! -1 #removes an ending :
         letter, sep, line = res[2].partition ':'
         type = MODES[letter]
-        if type == :return
-          [type, res[1].chop]
-        elsif type then [type, res[1]+line]
+        if type then IrbLine.new type, line, res[1]
         else nil
         end
       end
@@ -54,7 +53,7 @@ module Ruber
     
     class IrbLine
       
-      attr_reader :type, :text, :category
+      attr_reader :type, :text, :category, :prompt, :full_text
       
       CATEGORIES = {
         :output => :output, 
@@ -65,9 +64,11 @@ module Ruber
         :indent => :input
       }
       
-      def initialize type, text
+      def initialize type, text, prompt
         @text = text
         @type = type
+        @prompt = prompt
+        @full_text = @prompt + @text
         @category = (type == :return or type == :output) ? :output : :input
       end
       
@@ -104,6 +105,7 @@ module Ruber
         @irb_options = options.dup
         @timer = Qt::Timer.new self
         connect @timer, SIGNAL(:timeout), self, SLOT(:timer_ticked)
+        @pending_prompt = nil
         @interrupting = false
         @in_evaluation = false
         @input = []
@@ -169,7 +171,7 @@ module Ruber
         names.each_pair do |k, v|
           @prompts[k] = @prompt.add_prompt '', v
         end
-        @prompts[:RETURN] << "\n"
+        @prompts[:RETURN] << "%s\n"
       end
       
       def start_irb
@@ -282,18 +284,16 @@ module Ruber
         return if lines.empty?
         if @prompt
           filtered_lines = lines.map do |l| 
-            match = @prompt.match(l) || [:output, l]
-            IrbLine.new match[0], match[1]
+            @prompt.match(l) || IrbLine.new( :output, l, '')
           end
         else
           filtered_lines = lines.map do |l|
-            IrbLine.new :output, l
+            IrbLine.new :output, l, ''
           end
         end
         if @in_evaluation and filtered_lines[0].type == :output
           line = @prompt.add_prompt lines[0], :normal 
-          match = @prompt.match line
-          filtered_lines[0] = IrbLine.new match[0], match[1]
+          filtered_lines[0] = @prompt.match line
         end
         if remove_empty_prompt
           if filtered_lines[-1] and filtered_lines[-1].category == :input and filtered_lines[-1].text.empty?
