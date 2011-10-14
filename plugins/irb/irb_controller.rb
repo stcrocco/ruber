@@ -36,7 +36,6 @@ module Ruber
       def match str
         res = str.split "quirb:#{@id}:", 3
         return if !res or !res[0].empty? or res.size < 3
-        res[1].slice! 0 #removes a leading :
         res[1].slice! -1 #removes an ending :
         letter, sep, line = res[2].partition ':'
         type = MODES[letter]
@@ -221,12 +220,21 @@ module Ruber
       
       def wait_for_prompt_changed
         lines = @irb.read_all_standard_output.to_s.split "\n"
+        found = false
         lines.each do |l|
           if @prompt.match l
             disconnect @irb, SIGNAL(:readyReadStandardOutput), self, SLOT(:wait_for_prompt_changed)
             connect @irb, SIGNAL(:readyReadStandardOutput), self, SLOT(:output_ready)
+            found = true
             break
           end
+        end
+        if found
+          empty_prompt = lines.reverse_each.find do |l|
+            res = @prompt.match l
+            res and res.category == :input and res.text.empty?
+          end
+          @pending_prompt = @prompt.match empty_prompt
         end
       end
       slots :wait_for_prompt_changed
@@ -253,7 +261,7 @@ module Ruber
         if @prompt and !@interrupting
           if lines.last and lines.last.category == :input and lines.last.text.empty?
             is_ready = true
-            @output.pop
+            @pending_prompt = @output.pop
           end
           emit output_received if @output.count <= 100
           @timer.start(TIMER_INTERVAL) if !@output.empty? and !@timer.active?
@@ -291,9 +299,9 @@ module Ruber
             IrbLine.new :output, l, ''
           end
         end
-        if @in_evaluation and filtered_lines[0].type == :output
-          line = @prompt.add_prompt lines[0], :normal 
-          filtered_lines[0] = @prompt.match line
+        if @in_evaluation and @pending_prompt and filtered_lines[0].type == :output
+          filtered_lines[0] = IrbLine.new :normal, lines[0], @pending_prompt.prompt
+          @pending_prompt = nil
         end
         if remove_empty_prompt
           if filtered_lines[-1] and filtered_lines[-1].category == :input and filtered_lines[-1].text.empty?
