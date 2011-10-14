@@ -22,10 +22,16 @@ module Ruber
   
   module IRB
   
+    # Incapsulates the information about the special prompt used by the plugin
     class PromptMatcher
       
+      # Mapping between mode names and characters used in the prompt
       MODES = {'n' => :normal, 's' => :string, 'c' => :statement, 'i' => :indent, 'r' => :return }
       
+# @param [String] id the identifier used to mark the beginning and end of a prompt
+# @param [{Symbol=>String}] prompts the prompts to use. The recognized keys are:
+#  @:PROMPT_I@, @:PROMPT_N@, @:PROMPT_S@, @:PROMPT_C@, @:RETURN@. They have the
+#  same meaninig as the keys of any entry in @IRB.conf[:PROMPT]@
       def initialize id, prompts
         @id = id
         names = {:PROMPT_I => :normal, :PROMPT_N => :indent, :PROMPT_S => :string, :PROMPT_C => :statement, :RETURN => :return}
@@ -33,6 +39,13 @@ module Ruber
         names.each_pair{|k, v| @prompts[v] = prompts[k]}
       end
       
+      
+# Checks whether a string begins with a prompt
+# 
+# @param [String] str the string to check
+# @return [IrbLine, nil] an {IrbLine} with the information about the prompt and the
+#  string if the string starts with a prompt or *nil* if the string doesn't start
+#  with a prompt
       def match str
         res = str.split "quirb:#{@id}:", 3
         return if !res or !res[0].empty? or res.size < 3
@@ -44,16 +57,43 @@ module Ruber
         end
       end
       
+# @todo remove this
       def add_prompt str, type
         "quirb:#{@id}:#{@prompts[type]}:quirb:#{@id}:#{MODES.invert[type]}:" << str
       end
       
     end
     
+# A parsed line from IRB
+# 
+# It contains information about the prompt for the line, the text of the line and the
+# type and category of prompt
     class IrbLine
       
-      attr_reader :type, :text, :category, :prompt, :full_text
+# @return [Symbol] the type of line. It can be:
+#  * @:output@ if there's no prompt
+#  * @:return@ if the line starts with a @:RETURN@ prompt
+#  * @:normal@ if the line starts with a @:PROMPT_I@ prompt
+#  * @:string@ if the line starts with a @:PROMPT_S@ prompt
+#  * @:statement@ if the line starts with a @:PROMPT_C@ prompt
+#  * @:indent@ if the line starts with a @:PROMPT_N@ prompt
+      attr_reader :type
       
+# @return [String] the content of the line
+      attr_reader :text
+
+# @return [Symbol] the category of the line (basing on the prompt {#type}). It is
+#  @:output@ if the prompt type is @:output@ or @:return@ and @:input@ otherwise
+      attr_reader :category
+      
+# @return [String] the text of the prompt
+      attr_reader :prompt
+
+# @return [String] the full text of the line, made from the IRB prompt and the line
+#  contents
+      attr_reader :full_text
+      
+# The category corresponding to each line type
       CATEGORIES = {
         :output => :output, 
         :return => :output,
@@ -63,17 +103,16 @@ module Ruber
         :indent => :input
       }
       
+# @param [Symbol] type the type of the line. It can be: @:output@, @:return@, @:normal@,
+#  @:string@, @:statement@ or @:indent@
+# @param [String] text the text of the line
+# @param [String] the text of the prompt
       def initialize type, text, prompt
         @text = text
         @type = type
         @prompt = prompt
         @full_text = @prompt + @text
         @category = (type == :return or type == :output) ? :output : :input
-      end
-      
-      def same_category_as? other
-        other = other.type unless other.is_a? Symbol
-        CATEGORIES[@type] == CATEGORIES[other]
       end
       
     end
