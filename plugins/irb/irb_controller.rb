@@ -25,8 +25,14 @@ module Ruber
     # Incapsulates the information about the special prompt used by the plugin
     class PromptMatcher
       
-      # Mapping between mode names and characters used in the prompt
-      MODES = {'n' => :normal, 's' => :string, 'c' => :statement, 'i' => :indent, 'r' => :return }
+      # Mapping between prompt types and characters used to represent them in the prompt
+      TYPES = {'n' => :normal, 's' => :string, 'c' => :statement, 'i' => :indent, 'r' => :return }
+      
+      # Mapping between prompt names used by IRB and characters used to represent them in the prompt
+      PROMPTS = {:PROMPT_I => 'n', :PROMPT_N => 'i', :PROMPT_S => 's', :PROMPT_C => 'c', :RETURN => 'r'}
+
+      # @return [{Symbol=>String}] the prompt to be used in IRB
+      attr_reader :prompts
       
 # @param [String] id the identifier used to mark the beginning and end of a prompt
 # @param [{Symbol=>String}] prompts the prompts to use. The recognized keys are:
@@ -34,11 +40,11 @@ module Ruber
 #  same meaninig as the keys of any entry in @IRB.conf[:PROMPT]@
       def initialize id, prompts
         @id = id
-        names = {:PROMPT_I => :normal, :PROMPT_N => :indent, :PROMPT_S => :string, :PROMPT_C => :statement, :RETURN => :return}
         @prompts = {}
-        names.each_pair{|k, v| @prompts[v] = prompts[k]}
+        prompts.each_pair do |k, v|
+          @prompts[k] = "quirb:#{@id}:#{v}:quirb:#{@id}:#{PROMPTS[k]}:"
+        end
       end
-      
       
 # Checks whether a string begins with a prompt
 # 
@@ -51,15 +57,10 @@ module Ruber
         return if !res or !res[0].empty? or res.size < 3
         res[1].slice! -1 #removes an ending :
         letter, sep, line = res[2].partition ':'
-        type = MODES[letter]
+        type = TYPES[letter]
         if type then IrbLine.new type, line, res[1]
         else nil
         end
-      end
-      
-# @todo remove this
-      def add_prompt str, type
-        "quirb:#{@id}:#{@prompts[type]}:quirb:#{@id}:#{MODES.invert[type]}:" << str
       end
       
     end
@@ -282,16 +283,8 @@ module Ruber
       # @note changing the prompt takes effect immediately, even if IRB has already
       #  been started
       def prompts= prompts
-        @user_prompts = prompts.dup
         id = Array.new(5){rand(10)}.join ''
-        prompt_string = "quirb:#{id}"
-        @prompt = PromptMatcher.new id, @user_prompts
-        @prompts = {}
-        names = {:PROMPT_I => :normal, :PROMPT_N => :indent, :PROMPT_S => :string, :PROMPT_c => :statement, :RETURN => :return}
-        names.each_pair do |k, v|
-          @prompts[k] = @prompt.add_prompt '', v
-        end
-        @prompts[:RETURN] << "%s\n"
+        @prompt = PromptMatcher.new id, prompts
       end
 
       # Starts IRB
@@ -358,8 +351,10 @@ module Ruber
       # IRB should not be given input until this command has been executed
       # @return [nil]
       def change_irb_prompt
+        prompts = @prompt.prompts.dup
+        prompts[:RETURN] += "%s\n"
         connect @irb, SIGNAL(:readyReadStandardOutput), self, SLOT(:wait_for_prompt_changed)
-        cmd = "IRB.conf[:PROMPT][:QUIRB]=#{@prompts.inspect}\nconf.prompt_mode = :QUIRB\n"
+        cmd = "IRB.conf[:PROMPT][:QUIRB]=#{prompts.inspect}\nconf.prompt_mode = :QUIRB\n"
         @irb.write cmd
         nil
       end
