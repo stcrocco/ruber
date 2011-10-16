@@ -20,6 +20,7 @@
 
 require 'irb/irb_controller'
 require_relative 'ui/irb_tool_widget'
+require_relative 'ui/irb_config_widget'
 
 module Ruber
   
@@ -77,6 +78,11 @@ module Ruber
         @controller.stop_irb
       end
       
+      def load_settings
+        @controller.prompts = Ruber[:config][:irb, :prompts]
+      end
+      slots :load_settings
+      
       private
       
       def display_output lines
@@ -103,6 +109,31 @@ module Ruber
     end
     
     class ConfigWidget < Qt::Widget
+      
+      def initialize parent = nil
+        super
+        @ui = Ui::ConfigWidget.new
+        @ui.setup_ui self
+      end
+      
+      def read_settings
+        prompts = @settings_dialog.container[:irb, :prompts]
+        @ui.prompt_i.text = prompts[:PROMPT_I]
+        @ui.prompt_n.text = prompts[:PROMPT_N]
+        @ui.prompt_s.text = prompts[:PROMPT_S]
+        @ui.prompt_c.text = prompts[:PROMPT_C]
+        @ui.prompt_return.text = prompts[:RETURN]
+      end
+      
+      def store_settings
+        prompts = {}
+        prompts[:PROMPT_I] = @ui.prompt_i.text
+        prompts[:PROMPT_N] = @ui.prompt_n.text
+        prompts[:PROMPT_S] = @ui.prompt_s.text
+        prompts[:PROMPT_C] = @ui.prompt_c.text
+        prompts[:RETURN] = @ui.prompt_return.text
+        @settings_dialog.container[:irb, :prompts] = prompts
+      end
       
     end
     
