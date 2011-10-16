@@ -52,9 +52,7 @@ module Ruber
         @input = @ui.input
         self.focus_proxy = @input
         @controller = IRBController.new Ruber[:config][:irb, :irb], [], self
-        @controller.connect SIGNAL(:output_ready) do
-          display_output @controller.output
-        end
+        @controller.connect(SIGNAL(:output_ready)){ display_output @controller.output}
         @display_output = true
         @controller.prompts = PROMPTS
         @controller.start_irb
@@ -64,18 +62,10 @@ module Ruber
           @input.enabled = true
           @input.set_focus if is_active_window
         end
-        @ui.restart_irb.connect(SIGNAL(:clicked)) do
-          @controller.restart_irb
-        end
-        @ui.send_abort.connect(SIGNAL(:clicked)) do
-          @controller.interrupt
-        end
-        @controller.connect(SIGNAL(:interrupting_evaluation)) do
-          @display_output = false
-        end
-        @controller.connect(SIGNAL(:evaluation_interrupted)) do
-          @display_output = true
-        end
+        @ui.restart_irb.connect(SIGNAL(:clicked)){ @controller.restart_irb}
+        @ui.send_abort.connect(SIGNAL(:clicked)){ @controller.interrupt}
+        @controller.connect(SIGNAL(:interrupting_evaluation)){ @display_output = false}
+        @controller.connect(SIGNAL(:evaluation_interrupted)){ @display_output = true}
         @cursor = @view.text_cursor
         @formats = {
           :input => Qt::TextCharFormat.new{|c| c.foreground = Qt::Brush.new Ruber[:config][:output_colors, :message]},
@@ -97,6 +87,9 @@ module Ruber
           @cursor.char_format = @formats[l.category]
           @cursor.insert_text l.full_text+"\n"
         end
+        @cursor.move_position Qt::TextCursor::End
+        @view.text_cursor = @cursor
+        @view.ensure_cursor_visible
       end
       
       def send_to_irb line
