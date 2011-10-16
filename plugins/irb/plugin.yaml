@@ -12,7 +12,8 @@ require: irb
 tool_widgets: 
  - {class: Ruber::IRB::IRBWidget, :caption: IRB, :position: :bottom, :name: irb_widget}
 :config_widgets:
- - {:caption: IRB, :class: Ruber::IRB::ConfigWidget}
+ - {:caption: IRB, class: Ruber::IRB::ConfigWidget}
 :config_options:
  irb:
   irb: {default: `which irb`.strip}
+  prompts: {default: Ruber::IRB::IRBWidget::PROMPTS}

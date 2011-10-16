@@ -37,11 +37,11 @@ module Ruber
     class IRBWidget < Qt::Widget
       
       PROMPTS = {
-        :PROMPT_I => '',
-        :PROMPT_N => '',
-        :PROMPT_S => '',
-        :PROMPT_C => '',
-        :RETURN => "==> "
+        :PROMPT_I=>"%N(%m):%03n:%i> ",
+        :PROMPT_N=>"%N(%m):%03n:%i> ",
+        :PROMPT_S=>"%N(%m):%03n:%i%l ",
+        :PROMPT_C=>"%N(%m):%03n:%i* ",
+        :RETURN=>"=> "
       }
       
       def initialize parent = nil
@@ -54,7 +54,7 @@ module Ruber
         @controller = IRBController.new Ruber[:config][:irb, :irb], [], self
         @controller.connect(SIGNAL(:output_ready)){ display_output @controller.output}
         @display_output = true
-        @controller.prompts = PROMPTS
+        @controller.prompts = Ruber[:config][:irb, :prompts]
         @controller.start_irb
         @input.connect(SIGNAL('returnPressed(QString)')){|s| send_to_irb s}
         @input.completion_mode = KDE::GlobalSettings::CompletionAuto
