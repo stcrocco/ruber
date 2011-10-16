@@ -386,7 +386,7 @@ which, most likely, will cause it to fail.
         elsif ext.spec_file? doc.path
           opts[:files] = [doc.path]
         elsif ext.code_file?(doc.path) 
-          files = ext.specs_for_code doc.path
+          opts[:files] = ext.specs_for_code doc.path
         end
         run_rspec_for prj, opts, :files => :documents_with_file, :on_failure => :ask,
             :message => 'Do you want to run the tests all the same?'
