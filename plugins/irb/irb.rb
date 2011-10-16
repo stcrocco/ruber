@@ -52,7 +52,7 @@ module Ruber
         @input = @ui.input
         self.focus_proxy = @input
         @controller = IRBController.new Ruber[:config][:irb, :irb], [], self
-        @controller.connect SIGNAL('output_received()') do
+        @controller.connect SIGNAL(:output_ready) do
           display_output @controller.output
         end
         @display_output = true
@@ -84,7 +84,7 @@ module Ruber
       end
       
       def stop
-        @controller.stop
+        @controller.stop_irb
       end
       
       private
