@@ -1006,6 +1006,17 @@ describe Ruber::OutputWidget do
         @ow.send :maybe_open_file, @mod.index(0,0)
       end
       
+      it 'gives focus to the editor' do
+        ed = flexmock{|m| m.should_receive(:set_focus).once}
+        @mw.should_receive(:display_document).once.and_return(ed)
+        @ow.send :maybe_open_file, @mod.index(0,0)
+      end
+      
+      it 'doesn\'t attempt to give focus to the editor if no editor is found' do
+        @mw.should_receive(:display_document).once.and_return nil
+        lambda{@ow.send :maybe_open_file, @mod.index(0,0)}.should_not raise_error
+      end
+      
       it 'does nothing if the Control and/or Shift modifiers are pressed' do
         flexmock(@ow).should_receive(:find_filename_in_index).never
         flexmock(Ruber::Application).should_receive(:keyboard_modifiers).once.and_return(Qt::ShiftModifier.to_i)

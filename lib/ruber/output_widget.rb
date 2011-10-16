@@ -759,6 +759,7 @@ option is used.
       ed = Ruber[:main_window].display_document file, display_hints
       hide_tool = pinned_down? and Qt::Application.mouse_buttons != Qt::MidButton
       Ruber[:main_window].hide_tool self if hide_tool
+      ed.set_focus if ed
       ed
     end
     
