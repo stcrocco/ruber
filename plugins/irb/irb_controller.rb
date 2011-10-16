@@ -419,9 +419,9 @@ module Ruber
             res = @prompt.match l
             res and res.category == :input and res.text.empty?
           end
-          @pending_prompt = @prompt.match empty_prompt
-          emit ready
+          @pending_prompt = @prompt.match empty_prompt if empty_prompt
         end
+        emit ready
       end
       slots :wait_for_prompt_changed
 
