@@ -316,7 +316,7 @@ module Ruber
       
       # @return [Boolean] whether IRB is running or not
       def running?
-        @irb.state == Qt::Process::Running
+        @irb and (@irb.state == Qt::Process::Running)
       end
       
       # The state of the IRB process
@@ -326,7 +326,14 @@ module Ruber
       #  and @:not_running@ if either IRB has not yet been started or if the attempt
       #  to start it has failed
       def state
-        @irb.state
+        if @irb
+          case @irb.state
+          when Qt::Process::Running then :running
+          when Qt::Process::Starting then :starting
+          else :not_running
+          end
+        else :not_running
+        end
       end
             
       # Reads a number of lines of output
