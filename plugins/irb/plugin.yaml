@@ -5,7 +5,7 @@ about:
  license: :gpl
  description: Use IRB from within Ruber
  bug_address: http://github.com/stcrocco/ruber/issues
- icon: konsole
+ icon: irb.png
 class: Ruber::IRB::Plugin
 deps: ruby_development
 require: irb
