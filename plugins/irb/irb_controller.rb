@@ -361,6 +361,7 @@ module Ruber
       def change_irb_prompt
         prompts = @prompt.prompts.dup
         prompts[:RETURN] += "%s\n"
+        disconnect @irb, SIGNAL(:readyReadStandardOutput), self, SLOT(:process_output)
         connect @irb, SIGNAL(:readyReadStandardOutput), self, SLOT(:wait_for_prompt_changed)
         cmd = "IRB.conf[:PROMPT][:QUIRB]=#{prompts.inspect}\nconf.prompt_mode = :QUIRB\n"
         @irb.write cmd
