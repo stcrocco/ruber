@@ -51,34 +51,34 @@ that each option corresponds to a single widget, you can't use it. So, you defin
 a <tt>read_settings</tt>, a <tt>store_settings</tt> and a <tt>read_default_settings</tt>
 method in your widget class like this:
 
-  class MyWidget < Qt::Widget
+bc.. class MyWidget < Qt::Widget
 
-    def initialize parent = nil
-      super
-      @default_dir_widget = KDE::LineEdit.new self
-      @default_file_widget = KDE::LineEdit.new self
-    end
-
-    def read_settings
-      path = @settings_dialog.settings_container[:general, :default_path]
-      @default_dir_widget.text = File.dirname(path)
-      @default_file_widget.text = File.basename(path)
-    end
-    
-    def store_settings
-      path = File.join @default_dir_widget.text, @default_file_widget.text
-      @settings_dialog.settings_container[:general, :default_path] = path
-    end
-    
-    def read_default_settings
-      path = @settings_dialog.settings_container.default(:general, :default_path)
-      @default_dir_widget.text = File.dirname(path)
-      @default_file_widget.text = File.basename(path)
-    end
-
+  def initialize parent = nil
+    super
+    @default_dir_widget = KDE::LineEdit.new self
+    @default_file_widget = KDE::LineEdit.new self
   end
 
-Note that the <tt>@settings_dialog</tt> instance variable has been automatically
+  def read_settings
+    path = @settings_dialog.settings_container[:general, :default_path]
+    @default_dir_widget.text = File.dirname(path)
+    @default_file_widget.text = File.basename(path)
+  end
+  
+  def store_settings
+    path = File.join @default_dir_widget.text, @default_file_widget.text
+    @settings_dialog.settings_container[:general, :default_path] = path
+  end
+  
+  def read_default_settings
+    path = @settings_dialog.settings_container.default(:general, :default_path)
+    @default_dir_widget.text = File.dirname(path)
+    @default_file_widget.text = File.basename(path)
+  end
+
+end
+  
+p. Note that the <tt>@settings_dialog</tt> instance variable has been automatically
 created by the dialog when the widget has been created and contains a reference
 to the dialog itself.
 

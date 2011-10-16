@@ -55,6 +55,11 @@
   :ruby_options: 
   - -Ilib
 :rspec: 
+  :code_directory: .
+  :patterns: 
+  - :code: "**/*.rb"
+    :spec: "%f_spec.rb"
+    :glob: 0
   :full_backtraces: false
   :ruby_options: 
   - -I.

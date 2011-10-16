@@ -6,7 +6,8 @@ h3. Features
 
 * Added a RI plugin. You can now insert the class or method name in the RI tool widget
   and see the documentation in a nice HTML format inside the tool widget itself.
-  This plugin requires RDoc version 3.x (maybe version 2.x will also work).
+  This plugin requires RDoc version 3.x (it isn't tested with version 2.x).
+* Added an IRB plugin
 * The syntax checker plugin has been rewritten. Now other plugins can check the
   syntax of a document
 * Ruby and YAML syntax checker now are in their own plugin, rather than being part
