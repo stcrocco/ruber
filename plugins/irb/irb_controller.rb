@@ -285,6 +285,7 @@ module Ruber
       def prompts= prompts
         id = Array.new(5){rand(10)}.join ''
         @prompt = PromptMatcher.new id, prompts
+        change_irb_prompt if running?
       end
 
       # Starts IRB
