@@ -87,13 +87,7 @@ character class is used from ruby 1.9.2 onward, while @\w@ is used for previous
 versions
 =end
       IDENTIFIER_PATTERN = RUBY_VERSION >= '1.9.2' ? '\p{Word}+' : '\w+'
-      
-=begin rdoc
-The regexp fragment which matches a multiple identifier (that is, an identifier
-maybe followed by several other identifiers separated by @::@)
-=end
-      MULTI_ID_PATTERN = "#{IDENTIFIER_PATTERN}(?:::#{IDENTIFIER_PATTERN})*"
-      
+           
 =begin rdoc
 The patterns used to find out whether an @end@ keyword should be inserted after
 a line.
@@ -112,20 +106,19 @@ Each entry is itself an array with three elements:
         [/\bdo\s*$/, "\nend", [0, -1]],
         [/\bdo\s+\|/, "\nend", [0, -1]],
         [/^\s*def\s/, "\nend", [0, -1]],
-        [/^\s*class\s+#{IDENTIFIER_PATTERN}\s*$/, "\nend", [0, -1]],
-        [/^\s*class\s+#{MULTI_ID_PATTERN}\s*<{1,2}\s*#{MULTI_ID_PATTERN}\s*$/, "\nend", [0, -1]],
-        [/^\s*module\s+#{MULTI_ID_PATTERN}\s*$/, "\nend", [0,-1]],
+        [/\bclass\b/, "\nend", [0, -1]],
+        [/\bmodule\b/, "\nend", [0, -1]],
+        [/^\s*case\b/, "\nend", [0, -1]],
+        [/=\s*case\b/, "\nend", [0, -1]],
         [/^\s*while\s/, "\nend", [0,-1]],
         [/^\s*until\s/, "\nend", [0,-1]],
-#         [/^=begin(\s|$)/, "\n=end", [0, -1]],
+        [/^=begin(\s|$)/, "\n=end", [0, -1]],
         [/^\s*begin\s/, "\nend", [0, -1]],
         [/(^=\s+|.=\s*)begin\s/, "\nend", [0, -1]],
-        [/^\s*for\s+#{IDENTIFIER_PATTERN}\s+in.+$/, "\nend", [0,-1]],
-        [/=\s*for\s+#{IDENTIFIER_PATTERN}\s+in.+$/, "\nend", [0,-1]]
+        [/^\s*for\s/, "\nend", [0,-1]],
+        [/=\s*for\s/, "\nend", [0,-1]]
       ]
-      
-      MISSING_END_REGEXP = %r{expecting\s+kEND|keyword_end}
-      
+
 =begin rdoc
 @param [DocumentProject] prj the project associated with the document
 =end
@@ -151,16 +144,19 @@ position (if any) is forgotten
 @param [KTextEditor::Range] the range corresponding to the inserted text
 =end
       def text_inserted range
+        return unless @doc.active?
         text = @doc.text range
         return unless text.end_with? "\n"
         @insertion = nil
         line = @doc.line( range.end.line - 1)
         pattern = PATTERNS.find{|pat| pat[0].match line}
         if pattern and !line.start_with? '#'
-          errors = @doc.extension(:syntax_checker).check_syntax(:format => false, 
-              :update => false)[:errors]
+          check_res = @doc.extension(:syntax_checker).check_syntax(:format => false, 
+              :update => false)
+          return unless check_res
+          errors = check_res[:errors]
           # Usually, missing end errors are the last ones to be reported
-          if errors && !errors.empty? && errors[-1].message =~ MISSING_END_REGEXP
+          if errors && !errors.empty? && errors[-1].error_type == :missing_end
 #           indentation = line.match(/^\s*/)[0].size
 #           next_indentation = @doc.line(range.end.line + 1).match(/^\s*/)[0].size
 #           unless next_indentation > indentation
@@ -252,3 +248,4 @@ is called. After the text has been inserted {#connect_slots} is called.
   end
   
 end
+
