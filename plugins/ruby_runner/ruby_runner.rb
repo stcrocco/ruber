@@ -346,7 +346,7 @@ object
 current project, even if _target_ is a {Document} or the name of a file belonging
 to it
 @param [Boolean] abs it has the same meaning as in {SettingsContainer#[]}
-@raise ArgumentError if the option can be found
+@raise [IndexError] if the option can't be found
 =end
       def option_for target, group, name, ignore_project = false, abs = false
         cont = []
@@ -363,7 +363,7 @@ to it
         abs = :abs if abs
         cont.each_with_index do |c, i|
           begin return c[group, name, abs]
-          rescue ArgumentError
+          rescue IndexError
             raise if i == cont.size - 1
           end
         end

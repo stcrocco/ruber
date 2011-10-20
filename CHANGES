@@ -12,10 +12,11 @@ h3. Features
   syntax of a document
 * Ruby and YAML syntax checker now are in their own plugin, rather than being part
   of the syntax checker plugin
-* The auto end plugin doesn't use indentation to decide whether the end keyword
-  should be inserted or not. It performs a syntax check instead and only inserts
+* The auto end plugin doesn't use indentation anymore to decide whether the end keyword
+  should be inserted or not. Instead, it performs a syntax check and only inserts
   end if ruby reports a missing end keyword. This should improve the accuracy of
   the plugin
+* The Auto End plugin now inserts the @end@ keyword after a @case@ expression
 * Clicking on a file name in an output widget with the middle mouse button now
   prevents the tool widget from being hidden, as if the pin button were clicked
 * Changed the interface to specify patterns in the RSpec plugin
@@ -41,10 +42,6 @@ h3. Bug fixes
 * Do not crash when closing with unsaved files
 * Horizontal scrollbar in the RSpec tool widget will be displayed when the spec
   description is larger than the widget but the rest of the text isn't
-
-h2. Ruber 0.0.9
-
-h3. Features
 
 h2. Ruber 0.0.9
 
