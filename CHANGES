@@ -59,6 +59,8 @@ h3. Bug fixes
 * The RSpec plugin now correctly displays pending examples
 * Fixed a crash when creating a new document and saving it as a ruby file while
   using the Syntax Checker plugin
+* When clicking on a file name in an output widget, give focus to the editor instead
+  of keeping it in  the tool widget
   
 h2. Ruber 0.0.8
 
