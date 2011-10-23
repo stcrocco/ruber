@@ -3,16 +3,26 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Class: Ruber::ComponentManager</title>
-<link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
-<link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+<title>
+  Class: Ruber::ComponentManager
+  
+    &mdash; Ruber API
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   relpath = '..';
   if (relpath != '') relpath += '/';
 </script>
-<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
-<script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
 
   </head>
   <body>
@@ -33,11 +43,14 @@
 </div>
 
       <div id="search">
-  <a id="class_list_link" href="#">Class List</a>
-  <a id="method_list_link" href="#">Method List</a>
-  <a id ="file_list_link" href="#">File List</a>
+  
+    <a id="class_list_link" href="#">Class List</a>
+  
+    <a id="method_list_link" href="#">Method List</a>
+  
+    <a id="file_list_link" href="#">File List</a>
+  
 </div>
-
       <div class="clear"></div>
     </div>
     
@@ -137,6 +150,13 @@
     
   </ul>
 
+
+
+  
+  
+  
+  
+  
 
   
     <h2>
@@ -766,6 +786,7 @@
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -816,6 +837,7 @@
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -864,6 +886,7 @@ a more complete description.
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -908,6 +931,7 @@ be taken into account.
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -937,7 +961,7 @@ be taken into account.
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id find_plugins'>find_plugins</span> <span class='id dirs'>dirs</span><span class='comma'>,</span> <span class='id info'>info</span> <span class='op'>=</span> <span class='kw'>false</span>
   <span class='id res'>res</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
   <span class='id dirs'>dirs</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id dir'>dir</span><span class='op'>|</span>
-    <span class='const'>Dir</span><span class='period'>.</span><span class='id entries'>entries</span><span class='lparen'>(</span><span class='id dir'>dir</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>2</span><span class='op'>..</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id name'>name</span><span class='op'>|</span>
+    <span class='const'>Dir</span><span class='period'>.</span><span class='id entries'>entries</span><span class='lparen'>(</span><span class='id dir'>dir</span><span class='rparen'>)</span><span class='period'>.</span><span class='id sort'>sort</span><span class='lbracket'>[</span><span class='int'>2</span><span class='op'>..</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id name'>name</span><span class='op'>|</span>
       <span class='kw'>next</span> <span class='kw'>if</span> <span class='id res'>res</span><span class='lbracket'>[</span><span class='id name'>name</span><span class='period'>.</span><span class='id to_sym'>to_sym</span><span class='rbracket'>]</span>
       <span class='id d'>d</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span> <span class='id dir'>dir</span><span class='comma'>,</span> <span class='id name'>name</span>
       <span class='kw'>if</span> <span class='const'>File</span><span class='period'>.</span><span class='id directory?'>directory?</span><span class='lparen'>(</span><span class='id d'>d</span><span class='rparen'>)</span> <span class='kw'>and</span> <span class='const'>File</span><span class='period'>.</span><span class='id exist?'>exist?</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span> <span class='id d'>d</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>plugin.yaml</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
@@ -977,6 +1001,7 @@ will be raised.
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -1053,6 +1078,7 @@ will be raised.
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -1097,6 +1123,7 @@ of sorted components.
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -1139,6 +1166,7 @@ of sorted components.
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -1175,6 +1203,7 @@ of sorted components.
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -1216,6 +1245,7 @@ for the plugins is returned.
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -1282,6 +1312,7 @@ for the plugins is returned.
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -1329,6 +1360,7 @@ for the plugins is returned.
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -1392,6 +1424,7 @@ list: the component should take care to do it itself, using the <ins>add</ins> m
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -1474,6 +1507,7 @@ list: the plugin should take care to do it itself, using the <ins>add</ins> meth
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -1583,6 +1617,7 @@ fails to load, there are several behaviours:
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -1664,6 +1699,7 @@ fails to load, there are several behaviours:
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -1689,7 +1725,7 @@ fails to load, there are several behaviours:
 <span class='kw'>def</span> <span class='id locate_plugins'>locate_plugins</span> <span class='id dirs'>dirs</span>
   <span class='id plugin_files'>plugin_files</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
   <span class='id dirs'>dirs</span><span class='period'>.</span><span class='id reverse'>reverse</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id d'>d</span><span class='op'>|</span>
-    <span class='const'>Dir</span><span class='period'>.</span><span class='id entries'>entries</span><span class='lparen'>(</span><span class='id d'>d</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>2</span><span class='op'>..</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id f'>f</span><span class='op'>|</span> 
+    <span class='const'>Dir</span><span class='period'>.</span><span class='id entries'>entries</span><span class='lparen'>(</span><span class='id d'>d</span><span class='rparen'>)</span><span class='period'>.</span><span class='id sort'>sort</span><span class='lbracket'>[</span><span class='int'>2</span><span class='op'>..</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id f'>f</span><span class='op'>|</span> 
       <span class='id full_dir'>full_dir</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span> <span class='id d'>d</span><span class='comma'>,</span> <span class='id f'>f</span>
       <span class='kw'>if</span> <span class='const'>File</span><span class='period'>.</span><span class='id directory?'>directory?</span><span class='lparen'>(</span><span class='id full_dir'>full_dir</span><span class='rparen'>)</span> <span class='kw'>and</span> <span class='const'>File</span><span class='period'>.</span><span class='id exist?'>exist?</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span><span class='lparen'>(</span><span class='id full_dir'>full_dir</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>plugin.yaml</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='rparen'>)</span>
         <span class='id plugin_files'>plugin_files</span><span class='lbracket'>[</span><span class='id f'>f</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span> <span class='id full_dir'>full_dir</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>plugin.yaml</span><span class='tstring_end'>'</span></span>
@@ -1718,6 +1754,7 @@ fails to load, there are several behaviours:
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -1763,6 +1800,7 @@ This method is intented to be called from <tt>MainWindow#queryClose</tt>.
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -1809,6 +1847,7 @@ This method is intented to be called from <tt>MainWindow#queryClose</tt>.
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -1843,6 +1882,7 @@ This method is intented to be called from <tt>MainWindow#queryClose</tt>.
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -1955,6 +1995,7 @@ This method is intented to be called from <tt>MainWindow#queryClose</tt>.
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -2031,6 +2072,7 @@ will be raised (you can&#8217;t unload a basic component).
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -2091,6 +2133,7 @@ will be raised (you can&#8217;t unload a basic component).
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -2150,9 +2193,9 @@ will be raised (you can&#8217;t unload a basic component).
 </div>
     
     <div id="footer">
-  Generated on Fri Apr 29 10:51:15 2011 by 
+  Generated on Sun Oct 23 14:12:23 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.8 (ruby-1.9.2).
+  0.7.3 (ruby-1.9.3).
 </div>
 
   </body>

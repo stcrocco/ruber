@@ -3,16 +3,26 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Class: Ruber::OutputWidget</title>
-<link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
-<link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+<title>
+  Class: Ruber::OutputWidget
+  
+    &mdash; Ruber API
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   relpath = '..';
   if (relpath != '') relpath += '/';
 </script>
-<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
-<script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
 
   </head>
   <body>
@@ -33,11 +43,14 @@
 </div>
 
       <div id="search">
-  <a id="class_list_link" href="#">Class List</a>
-  <a id="method_list_link" href="#">Method List</a>
-  <a id ="file_list_link" href="#">File List</a>
+  
+    <a id="class_list_link" href="#">Class List</a>
+  
+    <a id="method_list_link" href="#">Method List</a>
+  
+    <a id="file_list_link" href="#">File List</a>
+  
 </div>
-
       <div class="clear"></div>
     </div>
     
@@ -224,6 +237,7 @@ pass it to the constructor.</p>
 </div>
 <div class="tags">
   
+
 </div><div id="subclasses">
   <h2>Direct Known Subclasses</h2>
   <p class="children"><span class='object_link'><a href="FilteredOutputWidget.html" title="Ruber::FilteredOutputWidget (class)">FilteredOutputWidget</a></span>, <span class='object_link'><a href="FindInFiles/ReplaceWidget.html" title="Ruber::FindInFiles::ReplaceWidget (class)">FindInFiles::ReplaceWidget</a></span></p>
@@ -252,6 +266,7 @@ pass it to the constructor.</p>
 </div>
 <div class="tags">
   
+
 </div>
         </dt>
         <dd><pre class="code"><span class='const'>Qt</span><span class='op'>::</span><span class='const'>UserRole</span></pre></dd>
@@ -265,6 +280,7 @@ pass it to the constructor.</p>
 </div>
 <div class="tags">
   
+
 </div>
         </dt>
         <dd><pre class="code"><span class='const'>OutputTypeRole</span> <span class='op'>+</span> <span class='int'>1</span></pre></dd>
@@ -486,6 +502,12 @@ file name in the title.</p></div></span>
     
   </ul>
 
+
+
+  
+  
+  
+  
 
   
     <h2>
@@ -1142,10 +1164,10 @@ file name in the title.</p></div></span>
   
     <li>
       
-        <span class='type'>(<tt>Qt::Widget</tt>, <tt>nil</tt>)</span>
-      
-      
         <span class='name'>the</span>
+      
+      
+        <span class='type'>(<tt>Qt::Widget</tt>, <tt>nil</tt>)</span>
       
       
       
@@ -1156,10 +1178,10 @@ file name in the title.</p></div></span>
   
     <li>
       
-        <span class='type'>(<tt>Hash</tt>)</span>
-      
-      
         <span class='name'>opts</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>{}</tt>)</em>
@@ -1181,8 +1203,8 @@ file name in the title.</p></div></span>
     <ul class="option">
       
         <li>
-          <span class="type">(<tt>Qt::AbstractItemView</tt>, <tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
           <span class="name">:view</span>
+          <span class="type">(<tt>Qt::AbstractItemView</tt>, <tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -1195,11 +1217,11 @@ be used as it is (and the new widget will become a child of the output widget).
 If it is a symbol, it can be either <code>:list</code>, <code>:tree</code> or <code>:table</code>. In this case,
 a new instance respectively of <span class='object_link'><a href="OutputWidget/ListView.html" title="Ruber::OutputWidget::ListView (class)">ListView</a></span>, <span class='object_link'><a href="OutputWidget/TreeView.html" title="Ruber::OutputWidget::TreeView (class)">TreeView</a></span> or <span class='object_link'><a href="OutputWidget/TableView.html" title="Ruber::OutputWidget::TableView (class)">TableView</a></span> will be
 created</p></div>
-        </tr>
+        </li>
       
         <li>
-          <span class="type">(<tt>Qt::AbstractItemModel</tt>, <tt>nil</tt>)</span>
           <span class="name">:model</span>
+          <span class="type">(<tt>Qt::AbstractItemModel</tt>, <tt>nil</tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -1208,11 +1230,11 @@ created</p></div>
           </span>
           &mdash; <div class='inline'><p>the model the output widget
 should use. If <strong>nil</strong>, a new instance of <span class='object_link'><a href="OutputWidget/Model.html" title="Ruber::OutputWidget::Model (class)">Model</a></span> will be used</p></div>
-        </tr>
+        </li>
       
         <li>
-          <span class="type">(<tt>Boolean</tt>)</span>
           <span class="name">:use_default_font</span>
+          <span class="type">(<tt>Boolean</tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -1222,10 +1244,11 @@ should use. If <strong>nil</strong>, a new instance of <span class='object_link'
           &mdash; <div class='inline'><p>whether or not the application&#8217;s
 default font should by used for the output widget. By default, the font used
 is the one the user set in the <code>general/output_font</code> option</p></div>
-        </tr>
+        </li>
       
     </ul>
   
+
 
 </div><table class="source_code">
   <tr>
@@ -1322,13 +1345,14 @@ is the one the user set in the <code>general/output_font</code> option</p></div>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="OutputWidget/ActionList.html" title="Ruber::OutputWidget::ActionList (class)">ActionList</a></span></tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="OutputWidget/ActionList.html" title="Ruber::OutputWidget::ActionList (class)">ActionList</a></span></tt>)</span>
       
       
       
@@ -1381,13 +1405,14 @@ contains the &#8216;copy&#8217;, &#8216;copy_selected&#8217; and &#8216;clear&#8
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>Hash{<span class='object_link'><a href="../String.html" title="String (class)">String</a></span> =&gt; KDE::Action}</tt>)</span>
       
+        <span class='type'>(<tt>Hash{<span class='object_link'><a href="../String.html" title="String (class)">String</a></span> =&gt; KDE::Action}</tt>)</span>
       
       
       
@@ -1438,13 +1463,14 @@ contains the &#8216;copy&#8217;, &#8216;copy_selected&#8217; and &#8216;clear&#8
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>Boolean</tt>)</span>
       
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
       
@@ -1493,13 +1519,14 @@ contains the &#8216;copy&#8217;, &#8216;copy_selected&#8217; and &#8216;clear&#8
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>Boolean</tt>)</span>
       
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
       
@@ -1548,13 +1575,14 @@ contains the &#8216;copy&#8217;, &#8216;copy_selected&#8217; and &#8216;clear&#8
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>Qt::AbstractItemModel</tt>)</span>
       
+        <span class='type'>(<tt>Qt::AbstractItemModel</tt>)</span>
       
       
       
@@ -1604,13 +1632,14 @@ file name in the title</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>Boolean</tt>)</span>
       
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
       
@@ -1660,13 +1689,14 @@ file name in the title</p></div>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>Qt::AbstractItemView</tt>)</span>
       
+        <span class='type'>(<tt>Qt::AbstractItemView</tt>)</span>
       
       
       
@@ -1719,13 +1749,14 @@ file name in the title</p></div>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
       
@@ -1778,13 +1809,14 @@ file name in the title</p></div>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -1833,13 +1865,14 @@ from the items by calling <span class='object_link'><a href="#text_for_clipboard
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -1914,13 +1947,14 @@ from the items by calling <span class='object_link'><a href="#text_for_clipboard
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -1968,13 +2002,14 @@ from the items by calling <span class='object_link'><a href="#text_for_clipboard
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -2044,10 +2079,10 @@ from the items by calling <span class='object_link'><a href="#text_for_clipboard
   
     <li>
       
-        <span class='type'>(<tt>AbstractItemView</tt>, <tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
-      
-      
         <span class='name'>view</span>
+      
+      
+        <span class='type'>(<tt>AbstractItemView</tt>, <tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
       
       
       
@@ -2058,13 +2093,14 @@ from the items by calling <span class='object_link'><a href="#text_for_clipboard
     </li>
   
 </ul>
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -2155,10 +2191,10 @@ and he wouldn&#8217;t like them to scroll away.</p>
   
     <li>
       
-        <span class='type'>(<tt>Qt::ModelIndex</tt>)</span>
-      
-      
         <span class='name'>parent</span>
+      
+      
+        <span class='type'>(<tt>Qt::ModelIndex</tt>)</span>
       
       
       
@@ -2169,10 +2205,10 @@ and he wouldn&#8217;t like them to scroll away.</p>
   
     <li>
       
-        <span class='type'>(<tt>Qt::ModelIndex</tt>)</span>
-      
-      
         <span class='name'>start_idx</span>
+      
+      
+        <span class='type'>(<tt>Qt::ModelIndex</tt>)</span>
       
       
       
@@ -2184,10 +2220,10 @@ row (unused)</p></div>
   
     <li>
       
-        <span class='type'>(<tt>Qt::ModelIndex</tt>)</span>
-      
-      
         <span class='name'>end_idx</span>
+      
+      
+        <span class='type'>(<tt>Qt::ModelIndex</tt>)</span>
       
       
       
@@ -2197,13 +2233,14 @@ row (unused)</p></div>
     </li>
   
 </ul>
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -2260,13 +2297,14 @@ be inserted in the menu.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -2345,10 +2383,10 @@ corresponding item by overriding this method to always return <strong>nil</stron
   
     <li>
       
-        <span class='type'>(<tt>Qt::ModelIndex</tt>, <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
-      
-      
         <span class='name'>idx</span>
+      
+      
+        <span class='type'>(<tt>Qt::ModelIndex</tt>, <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
       
@@ -2362,13 +2400,14 @@ is a string, there&#8217;s no way to know whether it refers to the title or not,
     </li>
   
 </ul>
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>(<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>,Integer)</tt>, <tt>nil</tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>(<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>,Integer)</tt>, <tt>nil</tt>)</span>
       
       
       
@@ -2423,17 +2462,17 @@ line number was found). If no suitable file is found, <strong>nil</strong> is re
   <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id res'>res</span>
   <span class='id res'>res</span> <span class='op'>=</span> <span class='const'>Array</span> <span class='id res'>res</span>
   <span class='id res'>res</span> <span class='op'>&lt;&lt;</span> <span class='int'>0</span> <span class='kw'>if</span> <span class='id res'>res</span><span class='period'>.</span><span class='id size'>size</span> <span class='op'>==</span> <span class='int'>1</span>
-  <span class='comment'>#if res[0] is an url with scheme file:, transform it into a regular file
-</span>  <span class='comment'>#name by removing the scheme and the two following slash
-</span>  <span class='id res'>res</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id sub!'>sub!</span> <span class='tstring'><span class='regexp_beg'>%r{</span><span class='tstring_content'>^file://</span><span class='regexp_end'>}</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span>
-  <span class='kw'>if</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Url</span><span class='period'>.</span><span class='id file_url?'>file_url?</span><span class='lparen'>(</span><span class='id res'>res</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>then</span> <span class='id res'>res</span>
-  <span class='kw'>else</span>
-    <span class='id res'>res</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span> <span class='lparen'>(</span><span class='ivar'>@working_dir</span> <span class='op'>||</span> <span class='const'>Dir</span><span class='period'>.</span><span class='id pwd'>pwd</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id res'>res</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='kw'>unless</span> <span class='const'>Pathname</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id res'>res</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='period'>.</span><span class='id absolute?'>absolute?</span>
-    <span class='kw'>if</span> <span class='const'>File</span><span class='period'>.</span><span class='id exist?'>exist?</span><span class='lparen'>(</span><span class='id res'>res</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>and</span> <span class='op'>!</span><span class='const'>File</span><span class='period'>.</span><span class='id directory?'>directory?</span><span class='lparen'>(</span><span class='id res'>res</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='rparen'>)</span>
-      <span class='id res'>res</span>
-    <span class='kw'>else</span> <span class='kw'>nil</span>
+  <span class='id res'>res</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id sub!'>sub!</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>%r{</span><span class='tstring_content'>^file://</span><span class='regexp_end'>}</span></span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+  <span class='kw'>unless</span> <span class='id res'>res</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id match'>match</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>%r{</span><span class='tstring_content'>^.+://</span><span class='regexp_end'>}</span></span><span class='rparen'>)</span>
+    <span class='id path'>path</span> <span class='op'>=</span> <span class='const'>Pathname</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id res'>res</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+    <span class='kw'>begin</span>
+      <span class='id res'>res</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id path'>path</span><span class='period'>.</span><span class='id realpath'>realpath</span><span class='lparen'>(</span><span class='ivar'>@working_dir</span><span class='rparen'>)</span><span class='period'>.</span><span class='id to_s'>to_s</span>
+      <span class='kw'>return</span> <span class='kw'>nil</span> <span class='kw'>unless</span> <span class='const'>File</span><span class='period'>.</span><span class='id file?'>file?</span> <span class='id res'>res</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
+    <span class='kw'>rescue</span> <span class='const'>Errno</span><span class='op'>::</span><span class='const'>ENOENT</span> 
+      <span class='kw'>return</span> <span class='kw'>nil</span>
     <span class='kw'>end</span>
   <span class='kw'>end</span>
+  <span class='id res'>res</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2468,13 +2507,14 @@ recognizes as a filename:</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>(<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>,Integer)</tt>, <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>(<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>)</tt>, <tt>nil</tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>(<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>,Integer)</tt>, <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>(<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>)</tt>, <tt>nil</tt>)</span>
       
       
       
@@ -2581,13 +2621,14 @@ is the file name and whose second element is the line number (if found) or
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>Boolean</tt>)</span>
       
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
       
@@ -2637,13 +2678,14 @@ however, that the <code>:existing</code> entry won&#8217;t be used.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>Hash</tt>)</span>
       
+        <span class='type'>(<tt>Hash</tt>)</span>
       
       
       
@@ -2666,17 +2708,37 @@ however, that the <code>:existing</code> entry won&#8217;t be used.</p>
 776
 777
 778
-779</pre>
+779
+780
+781
+782
+783
+784
+785
+786
+787
+788
+789</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/output_widget.rb', line 773</span>
 
 <span class='kw'>def</span> <span class='id hints'>hints</span>
-  <span class='kw'>case</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:general</span><span class='comma'>,</span> <span class='symbol'>:tool_open_files</span><span class='rbracket'>]</span>
-  <span class='kw'>when</span> <span class='symbol'>:split_horizontally</span> <span class='kw'>then</span> <span class='lbrace'>{</span><span class='symbol'>:new</span> <span class='op'>=&gt;</span> <span class='symbol'>:current_tab</span><span class='comma'>,</span> <span class='symbol'>:split</span> <span class='op'>=&gt;</span> <span class='symbol'>:horizontal</span><span class='rbrace'>}</span>
-  <span class='kw'>when</span> <span class='symbol'>:split_vertically</span> <span class='kw'>then</span> <span class='lbrace'>{</span><span class='symbol'>:new</span> <span class='op'>=&gt;</span> <span class='symbol'>:current_tab</span><span class='comma'>,</span> <span class='symbol'>:split</span> <span class='op'>=&gt;</span> <span class='symbol'>:vertical</span><span class='rbrace'>}</span>
-  <span class='kw'>else</span> <span class='lbrace'>{</span><span class='symbol'>:new</span> <span class='op'>=&gt;</span> <span class='symbol'>:new_tab</span><span class='rbrace'>}</span>
+  <span class='id hints'>hints</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='symbol'>:new</span> <span class='op'>=&gt;</span> <span class='symbol'>:new_tab</span><span class='rbrace'>}</span>
+  <span class='id choice'>choice</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:general</span><span class='comma'>,</span> <span class='symbol'>:tool_open_files</span><span class='rbracket'>]</span>
+  <span class='kw'>case</span> <span class='id choice'>choice</span>
+  <span class='kw'>when</span> <span class='symbol'>:split_horizontally</span> <span class='kw'>then</span> <span class='id hints'>hints</span><span class='lbracket'>[</span><span class='symbol'>:split</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='symbol'>:horizontal</span>
+  <span class='kw'>when</span> <span class='symbol'>:split_vertically</span> <span class='kw'>then</span> <span class='id hints'>hints</span><span class='lbracket'>[</span><span class='symbol'>:split</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='symbol'>:vertical</span>
   <span class='kw'>end</span>
+  <span class='kw'>if</span> <span class='id hints'>hints</span><span class='lbracket'>[</span><span class='symbol'>:split</span><span class='rbracket'>]</span>
+    <span class='id env'>env</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:world</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id active_environment'>active_environment</span>
+    <span class='id view'>view</span> <span class='op'>=</span> <span class='id env'>env</span><span class='period'>.</span><span class='id active_editor'>active_editor</span>
+    <span class='id n_views'>n_views</span> <span class='op'>=</span> <span class='id view'>view</span> <span class='op'>?</span> <span class='id env'>env</span><span class='period'>.</span><span class='id tab'>tab</span><span class='lparen'>(</span><span class='id view'>view</span><span class='rparen'>)</span><span class='period'>.</span><span class='id views'>views</span><span class='period'>.</span><span class='id count'>count</span> <span class='op'>:</span> <span class='int'>0</span>
+    <span class='kw'>if</span> <span class='id n_views'>n_views</span> <span class='op'>==</span> <span class='int'>1</span> <span class='kw'>then</span> <span class='id hints'>hints</span><span class='lbracket'>[</span><span class='symbol'>:new</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='symbol'>:current_tab</span>
+    <span class='kw'>else</span> <span class='id hints'>hints</span><span class='period'>.</span><span class='id delete'>delete</span> <span class='symbol'>:split</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='id hints'>hints</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2697,13 +2759,14 @@ however, that the <code>:existing</code> entry won&#8217;t be used.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -2802,10 +2865,10 @@ option is used.</p>
   
     <li>
       
-        <span class='type'>(<tt>Qt::ModelIndex</tt>)</span>
-      
-      
         <span class='name'>idx</span>
+      
+      
+        <span class='type'>(<tt>Qt::ModelIndex</tt>)</span>
       
       
       
@@ -2815,13 +2878,14 @@ option is used.</p>
     </li>
   
 </ul>
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>, <tt>nil</tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>, <tt>nil</tt>)</span>
       
       
       
@@ -2862,7 +2926,9 @@ active</p></div>
 759
 760
 761
-762</pre>
+762
+763
+764</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/output_widget.rb', line 749</span>
@@ -2878,7 +2944,9 @@ active</p></div>
   <span class='id existing'>existing</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='const'>Qt</span><span class='op'>::</span><span class='const'>MetaModifier</span> <span class='op'>&amp;</span> <span class='id modifiers'>modifiers</span><span class='rparen'>)</span> <span class='op'>==</span> <span class='int'>0</span> <span class='op'>?</span> <span class='symbol'>:always</span> <span class='op'>:</span> <span class='symbol'>:never</span>
   <span class='id display_hints'>display_hints</span> <span class='op'>=</span> <span class='id hints'>hints</span><span class='period'>.</span><span class='id merge'>merge</span><span class='lparen'>(</span><span class='symbol'>:line</span> <span class='op'>=&gt;</span>  <span class='id line'>line</span><span class='comma'>,</span> <span class='symbol'>:existing</span> <span class='op'>=&gt;</span> <span class='id existing'>existing</span><span class='rparen'>)</span>
   <span class='id ed'>ed</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id display_document'>display_document</span> <span class='id file'>file</span><span class='comma'>,</span> <span class='id display_hints'>display_hints</span>
-  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id hide_tool'>hide_tool</span> <span class='kw'>self</span> <span class='kw'>unless</span> <span class='id pinned_down?'>pinned_down?</span>
+  <span class='id hide_tool'>hide_tool</span> <span class='op'>=</span> <span class='id pinned_down?'>pinned_down?</span> <span class='kw'>and</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Application</span><span class='period'>.</span><span class='id mouse_buttons'>mouse_buttons</span> <span class='op'>!=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>MidButton</span>
+  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id hide_tool'>hide_tool</span> <span class='kw'>self</span> <span class='kw'>if</span> <span class='id hide_tool'>hide_tool</span>
+  <span class='id ed'>ed</span><span class='period'>.</span><span class='id set_focus'>set_focus</span> <span class='kw'>if</span> <span class='id ed'>ed</span>
   <span class='id ed'>ed</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -2902,13 +2970,14 @@ active</p></div>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>Boolean</tt>)</span>
       
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
       
@@ -2953,13 +3022,14 @@ is empty or not</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -3011,10 +3081,10 @@ is empty or not</p>
   
     <li>
       
-        <span class='type'>(<tt>Qt::ModelIndex</tt>, <tt>Integer</tt>, <tt>nil</tt>)</span>
-      
-      
         <span class='name'>idx</span>
+      
+      
+        <span class='type'>(<tt>Qt::ModelIndex</tt>, <tt>Integer</tt>, <tt>nil</tt>)</span>
       
       
       
@@ -3028,13 +3098,14 @@ the first toplevel item of the last row will become visible</p></div>
     </li>
   
 </ul>
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -3111,13 +3182,14 @@ is empty or not.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -3171,10 +3243,10 @@ is empty or not.</p>
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
-      
-      
         <span class='name'>name</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
       
       
       
@@ -3185,10 +3257,10 @@ is empty or not.</p>
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="../Qt/Color.html" title="Qt::Color (class)">Qt::Color</a></span></tt>)</span>
-      
-      
         <span class='name'>color</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Qt/Color.html" title="Qt::Color (class)">Qt::Color</a></span></tt>)</span>
       
       
       
@@ -3198,13 +3270,14 @@ is empty or not.</p>
     </li>
   
 </ul>
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -3257,10 +3330,10 @@ output type role of that index are updated accordingly.</p>
   
     <li>
       
-        <span class='type'>(<tt>Qt::ModelIndex</tt>)</span>
-      
-      
         <span class='name'>idx</span>
+      
+      
+        <span class='type'>(<tt>Qt::ModelIndex</tt>)</span>
       
       
       
@@ -3271,10 +3344,10 @@ output type role of that index are updated accordingly.</p>
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
-      
-      
         <span class='name'>type</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
       
       
       
@@ -3284,13 +3357,14 @@ output type role of that index are updated accordingly.</p>
     </li>
   
 </ul>
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>, <tt>nil</tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>, <tt>nil</tt>)</span>
       
       
       
@@ -3352,10 +3426,10 @@ output type role of that index are updated accordingly.</p>
   
     <li>
       
-        <span class='type'>(<tt>Qt::AbstractItemModel</tt>, <tt>nil</tt>)</span>
-      
-      
         <span class='name'>mod</span>
+      
+      
+        <span class='type'>(<tt>Qt::AbstractItemModel</tt>, <tt>nil</tt>)</span>
       
       
       
@@ -3366,13 +3440,14 @@ of <span class='object_link'><a href="OutputWidget/Model.html" title="Ruber::Out
     </li>
   
 </ul>
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -3437,10 +3512,10 @@ the user to choose an action but returns immediately.</p>
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="../Qt/Point.html" title="Qt::Point (class)">Qt::Point</a></span></tt>)</span>
-      
-      
         <span class='name'>the</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Qt/Point.html" title="Qt::Point (class)">Qt::Point</a></span></tt>)</span>
       
       
       
@@ -3450,13 +3525,14 @@ the user to choose an action but returns immediately.</p>
     </li>
   
 </ul>
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>ni;</tt>)</span>
       
+        <span class='type'>(<tt>ni;</tt>)</span>
       
       
       
@@ -3519,10 +3595,10 @@ behaviour.</p>
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;Qt::ModelIndex&gt;</tt>)</span>
-      
-      
         <span class='name'>indexes</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;Qt::ModelIndex&gt;</tt>)</span>
       
       
       
@@ -3532,13 +3608,14 @@ behaviour.</p>
     </li>
   
 </ul>
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
       
@@ -3622,10 +3699,10 @@ later if needed.</p>
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
-      
-      
         <span class='name'>text</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
       
@@ -3635,13 +3712,14 @@ later if needed.</p>
     </li>
   
 </ul>
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -3711,10 +3789,10 @@ later if needed.</p>
   
     <li>
       
-        <span class='type'>(<tt>Qt::ModelIndex</tt>)</span>
-      
-      
         <span class='name'>idx</span>
+      
+      
+        <span class='type'>(<tt>Qt::ModelIndex</tt>)</span>
       
       
       
@@ -3725,13 +3803,14 @@ Its children will also be updated</p></div>
     </li>
   
 </ul>
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -3804,10 +3883,10 @@ Its children will also be updated</p></div>
   
     <li>
       
-        <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
         <span class='name'>val</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
       
@@ -3817,13 +3896,14 @@ Its children will also be updated</p></div>
     </li>
   
 </ul>
+
 <h3>Yields:</h3>
 <ul class="yield">
   
     <li>
       
-        <span class='type'></span>
       
+        <span class='type'></span>
       
       
       
@@ -3838,8 +3918,8 @@ Its children will also be updated</p></div>
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>)</span>
       
       
       
@@ -3901,6 +3981,7 @@ however, you don&#8217;t need it, as actions are usually created in the construc
 </div>
 <div class="tags">
   
+
 </div>
 </div>
     
@@ -3909,9 +3990,9 @@ however, you don&#8217;t need it, as actions are usually created in the construc
 </div>
     
     <div id="footer">
-  Generated on Fri Apr 29 10:51:11 2011 by 
+  Generated on Sun Oct 23 14:12:19 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.8 (ruby-1.9.2).
+  0.7.3 (ruby-1.9.3).
 </div>
 
   </body>

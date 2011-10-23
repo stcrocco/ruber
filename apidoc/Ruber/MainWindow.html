@@ -3,16 +3,26 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Class: Ruber::MainWindow</title>
-<link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
-<link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+<title>
+  Class: Ruber::MainWindow
+  
+    &mdash; Ruber API
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   relpath = '..';
   if (relpath != '') relpath += '/';
 </script>
-<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
-<script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
 
   </head>
   <body>
@@ -33,11 +43,14 @@
 </div>
 
       <div id="search">
-  <a id="class_list_link" href="#">Class List</a>
-  <a id="method_list_link" href="#">Method List</a>
-  <a id ="file_list_link" href="#">File List</a>
+  
+    <a id="class_list_link" href="#">Class List</a>
+  
+    <a id="method_list_link" href="#">Method List</a>
+  
+    <a id="file_list_link" href="#">File List</a>
+  
 </div>
-
       <div class="clear"></div>
     </div>
     
@@ -102,13 +115,23 @@ tool widgets.</p>
 </div>
 <div class="tags">
   
+
 </div>
   <h2>Constant Summary</h2>
   
     <dl class="constants">
       
         <dt id="DEFAULT_HINTS-constant" class="">DEFAULT_HINTS =
-          
+          <div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
         </dt>
         <dd><pre class="code"><span class='const'>Ruber</span><span class='op'>::</span><span class='const'>World</span><span class='op'>::</span><span class='const'>Environment</span><span class='op'>::</span><span class='const'>DEFAULT_HINTS</span></pre></dd>
       
@@ -121,6 +144,7 @@ tool widgets.</p>
 </div>
 <div class="tags">
   
+
 </div>
         </dt>
         <dd><pre class="code"><span class='lbracket'>[</span>
@@ -199,6 +223,21 @@ tool widgets.</p>
   </ul>
 
 
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Attributes included from <span class='object_link'><a href="PluginLike.html" title="Ruber::PluginLike (module)">PluginLike</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="PluginLike.html#plugin_description-instance_method" title="Ruber::PluginLike#plugin_description (method)">plugin_description</a></span></p>
+
+  
+
   
     <h2>
       Instance Method Summary
@@ -206,6 +245,29 @@ tool widgets.</p>
     </h2>
 
     <ul class="summary">
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#%3A%40workspace-instance_method" title="#:@workspace (instance method)">- (Object) <strong>:@workspace</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>:method: tool_widgets
+Returns a hash having the tool widgets as keys and their positions as values.</p></div></span>
+  
+</li>
+
       
         <!-- Provides the  slot annotation -->
 <li class="private ">
@@ -1967,6 +2029,7 @@ is the plugin description for this object.</p>
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -2028,7 +2091,8 @@ is the plugin description for this object.</p>
 140
 141
 142
-143</pre>
+143
+144</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window.rb', line 88</span>
@@ -2064,6 +2128,7 @@ is the plugin description for this object.</p>
   
   <span class='id connect'>connect</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:world</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>project_created(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>slot_project_created(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
   <span class='id connect'>connect</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:world</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>closing_project(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>slot_project_closing(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+  
   <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:world</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id connect'>connect</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>active_project_changed(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id prj'>prj</span><span class='op'>|</span>
     <span class='ivar'>@active_environment</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:world</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id environment'>environment</span> <span class='id prj'>prj</span>
   <span class='kw'>end</span>
@@ -2121,6 +2186,7 @@ the hash isn&#8217;t availlable, <strong>nil</strong> is returned</p>
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -2163,13 +2229,14 @@ them.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="Workspace.html" title="Ruber::Workspace (class)">Workspace</a></span></tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="Workspace.html" title="Ruber::Workspace (class)">Workspace</a></span></tt>)</span>
       
       
       
@@ -2209,7 +2276,42 @@ them.</p>
     
     
       <div class="method_details first">
-  <p class="signature first" id="action_for_project-instance_method">
+  <p class="signature first" id=":@workspace-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>:@workspace</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>:method: tool_widgets
+Returns a hash having the tool widgets as keys and their positions as values.
+See Workspace#tool_widgets for more information.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+169</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window.rb', line 169</span>
+
+<span class='id def_delegator'>def_delegator</span> <span class='symbol'>:@workspace</span><span class='comma'>,</span> <span class='symbol'>:add_tool_widget</span><span class='comma'>,</span> <span class='symbol'>:add_tool</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="action_for_project-instance_method">
   
     - (<tt>KDE::Action</tt>) <strong>action_for_project</strong>(prj)  <span class="extras">(private)</span>
   
@@ -2227,10 +2329,10 @@ them.</p>
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="Project.html" title="Ruber::Project (class)">Project</a></span></tt>, <tt>nil</tt>)</span>
-      
-      
         <span class='name'>prj</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Project.html" title="Ruber::Project (class)">Project</a></span></tt>, <tt>nil</tt>)</span>
       
       
       
@@ -2241,13 +2343,14 @@ all projects is returned</p></div>
     </li>
   
 </ul>
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>KDE::Action</tt>)</span>
       
+        <span class='type'>(<tt>KDE::Action</tt>)</span>
       
       
       
@@ -2318,10 +2421,10 @@ signals are emitted.</p>
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>, <tt>nil</tt>)</span>
-      
-      
         <span class='name'>editor</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>, <tt>nil</tt>)</span>
       
       
       
@@ -2332,6 +2435,7 @@ editor will be deactivated</p></div>
     </li>
   
 </ul>
+
 
 </div><table class="source_code">
   <tr>
@@ -2375,6 +2479,7 @@ editor will be deactivated</p></div>
 </div>
 <div class="tags">
   
+
   <h3>See Also:</h3>
   <ul class="see">
     
@@ -2421,13 +2526,14 @@ editor will be deactivated</p></div>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>, <tt>nil</tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>, <tt>nil</tt>)</span>
       
       
       
@@ -2498,10 +2604,10 @@ signal of the component manager, there shouldn&#8217;t be problems with this</p>
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="Plugin.html" title="Ruber::Plugin (class)">Plugin</a></span></tt>)</span>
-      
-      
         <span class='name'>comp</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Plugin.html" title="Ruber::Plugin (class)">Plugin</a></span></tt>)</span>
       
       
       
@@ -2511,13 +2617,14 @@ signal of the component manager, there shouldn&#8217;t be problems with this</p>
     </li>
   
 </ul>
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -2593,10 +2700,10 @@ will be done</p>
   
     <li>
       
-        <span class='type'>(<tt>Qt::Action</tt>)</span>
-      
-      
         <span class='name'>act</span>
+      
+      
+        <span class='type'>(<tt>Qt::Action</tt>)</span>
       
       
       
@@ -2606,13 +2713,14 @@ will be done</p>
     </li>
   
 </ul>
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="Project.html" title="Ruber::Project (class)">Project</a></span></tt>, <tt>nil</tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="Project.html" title="Ruber::Project (class)">Project</a></span></tt>, <tt>nil</tt>)</span>
       
       
       
@@ -2670,13 +2778,14 @@ modified status</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -2753,13 +2862,14 @@ informing the user</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -2798,7 +2908,7 @@ informing the user</p>
     <span class='id pl'>pl</span><span class='period'>.</span><span class='id save_settings'>save_settings</span>
     <span class='id loaded'>loaded</span> <span class='op'>&lt;&lt;</span> <span class='id pl'>pl</span><span class='period'>.</span><span class='id plugin_name'>plugin_name</span>
   <span class='kw'>end</span>
-  <span class='id loaded'>loaded</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id pl'>pl</span><span class='op'>|</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:components</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id unload_plugin'>unload_plugin</span> <span class='id pl'>pl</span><span class='rbrace'>}</span>
+  <span class='id loaded'>loaded</span><span class='period'>.</span><span class='id reverse_each'>reverse_each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id pl'>pl</span><span class='op'>|</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:components</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id unload_plugin'>unload_plugin</span> <span class='id pl'>pl</span><span class='rbrace'>}</span>
   <span class='id res'>res</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:app</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id safe_load_plugins'>safe_load_plugins</span> <span class='id dlg'>dlg</span><span class='period'>.</span><span class='id plugins'>plugins</span><span class='period'>.</span><span class='id keys'>keys</span><span class='period'>.</span><span class='id map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:to_s</span><span class='rparen'>)</span>
   <span class='id close'>close</span> <span class='kw'>unless</span> <span class='id res'>res</span>
   <span class='kw'>nil</span>
@@ -2835,10 +2945,10 @@ without asking the user.</p>
   
     <li>
       
-        <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
         <span class='name'>ask</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>true</tt>)</em>
@@ -2852,13 +2962,14 @@ whether he wants to save the documents or not</p></div>
     </li>
   
 </ul>
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>Boolean</tt>)</span>
       
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
       
@@ -2919,13 +3030,14 @@ save it, discard changes or not close the view.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>Boolean</tt>)</span>
       
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
       
@@ -2975,13 +3087,14 @@ project couldn&#8217;t be saved</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -3025,7 +3138,16 @@ project couldn&#8217;t be saved</p>
   
 
   
-</p><table class="source_code">
+</p><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
@@ -3070,6 +3192,7 @@ method directly, unless you want to leave the corresponding document without a v
 </div>
 <div class="tags">
   
+
   <h3>See Also:</h3>
   <ul class="see">
     
@@ -3099,7 +3222,7 @@ method directly, unless you want to leave the corresponding document without a v
 <span class='kw'>def</span> <span class='id close_editor'>close_editor</span> <span class='id editor'>editor</span><span class='comma'>,</span> <span class='id ask'>ask</span> <span class='op'>=</span> <span class='kw'>true</span>
   <span class='ivar'>@active_environment</span><span class='period'>.</span><span class='id close_editor'>close_editor</span> <span class='id editor'>editor</span><span class='comma'>,</span> <span class='id ask'>ask</span>
 <span class='comment'>#       doc = editor.document
-</span><span class='comment'>#       if doc.views(:all).size &gt; 1 
+</span><span class='comment'>#       if doc.views.size &gt; 1 
 </span><span class='comment'>#         editor.close
 </span><span class='comment'>#         true
 </span><span class='comment'>#       else doc.close ask
@@ -3128,13 +3251,14 @@ don&#8217;t close the views. In the latter case, nothing will be done</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>Boolean</tt>)</span>
       
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
       
@@ -3202,13 +3326,14 @@ otherwise</p></div>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -3257,13 +3382,14 @@ if there&#8217;s no active project</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -3316,13 +3442,14 @@ determined from the triggered action</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -3389,10 +3516,10 @@ the cursor to the given position.</p>
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="Document.html" title="Ruber::Document (class)">Document</a></span></tt>, <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../KDE/Url.html" title="KDE::Url (class)">KDE::Url</a></span></tt>)</span>
-      
-      
         <span class='name'>doc</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Document.html" title="Ruber::Document (class)">Document</a></span></tt>, <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../KDE/Url.html" title="KDE::Url (class)">KDE::Url</a></span></tt>)</span>
       
       
       
@@ -3405,10 +3532,10 @@ string is an Url, it&#8217;ll be interpreted as such</p></div>
   
     <li>
       
-        <span class='type'>(<tt>Hash</tt>)</span>
-      
-      
         <span class='name'>hints</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>{}</tt>)</em>
@@ -3430,8 +3557,8 @@ string is an Url, it&#8217;ll be interpreted as such</p></div>
     <ul class="option">
       
         <li>
-          <span class="type">(<tt>Integer</tt>, <tt>nil</tt>)</span>
           <span class="name">line</span>
+          <span class="type">(<tt>Integer</tt>, <tt>nil</tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -3440,11 +3567,11 @@ string is an Url, it&#8217;ll be interpreted as such</p></div>
           </span>
           &mdash; <div class='inline'><p>the line to move the cursor to. If <strong>nil</strong>,
 the cursor won&#8217;t be moved</p></div>
-        </tr>
+        </li>
       
         <li>
-          <span class="type">(<tt>Integer</tt>)</span>
           <span class="name">column</span>
+          <span class="type">(<tt>Integer</tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -3453,17 +3580,18 @@ the cursor won&#8217;t be moved</p></div>
           </span>
           &mdash; <div class='inline'><p>the column to move the cursor to. Ignored if
 the <code>:line</code> entry is <strong>nil</strong></p></div>
-        </tr>
+        </li>
       
     </ul>
   
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>, <tt>nil</tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>, <tt>nil</tt>)</span>
       
       
       
@@ -3537,10 +3665,10 @@ editor couldn&#8217;t be found (or created)</p></div>
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="Document.html" title="Ruber::Document (class)">Document</a></span></tt>)</span>
-      
-      
         <span class='name'>doc</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Document.html" title="Ruber::Document (class)">Document</a></span></tt>)</span>
       
       
       
@@ -3550,13 +3678,14 @@ editor couldn&#8217;t be found (or created)</p></div>
     </li>
   
 </ul>
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -3617,13 +3746,14 @@ the window title accordingly.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -3677,13 +3807,14 @@ the document is active.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -3769,10 +3900,10 @@ hint, a new one will be created, unless the <code>create_if_needed</code> hint i
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="Document.html" title="Ruber::Document (class)">Document</a></span></tt>, <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../KDE/Url.html" title="KDE::Url (class)">KDE::Url</a></span></tt>)</span>
-      
-      
         <span class='name'>doc</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Document.html" title="Ruber::Document (class)">Document</a></span></tt>, <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../KDE/Url.html" title="KDE::Url (class)">KDE::Url</a></span></tt>)</span>
       
       
       
@@ -3785,10 +3916,10 @@ string is an Url, it&#8217;ll be interpreted as such</p></div>
   
     <li>
       
-        <span class='type'>(<tt>Hash</tt>)</span>
-      
-      
         <span class='name'>hints</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>{}</tt>)</em>
@@ -3810,8 +3941,8 @@ string is an Url, it&#8217;ll be interpreted as such</p></div>
     <ul class="option">
       
         <li>
-          <span class="type">(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
           <span class="name">:existing</span>
+          <span class="type">(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -3825,11 +3956,11 @@ editor. It can be:</p>
 	<li><code>:never</code>: never use an exisiting editor</li>
 	<li><code>:current_tab</code>: use an exisiting editor only if it is in the current pane</li>
 </ul></div>
-        </tr>
+        </li>
       
         <li>
-          <span class="type">(<tt>Boolean</tt>)</span>
           <span class="name">:create_if_needed</span>
+          <span class="type">(<tt>Boolean</tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -3840,11 +3971,11 @@ editor. It can be:</p>
 the given document should be created if none exists. This is different from
 passing <code>:always</code> as the value of the <code>:existing</code> option because the latter would
 cause a new editor to be created in case no one already exists for the document</p></div>
-        </tr>
+        </li>
       
         <li>
-          <span class="type">(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>, <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span>&gt;</tt>)</span>
           <span class="name">:strategy</span>
+          <span class="type">(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>, <tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span>&gt;</tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -3870,11 +4001,11 @@ be the last one where the editor will be looked for)</li>
 	<li><code>:last</code>: the last editor associated the document will be used</li>
 </ul>
 <p>This option is only useful when using an existing editor</p></div>
-        </tr>
+        </li>
       
         <li>
-          <span class="type">(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>, <tt>Integer</tt>, <tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>)</span>
           <span class="name">:new</span>
+          <span class="type">(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>, <tt>Integer</tt>, <tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -3898,11 +4029,11 @@ in the pane obtained by splitting the first view</li>
 pane associated with the given editor</li>
 </ul>
 <p>This option is only used when when creating a new editor</p></div>
-        </tr>
+        </li>
       
         <li>
-          <span class="type">(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
           <span class="name">:split</span>
+          <span class="type">(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -3912,11 +4043,11 @@ pane associated with the given editor</li>
           &mdash; <div class='inline'><p>the orientation in which an existing
 editor should be split to accomodate the new editor. It can be <code>:horizontal</code>
 or <code>:vertical</code>. This option is only used when when creating a new editor</p></div>
-        </tr>
+        </li>
       
         <li>
-          <span class="type">(<tt>Boolean</tt>)</span>
           <span class="name">:show</span>
+          <span class="type">(<tt>Boolean</tt>)</span>
           <span class="default">
             
               &mdash; default:
@@ -3926,17 +4057,18 @@ or <code>:vertical</code>. This option is only used when when creating a new edi
           &mdash; <div class='inline'><p>whether the new editor should be shown or
 not. If it&#8217;s <strong>false</strong>, the editor won&#8217;t be placed in any pane. This option is
 only used when when creating a new editor</p></div>
-        </tr>
+        </li>
       
     </ul>
   
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>, <tt>nil</tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>, <tt>nil</tt>)</span>
       
       
       
@@ -3953,8 +4085,8 @@ set to <strong>false</strong>.</p></div>
   
     <li>
       
-        <span class='type'>(<tt>ArgumentError</tt>)</span>
       
+        <span class='type'>(<tt>ArgumentError</tt>)</span>
       
       
       
@@ -4068,10 +4200,10 @@ file doesn&#8217;t exist</p></div>
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
-      
-      
         <span class='name'>name</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
       
@@ -4083,10 +4215,10 @@ main window&#8217;s <code>action_collection</code></p></div>
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span></tt>)</span>
-      
-      
         <span class='name'>args</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span></tt>)</span>
       
       
       
@@ -4097,6 +4229,7 @@ to the action</p></div>
     </li>
   
 </ul>
+
 
   <h3>See Also:</h3>
   <ul class="see">
@@ -4183,10 +4316,10 @@ ancestors.</p>
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="Pane.html" title="Ruber::Pane (class)">Pane</a></span></tt>)</span>
-      
-      
         <span class='name'>from</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Pane.html" title="Ruber::Pane (class)">Pane</a></span></tt>)</span>
       
       
       
@@ -4198,10 +4331,10 @@ view pane</p></div>
   
     <li>
       
-        <span class='type'>(<tt>Integer</tt>)</span>
-      
-      
         <span class='name'>orientation</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
       
       
       
@@ -4213,10 +4346,10 @@ or vertically. It may be either <code>Qt::Horizontal</code> or <code>Qt::Vertica
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
-      
-      
         <span class='name'>direction</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
       
       
       
@@ -4227,13 +4360,14 @@ be either <code>:next</code> or <code>:previous</code></p></div>
     </li>
   
 </ul>
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="Pane.html" title="Ruber::Pane (class)">Pane</a></span></tt>, <tt>nil</tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="Pane.html" title="Ruber::Pane (class)">Pane</a></span></tt>, <tt>nil</tt>)</span>
       
       
       
@@ -4352,13 +4486,14 @@ has been found (either because the pane is toplevel or because it&#8217;s the fi
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>, <tt>nil</tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>, <tt>nil</tt>)</span>
       
       
       
@@ -4384,10 +4519,10 @@ has been found (either because the pane is toplevel or because it&#8217;s the fi
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>)</span>
-      
-      
         <span class='name'>editor</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>)</span>
       
       
       
@@ -4397,13 +4532,14 @@ has been found (either because the pane is toplevel or because it&#8217;s the fi
     </li>
   
 </ul>
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>, <tt>nil</tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>, <tt>nil</tt>)</span>
       
       
       
@@ -4429,10 +4565,10 @@ has been found (either because the pane is toplevel or because it&#8217;s the fi
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="Document.html" title="Ruber::Document (class)">Document</a></span></tt>, <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../KDE/Url.html" title="KDE::Url (class)">KDE::Url</a></span></tt>)</span>
-      
-      
         <span class='name'>doc</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Document.html" title="Ruber::Document (class)">Document</a></span></tt>, <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../KDE/Url.html" title="KDE::Url (class)">KDE::Url</a></span></tt>)</span>
       
       
       
@@ -4445,10 +4581,10 @@ string is an Url, it&#8217;ll be interpreted as such</p></div>
   
     <li>
       
-        <span class='type'>(<tt>Hash</tt>)</span>
-      
-      
         <span class='name'>hints</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
       
       
       
@@ -4459,13 +4595,14 @@ See <span class='object_link'><a href="#editor_for%21-instance_method" title="Ru
     </li>
   
 </ul>
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>, <tt>nil</tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>, <tt>nil</tt>)</span>
       
       
       
@@ -4477,13 +4614,14 @@ See <span class='object_link'><a href="#editor_for%21-instance_method" title="Ru
       </li>
     
   </ul>
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>, <tt>nil</tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>, <tt>nil</tt>)</span>
       
       
       
@@ -4552,10 +4690,10 @@ files</p>
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../KDE/Url.html" title="KDE::Url (class)">KDE::Url</a></span></tt>)</span>
-      
-      
         <span class='name'>the</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../KDE/Url.html" title="KDE::Url (class)">KDE::Url</a></span></tt>)</span>
       
       
       
@@ -4566,10 +4704,10 @@ files</p>
   
     <li>
       
-        <span class='type'>(<tt>Hash</tt>)</span>
-      
-      
         <span class='name'>hints</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>DEFAULT_HINTS</tt>)</em>
@@ -4581,13 +4719,14 @@ files</p>
     </li>
   
 </ul>
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>, <tt>nil</tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>, <tt>nil</tt>)</span>
       
       
       
@@ -4646,13 +4785,14 @@ couldn&#8217;t be opened</p></div>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -4710,13 +4850,14 @@ one view, nothing is done.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>)</span>
       
       
       
@@ -4777,13 +4918,14 @@ one view, nothing is done.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>)</span>
       
       
       
@@ -4835,13 +4977,14 @@ it&#8217;s closed</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -4906,13 +5049,14 @@ one, it returns to the first</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>, <tt>nil</tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>, <tt>nil</tt>)</span>
       
       
       
@@ -4974,13 +5118,14 @@ user will become active</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span>&gt;</tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span>&gt;</tt>)</span>
       
       
       
@@ -5006,7 +5151,10 @@ user will become active</p>
 72
 73
 74
-75</pre>
+75
+76
+77
+78</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_actions.rb', line 66</span>
@@ -5018,7 +5166,10 @@ user will become active</p>
 </span><span class='comment'>#       without_activating do
 </span>  <span class='id editors'>editors</span> <span class='op'>=</span> <span class='id filenames'>filenames</span><span class='period'>.</span><span class='id map'>map</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id f'>f</span><span class='op'>|</span> <span class='id gui_open_file'>gui_open_file</span><span class='lparen'>(</span><span class='id f'>f</span><span class='comma'>,</span> <span class='kw'>false</span><span class='rparen'>)</span><span class='rbrace'>}</span>
 <span class='comment'>#       end
-</span>  <span class='id editors'>editors</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id set_focus'>set_focus</span> <span class='kw'>unless</span> <span class='id editors'>editors</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+</span>  <span class='kw'>unless</span> <span class='id editors'>editors</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+    <span class='ivar'>@active_environment</span><span class='period'>.</span><span class='id activate_editor'>activate_editor</span> <span class='id editors'>editors</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span>
+    <span class='id editors'>editors</span><span class='lbracket'>[</span><span class='op'>-</span><span class='int'>1</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id set_focus'>set_focus</span>
+  <span class='kw'>end</span>
   <span class='id editors'>editors</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -5043,13 +5194,14 @@ user will become active</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>, <tt>nil</tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>, <tt>nil</tt>)</span>
       
       
       
@@ -5110,13 +5262,14 @@ user will become active</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="Project.html" title="Ruber::Project (class)">Project</a></span></tt>, <tt>nil</tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="Project.html" title="Ruber::Project (class)">Project</a></span></tt>, <tt>nil</tt>)</span>
       
       
       
@@ -5189,10 +5342,10 @@ cancels the dialog or an error occurs while loading the project</p></div>
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="../KDE/Url.html" title="KDE::Url (class)">KDE::Url</a></span></tt>)</span>
-      
-      
         <span class='name'>the</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../KDE/Url.html" title="KDE::Url (class)">KDE::Url</a></span></tt>)</span>
       
       
       
@@ -5202,13 +5355,14 @@ cancels the dialog or an error occurs while loading the project</p></div>
     </li>
   
 </ul>
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>)</span>
       
       
       
@@ -5263,10 +5417,10 @@ given <span class="caps">URL</span></p>
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="../KDE/Url.html" title="KDE::Url (class)">KDE::Url</a></span></tt>)</span>
-      
-      
         <span class='name'>the</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../KDE/Url.html" title="KDE::Url (class)">KDE::Url</a></span></tt>)</span>
       
       
       
@@ -5276,13 +5430,14 @@ given <span class="caps">URL</span></p>
     </li>
   
 </ul>
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="Project.html" title="Ruber::Project (class)">Project</a></span></tt>, <tt>nil</tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="Project.html" title="Ruber::Project (class)">Project</a></span></tt>, <tt>nil</tt>)</span>
       
       
       
@@ -5339,13 +5494,14 @@ given <span class="caps">URL</span></p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -5394,13 +5550,14 @@ one, it jumps to the last</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>, <tt>nil</tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>, <tt>nil</tt>)</span>
       
       
       
@@ -5456,13 +5613,14 @@ one, it jumps to the last</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
       
@@ -5510,13 +5668,14 @@ saving and does nothing otherwise.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>TrueClass</tt>)</span>
       
+        <span class='type'>(<tt>TrueClass</tt>)</span>
       
       
       
@@ -5566,13 +5725,14 @@ saving and does nothing otherwise.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>Boolean</tt>)</span>
       
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
       
@@ -5591,13 +5751,15 @@ saving and does nothing otherwise.</p>
 
 49
 50
-51</pre>
+51
+52</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_internal.rb', line 49</span>
 
 <span class='kw'>def</span> <span class='id queryClose'>queryClose</span>
-  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:app</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id ask_to_quit'>ask_to_quit</span>
+  <span class='id res'>res</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:app</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id ask_to_quit'>ask_to_quit</span>
+  <span class='id res'>res</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -5619,13 +5781,14 @@ saving and does nothing otherwise.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>TrueClass</tt>)</span>
       
+        <span class='type'>(<tt>TrueClass</tt>)</span>
       
       
       
@@ -5645,13 +5808,49 @@ saving and does nothing otherwise.</p>
 59
 60
 61
-62</pre>
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_internal.rb', line 59</span>
 
 <span class='kw'>def</span> <span class='id queryExit'>queryExit</span>
-  <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:app</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id quit_ruber'>quit_ruber</span>
+  <span class='comment'>#There's a C++-side crash in any view is open after this method when closing
+</span>  <span class='comment'>#a session. As I have no clue as why this happens, for the time being, as
+</span>  <span class='comment'>#a workaround, we close all the documents.
+</span>  
+  <span class='comment'>#For some reason, this method is called twice when closing a session
+</span>  <span class='comment'>#but only when Ruber is launched from the global installation (that is, typing
+</span>  <span class='comment'>#ruber in the shell), and not when testing from xsm. This causes a number of
+</span>  <span class='comment'>#problems, the most evident is the save_settings method being called twice,
+</span>  <span class='comment'>#one of the times after all documents have been closed. This obviously breaks
+</span>  <span class='comment'>#the state plugin. To avoid the issue, we use an instance variable to keep
+</span>  <span class='comment'>#trace of whether the method has already been called or not. Ruber[:app].quit_ruber
+</span>  <span class='comment'>#is only called the first time, while the documents are only closed the
+</span>  <span class='comment'>#second time
+</span>  <span class='kw'>if</span> <span class='ivar'>@query_exit_called</span>
+    <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:world</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id close_all'>close_all</span> <span class='symbol'>:documents</span><span class='comma'>,</span> <span class='symbol'>:discard</span>
+  <span class='kw'>else</span> 
+    <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:app</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id quit_ruber'>quit_ruber</span>
+    <span class='ivar'>@query_exit_called</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='kw'>end</span>
   <span class='kw'>true</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -5673,13 +5872,14 @@ saving and does nothing otherwise.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -5743,10 +5943,10 @@ component manager, there shouldn&#8217;t be problems with this</p></div>
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="Plugin.html" title="Ruber::Plugin (class)">Plugin</a></span></tt>)</span>
-      
-      
         <span class='name'>comp</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Plugin.html" title="Ruber::Plugin (class)">Plugin</a></span></tt>)</span>
       
       
       
@@ -5756,13 +5956,14 @@ component manager, there shouldn&#8217;t be problems with this</p></div>
     </li>
   
 </ul>
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -5825,10 +6026,10 @@ from the list of handlers</p>
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="Plugin.html" title="Ruber::Plugin (class)">Plugin</a></span></tt>)</span>
-      
-      
         <span class='name'>plug</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Plugin.html" title="Ruber::Plugin (class)">Plugin</a></span></tt>)</span>
       
       
       
@@ -5838,13 +6039,14 @@ from the list of handlers</p>
     </li>
   
 </ul>
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -5925,10 +6127,10 @@ it).</p>
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>)</span>
-      
-      
         <span class='name'>old</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>)</span>
       
       
       
@@ -5939,10 +6141,10 @@ it).</p>
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>)</span>
-      
-      
         <span class='name'>new_ed</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>)</span>
       
       
       
@@ -5952,13 +6154,14 @@ it).</p>
     </li>
   
 </ul>
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>, <tt>nil</tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>, <tt>nil</tt>)</span>
       
       
       
@@ -5995,10 +6198,10 @@ then use the overloaded version of this method which takes an editor</p></div>
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>)</span>
-      
-      
         <span class='name'>old</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>)</span>
       
       
       
@@ -6009,10 +6212,10 @@ then use the overloaded version of this method which takes an editor</p></div>
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="Document.html" title="Ruber::Document (class)">Document</a></span></tt>, <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../KDE/Url.html" title="KDE::Url (class)">KDE::Url</a></span></tt>)</span>
-      
-      
         <span class='name'>doc</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Document.html" title="Ruber::Document (class)">Document</a></span></tt>, <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../KDE/Url.html" title="KDE::Url (class)">KDE::Url</a></span></tt>)</span>
       
       
       
@@ -6024,13 +6227,14 @@ or the corresponding <span class="caps">URL</span></p></div>
     </li>
   
 </ul>
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>, <tt>nil</tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>, <tt>nil</tt>)</span>
       
       
       
@@ -6042,13 +6246,14 @@ or the corresponding <span class="caps">URL</span></p></div>
       </li>
     
   </ul>
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>, <tt>nil</tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>, <tt>nil</tt>)</span>
       
       
       
@@ -6067,31 +6272,13 @@ or the corresponding <span class="caps">URL</span></p></div>
 
 402
 403
-404
-405
-406
-407
-408
-409
-410
-411
-412
-413</pre>
+404</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window.rb', line 402</span>
 
 <span class='kw'>def</span> <span class='id replace_editor'>replace_editor</span> <span class='id old'>old</span><span class='comma'>,</span> <span class='id editor_or_doc'>editor_or_doc</span>
-  <span class='kw'>if</span> <span class='id old'>old</span><span class='period'>.</span><span class='id document'>document</span><span class='period'>.</span><span class='id views'>views</span><span class='period'>.</span><span class='id size'>size</span> <span class='op'>==</span> <span class='int'>1</span>
-    <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id old'>old</span><span class='period'>.</span><span class='id document'>document</span><span class='period'>.</span><span class='id query_close'>query_close</span>
-    <span class='id close_doc'>close_doc</span> <span class='op'>=</span> <span class='kw'>true</span>
-  <span class='kw'>end</span>
-  <span class='kw'>if</span> <span class='id editor_or_doc'>editor_or_doc</span><span class='period'>.</span><span class='id is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>EditorView</span><span class='rparen'>)</span> <span class='kw'>then</span> <span class='id ed'>ed</span> <span class='op'>=</span> <span class='id editor_or_doc'>editor_or_doc</span>
-  <span class='kw'>else</span> <span class='id ed'>ed</span> <span class='op'>=</span> <span class='ivar'>@active_environment</span><span class='period'>.</span> <span class='id editor_for!'>editor_for!</span> <span class='id editor_or_doc'>editor_or_doc</span><span class='comma'>,</span> <span class='symbol'>:existing</span> <span class='op'>=&gt;</span> <span class='symbol'>:never</span><span class='comma'>,</span> <span class='symbol'>:show</span> <span class='op'>=&gt;</span> <span class='kw'>false</span>
-  <span class='kw'>end</span>
-  <span class='id old'>old</span><span class='period'>.</span><span class='id parent'>parent</span><span class='period'>.</span><span class='id replace_view'>replace_view</span> <span class='id old'>old</span><span class='comma'>,</span> <span class='id ed'>ed</span>
-  <span class='ivar'>@active_environment</span><span class='period'>.</span><span class='id close_editor'>close_editor</span> <span class='id old'>old</span><span class='comma'>,</span> <span class='kw'>false</span>
-  <span class='id ed'>ed</span>
+  <span class='ivar'>@active_environment</span><span class='period'>.</span><span class='id replace_editor'>replace_editor</span> <span class='id old'>old</span><span class='comma'>,</span> <span class='id editor_or_doc'>editor_or_doc</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -6126,10 +6313,10 @@ box that the project is already open and nothing is done. If <em>allow_reuse</em
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
-      
-      
         <span class='name'>file</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
       
@@ -6140,10 +6327,10 @@ box that the project is already open and nothing is done. If <em>allow_reuse</em
   
     <li>
       
-        <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
         <span class='name'>allow_reuse</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>false</tt>)</em>
@@ -6157,13 +6344,14 @@ the user will be warned and <strong>nil</strong> will be returned</p></div>
     </li>
   
 </ul>
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="Project.html" title="Ruber::Project (class)">Project</a></span></tt>, <tt>nil</tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="Project.html" title="Ruber::Project (class)">Project</a></span></tt>, <tt>nil</tt>)</span>
       
       
       
@@ -6280,10 +6468,10 @@ This will be repeated until all files have been saved or the user gives up</p>
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="Document.html" title="Ruber::Document (class)">Document</a></span>&gt;</tt>)</span>
-      
-      
         <span class='name'>docs</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="Document.html" title="Ruber::Document (class)">Document</a></span>&gt;</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>nil</tt>)</em>
@@ -6296,13 +6484,14 @@ modified, it&#8217;ll be ignored. If no document is mdified, nothing will be don
     </li>
   
 </ul>
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>Boolean</tt>)</span>
       
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
       
@@ -6337,19 +6526,21 @@ can be carried on and <strong>false</strong> if the user chose to abort it</p></
 562
 563
 564
-565</pre>
+565
+566</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window.rb', line 548</span>
 
 <span class='kw'>def</span> <span class='id save_documents'>save_documents</span> <span class='id docs'>docs</span> <span class='op'>=</span> <span class='kw'>nil</span>
-  <span class='id docs'>docs</span> <span class='op'>||=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:docs</span><span class='rbracket'>]</span>
+  <span class='id docs'>docs</span> <span class='op'>||=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:world</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id documents'>documents</span>
   <span class='id to_save'>to_save</span> <span class='op'>=</span> <span class='id docs'>docs</span><span class='period'>.</span><span class='id select'>select</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id d'>d</span><span class='op'>|</span> <span class='id d'>d</span><span class='period'>.</span><span class='id modified?'>modified?</span><span class='rbrace'>}</span>
   <span class='kw'>until</span> <span class='id to_save'>to_save</span><span class='period'>.</span><span class='id empty?'>empty?</span>
     <span class='id dlg'>dlg</span> <span class='op'>=</span> <span class='const'>SaveModifiedFilesDlg</span><span class='period'>.</span><span class='id new'>new</span> <span class='id to_save'>to_save</span><span class='comma'>,</span> <span class='kw'>self</span>
+    <span class='id to_save'>to_save</span> <span class='op'>=</span> <span class='id dlg'>dlg</span><span class='period'>.</span><span class='id to_save'>to_save</span>
     <span class='kw'>case</span> <span class='id dlg'>dlg</span><span class='period'>.</span><span class='id exec'>exec</span>
     <span class='kw'>when</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Dialog</span><span class='op'>::</span><span class='const'>Yes</span>
-      <span class='id to_save'>to_save</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:docs</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id save_documents'>save_documents</span> <span class='id dlg'>dlg</span><span class='period'>.</span><span class='id to_save'>to_save</span>
+      <span class='id to_save'>to_save</span><span class='period'>.</span><span class='id delete_if'>delete_if</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id doc'>doc</span><span class='op'>|</span> <span class='id doc'>doc</span><span class='period'>.</span><span class='id save'>save</span><span class='rbrace'>}</span>
       <span class='kw'>unless</span> <span class='id to_save'>to_save</span><span class='period'>.</span><span class='id empty?'>empty?</span>
         <span class='id msg'>msg</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The following documents couldn't be saved: </span><span class='embexpr_beg'>#{</span><span class='id to_save'>to_save</span><span class='period'>.</span><span class='id join'>join</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='tstring_content'>\nPlease, choose how to proceed</span><span class='tstring_end'>&quot;</span></span>
         <span class='const'>KDE</span><span class='op'>::</span><span class='const'>MessageBox</span><span class='period'>.</span><span class='id sorry'>sorry</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='const'>KDE</span><span class='period'>.</span><span class='id i18n'>i18n</span><span class='lparen'>(</span><span class='id msg'>msg</span><span class='rparen'>)</span>
@@ -6381,13 +6572,14 @@ the window.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -6454,13 +6646,14 @@ the window.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -6478,19 +6671,13 @@ the window.</p>
 70
 71
 72
-73
-74
-75
-76</pre>
+73</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/main_window/main_window_internal.rb', line 69</span>
 
 <span class='kw'>def</span> <span class='id saveProperties'>saveProperties</span> <span class='id conf'>conf</span>
   <span class='id data'>data</span> <span class='op'>=</span> <span class='const'>YAML</span><span class='period'>.</span><span class='id dump'>dump</span> <span class='ivar'>@session_data</span> 
-  <span class='comment'>#Without this, there's a crash from the C++ side in KateViewInternal::~KateViewInternal
-</span>  <span class='comment'>#I don't know why this happens
-</span>  <span class='ivar'>@active_environment</span><span class='period'>.</span><span class='id tab'>tab</span><span class='lparen'>(</span><span class='id active_editor'>active_editor</span><span class='rparen'>)</span><span class='period'>.</span><span class='id hide'>hide</span>
   <span class='id conf'>conf</span><span class='period'>.</span><span class='id write_entry'>write_entry</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Ruber</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='id data'>data</span>
   <span class='kw'>nil</span>
 <span class='kw'>end</span></pre>
@@ -6517,13 +6704,14 @@ done.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -6576,13 +6764,14 @@ done.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -6630,13 +6819,14 @@ done.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -6690,10 +6880,10 @@ and updates the title and the statusbar</p>
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>, <tt>nil</tt>)</span>
-      
-      
         <span class='name'>the</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>, <tt>nil</tt>)</span>
       
       
       
@@ -6704,13 +6894,14 @@ editor</p></div>
     </li>
   
 </ul>
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -6758,7 +6949,16 @@ editor</p></div>
   
 
   
-</p><table class="source_code">
+</p><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
@@ -6810,7 +7010,16 @@ editor</p></div>
   
 
   
-</p><table class="source_code">
+</p><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
@@ -6842,7 +7051,16 @@ editor</p></div>
   
 
   
-</p><table class="source_code">
+</p><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
@@ -6883,13 +7101,14 @@ editor</p></div>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>)</span>
       
       
       
@@ -6945,13 +7164,14 @@ editor</p></div>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>)</span>
       
       
       
@@ -7020,13 +7240,14 @@ editor with it, giving focus to it. The document to use is determined from the
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>)</span>
       
       
       
@@ -7081,13 +7302,14 @@ the active editor with a new one associated with the document and gives focus to
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>)</span>
       
       
       
@@ -7150,13 +7372,14 @@ associated to it and gives focus to it.
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>)</span>
       
       
       
@@ -7216,10 +7439,10 @@ for it, replaces the active editor with it and gives focus to it.</p>
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="../KDE/Url.html" title="KDE::Url (class)">KDE::Url</a></span></tt>)</span>
-      
-      
         <span class='name'>url</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../KDE/Url.html" title="KDE::Url (class)">KDE::Url</a></span></tt>)</span>
       
       
       
@@ -7229,13 +7452,14 @@ for it, replaces the active editor with it and gives focus to it.</p>
     </li>
   
 </ul>
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>)</span>
       
       
       
@@ -7308,10 +7532,10 @@ for it, replaces the active editor with it and gives focus to it.</p>
   
     <li>
       
-        <span class='type'>(<tt>Integer</tt>)</span>
-      
-      
         <span class='name'>idx</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
       
       
       
@@ -7321,13 +7545,14 @@ for it, replaces the active editor with it and gives focus to it.</p>
     </li>
   
 </ul>
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="Pane.html" title="Ruber::Pane (class)">Pane</a></span></tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="Pane.html" title="Ruber::Pane (class)">Pane</a></span></tt>)</span>
       
       
       
@@ -7356,10 +7581,10 @@ for it, replaces the active editor with it and gives focus to it.</p>
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>)</span>
-      
-      
         <span class='name'>editor</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>)</span>
       
       
       
@@ -7369,13 +7594,14 @@ for it, replaces the active editor with it and gives focus to it.</p>
     </li>
   
 </ul>
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="Pane.html" title="Ruber::Pane (class)">Pane</a></span></tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="Pane.html" title="Ruber::Pane (class)">Pane</a></span></tt>)</span>
       
       
       
@@ -7390,6 +7616,7 @@ for it, replaces the active editor with it and gives focus to it.</p>
       </li>
     
   </ul>
+
 
 </div><table class="source_code">
   <tr>
@@ -7427,6 +7654,7 @@ for it, replaces the active editor with it and gives focus to it.</p>
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -7463,13 +7691,14 @@ for it, replaces the active editor with it and gives focus to it.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -7527,10 +7756,10 @@ for it, replaces the active editor with it and gives focus to it.</p>
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="Project.html" title="Ruber::Project (class)">Project</a></span></tt>, <tt>nil</tt>)</span>
-      
-      
         <span class='name'>project</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Project.html" title="Ruber::Project (class)">Project</a></span></tt>, <tt>nil</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>nil</tt>)</em>
@@ -7544,13 +7773,14 @@ that a project is being closed <em>before</em> removing it from the list</p></di
     </li>
   
 </ul>
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -7620,6 +7850,7 @@ action list so that it contains an action for each of the open documents</p>
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -7674,6 +7905,7 @@ action list so that it contains an action for each of the open documents</p>
 </div>
 <div class="tags">
   
+
   <h3>See Also:</h3>
   <ul class="see">
     
@@ -7736,13 +7968,14 @@ and should be avoided. To do so, you use this method:</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Yields:</h3>
+  
+<h3>Yields:</h3>
 <ul class="yield">
   
     <li>
       
-        <span class='type'></span>
       
+        <span class='type'></span>
       
       
       
@@ -7757,8 +7990,8 @@ and should be avoided. To do so, you use this method:</p>
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>)</span>
       
       
       
@@ -7803,14 +8036,32 @@ and should be avoided. To do so, you use this method:</p>
   <p class="signature first" id="current_document_changed-signalcode">
 <!-- The sub is needed to remove the (Object) part -->
   - <strong>current_document_changed</strong>(QObject* arg1) 
-</p>
+</p><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
 </div>
     
       <div class="method_details ">
   <p class="signature " id="active_editor_changed-signalcode">
 <!-- The sub is needed to remove the (Object) part -->
   - <strong>active_editor_changed</strong>(QObject* arg1) 
-</p>
+</p><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
 </div>
     
   </div>
@@ -7818,9 +8069,9 @@ and should be avoided. To do so, you use this method:</p>
 </div>
     
     <div id="footer">
-  Generated on Fri Apr 29 10:51:23 2011 by 
+  Generated on Sun Oct 23 14:12:31 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.8 (ruby-1.9.2).
+  0.7.3 (ruby-1.9.3).
 </div>
 
   </body>

@@ -307,3 +307,9 @@ display:none;
 div.rule{
 border-top:thin solid #FF2B63;
 }
+
+.shell {
+  background-color: #FFC2C2;
+  font-family: monospace;
+  font-size: 120%;
+}

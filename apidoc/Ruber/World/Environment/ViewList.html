@@ -1,0 +1,653 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: Ruber::World::Environment::ViewList
+  
+    &mdash; Ruber API
+  
+</title>
+
+  <link rel="stylesheet" href="../../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="../../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '../../..';
+  if (relpath != '') relpath += '/';
+</script>
+
+  <script type="text/javascript" charset="utf-8" src="../../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../../_index.html">Index (V)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../../../Ruber.html" title="Ruber (module)">Ruber</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../../World.html" title="Ruber::World (module)">World</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Environment.html" title="Ruber::World::Environment (class)">Environment</a></span></span>
+     &raquo; 
+    <span class="title">ViewList</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a id="class_list_link" href="#">Class List</a>
+  
+    <a id="method_list_link" href="#">Method List</a>
+  
+    <a id="file_list_link" href="#">File List</a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Ruber::World::Environment::ViewList
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName"><span class='object_link'><a href="../../../Object.html" title="Object (class)">Object</a></span></span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../../../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next">Ruber::World::Environment::ViewList</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/ruber/world/environment.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#by_activation-instance_method" title="#by_activation (instance method)">- (Object) <strong>by_activation</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title readonly">readonly</span>
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute by_activation.</p></div></span>
+  
+</li>
+
+    
+      <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#by_document-instance_method" title="#by_document (instance method)">- (Object) <strong>by_document</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title readonly">readonly</span>
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute by_document.</p></div></span>
+  
+</li>
+
+    
+      <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#by_tab-instance_method" title="#by_tab (instance method)">- (Object) <strong>by_tab</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title readonly">readonly</span>
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute by_tab.</p></div></span>
+  
+</li>
+
+    
+      <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#tabs-instance_method" title="#tabs (instance method)">- (Object) <strong>tabs</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title readonly">readonly</span>
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute tabs.</p></div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#add_view-instance_method" title="#add_view (instance method)">- (Object) <strong>add_view</strong>(view, tab) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (ViewList) <strong>initialize</strong> </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>A new instance of ViewList.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#move_to_front-instance_method" title="#move_to_front (instance method)">- (Object) <strong>move_to_front</strong>(view) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#remove_view-instance_method" title="#remove_view (instance method)">- (Object) <strong>remove_view</strong>(view) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+
+
+
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::World::Environment::ViewList (class)">ViewList</a></span></tt>) <strong>initialize</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>A new instance of ViewList</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+34
+35
+36
+37
+38
+39</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/environment.rb', line 34</span>
+
+<span class='kw'>def</span> <span class='id initialize'>initialize</span>
+  <span class='ivar'>@by_activation</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='ivar'>@by_tab</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='ivar'>@by_document</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='ivar'>@tabs</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <span id="by_activation-instance_method"></span>
+      <div class="method_details first">
+  <p class="signature first" id="by_activation-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>by_activation</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute by_activation</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+32
+33
+34</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/environment.rb', line 32</span>
+
+<span class='kw'>def</span> <span class='id by_activation'>by_activation</span>
+  <span class='ivar'>@by_activation</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <span id="by_document-instance_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="by_document-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>by_document</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute by_document</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+32
+33
+34</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/environment.rb', line 32</span>
+
+<span class='kw'>def</span> <span class='id by_document'>by_document</span>
+  <span class='ivar'>@by_document</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <span id="by_tab-instance_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="by_tab-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>by_tab</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute by_tab</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+32
+33
+34</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/environment.rb', line 32</span>
+
+<span class='kw'>def</span> <span class='id by_tab'>by_tab</span>
+  <span class='ivar'>@by_tab</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <span id="tabs-instance_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="tabs-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>tabs</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute tabs</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+32
+33
+34</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/environment.rb', line 32</span>
+
+<span class='kw'>def</span> <span class='id tabs'>tabs</span>
+  <span class='ivar'>@tabs</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="add_view-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>add_view</strong>(view, tab) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+41
+42
+43
+44
+45
+46</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/environment.rb', line 41</span>
+
+<span class='kw'>def</span> <span class='id add_view'>add_view</span> <span class='id view'>view</span><span class='comma'>,</span> <span class='id tab'>tab</span>
+  <span class='ivar'>@by_activation</span> <span class='op'>&lt;&lt;</span> <span class='id view'>view</span>
+  <span class='lparen'>(</span><span class='ivar'>@by_tab</span><span class='lbracket'>[</span><span class='id tab'>tab</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='op'>&lt;&lt;</span> <span class='id view'>view</span>
+  <span class='lparen'>(</span><span class='ivar'>@by_document</span><span class='lbracket'>[</span><span class='id view'>view</span><span class='period'>.</span><span class='id document'>document</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='op'>&lt;&lt;</span> <span class='id view'>view</span>
+  <span class='ivar'>@tabs</span><span class='lbracket'>[</span><span class='id view'>view</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id tab'>tab</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="move_to_front-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>move_to_front</strong>(view) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+58
+59
+60
+61
+62
+63
+64</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/environment.rb', line 58</span>
+
+<span class='kw'>def</span> <span class='id move_to_front'>move_to_front</span> <span class='id view'>view</span>
+  <span class='ivar'>@by_activation</span><span class='period'>.</span><span class='id unshift'>unshift</span> <span class='ivar'>@by_activation</span><span class='period'>.</span><span class='id delete'>delete</span><span class='lparen'>(</span><span class='id view'>view</span><span class='rparen'>)</span>
+  <span class='id tab'>tab</span> <span class='op'>=</span> <span class='ivar'>@tabs</span><span class='lbracket'>[</span><span class='id view'>view</span><span class='rbracket'>]</span>
+  <span class='ivar'>@by_tab</span><span class='lbracket'>[</span><span class='id tab'>tab</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id unshift'>unshift</span> <span class='ivar'>@by_tab</span><span class='lbracket'>[</span><span class='id tab'>tab</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id delete'>delete</span><span class='lparen'>(</span><span class='id view'>view</span><span class='rparen'>)</span>
+  <span class='id doc'>doc</span> <span class='op'>=</span> <span class='id view'>view</span><span class='period'>.</span><span class='id document'>document</span>
+  <span class='ivar'>@by_document</span><span class='lbracket'>[</span><span class='id doc'>doc</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id unshift'>unshift</span> <span class='ivar'>@by_document</span><span class='lbracket'>[</span><span class='id doc'>doc</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id delete'>delete</span><span class='lparen'>(</span><span class='id view'>view</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="remove_view-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>remove_view</strong>(view) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+48
+49
+50
+51
+52
+53
+54
+55
+56</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/environment.rb', line 48</span>
+
+<span class='kw'>def</span> <span class='id remove_view'>remove_view</span> <span class='id view'>view</span>
+  <span class='id tab'>tab</span> <span class='op'>=</span> <span class='ivar'>@tabs</span><span class='lbracket'>[</span><span class='id view'>view</span><span class='rbracket'>]</span>
+  <span class='ivar'>@by_activation</span><span class='period'>.</span><span class='id delete'>delete</span> <span class='id view'>view</span>
+  <span class='ivar'>@by_tab</span><span class='lbracket'>[</span><span class='id tab'>tab</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id delete'>delete</span> <span class='id view'>view</span>
+  <span class='ivar'>@by_tab</span><span class='period'>.</span><span class='id delete'>delete</span> <span class='id tab'>tab</span> <span class='kw'>if</span> <span class='ivar'>@by_tab</span><span class='lbracket'>[</span><span class='id tab'>tab</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+  <span class='ivar'>@by_document</span><span class='lbracket'>[</span><span class='id view'>view</span><span class='period'>.</span><span class='id document'>document</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id delete'>delete</span> <span class='id view'>view</span>
+  <span class='ivar'>@by_document</span><span class='period'>.</span><span class='id delete'>delete</span> <span class='id view'>view</span><span class='period'>.</span><span class='id document'>document</span> <span class='kw'>if</span> <span class='ivar'>@by_document</span><span class='lbracket'>[</span><span class='id view'>view</span><span class='period'>.</span><span class='id document'>document</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+  <span class='ivar'>@tabs</span><span class='period'>.</span><span class='id delete'>delete</span> <span class='id view'>view</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+
+</div>
+    
+    <div id="footer">
+  Generated on Sun Oct 23 14:12:24 2011 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.7.3 (ruby-1.9.3).
+</div>
+
+  </body>
+</html>

@@ -1,0 +1,506 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: Ruber::IRB::IRBWidget
+  
+    &mdash; Ruber API
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '../..';
+  if (relpath != '') relpath += '/';
+</script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../_index.html">Index (I)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../../Ruber.html" title="Ruber (module)">Ruber</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../IRB.html" title="Ruber::IRB (module)">IRB</a></span></span>
+     &raquo; 
+    <span class="title">IRBWidget</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a id="class_list_link" href="#">Class List</a>
+  
+    <a id="method_list_link" href="#">Method List</a>
+  
+    <a id="file_list_link" href="#">File List</a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Ruber::IRB::IRBWidget
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Qt::Widget</span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next">Qt::Widget</li>
+          
+            <li class="next">Ruber::IRB::IRBWidget</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">plugins/irb/irb.rb<span class="defines">,<br />
+  plugins/irb/irb.rb</span>
+</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="PROMPTS-constant" class="">PROMPTS =
+          
+        </dt>
+        <dd><pre class="code"><span class='lbrace'>{</span>
+  <span class='symbol'>:PROMPT_I</span><span class='op'>=&gt;</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>%N(%m):%03n:%i&gt; </span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+  <span class='symbol'>:PROMPT_N</span><span class='op'>=&gt;</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>%N(%m):%03n:%i&gt; </span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+  <span class='symbol'>:PROMPT_S</span><span class='op'>=&gt;</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>%N(%m):%03n:%i%l </span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+  <span class='symbol'>:PROMPT_C</span><span class='op'>=&gt;</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>%N(%m):%03n:%i* </span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+  <span class='symbol'>:RETURN</span><span class='op'>=&gt;</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>=&gt; </span><span class='tstring_end'>&quot;</span></span>
+<span class='rbrace'>}</span></pre></dd>
+      
+    </dl>
+  
+
+
+  
+
+
+  
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#display_output-instance_method" title="#display_output (instance method)">- (Object) <strong>display_output</strong>(lines) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (IRBWidget) <strong>initialize</strong>(parent = nil) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>A new instance of IRBWidget.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#load_settings-instance_method" title="#load_settings (instance method)">- (Object) <strong>load_settings</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#send_to_irb-instance_method" title="#send_to_irb (instance method)">- (Object) <strong>send_to_irb</strong>(line) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#stop-instance_method" title="#stop (instance method)">- (Object) <strong>stop</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+
+
+
+
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::IRB::IRBWidget (class)">IRBWidget</a></span></tt>) <strong>initialize</strong>(parent = nil) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>A new instance of IRBWidget</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/irb/irb.rb', line 47</span>
+
+<span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id parent'>parent</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='kw'>super</span>
+  <span class='ivar'>@ui</span> <span class='op'>=</span> <span class='const'>Ui</span><span class='op'>::</span><span class='const'>ToolWidget</span><span class='period'>.</span><span class='id new'>new</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id setup_ui'>setup_ui</span> <span class='kw'>self</span>
+  <span class='ivar'>@view</span> <span class='op'>=</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id view'>view</span>
+  <span class='ivar'>@input</span> <span class='op'>=</span> <span class='ivar'>@ui</span><span class='period'>.</span><span class='id input'>input</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id focus_proxy'>focus_proxy</span> <span class='op'>=</span> <span class='ivar'>@input</span>
+  <span class='ivar'>@controller</span> <span class='op'>=</span> <span class='const'>IRBController</span><span class='period'>.</span><span class='id new'>new</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:irb</span><span class='comma'>,</span> <span class='symbol'>:irb</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='kw'>self</span>
+  <span class='ivar'>@controller</span><span class='period'>.</span><span class='id connect'>connect</span><span class='lparen'>(</span><span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:output_ready</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='lbrace'>{</span> <span class='id display_output'>display_output</span> <span class='ivar'>@controller</span><span class='period'>.</span><span class='id output'>output</span><span class='rbrace'>}</span>
+  <span class='ivar'>@display_output</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='ivar'>@controller</span><span class='period'>.</span><span class='id prompts'>prompts</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:irb</span><span class='comma'>,</span> <span class='symbol'>:prompts</span><span class='rbracket'>]</span>
+  <span class='ivar'>@controller</span><span class='period'>.</span><span class='id start_irb'>start_irb</span>
+  <span class='ivar'>@input</span><span class='period'>.</span><span class='id connect'>connect</span><span class='lparen'>(</span><span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>returnPressed(QString)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='rparen'>)</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id s'>s</span><span class='op'>|</span> <span class='id send_to_irb'>send_to_irb</span> <span class='id s'>s</span><span class='rbrace'>}</span>
+  <span class='ivar'>@input</span><span class='period'>.</span><span class='id completion_mode'>completion_mode</span> <span class='op'>=</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>GlobalSettings</span><span class='op'>::</span><span class='const'>CompletionAuto</span>
+  <span class='ivar'>@controller</span><span class='period'>.</span><span class='id connect'>connect</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:ready</span><span class='rparen'>)</span> <span class='kw'>do</span>
+    <span class='ivar'>@input</span><span class='period'>.</span><span class='id enabled'>enabled</span> <span class='op'>=</span> <span class='kw'>true</span>
+    <span class='ivar'>@input</span><span class='period'>.</span><span class='id set_focus'>set_focus</span> <span class='kw'>if</span> <span class='id is_active_window'>is_active_window</span>
+  <span class='kw'>end</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id restart_irb'>restart_irb</span><span class='period'>.</span><span class='id connect'>connect</span><span class='lparen'>(</span><span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:clicked</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='lbrace'>{</span> <span class='ivar'>@controller</span><span class='period'>.</span><span class='id restart_irb'>restart_irb</span><span class='rbrace'>}</span>
+  <span class='ivar'>@ui</span><span class='period'>.</span><span class='id send_abort'>send_abort</span><span class='period'>.</span><span class='id connect'>connect</span><span class='lparen'>(</span><span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:clicked</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='lbrace'>{</span> <span class='ivar'>@controller</span><span class='period'>.</span><span class='id interrupt'>interrupt</span><span class='rbrace'>}</span>
+  <span class='ivar'>@controller</span><span class='period'>.</span><span class='id connect'>connect</span><span class='lparen'>(</span><span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:interrupting_evaluation</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='lbrace'>{</span> <span class='ivar'>@display_output</span> <span class='op'>=</span> <span class='kw'>false</span><span class='rbrace'>}</span>
+  <span class='ivar'>@controller</span><span class='period'>.</span><span class='id connect'>connect</span><span class='lparen'>(</span><span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:evaluation_interrupted</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='lbrace'>{</span> <span class='ivar'>@display_output</span> <span class='op'>=</span> <span class='kw'>true</span><span class='rbrace'>}</span>
+  <span class='ivar'>@cursor</span> <span class='op'>=</span> <span class='ivar'>@view</span><span class='period'>.</span><span class='id text_cursor'>text_cursor</span>
+  <span class='ivar'>@formats</span> <span class='op'>=</span> <span class='lbrace'>{</span>
+    <span class='symbol'>:input</span> <span class='op'>=&gt;</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>TextCharFormat</span><span class='period'>.</span><span class='id new'>new</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id c'>c</span><span class='op'>|</span> <span class='id c'>c</span><span class='period'>.</span><span class='id foreground'>foreground</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Brush</span><span class='period'>.</span><span class='id new'>new</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:output_colors</span><span class='comma'>,</span> <span class='symbol'>:message</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='comma'>,</span>
+    <span class='symbol'>:output</span> <span class='op'>=&gt;</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>TextCharFormat</span><span class='period'>.</span><span class='id new'>new</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id c'>c</span><span class='op'>|</span> <span class='id c'>c</span><span class='period'>.</span><span class='id foreground'>foreground</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Brush</span><span class='period'>.</span><span class='id new'>new</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:output_colors</span><span class='comma'>,</span> <span class='symbol'>:output</span><span class='rbracket'>]</span><span class='rbrace'>}</span>
+  <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="display_output-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>display_output</strong>(lines)  <span class="extras">(private)</span>
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/irb/irb.rb', line 92</span>
+
+<span class='kw'>def</span> <span class='id display_output'>display_output</span> <span class='id lines'>lines</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='ivar'>@display_output</span>
+  <span class='ivar'>@cursor</span><span class='period'>.</span><span class='id move_position'>move_position</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>TextCursor</span><span class='op'>::</span><span class='const'>End</span>
+  <span class='id lines'>lines</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id l'>l</span><span class='op'>|</span>
+    <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:app</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id process_events'>process_events</span>
+    <span class='ivar'>@cursor</span><span class='period'>.</span><span class='id char_format'>char_format</span> <span class='op'>=</span> <span class='ivar'>@formats</span><span class='lbracket'>[</span><span class='id l'>l</span><span class='period'>.</span><span class='id category'>category</span><span class='rbracket'>]</span>
+    <span class='ivar'>@cursor</span><span class='period'>.</span><span class='id insert_text'>insert_text</span> <span class='id l'>l</span><span class='period'>.</span><span class='id full_text'>full_text</span><span class='op'>+</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  <span class='ivar'>@cursor</span><span class='period'>.</span><span class='id move_position'>move_position</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>TextCursor</span><span class='op'>::</span><span class='const'>End</span>
+  <span class='ivar'>@view</span><span class='period'>.</span><span class='id text_cursor'>text_cursor</span> <span class='op'>=</span> <span class='ivar'>@cursor</span>
+  <span class='ivar'>@view</span><span class='period'>.</span><span class='id ensure_cursor_visible'>ensure_cursor_visible</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="load_settings-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>load_settings</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+81
+82
+83</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/irb/irb.rb', line 81</span>
+
+<span class='kw'>def</span> <span class='id load_settings'>load_settings</span>
+  <span class='ivar'>@controller</span><span class='period'>.</span><span class='id prompts'>prompts</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:irb</span><span class='comma'>,</span> <span class='symbol'>:prompts</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>load_settings()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="send_to_irb-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>send_to_irb</strong>(line)  <span class="extras">(private)</span>
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+102
+103
+104
+105
+106
+107
+108</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/irb/irb.rb', line 102</span>
+
+<span class='kw'>def</span> <span class='id send_to_irb'>send_to_irb</span> <span class='id line'>line</span>
+  <span class='ivar'>@input</span><span class='period'>.</span><span class='id completion_object'>completion_object</span><span class='period'>.</span><span class='id add_item'>add_item</span> <span class='id line'>line</span>
+  <span class='ivar'>@input</span><span class='period'>.</span><span class='id insert_item'>insert_item</span> <span class='int'>0</span><span class='comma'>,</span> <span class='id line'>line</span>
+  <span class='ivar'>@input</span><span class='period'>.</span><span class='id edit_text'>edit_text</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span>
+  <span class='ivar'>@input</span><span class='period'>.</span><span class='id enabled'>enabled</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='ivar'>@controller</span><span class='period'>.</span><span class='id send_to_irb'>send_to_irb</span> <span class='lbracket'>[</span><span class='id line'>line</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="stop-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>stop</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+86
+87
+88</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/irb/irb.rb', line 86</span>
+
+<span class='kw'>def</span> <span class='id stop'>stop</span>
+  <span class='ivar'>@controller</span><span class='period'>.</span><span class='id stop_irb'>stop_irb</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+
+</div>
+    
+    <div id="footer">
+  Generated on Sun Oct 23 14:12:41 2011 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.7.3 (ruby-1.9.3).
+</div>
+
+  </body>
+</html>

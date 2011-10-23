@@ -3,16 +3,26 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Class: Ruber::SettingsDialog</title>
-<link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
-<link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+<title>
+  Class: Ruber::SettingsDialog
+  
+    &mdash; Ruber API
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   relpath = '..';
   if (relpath != '') relpath += '/';
 </script>
-<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
-<script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
 
   </head>
   <body>
@@ -33,11 +43,14 @@
 </div>
 
       <div id="search">
-  <a id="class_list_link" href="#">Class List</a>
-  <a id="method_list_link" href="#">Method List</a>
-  <a id ="file_list_link" href="#">File List</a>
+  
+    <a id="class_list_link" href="#">Class List</a>
+  
+    <a id="method_list_link" href="#">Method List</a>
+  
+    <a id="file_list_link" href="#">File List</a>
+  
 </div>
-
       <div class="clear"></div>
     </div>
     
@@ -76,7 +89,9 @@
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">lib/ruber/settings_dialog.rb</dd>
+    <dd class="r2 last">lib/ruber/settings_dialog.rb<span class="defines">,<br />
+  lib/ruber/settings_dialog.rb</span>
+</dd>
   
 </dl>
 <div class="clear"></div>
@@ -107,29 +122,32 @@ and <tt>default_file_widget</tt>. Since the automatic option management system a
 that each option corresponds to a single widget, you can&#8217;t use it. So, you define
 a <tt>read_settings</tt>, a <tt>store_settings</tt> and a <tt>read_default_settings</tt>
 method in your widget class like this:</p>
-class MyWidget &lt; Qt::Widget
-def initialize parent = nil
-super
-@default_dir_widget = <span class="caps">KDE</span>::LineEdit.new self
-@default_file_widget = <span class="caps">KDE</span>::LineEdit.new self
-end
-def read_settings
-path = @settings_dialog.settings_container[:general, :default_path]
-@default_dir_widget.text = File.dirname(path)
-@default_file_widget.text = File.basename(path)
-end
+<pre class="code">class MyWidget &lt; Qt::Widget&lt;/code&gt;
 
-def store_settings
-path = File.join @default_dir_widget.text, @default_file_widget.text
-@settings_dialog.settings_container[:general, :default_path] = path
-end
+&lt;code&gt;  def initialize parent = nil
+    super
+    @default_dir_widget = KDE::LineEdit.new self
+    @default_file_widget = KDE::LineEdit.new self
+  end&lt;/code&gt;
 
-def read_default_settings
-path = @settings_dialog.settings_container.default(:general, :default_path)
-@default_dir_widget.text = File.dirname(path)
-@default_file_widget.text = File.basename(path)
-end
-end
+&lt;code&gt;  def read_settings
+    path = @settings_dialog.settings_container[:general, :default_path]
+    @default_dir_widget.text = File.dirname(path)
+    @default_file_widget.text = File.basename(path)
+  end&lt;/code&gt;
+  
+&lt;code&gt;  def store_settings
+    path = File.join @default_dir_widget.text, @default_file_widget.text
+    @settings_dialog.settings_container[:general, :default_path] = path
+  end&lt;/code&gt;
+  
+&lt;code&gt;  def read_default_settings
+    path = @settings_dialog.settings_container.default(:general, :default_path)
+    @default_dir_widget.text = File.dirname(path)
+    @default_file_widget.text = File.basename(path)
+  end&lt;/code&gt;
+
+&lt;code&gt;end</pre>
 <p>Note that the <tt>@settings_dialog</tt> instance variable has been automatically
 created by the dialog when the widget has been created and contains a reference
 to the dialog itself.</p>
@@ -138,6 +156,7 @@ to the dialog itself.</p>
 </div>
 <div class="tags">
   
+
 </div><div id="subclasses">
   <h2>Direct Known Subclasses</h2>
   <p class="children"><span class='object_link'><a href="ProjectDialog.html" title="Ruber::ProjectDialog (class)">ProjectDialog</a></span></p>
@@ -177,6 +196,9 @@ to the dialog itself.</p>
     
   </ul>
 
+
+
+  
 
   
     <h2>
@@ -435,6 +457,7 @@ the dialog.</p>
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -543,6 +566,7 @@ option container of the dialog.</p>
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -590,6 +614,7 @@ closed, so the interface should be updated manually.</p>
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -637,6 +662,7 @@ values of the options instad of the values set by the user.</p>
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -679,6 +705,7 @@ method of each widgets which provide it.</p>
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -721,6 +748,7 @@ closed, so the interface should be updated manually.</p>
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -766,6 +794,7 @@ so that the options are written to file.</p>
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -812,6 +841,7 @@ they may want to pass some argument to <ins>new</ins>).</p>
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -852,6 +882,7 @@ evaluate the code in another binding).</p>
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -889,6 +920,7 @@ widgets created from the data in the third argument of the constructor.</p>
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -921,9 +953,9 @@ widgets created from the data in the third argument of the constructor.</p>
 </div>
     
     <div id="footer">
-  Generated on Fri Apr 29 10:51:15 2011 by 
+  Generated on Sun Oct 23 14:12:22 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.8 (ruby-1.9.2).
+  0.7.3 (ruby-1.9.3).
 </div>
 
   </body>

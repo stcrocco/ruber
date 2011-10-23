@@ -2,17 +2,27 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>File: CHANGES</title>
-<link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
-<link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>
+  File: CHANGES
+  
+    &mdash; Ruber API
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   relpath = '';
   if (relpath != '') relpath += '/';
 </script>
-<script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
-<script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
 
   </head>
   <body>
@@ -31,19 +41,62 @@
 </div>
 
       <div id="search">
-  <a id="class_list_link" href="#">Class List</a>
-  <a id="method_list_link" href="#">Method List</a>
-  <a id ="file_list_link" href="#">File List</a>
+  
+    <a id="class_list_link" href="#">Class List</a>
+  
+    <a id="method_list_link" href="#">Method List</a>
+  
+    <a id="file_list_link" href="#">File List</a>
+  
 </div>
-
       <div class="clear"></div>
     </div>
     
     <iframe id="search_frame"></iframe>
     
     <div id="content"><div id='filecontents'><h1>Changes</h1>
-<h2>Ruber 0.0.9</h2>
+<h2>Ruber 0.0.10</h2>
 <h3>Features</h3>
+<ul>
+	<li>Added a RI plugin. You can now insert the class or method name in the RI tool widget
+  and see the documentation in a nice <span class="caps">HTML</span> format inside the tool widget itself.
+  This plugin requires RDoc version 3.x (it isn&#8217;t tested with version 2.x).</li>
+	<li>Added an <span class="caps">IRB</span> plugin</li>
+	<li>The syntax checker plugin has been rewritten. Now other plugins can check the
+  syntax of a document</li>
+	<li>Ruby and <span class="caps">YAML</span> syntax checker now are in their own plugin, rather than being part
+  of the syntax checker plugin</li>
+	<li>The auto end plugin doesn&#8217;t use indentation anymore to decide whether the end keyword
+  should be inserted or not. Instead, it performs a syntax check and only inserts
+  end if ruby reports a missing end keyword. This should improve the accuracy of
+  the plugin</li>
+	<li>The Auto End plugin now inserts the <code>end</code> keyword after a <code>case</code> expression</li>
+	<li>Clicking on a file name in an output widget with the middle mouse button now
+  prevents the tool widget from being hidden, as if the pin button were clicked</li>
+	<li>Changed the interface to specify patterns in the RSpec plugin</li>
+	<li>The RSpec plugin now supports specs inside subdirectories. You can also specify
+  subdirectories inside the pattern to match code file and the respective spec
+  file</li>
+	<li>When choosing the Run Specs for Current File action in the RSpec plugin, if the current
+  document is associated with a code file, all the specs associated with it are
+  run (previously, only one of them was run)</li>
+	<li>When choosing the Run Current Spec action in the RSpec plugin, if the current
+  document is a code file, the plugin will look at the most recently activated
+  editor containing a spec file for the current file to determine which is the
+  current spec.</li>
+	<li>The behaviour of output widgets when clicking on a file name which requires
+  opening a new editor has changed. The choice made by the user to open the editor
+  in the current tab by splitting the current editor is ignored if the current 
+  tab already contains more than one editor. The reason is that usually there
+  won&#8217;t be enough space on the sceen to comfortably accomodate more than two
+  editors.</li>
+</ul>
+<h3>Bug fixes</h3>
+<ul>
+	<li>Do not crash when closing with unsaved files</li>
+	<li>Horizontal scrollbar in the RSpec tool widget will be displayed when the spec
+  description is larger than the widget but the rest of the text isn&#8217;t</li>
+</ul>
 <h2>Ruber 0.0.9</h2>
 <h3>Features</h3>
 <ul>
@@ -59,6 +112,8 @@
 	<li>The RSpec plugin now correctly displays pending examples</li>
 	<li>Fixed a crash when creating a new document and saving it as a ruby file while
   using the Syntax Checker plugin</li>
+	<li>When clicking on a file name in an output widget, give focus to the editor instead
+  of keeping it in  the tool widget</li>
 </ul>
 <h2>Ruber 0.0.8</h2>
 <h3>Features</h3>
@@ -152,9 +207,9 @@
 </ul></div></div>
     
     <div id="footer">
-  Generated on Mon May 30 13:59:50 2011 by 
+  Generated on Sun Oct 23 14:12:07 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.8 (ruby-1.9.2).
+  0.7.3 (ruby-1.9.3).
 </div>
 
   </body>

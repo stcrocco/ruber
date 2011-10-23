@@ -3,16 +3,26 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Class: Ruber::Document</title>
-<link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
-<link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+<title>
+  Class: Ruber::Document
+  
+    &mdash; Ruber API
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   relpath = '..';
   if (relpath != '') relpath += '/';
 </script>
-<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
-<script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
 
   </head>
   <body>
@@ -33,11 +43,14 @@
 </div>
 
       <div id="search">
-  <a id="class_list_link" href="#">Class List</a>
-  <a id="method_list_link" href="#">Method List</a>
-  <a id ="file_list_link" href="#">File List</a>
+  
+    <a id="class_list_link" href="#">Class List</a>
+  
+    <a id="method_list_link" href="#">Method List</a>
+  
+    <a id="file_list_link" href="#">File List</a>
+  
 </div>
-
       <div class="clear"></div>
     </div>
     
@@ -104,6 +117,7 @@
 </div>
 <div class="tags">
   
+
 </div>
         </dt>
         <dd><pre class="code"><span class='lbrace'>{</span> 
@@ -125,6 +139,7 @@ happen before the application is created.</p>
 </div>
 <div class="tags">
   
+
 </div>
         </dt>
         <dd><pre class="code"><span class='const'>Hash</span><span class='period'>.</span><span class='id new'>new</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id h'>h</span><span class='comma'>,</span> <span class='id k'>k</span><span class='op'>|</span>
@@ -138,6 +153,16 @@ happen before the application is created.</p>
 
   
   
+  
+  
+  
+  
+  
+  
+  
+  
+
+
   
   
   
@@ -658,7 +683,7 @@ status of the document.</p></div></span>
 <li class="public ">
   <span class="summary_signature">
     
-      <a href="#views-instance_method" title="#views (instance method)">- (Array&lt;EditorView&gt;) <strong>views</strong>(which = :visible) </a>
+      <a href="#views-instance_method" title="#views (instance method)">- (Object) <strong>views</strong> </a>
     
 
     
@@ -671,7 +696,7 @@ status of the document.</p></div></span>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>A list of the views assciated with the document.</p></div></span>
+    <span class="summary_desc"><div class='inline'><p>@return [Array<EditorView>] a list of all the views associated with the document.</p></div></span>
   
 </li>
 
@@ -898,6 +923,14 @@ status of the document.</p></div></span>
       <span class="summary_desc"><div class='inline'><p>Signal emitted before a view associated with the document is closed.</p></div></span>
     </li>
   
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#document_saved_or_uploaded-signalcode" title="document_saved_or_uploaded (signalcode)">- <strong>document_saved_or_uploaded</strong>(QObject* arg1, bool arg2) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
+  
   </ul>
 
 
@@ -922,6 +955,7 @@ status of the document.</p></div></span>
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -979,8 +1013,7 @@ status of the document.</p></div></span>
 166
 167
 168
-169
-170</pre>
+169</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/editor/document.rb', line 118</span>
@@ -991,14 +1024,13 @@ status of the document.</p></div></span>
   <span class='ivar'>@doc</span> <span class='op'>=</span> <span class='const'>KTextEditor</span><span class='op'>::</span><span class='const'>EditorChooser</span><span class='period'>.</span><span class='id editor'>editor</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>katepart</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id create_document'>create_document</span><span class='lparen'>(</span> <span class='kw'>self</span><span class='rparen'>)</span>
   <span class='id initialize_wrapper'>initialize_wrapper</span> <span class='ivar'>@doc</span><span class='comma'>,</span> <span class='kw'>self</span><span class='period'>.</span><span class='id class'>class</span><span class='period'>.</span><span class='id instance_variable_get'>instance_variable_get</span><span class='lparen'>(</span><span class='symbol'>:@signal_table</span><span class='rparen'>)</span>
   <span class='ivar'>@views</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
-  <span class='ivar'>@all_views</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
   <span class='ivar'>@doc</span><span class='period'>.</span><span class='id openUrl'>openUrl</span><span class='lparen'>(</span><span class='id file'>file</span><span class='period'>.</span><span class='id is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>String</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Url</span><span class='period'>.</span><span class='id from_path'>from_path</span><span class='lparen'>(</span><span class='id file'>file</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='id file'>file</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id file'>file</span>
   <span class='ivar'>@annotation_model</span> <span class='op'>=</span> <span class='const'>AnnotationModel</span><span class='period'>.</span><span class='id new'>new</span> <span class='kw'>self</span>
   <span class='id interface'>interface</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>annotation_interface</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id annotation_model'>annotation_model</span> <span class='op'>=</span> <span class='ivar'>@annotation_model</span>
   <span class='id interface'>interface</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>modification_interface</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id modified_on_disk_warning'>modified_on_disk_warning</span> <span class='op'>=</span> <span class='kw'>true</span>
   <span class='ivar'>@modified_on_disk</span> <span class='op'>=</span> <span class='kw'>false</span>
   <span class='ivar'>@project</span> <span class='op'>=</span> <span class='const'>DocumentProject</span><span class='period'>.</span><span class='id new'>new</span> <span class='kw'>self</span>
-  
+  <span class='ivar'>@project</span><span class='period'>.</span><span class='id finalize'>finalize</span>
   <span class='ivar'>@doc</span><span class='period'>.</span><span class='id connect'>connect</span><span class='lparen'>(</span><span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>modifiedChanged(KTextEditor::Document*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id doc'>doc</span><span class='op'>|</span>
     <span class='id emit'>emit</span> <span class='id modified_changed'>modified_changed</span><span class='lparen'>(</span><span class='ivar'>@doc</span><span class='period'>.</span><span class='id modified?'>modified?</span><span class='comma'>,</span> <span class='kw'>self</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
@@ -1026,7 +1058,7 @@ status of the document.</p></div></span>
     <span class='kw'>begin</span>
       <span class='id emit'>emit</span> <span class='id text_inserted'>text_inserted</span><span class='lparen'>(</span><span class='id r'>r</span><span class='comma'>,</span> <span class='kw'>self</span><span class='rparen'>)</span>
     <span class='kw'>rescue</span> <span class='const'>ArgumentError</span> <span class='op'>=&gt;</span> <span class='id e'>e</span>
-      <span class='const'>ExceptionDialog</span><span class='period'>.</span><span class='id new'>new</span> <span class='id e'>e</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>An exception was raised when writing text. See issue number 6 at http://github.com/stcrocco/ruber/issues</span><span class='tstring_end'>&quot;</span></span>
+      <span class='const'>ExceptionDialog</span><span class='period'>.</span><span class='id new'>new</span> <span class='id e'>e</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>An exception was raised from emit text_inserted. See issue number 6 at http://github.com/stcrocco/ruber/issues</span><span class='tstring_end'>&quot;</span></span>
     <span class='kw'>end</span>
   <span class='kw'>end</span>
   
@@ -1074,13 +1106,14 @@ status of the document.</p></div></span>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>, <tt>nil</tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>, <tt>nil</tt>)</span>
       
       
       
@@ -1141,6 +1174,7 @@ closing or if there&#8217;s no need of confirmation, the following happens:</p>
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -1168,7 +1202,7 @@ closing or if there&#8217;s no need of confirmation, the following happens:</p>
   <span class='kw'>if</span> <span class='op'>!</span><span class='id ask'>ask</span> <span class='op'>||</span> <span class='id query_close'>query_close</span>
     <span class='id emit'>emit</span> <span class='id closing'>closing</span><span class='lparen'>(</span><span class='kw'>self</span><span class='rparen'>)</span>
     <span class='ivar'>@project</span><span class='period'>.</span><span class='id save'>save</span> <span class='kw'>unless</span> <span class='id path'>path</span><span class='period'>.</span><span class='id empty?'>empty?</span>
-    <span class='ivar'>@all_views</span><span class='period'>.</span><span class='id dup'>dup</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id v'>v</span><span class='op'>|</span> <span class='id v'>v</span><span class='period'>.</span><span class='id close'>close</span><span class='rbrace'>}</span>
+    <span class='ivar'>@views</span><span class='period'>.</span><span class='id dup'>dup</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id v'>v</span><span class='op'>|</span> <span class='id v'>v</span><span class='period'>.</span><span class='id close'>close</span><span class='rbrace'>}</span>
     <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='id close_url'>close_url</span> <span class='kw'>false</span>
     <span class='ivar'>@project</span><span class='period'>.</span><span class='id close'>close</span> <span class='kw'>false</span>
     <span class='id delete_later'>delete_later</span>
@@ -1198,6 +1232,7 @@ closing or if there&#8217;s no need of confirmation, the following happens:</p>
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -1221,13 +1256,7 @@ closing or if there&#8217;s no need of confirmation, the following happens:</p>
 352
 353
 354
-355
-356
-357
-358
-359
-360
-361</pre>
+355</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/editor/document.rb', line 338</span>
@@ -1236,7 +1265,6 @@ closing or if there&#8217;s no need of confirmation, the following happens:</p>
   <span class='id inner_view'>inner_view</span> <span class='op'>=</span> <span class='ivar'>@doc</span><span class='period'>.</span><span class='id create_view'>create_view</span> <span class='kw'>nil</span>
   <span class='id view'>view</span> <span class='op'>=</span> <span class='const'>EditorView</span><span class='period'>.</span><span class='id new'>new</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='id inner_view'>inner_view</span><span class='comma'>,</span> <span class='id parent'>parent</span>
   <span class='ivar'>@views</span> <span class='op'>&lt;&lt;</span> <span class='id view'>view</span>
-  <span class='ivar'>@all_views</span> <span class='op'>&lt;&lt;</span> <span class='id view'>view</span>
   <span class='id gui'>gui</span> <span class='op'>=</span> <span class='id view'>view</span><span class='period'>.</span><span class='id send'>send</span><span class='lparen'>(</span><span class='symbol'>:internal</span><span class='rparen'>)</span>
   <span class='id action'>action</span> <span class='op'>=</span> <span class='id gui'>gui</span><span class='period'>.</span><span class='id action_collection'>action_collection</span><span class='period'>.</span><span class='id action'>action</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>file_save_as</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
   <span class='id disconnect'>disconnect</span> <span class='id action'>action</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:triggered</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='ivar'>@doc</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>documentSaveAs()</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
@@ -1247,11 +1275,6 @@ closing or if there&#8217;s no need of confirmation, the following happens:</p>
   <span class='id view'>view</span><span class='period'>.</span><span class='id connect'>connect</span><span class='lparen'>(</span><span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>closing(QWidget*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id v'>v</span><span class='op'>|</span> 
     <span class='id emit'>emit</span> <span class='id closing_view'>closing_view</span> <span class='id v'>v</span><span class='comma'>,</span> <span class='kw'>self</span>
     <span class='ivar'>@views</span><span class='period'>.</span><span class='id delete'>delete</span> <span class='id v'>v</span>
-    <span class='ivar'>@all_views</span><span class='period'>.</span><span class='id delete'>delete</span> <span class='id v'>v</span>
-  <span class='kw'>end</span>
-  <span class='id view'>view</span><span class='period'>.</span><span class='id connect'>connect</span><span class='lparen'>(</span><span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>about_to_hide(QWidget*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='rparen'>)</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id w'>w</span><span class='op'>|</span> <span class='ivar'>@views</span><span class='period'>.</span><span class='id delete'>delete</span> <span class='id w'>w</span><span class='rbrace'>}</span>
-  <span class='id view'>view</span><span class='period'>.</span><span class='id connect'>connect</span><span class='lparen'>(</span><span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>about_to_show(QWidget*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id w'>w</span><span class='op'>|</span> 
-    <span class='ivar'>@views</span> <span class='op'>&lt;&lt;</span> <span class='id w'>w</span> <span class='kw'>unless</span> <span class='ivar'>@views</span><span class='period'>.</span><span class='id include?'>include?</span> <span class='id w'>w</span>
   <span class='kw'>end</span>
   <span class='id emit'>emit</span> <span class='id view_created'>view_created</span><span class='lparen'>(</span><span class='id view'>view</span><span class='comma'>,</span> <span class='kw'>self</span><span class='rparen'>)</span>
   <span class='id view'>view</span>
@@ -1283,6 +1306,7 @@ encoding here is set to <span class="caps">UTF</span>-8 if using ruby 1.9 and to
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -1362,6 +1386,7 @@ calls.</p>
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -1413,6 +1438,7 @@ document, otherwise this method will always return *false.</p>
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -1450,6 +1476,7 @@ doesn&#8217;t exist</p>
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -1500,13 +1527,14 @@ single string).</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>Boolean</tt>)</span>
       
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
       
@@ -1580,10 +1608,10 @@ document is associated with a local file or with a remote file. In particular:</
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>, <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>)</span>
-      
-      
         <span class='name'>which</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>, <tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>)</span>
       
       
         <em class="default">(defaults to: <tt>:any</tt>)</em>
@@ -1595,13 +1623,14 @@ document is associated with a local file or with a remote file. In particular:</
     </li>
   
 </ul>
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>Boolean</tt>)</span>
       
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
       
@@ -1660,13 +1689,14 @@ matching <em>which</em> and <strong>false</strong> otherwise</p></div>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>Boolean</tt>)</span>
       
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
       
@@ -1714,6 +1744,7 @@ status of the document.</p>
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -1804,10 +1835,10 @@ status of the document.</p>
   
     <li>
       
-        <span class='type'>(<tt>Integer</tt>)</span>
-      
-      
         <span class='name'>n</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
       
       
       
@@ -1817,13 +1848,14 @@ status of the document.</p>
     </li>
   
 </ul>
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
       
@@ -1870,13 +1902,14 @@ of range</p></div>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>Boolean</tt>)</span>
       
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
       
@@ -1920,6 +1953,7 @@ of range</p></div>
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -1956,6 +1990,7 @@ of range</p></div>
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -1995,13 +2030,14 @@ document has a file associated with it).</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>Boolean</tt>)</span>
       
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
       
@@ -2051,6 +2087,7 @@ document has a file associated with it).</p>
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -2069,7 +2106,7 @@ document has a file associated with it).</p>
 <span class='kw'>def</span> <span class='id project'>project</span>
   <span class='id prj'>prj</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:world</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id active_project'>active_project</span>
   <span class='kw'>return</span> <span class='ivar'>@project</span> <span class='kw'>if</span> <span class='id path'>path</span><span class='period'>.</span><span class='id empty?'>empty?</span> <span class='kw'>or</span> <span class='op'>!</span><span class='id prj'>prj</span>
-  <span class='id prj'>prj</span><span class='period'>.</span><span class='id project_files'>project_files</span><span class='period'>.</span><span class='id file_in_project?'>file_in_project?</span><span class='lparen'>(</span><span class='id url'>url</span><span class='period'>.</span><span class='id to_encoded'>to_encoded</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id prj'>prj</span> <span class='op'>:</span> <span class='ivar'>@project</span>
+  <span class='id prj'>prj</span><span class='period'>.</span><span class='id file_in_project?'>file_in_project?</span><span class='lparen'>(</span><span class='id url'>url</span><span class='period'>.</span><span class='id to_encoded'>to_encoded</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id prj'>prj</span> <span class='op'>:</span> <span class='ivar'>@project</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2096,6 +2133,7 @@ or if he pressed the Cancel button in the Save As dialog).</p>
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -2197,13 +2235,14 @@ of an empty string.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
       
@@ -2232,10 +2271,10 @@ of an empty string.</p>
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="../KTextEditor/Range.html" title="KTextEditor::Range (class)">KTextEditor::Range</a></span></tt>)</span>
-      
-      
         <span class='name'>range</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../KTextEditor/Range.html" title="KTextEditor::Range (class)">KTextEditor::Range</a></span></tt>)</span>
       
       
       
@@ -2246,10 +2285,10 @@ of an empty string.</p>
   
     <li>
       
-        <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
         <span class='name'>block</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
       
@@ -2259,13 +2298,14 @@ of an empty string.</p>
     </li>
   
 </ul>
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
       
@@ -2281,6 +2321,7 @@ the range is invalid</p></div>
       </li>
     
   </ul>
+
 
 </div><table class="source_code">
   <tr>
@@ -2306,106 +2347,18 @@ the range is invalid</p></div>
       <div class="method_details ">
   <p class="signature " id="views-instance_method">
   
-    
-      <span class="overload">- (<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span>&gt;</tt>) <strong>views</strong> </span>
-    
-      <span class="overload">- (<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span>&gt;</tt>) <strong>views</strong>(:all) </span>
-    
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>views</strong> 
   
 
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>A list of the views assciated with the document</p>
+    <p>@return [Array<EditorView>] a list of all the views associated with the document</p>
 
   </div>
 </div>
 <div class="tags">
   
-  <h3>Overloads:</h3>
-  <ul class="overload">
-    
-      
-      <li class="overload_item">
-        <span class="signature">- (<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span>&gt;</tt>) <strong>views</strong> </span>
-        <div class="docstring">
-  <div class="discussion">
-    <p>A list of all the views associated with the document
-which are currently visible when Ruber is visible</p>
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Returns:</h3>
-<ul class="return">
-  
-    <li>
-      
-        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span>&gt;</tt>)</span>
-      
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>a list of all the views associated with the document
-which are currently visible when Ruber is visible</p></div>
-      
-    </li>
-  
-</ul>
-
-</div>
-      </li>
-    
-      
-      <li class="overload_item">
-        <span class="signature">- (<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span>&gt;</tt>) <strong>views</strong>(:all) </span>
-        <div class="docstring">
-  <div class="discussion">
-    <p>A list of all the views associated with the document,
-including the hidden ones</p>
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Returns:</h3>
-<ul class="return">
-  
-    <li>
-      
-        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span>&gt;</tt>)</span>
-      
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>a list of all the views associated with the document,
-including the hidden ones</p></div>
-      
-    </li>
-  
-</ul>
-
-</div>
-      </li>
-    
-  </ul>
-<h3>Returns:</h3>
-<ul class="return">
-  
-    <li>
-      
-        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span>&gt;</tt>)</span>
-      
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>a list of the views assciated with the document</p></div>
-      
-    </li>
-  
-</ul>
 
 </div><table class="source_code">
   <tr>
@@ -2420,8 +2373,8 @@ including the hidden ones</p></div>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/editor/document.rb', line 181</span>
 
-<span class='kw'>def</span> <span class='id views'>views</span> <span class='id which'>which</span> <span class='op'>=</span> <span class='symbol'>:visible</span>
-  <span class='lparen'>(</span><span class='id which'>which</span> <span class='op'>==</span> <span class='symbol'>:all</span> <span class='op'>?</span> <span class='ivar'>@all_views</span> <span class='op'>:</span> <span class='ivar'>@views</span><span class='rparen'>)</span><span class='period'>.</span><span class='id dup'>dup</span>
+<span class='kw'>def</span> <span class='id views'>views</span>
+  <span class='ivar'>@views</span><span class='period'>.</span><span class='id dup'>dup</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2614,10 +2567,10 @@ it is still included in the array returned by <span class='object_link'><a href=
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>)</span>
-      
-      
         <span class='name'>view</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="EditorView.html" title="Ruber::EditorView (class)">EditorView</a></span></tt>)</span>
       
       
       
@@ -2628,10 +2581,10 @@ it is still included in the array returned by <span class='object_link'><a href=
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="" title="Ruber::Document (class)">Document</a></span></tt>)</span>
-      
-      
         <span class='name'>doc</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Ruber::Document (class)">Document</a></span></tt>)</span>
       
       
       
@@ -2642,7 +2595,15 @@ it is still included in the array returned by <span class='object_link'><a href=
   
 </ul>
 
+
 </div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="document_saved_or_uploaded-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>document_saved_or_uploaded</strong>(QObject* arg1, bool arg2) 
+</p>
 </div>
     
   </div>
@@ -2650,9 +2611,9 @@ it is still included in the array returned by <span class='object_link'><a href=
 </div>
     
     <div id="footer">
-  Generated on Fri Apr 29 10:51:14 2011 by 
+  Generated on Sun Oct 23 14:12:21 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.8 (ruby-1.9.2).
+  0.7.3 (ruby-1.9.3).
 </div>
 
   </body>

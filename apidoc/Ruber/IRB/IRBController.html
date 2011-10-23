@@ -1,0 +1,2752 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: Ruber::IRB::IRBController
+  
+    &mdash; Ruber API
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '../..';
+  if (relpath != '') relpath += '/';
+</script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../_index.html">Index (I)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../../Ruber.html" title="Ruber (module)">Ruber</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../IRB.html" title="Ruber::IRB (module)">IRB</a></span></span>
+     &raquo; 
+    <span class="title">IRBController</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a id="class_list_link" href="#">Class List</a>
+  
+    <a id="method_list_link" href="#">Method List</a>
+  
+    <a id="file_list_link" href="#">File List</a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Ruber::IRB::IRBController
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Qt::Object</span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next">Qt::Object</li>
+          
+            <li class="next">Ruber::IRB::IRBController</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">plugins/irb/irb_controller.rb<span class="defines">,<br />
+  plugins/irb/irb_controller.rb,<br /> plugins/irb/irb_controller.rb,<br /> plugins/irb/irb_controller.rb</span>
+</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="TIMER_INTERVAL-constant" class="">TIMER_INTERVAL =
+          
+        </dt>
+        <dd><pre class="code"><span class='int'>100</span></pre></dd>
+      
+        <dt id="DEFAULT_OUTPUT_LINES-constant" class="">DEFAULT_OUTPUT_LINES =
+          
+        </dt>
+        <dd><pre class="code"><span class='int'>100</span></pre></dd>
+      
+    </dl>
+  
+
+
+  
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#interval-instance_method" title="#interval (instance method)">- (Integer<sup>?</sup>) <strong>interval</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The minimum time interval (in milliseconds) between
+two <span class='object_link'><a href="#output_ready-signalcode" title="Ruber::IRB::IRBController#output_ready (signalcode)">#output_ready</a></span> methods.</p></div></span>
+  
+</li>
+
+    
+      <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#irb_options-instance_method" title="#irb_options (instance method)">- (&lt;String&gt;) <strong>irb_options</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The options to pass to <span class="caps">IRB</span>.</p></div></span>
+  
+</li>
+
+    
+      <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#irb_program-instance_method" title="#irb_program (instance method)">- (String) <strong>irb_program</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The path if the <span class="caps">IRB</span> program.</p></div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+  
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#change_irb_prompt-instance_method" title="#change_irb_prompt (instance method)">- (nil) <strong>change_irb_prompt</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Sends <span class="caps">IRB</span> the command to change the prompt.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#has_output%3F-instance_method" title="#has_output? (instance method)">- (Boolean) <strong>has_output?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Whether or not there&#8217;s output ready to be read.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (IRBController) <strong>initialize</strong>(irb, options, parent = nil) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>A new instance of IRBController.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#interrupt-instance_method" title="#interrupt (instance method)">- (Object) <strong>interrupt</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Interrupts <span class="caps">IRB</span> evaluation by sending <span class="caps">IRB</span> the <code>SIGINT</code> signal.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#irb_finished-instance_method" title="#irb_finished (instance method)">- (nil) <strong>irb_finished</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Restarts <span class="caps">IRB</span> after it has been terminated.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#output-instance_method" title="#output (instance method)">- (&lt;IrbLine&gt;) <strong>output</strong>(n = 100) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Reads a number of lines of output.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#output_ready-instance_method" title="#output_ready (instance method)">- (Object) <strong>output_ready</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#parse_output-instance_method" title="#parse_output (instance method)">- (&lt;IrbLine&gt;<sup>?</sup>) <strong>parse_output</strong>(lines) </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Parses output lines from <span class="caps">IRB</span>, converting them to <span class='object_link'><a href="IrbLine.html" title="Ruber::IRB::IrbLine (class)">IrbLine</a></span> objects.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#process_output-instance_method" title="#process_output (instance method)">- (nil) <strong>process_output</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Slot called whenever <span class="caps">IRB</span> sends output after the prompt has correctly
+been set up.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#prompts%3D-instance_method" title="#prompts= (instance method)">- (nil) <strong>prompts</strong>(prompts) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Changes the prompt.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#restart_irb-instance_method" title="#restart_irb (instance method)">- (nil) <strong>restart_irb</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Stops and immediately restarts the <span class="caps">IRB</span> process
+The <span class='object_link'><a href="#about_to_stop_irb-signalcode" title="Ruber::IRB::IRBController#about_to_stop_irb (signalcode)">#about_to_stop_irb</a></span> is emitted before stopping <span class="caps">IRB</span>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#running%3F-instance_method" title="#running? (instance method)">- (Boolean) <strong>running?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Whether <span class="caps">IRB</span> is running or not.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#send_next_line-instance_method" title="#send_next_line (instance method)">- (nil) <strong>send_next_line</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Sends the next line of input to the <span class="caps">IRB</span> process.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#send_signal-instance_method" title="#send_signal (instance method)">- (nil) <strong>send_signal</strong>(signal) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Sends <span class="caps">IRB</span> a signal.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#send_to_irb-instance_method" title="#send_to_irb (instance method)">- (nil) <strong>send_to_irb</strong>(input) </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Sends input to <span class="caps">IRB</span>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#set_irb_env-instance_method" title="#set_irb_env (instance method)">- (nil) <strong>set_irb_env</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Changes the environment associated with the <span class="caps">IRB</span> process.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#start_irb-instance_method" title="#start_irb (instance method)">- (Boolean) <strong>start_irb</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Starts <span class="caps">IRB</span>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#state-instance_method" title="#state (instance method)">- (Symbol) <strong>state</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The state of the <span class="caps">IRB</span> process.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#stop-instance_method" title="#stop (instance method)">- (nil) <strong>stop</strong>(meth) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Helper method to stop <span class="caps">IRB</span>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#stop_irb-instance_method" title="#stop_irb (instance method)">- (nil) <strong>stop_irb</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Stops the <span class="caps">IRB</span> process.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#timer_ticked-instance_method" title="#timer_ticked (instance method)">- (nil) <strong>timer_ticked</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Slot called in response to the timer timing out.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#wait_for_prompt_changed-instance_method" title="#wait_for_prompt_changed (instance method)">- (Object) <strong>wait_for_prompt_changed</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Slot called whenever <span class="caps">IRB</span> sends output before changes to the prompt have
+taken effect.</p></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+
+  <h2>Signal Summary</h2>
+  <ul class="summary" >
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#output_received-signalcode" title="output_received (signalcode)">- <strong>output_received</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#about_to_stop_irb-signalcode" title="about_to_stop_irb (signalcode)">- <strong>about_to_stop_irb</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted just before <span class="caps">IRB</span> is stopped, for whatever reason.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#interrupting_evaluation-signalcode" title="interrupting_evaluation (signalcode)">- <strong>interrupting_evaluation</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted just before interrupting <span class="caps">IRB</span> by sending a <code>SIGINT</code> signal.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#evaluation_interrupted-signalcode" title="evaluation_interrupted (signalcode)">- <strong>evaluation_interrupted</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted after <span class="caps">IRB</span> has been interrupted by sending a <code>SIGINT</code> signal.</p></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#ready-signalcode" title="ready (signalcode)">- <strong>ready</strong> </a>
+      </span>
+      <span class="summary_desc"><div class='inline'><p>Signal emitted when <span class="caps">IRB</span> is ready to receive input (that is, when it gives
+a prompt when there aren&#8217;t lines yet to be sent).</p></div></span>
+    </li>
+  
+  </ul>
+
+
+
+
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::IRB::IRBController (class)">IRBController</a></span></tt>) <strong>initialize</strong>(irb, options, parent = nil) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>A new instance of IRBController</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>irb</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the path of the <span class="caps">IRB</span> program</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the options to pass to the <span class="caps">IRB</span> program</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>parent</span>
+      
+      
+        <span class='type'>(<tt>Qt::Object</tt>, <tt>nil</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>the parent object</p></div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/irb/irb_controller.rb', line 160</span>
+
+<span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id irb'>irb</span><span class='comma'>,</span> <span class='id options'>options</span><span class='comma'>,</span> <span class='id parent'>parent</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='kw'>super</span> <span class='id parent'>parent</span>
+  <span class='ivar'>@irb_program</span> <span class='op'>=</span> <span class='id irb'>irb</span>
+  <span class='ivar'>@irb_options</span> <span class='op'>=</span> <span class='id options'>options</span><span class='period'>.</span><span class='id dup'>dup</span>
+  <span class='ivar'>@timer</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Timer</span><span class='period'>.</span><span class='id new'>new</span> <span class='kw'>self</span>
+  <span class='id connect'>connect</span> <span class='ivar'>@timer</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:timeout</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:timer_ticked</span><span class='rparen'>)</span>
+  <span class='ivar'>@pending_prompt</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='ivar'>@interrupting</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='ivar'>@evaluating</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='ivar'>@input</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='ivar'>@output</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='ivar'>@interval</span> <span class='op'>=</span> <span class='int'>100</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id="interval=-instance_method"></span>
+      <span id="interval-instance_method"></span>
+      <div class="method_details first">
+  <p class="signature first" id="interval-instance_method">
+  
+    - (<tt>Integer</tt><sup>?</sup>) <strong>interval</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The minimum time interval (in milliseconds) between
+two <span class='object_link'><a href="#output_ready-signalcode" title="Ruber::IRB::IRBController#output_ready (signalcode)">#output_ready</a></span> methods. If <strong>nil</strong>, the <span class='object_link'><a href="#output_ready-signalcode" title="Ruber::IRB::IRBController#output_ready (signalcode)">#output_ready</a></span> signal will
+be emitted as soon as output is received from <span class="caps">IRB</span>. The default value is
+100 milliseconds</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Integer</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the minimum time interval (in milliseconds) between
+two <span class='object_link'><a href="#output_ready-signalcode" title="Ruber::IRB::IRBController#output_ready (signalcode)">#output_ready</a></span> methods. If <strong>nil</strong>, the <span class='object_link'><a href="#output_ready-signalcode" title="Ruber::IRB::IRBController#output_ready (signalcode)">#output_ready</a></span> signal will
+be emitted as soon as output is received from <span class="caps">IRB</span>. The default value is
+100 milliseconds</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+154
+155
+156</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/irb/irb_controller.rb', line 154</span>
+
+<span class='kw'>def</span> <span class='id interval'>interval</span>
+  <span class='ivar'>@interval</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="irb_options=-instance_method"></span>
+      <span id="irb_options-instance_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="irb_options-instance_method">
+  
+    - (<tt>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>&gt;</tt>) <strong>irb_options</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The options to pass to <span class="caps">IRB</span>. Note that changing this
+after <span class="caps">IRB</span> has been started won&#8217;t have any effect until you restart <span class="caps">IRB</span>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the options to pass to <span class="caps">IRB</span>. Note that changing this
+after <span class="caps">IRB</span> has been started won&#8217;t have any effect until you restart <span class="caps">IRB</span>.</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+145
+146
+147</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/irb/irb_controller.rb', line 145</span>
+
+<span class='kw'>def</span> <span class='id irb_options'>irb_options</span>
+  <span class='ivar'>@irb_options</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="irb_program=-instance_method"></span>
+      <span id="irb_program-instance_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="irb_program-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>) <strong>irb_program</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The path if the <span class="caps">IRB</span> program. Note that changing this
+after <span class="caps">IRB</span> has been started won&#8217;t have any effect until you restart <span class="caps">IRB</span>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the path if the <span class="caps">IRB</span> program. Note that changing this
+after <span class="caps">IRB</span> has been started won&#8217;t have any effect until you restart <span class="caps">IRB</span>.</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+149
+150
+151</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/irb/irb_controller.rb', line 149</span>
+
+<span class='kw'>def</span> <span class='id irb_program'>irb_program</span>
+  <span class='ivar'>@irb_program</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="change_irb_prompt-instance_method">
+  
+    - (<tt>nil</tt>) <strong>change_irb_prompt</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Sends <span class="caps">IRB</span> the command to change the prompt</p>
+<p><span class="caps">IRB</span> should not be given input until this command has been executed</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+358
+359
+360
+361
+362
+363
+364
+365
+366</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/irb/irb_controller.rb', line 358</span>
+
+<span class='kw'>def</span> <span class='id change_irb_prompt'>change_irb_prompt</span>
+  <span class='id prompts'>prompts</span> <span class='op'>=</span> <span class='ivar'>@prompt</span><span class='period'>.</span><span class='id prompts'>prompts</span><span class='period'>.</span><span class='id dup'>dup</span>
+  <span class='id prompts'>prompts</span><span class='lbracket'>[</span><span class='symbol'>:RETURN</span><span class='rbracket'>]</span> <span class='op'>+=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>%s\n</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id disconnect'>disconnect</span> <span class='ivar'>@irb</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:readyReadStandardOutput</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:process_output</span><span class='rparen'>)</span>
+  <span class='id connect'>connect</span> <span class='ivar'>@irb</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:readyReadStandardOutput</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:wait_for_prompt_changed</span><span class='rparen'>)</span>
+  <span class='id cmd'>cmd</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>IRB.conf[:PROMPT][:QUIRB]=</span><span class='embexpr_beg'>#{</span><span class='id prompts'>prompts</span><span class='period'>.</span><span class='id inspect'>inspect</span><span class='rbrace'>}</span><span class='tstring_content'>\nconf.prompt_mode = :QUIRB\n</span><span class='tstring_end'>&quot;</span></span>
+  <span class='ivar'>@irb</span><span class='period'>.</span><span class='id write'>write</span> <span class='id cmd'>cmd</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="has_output?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>has_output?</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Whether or not there&#8217;s output ready to be read</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><strong>true</strong> if there&#8217;s output to be read using <span class='object_link'><a href="#output-instance_method" title="Ruber::IRB::IRBController#output (method)">#output</a></span> and
+<strong>false</strong> otherwise</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+177
+178
+179</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/irb/irb_controller.rb', line 177</span>
+
+<span class='kw'>def</span> <span class='id has_output?'>has_output?</span>
+  <span class='op'>!</span><span class='ivar'>@output</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="interrupt-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>interrupt</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Interrupts <span class="caps">IRB</span> evaluation by sending <span class="caps">IRB</span> the <code>SIGINT</code> signal</p>
+<p>This will also clear any pending input. The <span class='object_link'><a href="#output_ready-signalcode" title="Ruber::IRB::IRBController#output_ready (signalcode)">#output_ready</a></span> signal won&#8217;t
+be emitted until <span class="caps">IRB</span> sends an empty prompt. The <span class='object_link'><a href="#interrupting_evaluation-signalcode" title="Ruber::IRB::IRBController#interrupting_evaluation (signalcode)">#interrupting_evaluation</a></span>
+signal is emitted before sending <span class="caps">IRB</span> the <code>SIGINT</code> signal</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'></span>
+      
+      
+      
+        
+        <div class='inline'><p>nil</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+180
+181
+182
+183
+184
+185
+186
+187</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/irb/irb_controller.rb', line 180</span>
+
+<span class='kw'>def</span> <span class='id interrupt'>interrupt</span>
+  <span class='ivar'>@interrupting</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='ivar'>@timer</span><span class='period'>.</span><span class='id stop'>stop</span>
+  <span class='ivar'>@input</span><span class='period'>.</span><span class='id clear'>clear</span>
+  <span class='id emit'>emit</span> <span class='id interrupting_evaluation'>interrupting_evaluation</span>
+  <span class='const'>Process</span><span class='period'>.</span><span class='id kill'>kill</span> <span class='symbol'>:INT</span><span class='comma'>,</span> <span class='ivar'>@irb</span><span class='period'>.</span><span class='id pid'>pid</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="irb_finished-instance_method">
+  
+    - (<tt>nil</tt>) <strong>irb_finished</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Restarts <span class="caps">IRB</span> after it has been terminated</p>
+<p>This method is connected to the <span class="caps">IRB</span> process&#8217;s <code>finished(int, QProcess::ExitStatus)</code>
+signal, so that a new <span class="caps">IRB</span> process can be automatically started. This doesn&#8217;t
+happen when <span class='object_link'><a href="#stop_irb-instance_method" title="Ruber::IRB::IRBController#stop_irb (method)">#stop_irb</a></span> is used to kill the <span class="caps">IRB</span> process</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+439
+440
+441
+442
+443</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/irb/irb_controller.rb', line 439</span>
+
+<span class='kw'>def</span> <span class='id irb_finished'>irb_finished</span>
+  <span class='ivar'>@irb</span><span class='period'>.</span><span class='id delete_later'>delete_later</span>
+  <span class='id start_irb'>start_irb</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>irb_finished()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="output-instance_method">
+  
+    - (<tt>&lt;<span class='object_link'><a href="IrbLine.html" title="Ruber::IRB::IrbLine (class)">IrbLine</a></span>&gt;</tt>) <strong>output</strong>(n = 100) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Reads a number of lines of output</p>
+<p>Lines which have been read are removed from the output buffer</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>n</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>, <tt>nil</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>100</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>the number of lines to read</p></div>
+      
+    </li>
+  
+</ul>
+
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>&lt;<span class='object_link'><a href="IrbLine.html" title="Ruber::IRB::IrbLine (class)">IrbLine</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>an array containing the first <em>n</em> lines of output. If
+there are less than <em>n</em> lines of output, all of them are returned. If
+there&#8217;s no output, an empty array is returned. If <em>n</em> is <strong>nil</strong>, the whole
+content of the output buffer is returned</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+324
+325
+326
+327
+328
+329</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/irb/irb_controller.rb', line 324</span>
+
+<span class='kw'>def</span> <span class='id output'>output</span> <span class='id n'>n</span> <span class='op'>=</span> <span class='int'>100</span>
+  <span class='kw'>if</span> <span class='id n'>n</span> <span class='kw'>then</span> <span class='id n'>n</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id n'>n</span><span class='comma'>,</span> <span class='ivar'>@output</span><span class='period'>.</span><span class='id size'>size</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id min'>min</span>
+  <span class='kw'>else</span> <span class='id n'>n</span> <span class='op'>=</span> <span class='ivar'>@output</span><span class='period'>.</span><span class='id count'>count</span>
+  <span class='kw'>end</span>
+  <span class='ivar'>@output</span><span class='period'>.</span><span class='id shift'>shift</span> <span class='id n'>n</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="output_ready-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>output_ready</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/irb/irb_controller.rb', line 261</span>
+
+<span class='kw'>def</span> <span class='id output_ready'>output_ready</span>
+  <span class='id new_lines'>new_lines</span> <span class='op'>=</span> <span class='ivar'>@irb</span><span class='period'>.</span><span class='id read_all_standard_output'>read_all_standard_output</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='period'>.</span><span class='id split'>split</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id lines'>lines</span> <span class='op'>=</span> <span class='id process_output'>process_output</span> <span class='id new_lines'>new_lines</span><span class='comma'>,</span> <span class='kw'>false</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id lines'>lines</span>
+  <span class='ivar'>@output</span><span class='period'>.</span><span class='id concat'>concat</span> <span class='id lines'>lines</span>
+  <span class='kw'>if</span> <span class='ivar'>@prompt</span> <span class='kw'>and</span> <span class='op'>!</span><span class='ivar'>@interrupting</span>
+    <span class='kw'>if</span> <span class='id lines'>lines</span><span class='period'>.</span><span class='id last'>last</span> <span class='kw'>and</span> <span class='id lines'>lines</span><span class='period'>.</span><span class='id last'>last</span><span class='period'>.</span><span class='id category'>category</span> <span class='op'>==</span> <span class='symbol'>:input</span> <span class='kw'>and</span> <span class='id lines'>lines</span><span class='period'>.</span><span class='id last'>last</span><span class='period'>.</span><span class='id text'>text</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+      <span class='id is_ready'>is_ready</span> <span class='op'>=</span> <span class='kw'>true</span>
+      <span class='ivar'>@pending_prompt</span> <span class='op'>=</span> <span class='ivar'>@output</span><span class='period'>.</span><span class='id pop'>pop</span>
+    <span class='kw'>end</span>
+    <span class='id emit'>emit</span> <span class='id output_received'>output_received</span> <span class='kw'>if</span> <span class='ivar'>@output</span><span class='period'>.</span><span class='id count'>count</span> <span class='op'>&lt;=</span> <span class='int'>100</span>
+    <span class='ivar'>@timer</span><span class='period'>.</span><span class='id start'>start</span><span class='lparen'>(</span><span class='const'>TIMER_INTERVAL</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='op'>!</span><span class='ivar'>@output</span><span class='period'>.</span><span class='id empty?'>empty?</span> <span class='kw'>and</span> <span class='op'>!</span><span class='ivar'>@timer</span><span class='period'>.</span><span class='id active?'>active?</span>
+    <span class='id send_next_line'>send_next_line</span> <span class='kw'>if</span> <span class='lparen'>(</span><span class='ivar'>@in_evaluation</span> <span class='kw'>and</span> <span class='id is_ready'>is_ready</span><span class='rparen'>)</span> <span class='kw'>or</span> <span class='op'>!</span><span class='ivar'>@in_evaluation</span>
+  <span class='kw'>elsif</span> <span class='ivar'>@interrupting</span>
+    <span class='id prompt_line'>prompt_line</span> <span class='op'>=</span> <span class='id lines'>lines</span><span class='period'>.</span><span class='id find'>find</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id l'>l</span><span class='op'>|</span> <span class='id l'>l</span><span class='period'>.</span><span class='id category'>category</span> <span class='op'>==</span> <span class='symbol'>:input</span> <span class='kw'>and</span> <span class='id l'>l</span><span class='period'>.</span><span class='id text'>text</span><span class='period'>.</span><span class='id empty?'>empty?</span><span class='rbrace'>}</span>
+    <span class='kw'>if</span> <span class='id prompt_line'>prompt_line</span>
+      <span class='ivar'>@interrupting</span> <span class='op'>=</span> <span class='kw'>false</span>
+      <span class='id idx'>idx</span> <span class='op'>=</span> <span class='id lines'>lines</span><span class='period'>.</span><span class='id index'>index</span> <span class='id prompt_line'>prompt_line</span>
+      <span class='id lines'>lines</span> <span class='op'>=</span> <span class='ivar'>@output</span><span class='period'>.</span><span class='id pop'>pop</span> <span class='id lines'>lines</span><span class='period'>.</span><span class='id size'>size</span> <span class='op'>-</span> <span class='id idx'>idx</span> <span class='op'>+</span> <span class='int'>1</span>
+      <span class='id emit'>emit</span> <span class='id evaluation_interrupted'>evaluation_interrupted</span>
+      <span class='ivar'>@output</span> <span class='op'>=</span> <span class='id lines'>lines</span>
+      <span class='id emit'>emit</span> <span class='id output_received'>output_received</span>
+      <span class='id send_next_line'>send_next_line</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>output_ready()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="parse_output-instance_method">
+  
+    - (<tt>&lt;<span class='object_link'><a href="IrbLine.html" title="Ruber::IRB::IrbLine (class)">IrbLine</a></span>&gt;</tt><sup>?</sup>) <strong>parse_output</strong>(lines)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Parses output lines from <span class="caps">IRB</span>, converting them to <span class='object_link'><a href="IrbLine.html" title="Ruber::IRB::IrbLine (class)">Ruber::IRB::IrbLine</a></span> objects</p>
+<p>If the prompt has been set up, the lines will be processed using <span class='object_link'><a href="PromptMatcher.html#match-instance_method" title="Ruber::IRB::PromptMatcher#match (method)">PromptMatcher#match</a></span>,
+otherwise they&#8217;ll all be considered output lines with no prompt.</p>
+<p>If the controller is sending input to <span class="caps">IRB</span> and there&#8217;s a pending prompt,
+that prompt will be added to the beginning of the first line, then removed</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>lines</span>
+      
+      
+        <span class='type'>(<tt>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the lines to process</p></div>
+      
+    </li>
+  
+</ul>
+
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>&lt;<span class='object_link'><a href="IrbLine.html" title="Ruber::IRB::IrbLine (class)">IrbLine</a></span>&gt;</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>an array of <span class='object_link'><a href="IrbLine.html" title="Ruber::IRB::IrbLine (class)">Ruber::IRB::IrbLine</a></span> objects corresponding to
+the processed lines or <strong>nil</strong> if <em>lines</em> is empty</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/irb/irb_controller.rb', line 516</span>
+
+<span class='kw'>def</span> <span class='id parse_output'>parse_output</span> <span class='id lines'>lines</span>
+  <span class='kw'>return</span> <span class='kw'>if</span> <span class='id lines'>lines</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+  <span class='kw'>if</span> <span class='ivar'>@prompt</span>
+    <span class='id parsed_lines'>parsed_lines</span> <span class='op'>=</span> <span class='id lines'>lines</span><span class='period'>.</span><span class='id map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id l'>l</span><span class='op'>|</span> 
+      <span class='ivar'>@prompt</span><span class='period'>.</span><span class='id match'>match</span><span class='lparen'>(</span><span class='id l'>l</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='const'>IrbLine</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span> <span class='symbol'>:output</span><span class='comma'>,</span> <span class='id l'>l</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>else</span>
+    <span class='id parsed_lines'>parsed_lines</span> <span class='op'>=</span> <span class='id lines'>lines</span><span class='period'>.</span><span class='id map'>map</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id l'>l</span><span class='op'>|</span> <span class='const'>IrbLine</span><span class='period'>.</span><span class='id new'>new</span> <span class='symbol'>:output</span><span class='comma'>,</span> <span class='id l'>l</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span><span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+  <span class='kw'>if</span> <span class='ivar'>@evaluating</span> <span class='kw'>and</span> <span class='ivar'>@pending_prompt</span> <span class='kw'>and</span> <span class='id parsed_lines'>parsed_lines</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id type'>type</span> <span class='op'>==</span> <span class='symbol'>:output</span>
+    <span class='id parsed_lines'>parsed_lines</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='const'>IrbLine</span><span class='period'>.</span><span class='id new'>new</span> <span class='symbol'>:normal</span><span class='comma'>,</span> <span class='id lines'>lines</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='ivar'>@pending_prompt</span><span class='period'>.</span><span class='id prompt'>prompt</span>
+    <span class='ivar'>@pending_prompt</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='kw'>end</span>
+  <span class='id parsed_lines'>parsed_lines</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>parse_output()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="process_output-instance_method">
+  
+    - (<tt>nil</tt>) <strong>process_output</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Slot called whenever <span class="caps">IRB</span> sends output after the prompt has correctly
+been set up</p>
+<p>It adds the output lines to the output buffer, after converting them to
+<span class='object_link'><a href="IrbLine.html" title="Ruber::IRB::IrbLine (class)">Ruber::IRB::IrbLine</a></span> objects. If the last line is a prompt line and the controller
+is sending input to <span class="caps">IRB</span>, it calls <span class='object_link'><a href="#send_next_line-instance_method" title="Ruber::IRB::IRBController#send_next_line (method)">#send_next_line</a></span>.</p>
+<p>If the controller is interrupting <span class="caps">IRB</span> and a prompt is found, the <span class='object_link'><a href="#evaluation_interrupted-signalcode" title="Ruber::IRB::IRBController#evaluation_interrupted (signalcode)">#evaluation_interrupted</a></span>
+signal is emitted, followed by the <span class='object_link'><a href="#ready-signalcode" title="Ruber::IRB::IRBController#ready (signalcode)">#ready</a></span> signal</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/irb/irb_controller.rb', line 468</span>
+
+<span class='kw'>def</span> <span class='id process_output'>process_output</span>
+  <span class='id new_lines'>new_lines</span> <span class='op'>=</span> <span class='ivar'>@irb</span><span class='period'>.</span><span class='id read_all_standard_output'>read_all_standard_output</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='period'>.</span><span class='id split'>split</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id lines'>lines</span> <span class='op'>=</span> <span class='id parse_output'>parse_output</span> <span class='id new_lines'>new_lines</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='ivar'>@prompt</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id lines'>lines</span>
+  <span class='ivar'>@output</span><span class='period'>.</span><span class='id concat'>concat</span> <span class='id lines'>lines</span>
+  <span class='kw'>if</span> <span class='id lines'>lines</span><span class='period'>.</span><span class='id last'>last</span> <span class='kw'>and</span> <span class='id lines'>lines</span><span class='period'>.</span><span class='id last'>last</span><span class='period'>.</span><span class='id category'>category</span> <span class='op'>==</span> <span class='symbol'>:input</span> <span class='kw'>and</span> <span class='id lines'>lines</span><span class='period'>.</span><span class='id last'>last</span><span class='period'>.</span><span class='id text'>text</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+    <span class='id is_ready'>is_ready</span> <span class='op'>=</span> <span class='kw'>true</span>
+    <span class='ivar'>@pending_prompt</span> <span class='op'>=</span> <span class='ivar'>@output</span><span class='period'>.</span><span class='id pop'>pop</span>
+  <span class='kw'>end</span>
+  <span class='kw'>if</span> <span class='ivar'>@prompt</span> <span class='kw'>and</span> <span class='op'>!</span><span class='ivar'>@interrupting</span>
+    <span class='id emit'>emit</span> <span class='id output_ready'>output_ready</span> <span class='kw'>if</span> <span class='op'>!</span><span class='ivar'>@interval</span> <span class='kw'>or</span> <span class='ivar'>@output</span><span class='period'>.</span><span class='id count'>count</span> <span class='op'>&lt;=</span> <span class='int'>100</span>
+    <span class='ivar'>@timer</span><span class='period'>.</span><span class='id start'>start</span><span class='lparen'>(</span><span class='ivar'>@interval</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='ivar'>@interval</span> <span class='kw'>and</span> <span class='op'>!</span><span class='ivar'>@output</span><span class='period'>.</span><span class='id empty?'>empty?</span> <span class='kw'>and</span> <span class='op'>!</span><span class='ivar'>@timer</span><span class='period'>.</span><span class='id active?'>active?</span>
+    <span class='id send_next_line'>send_next_line</span> <span class='kw'>if</span> <span class='lparen'>(</span><span class='ivar'>@evaluating</span> <span class='kw'>and</span> <span class='id is_ready'>is_ready</span><span class='rparen'>)</span> <span class='kw'>or</span> <span class='op'>!</span><span class='ivar'>@evaluating</span>
+  <span class='kw'>elsif</span> <span class='ivar'>@interrupting</span>
+    <span class='kw'>if</span> <span class='id is_ready'>is_ready</span>
+      <span class='ivar'>@interrupting</span> <span class='op'>=</span> <span class='kw'>false</span>
+      <span class='id emit'>emit</span> <span class='id evaluation_interrupted'>evaluation_interrupted</span>
+      <span class='ivar'>@output</span><span class='period'>.</span><span class='id clear'>clear</span>
+      <span class='id send_next_line'>send_next_line</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>process_output()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="prompts=-instance_method">
+  
+    - (<tt>nil</tt>) <strong>prompts=</strong>(prompts) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+  <div class="note notetag">
+    <strong>Note:</strong> 
+    <div class='inline'><p>in the return prompt, don&#8217;t add the ending <code>%s\n</code>, as it will be
+added automatically</p></div>
+  </div>
+
+  <div class="note notetag">
+    <strong>Note:</strong> 
+    <div class='inline'><p>users must not use <code>IRB.conf[:PROMPT]</code> or <code>IRB.conf.prompt_mode=</code>
+to change IRB&#8217;s prompt, but always call this method. This is
+because <span class='object_link'><a href="" title="Ruber::IRB::IRBController (class)">Ruber::IRB::IRBController</a></span>, behind the scenes, needs to add a special string to the
+prompt chosen by the user to work correctly</p></div>
+  </div>
+
+  <div class="note notetag">
+    <strong>Note:</strong> 
+    <div class='inline'><p>changing the prompt takes effect immediately, even if <span class="caps">IRB</span> has already
+been started</p></div>
+  </div>
+
+<p>Changes the prompt</p>
+<p>Calling this method is the same as adding a new entry to <code>IRB.conf[:PROMPT]</code>
+and changing the current prompt using <code>IRB.conf.prompt_mode=</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>the</span>
+      
+      
+        <span class='type'>(<tt>{<span class='object_link'><a href="../../Symbol.html" title="Symbol (class)">Symbol</a></span>=&gt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>}</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>new prompt. The recognized keys are:
+<code>:PROMPT_I</code>, <code>:PROMPT_N</code>, <code>:PROMPT_S</code>, <code>:PROMPT_C</code>, <code>:RETURN</code>. They have the
+same meaninig as the keys of any entry in <code>IRB.conf[:PROMPT]</code></p></div>
+      
+    </li>
+  
+</ul>
+
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+284
+285
+286
+287
+288</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/irb/irb_controller.rb', line 284</span>
+
+<span class='kw'>def</span> <span class='id prompts='>prompts=</span> <span class='id prompts'>prompts</span>
+  <span class='id id'>id</span> <span class='op'>=</span> <span class='const'>Array</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='int'>5</span><span class='rparen'>)</span><span class='lbrace'>{</span><span class='id rand'>rand</span><span class='lparen'>(</span><span class='int'>10</span><span class='rparen'>)</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id join'>join</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span>
+  <span class='ivar'>@prompt</span> <span class='op'>=</span> <span class='const'>PromptMatcher</span><span class='period'>.</span><span class='id new'>new</span> <span class='id id'>id</span><span class='comma'>,</span> <span class='id prompts'>prompts</span>
+  <span class='id change_irb_prompt'>change_irb_prompt</span> <span class='kw'>if</span> <span class='id running?'>running?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="restart_irb-instance_method">
+  
+    - (<tt>nil</tt>) <strong>restart_irb</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Stops and immediately restarts the <span class="caps">IRB</span> process
+The <span class='object_link'><a href="#about_to_stop_irb-signalcode" title="Ruber::IRB::IRBController#about_to_stop_irb (signalcode)">#about_to_stop_irb</a></span> is emitted before stopping <span class="caps">IRB</span>. After emitting
+this signal, all output will be cleared, so you won&#8217;t be able to access it
+anymore.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+239
+240
+241
+242</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/irb/irb_controller.rb', line 239</span>
+
+<span class='kw'>def</span> <span class='id restart_irb'>restart_irb</span>
+  <span class='id stop'>stop</span> <span class='symbol'>:terminate</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>restart_irb()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="running?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>running?</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Whether <span class="caps">IRB</span> is running or not</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>whether <span class="caps">IRB</span> is running or not</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+325
+326
+327</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/irb/irb_controller.rb', line 325</span>
+
+<span class='kw'>def</span> <span class='id running?'>running?</span>
+  <span class='ivar'>@irb</span> <span class='kw'>and</span> <span class='lparen'>(</span><span class='ivar'>@irb</span><span class='period'>.</span><span class='id state'>state</span> <span class='op'>==</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Process</span><span class='op'>::</span><span class='const'>Running</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="send_next_line-instance_method">
+  
+    - (<tt>nil</tt>) <strong>send_next_line</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Sends the next line of input to the <span class="caps">IRB</span> process</p>
+<p>If there&#8217;s no queued input line, the <span class='object_link'><a href="#ready-signalcode" title="Ruber::IRB::IRBController#ready (signalcode)">#ready</a></span> signal will be emitted</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+450
+451
+452
+453
+454
+455
+456</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/irb/irb_controller.rb', line 450</span>
+
+<span class='kw'>def</span> <span class='id send_next_line'>send_next_line</span>
+  <span class='kw'>if</span> <span class='ivar'>@input</span><span class='period'>.</span><span class='id empty?'>empty?</span> 
+    <span class='ivar'>@evaluating</span> <span class='op'>=</span> <span class='kw'>false</span>
+    <span class='id emit'>emit</span> <span class='id ready'>ready</span>
+  <span class='kw'>else</span> <span class='ivar'>@irb</span><span class='period'>.</span><span class='id write'>write</span> <span class='ivar'>@input</span><span class='period'>.</span><span class='id shift'>shift</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="send_signal-instance_method">
+  
+    - (<tt>nil</tt>) <strong>send_signal</strong>(signal) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+  <div class="note notetag">
+    <strong>Note:</strong> 
+    <div class='inline'><p>if you want to stop evaluation (for example, to exit and endless loop),
+do not use this method to send a <code>SIGINT</code>, but use <span class='object_link'><a href="#interrupt-instance_method" title="Ruber::IRB::IRBController#interrupt (method)">#interrupt</a></span>. Simply
+sending a <code>SIGINT</code> signal may not work very well in that case, as, if <span class="caps">IRB</span>
+keeps sending output, <span class='object_link'><a href="#output_ready-signalcode" title="Ruber::IRB::IRBController#output_ready (signalcode)">#output_ready</a></span> signals will kept being emitted</p></div>
+  </div>
+
+<p>Sends <span class="caps">IRB</span> a signal</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>signal</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>, <tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the name or number of the signal.
+Signal names may be with or without the <code>SIG</code> prefix</p></div>
+      
+    </li>
+  
+</ul>
+
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>ArgumentError</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>if the signal name or number is not valid</p></div>
+      
+    </li>
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>RuntimeError</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>if it wasn&#8217;t possible to send the signal</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/irb/irb_controller.rb', line 256</span>
+
+<span class='kw'>def</span> <span class='id send_signal'>send_signal</span> <span class='id signal'>signal</span>
+  <span class='id pid'>pid</span> <span class='op'>=</span> <span class='ivar'>@irb</span><span class='period'>.</span><span class='id pid'>pid</span>
+  <span class='kw'>begin</span> <span class='const'>Process</span><span class='period'>.</span><span class='id kill'>kill</span> <span class='id signal'>signal</span><span class='comma'>,</span> <span class='id pid'>pid</span>
+  <span class='kw'>rescue</span> <span class='const'>Errno</span><span class='op'>::</span><span class='const'>EINVAL</span><span class='comma'>,</span> <span class='const'>RangeError</span><span class='comma'>,</span> <span class='const'>ArgumentError</span>
+    <span class='id raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Invalid signal </span><span class='embexpr_beg'>#{</span><span class='id signal'>signal</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>rescue</span> <span class='const'>Errno</span><span class='op'>::</span><span class='const'>ESRCH</span><span class='comma'>,</span> <span class='const'>Errno</span><span class='op'>::</span><span class='const'>EPERM</span>
+    <span class='id raise'>raise</span> <span class='const'>RuntimeError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>It wasn't possible to send IRB a signal</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="send_to_irb-instance_method">
+  
+    - (<tt>nil</tt>) <strong>send_to_irb</strong>(input) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Sends input to <span class="caps">IRB</span></p>
+<p>The input lines are sent one by one, expecting a prompt before sending a
+new one. The <span class='object_link'><a href="#ready-signalcode" title="Ruber::IRB::IRBController#ready (signalcode)">#ready</a></span> signal is emitted at the first prompt after the last
+line has been sent. If there are lines waiting to be sent, the new ones
+will be added at the end of the queue.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>input</span>
+      
+      
+        <span class='type'>(<tt>&lt;<span class='object_link'><a href="../../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the lines to send <span class="caps">IRB</span></p></div>
+      
+    </li>
+  
+</ul>
+
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+197
+198
+199
+200
+201
+202
+203
+204</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/irb/irb_controller.rb', line 197</span>
+
+<span class='kw'>def</span> <span class='id send_to_irb'>send_to_irb</span> <span class='id input'>input</span>
+  <span class='ivar'>@input</span><span class='period'>.</span><span class='id concat'>concat</span> <span class='id input'>input</span>
+  <span class='kw'>unless</span> <span class='ivar'>@evaluating</span>
+    <span class='ivar'>@evaluating</span> <span class='op'>=</span> <span class='kw'>true</span>
+    <span class='id send_next_line'>send_next_line</span>
+  <span class='kw'>end</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>send_to_irb()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="set_irb_env-instance_method">
+  
+    - (<tt>nil</tt>) <strong>set_irb_env</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Changes the environment associated with the <span class="caps">IRB</span> process</p>
+<p>The environment is changed by adding an <code>IRBRC</code> variable which points to
+the <code>irbrc.rb</code> file in the same directory as <code>irb_controller.rb</code>.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/irb/irb_controller.rb', line 389</span>
+
+<span class='kw'>def</span> <span class='id set_irb_env'>set_irb_env</span>
+  <span class='id dir'>dir</span> <span class='op'>=</span> <span class='const'>File</span><span class='period'>.</span><span class='id dirname'>dirname</span><span class='lparen'>(</span><span class='kw'>__FILE__</span><span class='rparen'>)</span>
+  <span class='id vars'>vars</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>IRBRC</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span><span class='lparen'>(</span><span class='id dir'>dir</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>irbrc.rb</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='rbracket'>]</span>
+  <span class='kw'>if</span> <span class='kw'>defined?</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>ProcessEnvironment</span>
+    <span class='id env'>env</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>ProcessEnvironment</span><span class='period'>.</span><span class='id system_environment'>system_environment</span>
+    <span class='id env'>env</span><span class='period'>.</span><span class='id insert'>insert</span> <span class='op'>*</span><span class='id vars'>vars</span>
+    <span class='ivar'>@irb</span><span class='period'>.</span><span class='id process_environment'>process_environment</span> <span class='op'>=</span> <span class='id env'>env</span>
+  <span class='kw'>else</span> 
+    <span class='id env'>env</span> <span class='op'>=</span> <span class='ivar'>@irb</span><span class='period'>.</span><span class='id system_environment'>system_environment</span>
+    <span class='id env'>env</span> <span class='op'>&lt;&lt;</span> <span class='id vars'>vars</span><span class='period'>.</span><span class='id join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>=</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+    <span class='ivar'>@irb</span><span class='period'>.</span><span class='id environment'>environment</span> <span class='op'>=</span> <span class='id env'>env</span>
+  <span class='kw'>end</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="start_irb-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>start_irb</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Starts <span class="caps">IRB</span></p>
+<p>If <span class="caps">IRB</span> is already running, it&#8217;ll be stopped. The <span class='object_link'><a href="#ready-signalcode" title="Ruber::IRB::IRBController#ready (signalcode)">#ready</a></span> signal will be
+emitted when <span class="caps">IRB</span> is ready to accept output.</p>
+<p>This method will wait for <span class="caps">IRB</span> to start for up to two seconds before returning.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><strong>true</strong> if <span class="caps">IRB</span> was started successfully and <strong>false</strong> if
+it didn&#8217;t start within two seconds</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/irb/irb_controller.rb', line 301</span>
+
+<span class='kw'>def</span> <span class='id start_irb'>start_irb</span>
+  <span class='kw'>if</span> <span class='ivar'>@irb</span>
+    <span class='ivar'>@irb</span><span class='period'>.</span><span class='id kill'>kill</span>
+    <span class='ivar'>@irb</span><span class='period'>.</span><span class='id delete_later'>delete_later</span> 
+  <span class='kw'>end</span>
+  <span class='ivar'>@irb</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Process</span><span class='period'>.</span><span class='id new'>new</span> <span class='kw'>self</span>
+  <span class='ivar'>@irb</span><span class='period'>.</span><span class='id process_channel_mode'>process_channel_mode</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Process</span><span class='op'>::</span><span class='const'>MergedChannels</span>
+  <span class='id set_irb_env'>set_irb_env</span>
+  <span class='id connect'>connect</span> <span class='ivar'>@irb</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>finished(int, QProcess::ExitStatus)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:irb_finished</span><span class='rparen'>)</span>
+  <span class='id options'>options</span> <span class='op'>=</span> <span class='ivar'>@irb_options</span> <span class='op'>+</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>--noreadline</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span>
+  <span class='ivar'>@irb</span><span class='period'>.</span><span class='id start'>start</span> <span class='ivar'>@irb_program</span><span class='comma'>,</span> <span class='id options'>options</span>
+  <span class='ivar'>@irb</span><span class='period'>.</span><span class='id wait_for_started'>wait_for_started</span> <span class='int'>2000</span>
+  <span class='kw'>if</span> <span class='ivar'>@irb</span><span class='period'>.</span><span class='id state'>state</span> <span class='op'>==</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Process</span><span class='op'>::</span><span class='const'>Running</span>
+    <span class='id change_irb_prompt'>change_irb_prompt</span>
+    <span class='kw'>true</span>
+  <span class='kw'>else</span> <span class='kw'>false</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="state-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>) <strong>state</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The state of the <span class="caps">IRB</span> process</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><code>:running</code> if the <span class="caps">IRB</span> process is running, <code>:starting</code> if
+an attempt to start the <span class="caps">IRB</span> process was made but <span class="caps">IRB</span> hasn&#8217;t started yet
+and <code>:not_running</code> if either <span class="caps">IRB</span> has not yet been started or if the attempt
+to start it has failed</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/irb/irb_controller.rb', line 333</span>
+
+<span class='kw'>def</span> <span class='id state'>state</span>
+  <span class='kw'>if</span> <span class='ivar'>@irb</span>
+    <span class='kw'>case</span> <span class='ivar'>@irb</span><span class='period'>.</span><span class='id state'>state</span>
+    <span class='kw'>when</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Process</span><span class='op'>::</span><span class='const'>Running</span> <span class='kw'>then</span> <span class='symbol'>:running</span>
+    <span class='kw'>when</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Process</span><span class='op'>::</span><span class='const'>Starting</span> <span class='kw'>then</span> <span class='symbol'>:starting</span>
+    <span class='kw'>else</span> <span class='symbol'>:not_running</span>
+    <span class='kw'>end</span>
+  <span class='kw'>else</span> <span class='symbol'>:not_running</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="stop-instance_method">
+  
+    - (<tt>nil</tt>) <strong>stop</strong>(meth)  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Helper method to stop <span class="caps">IRB</span></p>
+<p>It&#8217;s used by both <span class='object_link'><a href="#stop_irb-instance_method" title="Ruber::IRB::IRBController#stop_irb (method)">#stop_irb</a></span> and <span class='object_link'><a href="#restart_irb-instance_method" title="Ruber::IRB::IRBController#restart_irb (method)">#restart_irb</a></span>. It takes care of reading
+any unread output from <span class="caps">IRB</span>, emitting the <span class='object_link'><a href="#about_to_stop_irb-signalcode" title="Ruber::IRB::IRBController#about_to_stop_irb (signalcode)">#about_to_stop_irb</a></span> signal, 
+stopping the timer and so on.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>meth</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the method to call to stop <span class="caps">IRB</span>. It can be either 
+:kill or :terminate, which will call respectively <code>Qt::Process#kill</code> or
+<code>Qt::Process#terminate</code></p></div>
+      
+    </li>
+  
+</ul>
+
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+219
+220
+221
+222
+223
+224
+225
+226</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/irb/irb_controller.rb', line 219</span>
+
+<span class='kw'>def</span> <span class='id stop'>stop</span> <span class='id meth'>meth</span>
+  <span class='id parse_output'>parse_output</span> <span class='ivar'>@irb</span><span class='period'>.</span><span class='id read_all_standard_output'>read_all_standard_output</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='period'>.</span><span class='id split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='id emit'>emit</span> <span class='id about_to_stop_irb'>about_to_stop_irb</span>
+  <span class='ivar'>@timer</span><span class='period'>.</span><span class='id stop'>stop</span>
+  <span class='ivar'>@irb</span><span class='period'>.</span><span class='id disconnect'>disconnect</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:readyReadStandardOutput</span><span class='rparen'>)</span>
+  <span class='ivar'>@irb</span><span class='period'>.</span><span class='id send'>send</span> <span class='id meth'>meth</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="stop_irb-instance_method">
+  
+    - (<tt>nil</tt>) <strong>stop_irb</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+  <div class="note notetag">
+    <strong>Note:</strong> 
+    <div class='inline'><p>this method will wait for up to two seconds for <span class="caps">IRB</span> to stop. If it</p></div>
+  </div>
+
+<p>Stops the <span class="caps">IRB</span> process</p>
+<p>The <span class='object_link'><a href="#about_to_stop_irb-signalcode" title="Ruber::IRB::IRBController#about_to_stop_irb (signalcode)">#about_to_stop_irb</a></span> is emitted before stopping <span class="caps">IRB</span>. No further
+<span class='object_link'><a href="#output_ready-signalcode" title="Ruber::IRB::IRBController#output_ready (signalcode)">#output_ready</a></span> signals are emitted.</p>
+<p>You&#8217;ll need to call <span class='object_link'><a href="#start_irb-instance_method" title="Ruber::IRB::IRBController#start_irb (method)">#start_irb</a></span> if you want <span class="caps">IRB</span> to be restarted after
+calling this method. If all you need is to stop <span class="caps">IRB</span> and immediately restart
+it, however, use <span class='object_link'><a href="#restart_irb-instance_method" title="Ruber::IRB::IRBController#restart_irb (method)">#restart_irb</a></span> rather than <span class='object_link'><a href="#stop-instance_method" title="Ruber::IRB::IRBController#stop (method)">#stop</a></span></p>
+<p>doesn&#8217;t stop by that time, it will return all the same.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+226
+227
+228
+229
+230
+231</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/irb/irb_controller.rb', line 226</span>
+
+<span class='kw'>def</span> <span class='id stop_irb'>stop_irb</span>
+  <span class='id disconnect'>disconnect</span> <span class='ivar'>@irb</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>finished(int, QProcess::ExitStatus)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:irb_finished</span><span class='rparen'>)</span>
+  <span class='id stop'>stop</span> <span class='symbol'>:kill</span>
+  <span class='comment'># It seems it takes some time before irb is killed.
+</span>  <span class='ivar'>@irb</span><span class='period'>.</span><span class='id wait_for_finished'>wait_for_finished</span> <span class='int'>2000</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="timer_ticked-instance_method">
+  
+    - (<tt>nil</tt>) <strong>timer_ticked</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Slot called in response to the timer timing out</p>
+<p>It emits the <span class='object_link'><a href="#output_ready-signalcode" title="Ruber::IRB::IRBController#output_ready (signalcode)">#output_ready</a></span> signal and stops the timer if there&#8217;s no
+more output</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+499
+500
+501
+502
+503</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/irb/irb_controller.rb', line 499</span>
+
+<span class='kw'>def</span> <span class='id timer_ticked'>timer_ticked</span>
+  <span class='id emit'>emit</span> <span class='id output_ready'>output_ready</span>
+  <span class='ivar'>@timer</span><span class='period'>.</span><span class='id stop'>stop</span> <span class='kw'>if</span> <span class='ivar'>@output</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+  <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>timer_ticked()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="wait_for_prompt_changed-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>wait_for_prompt_changed</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Slot called whenever <span class="caps">IRB</span> sends output before changes to the prompt have
+taken effect</p>
+<p>If the lines sent by <span class="caps">IRB</span> contain the correct prompt, the <code>readyReadStandardOutput</code>
+signal from the <span class="caps">IRB</span> process will be connected to the <span class='object_link'><a href="#process_output-instance_method" title="Ruber::IRB::IRBController#process_output (method)">#process_output</a></span>
+signal and the <span class='object_link'><a href="#ready-signalcode" title="Ruber::IRB::IRBController#ready (signalcode)">#ready</a></span> signal will be emitted</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'plugins/irb/irb_controller.rb', line 410</span>
+
+<span class='kw'>def</span> <span class='id wait_for_prompt_changed'>wait_for_prompt_changed</span>
+  <span class='id lines'>lines</span> <span class='op'>=</span> <span class='ivar'>@irb</span><span class='period'>.</span><span class='id read_all_standard_output'>read_all_standard_output</span><span class='period'>.</span><span class='id to_s'>to_s</span><span class='period'>.</span><span class='id split'>split</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id found'>found</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='id lines'>lines</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id l'>l</span><span class='op'>|</span>
+    <span class='kw'>if</span> <span class='ivar'>@prompt</span><span class='period'>.</span><span class='id match'>match</span> <span class='id l'>l</span>
+      <span class='id disconnect'>disconnect</span> <span class='ivar'>@irb</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:readyReadStandardOutput</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:wait_for_prompt_changed</span><span class='rparen'>)</span>
+      <span class='id connect'>connect</span> <span class='ivar'>@irb</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:readyReadStandardOutput</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:process_output</span><span class='rparen'>)</span>
+      <span class='id found'>found</span> <span class='op'>=</span> <span class='kw'>true</span>
+      <span class='kw'>break</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='kw'>if</span> <span class='id found'>found</span>
+    <span class='id empty_prompt'>empty_prompt</span> <span class='op'>=</span> <span class='id lines'>lines</span><span class='period'>.</span><span class='id reverse_each'>reverse_each</span><span class='period'>.</span><span class='id find'>find</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id l'>l</span><span class='op'>|</span>
+      <span class='id res'>res</span> <span class='op'>=</span> <span class='ivar'>@prompt</span><span class='period'>.</span><span class='id match'>match</span> <span class='id l'>l</span>
+      <span class='id res'>res</span> <span class='kw'>and</span> <span class='id res'>res</span><span class='period'>.</span><span class='id category'>category</span> <span class='op'>==</span> <span class='symbol'>:input</span> <span class='kw'>and</span> <span class='id res'>res</span><span class='period'>.</span><span class='id text'>text</span><span class='period'>.</span><span class='id empty?'>empty?</span>
+    <span class='kw'>end</span>
+    <span class='ivar'>@pending_prompt</span> <span class='op'>=</span> <span class='ivar'>@prompt</span><span class='period'>.</span><span class='id match'>match</span> <span class='id empty_prompt'>empty_prompt</span> <span class='kw'>if</span> <span class='id empty_prompt'>empty_prompt</span>
+  <span class='kw'>end</span>
+  <span class='id emit'>emit</span> <span class='id ready'>ready</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>wait_for_prompt_changed()</tt></p>
+
+    
+  </div>
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Signal Details</h2>
+    
+      <div class="method_details first">
+  <p class="signature first" id="output_received-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>output_received</strong> 
+</p>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="about_to_stop_irb-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>about_to_stop_irb</strong> 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted just before <span class="caps">IRB</span> is stopped, for whatever reason. Connecting
+to this signal is the last opportunity to read the output from it.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="interrupting_evaluation-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>interrupting_evaluation</strong> 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted just before interrupting <span class="caps">IRB</span> by sending a <code>SIGINT</code> signal</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="evaluation_interrupted-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>evaluation_interrupted</strong> 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted after <span class="caps">IRB</span> has been interrupted by sending a <code>SIGINT</code> signal</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="ready-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>ready</strong> 
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Signal emitted when <span class="caps">IRB</span> is ready to receive input (that is, when it gives
+a prompt when there aren&#8217;t lines yet to be sent)</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Sun Oct 23 14:12:42 2011 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.7.3 (ruby-1.9.3).
+</div>
+
+  </body>
+</html>

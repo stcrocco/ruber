@@ -3,16 +3,26 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Class: Ruber::OutputWidget::Model</title>
-<link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
-<link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+<title>
+  Class: Ruber::OutputWidget::Model
+  
+    &mdash; Ruber API
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   relpath = '../..';
   if (relpath != '') relpath += '/';
 </script>
-<script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
-<script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
 
   </head>
   <body>
@@ -33,11 +43,14 @@
 </div>
 
       <div id="search">
-  <a id="class_list_link" href="#">Class List</a>
-  <a id="method_list_link" href="#">Method List</a>
-  <a id ="file_list_link" href="#">File List</a>
+  
+    <a id="class_list_link" href="#">Class List</a>
+  
+    <a id="method_list_link" href="#">Method List</a>
+  
+    <a id="file_list_link" href="#">File List</a>
+  
 </div>
-
       <div class="clear"></div>
     </div>
     
@@ -76,7 +89,9 @@
   
   
     <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">lib/ruber/output_widget.rb</dd>
+    <dd class="r2 last">lib/ruber/output_widget.rb<span class="defines">,<br />
+  lib/ruber/output_widget.rb,<br /> lib/ruber/output_widget.rb,<br /> lib/ruber/output_widget.rb</span>
+</dd>
   
 </dl>
 <div class="clear"></div>
@@ -92,6 +107,7 @@ using the <tt>global_flags</tt> attribute.</p>
 </div>
 <div class="tags">
   
+
 </div><div id="subclasses">
   <h2>Direct Known Subclasses</h2>
   <p class="children"><span class='object_link'><a href="../FindInFiles/ReplaceWidget/Model.html" title="Ruber::FindInFiles::ReplaceWidget::Model (class)">FindInFiles::ReplaceWidget::Model</a></span></p>
@@ -133,6 +149,12 @@ using the <tt>global_flags</tt> attribute.</p>
     
   </ul>
 
+
+
+  
+  
+  
+  
 
   
     <h2>
@@ -272,6 +294,7 @@ below the other, starting at the position given by the <em>row</em> and <em>opts
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -322,6 +345,7 @@ default value is <tt>Qt::ItemIsEnabled|Qt::ItemIsSelectable</tt></p>
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -398,6 +422,7 @@ last one. This doesn&#8217;t happen for the columns, which are added automatical
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -486,6 +511,7 @@ same type is used for all lines.</p>
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -541,6 +567,7 @@ replaced by the new item.</p>
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -558,7 +585,8 @@ replaced by the new item.</p>
 973
 974
 975
-976</pre>
+976
+977</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/output_widget.rb', line 965</span>
@@ -567,6 +595,7 @@ replaced by the new item.</p>
   <span class='id col'>col</span> <span class='op'>=</span> <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:col</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='int'>0</span>
   <span class='id parent'>parent</span> <span class='op'>=</span> <span class='id opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:parent</span><span class='rbracket'>]</span>
   <span class='id it'>it</span> <span class='op'>=</span> <span class='const'>Qt</span><span class='op'>::</span><span class='const'>StandardItem</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id text'>text</span><span class='rparen'>)</span>
+  <span class='id it'>it</span><span class='period'>.</span><span class='id flags'>flags</span> <span class='op'>=</span> <span class='ivar'>@global_flags</span> <span class='kw'>if</span> <span class='ivar'>@global_flags</span>
   <span class='id row'>row</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id parent'>parent</span> <span class='op'>||</span> <span class='kw'>self</span><span class='rparen'>)</span><span class='period'>.</span><span class='id row_count'>row_count</span> <span class='op'>+</span> <span class='id row'>row</span> <span class='kw'>if</span> <span class='id row'>row</span> <span class='op'>&lt;</span> <span class='int'>0</span>
   <span class='id col'>col</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id parent'>parent</span> <span class='op'>||</span> <span class='kw'>self</span><span class='rparen'>)</span><span class='period'>.</span><span class='id column_count'>column_count</span> <span class='op'>+</span> <span class='id col'>col</span> <span class='kw'>if</span> <span class='id col'>col</span> <span class='op'>&lt;</span> <span class='int'>0</span>
   <span class='kw'>if</span> <span class='id parent'>parent</span> <span class='kw'>then</span> <span class='id parent'>parent</span><span class='period'>.</span><span class='id set_child'>set_child</span> <span class='id row'>row</span><span class='comma'>,</span> <span class='id col'>col</span><span class='comma'>,</span> <span class='id it'>it</span>
@@ -587,9 +616,9 @@ replaced by the new item.</p>
 </div>
     
     <div id="footer">
-  Generated on Fri Apr 29 10:51:12 2011 by 
+  Generated on Sun Oct 23 14:12:19 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.8 (ruby-1.9.2).
+  0.7.3 (ruby-1.9.3).
 </div>
 
   </body>

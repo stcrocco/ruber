@@ -21,10 +21,12 @@
 
       <div id="avmenu">
         <h2 class="hide">Site menu:</h2>
-        <ul><li class="webgen-menu-level1"><a href="../index.html">Home</a></li><li class="webgen-menu-level1"><a href="../news.html">News</a></li><li class="webgen-menu-level1"><a href="../features.html">Features</a></li><li class="webgen-menu-level1"><a href="../status.html">Status</a></li><li class="webgen-menu-level1"><a href="../screenshots.html">Screenshots</a></li><li class="webgen-menu-level1"><a href="../install.html">Installing</a></li><li class="webgen-menu-level1 webgen-menu-submenu webgen-menu-submenu-inhierarchy"><a href="index.html">User manual</a><ul><li class="webgen-menu-level2"><a href="core.html">Ruber core</a></li><li class="webgen-menu-level2 webgen-menu-item-selected"><span>Plugins</span></li></ul></li><li class="webgen-menu-level1 webgen-menu-submenu"><a href="../apidoc/index.html">API documentation</a></li><li class="webgen-menu-level1"><a href="../plugin_developer_manual.html">Developer Manual</a></li><li class="webgen-menu-level1"><a href="../contacts.html">Contacts</a></li><li class="webgen-menu-level1"><a href="http://github.com/stcrocco/ruber">Ruber page on github</a></li></ul>
+        <ul><li class="webgen-menu-level1"><a href="../index.html">Home</a></li><li class="webgen-menu-level1"><a href="../news.html">News</a></li><li class="webgen-menu-level1"><a href="../features.html">Features</a></li><li class="webgen-menu-level1"><a href="../status.html">Status</a></li><li class="webgen-menu-level1"><a href="../screenshots.html">Screenshots</a></li><li class="webgen-menu-level1"><a href="../install.html">Installing Ruber</a></li><li class="webgen-menu-level1 webgen-menu-submenu webgen-menu-submenu-inhierarchy"><a href="index.html">User manual</a><ul><li class="webgen-menu-level2"><a href="core.html">Ruber core</a></li><li class="webgen-menu-level2 webgen-menu-item-selected"><span>Plugins</span></li></ul></li><li class="webgen-menu-level1 webgen-menu-submenu"><a href="../apidoc/index.html">API documentation</a></li><li class="webgen-menu-level1"><a href="../plugin_developer_manual.html">Developer Manual</a></li><li class="webgen-menu-level1"><a href="../contacts.html">Contacts</a></li><li class="webgen-menu-level1"><a href="http://github.com/stcrocco/ruber">Ruber page on github</a></li></ul>
 
         <div class="announce">
           <h2>Latest news:</h2>
+          
+            <p><a href="../news.html#Ruber-0-0-10-released-2011-10-21">Ruber 0.0.10 released</a></p>
           
             <p><a href="../news.html#Ruber-0-0-9-released-2011-05-30">Ruber 0.0.9 released</a></p>
           
@@ -35,8 +37,6 @@
             <p><a href="../news.html#Ruber-0-0-6-released-2010-11-14">Ruber 0.0.6 released</a></p>
           
             <p><a href="../news.html#Ruber-0-0-5-released-2010-11-03">Ruber 0.0.5 released</a></p>
-          
-            <p><a href="../news.html#Ruber-0-0-4-released-2010-11-03">Ruber 0.0.4 released</a></p>
           
         </div>
       </div>
@@ -50,12 +50,16 @@
 	<li><a href="#autosave">autosave</a></li>
 	<li><a href="#command">command</a></li>
 	<li><a href="#find-in-files">find in files</a></li>
+	<li><a href="#irb"><span class="caps">IRB</span></a></li>
 	<li><a href="#project-browser">project browser</a></li>
 	<li><a href="#rake">rake</a></li>
+	<li><a href="#ri">RI</a></li>
 	<li><a href="#rspec">rspec</a></li>
 	<li><a href="#ruby-development">ruby development</a></li>
+	<li><a href="#ruby-syntax-checker">ruby syntax checker</a></li>
 	<li><a href="#state">state</a></li>
 	<li><a href="#syntax-checker">syntax checker</a></li>
+	<li><a href="#yaml-syntax-checker"><span class="caps">YAML</span> syntax checker</a></li>
 </ul>
 <h3 id="autoend">Auto end</h3>
 <p>The auto end plugin automatically inserts an <code>end</code> keyword when you type a newline
@@ -68,18 +72,19 @@ requires a matching <code>end</code>. The recognized keywords are:</p>
 	<li><code>if</code></li>
 	<li><code>do</code></li>
 	<li><code>begin</code></li>
+	<li><code>case</code></li>
+	<li><code>for</code></li>
 </ul>
 <p>It also adds an <code>=end</code> after a line starting a block comment (<code>=begin</code>).</p>
-<p>The algorithm currently used by this plugin is very basic &#8211; it just checks whether
-the line matches a series of regexps, inserting the end keyword if it matches one.
-In particular, this has two consequences:</p>
+<p>Finding out whether an <code>end</code> keyword needs to be inserted after a given line is not
+an easy task. This plugin approaches the problem in the following way:</p>
 <ul>
-	<li>the plugin can&#8217;t understand whether a keyword is in the middle of a block
-  comment or a string and will always insert an end after the current line.</li>
-	<li>the plugin can&#8217;t know whether an <code>end</code> for the keyword in the current line already
-  exists. To lessen the risk of duplicate @end@s, the plugin checks the indentation
-  after the following line and doesn&#8217;t insert the <code>end</code> if it is greater than the
-  indentation in the current line.</li>
+	<li>check if the current line <em>could</em> require an <code>end</code> keyword. This is done by checking
+  whether it contains any of the keywords listed above, using some simple regexps</li>
+	<li>if the line matches one of the regexps mentioned above, perform a syntax check
+  using the Syntax Checker plugin. If the check reports a missing <code>end</code> keyword
+  error, then an <code>end</code> keyword is added. Unfortunately, ruby error messages aren&#8217;t
+  too reliable, so sometimes a spurious <code>end</code> might be inserted.</li>
 </ul>
 <h3 id="autosave">Autosave</h3>
 <p>The autosave plugin is used by other plugins to automatically save some files
@@ -183,6 +188,52 @@ plugin will attempt to save it (using the autosave plugin). If you chose not to
 save them, they won&#8217;t be included in the replacement.</p>
 <p>The plugin takes care of updating files open in the editor in which replacements
 have been performed.</p>
+<h3 id="irb"><span class="caps">IRB</span></h3>
+<p>As the name says, this plugin allows the user to run an <span class="caps">IRB</span> session from within
+a tool widget. Note that this is not a &#8220;Ruber console&#8221;, meaning it doesn&#8217;t allow
+you to interact with Ruber internals (the <a href="#command">Command</a> plugin does something
+like this): rather, it&#8217;s a separated process, just like the <span class="caps">IRB</span> you&#8217;d run in
+a separate terminal.</p>
+<p>The plugin provides a tool widget, where you can input your code and see the output
+from <span class="caps">IRB</span>. The main part of the tool widget is taken by the area where the output
+is displayed. At the bottom, there&#8217;s a line where you can enter the next line to
+send to <span class="caps">IRB</span>. Pressing the <code>Return</code> or the <code>Enter</code> button will send the current text
+to <span class="caps">IRB</span>. After that, the widget will become disabled until <span class="caps">IRB</span> has finished evaluating
+the code.</p>
+<p>At the right of the line widget, there are two buttons:</p>
+<ul>
+	<li>Restart <span class="caps">IRB</span>, which will stop the current <span class="caps">IRB</span> process and start a new one</li>
+	<li>Interrupt Evaluation, which does the same as pressing <code>CTRL+C</code> does in a normal
+  <span class="caps">IRB</span> session. You usually use this button to interrupt something which is requiring
+  too much time. Due to the way this plugin works, some time may pass from the time
+  you press the button to the time the evaluation is actually interrupted.</li>
+</ul>
+<p>The plugin also provides a page in the configuration dialog. There you can choose:</p>
+<ul>
+	<li>the path of the <span class="caps">IRB</span> program (which defaults to the path returned by <span class="shell">which irb</span>)</li>
+	<li>the various prompts <span class="caps">IRB</span> should use. Configuring them is the same as configuring
+  the entries in the <code>IRB.conf[:PROMPTS]</code> hash (for more on this, see the section
+  &#8220;Configuring the prompt&#8221; of <a href="http://www.ruby-doc.org/docs/ProgrammingRuby/html/irb.html">the chapter dedicated to <span class="caps">IRB</span></a>
+  of Programming Ruby. The only difference is that you don&#8217;t have to add the ending
+  <code>%s\n</code> to the <code>:RETURN</code> prompt: they&#8217;re automatically added by Ruber. The default
+  prompts are those used by the <code>:DEFAULT</code> <span class="caps">IRB</span> prompt mode.</li>
+</ul>
+<p>The <span class="caps">IRB</span> plugin uses the colors chosen in the color page of the configuration dialog
+to display input and output text. In particular, the input (the code <em>you</em> enter)
+is displayed using the <em>message</em> color, while the output <span class="caps">IRB</span> sends is displayed
+using the <em>output</em> color.</p>
+<p>There are some differences between using <span class="caps">IRB</span> with this plugin and running <span class="caps">IRB</span> in
+a terminal. The most important are:</p>
+<ul>
+	<li>you <strong>must not</strong> directly use IRB&#8217;s methods to change the prompt (that is, you
+  must not change <code>IRB.conf[:PROMPTS]</code> or call <code>IRB::Context#prompt_mode=</code>). Use
+  the Ruber configuration dialog as described above to change the prompt.</li>
+	<li>to avoid freezing Ruber in case <span class="caps">IRB</span> keeps sending output at a very high speed
+  (for example, when in an endless loop which prints some output), output sent by
+  <span class="caps">IRB</span> is only processed once every 0.1 second. This means that in certain situations,
+  output can come slower (possibly much slower) than it would running <span class="caps">IRB</span> in a
+  terminal. In most situation, this shouldn&#8217;t be noticeable.</li>
+</ul>
 <h3 id="project-browser">Project browser</h3>
 <p>This plugin provides a tool widget which lists the files in the project directory
 in a tree. You can choose whether to display only the files belonging to the project
@@ -262,35 +313,91 @@ using the <code>Ruby/Rake/Quick Tasks</code> submenu.</p>
 <p>You manage quick tasks from the Rake page of the Ruber configuration dialog. You
 can add tasks using the Add Task dialog and remove them using the Remove Task dialog.
 Double clicking on the task name or shortcut, you can edit them.</p>
+<h3 id="ri">RI</h3>
+<p>The RI plugin provides a tool widget to search the RI documentation.</p>
+<p>The tool widget contains a line edit where you can enter the string to look
+for and a text area where the results are shown. To start searching, press the
+<code>Search</code> button or simply press <code>Return</code> ro <code>Enter</code> in the line edit.</p>
+<p>The plugin can search for a class or method name or for a method name in a specific
+class (as usual, use <code>Cls.method_name</code> for a class method and <code>Cls#method_name</code>
+for an instance method). If more than a possible entry is found (for example, 
+because a method is defined in different classes or provided by different libraries),
+a list of all the results will be shown. Clicking on a link will display the
+documentation in simple <span class="caps">HTML</span> format (the format is similar to the <span class="caps">HTML</span> produced
+by RDoc, but without hyperlinks).</p>
+<p>The RI library used by the plugin is the one associated with the current interpreter,
+as explained in the description of the <a href="#ruby-development">Ruby development</a> plugin.</p>
 <h3 id="rspec">RSpec</h3>
-<p>The RSpec plugin allows to run rspec examples from within Ruber. It will only work
-from within a project.</p>
+<p>The RSpec plugin allows to run rspec examples from within Ruber, displaying the
+results in a tool widget. It will only work from within a project.</p>
 <p>This plugin should work with both RSpec 1 and RSpec 2. It will use RSpec 2 if
 <code>`which rspec`</code> returns finds something and RSpec 1 otherwise.</p>
-<p>The <code>Ruby/Tests</code> menu contains entries to run RSpec for the current project, the
-current file or the current line.</p>
-<p>To run the spec in the current line, open the spec file, move the cursor to the
-line of the example you want to run, then use the <code>Ruby/Tests/Run Current Spec</code>
-menu entry.</p>
-<p>To run the all tests in the current project, you first need to configure the project.
-From the project configuration dialog, go to the RSpec page and choose the directory
-where the spec files are (Spec Directory) and the shell glob matching spec files.
-Then, use the <code>Ruby/Tests/Run Project Specs</code> menu entry to run all the files
-contained in the spec directory and matching the chosen glob.</p>
-<p>Running the spec associated with the current file works differently according to
-whether the current file is a spec file (that is, it&#8217;s in the spec directory and
-matches the spec filter as chosen in the project configuration dialog) or not. In
-the first case, all the spec in the current file are executed. In the second case,
-the plugin looks for a spec associated with it and runs it. By default this means looking in
-the spec directory for a file called as the current file but with a <code>_spec</code> inserted
-before the <code>.rb</code> extension. You can configure how to associate a file with the
-corresponding spec in the RSpec page of the project configuration dialog by changing
-the contents of the Pattern line edit (use %f to indicate the base name of the
-file).</p>
-<p>The <code>Ruby/Tests/Switch to Spec</code> menu entry will open the spec file corresponding
-to the current file. If you&#8217;re working on a spec file, instead, the name of the
-entry will become <code>Switch to Code</code> and will open an editor with the code file
-associated with the spec file.</p>
+<p>There are several options you should set from the RSpec page of the project
+configuration dialog before you can use this plugin. That page contains several
+settings:</p>
+<dl>
+	<dt>Ruby options</dt>
+	<dd>the options to pass ruby when running RSpec. Depending on your
+  ruby and RSpec version, you may want to add <code>-I .</code> there, to make sure the current
+  directory is included in the load path.</dd>
+	<dt>RSpec</dt>
+	<dd>here you can choose the path to the <code>rspec</code> or <code>spec</code> program (the default
+  is the path returned by <span class="shell">`which rspec`</span> or <span class="shell">`which spec`</span>, depending
+  on which one doesn&#8217;t return an error. You can also choose the options to pass
+  to RSpec and whether to include full backtraces (which is the same as passing
+  the <code>-b</code> options to RSpec). This option should be enabled if using RSpec 1,
+  while it should remain disabled with RSpec 2.</dd>
+	<dt>Spec Files</dt>
+	<dd>here you can choose the directories containing the example files,
+  the directory containing the code files and a filter to distinguish spec
+  files from other files (for example, helper files) in the spec directories. The
+  filter is simply a shell pattern and should only take into account the name of
+  the file, not the full path. The spec and code directories don&#8217;t need to include
+  only specs and code files, respectively. For example, they can both be set to
+  the project&#8217;s toplevel directory. What is important is that the spec directory
+  contains all specs files and that the code directory contains all code files
+  (of course, code and spec files can be in subdirectories).</dd>
+	<dt>Patterns</dt>
+	<dd>here you associated code files with the corresponding spec files.
+  By default, any file with extension <code>.rb</code> is associated with a spec file having
+  the same name with a <code>_spec.rb</code> appended to it. If you want to add a new pattern,
+  use the <code>Add Pattern</code> button. It will insert a new entry in the list. Double
+  click on it to change it. In the <code>Spec file</code> column, you can use several special
+  sequences:</dd>
+</dl>
+<ul>
+	<li><code>%f</code>: this is replaced with the name of the code file (without its path and
+    the <code>.rb</code> extension)</li>
+	<li><code>%d</code>: this is replaced with the directory of the code file (relative to the
+    project directory)</li>
+	<li><code>%d</code><em>n</em>: here <em>n</em> can be any number. This is replaced by the _n_th part of the
+    code file directory (relative to the project directory). For example, the special
+    sequence <code>%d2</code> when applied to a file named <code>a/b/c/e/f/d.rb</code> will become <code>b</code>
+    (note that path parts are counted from 1, not from 0).</li>
+</ul>
+<p>The RSpec plugin adds a <code>Tests</code> submenu to the <code>Ruby</code> menu. It contains several entries:</p>
+<dl>
+	<dt>Switch to Spec/Switch to Code</dt>
+	<dd>the name of this entry is different depending
+  on whether the current file is a code file (then the name will be <code>Switch to Spec</code>
+  or a spec file (<code>Switch to Code</code>). In the first case, it will display one of the
+  spec files associated with the current document; in the second case it will display
+  the code file associated with the current document</dd>
+	<dt>Run Project Specs</dt>
+	<dd>runs all the spec files associated with the
+  current project, displaying the result in the tool widget</dd>
+	<dt>Run Specs for Current File</dt>
+	<dd>if the current file is a spec file, that file is
+  run. If the current file is a code file, all spec files associated with it are
+  run</dd>
+	<dt>Run Current Spec</dt>
+	<dd>if the current file is a spec file, RSpec is run on the line
+  where the cursor is (using the <code>-l</code> argument of <code>rspec/spec</code>). If the current
+  file is a code file, instead, the plugin looks for open spec files associated
+  with the current file. If it finds them, it looks for the one which was activated
+  last and looks RSpec on it, on the line where the cursor was. If no spec file
+  is open, nothing is done</dd>
+</dl>
 <p>In the RSpec page of the Ruber configuration dialog you can change two behaviour
 of the plugin:</p>
 <ul>
@@ -361,6 +468,11 @@ for the project script and the working directory).</p>
 <p>The ruby interpreter to use can also be changed temporarily by selecting another
 interpreter from the <code>Ruby/Ruby Interpreter</code> menu. This overrides both the global
 setting and the setting for the current document or project.</p>
+<h3 id="ruby-syntax-checker">Ruby syntax checker</h3>
+<p>This plugin provides a syntax checker for ruby files to be used with the <a href="#syntax-checker">Syntax Checker</a>
+plugin.</p>
+<p>The syntax check is performed using <code>ruby -c</code>. The ruby interpreter is obtained
+from the <a href="#ruby-development">ruby development</a> plugin.</p>
 <h3 id="state">State</h3>
 <p>The State plugin allows to save the state of Ruber, of each project and each document
 between sessions, so that it can be restored when Ruber, the project, or the file
@@ -389,15 +501,23 @@ in the Ruber configuration dialog. The options you can change are:</p>
 </ul>
 <p>When restoring sessions, editors associated with an unsaved files will become empty.</p>
 <h3 id="syntax-checker">Syntax Checker</h3>
-<p>The sytnax checker plugin allows to check the syntax of a ruby or <span class="caps">YAML</span> file.</p>
+<p>The sytnax checker plugin allows to check the syntax of a file, according to some
+kind of rule.</p>
+<p>This plugin knows no syntax rules, so it can&#8217;t perform syntax checks by itself. It
+needs to have syntax checkers installed for each kind of file you want the check
+to be done. For example, Ruber comes with a syntax checker for <a href="#ruby-syntax-checker">ruby files</a>
+and for <a href="#yaml-syntax-checker"><span class="caps">YAML</span> files</a>. Each syntax checker has its own ways
+to check syntax and the quality of the error reports may be different from one checker
+to the next.</p>
+<p>The syntax checker to use for each document is determined according to the file extension,
+which means that it will only work if the document has been saved to file (note
+that the file is only used to determine the checker to use: the contents will be
+those displayed in the editor, even if they haven&#8217;t been saved).</p>
 <p>The syntax check is done every time the file is saved and after a pause of at least
 1 second while editing the document (that is, if you don&#8217;t change the text for at
 least one second). You can disable this automatic checking from the Ruber configuration
 dialog in the Syntax page.</p>
-<p>The plugin only works for documents associated with a file (it&#8217;s not smart enough
-to find out whether the contents of the document are ruby or <span class="caps">YAML</span> code and needs
-to relay on the extension of the file).</p>
-<p>The plugin shows the result of the last syntax check in a <span class="caps">LED</span> widget at the right
+<p>The result of the last syntax check is shown in a <span class="caps">LED</span> widget at the right
 end of the status bar: if it&#8217;s green, then there aren&#8217;t syntax errors; if it&#8217;s red,
 there are syntax errors. Finally, if it&#8217;s gray it means that no syntax check has
 been done, either because the document isn&#8217;t associated with a <span class="caps">YAML</span> or ruby file
@@ -407,11 +527,13 @@ tip with the error message of the first error; left-clicking on the <span class=
 the cursor to the corresponding line. Right-clicking on the <span class="caps">LED</span> will display a
 menu listing all the errors: clicking on an item in the menu moves the cursor to
 the position of the corresponding error.</p>
-<p>The syntax check for ruby files is done using <code>ruby -c</code>, while the <span class="caps">YAML</span> syntax
-chek is done passing the contents of the file to <code>YAML.load</code> and seeing whether
-it raises exceptions.</p>
-<p>In the case of ruby files, you can choose the interpreter to use for the syntax
-check as explained in the description of the Ruby Developer plugin.</p>
+<h3 id="yaml-syntax-checker"><span class="caps">YAML</span> syntax checker</h3>
+<p>This plugin provides a syntax checker for <span class="caps">YAML</span> files to be used with the <a href="#syntax-checker">Syntax Checker</a>
+plugin.</p>
+<p>The syntax check is performed using by loading the file using <code>YAML.load</code> and
+seeing whether or not it raises exceptions. Unfortunately, it&#8217;s not possible to
+report specific information on the kind of error, as <code>YAML.load</code> doesn&#8217;t provide
+any.</p>
 <div class="rule" style="padding-top:1px">
 <p class="footnote" id="fn1"><a href="#fnr1"><sup>1</sup></a> Actually, there&#8217;s another plugin, called Ruby Runner which comes with Ruber.
 However, this plugin is mostly of support for other plugins. The settings it

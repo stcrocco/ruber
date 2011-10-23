@@ -24,6 +24,8 @@ h2 small { font-weight: normal; font-size: 0.7em; display: block; float: right; 
 .docstring h2 { font-size: 1.1em; }
 .docstring h3, .docstring h4 { font-size: 1em; border-bottom: 0; padding-top: 10px; }
 .summary_desc .object_link, .docstring .object_link { font-family: monospace; }
+.rdoc-term { padding-right: 25px; font-weight: bold; }
+.rdoc-list p { margin: 0; padding: 0; margin-bottom: 4px; }
 
 /* style for <ul> */
 #filecontents li > p, .docstring li > p { margin: 0px; }
@@ -70,23 +72,25 @@ p.inherited {
   margin-left: 25px;
 }
 
-dl.box {
+#filecontents dl.box, dl.box {
+  border: 0;
   width: 520px;
   font-size: 1em;
 }
-dl.box dt {
+#filecontents dl.box dt, dl.box dt {
   float: left;
   display: block;
   width: 100px;
   margin: 0;
   text-align: right;
   font-weight: bold;
+  background: transparent;
   border: 1px solid #aaa;
   border-width: 1px 0px 0px 1px;
   padding: 6px 0;
   padding-right: 10px;
 }
-dl.box dd {
+#filecontents dl.box dd, dl.box dd {
   float: left;
   display: block;
   width: 380px;
@@ -96,10 +100,10 @@ dl.box dd {
   border: 1px solid #aaa;
   border-width: 1px 1px 0 0;
 }
-dl.box .last {
+#filecontents dl.box .last, dl.box .last {
   border-bottom: 1px solid #aaa;
 }
-dl.box .r1 { background: #eee; }
+#filecontents dl.box .r1, dl.box .r1 { background: #eee; }
 
 ul.toplevel { list-style: none; padding-left: 0; font-size: 1.1em; }
 #files { padding-left: 15px; font-size: 1.1em; }

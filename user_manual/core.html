@@ -21,10 +21,12 @@
 
       <div id="avmenu">
         <h2 class="hide">Site menu:</h2>
-        <ul><li class="webgen-menu-level1"><a href="../index.html">Home</a></li><li class="webgen-menu-level1"><a href="../news.html">News</a></li><li class="webgen-menu-level1"><a href="../features.html">Features</a></li><li class="webgen-menu-level1"><a href="../status.html">Status</a></li><li class="webgen-menu-level1"><a href="../screenshots.html">Screenshots</a></li><li class="webgen-menu-level1"><a href="../install.html">Installing</a></li><li class="webgen-menu-level1 webgen-menu-submenu webgen-menu-submenu-inhierarchy"><a href="index.html">User manual</a><ul><li class="webgen-menu-level2 webgen-menu-item-selected"><span>Ruber core</span></li><li class="webgen-menu-level2"><a href="plugins.html">Plugins</a></li></ul></li><li class="webgen-menu-level1 webgen-menu-submenu"><a href="../apidoc/index.html">API documentation</a></li><li class="webgen-menu-level1"><a href="../plugin_developer_manual.html">Developer Manual</a></li><li class="webgen-menu-level1"><a href="../contacts.html">Contacts</a></li><li class="webgen-menu-level1"><a href="http://github.com/stcrocco/ruber">Ruber page on github</a></li></ul>
+        <ul><li class="webgen-menu-level1"><a href="../index.html">Home</a></li><li class="webgen-menu-level1"><a href="../news.html">News</a></li><li class="webgen-menu-level1"><a href="../features.html">Features</a></li><li class="webgen-menu-level1"><a href="../status.html">Status</a></li><li class="webgen-menu-level1"><a href="../screenshots.html">Screenshots</a></li><li class="webgen-menu-level1"><a href="../install.html">Installing Ruber</a></li><li class="webgen-menu-level1 webgen-menu-submenu webgen-menu-submenu-inhierarchy"><a href="index.html">User manual</a><ul><li class="webgen-menu-level2 webgen-menu-item-selected"><span>Ruber core</span></li><li class="webgen-menu-level2"><a href="plugins.html">Plugins</a></li></ul></li><li class="webgen-menu-level1 webgen-menu-submenu"><a href="../apidoc/index.html">API documentation</a></li><li class="webgen-menu-level1"><a href="../plugin_developer_manual.html">Developer Manual</a></li><li class="webgen-menu-level1"><a href="../contacts.html">Contacts</a></li><li class="webgen-menu-level1"><a href="http://github.com/stcrocco/ruber">Ruber page on github</a></li></ul>
 
         <div class="announce">
           <h2>Latest news:</h2>
+          
+            <p><a href="../news.html#Ruber-0-0-10-released-2011-10-21">Ruber 0.0.10 released</a></p>
           
             <p><a href="../news.html#Ruber-0-0-9-released-2011-05-30">Ruber 0.0.9 released</a></p>
           
@@ -35,8 +37,6 @@
             <p><a href="../news.html#Ruber-0-0-6-released-2010-11-14">Ruber 0.0.6 released</a></p>
           
             <p><a href="../news.html#Ruber-0-0-5-released-2010-11-03">Ruber 0.0.5 released</a></p>
-          
-            <p><a href="../news.html#Ruber-0-0-4-released-2010-11-03">Ruber 0.0.4 released</a></p>
           
         </div>
       </div>
@@ -206,9 +206,11 @@ functionality. In particular:</p>
 	<li>left clicking on a line containing a file name hides the tool widget and opens the
   file in the editor. If the line also contained a line number associated with
   the file (with the syntax <code>file_name:line_number</code>, then the cursor will be moved
-  to that line</li>
+  to that line. Middle clicking will do the same, but the tool widget won&#8217;t be
+  hidden</li>
 	<li>pressing the button with a pin on it on the right of the tool widget will prevent the tool
-  widget from being hidden when clicking on a file name</li>
+  widget from being hidden when clicking on a file name. The same result can be
+  obtained by clicking with the middle mouse button rather than the left button.</li>
 	<li>left clicking on a line containing a file name while keeping the Meta keyboard button
   will cause the file to be opened in a new editor, regardless of whether the file
   is already open in another editor. In the General page of the configuration dialog
@@ -296,7 +298,10 @@ plugin&#8217;s section).</p>
   start in and the path used as location by the New Project dialog.</li>
 	<li>Whether clicking on a file name in an output widget while pressing the Meta key
   should open the new editor in a new tab or in the current tab, splitting the
-  current editor horizontally or vertically</li>
+  current editor horizontally or vertically. Since it&#8217;s unlikely that the screen
+  is large enough to comfortably display more than two editors, this setting is
+  only used when the current tab contains only an editor. If it contains two or
+  more editors, the new one will always be opened in a new tab.</li>
 </ul>
 <h5>The Colors page</h5>
 <p>In the Colors page, you can configure the colors commonly used by various tool

@@ -1,0 +1,2202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: Ruber::World::World
+  
+    &mdash; Ruber API
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '../..';
+  if (relpath != '') relpath += '/';
+</script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../_index.html">Index (W)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../../Ruber.html" title="Ruber (module)">Ruber</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../World.html" title="Ruber::World (module)">World</a></span></span>
+     &raquo; 
+    <span class="title">World</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a id="class_list_link" href="#">Class List</a>
+  
+    <a id="method_list_link" href="#">Method List</a>
+  
+    <a id="file_list_link" href="#">File List</a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Ruber::World::World
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">Qt::Object</span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next">Qt::Object</li>
+          
+            <li class="next">Ruber::World::World</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+      <dt class="r2">Includes:</dt>
+      <dd class="r2"><span class='object_link'><a href="../PluginLike.html" title="Ruber::PluginLike (module)">PluginLike</a></span></dd>
+      
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">lib/ruber/world/world.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Defined Under Namespace</h2>
+<p class="children">
+   
+    
+   
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="World/ExistingProjectFileError.html" title="Ruber::World::World::ExistingProjectFileError (class)">ExistingProjectFileError</a></span>
+    
+  
+</p>
+
+
+  
+  
+  
+  
+  
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#active_document-instance_method" title="#active_document (instance method)">- (Object) <strong>active_document</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title readonly">readonly</span>
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute active_document.</p></div></span>
+  
+</li>
+
+    
+      <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#active_environment-instance_method" title="#active_environment (instance method)">- (Object) <strong>active_environment</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute active_environment.</p></div></span>
+  
+</li>
+
+    
+      <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#default_environment-instance_method" title="#default_environment (instance method)">- (Object) <strong>default_environment</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title readonly">readonly</span>
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Returns the value of attribute default_environment.</p></div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+  
+  
+  
+  
+  
+  <h3 class="inherited">Attributes included from <span class='object_link'><a href="../PluginLike.html" title="Ruber::PluginLike (module)">PluginLike</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../PluginLike.html#plugin_description-instance_method" title="Ruber::PluginLike#plugin_description (method)">plugin_description</a></span></p>
+
+  
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#active_project-instance_method" title="#active_project (instance method)">- (Object) <strong>active_project</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#active_project%3D-instance_method" title="#active_project= (instance method)">- (Object) <strong>active_project</strong>(prj) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#add_environment-instance_method" title="#add_environment (instance method)">- (Object) <strong>add_environment</strong>(env, prj) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#close_all-instance_method" title="#close_all (instance method)">- (Object) <strong>close_all</strong>(what, save_behaviour = :save) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#document-instance_method" title="#document (instance method)">- (Document<sup>?</sup>) <strong>document</strong>(file) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The document associated with the given file or <span class="caps">URL</span>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#documents-instance_method" title="#documents (instance method)">- (Object) <strong>documents</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#each_document-instance_method" title="#each_document (instance method)">- (Object) <strong>each_document</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#each_environment-instance_method" title="#each_environment (instance method)">- (Object) <strong>each_environment</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#each_project-instance_method" title="#each_project (instance method)">- (Object) <strong>each_project</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#environment-instance_method" title="#environment (instance method)">- (Object) <strong>environment</strong>(prj) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#environment_closing-instance_method" title="#environment_closing (instance method)">- (Object) <strong>environment_closing</strong>(env) </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#environments-instance_method" title="#environments (instance method)">- (Object) <strong>environments</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (World) <strong>initialize</strong>(_, psf) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>A new instance of World.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#load_settings-instance_method" title="#load_settings (instance method)">- (Object) <strong>load_settings</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#new_document-instance_method" title="#new_document (instance method)">- (Document) <strong>new_document</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Creates a new document.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#new_project-instance_method" title="#new_project (instance method)">- (Project) <strong>new_project</strong>(file, name) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Creates a new project.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#project-instance_method" title="#project (instance method)">- (Project) <strong>project</strong>(file) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Retrieves the project associated with a given project file.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#projects-instance_method" title="#projects (instance method)">- (Object) <strong>projects</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#query_close-instance_method" title="#query_close (instance method)">- (Object) <strong>query_close</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#save_settings-instance_method" title="#save_settings (instance method)">- (Object) <strong>save_settings</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#slot_active_editor_changed-instance_method" title="#slot_active_editor_changed (instance method)">- (Object) <strong>slot_active_editor_changed</strong>(editor) </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#slot_closing_project-instance_method" title="#slot_closing_project (instance method)">- (Object) <strong>slot_closing_project</strong>(prj) </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#slot_document_closing-instance_method" title="#slot_document_closing (instance method)">- (Object) <strong>slot_document_closing</strong>(doc) </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#slot_document_created-instance_method" title="#slot_document_created (instance method)">- (Object) <strong>slot_document_created</strong>(doc) </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="private ">
+  <span class="summary_signature">
+    
+      <a href="#slot_project_created-instance_method" title="#slot_project_created (instance method)">- (Object) <strong>slot_project_created</strong>(prj) </a>
+    
+
+    
+  </span>
+  
+  
+  
+    <span class="note title"><strong>slot</strong></span>
+  
+  <span class="note title private">private</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="../PluginLike.html" title="Ruber::PluginLike (module)">PluginLike</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../PluginLike.html#add_extensions_to_project-instance_method" title="Ruber::PluginLike#add_extensions_to_project (method)">#add_extensions_to_project</a></span>, <span class='object_link'><a href="../PluginLike.html#add_options_to_project-instance_method" title="Ruber::PluginLike#add_options_to_project (method)">#add_options_to_project</a></span>, <span class='object_link'><a href="../PluginLike.html#add_widgets_to_project-instance_method" title="Ruber::PluginLike#add_widgets_to_project (method)">#add_widgets_to_project</a></span>, <span class='object_link'><a href="../PluginLike.html#create_tool_widget-instance_method" title="Ruber::PluginLike#create_tool_widget (method)">#create_tool_widget</a></span>, <span class='object_link'><a href="../PluginLike.html#delayed_initialize-instance_method" title="Ruber::PluginLike#delayed_initialize (method)">#delayed_initialize</a></span>, <span class='object_link'><a href="../PluginLike.html#initialize_plugin-instance_method" title="Ruber::PluginLike#initialize_plugin (method)">#initialize_plugin</a></span>, <span class='object_link'><a href="../PluginLike.html#plugin_name-instance_method" title="Ruber::PluginLike#plugin_name (method)">#plugin_name</a></span>, <span class='object_link'><a href="../PluginLike.html#register_options-instance_method" title="Ruber::PluginLike#register_options (method)">#register_options</a></span>, <span class='object_link'><a href="../PluginLike.html#register_with_project-instance_method" title="Ruber::PluginLike#register_with_project (method)">#register_with_project</a></span>, <span class='object_link'><a href="../PluginLike.html#remove_extensions_from_project-instance_method" title="Ruber::PluginLike#remove_extensions_from_project (method)">#remove_extensions_from_project</a></span>, <span class='object_link'><a href="../PluginLike.html#remove_from_project-instance_method" title="Ruber::PluginLike#remove_from_project (method)">#remove_from_project</a></span>, <span class='object_link'><a href="../PluginLike.html#remove_options_from_project-instance_method" title="Ruber::PluginLike#remove_options_from_project (method)">#remove_options_from_project</a></span>, <span class='object_link'><a href="../PluginLike.html#remove_widgets_from_project-instance_method" title="Ruber::PluginLike#remove_widgets_from_project (method)">#remove_widgets_from_project</a></span>, <span class='object_link'><a href="../PluginLike.html#restore_session-instance_method" title="Ruber::PluginLike#restore_session (method)">#restore_session</a></span>, <span class='object_link'><a href="../PluginLike.html#session_data-instance_method" title="Ruber::PluginLike#session_data (method)">#session_data</a></span>, <span class='object_link'><a href="../PluginLike.html#setup_action-instance_method" title="Ruber::PluginLike#setup_action (method)">#setup_action</a></span>, <span class='object_link'><a href="../PluginLike.html#setup_actions-instance_method" title="Ruber::PluginLike#setup_actions (method)">#setup_actions</a></span>, <span class='object_link'><a href="../PluginLike.html#shutdown-instance_method" title="Ruber::PluginLike#shutdown (method)">#shutdown</a></span>, <span class='object_link'><a href="../PluginLike.html#unload-instance_method" title="Ruber::PluginLike#unload (method)">#unload</a></span>, <span class='object_link'><a href="../PluginLike.html#update_project-instance_method" title="Ruber::PluginLike#update_project (method)">#update_project</a></span></p>
+
+  
+
+  <h2>Signal Summary</h2>
+  <ul class="summary" >
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#active_environment_changed-signalcode" title="active_environment_changed (signalcode)">- <strong>active_environment_changed</strong>(QObject* arg1) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#active_environment_changed_2-signalcode" title="active_environment_changed_2 (signalcode)">- <strong>active_environment_changed_2</strong>(QObject* arg1, QObject* arg2) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#active_project_changed-signalcode" title="active_project_changed (signalcode)">- <strong>active_project_changed</strong>(QObject* arg1) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#active_project_changed_2-signalcode" title="active_project_changed_2 (signalcode)">- <strong>active_project_changed_2</strong>(QObject* arg1, QObject* arg2) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#document_created-signalcode" title="document_created (signalcode)">- <strong>document_created</strong>(QObject* arg1) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#project_created-signalcode" title="project_created (signalcode)">- <strong>project_created</strong>(QObject* arg1) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#closing_project-signalcode" title="closing_project (signalcode)">- <strong>closing_project</strong>(QObject* arg1) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#closing_document-signalcode" title="closing_document (signalcode)">- <strong>closing_document</strong>(QObject* arg1) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#active_document_changed-signalcode" title="active_document_changed (signalcode)">- <strong>active_document_changed</strong>(QObject* arg1) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
+  
+    <li class="public ">
+      <span class="summary_signature">
+<!-- The sub is needed to remove the (Object) part -->
+      <a href="#active_editor_changed-signalcode" title="active_editor_changed (signalcode)">- <strong>active_editor_changed</strong>(QWidget* arg1) </a>
+      </span>
+      <span class="summary_desc"><div class='inline'></div></span>
+    </li>
+  
+  </ul>
+
+
+
+
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::World::World (class)">World</a></span></tt>) <strong>initialize</strong>(_, psf) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>A new instance of World</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>manager</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../ComponentManager.html" title="Ruber::ComponentManager (class)">ComponentManager</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the component manager (unused)</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>psf</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../PluginSpecification.html" title="Ruber::PluginSpecification (class)">PluginSpecification</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the plugin specification object associated with
+the component</p></div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/world.rb', line 76</span>
+
+<span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id _'>_</span><span class='comma'>,</span> <span class='id psf'>psf</span>
+  <span class='kw'>super</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:app</span><span class='rbracket'>]</span>
+  <span class='ivar'>@documents</span> <span class='op'>=</span> <span class='const'>MutableDocumentList</span><span class='period'>.</span><span class='id new'>new</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='ivar'>@projects</span> <span class='op'>=</span> <span class='const'>MutableProjectList</span><span class='period'>.</span><span class='id new'>new</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='ivar'>@environments</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='id initialize_plugin'>initialize_plugin</span> <span class='id psf'>psf</span>
+  <span class='ivar'>@active_environment</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='ivar'>@active_document</span> <span class='op'>=</span> <span class='kw'>nil</span>
+  <span class='ivar'>@document_factory</span> <span class='op'>=</span> <span class='const'>DocumentFactory</span><span class='period'>.</span><span class='id new'>new</span> <span class='kw'>self</span>
+  <span class='id connect'>connect</span> <span class='ivar'>@document_factory</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>document_created(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>slot_document_created(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+  <span class='ivar'>@project_factory</span> <span class='op'>=</span> <span class='const'>ProjectFactory</span><span class='period'>.</span><span class='id new'>new</span> <span class='kw'>self</span>
+  <span class='id connect'>connect</span> <span class='ivar'>@project_factory</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>project_created(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>slot_project_created(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+  <span class='ivar'>@default_environment</span> <span class='op'>=</span> <span class='const'>Environment</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='kw'>nil</span><span class='comma'>,</span> <span class='kw'>self</span><span class='rparen'>)</span>
+  <span class='id add_environment'>add_environment</span> <span class='ivar'>@default_environment</span><span class='comma'>,</span> <span class='kw'>nil</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <span id="active_document-instance_method"></span>
+      <div class="method_details first">
+  <p class="signature first" id="active_document-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>active_document</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute active_document</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+48
+49
+50</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/world.rb', line 48</span>
+
+<span class='kw'>def</span> <span class='id active_document'>active_document</span>
+  <span class='ivar'>@active_document</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="active_environment=-instance_method"></span>
+      <span id="active_environment-instance_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="active_environment-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>active_environment</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute active_environment</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+46
+47
+48</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/world.rb', line 46</span>
+
+<span class='kw'>def</span> <span class='id active_environment'>active_environment</span>
+  <span class='ivar'>@active_environment</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <span id="default_environment-instance_method"></span>
+      <div class="method_details ">
+  <p class="signature " id="default_environment-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>default_environment</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Returns the value of attribute default_environment</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+44
+45
+46</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/world.rb', line 44</span>
+
+<span class='kw'>def</span> <span class='id default_environment'>default_environment</span>
+  <span class='ivar'>@default_environment</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="active_project-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>active_project</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+134
+135
+136</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/world.rb', line 134</span>
+
+<span class='kw'>def</span> <span class='id active_project'>active_project</span>
+  <span class='ivar'>@active_environment</span><span class='period'>.</span><span class='id project'>project</span> <span class='kw'>if</span> <span class='ivar'>@active_environment</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="active_project=-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>active_project=</strong>(prj) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+124
+125
+126
+127
+128
+129
+130
+131
+132</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/world.rb', line 124</span>
+
+<span class='kw'>def</span> <span class='id active_project='>active_project=</span> <span class='id prj'>prj</span>
+  <span class='id old'>old</span> <span class='op'>=</span> <span class='ivar'>@active_environment</span><span class='period'>.</span><span class='id project'>project</span> <span class='kw'>if</span> <span class='ivar'>@active_environment</span>
+  <span class='kw'>return</span> <span class='id old'>old</span> <span class='kw'>if</span> <span class='id old'>old</span> <span class='op'>==</span> <span class='id prj'>prj</span>
+  <span class='id old'>old</span><span class='period'>.</span><span class='id deactivate'>deactivate</span> <span class='kw'>if</span> <span class='id old'>old</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id active_environment'>active_environment</span> <span class='op'>=</span> <span class='ivar'>@environments</span><span class='lbracket'>[</span><span class='id prj'>prj</span><span class='rbracket'>]</span>
+  <span class='id emit'>emit</span> <span class='id active_project_changed'>active_project_changed</span> <span class='id prj'>prj</span>
+  <span class='id emit'>emit</span> <span class='id active_project_changed_2'>active_project_changed_2</span> <span class='id prj'>prj</span><span class='comma'>,</span> <span class='id old'>old</span>
+  <span class='id prj'>prj</span><span class='period'>.</span><span class='id activate'>activate</span> <span class='kw'>if</span> <span class='id prj'>prj</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="add_environment-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>add_environment</strong>(env, prj)  <span class="extras">(private)</span>
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+238
+239
+240
+241
+242</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/world.rb', line 238</span>
+
+<span class='kw'>def</span> <span class='id add_environment'>add_environment</span> <span class='id env'>env</span><span class='comma'>,</span> <span class='id prj'>prj</span>
+  <span class='ivar'>@environments</span><span class='lbracket'>[</span><span class='id prj'>prj</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id env'>env</span>
+  <span class='id connect'>connect</span> <span class='id env'>env</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>closing(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>environment_closing(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+  <span class='id connect'>connect</span> <span class='id env'>env</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>active_editor_changed(QWidget*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>slot_active_editor_changed(QWidget*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="close_all-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>close_all</strong>(what, save_behaviour = :save) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+216
+217
+218
+219
+220
+221
+222</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/world.rb', line 216</span>
+
+<span class='kw'>def</span> <span class='id close_all'>close_all</span> <span class='id what'>what</span><span class='comma'>,</span> <span class='id save_behaviour'>save_behaviour</span> <span class='op'>=</span> <span class='symbol'>:save</span>
+  <span class='id close_docs'>close_docs</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id what'>what</span> <span class='op'>==</span> <span class='symbol'>:all</span> <span class='op'>||</span> <span class='id what'>what</span> <span class='op'>==</span> <span class='symbol'>:documents</span><span class='rparen'>)</span>
+  <span class='id close_prjs'>close_prjs</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id what'>what</span> <span class='op'>==</span> <span class='symbol'>:all</span> <span class='op'>||</span> <span class='id what'>what</span> <span class='op'>==</span> <span class='symbol'>:projects</span><span class='rparen'>)</span>
+  <span class='id save'>save</span> <span class='op'>=</span> <span class='id save_behaviour'>save_behaviour</span> <span class='op'>==</span> <span class='symbol'>:save</span>
+  <span class='ivar'>@projects</span><span class='period'>.</span><span class='id dup'>dup</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id prj'>prj</span><span class='op'>|</span> <span class='id prj'>prj</span><span class='period'>.</span><span class='id close'>close</span> <span class='id save'>save</span><span class='rbrace'>}</span> <span class='kw'>if</span> <span class='id close_prjs'>close_prjs</span>
+  <span class='ivar'>@documents</span><span class='period'>.</span><span class='id dup'>dup</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id doc'>doc</span><span class='op'>|</span> <span class='id doc'>doc</span><span class='period'>.</span><span class='id close'>close</span> <span class='id save'>save</span><span class='rbrace'>}</span> <span class='kw'>if</span> <span class='id close_docs'>close_docs</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="document-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Document.html" title="Ruber::Document (class)">Document</a></span></tt><sup>?</sup>) <strong>document</strong>(file) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>The document associated with the given file or <span class="caps">URL</span></p>
+<p>If a document for the given file or <span class="caps">URL</span> already exists, that document will be
+returned, otherwise a new one will be created.</p>
+<p>file to retrieve the document for</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>file</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>, <tt><span class='object_link'><a href="../../KDE/Url.html" title="KDE::Url (class)">KDE::Url</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the absolute name or the <span class="caps">URL</span> of the</p></div>
+      
+    </li>
+  
+</ul>
+
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Document.html" title="Ruber::Document (class)">Document</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>a document associated with <em>file</em> and having <strong>self</strong> as parent.
+If <em>file</em> represents a local file and that file doesn&#8217;t exist, <strong>nil</strong> is returned</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+170
+171
+172</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/world.rb', line 170</span>
+
+<span class='kw'>def</span> <span class='id document'>document</span> <span class='id file'>file</span>
+  <span class='ivar'>@document_factory</span><span class='period'>.</span><span class='id document'>document</span> <span class='id file'>file</span><span class='comma'>,</span> <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="documents-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>documents</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+174
+175
+176</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/world.rb', line 174</span>
+
+<span class='kw'>def</span> <span class='id documents'>documents</span>
+  <span class='const'>DocumentList</span><span class='period'>.</span><span class='id new'>new</span> <span class='ivar'>@documents</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="each_document-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>each_document</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+178
+179
+180
+181
+182
+183
+184</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/world.rb', line 178</span>
+
+<span class='kw'>def</span> <span class='id each_document'>each_document</span>
+  <span class='kw'>if</span> <span class='id block_given?'>block_given?</span>
+    <span class='ivar'>@documents</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id doc'>doc</span><span class='op'>|</span> <span class='kw'>yield</span> <span class='id doc'>doc</span><span class='rbrace'>}</span>
+    <span class='kw'>self</span>
+  <span class='kw'>else</span> <span class='kw'>self</span><span class='period'>.</span><span class='id to_enum'>to_enum</span> <span class='symbol'>:each_document</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="each_environment-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>each_environment</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+116
+117
+118
+119
+120
+121
+122</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/world.rb', line 116</span>
+
+<span class='kw'>def</span> <span class='id each_environment'>each_environment</span>
+  <span class='kw'>if</span> <span class='id block_given?'>block_given?</span> 
+    <span class='ivar'>@environments</span><span class='period'>.</span><span class='id each_value'>each_value</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id e'>e</span><span class='op'>|</span> <span class='kw'>yield</span> <span class='id e'>e</span><span class='rbrace'>}</span>
+    <span class='kw'>self</span>
+  <span class='kw'>else</span> <span class='id to_enum'>to_enum</span><span class='lparen'>(</span><span class='symbol'>:each_environment</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="each_project-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>each_project</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+142
+143
+144
+145
+146
+147
+148</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/world.rb', line 142</span>
+
+<span class='kw'>def</span> <span class='id each_project'>each_project</span>
+  <span class='kw'>if</span> <span class='id block_given?'>block_given?</span>
+    <span class='ivar'>@environments</span><span class='period'>.</span><span class='id each_key'>each_key</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id prj'>prj</span><span class='op'>|</span> <span class='kw'>yield</span> <span class='id prj'>prj</span> <span class='kw'>if</span> <span class='id prj'>prj</span><span class='rbrace'>}</span>
+    <span class='kw'>self</span>
+  <span class='kw'>else</span> <span class='kw'>self</span><span class='period'>.</span><span class='id to_enum'>to_enum</span><span class='lparen'>(</span><span class='symbol'>:each_project</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="environment-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>environment</strong>(prj) 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+92
+93
+94
+95
+96
+97
+98
+99
+100</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/world.rb', line 92</span>
+
+<span class='kw'>def</span> <span class='id environment'>environment</span> <span class='id prj'>prj</span>
+  <span class='ivar'>@environments</span><span class='lbracket'>[</span><span class='id prj'>prj</span><span class='rbracket'>]</span> 
+<span class='comment'>#         unless env
+</span><span class='comment'>#           env = Environment.new(prj)
+</span><span class='comment'>#           connect env, SIGNAL('closing(QObject*)'), self, SLOT('environment_closing(QObject*)')
+</span><span class='comment'>#           connect env, SIGNAL('active_editor_changed(QWidget*)'), self, SLOT('slot_active_editor_changed(QWidget*)')
+</span><span class='comment'>#           @environments[prj] = env
+</span><span class='comment'>#         end
+</span><span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="environment_closing-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>environment_closing</strong>(env)  <span class="extras">(private)</span>
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+244
+245
+246
+247</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/world.rb', line 244</span>
+
+<span class='kw'>def</span> <span class='id environment_closing'>environment_closing</span> <span class='id env'>env</span>
+  <span class='ivar'>@environments</span><span class='period'>.</span><span class='id delete'>delete</span> <span class='id env'>env</span><span class='period'>.</span><span class='id project'>project</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id active_environment'>active_environment</span> <span class='op'>=</span> <span class='kw'>nil</span> <span class='kw'>if</span> <span class='ivar'>@active_environment</span> <span class='op'>==</span> <span class='id env'>env</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>environment_closing(QObject*)</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="environments-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>environments</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+112
+113
+114</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/world.rb', line 112</span>
+
+<span class='kw'>def</span> <span class='id environments'>environments</span>
+  <span class='ivar'>@environments</span><span class='period'>.</span><span class='id values'>values</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="load_settings-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>load_settings</strong>  <span class="extras">(private)</span>
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+277
+278
+279
+280</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/world.rb', line 277</span>
+
+<span class='kw'>def</span> <span class='id load_settings'>load_settings</span>
+  <span class='id tabs_closable'>tabs_closable</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:workspace</span><span class='comma'>,</span> <span class='symbol'>:close_buttons</span><span class='rbracket'>]</span>
+  <span class='ivar'>@environments</span><span class='period'>.</span><span class='id each_value'>each_value</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id e'>e</span><span class='op'>|</span> <span class='id e'>e</span><span class='period'>.</span><span class='id tab_widget'>tab_widget</span><span class='period'>.</span><span class='id tabs_closable'>tabs_closable</span> <span class='op'>=</span> <span class='id tabs_closable'>tabs_closable</span><span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>load_settings()</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="new_document-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Document.html" title="Ruber::Document (class)">Document</a></span></tt>) <strong>new_document</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Creates a new document</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Document.html" title="Ruber::Document (class)">Document</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the new document. It will be a child of <strong>self</strong></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+154
+155
+156
+157</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/world.rb', line 154</span>
+
+<span class='kw'>def</span> <span class='id new_document'>new_document</span>
+  <span class='id doc'>doc</span> <span class='op'>=</span> <span class='ivar'>@document_factory</span><span class='period'>.</span><span class='id document'>document</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='kw'>self</span>
+  <span class='id doc'>doc</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="new_project-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Project.html" title="Ruber::Project (class)">Project</a></span></tt>) <strong>new_project</strong>(file, name) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Creates a new project</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>file</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the absolute path of the project file</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>name</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the name of the project</p></div>
+      
+    </li>
+  
+</ul>
+
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Project.html" title="Ruber::Project (class)">Project</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>a new project having <em>file</em> as project file and <em>name</em> as project
+name</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="World/ExistingProjectFileError.html" title="Ruber::World::World::ExistingProjectFileError (class)">ExistingProjectFileError</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>if a file called <em>file</em> already exists (regardless
+of whether it&#8217;s a valid project file or not)</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+195
+196
+197
+198</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/world.rb', line 195</span>
+
+<span class='kw'>def</span> <span class='id new_project'>new_project</span> <span class='id file'>file</span><span class='comma'>,</span> <span class='id name'>name</span>
+  <span class='id raise'>raise</span> <span class='const'>ExistingProjectFileError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id file'>file</span><span class='rbrace'>}</span><span class='tstring_content'> already exists</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='const'>File</span><span class='period'>.</span><span class='id exist?'>exist?</span><span class='lparen'>(</span><span class='id file'>file</span><span class='rparen'>)</span>
+  <span class='ivar'>@project_factory</span><span class='period'>.</span><span class='id project'>project</span> <span class='id file'>file</span><span class='comma'>,</span> <span class='id name'>name</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="project-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Project.html" title="Ruber::Project (class)">Project</a></span></tt>) <strong>project</strong>(file) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Retrieves the project associated with a given project file</p>
+<p>If a project associated with the project file <em>file</em> already exists, that project
+is returned. Otherwise, a new project object is created.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>file</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the absolute path of the project file. Note that this file
+<strong>must</strong> already exist and be a valid project file</p></div>
+      
+    </li>
+  
+</ul>
+
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Project.html" title="Ruber::Project (class)">Project</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>a project associated with <em>file</em></p></div>
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../AbstractProject/InvalidProjectFile.html" title="Ruber::AbstractProject::InvalidProjectFile (class)">AbstractProject::InvalidProjectFile</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>if the project file is not a valid
+project file</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+212
+213
+214</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/world.rb', line 212</span>
+
+<span class='kw'>def</span> <span class='id project'>project</span> <span class='id file'>file</span>
+  <span class='ivar'>@project_factory</span><span class='period'>.</span><span class='id project'>project</span> <span class='id file'>file</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="projects-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>projects</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+138
+139
+140</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/world.rb', line 138</span>
+
+<span class='kw'>def</span> <span class='id projects'>projects</span>
+  <span class='const'>ProjectList</span><span class='period'>.</span><span class='id new'>new</span> <span class='ivar'>@environments</span><span class='period'>.</span><span class='id keys'>keys</span><span class='period'>.</span><span class='id compact'>compact</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="query_close-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>query_close</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+229
+230
+231
+232
+233
+234</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/world.rb', line 229</span>
+
+<span class='kw'>def</span> <span class='id query_close'>query_close</span>
+  <span class='ivar'>@documents</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id doc'>doc</span><span class='op'>|</span> <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='id doc'>doc</span><span class='period'>.</span><span class='id own_project'>own_project</span><span class='period'>.</span><span class='id query_close'>query_close</span><span class='rbrace'>}</span>
+  <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:main_window</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id save_documents'>save_documents</span> <span class='ivar'>@documents</span><span class='period'>.</span><span class='id to_a'>to_a</span>
+  <span class='ivar'>@projects</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id prj'>prj</span><span class='op'>|</span> <span class='kw'>return</span> <span class='kw'>false</span> <span class='kw'>unless</span> <span class='id prj'>prj</span><span class='period'>.</span><span class='id query_close'>query_close</span><span class='rbrace'>}</span>
+  <span class='kw'>true</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="save_settings-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>save_settings</strong> 
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+224
+225
+226
+227</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/world.rb', line 224</span>
+
+<span class='kw'>def</span> <span class='id save_settings'>save_settings</span>
+  <span class='ivar'>@documents</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id doc'>doc</span><span class='op'>|</span> <span class='id doc'>doc</span><span class='period'>.</span><span class='id save_settings'>save_settings</span><span class='rbrace'>}</span>
+  <span class='ivar'>@projects</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id prj'>prj</span><span class='op'>|</span> <span class='id prj'>prj</span><span class='period'>.</span><span class='id save'>save</span><span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="slot_active_editor_changed-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>slot_active_editor_changed</strong>(editor)  <span class="extras">(private)</span>
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+283
+284
+285
+286
+287
+288
+289
+290</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/world.rb', line 283</span>
+
+<span class='kw'>def</span> <span class='id slot_active_editor_changed'>slot_active_editor_changed</span> <span class='id editor'>editor</span>
+  <span class='id doc'>doc</span> <span class='op'>=</span> <span class='id editor'>editor</span> <span class='op'>?</span> <span class='id editor'>editor</span><span class='period'>.</span><span class='id document'>document</span> <span class='op'>:</span> <span class='kw'>nil</span>
+  <span class='kw'>if</span> <span class='id doc'>doc</span> <span class='op'>!=</span> <span class='ivar'>@active_document</span>
+    <span class='ivar'>@active_document</span> <span class='op'>=</span> <span class='id doc'>doc</span>
+    <span class='id emit'>emit</span> <span class='id active_document_changed'>active_document_changed</span><span class='lparen'>(</span><span class='ivar'>@active_document</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+  <span class='id emit'>emit</span> <span class='id active_editor_changed'>active_editor_changed</span><span class='lparen'>(</span><span class='id editor'>editor</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>slot_active_editor_changed(QWidget*)</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="slot_closing_project-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>slot_closing_project</strong>(prj)  <span class="extras">(private)</span>
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+271
+272
+273
+274</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/world.rb', line 271</span>
+
+<span class='kw'>def</span> <span class='id slot_closing_project'>slot_closing_project</span> <span class='id prj'>prj</span>
+  <span class='id emit'>emit</span> <span class='id closing_project'>closing_project</span><span class='lparen'>(</span><span class='id prj'>prj</span><span class='rparen'>)</span>
+  <span class='ivar'>@projects</span><span class='period'>.</span><span class='id remove'>remove</span> <span class='id prj'>prj</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>slot_closing_project(QObject*)</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="slot_document_closing-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>slot_document_closing</strong>(doc)  <span class="extras">(private)</span>
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+265
+266
+267
+268</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/world.rb', line 265</span>
+
+<span class='kw'>def</span> <span class='id slot_document_closing'>slot_document_closing</span> <span class='id doc'>doc</span>
+  <span class='id emit'>emit</span> <span class='id closing_document'>closing_document</span><span class='lparen'>(</span><span class='id doc'>doc</span><span class='rparen'>)</span>
+  <span class='ivar'>@documents</span><span class='period'>.</span><span class='id remove'>remove</span> <span class='id doc'>doc</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>slot_document_closing(QObject*)</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="slot_document_created-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>slot_document_created</strong>(doc)  <span class="extras">(private)</span>
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+250
+251
+252
+253
+254</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/world.rb', line 250</span>
+
+<span class='kw'>def</span> <span class='id slot_document_created'>slot_document_created</span> <span class='id doc'>doc</span>
+  <span class='ivar'>@documents</span><span class='period'>.</span><span class='id add'>add</span> <span class='id doc'>doc</span>
+  <span class='id connect'>connect</span> <span class='id doc'>doc</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>closing(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>slot_document_closing(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+  <span class='id emit'>emit</span> <span class='id document_created'>document_created</span><span class='lparen'>(</span><span class='id doc'>doc</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>slot_document_created(QObject*)</tt></p>
+
+    
+      <div class="method_details ">
+  <p class="signature " id="slot_project_created-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></tt>) <strong>slot_project_created</strong>(prj)  <span class="extras">(private)</span>
+  
+
+  
+</p><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+257
+258
+259
+260
+261
+262</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/world.rb', line 257</span>
+
+<span class='kw'>def</span> <span class='id slot_project_created'>slot_project_created</span> <span class='id prj'>prj</span>
+  <span class='ivar'>@projects</span><span class='period'>.</span><span class='id add'>add</span> <span class='id prj'>prj</span>
+  <span class='id connect'>connect</span> <span class='id prj'>prj</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>closing(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>slot_closing_project(QObject*)</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+  <span class='id add_environment'>add_environment</span> <span class='id prj'>prj</span><span class='period'>.</span><span class='id extension'>extension</span><span class='lparen'>(</span><span class='symbol'>:environment</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id prj'>prj</span>
+  <span class='id emit'>emit</span> <span class='id project_created'>project_created</span><span class='lparen'>(</span><span class='id prj'>prj</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>      <h3 style="font-size: 1em; margin-bottom: 0;">Slot Signature:</h3>
+      <p style="margin-top: 5pt;"><tt>slot_project_created(QObject*)</tt></p>
+
+    
+  </div>
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Signal Details</h2>
+    
+      <div class="method_details first">
+  <p class="signature first" id="active_environment_changed-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>active_environment_changed</strong>(QObject* arg1) 
+</p>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="active_environment_changed_2-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>active_environment_changed_2</strong>(QObject* arg1, QObject* arg2) 
+</p>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="active_project_changed-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>active_project_changed</strong>(QObject* arg1) 
+</p>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="active_project_changed_2-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>active_project_changed_2</strong>(QObject* arg1, QObject* arg2) 
+</p>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="document_created-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>document_created</strong>(QObject* arg1) 
+</p>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="project_created-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>project_created</strong>(QObject* arg1) 
+</p>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="closing_project-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>closing_project</strong>(QObject* arg1) 
+</p>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="closing_document-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>closing_document</strong>(QObject* arg1) 
+</p>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="active_document_changed-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>active_document_changed</strong>(QObject* arg1) 
+</p>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="active_editor_changed-signalcode">
+<!-- The sub is needed to remove the (Object) part -->
+  - <strong>active_editor_changed</strong>(QWidget* arg1) 
+</p>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Sun Oct 23 14:12:17 2011 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.7.3 (ruby-1.9.3).
+</div>
+
+  </body>
+</html>

@@ -3,16 +3,26 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Class: Ruber::ProjectBrowser::ToolWidget::FilterModel</title>
-<link rel="stylesheet" href="../../../css/style.css" type="text/css" media="screen" charset="utf-8" />
-<link rel="stylesheet" href="../../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+<title>
+  Class: Ruber::ProjectBrowser::ToolWidget::FilterModel
+  
+    &mdash; Ruber API
+  
+</title>
+
+  <link rel="stylesheet" href="../../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="../../../css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   relpath = '../../..';
   if (relpath != '') relpath += '/';
 </script>
-<script type="text/javascript" charset="utf-8" src="../../../js/jquery.js"></script>
-<script type="text/javascript" charset="utf-8" src="../../../js/app.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../../js/app.js"></script>
+
 
   </head>
   <body>
@@ -33,11 +43,14 @@
 </div>
 
       <div id="search">
-  <a id="class_list_link" href="#">Class List</a>
-  <a id="method_list_link" href="#">Method List</a>
-  <a id ="file_list_link" href="#">File List</a>
+  
+    <a id="class_list_link" href="#">Class List</a>
+  
+    <a id="method_list_link" href="#">Method List</a>
+  
+    <a id="file_list_link" href="#">File List</a>
+  
 </div>
-
       <div class="clear"></div>
     </div>
     
@@ -99,7 +112,11 @@ something can be done about it</p>
 </div>
 <div class="tags">
   
+
 </div>
+
+  
+
 
   
 
@@ -258,10 +275,10 @@ items will be accepted).</p></div></span>
   
     <li>
       
-        <span class='type'>(<tt>Qt::Object</tt>)</span>
-      
-      
         <span class='name'>parent</span>
+      
+      
+        <span class='type'>(<tt>Qt::Object</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>nil</tt>)</em>
@@ -273,6 +290,7 @@ items will be accepted).</p></div></span>
     </li>
   
 </ul>
+
 
 </div><table class="source_code">
   <tr>
@@ -327,10 +345,10 @@ items will be accepted).</p></div></span>
   
     <li>
       
-        <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
         <span class='name'>val</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
       
@@ -340,13 +358,14 @@ items will be accepted).</p></div></span>
     </li>
   
 </ul>
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>Boolean</tt>)</span>
       
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
       
@@ -403,10 +422,10 @@ otherwise</p>
   
     <li>
       
-        <span class='type'>(<tt>Integer</tt>)</span>
-      
-      
         <span class='name'>row</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
       
       
       
@@ -417,10 +436,10 @@ otherwise</p>
   
     <li>
       
-        <span class='type'>(<tt>Qt::ModelIndex</tt>)</span>
-      
-      
         <span class='name'>parent</span>
+      
+      
+        <span class='type'>(<tt>Qt::ModelIndex</tt>)</span>
       
       
       
@@ -430,13 +449,14 @@ otherwise</p>
     </li>
   
 </ul>
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>Boolean</tt>)</span>
       
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
       
@@ -467,7 +487,7 @@ otherwise</p>
   <span class='kw'>return</span> <span class='kw'>true</span> <span class='kw'>if</span> <span class='ivar'>@project</span><span class='period'>.</span><span class='id nil?'>nil?</span> <span class='kw'>or</span> <span class='op'>!</span><span class='ivar'>@do_filtering</span>
   <span class='id it'>it</span> <span class='op'>=</span> <span class='id source_model'>source_model</span><span class='period'>.</span><span class='id item_for_index'>item_for_index</span> <span class='id source_model'>source_model</span><span class='period'>.</span><span class='id index'>index</span><span class='lparen'>(</span><span class='id row'>row</span><span class='comma'>,</span><span class='int'>0</span><span class='comma'>,</span><span class='id parent'>parent</span><span class='rparen'>)</span>
   <span class='kw'>return</span> <span class='kw'>true</span> <span class='kw'>if</span> <span class='id it'>it</span><span class='period'>.</span><span class='id dir?'>dir?</span>
-  <span class='ivar'>@project</span><span class='period'>.</span><span class='id project_files'>project_files</span><span class='period'>.</span><span class='id file_in_project?'>file_in_project?</span> <span class='id it'>it</span><span class='period'>.</span><span class='id local_path'>local_path</span>
+  <span class='ivar'>@project</span><span class='period'>.</span><span class='id file_in_project?'>file_in_project?</span> <span class='id it'>it</span><span class='period'>.</span><span class='id local_path'>local_path</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -489,13 +509,14 @@ parent method but is public</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -544,10 +565,10 @@ items will be accepted)</p>
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="../../Project.html" title="Ruber::Project (class)">Ruber::Project</a></span></tt>, <tt>nil</tt>)</span>
-      
-      
         <span class='name'>prj</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Project.html" title="Ruber::Project (class)">Ruber::Project</a></span></tt>, <tt>nil</tt>)</span>
       
       
       
@@ -557,13 +578,14 @@ items will be accepted)</p>
     </li>
   
 </ul>
+
 <h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -601,9 +623,9 @@ items will be accepted)</p>
 </div>
     
     <div id="footer">
-  Generated on Fri Apr 29 10:51:26 2011 by 
+  Generated on Sun Oct 23 14:12:34 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.8 (ruby-1.9.2).
+  0.7.3 (ruby-1.9.3).
 </div>
 
   </body>

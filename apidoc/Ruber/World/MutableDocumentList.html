@@ -1,0 +1,1022 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: Ruber::World::MutableDocumentList
+  
+    &mdash; Ruber API
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '../..';
+  if (relpath != '') relpath += '/';
+</script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../_index.html">Index (M)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../../Ruber.html" title="Ruber (module)">Ruber</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../World.html" title="Ruber::World (module)">World</a></span></span>
+     &raquo; 
+    <span class="title">MutableDocumentList</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a id="class_list_link" href="#">Class List</a>
+  
+    <a id="method_list_link" href="#">Method List</a>
+  
+    <a id="file_list_link" href="#">File List</a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Ruber::World::MutableDocumentList
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName"><span class='object_link'><a href="DocumentList.html" title="Ruber::World::DocumentList (class)">DocumentList</a></span></span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next"><span class='object_link'><a href="DocumentList.html" title="Ruber::World::DocumentList (class)">DocumentList</a></span></li>
+          
+            <li class="next">Ruber::World::MutableDocumentList</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/ruber/world/document_list.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>A <span class='object_link'><a href="DocumentList.html" title="Ruber::World::DocumentList (class)">DocumentList</a></span> which allows to change the contents of the list.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+  
+  
+  
+  
+  
+  
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#add-instance_method" title="#add (instance method)">- (MutableDocumentList) <strong>add</strong>(*docs) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Adds documents to the list.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#clear-instance_method" title="#clear (instance method)">- (MutableDocumentList) <strong>clear</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Removes all the elements from the list.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#clone-instance_method" title="#clone (instance method)">- (MutableDocumentList) <strong>clone</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Override of <code>Object#clone</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#delete_if-instance_method" title="#delete_if (instance method)">- (MutableDocumentList) <strong>delete_if</strong> {|doc| ... }</a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Removes from the list all documents for which the block returns true.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#dup-instance_method" title="#dup (instance method)">- (MutableDocumentList) <strong>dup</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Override of <code>Object#dup</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (MutableDocumentList) <strong>initialize</strong>(docs = []) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>A new instance of MutableDocumentList.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#merge%21-instance_method" title="#merge! (instance method)">- (MutableDocumentList) <strong>merge!</strong>(other, remove_duplicates = true) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Adds the contents of another array or <span class='object_link'><a href="" title="Ruber::World::MutableDocumentList (class)">MutableDocumentList</a></span> to the list.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#remove-instance_method" title="#remove (instance method)">- (Document<sup>?</sup>) <strong>remove</strong>(doc) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Removes a document from the list.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#uniq%21-instance_method" title="#uniq! (instance method)">- (MutableDocumentList) <strong>uniq!</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Ensures that the list doesn&#8217;t contain duplicates.</p></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="DocumentList.html" title="Ruber::World::DocumentList (class)">DocumentList</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="DocumentList.html#%3D%3D-instance_method" title="Ruber::World::DocumentList#== (method)">#==</a></span>, <span class='object_link'><a href="DocumentList.html#%5B%5D-instance_method" title="Ruber::World::DocumentList#[] (method)">#[]</a></span>, <span class='object_link'><a href="DocumentList.html#document_array-instance_method" title="Ruber::World::DocumentList#document_array (method)">#document_array</a></span>, <span class='object_link'><a href="DocumentList.html#document_for_file-instance_method" title="Ruber::World::DocumentList#document_for_file (method)">#document_for_file</a></span>, <span class='object_link'><a href="DocumentList.html#document_for_file%3F-instance_method" title="Ruber::World::DocumentList#document_for_file? (method)">#document_for_file?</a></span>, <span class='object_link'><a href="DocumentList.html#document_for_url-instance_method" title="Ruber::World::DocumentList#document_for_url (method)">#document_for_url</a></span>, <span class='object_link'><a href="DocumentList.html#document_for_url%3F-instance_method" title="Ruber::World::DocumentList#document_for_url? (method)">#document_for_url?</a></span>, <span class='object_link'><a href="DocumentList.html#document_with_name-instance_method" title="Ruber::World::DocumentList#document_with_name (method)">#document_with_name</a></span>, <span class='object_link'><a href="DocumentList.html#document_with_name%3F-instance_method" title="Ruber::World::DocumentList#document_with_name? (method)">#document_with_name?</a></span>, <span class='object_link'><a href="DocumentList.html#documents_with_file-instance_method" title="Ruber::World::DocumentList#documents_with_file (method)">#documents_with_file</a></span>, <span class='object_link'><a href="DocumentList.html#each-instance_method" title="Ruber::World::DocumentList#each (method)">#each</a></span>, <span class='object_link'><a href="DocumentList.html#empty%3F-instance_method" title="Ruber::World::DocumentList#empty? (method)">#empty?</a></span>, <span class='object_link'><a href="DocumentList.html#eql%3F-instance_method" title="Ruber::World::DocumentList#eql? (method)">#eql?</a></span>, <span class='object_link'><a href="DocumentList.html#hash-instance_method" title="Ruber::World::DocumentList#hash (method)">#hash</a></span>, <span class='object_link'><a href="DocumentList.html#size-instance_method" title="Ruber::World::DocumentList#size (method)">#size</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="../../Enumerable.html" title="Enumerable (module)">Enumerable</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../../Enumerable.html#find%21-instance_method" title="Enumerable#find! (method)">#find!</a></span></p>
+
+
+
+
+
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::World::MutableDocumentList (class)">MutableDocumentList</a></span></tt>) <strong>initialize</strong>(docs = []) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>A new instance of MutableDocumentList</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>docs</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Document.html" title="Ruber::Document (class)">Document</a></span>&gt;</tt>, <tt><span class='object_link'><a href="DocumentList.html" title="Ruber::World::DocumentList (class)">DocumentList</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>[]</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>the documents to insert in the
+list when created. Further changes to <em>docs</em> won&#8217;t change the new instance and
+vice versa</p></div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+280
+281
+282
+283</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/document_list.rb', line 280</span>
+
+<span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id docs'>docs</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='id docs'>docs</span> <span class='op'>=</span> <span class='id docs'>docs</span><span class='period'>.</span><span class='id document_array'>document_array</span> <span class='kw'>if</span> <span class='id docs'>docs</span><span class='period'>.</span><span class='id is_a?'>is_a?</span> <span class='const'>DocumentList</span> 
+  <span class='ivar'>@documents</span> <span class='op'>=</span> <span class='id docs'>docs</span><span class='period'>.</span><span class='id dup'>dup</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="add-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::World::MutableDocumentList (class)">MutableDocumentList</a></span></tt>) <strong>add</strong>(*docs) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+  <div class="note notetag">
+    <strong>Note:</strong> 
+    <div class='inline'><p>this method doesn&#8217;t check for duplicate documents. While having multiple
+copies of the same document shouldn&#8217;t cause troubles, it&#8217;s better to avoid them.
+To do so, either check beforehand that <em>docs</em> contains no duplicates and no
+document already in the list, or use <span class='object_link'><a href="#uniq%21-instance_method" title="Ruber::World::MutableDocumentList#uniq! (method)">#uniq!</a></span> afterwards</p></div>
+  </div>
+
+<p>Adds documents to the list</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>docs</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Document.html" title="Ruber::Document (class)">Document</a></span>,<span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Document.html" title="Ruber::Document (class)">Document</a></span>&gt;&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the documents to add. If it contains
+nested arrays, they&#8217;ll be flattened</p></div>
+      
+    </li>
+  
+</ul>
+
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Ruber::World::MutableDocumentList (class)">MutableDocumentList</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><strong>self</strong></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+318
+319
+320
+321
+322</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/document_list.rb', line 318</span>
+
+<span class='kw'>def</span> <span class='id add'>add</span> <span class='op'>*</span><span class='id docs'>docs</span>
+  <span class='id docs'>docs</span><span class='period'>.</span><span class='id flatten!'>flatten!</span>
+  <span class='ivar'>@documents</span><span class='period'>.</span><span class='id insert'>insert</span> <span class='op'>-</span><span class='int'>1</span><span class='comma'>,</span> <span class='op'>*</span><span class='id docs'>docs</span>
+  <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="clear-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::World::MutableDocumentList (class)">MutableDocumentList</a></span></tt>) <strong>clear</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Removes all the elements from the list</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Ruber::World::MutableDocumentList (class)">MutableDocumentList</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><strong>self</strong></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+362
+363
+364
+365</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/document_list.rb', line 362</span>
+
+<span class='kw'>def</span> <span class='id clear'>clear</span>
+  <span class='ivar'>@documents</span><span class='period'>.</span><span class='id clear'>clear</span>
+  <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="clone-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::World::MutableDocumentList (class)">MutableDocumentList</a></span></tt>) <strong>clone</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Override of <code>Object#clone</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Ruber::World::MutableDocumentList (class)">MutableDocumentList</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>a duplicate of <strong>self</strong></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+297
+298
+299
+300
+301
+302
+303
+304</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/document_list.rb', line 297</span>
+
+<span class='kw'>def</span> <span class='id clone'>clone</span>
+  <span class='id res'>res</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id class'>class</span><span class='period'>.</span><span class='id new'>new</span> <span class='kw'>self</span>
+  <span class='kw'>if</span> <span class='id frozen?'>frozen?</span>
+    <span class='id res'>res</span><span class='period'>.</span><span class='id freeze'>freeze</span> 
+    <span class='id res'>res</span><span class='period'>.</span><span class='id document_array'>document_array</span><span class='period'>.</span><span class='id freeze'>freeze</span>
+  <span class='kw'>end</span>
+  <span class='id res'>res</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="delete_if-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::World::MutableDocumentList (class)">MutableDocumentList</a></span></tt>) <strong>delete_if</strong> {|doc| ... }
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Removes from the list all documents for which the block returns true</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<h3>Yield Parameters:</h3>
+<ul class="yieldparam">
+  
+    <li>
+      
+        <span class='name'>doc</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Document.html" title="Ruber::Document (class)">Document</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the documents in the list</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Yield Returns:</h3>
+<ul class="yieldreturn">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><strong>true</strong> for documents which should be removed from the list
+and <strong>false</strong> otherwise</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Ruber::World::MutableDocumentList (class)">MutableDocumentList</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><strong>self</strong></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+375
+376
+377
+378</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/document_list.rb', line 375</span>
+
+<span class='kw'>def</span> <span class='id delete_if'>delete_if</span> <span class='op'>&amp;</span><span class='id blk'>blk</span>
+  <span class='ivar'>@documents</span><span class='period'>.</span><span class='id delete_if'>delete_if</span> <span class='op'>&amp;</span><span class='id blk'>blk</span>
+  <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="dup-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::World::MutableDocumentList (class)">MutableDocumentList</a></span></tt>) <strong>dup</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Override of <code>Object#dup</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Ruber::World::MutableDocumentList (class)">MutableDocumentList</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>a duplicate of <strong>self</strong></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+289
+290
+291</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/document_list.rb', line 289</span>
+
+<span class='kw'>def</span> <span class='id dup'>dup</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id class'>class</span><span class='period'>.</span><span class='id new'>new</span> <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="merge!-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::World::MutableDocumentList (class)">MutableDocumentList</a></span></tt>) <strong>merge!</strong>(other, remove_duplicates = true) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Adds the contents of another array or <span class='object_link'><a href="" title="Ruber::World::MutableDocumentList (class)">Ruber::World::MutableDocumentList</a></span> to the list</p>
+<p>The documents from the other list will be added at the end of this list.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>other</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Document.html" title="Ruber::Document (class)">Document</a></span>&gt;</tt>, <tt><span class='object_link'><a href="DocumentList.html" title="Ruber::World::DocumentList (class)">DocumentList</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the list whose contents should
+be added to this list contents</p></div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>remove_duplicates</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>if <strong>true</strong>, after adding the contents of <em>other</em>
+to the list, <span class='object_link'><a href="#uniq%21-instance_method" title="Ruber::World::MutableDocumentList#uniq! (method)">#uniq!</a></span> will be called to ensure there are no duplicates. If <strong>false</strong>,
+<span class='object_link'><a href="#uniq%21-instance_method" title="Ruber::World::MutableDocumentList#uniq! (method)">#uniq!</a></span> won&#8217;t be called</p></div>
+      
+    </li>
+  
+</ul>
+
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Ruber::World::MutableDocumentList (class)">MutableDocumentList</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><strong>self</strong></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+336
+337
+338
+339
+340
+341
+342
+343</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/document_list.rb', line 336</span>
+
+<span class='kw'>def</span> <span class='id merge!'>merge!</span> <span class='id other'>other</span><span class='comma'>,</span> <span class='id remove_duplicates'>remove_duplicates</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='kw'>if</span> <span class='id other'>other</span><span class='period'>.</span><span class='id is_a?'>is_a?</span> <span class='const'>DocumentList</span>
+    <span class='ivar'>@documents</span><span class='period'>.</span><span class='id concat'>concat</span> <span class='id other'>other</span><span class='period'>.</span><span class='id document_array'>document_array</span>
+  <span class='kw'>else</span> <span class='ivar'>@documents</span><span class='period'>.</span><span class='id concat'>concat</span> <span class='id other'>other</span>
+  <span class='kw'>end</span>
+  <span class='id uniq!'>uniq!</span> <span class='kw'>if</span> <span class='id remove_duplicates'>remove_duplicates</span>
+  <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="remove-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Document.html" title="Ruber::Document (class)">Document</a></span></tt><sup>?</sup>) <strong>remove</strong>(doc) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Removes a document from the list</p>
+<p>If the given document isn&#8217;t in the list, nothing is done</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>doc</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Document.html" title="Ruber::Document (class)">Document</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the document to remove</p></div>
+      
+    </li>
+  
+</ul>
+
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Document.html" title="Ruber::Document (class)">Document</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the removed document or <strong>nil</strong> if no document was removed</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+353
+354
+355</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/document_list.rb', line 353</span>
+
+<span class='kw'>def</span> <span class='id remove'>remove</span> <span class='id doc'>doc</span>
+  <span class='ivar'>@documents</span><span class='period'>.</span><span class='id delete'>delete</span> <span class='id doc'>doc</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="uniq!-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::World::MutableDocumentList (class)">MutableDocumentList</a></span></tt>) <strong>uniq!</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Ensures that the list doesn&#8217;t contain duplicates</p>
+<p>After calling this method, the list won&#8217;t contain the same document in multiple
+places</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Ruber::World::MutableDocumentList (class)">MutableDocumentList</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><strong>self</strong></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+387
+388
+389
+390</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/document_list.rb', line 387</span>
+
+<span class='kw'>def</span> <span class='id uniq!'>uniq!</span>
+  <span class='ivar'>@documents</span><span class='period'>.</span><span class='id uniq!'>uniq!</span>
+  <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+
+</div>
+    
+    <div id="footer">
+  Generated on Sun Oct 23 14:12:26 2011 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.7.3 (ruby-1.9.3).
+</div>
+
+  </body>
+</html>

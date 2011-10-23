@@ -3,16 +3,26 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Class: Ruber::PluginSpecificationReader</title>
-<link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
-<link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+<title>
+  Class: Ruber::PluginSpecificationReader
+  
+    &mdash; Ruber API
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   relpath = '..';
   if (relpath != '') relpath += '/';
 </script>
-<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
-<script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
 
   </head>
   <body>
@@ -33,11 +43,14 @@
 </div>
 
       <div id="search">
-  <a id="class_list_link" href="#">Class List</a>
-  <a id="method_list_link" href="#">Method List</a>
-  <a id ="file_list_link" href="#">File List</a>
+  
+    <a id="class_list_link" href="#">Class List</a>
+  
+    <a id="method_list_link" href="#">Method List</a>
+  
+    <a id="file_list_link" href="#">File List</a>
+  
 </div>
-
       <div class="clear"></div>
     </div>
     
@@ -103,12 +116,15 @@
 </div>
 <div class="tags">
   
+
 </div>
         </dt>
         <dd><pre class="code"><span class='lbracket'>[</span><span class='symbol'>:unknown</span><span class='comma'>,</span> <span class='symbol'>:gpl</span><span class='comma'>,</span> <span class='symbol'>:gpl2</span><span class='comma'>,</span> <span class='symbol'>:lgpl</span><span class='comma'>,</span> <span class='symbol'>:lgpl2</span><span class='comma'>,</span> <span class='symbol'>:bsd</span><span class='comma'>,</span> <span class='symbol'>:artistic</span><span class='comma'>,</span> <span class='symbol'>:qpl</span><span class='comma'>,</span> <span class='symbol'>:qpl1</span><span class='comma'>,</span> <span class='symbol'>:gpl3</span><span class='comma'>,</span> <span class='symbol'>:lgpl3</span><span class='rbracket'>]</span></pre></dd>
       
     </dl>
   
+
+
 
 
 
@@ -941,6 +957,7 @@
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -1055,13 +1072,14 @@
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>Boolean</tt>)</span>
       
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
       
@@ -1111,6 +1129,7 @@ can&#8217;t be used if the application hasn&#8217;t been created)</p>
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -1322,10 +1341,10 @@ can&#8217;t be used if the application hasn&#8217;t been created)</p>
 </span>  <span class='comment'># makes clearer why it's happening
 </span>  <span class='kw'>if</span> <span class='id res'>res</span><span class='period'>.</span><span class='id has_key?'>has_key?</span> <span class='kw'>nil</span>
     <span class='id deleted_value'>deleted_value</span> <span class='op'>=</span> <span class='id res'>res</span><span class='period'>.</span><span class='id delete'>delete</span> <span class='kw'>nil</span>
-  <span class='id msg'>msg</span> <span class='op'>=</span> <span class='heredoc_beg'>&lt;&lt;-EOS</span><span class='tstring_content'>This is information for Ruber developers only. Unless you aren't one of them, you can close and ignore this message box.
+  <span class='id msg'>msg</span> <span class='op'>=</span> <span class='heredoc_beg'>&lt;&lt;-EOS</span> 
+<span class='tstring_content'>This is information for Ruber developers only. Unless you aren't one of them, you can close and ignore this message box.
 
-</span><span class='tstring_content'>One of the entries of the about hash in the PSF was nil. The corresponding value was: </span><span class='embexpr_beg'>#{</span><span class='id deleted_value'>deleted_value</span><span class='period'>.</span><span class='id inspect'>inspect</span><span class='rbrace'>}</span> 
-<span class='tstring_content'>&quot;
+</span><span class='embexpr_beg'>One of the entries of the about hash in the PSF was nil. The corresponding value was: #{</span><span class='id deleted_value'>deleted_value</span><span class='period'>.</span><span class='id inspect'>inspect</span><span class='rbrace'>}</span><span class='tstring_content'>&quot;
 </span><span class='heredoc_end'>    EOS
 </span>    <span class='const'>KDE</span><span class='op'>::</span><span class='const'>MessageBox</span><span class='period'>.</span><span class='id information'>information</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id deleted_value'>deleted_value</span><span class='period'>.</span><span class='id inspect'>inspect</span>
   <span class='kw'>end</span>
@@ -2336,13 +2355,14 @@ can&#8217;t be used if the application hasn&#8217;t been created)</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Raises:</h3>
+  
+<h3>Raises:</h3>
 <ul class="raise">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="PluginSpecification/PSFError.html" title="Ruber::PluginSpecification::PSFError (class)">PluginSpecification::PSFError</a></span></tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="PluginSpecification/PSFError.html" title="Ruber::PluginSpecification::PSFError (class)">PluginSpecification::PSFError</a></span></tt>)</span>
       
       
       
@@ -2416,9 +2436,9 @@ can&#8217;t be used if the application hasn&#8217;t been created)</p>
 </div>
     
     <div id="footer">
-  Generated on Fri Apr 29 10:51:26 2011 by 
+  Generated on Sun Oct 23 14:12:34 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.8 (ruby-1.9.2).
+  0.7.3 (ruby-1.9.3).
 </div>
 
   </body>

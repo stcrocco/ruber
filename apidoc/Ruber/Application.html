@@ -3,16 +3,26 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Class: Ruber::Application</title>
-<link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
-<link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+<title>
+  Class: Ruber::Application
+  
+    &mdash; Ruber API
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   relpath = '..';
   if (relpath != '') relpath += '/';
 </script>
-<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
-<script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
 
   </head>
   <body>
@@ -33,11 +43,14 @@
 </div>
 
       <div id="search">
-  <a id="class_list_link" href="#">Class List</a>
-  <a id="method_list_link" href="#">Method List</a>
-  <a id ="file_list_link" href="#">File List</a>
+  
+    <a id="class_list_link" href="#">Class List</a>
+  
+    <a id="method_list_link" href="#">Method List</a>
+  
+    <a id="file_list_link" href="#">File List</a>
+  
 </div>
-
       <div class="clear"></div>
     </div>
     
@@ -101,6 +114,7 @@ of the ruber installation directory</p>
 </div>
 <div class="tags">
   
+
 </div>
         </dt>
         <dd><pre class="code">[0], File.join('ruber','plugins')),
@@ -117,9 +131,20 @@ of the ruber installation directory</p>
 </div>
 <div class="tags">
   
+
 </div>
         </dt>
-        <dd><pre class="code"><span class='qwords_beg'>%w[</span><span class='tstring_end'>ruby_development</span></span></pre></dd>
+        <dd><pre class="code"><span class='lbracket'>[</span>
+  <span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span><span class='lparen'>(</span><span class='const'>KDE</span><span class='op'>::</span><span class='const'>Global</span><span class='period'>.</span><span class='id dirs'>dirs</span><span class='period'>.</span><span class='id find_dirs'>find_dirs</span><span class='lparen'>(</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>data</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='const'>File</span><span class='period'>.</span><span class='id join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>ruber</span><span class='tstring_end'>'</span></span><span class='comma'>,</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>plugins</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='rparen'>)</span><span class='comma'>,</span>
+  <span class='const'>RUBER_PLUGIN_DIR</span>
+<span class='rbracket'>]</span>
+<span class='embdoc_beg'>=begin rdoc
+</span><span class='embdoc'>The default plugins to load
+</span><span class='embdoc'>
+</span><span class='embdoc'>Currently, they are: ruby_development, find_in_files, syntax_checker, command and state
+</span><span class='embdoc_end'>=end
+</span><span class='const'>DEFAULT_PLUGINS</span> <span class='op'>=</span> <span class='qwords_beg'>%w[</span><span class='tstring_content'>ruby_development</span><span class='words_sep'> </span><span class='tstring_content'>find_in_files</span><span class='words_sep'> </span><span class='tstring_content'>rake</span><span class='words_sep'> </span><span class='tstring_content'>command</span><span class='words_sep'> </span><span class='tstring_content'>syntax_checker</span><span class='words_sep'>
+</span><span class='tstring_content'>state</span><span class='words_sep'> </span><span class='tstring_content'>auto_end</span><span class='words_sep'> </span><span class='tstring_content'>project_browser</span><span class='words_sep'> </span><span class='tstring_content'>ruby_syntax_checker</span><span class='words_sep'> </span><span class='tstring_content'>yaml_syntax_checker</span><span class='words_sep'>]</span></pre></dd>
       
     </dl>
   
@@ -181,8 +206,7 @@ of the ruber installation directory</p>
   
 
   
-    <span class="summary_desc"><div class='inline'><p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; <span class="caps">HEAD</span>
-===
+    <span class="summary_desc"><div class='inline'><p>===
 The state Ruber is in.</p></div></span>
   
 </li>
@@ -190,6 +214,19 @@ The state Ruber is in.</p></div></span>
     
   </ul>
 
+
+
+  
+  
+  
+  
+  
+  <h3 class="inherited">Attributes included from <span class='object_link'><a href="PluginLike.html" title="Ruber::PluginLike (module)">PluginLike</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="PluginLike.html#plugin_description-instance_method" title="Ruber::PluginLike#plugin_description (method)">plugin_description</a></span></p>
+
+  
+  
+  
 
   
     <h2>
@@ -217,6 +254,28 @@ The state Ruber is in.</p></div></span>
 
   
     <span class="summary_desc"><div class='inline'><p>Asks the user to confirm quitting Ruber.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#chdir-instance_method" title="#chdir (instance method)">- (Object) <strong>chdir</strong>(dir) { ... }</a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Thread-safe Dir.chdir.</p></div></span>
   
 </li>
 
@@ -517,6 +576,28 @@ The state Ruber is in.</p></div></span>
 </li>
 
       
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#within_dir-instance_method" title="#within_dir (instance method)">- (Object) <strong>within_dir</strong>(dir) { ... }</a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Synchronized directory changed.</p></div></span>
+  
+</li>
+
+      
     </ul>
   
 
@@ -570,10 +651,10 @@ and is fired as soon as the event loop starts.</p>
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="ComponentManager.html" title="Ruber::ComponentManager (class)">ComponentManager</a></span></tt>)</span>
-      
-      
         <span class='name'>manager</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="ComponentManager.html" title="Ruber::ComponentManager (class)">ComponentManager</a></span></tt>)</span>
       
       
       
@@ -584,10 +665,10 @@ and is fired as soon as the event loop starts.</p>
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="PluginSpecification.html" title="Ruber::PluginSpecification (class)">PluginSpecification</a></span></tt>)</span>
-      
-      
         <span class='name'>psf</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="PluginSpecification.html" title="Ruber::PluginSpecification (class)">PluginSpecification</a></span></tt>)</span>
       
       
       
@@ -598,6 +679,7 @@ application component</p></div>
     </li>
   
 </ul>
+
 
 </div><table class="source_code">
   <tr>
@@ -620,7 +702,8 @@ application component</p></div>
 118
 119
 120
-121</pre>
+121
+122</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 106</span>
@@ -639,6 +722,7 @@ application component</p></div>
   <span class='ivar'>@plugin_dirs</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
   <span class='id load_core_components'>load_core_components</span>
   <span class='ivar'>@status</span> <span class='op'>=</span> <span class='symbol'>:starting</span>
+  <span class='ivar'>@chdir_lock</span> <span class='op'>=</span> <span class='const'>Mutex</span><span class='period'>.</span><span class='id new'>new</span>
   <span class='const'>Qt</span><span class='op'>::</span><span class='const'>Timer</span><span class='period'>.</span><span class='id single_shot'>single_shot</span><span class='lparen'>(</span><span class='int'>0</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:setup</span><span class='rparen'>)</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -668,13 +752,14 @@ application component</p></div>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>Hash</tt>)</span>
       
+        <span class='type'>(<tt>Hash</tt>)</span>
       
       
       
@@ -718,8 +803,7 @@ application component</p></div>
   
 </p><div class="docstring">
   <div class="discussion">
-    <p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; <span class="caps">HEAD</span>
-===
+    <p>===
 The state Ruber is in</p>
 <p>Ruber can be in three states:</p>
 <dl>
@@ -734,18 +818,18 @@ The state Ruber is in</p>
 	<dt><strong>asking_to_quit</strong></dt>
 	<dd>while asking the user to confirm quitting Ruber</dd>
 </dl>
-<p>&gt;&gt;&gt;&gt;&gt;&gt;&gt; master</p>
 
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
       
       
       
@@ -804,13 +888,14 @@ this method returns, the status returns what it was before.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>Boolean</tt>)</span>
       
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
       
@@ -851,6 +936,118 @@ this method returns, the status returns what it was before.</p>
 </div>
     
       <div class="method_details ">
+  <p class="signature " id="chdir-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>chdir</strong>(dir) { ... }
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Thread-safe Dir.chdir</p>
+<p><code>Dir.chdir</code> is not thread-safe, meaning that a Dir.chdir done in a thread will
+change the directory in all other threads. To avoid this unpleasant behaviour,
+don&#8217;t use Dir.chdir. Instead, use this method, which uses a mutex to control calls
+to Dir.chdir.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>dir</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the directory to change to</p></div>
+      
+    </li>
+  
+</ul>
+
+<h3>Yields:</h3>
+<ul class="yield">
+  
+    <li>
+      
+      
+        <span class='type'></span>
+      
+      
+      
+        
+        <div class='inline'><p>the block to execute from within <em>dir</em>. The current directory will
+be changed back after executing the block.</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the value returned by the block otherwise</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Raises:</h3>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>LocalJumpError</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>if no block is given</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+268
+269
+270
+271
+272</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 268</span>
+
+<span class='kw'>def</span> <span class='id chdir'>chdir</span> <span class='id dir'>dir</span>
+  <span class='ivar'>@chdir_lock</span><span class='period'>.</span><span class='id synchronize'>synchronize</span> <span class='kw'>do</span>
+    <span class='const'>Dir</span><span class='period'>.</span><span class='id chdir'>chdir</span><span class='lparen'>(</span><span class='id dir'>dir</span><span class='rparen'>)</span><span class='lbrace'>{</span><span class='kw'>yield</span><span class='rbrace'>}</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <p class="signature " id="load_core_components-instance_method">
   
     - (<tt>nil</tt>) <strong>load_core_components</strong>  <span class="extras">(private)</span>
@@ -877,13 +1074,14 @@ on the command line)</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -960,13 +1158,14 @@ directories</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -1035,6 +1234,7 @@ a single empty document is created.
 </div>
 <div class="tags">
   
+
 </div><table class="source_code">
   <tr>
     <td>
@@ -1098,13 +1298,14 @@ a single empty document is created.
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
       
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt>)</span>
       
       
       
@@ -1161,10 +1362,10 @@ write the change to file. It&#8217;s up to whoever called this method to do so.<
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt; dirs</tt>)</span>
-      
-      
         <span class='name'>the</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt; dirs</tt>)</span>
       
       
       
@@ -1174,6 +1375,7 @@ write the change to file. It&#8217;s up to whoever called this method to do so.<
     </li>
   
 </ul>
+
 
 </div><table class="source_code">
   <tr>
@@ -1213,13 +1415,14 @@ write the change to file. It&#8217;s up to whoever called this method to do so.<
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -1267,13 +1470,14 @@ write the change to file. It&#8217;s up to whoever called this method to do so.<
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>Boolean</tt>)</span>
       
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
       
@@ -1331,13 +1535,14 @@ necessary to to them later</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -1357,7 +1562,8 @@ necessary to to them later</p>
 400
 401
 402
-403</pre>
+403
+404</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 397</span>
@@ -1365,6 +1571,7 @@ necessary to to them later</p>
 <span class='kw'>def</span> <span class='id register_with_config'>register_with_config</span>
   <span class='id config'>config</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span>
   <span class='ivar'>@plugin_description</span><span class='period'>.</span><span class='id config_options'>config_options</span><span class='period'>.</span><span class='id each_value'>each_value</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id o'>o</span><span class='op'>|</span> <span class='id config'>config</span><span class='period'>.</span><span class='id add_option'>add_option</span> <span class='id o'>o</span><span class='rbrace'>}</span>
+  <span class='ivar'>@plugin_description</span><span class='period'>.</span><span class='id config_widgets'>config_widgets</span><span class='period'>.</span><span class='id each'>each</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id w'>w</span><span class='op'>|</span> <span class='id config'>config</span><span class='period'>.</span><span class='id add_widget'>add_widget</span> <span class='id w'>w</span><span class='rbrace'>}</span>
   <span class='id load_settings'>load_settings</span>
   <span class='id connect'>connect</span> <span class='id config'>config</span><span class='comma'>,</span> <span class='const'>SIGNAL</span><span class='lparen'>(</span><span class='symbol'>:settings_changed</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='kw'>self</span><span class='comma'>,</span> <span class='const'>SLOT</span><span class='lparen'>(</span><span class='symbol'>:load_settings</span><span class='rparen'>)</span>
   <span class='kw'>nil</span>
@@ -1389,13 +1596,14 @@ necessary to to them later</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>Boolean</tt>)</span>
       
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
       
@@ -1468,10 +1676,10 @@ or sorting dependencies.</p>
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span>&gt;</tt>)</span>
-      
-      
         <span class='name'>plugins</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span>&gt;</tt>)</span>
       
       
       
@@ -1483,10 +1691,10 @@ to include dependencies, as they&#8217;re computed automatically</p></div>
   
     <li>
       
-        <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
         <span class='name'>silent</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>false</tt>)</em>
@@ -1500,10 +1708,10 @@ ignored or not</p></div>
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt>, <tt>nil</tt>)</span>
-      
-      
         <span class='name'>dirs</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../String.html" title="String (class)">String</a></span>&gt;</tt>, <tt>nil</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>nil</tt>)</em>
@@ -1516,13 +1724,14 @@ then the value returned by <span class='object_link'><a href="#plugin_directorie
     </li>
   
 </ul>
+
 <h3>Yields:</h3>
 <ul class="yield">
   
     <li>
       
-        <span class='type'>(<tt>pso</tt>, <tt>ex</tt>)</span>
       
+        <span class='type'>(<tt>pso</tt>, <tt>ex</tt>)</span>
       
       
       
@@ -1537,10 +1746,10 @@ then the value returned by <span class='object_link'><a href="#plugin_directorie
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="PluginSpecification.html" title="Ruber::PluginSpecification (class)">PluginSpecification</a></span></tt>)</span>
-      
-      
         <span class='name'>pso</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="PluginSpecification.html" title="Ruber::PluginSpecification (class)">PluginSpecification</a></span></tt>)</span>
       
       
       
@@ -1552,10 +1761,10 @@ with the plugin which raised the exception</p></div>
   
     <li>
       
-        <span class='type'>(<tt>Exception</tt>)</span>
-      
-      
         <span class='name'>ex</span>
+      
+      
+        <span class='type'>(<tt>Exception</tt>)</span>
       
       
       
@@ -1570,8 +1779,8 @@ with the plugin which raised the exception</p></div>
   
     <li>
       
-        <span class='type'>(<tt>Boolen</tt>)</span>
       
+        <span class='type'>(<tt>Boolen</tt>)</span>
       
       
       
@@ -1645,13 +1854,14 @@ specified in it.</p>
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>nil</tt>)</span>
       
       
       
@@ -1725,12 +1935,12 @@ specified in it.</p>
   <span class='id chosen_plugins'>chosen_plugins</span> <span class='op'>=</span> <span class='const'>Ruber</span><span class='lbracket'>[</span><span class='symbol'>:config</span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='symbol'>:general</span><span class='comma'>,</span> <span class='symbol'>:plugins</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:to_sym</span><span class='rparen'>)</span>
   <span class='id needed_plugins'>needed_plugins</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
   <span class='id deps_problem_msg'>deps_problem_msg</span> <span class='op'>=</span> <span class='const'>Proc</span><span class='period'>.</span><span class='id new'>new</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id e'>e</span><span class='op'>|</span>
-    <span class='heredoc_beg'>&lt;&lt;-EOS</span><span class='tstring_content'>    The following errors have occurred while attempting to resolve the dependencies among plugins you chose:
-</span><span class='tstring_content'>    </span><span class='embexpr_beg'>#{</span><span class='id e'>e</span><span class='period'>.</span><span class='id message'>message</span><span class='rbrace'>}</span>
-<span class='tstring_content'>
+    <span class='heredoc_beg'>&lt;&lt;-EOS</span>
+<span class='tstring_content'>    The following errors have occurred while attempting to resolve the dependencies among plugins you chose:
+</span><span class='embexpr_beg'>    #{</span><span class='id e'>e</span><span class='period'>.</span><span class='id message'>message</span><span class='rbrace'>}</span><span class='tstring_content'>
     
     Ruber will start with no plugin loaded. Please, use the Choose Plugins menu entry in the Settings menu to solve the issue.
-</span><span class='heredoc_end'>    EOS
+</span><span class='heredoc_end'>EOS
 </span>  <span class='kw'>end</span>
   <span class='kw'>begin</span> 
     <span class='id availlable_plugins'>availlable_plugins</span> <span class='op'>=</span> <span class='const'>ComponentManager</span><span class='period'>.</span><span class='id find_plugins'>find_plugins</span> <span class='ivar'>@plugin_dirs</span><span class='comma'>,</span> <span class='kw'>true</span>
@@ -1738,11 +1948,11 @@ specified in it.</p>
     <span class='id found'>found</span> <span class='op'>=</span> <span class='id chosen_data'>chosen_data</span><span class='period'>.</span><span class='id map'>map</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span> <span class='id i'>i</span><span class='period'>.</span><span class='id name'>name</span><span class='rbrace'>}</span>
     <span class='kw'>if</span> <span class='id found'>found</span><span class='period'>.</span><span class='id size'>size</span> <span class='op'>!=</span> <span class='id chosen_plugins'>chosen_plugins</span><span class='period'>.</span><span class='id size'>size</span>
       <span class='id missing'>missing</span> <span class='op'>=</span> <span class='id chosen_plugins'>chosen_plugins</span> <span class='op'>-</span> <span class='id found'>found</span>
-      <span class='id question'>question</span> <span class='op'>=</span> <span class='heredoc_beg'>&lt;&lt;-EOS</span><span class='tstring_content'>Ruber couldn't find some plugins it has been configured to automatically load at startup. They are:
-</span><span class='embexpr_beg'>#{</span><span class='id missing'>missing</span><span class='period'>.</span><span class='id join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rbrace'>}</span>
-<span class='tstring_content'>
+      <span class='id question'>question</span> <span class='op'>=</span> <span class='heredoc_beg'>&lt;&lt;-EOS</span>
+<span class='tstring_content'>Ruber couldn't find some plugins it has been configured to automatically load at startup. They are:
+</span><span class='embexpr_beg'>#{</span><span class='id missing'>missing</span><span class='period'>.</span><span class='id join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rbrace'>}</span><span class='tstring_content'>
 Do you want to start the application without them or to quit Ruber?
-</span><span class='heredoc_end'>      EOS
+</span><span class='heredoc_end'>EOS
 </span>      <span class='id ans'>ans</span> <span class='op'>=</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>MessageBox</span><span class='period'>.</span><span class='id question_yes_no'>question_yes_no</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id question'>question</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Missing plugins</span><span class='tstring_end'>'</span></span><span class='comma'>,</span>
           <span class='const'>KDE</span><span class='op'>::</span><span class='const'>GuiItem</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Start Ruber</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='comma'>,</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>GuiItem</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>Quit</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
       <span class='id exit'>exit</span> <span class='kw'>if</span> <span class='id ans'>ans</span> <span class='op'>==</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>MessageBox</span><span class='op'>::</span><span class='const'>No</span>
@@ -1793,13 +2003,14 @@ startup (in which case it&#8217;ll return <strong>true</strong>) or later (when 
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>Boolean</tt>)</span>
       
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
       
@@ -1839,6 +2050,103 @@ otherwise</p></div>
 </table>
 </div>
     
+      <div class="method_details ">
+  <p class="signature " id="within_dir-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>) <strong>within_dir</strong>(dir) { ... }
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Synchronized directory changed</p>
+<p><code>Dir.chdir</code> is not thread-safe, meaning that a Dir.Chdir done in a thread will
+change the directory in all other threads. To avoid this unpleasant behaviour,
+don&#8217;t use Dir.chdir. Instead, use this method, which uses a mutex to control calls
+to Dir.chdir.</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>dir</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the directory to change to</p></div>
+      
+    </li>
+  
+</ul>
+
+<h3>Yields:</h3>
+<ul class="yield">
+  
+    <li>
+      
+      
+        <span class='type'></span>
+      
+      
+      
+        
+        <div class='inline'><p>the block to execute from within <em>dir</em>. If given the current directory will
+be changed back after executing the block. If not given, the current directory
+will remain <em>dir</em> after this method returns</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>0 if no block was given; the value returned by the block otherwise</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+268
+269
+270
+271
+272</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/application/application.rb', line 268</span>
+
+<span class='kw'>def</span> <span class='id within_dir'>within_dir</span> <span class='id dir'>dir</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id blk'>blk</span>
+  <span class='ivar'>@chdir_lock</span><span class='period'>.</span><span class='id synchronize'>synchronize</span> <span class='kw'>do</span>
+    <span class='const'>Dir</span><span class='period'>.</span><span class='id chdir'>chdir</span> <span class='id dir'>dir</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id blk'>blk</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
   </div>
 
 
@@ -1846,9 +2154,9 @@ otherwise</p></div>
 </div>
     
     <div id="footer">
-  Generated on Fri Apr 29 10:51:21 2011 by 
+  Generated on Sun Oct 23 14:12:29 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.8 (ruby-1.9.2).
+  0.7.3 (ruby-1.9.3).
 </div>
 
   </body>

@@ -1,0 +1,913 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: Ruber::World::MutableProjectList
+  
+    &mdash; Ruber API
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '../..';
+  if (relpath != '') relpath += '/';
+</script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../_index.html">Index (M)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../../Ruber.html" title="Ruber (module)">Ruber</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../World.html" title="Ruber::World (module)">World</a></span></span>
+     &raquo; 
+    <span class="title">MutableProjectList</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a id="class_list_link" href="#">Class List</a>
+  
+    <a id="method_list_link" href="#">Method List</a>
+  
+    <a id="file_list_link" href="#">File List</a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Class: Ruber::World::MutableProjectList
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName"><span class='object_link'><a href="ProjectList.html" title="Ruber::World::ProjectList (class)">ProjectList</a></span></span>
+      
+        <ul class="fullTree">
+          <li><span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span></li>
+          
+            <li class="next"><span class='object_link'><a href="ProjectList.html" title="Ruber::World::ProjectList (class)">ProjectList</a></span></li>
+          
+            <li class="next">Ruber::World::MutableProjectList</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/ruber/world/project_list.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>A <span class='object_link'><a href="ProjectList.html" title="Ruber::World::ProjectList (class)">ProjectList</a></span> which allows to change the contents of the list.</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+  
+  
+  
+  
+  
+  
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#add-instance_method" title="#add (instance method)">- (MutableProjectList) <strong>add</strong>(*projects) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Adds projects to the list.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#clear-instance_method" title="#clear (instance method)">- (MutableProjectList) <strong>clear</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Removes all the elements from the list.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#clone-instance_method" title="#clone (instance method)">- (MutableProjectList) <strong>clone</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Override of <code>Object#clone</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#delete_if-instance_method" title="#delete_if (instance method)">- (MutableProjectList) <strong>delete_if</strong> {|prj| ... }</a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Removes from the list all the projects for which the block returns true.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#dup-instance_method" title="#dup (instance method)">- (MutableProjectList) <strong>dup</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Override of <code>Object#dup</code>.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (MutableProjectList) <strong>initialize</strong>(prjs = []) </a>
+    
+
+    
+  </span>
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>A new instance of MutableProjectList.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#merge%21-instance_method" title="#merge! (instance method)">- (MutableProjectList) <strong>merge!</strong>(prjs) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Adds the projects contained in another list to this list.</p></div></span>
+  
+</li>
+
+      
+        <!-- Provides the  slot annotation -->
+<li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#remove-instance_method" title="#remove (instance method)">- (Project<sup>?</sup>) <strong>remove</strong>(prj) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Removes a project from the list.</p></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="ProjectList.html" title="Ruber::World::ProjectList (class)">ProjectList</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="ProjectList.html#%3D%3D-instance_method" title="Ruber::World::ProjectList#== (method)">#==</a></span>, <span class='object_link'><a href="ProjectList.html#%5B%5D-instance_method" title="Ruber::World::ProjectList#[] (method)">#[]</a></span>, <span class='object_link'><a href="ProjectList.html#each-instance_method" title="Ruber::World::ProjectList#each (method)">#each</a></span>, <span class='object_link'><a href="ProjectList.html#empty%3F-instance_method" title="Ruber::World::ProjectList#empty? (method)">#empty?</a></span>, <span class='object_link'><a href="ProjectList.html#eql%3F-instance_method" title="Ruber::World::ProjectList#eql? (method)">#eql?</a></span>, <span class='object_link'><a href="ProjectList.html#hash-instance_method" title="Ruber::World::ProjectList#hash (method)">#hash</a></span>, <span class='object_link'><a href="ProjectList.html#project_hash-instance_method" title="Ruber::World::ProjectList#project_hash (method)">#project_hash</a></span>, <span class='object_link'><a href="ProjectList.html#size-instance_method" title="Ruber::World::ProjectList#size (method)">#size</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="../../Enumerable.html" title="Enumerable (module)">Enumerable</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../../Enumerable.html#find%21-instance_method" title="Enumerable#find! (method)">#find!</a></span></p>
+
+
+
+
+
+
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <p class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::World::MutableProjectList (class)">MutableProjectList</a></span></tt>) <strong>initialize</strong>(prjs = []) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>A new instance of MutableProjectList</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>prjs</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Project.html" title="Ruber::Project (class)">Project</a></span>&gt;</tt>, <tt><span class='object_link'><a href="ProjectList.html" title="Ruber::World::ProjectList (class)">ProjectList</a></span></tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>[]</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>the projects to insert in the
+list when created. Further changes to <em>prjs</em> won&#8217;t change the new instance and
+vice versa</p></div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+171
+172
+173</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/project_list.rb', line 171</span>
+
+<span class='kw'>def</span> <span class='id initialize'>initialize</span> <span class='id prjs'>prjs</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='ivar'>@projects</span> <span class='op'>=</span> <span class='const'>Hash</span><span class='lbracket'>[</span><span class='id prjs'>prjs</span><span class='period'>.</span><span class='id map'>map</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id prj'>prj</span><span class='op'>|</span> <span class='lbracket'>[</span><span class='id prj'>prj</span><span class='period'>.</span><span class='id project_name'>project_name</span><span class='comma'>,</span> <span class='id prj'>prj</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='rbracket'>]</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="add-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::World::MutableProjectList (class)">MutableProjectList</a></span></tt>) <strong>add</strong>(*projects) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Adds projects to the list</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>projects</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Project.html" title="Ruber::Project (class)">Project</a></span>,<span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Project.html" title="Ruber::Project (class)">Project</a></span>&gt;&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the projects to add. If it contains
+nested arrays, they&#8217;ll be flattened. If the list contains multiple projects with
+the same project file, only the last one will be kept (if a project with the same
+project name was already in the list, it&#8217;ll be overwritten)</p></div>
+      
+    </li>
+  
+</ul>
+
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Ruber::World::MutableProjectList (class)">MutableProjectList</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><strong>self</strong></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+205
+206
+207
+208
+209</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/project_list.rb', line 205</span>
+
+<span class='kw'>def</span> <span class='id add'>add</span> <span class='op'>*</span><span class='id projects'>projects</span>
+  <span class='id projects'>projects</span><span class='period'>.</span><span class='id flatten'>flatten</span><span class='period'>.</span><span class='id each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id prj'>prj</span><span class='op'>|</span>
+    <span class='ivar'>@projects</span><span class='lbracket'>[</span><span class='id prj'>prj</span><span class='period'>.</span><span class='id project_file'>project_file</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id prj'>prj</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="clear-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::World::MutableProjectList (class)">MutableProjectList</a></span></tt>) <strong>clear</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Removes all the elements from the list</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Ruber::World::MutableProjectList (class)">MutableProjectList</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><strong>self</strong></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+243
+244
+245
+246</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/project_list.rb', line 243</span>
+
+<span class='kw'>def</span> <span class='id clear'>clear</span>
+  <span class='ivar'>@projects</span><span class='period'>.</span><span class='id clear'>clear</span>
+  <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="clone-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::World::MutableProjectList (class)">MutableProjectList</a></span></tt>) <strong>clone</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Override of <code>Object#clone</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Ruber::World::MutableProjectList (class)">MutableProjectList</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>a duplicate of <strong>self</strong></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+187
+188
+189
+190
+191
+192
+193
+194</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/project_list.rb', line 187</span>
+
+<span class='kw'>def</span> <span class='id clone'>clone</span>
+  <span class='id res'>res</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id class'>class</span><span class='period'>.</span><span class='id new'>new</span> <span class='kw'>self</span>
+  <span class='kw'>if</span> <span class='id frozen?'>frozen?</span>
+    <span class='id res'>res</span><span class='period'>.</span><span class='id freeze'>freeze</span>
+    <span class='id res'>res</span><span class='period'>.</span><span class='id project_hash'>project_hash</span><span class='period'>.</span><span class='id freeze'>freeze</span>
+  <span class='kw'>end</span>
+  <span class='id res'>res</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="delete_if-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::World::MutableProjectList (class)">MutableProjectList</a></span></tt>) <strong>delete_if</strong> {|prj| ... }
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Removes from the list all the projects for which the block returns true</p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<h3>Yield Parameters:</h3>
+<ul class="yieldparam">
+  
+    <li>
+      
+        <span class='name'>prj</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Project.html" title="Ruber::Project (class)">Project</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the projects in the list</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Yield Returns:</h3>
+<ul class="yieldreturn">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><strong>true</strong> for projects which should be removed from the list
+and <strong>false</strong> otherwise</p></div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Ruber::World::MutableProjectList (class)">MutableProjectList</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><strong>self</strong></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+256
+257
+258
+259</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/project_list.rb', line 256</span>
+
+<span class='kw'>def</span> <span class='id delete_if'>delete_if</span> <span class='op'>&amp;</span><span class='id blk'>blk</span>
+  <span class='ivar'>@projects</span><span class='period'>.</span><span class='id delete_if'>delete_if</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id _'>_</span><span class='comma'>,</span> <span class='id prj'>prj</span><span class='op'>|</span> <span class='id blk'>blk</span><span class='period'>.</span><span class='id call'>call</span> <span class='id prj'>prj</span><span class='rbrace'>}</span>
+  <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="dup-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::World::MutableProjectList (class)">MutableProjectList</a></span></tt>) <strong>dup</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Override of <code>Object#dup</code></p>
+
+  </div>
+</div>
+<div class="tags">
+  
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Ruber::World::MutableProjectList (class)">MutableProjectList</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>a duplicate of <strong>self</strong></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+179
+180
+181</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/project_list.rb', line 179</span>
+
+<span class='kw'>def</span> <span class='id dup'>dup</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id class'>class</span><span class='period'>.</span><span class='id new'>new</span> <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="merge!-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Ruber::World::MutableProjectList (class)">MutableProjectList</a></span></tt>) <strong>merge!</strong>(prjs) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Adds the projects contained in another list to this list</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>other</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../Project.html" title="Ruber::Project (class)">Project</a></span>&gt;</tt>, <tt><span class='object_link'><a href="ProjectList.html" title="Ruber::World::ProjectList (class)">ProjectList</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the list whose contents should
+be added to this list contents</p></div>
+      
+    </li>
+  
+</ul>
+
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Ruber::World::MutableProjectList (class)">MutableProjectList</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p><strong>self</strong></p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+218
+219
+220
+221
+222
+223
+224</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/project_list.rb', line 218</span>
+
+<span class='kw'>def</span> <span class='id merge!'>merge!</span> <span class='id prjs'>prjs</span>
+  <span class='kw'>if</span> <span class='id prjs'>prjs</span><span class='period'>.</span><span class='id is_a?'>is_a?</span> <span class='const'>ProjectList</span> <span class='kw'>then</span> <span class='ivar'>@projects</span><span class='period'>.</span><span class='id merge!'>merge!</span> <span class='id prjs'>prjs</span><span class='period'>.</span><span class='id project_hash'>project_hash</span>
+  <span class='kw'>else</span>
+    <span class='ivar'>@projects</span><span class='period'>.</span><span class='id merge!'>merge!</span> <span class='const'>Hash</span><span class='lbracket'>[</span><span class='id prjs'>prjs</span><span class='period'>.</span><span class='id map'>map</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id prj'>prj</span><span class='op'>|</span> <span class='lbracket'>[</span><span class='id prj'>prj</span><span class='period'>.</span><span class='id project_file'>project_file</span><span class='comma'>,</span> <span class='id prj'>prj</span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+  <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="remove-instance_method">
+  
+    - (<tt><span class='object_link'><a href="../Project.html" title="Ruber::Project (class)">Project</a></span></tt><sup>?</sup>) <strong>remove</strong>(prj) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>Removes a project from the list</p>
+<p>If the given project isn&#8217;t in the list, nothing is done</p>
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>doc</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Project.html" title="Ruber::Project (class)">Project</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the project to remove</p></div>
+      
+    </li>
+  
+</ul>
+
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Project.html" title="Ruber::Project (class)">Project</a></span></tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>the removed project or <strong>nil</strong> if no project was removed</p></div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+234
+235
+236</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/ruber/world/project_list.rb', line 234</span>
+
+<span class='kw'>def</span> <span class='id remove'>remove</span> <span class='id prj'>prj</span>
+  <span class='ivar'>@projects</span><span class='period'>.</span><span class='id delete'>delete</span> <span class='id prj'>prj</span><span class='period'>.</span><span class='id project_file'>project_file</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+
+</div>
+    
+    <div id="footer">
+  Generated on Sun Oct 23 14:12:25 2011 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.7.3 (ruby-1.9.3).
+</div>
+
+  </body>
+</html>

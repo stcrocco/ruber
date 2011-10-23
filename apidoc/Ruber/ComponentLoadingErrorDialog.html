@@ -3,16 +3,26 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Class: Ruber::ComponentLoadingErrorDialog</title>
-<link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
-<link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+<title>
+  Class: Ruber::ComponentLoadingErrorDialog
+  
+    &mdash; Ruber API
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   relpath = '..';
   if (relpath != '') relpath += '/';
 </script>
-<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
-<script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
 
   </head>
   <body>
@@ -33,11 +43,14 @@
 </div>
 
       <div id="search">
-  <a id="class_list_link" href="#">Class List</a>
-  <a id="method_list_link" href="#">Method List</a>
-  <a id ="file_list_link" href="#">File List</a>
+  
+    <a id="class_list_link" href="#">Class List</a>
+  
+    <a id="method_list_link" href="#">Method List</a>
+  
+    <a id="file_list_link" href="#">File List</a>
+  
 </div>
-
       <div class="clear"></div>
     </div>
     
@@ -113,9 +126,16 @@ components, the other buttons and the checkbox would be useless).</p>
 </div>
 <div class="tags">
   
+
 </div>
 
   
+  
+  
+  
+  
+
+
   
   
   
@@ -239,10 +259,10 @@ components, the other buttons and the checkbox would be useless).</p>
   
     <li>
       
-        <span class='type'>(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>, <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
-      
-      
         <span class='name'>plugin</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>, <tt><span class='object_link'><a href="../String.html" title="String (class)">String</a></span></tt>)</span>
       
       
       
@@ -253,10 +273,10 @@ components, the other buttons and the checkbox would be useless).</p>
   
     <li>
       
-        <span class='type'>(<tt>Exception</tt>)</span>
-      
-      
         <span class='name'>ex</span>
+      
+      
+        <span class='type'>(<tt>Exception</tt>)</span>
       
       
       
@@ -267,10 +287,10 @@ components, the other buttons and the checkbox would be useless).</p>
   
     <li>
       
-        <span class='type'>(<tt>Qt::Widget</tt>, <tt>nil</tt>)</span>
-      
-      
         <span class='name'>the</span>
+      
+      
+        <span class='type'>(<tt>Qt::Widget</tt>, <tt>nil</tt>)</span>
       
       
       
@@ -281,10 +301,10 @@ components, the other buttons and the checkbox would be useless).</p>
   
     <li>
       
-        <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
         <span class='name'>core</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>false</tt>)</em>
@@ -297,6 +317,7 @@ component or a plugin</p></div>
     </li>
   
 </ul>
+
 
 </div><table class="source_code">
   <tr>
@@ -385,13 +406,14 @@ are suitable for use by a block passed to <span class='object_link'><a href="Com
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>Boolean</tt>, <tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
       
+        <span class='type'>(<tt>Boolean</tt>, <tt><span class='object_link'><a href="../Symbol.html" title="Symbol (class)">Symbol</a></span></tt>)</span>
       
       
       
@@ -421,7 +443,7 @@ are suitable for use by a block passed to <span class='object_link'><a href="Com
 <span class='kw'>def</span> <span class='id exec'>exec</span>
   <span class='id res'>res</span> <span class='op'>=</span> <span class='kw'>super</span>
   <span class='kw'>case</span> <span class='id res'>res</span>
-  <span class='kw'>when</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Dialog</span><span class='op'>::</span><span class='const'>Yes</span> <span class='kw'>then</span> <span class='id dlg'>dlg</span><span class='period'>.</span><span class='id silently?'>silently?</span> <span class='op'>?</span> <span class='symbol'>:silent</span> <span class='op'>:</span> <span class='kw'>true</span>
+  <span class='kw'>when</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Dialog</span><span class='op'>::</span><span class='const'>Yes</span> <span class='kw'>then</span> <span class='id silently?'>silently?</span> <span class='op'>?</span> <span class='symbol'>:silent</span> <span class='op'>:</span> <span class='kw'>true</span>
   <span class='kw'>when</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Dialog</span><span class='op'>::</span><span class='const'>No</span> <span class='kw'>then</span> <span class='kw'>false</span>
   <span class='kw'>when</span> <span class='const'>KDE</span><span class='op'>::</span><span class='const'>Dialog</span><span class='op'>::</span><span class='const'>Cancel</span> <span class='kw'>then</span> <span class='symbol'>:skip</span>
   <span class='kw'>else</span> <span class='id res'>res</span>
@@ -446,13 +468,14 @@ are suitable for use by a block passed to <span class='object_link'><a href="Com
   </div>
 </div>
 <div class="tags">
-  <h3>Returns:</h3>
+  
+<h3>Returns:</h3>
 <ul class="return">
   
     <li>
       
-        <span class='type'>(<tt>Boolean</tt>, <tt>nil</tt>)</span>
       
+        <span class='type'>(<tt>Boolean</tt>, <tt>nil</tt>)</span>
       
       
       
@@ -493,9 +516,9 @@ component, this method always returns <strong>nil</strong></p></div>
 </div>
     
     <div id="footer">
-  Generated on Fri Apr 29 10:51:16 2011 by 
+  Generated on Sun Oct 23 14:12:24 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.6.8 (ruby-1.9.2).
+  0.7.3 (ruby-1.9.3).
 </div>
 
   </body>
