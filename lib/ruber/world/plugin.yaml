@@ -4,9 +4,10 @@ require: [world, environment, project_files_widget]
 class: Ruber::World::World
 config_options:
  workspace:
-  close_buttons: {default: 'true', type: bool}
+  close_buttons: {default: true, type: bool}
+  middle_button_close: {default: false, type: bool}
 config_widgets:
- - {caption: Workspace, pixmap: workspace.png, class: Ruber::World::WorkspaceSettingsWidget}
+ - {caption: Workspace, pixmap: workspace, class: Ruber::World::WorkspaceSettingsWidget}
 extensions:
  environment: {class: Ruber::World::Environment, scope: global}
 project_options:

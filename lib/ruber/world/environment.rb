@@ -142,6 +142,7 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
             new_pane = create_tab(editor)
             add_editor editor, new_pane
             @tab_widget.add_tab new_pane, doc.icon, doc.document_name
+            connect @tab_widget, SIGNAL('mouseMiddleClick(QWidget*)'), self, SLOT('tab_middle_clicked(QWidget*)')
             new_pane.label = label_for_document doc
           end
         end
@@ -463,6 +464,12 @@ The default hints used by methods like {#editor_for} and {#editor_for!}
         end
       end
       slots 'document_modified_status_changed(bool, QObject*)'
+      
+      def tab_middle_clicked w
+        idx = @tab_widget.index_of w
+        close_tab idx if idx >= 0 and Ruber[:config][:workspace, :middle_button_close]
+      end
+      slots 'tab_middle_clicked(QWidget*)'
       
     end
     

@@ -32,7 +32,6 @@ require 'ruber/main_window/main_window_actions'
 
 require 'ruber/main_window/status_bar'
 require 'ruber/main_window/workspace'
-require_relative 'ui/workspace_settings_widget'
 
 module Ruber
 
