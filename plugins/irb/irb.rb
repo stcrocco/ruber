@@ -80,6 +80,7 @@ module Ruber
       
       def load_settings
         @controller.prompts = Ruber[:config][:irb, :prompts]
+        @view.font = Ruber[:config][:general, :output_font]
       end
       slots :load_settings
       
