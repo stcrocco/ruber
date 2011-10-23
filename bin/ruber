@@ -33,6 +33,10 @@ unless defined? KDE::IconButton
   require 'kio'
 end
 
+require 'yaml'
+# psych (used by default in ruby 1.9.3) doesn't correctly parse some YAML files
+YAML::ENGINE.yamler = 'syck'
+
 require 'facets/kernel/require_relative'
 
 require 'ruber/version'

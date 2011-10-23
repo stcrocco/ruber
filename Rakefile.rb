@@ -1,4 +1,7 @@
 require 'rdoc'
+require 'yaml'
+
+YAML::ENGINE.yamler='syck'
 
 verbose(true)
 
