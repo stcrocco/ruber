@@ -42,6 +42,9 @@ module Ruber
     
     class Checker
       
+      def initialize doc
+      end
+      
       def check_syntax str, format
         begin 
           YAML.parse str
