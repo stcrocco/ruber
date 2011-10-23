@@ -68,10 +68,8 @@ module Ruber
         @controller.connect(SIGNAL(:interrupting_evaluation)){ @display_output = false}
         @controller.connect(SIGNAL(:evaluation_interrupted)){ @display_output = true}
         @cursor = @view.text_cursor
-        @formats = {
-          :input => Qt::TextCharFormat.new{|c| c.foreground = Qt::Brush.new Ruber[:config][:output_colors, :message]},
-          :output => Qt::TextCharFormat.new{|c| c.foreground = Qt::Brush.new Ruber[:config][:output_colors, :output]}
-        }
+        @formats = {:input => Qt::TextCharFormat.new, :output => Qt::TextCharFormat.new }
+        @lines = []
       end
       
       def stop
@@ -81,6 +79,16 @@ module Ruber
       def load_settings
         @controller.prompts = Ruber[:config][:irb, :prompts]
         @view.font = Ruber[:config][:general, :output_font]
+        @formats[:input].foreground = Qt::Brush.new Ruber[:config][:output_colors, :message]
+        @formats[:output].foreground = Qt::Brush.new Ruber[:config][:output_colors, :output]
+        blk = @view.document.begin
+        cur = Qt::TextCursor.new @view.document
+        @lines.each do |l|
+          cur.set_position blk.position
+          cur.move_position Qt::TextCursor::EndOfLine, Qt::TextCursor::KeepAnchor
+          cur.char_format = @formats[l]
+          blk = blk.next
+        end
       end
       slots :load_settings
       
@@ -93,6 +101,7 @@ module Ruber
           Ruber[:app].process_events
           @cursor.char_format = @formats[l.category]
           @cursor.insert_text l.full_text+"\n"
+          @lines << l.category
         end
         @cursor.move_position Qt::TextCursor::End
         @view.text_cursor = @cursor
