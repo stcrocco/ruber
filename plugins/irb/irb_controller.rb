@@ -131,6 +131,12 @@ module Ruber
       # to this signal is the last opportunity to read the output from it.
       signals :about_to_stop_irb
       
+      # Signal emitted after IRB has finished
+      # 
+      # Depending on the situation, after this signal has been emitted, a new process
+      # may be started
+      signals :irb_exited
+      
       # Signal emitted just before interrupting IRB by sending a @SIGINT@ signal
       signals :interrupting_evaluation
       
@@ -442,6 +448,7 @@ module Ruber
       # @return [nil]
       def irb_finished
         @irb.delete_later
+        emit irb_exited
         start_irb
         nil
       end

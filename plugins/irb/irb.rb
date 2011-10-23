@@ -67,6 +67,10 @@ module Ruber
         @ui.send_abort.connect(SIGNAL(:clicked)){ @controller.interrupt}
         @controller.connect(SIGNAL(:interrupting_evaluation)){ @display_output = false}
         @controller.connect(SIGNAL(:evaluation_interrupted)){ @display_output = true}
+        @controller.connect SIGNAL(:irb_exited) do
+          @view.document.clear
+          @lines.clear
+        end
         @cursor = @view.text_cursor
         @formats = {:input => Qt::TextCharFormat.new, :output => Qt::TextCharFormat.new }
         @lines = []
