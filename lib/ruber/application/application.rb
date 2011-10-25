@@ -30,6 +30,10 @@ require 'ruber/plugin_like'
 require 'ruber/project'
 require 'ruber/exception_widgets'
 
+if RUBY_VERSION =~ /8/
+  require 'thread'
+end
+
 module Ruber
   
 =begin rdoc

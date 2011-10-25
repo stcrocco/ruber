@@ -1,5 +1,26 @@
 h1. Changes
 
+h2. Ruber 0.0.11
+
+h3. Features
+
+* Allow closing tabs clicking on them with the middle mouse button.
+
+h3. Minor enhancements
+
+* Use the font chosen by the user for output widgets to display IRB output
+* Clear IRB widget whenever the IRB process terminates
+
+h3. Bug fixes
+
+* Don't crash when creating the syntax checker for a YAML file. I don't know whether
+  this only happens with ruby 1.9.3.
+* Avoid YAML parsing errors in ruby 1.9.3 (the problem seems to be a bug in the
+  psych library which ruby 1.9.3 uses by default). The current fix is to force using
+  the old syck library.
+* Change colors in the IRB widget when the user changes the colors in the config
+  dialog
+
 h2. Ruber 0.0.10
 
 h3. Features
