@@ -92,9 +92,11 @@ Both width and height are computed using @Qt::FontMetrics@
     def initialize ex, parent = nil, out = true, msg = 'Ruber raised the following exception:'
       super parent
       self.caption = KDE::Dialog.make_standard_caption "Exception"
-      self.buttons = Ok | Details
+      self.buttons = Ok | Details | User1
+      connect self, SIGNAL(:user1Clicked), self, SLOT(:save_backtrace)
       set_button_text Ok, 'Quit Ruber'
       set_button_text Details, 'Backtrace'
+      set_button_text User1, 'Save backtrace...'
       error = ex.message.gsub(/\n/, '<br/>')
       error.gsub!(/[<>]/){|s| s == '<' ? '&lt;' : '&gt;'}
       text = (!msg.empty? ? msg + '<br/>' : '') + '<tt>' + error + '</tt>'
@@ -103,6 +105,35 @@ Both width and height are computed using @Qt::FontMetrics@
       self.details_widget = @backtrace_widget
       @out = out
     end
+    
+=begin rdoc
+Saves the backtrace to a file
+
+The user is asked the path of the file where the backtrace should be saved using
+a @KDE::FileDialog@. If he dismisses the dialog, nothing is done. If the file
+couldn't be written to, the user is warned and nothing is done.
+
+If a file with the name chosen by the user already exists, he's asked what to do.
+He can choose to overwrite the file or to do nothing.
+
+@return [Boolean] *true* if the backtrace was saved and *false* otherwise
+=end
+    def save_backtrace
+      file = KDE::FileDialog.get_save_file_name KDE::Url.new(ENV['HOME'])
+      return false unless file
+      if File.exist? file
+        ans = KDE::MessageBox.question_yes_no Ruber[:main_window], KDE.i18n("A file called #{file} already exists. Do you want to overwrite it?")
+        return false if ans == KDE::MessageBox::No
+      end
+      str = @backtrace_widget.to_plain_text
+      begin File.open(file, "w"){|f| f.write str}
+      rescue SystemCallError => e
+        KDE::MessageBox.sorry Ruber[:main_window], KDE.i18n("It wasn't possible to write to the given file. The exception was: #{e.class}")
+        false
+      end
+      true
+    end
+    slots :save_backtrace
     
 =begin rdoc
 Override of @KDE::Dialog#sizeHint@

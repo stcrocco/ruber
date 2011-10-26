@@ -63,7 +63,7 @@ module Ruber
           @input.enabled = true
           @input.set_focus if is_active_window
         end
-        @ui.restart_irb.connect(SIGNAL(:clicked)){ @controller.restart_irb}
+        @ui.restart_irb.connect(SIGNAL(:clicked)){@controller.restart_irb}
         @ui.send_abort.connect(SIGNAL(:clicked)){ @controller.interrupt}
         @controller.connect(SIGNAL(:interrupting_evaluation)){ @display_output = false}
         @controller.connect(SIGNAL(:evaluation_interrupted)){ @display_output = true}
