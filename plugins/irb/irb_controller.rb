@@ -54,7 +54,7 @@ module Ruber
 #  with a prompt
       def match str
         res = str.split "quirb:#{@id}:", 3
-        return if !res or !res[0].empty? or res.size < 3
+        return if !res or res.size < 3 or !res[0].empty?
         res[1].slice! -1 #removes an ending :
         letter, sep, line = res[2].partition ':'
         type = TYPES[letter]
