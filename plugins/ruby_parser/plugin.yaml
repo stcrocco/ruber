@@ -1,0 +1,10 @@
+name: ruby_parser
+version: 0.0.1
+about:
+ authors: [Stefano Crocco, stefano.crocco@alice.it]
+ license: gpl
+ description: parses ruby code
+ bug_address: stefano.crocco@alice.it
+require: ruby_parser
+class: Ruber::RubyParser::Plugin
+ 
