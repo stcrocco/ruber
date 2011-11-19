@@ -12,3 +12,4 @@ ruber-*.gem
 *.swp.*
 *.kate-swp
 *.kcrash
+/bugs/
