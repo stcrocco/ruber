@@ -26,9 +26,15 @@ module Ruber
 Plugin providing a tool widget which displays the files in the project directory
 
 The tool widget consists of a tree view displaying the contents of the project directory,
-which is automatically updated whenever the current project changes. The view
-provides a menu which allows the user to choose whether to show only the files
-belonging to the project or all files in the directory.
+which is automatically updated whenever the current project changes. The user can
+choose whether the view should display only the files belonging to the project or
+all the files in the project directory. This can be done in two ways:
+* using the project configuration dialog to change the @project_browser/project_files_only@
+  project setting. This is used to set up the view the first time the project is activated.
+* using the context menu provided by the view. This change is temporary, meaning
+  that if the project is closed and reopened, or Ruber is restarted, the choice
+  will revert to the value stored in the @project_browser/project_files_only@
+  setting.
 
 The view is updated whenever the contents of the project directory change or whenever
 the @general/project_files@ project option changes.
@@ -179,7 +185,10 @@ project, if any
         action = KDE::ToggleAction.new KDE.i18n('&Show only project files'), self
         action.object_name = 'only_project_files'
         actions['only_project_files'] = action
-        action.connect(SIGNAL('toggled(bool)')){|val| filter_model.ignore_filter = !val}
+        action.connect(SIGNAL('toggled(bool)')) do |val| 
+          filter_model.ignore_filter = !val
+          @project.extension(:project_browser).project_files_only = val if @project
+        end
         action_list << 'only_project_files'
         connect Ruber[:world], SIGNAL('active_project_changed(QObject*)'), self, SLOT('current_project_changed(QObject*)')
         action.checked = true
@@ -210,6 +219,7 @@ with the project
           connect @project, SIGNAL('option_changed(QString, QString)'), self, SLOT('project_option_changed(QString, QString)')
           model.dir_lister.open_url KDE::Url.new(prj.project_directory)
           view.enabled = true
+          actions['only_project_files'].checked = @project.extension(:project_browser).project_files_only
         else view.enabled = false
         end
         filter_model.project = prj
@@ -239,6 +249,29 @@ setting has changed
         item = @model.item_for_index idx
         return if item.dir?
         [item.local_path, 0]
+      end
+      
+    end
+    
+=begin rdoc
+Extension tracking the state of the filter for each project
+
+It's needed to know whether the filter should be activated or not when an existing
+project becomes active.
+=end
+    class Extension
+      
+      include Ruber::Extension
+      
+=begin rdoc
+@return [Boolean] whether only project files or all files should be shown
+=end
+      attr_accessor :project_files_only      
+      
+=begin rdoc
+@param [Project] prj the project
+=end
+      def initialize prj
       end
       
     end
