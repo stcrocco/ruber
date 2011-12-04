@@ -1,5 +1,8 @@
 require 'fileutils'
 require 'yaml'
+if defined? YAML::ENGINE
+  YAML::ENGINE.yamler = 'syck'
+end
 require 'flexmock/argument_types'
 require 'korundum4'
 # require 'ktexteditor'
