@@ -1000,7 +1000,7 @@ describe Ruber::OutputWidget do
       end
       
       it 'doesn\'t hide the tool widget if the user pressed the middle mouse button' do
-        flexmock(Ruber::Application).should_receive(:mouse_buttons).and_return(Qt::MidButton)
+        flexmock(Qt::Application).should_receive(:mouse_buttons).and_return(Qt::MidButton)
         flexmock(@ow).should_receive(:pinned_down?).and_return false
         @mw.should_receive(:hide_tool).with(@ow).never
         @ow.send :maybe_open_file, @mod.index(0,0)
@@ -1069,7 +1069,14 @@ describe Ruber::OutputWidget do
         @cfg.should_receive(:[]).with(:general, :tool_open_files).and_return(:split_horizontally).by_default
       end
       
-      it 'returns {:new => :current_tab, :split => :horizontal}' do
+      it 'returns {:new => :current_tab, :split => :horizontal} if the current tab contains one view' do
+        views = Array.new(1){|i| flexmock("view #{i}")}
+        tab = flexmock{|m| m.should_receive(:views).and_return views}
+        env = flexmock do |m| 
+          m.should_receive(:tab).with(views[0]).and_return tab
+          m.should_receive(:active_editor).once.and_return views[0]
+        end
+        @world.should_receive(:active_environment).once.and_return env
         @ow.send(:hints).should == {:new => :current_tab, :split => :horizontal}
       end
       
@@ -1101,7 +1108,14 @@ describe Ruber::OutputWidget do
         @cfg.should_receive(:[]).with(:general, :tool_open_files).and_return(:split_vertically).by_default
       end
 
-      it 'returns {:new => :current_tab, :split => :vertical}' do
+      it 'returns {:new => :current_tab, :split => :vertical} if the current tab contains only one view' do
+        views = Array.new(1){|i| flexmock("view #{i}")}
+        tab = flexmock{|m| m.should_receive(:views).and_return views}
+        env = flexmock do |m| 
+          m.should_receive(:tab).with(views[0]).and_return tab
+          m.should_receive(:active_editor).once.and_return views[0]
+        end
+        @world.should_receive(:active_environment).once.and_return env
         @ow.send(:hints).should == {:new => :current_tab, :split => :vertical}
       end
       
