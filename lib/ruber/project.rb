@@ -124,9 +124,9 @@ When the project is created, it's not active.
         self[:general, :project_name] = name
         @project_name = name
       elsif !@project_name and File.exist? @project_file
-        raise InvalidProjectFile, "The project file #{@project_file} isn't invalid because it doesn't contain a project name entry" 
+        raise InvalidProjectFile, "The project file #{@project_file} isn't valid because it doesn't contain a project name entry" 
       elsif !name and !File.exist? @project_file
-        raise InvalidProjectFile, "You need to specify a project name for a new project"
+        raise ArgumentError, "You need to specify a project name for a new project"
       end
       @project_extensions = {}
       Ruber[:components].named_connect(SIGNAL('component_loaded(QObject*)'), "register_component_with_project #{object_id}"){|c| c.register_with_project self}
@@ -327,7 +327,7 @@ will be removed (calling their @remove_from_project@ method if they have one).
 =begin rdoc
 Registers each component with the project
 
-This is done in {#initialize} because, at least for {DocumentProject}, the extensions
+This isn't done in {#initialize} because, at least for {DocumentProject}, the extensions
 may try to access the project (directly or not) before it has fully been created.
 
 This method should only be called from the object calling {.new}

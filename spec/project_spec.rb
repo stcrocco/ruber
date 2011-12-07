@@ -14,29 +14,6 @@ require 'ruber/project'
 require 'ruber/plugin'
 require 'ruber/plugin_specification'
 
-# class TestComponentManager < Qt::Object
-#   
-#   extend Forwardable
-#   
-#   def_delegators :@data, :[], :<<
-#   def_delegator :@data, :each, :each_component
-#   
-#   signals 'component_loaded(QObject*)', 'unloading_component(QObject*)'
-#   
-#   def initialize
-#     super
-#     @data = []
-#   end
-#   
-#   def emit_signal sig, obj
-#     emit method(sig).call(obj)
-#   end
-#   
-# end
-
-# class Application < Qt::Object
-#   signals 'plugins_changed()'
-# end
 
 unless defined? OS
   OS = OpenStruct
@@ -62,214 +39,220 @@ shared_examples_for 'an_abstract_project_spec_method' do
   
 end
 
-describe 'Ruber::AbstractProject, when created' do
-  
-  it_should_behave_like 'an_abstract_project_spec_method'
-  
-  def backend file
-    Ruber::YamlSettingsBackend.new file
-  end
+describe Ruber::AbstractProject do
   
   before do
-    contents = <<-EOS
-:general:
- :project_name: Test
-EOS
-    @dir = make_dir_tree ['f1.ruprj'], '/tmp', {'f1.ruprj'=>contents}
-    @file = File.join @dir, 'f1.ruprj'
+    @file = File.join '/tmp', 'f1.ruprj'
+    File.open(@file, 'w') do |f|
+      f.write YAML.dump({:general => {:project_name => 'Test'}})
+    end
+    @prj = Ruber::AbstractProject.new nil, backend
+  end
+    
+  after do
+    FileUtils.rm_rf @file if @file
+  end
+  
+  def backend
+    Ruber::YamlSettingsBackend.new @file 
   end
   
   after do
-    FileUtils.rm_rf @dir
+    FileUtils.rm_rf @file if @file
   end
   
-  it 'should accept a parent, a file name and optionally the project name' do
-    lambda{Ruber::AbstractProject.new nil, backend(@file)}.should_not raise_error
-    FileUtils.rm_rf @dir
-    lambda{Ruber::AbstractProject.new nil, backend(@file), 'project name'}.should_not raise_error
-  end
-  
-  it 'should use the first argument as parent' do
-    parent = Qt::Object.new
-    prj = Ruber::AbstractProject.new parent, backend(@file)
-    prj.parent.should equal(parent)
-  end
-  
-  it 'sets the dialog_class instance variable to Ruber::ProjectDialog' do
-    parent = Qt::Object.new
-    prj = Ruber::AbstractProject.new parent, backend(@file)
-    prj.instance_variable_get(:@dialog_class).should == Ruber::ProjectDialog
-  end
-  
-  it 'should store the path of the project file as is if it\'s absolute' do
-    path = @file
-    prj = Ruber::AbstractProject.new nil, backend(path)
-    prj.project_file.should == path
-    path = File.join Dir.pwd, 'test.ruprj'
-    prj = Ruber::AbstractProject.new nil, backend( path), 'Test'
-    prj.project_file.should == path
-  end
-  
-  it 'should raise ArgumentError if the file doesn\'t exist and the project name is not given' do
-    lambda{Ruber::AbstractProject.new(nil, backend,'test.ruprj')}.should raise_error(ArgumentError)
-  end
-  
-  it 'should raise ArgumentError if the file exists and the project name is given' do
-    lambda{Ruber::AbstractProject.new nil, backend, @file, 'project name'}.should raise_error(ArgumentError)
-  end
+  context 'when created' do
     
-  it 'should store the project name if the file doesn\'t exist' do
-    path = File.join Dir.pwd, 'test.ruprj'
-    prj = Ruber::AbstractProject.new nil, Ruber::YamlSettingsBackend.new( path), 'Test Project'
-    prj.project_name.should == 'Test Project'
-  end
-  
-  it 'should read the project name from the file, if it exists' do
-    prj = Ruber::AbstractProject.new nil, backend( @file)
-    prj.project_name.should == 'Test'
-  end
-  
-  it 'should call the "register_with_project" method of the plugins, passing itself as argument' do
-    pdf1 = OpenStruct.new({:project_extensions => {}, :project_options => {}, :name => :plug1, :project_widgets => []})
-    pdf2 = OpenStruct.new({:project_extensions => {}, :project_options => {}, :name => :plug2, :project_widgets => []})
-    plugin1 = flexmock('plugin1', :plugin_description => pdf1)
-    plugin2 = flexmock('plugin2', :plugin_description => pdf2)
-    @comp << plugin1 << plugin2
-    plugin1.should_receive(:register_with_project).once.with(Ruber::AbstractProject)
-    plugin2.should_receive(:register_with_project).once.with(Ruber::AbstractProject)
-    path = File.join Dir.pwd, 'test.ruprj'
-    prj = Ruber::AbstractProject.new nil, Ruber::YamlSettingsBackend.new( path), 'Test'
-  end
-  
-  it 'should connect the signal \'component_loaded\' of the component manager to a block which calls the register_with_project method of the plugin' do
-    prj = Ruber::AbstractProject.new nil, backend(File.join(Dir.pwd, 'test.ruprj')), 'Test'
-    o = Qt::Object.new
-    flexmock(o).should_receive(:register_with_project).once.with(prj)
-    @comp.emit_signal :component_loaded, o
-  end
-  
-  it 'should connect the signal \'unloading_component\' of the component manager to a block which calls the remove_from_project method of the plugin' do
-    prj = Ruber::AbstractProject.new nil, backend(File.join(Dir.pwd, 'test.ruprj')), 'Test'
-    o = Qt::Object.new
-    flexmock(o).should_receive(:remove_from_project).once.with(prj)
-    @comp.emit_signal :unloading_component, o
-  end
-  
-end
-
-describe 'Ruber::AbstractProject#match_rule?' do
-  
-  it_should_behave_like 'an_abstract_project_spec_method'
-  
-  def backend file
-    Ruber::YamlSettingsBackend.new file
-  end
-  
-  it 'returns true if the object\'s scope includes the project\'s scope and false otherwise' do
-    prj = Ruber::AbstractProject.new(nil, backend(File.join(Dir.pwd, 'project.ruprj')), 'Test')
-    flexmock(prj).should_receive(:scope).and_return(:global)
-    prj.match_rule?(OS.new(:scope => [:global])).should be_true
-    prj.match_rule?(OS.new(:scope => [:document])).should be_false
-    prj.match_rule?(OS.new(:scope => [:global, :document])).should be_true
-  end
-  
-end
-
-describe 'Ruber::AbstractProject#scope' do
-  
-  it_should_behave_like 'an_abstract_project_spec_method'
-  
-  def backend file
-    Ruber::YamlSettingsBackend.new file
-  end
-  
-  it 'raises NoMethodError' do
-    prj = Ruber::AbstractProject.new(nil, backend(File.join(Dir.pwd, 'project.ruprj')), 'Test')
-    lambda{prj.scope}.should raise_error(NoMethodError)
-  end
-  
-end
-
-describe 'Ruber::AbstractProject#add_extension' do
-  
-  it_should_behave_like 'an_abstract_project_spec_method'
-  
-  def backend file
-    Ruber::YamlSettingsBackend.new file
-  end
-  
-  it 'should add the given extension to the list of extensions' do
-    ext = Qt::Object.new
-    prj = Ruber::AbstractProject.new(nil, backend(File.join(Dir.pwd, 'project.ruprj')), 'Test')
-    prj.add_extension :test_ext, ext
-    prj.project_extension(:test_ext).should equal(ext)
-  end
-  
-  it 'should raise ArgumentError if an extension with that name already exists' do
-    ext1 = Qt::Object.new
-    ext2 = Qt::Object.new
-    prj = Ruber::AbstractProject.new(nil, backend(File.join(Dir.pwd, 'project.ruprj')), 'Test')
-    prj.add_extension :test_ext, ext1
-    lambda{prj.add_extension(:test_ext, ext2)}.should raise_error(ArgumentError, 'An extension called \'test_ext\' already exists')
-  end
-  
-end
-
-describe 'Ruber::AbstractProject#remove_extension' do
-  
-  it_should_behave_like 'an_abstract_project_spec_method'
-  
-  def backend file
-    Ruber::YamlSettingsBackend.new file
-  end
-  
-  it 'should remove the extension with the given name from the list' do
-    ext1 = Qt::Object.new
-    ext2 = Qt::Object.new
-    prj = Ruber::AbstractProject.new(nil, backend(File.join(Dir.pwd, 'project.ruprj')), 'Test')
-    prj.add_extension :ext1, ext1
-    prj.add_extension :ext2, ext2
-    prj.remove_extension :ext2
-    prj.instance_variable_get(:@project_extensions).should_not include(:ext2)
-    prj.ext1.should equal(ext1)
-  end
-  
-  it 'should call the "remove_from_project" method of the extension, if it provides it' do
-    ext1 = Qt::Object.new
-    def ext1.remove_from_project
+    context 'if the backend doesn\'t contain the general/project_name setting' do
+      
+      before do
+        FileUtils.rm_rf @file
+      end
+      
+      it 'accepts the parent object, the backend and a project name as arguments' do
+        lambda{Ruber::AbstractProject.new nil, backend, 'Test'}.should_not raise_error
+      end
+      
+      it 'raises ArgumentError if the project name is not given' do
+        lambda{Ruber::AbstractProject.new(nil, backend)}.should raise_error(ArgumentError, "You need to specify a project name for a new project")
+      end
+      
+      it 'sets the backend\'s general/project_name setting to the value passed as third argument' do
+        prj = Ruber::AbstractProject.new nil, backend, 'Test'
+        prj[:general, :project_name].should == 'Test'
+      end
+      
+      it 'sets the project_name attribute to the value passed as third argument' do
+        prj = Ruber::AbstractProject.new nil, backend, 'Test'
+        prj.project_name.should == 'Test'
+      end
+      
     end
-    ext2 = Qt::Object.new
-    flexmock(ext1).should_receive(:remove_from_project).once
-    prj = Ruber::AbstractProject.new(nil, backend(File.join(Dir.pwd, 'project.ruprj')), 'Test')
-    prj.add_extension :e1, ext1
-    prj.add_extension :e2, ext2
-    prj.remove_extension :e1
-    lambda{prj.remove_extension :e2}.should_not raise_error
-  end
-  
-  it 'should do nothing if a project extension with that name doesn\'t exist' do
-    ext1 = Qt::Object.new
-    ext2 = Qt::Object.new
-    prj = Ruber::AbstractProject.new(nil, backend(File.join(Dir.pwd, 'project.ruprj')), 'Test')
-    prj.add_extension :ext1, ext1
-    prj.add_extension :ext2, ext2
-    old = prj.instance_variable_get(:@project_extensions).dup
-    prj.remove_extension :ext3
-    prj.instance_variable_get(:@project_extensions).should == old
-  end
-  
-end
+    
+    context 'if the backend contains the general/project_name setting' do
+      
+      it 'accepts the parent object and the backend as arguments' do
+        lambda{Ruber::AbstractProject.new nil, backend}.should_not raise_error
+      end
+      
+      it 'raises ArgumentError if the project name is given' do
+        lambda{Ruber::AbstractProject.new nil, backend, 'Test'}.should raise_error(ArgumentError, "You can't specify a file name for an already existing project")
+      end
+      
+      it 'raises Ruber::AbstractProject::InvalidProjectFile if the project file exists but  doesn\'t contain the project_name setting' do
+        File.open(@file, 'w') {|f| f.write '{}'}
+        error_msg = "The project file #@file isn't valid because it doesn't contain a project name entry"
+        lambda{Ruber::AbstractProject.new(nil, backend)}.should raise_error(Ruber::AbstractProject::InvalidProjectFile, error_msg )
+      end
+      
+      it 'sets the project_name attribute to the general/project_name setting contained in the backend' do
+        prj = Ruber::AbstractProject.new nil, backend
+        prj.project_name.should == 'Test'
+      end
 
-describe 'Ruber::AbstractProject#[]=' do
+    end
+    
+    it 'uses the first argument as parent object' do
+      parent = Qt::Object.new
+      prj = Ruber::AbstractProject.new parent, backend
+      prj.parent.should equal(parent)
+    end
   
-  it_should_behave_like 'an_abstract_project_spec_method'
-  
-  def backend file
-    Ruber::YamlSettingsBackend.new file
+    it 'sets the dialog_class instance variable to Ruber::ProjectDialog' do
+      parent = Qt::Object.new
+      prj = Ruber::AbstractProject.new parent, backend
+      prj.instance_variable_get(:@dialog_class).should == Ruber::ProjectDialog
+    end
+    
+    it 'sets the project_file attribute to the path of the file associated with the backend' do
+      prj = Ruber::AbstractProject.new nil, backend
+      prj.project_file.should == @file
+    end
+      
+    it 'connects the signal \'component_loaded\' of the component manager to a block which calls the register_with_project method of the plugin' do
+      # Avoid projects created in previous tests reacting to the same signal
+      ObjectSpace.each_object(Ruber::AbstractProject) do |pr|
+        Ruber[:components].disconnect SIGNAL('component_loaded(QObject*)'), nil, nil
+      end
+      # Avoid document projects reacting to the same signal
+      Ruber[:world].close_all :documents
+      prj = Ruber::AbstractProject.new nil, backend
+      o = Qt::Object.new
+      # Needed because the main window requires this
+      def o.plugin_name; :x;end
+      flexmock(o).should_receive(:register_with_project).once.with(prj)
+      Ruber[:components].instance_eval{ emit component_loaded(o)}
+    end
+    
+    it 'connects the signal \'unloading_component\' of the component manager to a block which calls the remove_from_project method of the plugin' do
+      # Avoid projects created in previous tests reacting to the same signal
+      ObjectSpace.each_object(Ruber::AbstractProject) do |pr|
+        Ruber[:components].disconnect SIGNAL('unloading_component(QObject*)'), nil, nil
+      end
+      # Avoid document projects reacting to the same signal
+      Ruber[:world].close_all :documents
+      prj = Ruber::AbstractProject.new nil, backend
+      o = Qt::Object.new
+      # Needed because the main window requires this
+      def o.plugin_name; :x;end
+      flexmock(o).should_receive(:remove_from_project).once.with(prj)
+      Ruber[:components].instance_eval{emit unloading_component(o)}
+    end
+    
   end
   
-  before do
-    contents = <<-EOS
+  describe '#match_rule?' do
+    
+    before do
+      @file = File.join '/tmp', 'f1.ruprj'
+      File.open(@file, 'w') do |f|
+        f.write YAML.dump({:general => {:project_name => 'Test'}})
+      end
+      @prj = Ruber::AbstractProject.new nil, backend
+    end
+    
+    after do
+      FileUtils.rm_rf @file if @file
+    end
+    
+    it 'returns true if the argument\'s scope includes the project\'s scope' do
+      flexmock(@prj).should_receive(:scope).and_return(:global)
+      @prj.match_rule?(OS.new(:scope => [:global])).should be_true
+      @prj.match_rule?(OS.new(:scope => [:global, :document])).should be_true
+    end
+    
+    it 'returns false if the argument\'s scope doesn\'t include the project\'s scope' do
+      flexmock(@prj).should_receive(:scope).and_return(:global)
+      @prj.match_rule?(OS.new(:scope => [:document])).should be_false
+    end
+    
+  end
+  
+  describe '#scope' do
+  
+    it 'raises NoMethodError' do
+      lambda{@prj.scope}.should raise_error(NoMethodError)
+    end
+  
+  end
+  
+  describe '#add_extension' do
+  
+    it 'adds the given extension to the list of extensions' do
+      ext = Qt::Object.new
+      @prj.add_extension :test_ext, ext
+      @prj.project_extension(:test_ext).should equal(ext)
+    end
+    
+    it 'raises ArgumentError if an extension with that name already exists' do
+      ext1 = Qt::Object.new
+      ext2 = Qt::Object.new
+      @prj.add_extension :test_ext, ext1
+      lambda{@prj.add_extension(:test_ext, ext2)}.should raise_error(ArgumentError, 'An extension called \'test_ext\' already exists')
+    end
+    
+  end
+  
+  describe '#remove_extension' do
+    
+    it 'removes the extension with the given name from the list' do
+      ext1 = Qt::Object.new
+      ext2 = Qt::Object.new
+      @prj.add_extension :ext1, ext1
+      @prj.add_extension :ext2, ext2
+      @prj.remove_extension :ext2
+      @prj.instance_variable_get(:@project_extensions).should_not include(:ext2)
+      @prj.ext1.should equal(ext1)
+    end
+    
+    it 'calls the "remove_from_project" method of the extension, if it provides it' do
+      ext1 = Qt::Object.new
+      def ext1.remove_from_project
+      end
+      ext2 = Qt::Object.new
+      flexmock(ext1).should_receive(:remove_from_project).once
+      @prj.add_extension :e1, ext1
+      @prj.add_extension :e2, ext2
+      @prj.remove_extension :e1
+      lambda{@prj.remove_extension :e2}.should_not raise_error
+    end
+    
+    it 'does nothing if a project extension with that name doesn\'t exist' do
+      ext1 = Qt::Object.new
+      ext2 = Qt::Object.new
+      @prj.add_extension :ext1, ext1
+      @prj.add_extension :ext2, ext2
+      old = @prj.instance_variable_get(:@project_extensions).dup
+      @prj.remove_extension :ext3
+      @prj.instance_variable_get(:@project_extensions).should == old
+    end
+    
+  end
+  
+  describe '#[]=' do
+    
+    before do
+      contents = <<-EOS
 :general:
  :project_name: Test
 :g1:
@@ -278,164 +261,94 @@ describe 'Ruber::AbstractProject#[]=' do
  :o2: xyz
  :o3: [a, b]
 EOS
-    @dir = make_dir_tree ['test.ruprj'], '/tmp', {'test.ruprj' => contents}
-    @file = File.join @dir, 'test.ruprj'
-    @options = [
-      OS.new({:name => :o1, :group => :g1, :default => 0}),
-      OS.new({:name => :o2, :group => :g2, :default => 'abc'}),
-      OS.new({:name => :o3, :group => :g2, :default => []}),
-    ]
-    @prj = Ruber::AbstractProject.new nil, backend(@file)
-    @options.each{|o| @prj.add_option o}
-  end
-  
-  after do
-    FileUtils.rm_rf @dir
-  end
-  
-  it 'should change the value of the option whose name is passed as first argument' do
-    @prj[:g1, :o1]= 6
-    @prj[:g2, :o2] = 'ABC'
-    @prj[:g2, :o3] = :x
-    @prj[:g1, :o1].should == 6
-    @prj[:g2, :o2].should == 'ABC'
-    @prj[:g2, :o3].should == :x
-  end
-  
-  it 'should emit the "option_changed(QString, QString)" signal if the option is modified, passing the group and the name of the option (converted to strings) as argument' do
-    test = flexmock('test') do |mk|
-      mk.should_receive(:option_changed).once.with('g1', 'o1')
-      mk.should_receive(:option_changed).once.with('g2', 'o2')
-      mk.should_receive(:option_changed).once.with('g2', 'o3')
-    end
-    @prj.connect(SIGNAL('option_changed(QString, QString)')){|g, n| test.option_changed g, n}
-    @prj[:g1, :o1]= 6
-    @prj[:g2, :o2] = 'ABC'
-    @prj[:g2, :o3] = :x
-  end
-  
-  it 'should not emit the option_changed signal if the new value of the option is the same as the old (according to eql?)' do
-    test = flexmock('test') do |mk|
-      mk.should_receive(:option_changed).with('g1', 'o1').never
-      mk.should_receive(:option_changed).with('g2', 'o2').never
-      mk.should_receive(:option_changed).with('g2', 'o3').never
-    end
-    @prj[:g1, :o1]= 5
-    @prj[:g2, :o2] = 'xyz'
-    @prj[:g2, :o3] = :a
-    @prj.connect(SIGNAL('option_changed(QString, QString)')){|g, n| test.option_changed g, n}
-    @prj[:g1, :o1]= 5
-    @prj[:g2, :o2] = 'xyz'
-    @prj[:g2, :o3] = :a
-
-  end
-  
-end
-
-describe 'Ruber::AbstractProject#project_directory' do
-  
-  it_should_behave_like 'an_abstract_project_spec_method'
-  
-  def backend file
-    Ruber::YamlSettingsBackend.new file
-  end
-  
-  it 'should return the absolute path of the project directory' do
-    prj = Ruber::AbstractProject.new nil, backend(File.join(Dir.pwd, 'test.ruprj')), 'Test'
-    prj.project_directory.should == Dir.pwd
-  end 
-  
-end
-
-describe 'Ruber::AbstractProject#method_missing' do
-  
-  it_should_behave_like 'an_abstract_project_spec_method'
-  
-  def backend file
-    Ruber::YamlSettingsBackend.new file
-  end
-  
-  it 'should return the project extension object with the same name as the method, if it exists' do
-    prj = Ruber::AbstractProject.new nil, backend(File.join(Dir.pwd, 'test.ruprj')), 'Test'
-    p1 = flexmock('p1')
-    prj.instance_variable_get(:@project_extensions)[:p1] = p1
-    prj.p1.should == p1
-  end
-  
-  it 'should raise ArgumentError if any arguments are passed to the method' do
-    prj = Ruber::AbstractProject.new nil, backend(File.join(Dir.pwd, 'test.ruprj')), 'Test'
-    p1 = flexmock('p1')
-    prj.instance_variable_get(:@project_extensions)[:p1] = p1
-    lambda{prj.p1 'x'}.should raise_error(ArgumentError, "wrong number of arguments (1 for 0)")
-  end
-  
-  it 'should raise ArgumentError if there\'s no project extension with the name of the method' do
-    prj = Ruber::AbstractProject.new nil, backend(File.join(Dir.pwd, 'test.ruprj')), 'Test'
-    p1 = flexmock('p1')
-    prj.instance_variable_get(:@project_extensions)[:p1] = p1
-    lambda{prj.p2}.should raise_error(ArgumentError, "No project extension with name p2")
-  end
-  
-end
-
-describe 'Ruber::AbstractProject#project_extension' do
-  
-  it_should_behave_like 'an_abstract_project_spec_method'
-  
-  def backend file
-    Ruber::YamlSettingsBackend.new file
-  end
-  
-  it 'should return the project extension with the given name, if it exists' do
-    prj = Ruber::AbstractProject.new nil, backend(File.join(Dir.pwd, 'test.ruprj')), 'Test'
-    p1 = flexmock('p1')
-    prj.instance_variable_get(:@project_extensions)[:p1] = p1
-    prj.project_extension(:p1).should == p1
-  end
-  
-  it 'should return nil if no project extension with that name exists' do
-    prj = Ruber::AbstractProject.new nil, backend(File.join(Dir.pwd, 'test.ruprj')), 'Test.prj'
-    prj.project_extension(:p1).should be_nil
-  end
-  
-end
-
-describe Ruber::AbstractProject do
-  
-  def backend file
-    Ruber::YamlSettingsBackend.new file
-  end
-  
-  it_should_behave_like 'an_abstract_project_spec_method'
-  
-  describe '#each_extension' do
-    
-    before do
-      @prj = Ruber::AbstractProject.new nil, backend(File.join(Dir.pwd, 'test.ruprj')), 'Test'
-      @exts = {:a => 1, :b => 2, :c => 3}
-      @prj.instance_variable_set(:@project_extensions, @exts)
+      File.open(@file, 'w'){|f| f.write contents}
+      @options = [
+        OS.new({:name => :o1, :group => :g1, :default => 0}),
+        OS.new({:name => :o2, :group => :g2, :default => 'abc'}),
+        OS.new({:name => :o3, :group => :g2, :default => []}),
+      ]
+      @prj = Ruber::AbstractProject.new nil, backend
+      @options.each{|o| @prj.add_option o}
     end
     
-    describe ', when called with a block' do
-      
-      it 'calls the block for each extension, passing it the name of the extension and the object itself as arguments' do
-        res = {}
-        @prj.each_extension{|i, j| res[i] = j}
-        res.should == @exts
+    it 'changes the value of the option whose group and name are passed as first arguments' do
+      @prj[:g1, :o1]= 6
+      @prj[:g2, :o2] = 'ABC'
+      @prj[:g2, :o3] = :x
+      @prj[:g1, :o1].should == 6
+      @prj[:g2, :o2].should == 'ABC'
+      @prj[:g2, :o3].should == :x
+    end
+    
+    it 'emits the "option_changed(QString, QString)" signal if the option is modified, passing the group and the name of the option (converted to strings) as arguments' do
+      test = flexmock('test') do |mk|
+        mk.should_receive(:option_changed).once.with('g1', 'o1')
+        mk.should_receive(:option_changed).once.with('g2', 'o2')
+        mk.should_receive(:option_changed).once.with('g2', 'o3')
       end
-      
+      @prj.connect(SIGNAL('option_changed(QString, QString)')){|g, n| test.option_changed g, n}
+      @prj[:g1, :o1]= 6
+      @prj[:g2, :o2] = 'ABC'
+      @prj[:g2, :o3] = :x
     end
     
-    describe ', when called without a block' do
-      
-      it 'returns an enumerator which, whose each method calls the block for each extension, passing it the name of the extension and the object itself as arguments' do
-        res = {}
-        enum = @prj.each_extension
-        enum.should be_a(Enumerator)
-        enum.each{|i, j| res[i] = j}
-        res.should == @exts
+    it 'doesn\'t emit the option_changed signal if the new value of the option is the same as the old (according to eql?)' do
+      test = flexmock('test') do |mk|
+        mk.should_receive(:option_changed).with('g1', 'o1').never
+        mk.should_receive(:option_changed).with('g2', 'o2').never
+        mk.should_receive(:option_changed).with('g2', 'o3').never
       end
-      
+      @prj[:g1, :o1]= 5
+      @prj[:g2, :o2] = 'xyz'
+      @prj[:g2, :o3] = :a
+      @prj.connect(SIGNAL('option_changed(QString, QString)')){|g, n| test.option_changed g, n}
+      @prj[:g1, :o1]= 5
+      @prj[:g2, :o2] = 'xyz'
+      @prj[:g2, :o3] = :a
+    end
+    
+  end
+  
+  describe '#project_directory' do
+    
+    it 'returns the absolute path of the project directory' do
+      @prj.project_directory.should == '/tmp'
+    end
+    
+  end
+  
+  describe '#method_missing' do
+    
+    it 'returns the project extension object with the same name as the method, if it exists' do
+      p1 = flexmock('p1')
+      @prj.instance_variable_get(:@project_extensions)[:p1] = p1
+      @prj.p1.should == p1
+    end
+    
+    it 'raises ArgumentError if any arguments are passed to the method' do
+      p1 = flexmock('p1')
+      @prj.instance_variable_get(:@project_extensions)[:p1] = p1
+      lambda{@prj.p1 'x'}.should raise_error(ArgumentError, "wrong number of arguments (1 for 0)")
+    end
+    
+    it 'raises NoMethodError if there\'s no project extension with the name of the method' do
+      p1 = flexmock('p1')
+      @prj.instance_variable_get(:@project_extensions)[:p1] = p1
+      lambda{@prj.p2}.should raise_error(NoMethodError)
+    end
+    
+  end
+  
+  describe '#extension' do
+  
+    it 'returns the extension with the given name, if it exists' do
+      p1 = flexmock('p1')
+      @prj.instance_variable_get(:@project_extensions)[:p1] = p1
+      @prj.extension(:p1).should == p1
+    end
+    
+    it 'returns nil if no extension with that name exists' do
+      @prj.project_extension(:p1).should be_nil
     end
     
   end
@@ -443,7 +356,6 @@ describe Ruber::AbstractProject do
   describe '#extensions' do
     
     before do
-      @prj = Ruber::AbstractProject.new nil, backend(File.join(Dir.pwd, 'test.ruprj')), 'Test'
       @exts = {:a => "1", :b => "2", :c => "3"}
       @prj.instance_variable_set(:@project_extensions, @exts)
     end
@@ -461,7 +373,6 @@ describe Ruber::AbstractProject do
   describe '#has_extension?' do
     
     before do
-      @prj = Ruber::AbstractProject.new nil, backend(File.join(Dir.pwd, 'test.ruprj')), 'Test'
       @exts = {:a => "1", :b => "2", :c => "3"}
       @prj.instance_variable_set(:@project_extensions, @exts)
     end
@@ -475,175 +386,160 @@ describe Ruber::AbstractProject do
     end
     
   end
-
-end
-
-describe 'Ruber::AbstractProject#close' do
   
-  it_should_behave_like 'an_abstract_project_spec_method'
-  
-  include FlexMock::ArgumentTypes
-  
-  def backend file
-    Ruber::YamlSettingsBackend.new file
-  end
-
-  describe ', when the argument is true' do
+  describe '#each_extension' do
     
-    it 'calls the "save" method' do
-      prj = Ruber::AbstractProject.new nil, backend(File.join(Dir.pwd, 'test.ruprj')), 'Test'
-      flexmock(prj).should_receive(:save).once
-      prj.close true
+    before do
+      @exts = {:a => 1, :b => 2, :c => 3}
+      @prj.instance_variable_set(:@project_extensions, @exts)
     end
     
-    it 'returns false if save returns false' do
-      prj = Ruber::AbstractProject.new nil, backend(File.join(Dir.pwd, 'test.ruprj')), 'Test'
-      flexmock(prj).should_receive(:save).once.and_return false
-      prj.close(true).should be_false
+    context 'when called with a block' do
+      
+      it 'calls the block for each extension, passing it the name of the extension and the object itself as arguments' do
+        res = {}
+        @prj.each_extension{|i, j| res[i] = j}
+        res.should == @exts
+      end
+      
     end
-    
-    it 'returns true if save returns true' do
-      prj = Ruber::AbstractProject.new nil, backend(File.join(Dir.pwd, 'test.ruprj')), 'Test'
-      flexmock(prj).should_receive(:save).once.and_return true
-      prj.close(true).should be_true
+      
+    context ' when called without a block' do
+      
+      it 'returns an enumerator which, whose each method calls the block for each extension, passing it the name of the extension and the object itself as arguments' do
+        res = {}
+        enum = @prj.each_extension
+        enum.should be_a(Enumerator)
+        enum.each{|i, j| res[i] = j}
+        res.should == @exts
+      end
+      
     end
-    
-  end
-  
-  describe ', when the argument is false' do
-    
-    it 'doesn\'t call the "save" method' do
-      prj = Ruber::AbstractProject.new nil, backend(File.join(Dir.pwd, 'test.ruprj')), 'Test'
-      flexmock(prj).should_receive(:save).never
-      prj.close false
-    end
-    
-    it 'always returns true' do
-      prj = Ruber::AbstractProject.new nil, backend(File.join(Dir.pwd, 'test.ruprj')), 'Test'
-      prj.close(false).should be_true
-    end
-    
-  end
-  
-  it 'should emit the "closing(QObject*)" signal, passing itself as argument' do
-    prj = Ruber::AbstractProject.new nil, backend(File.join(Dir.pwd, 'test.ruprj')), 'Test'
-    m = flexmock{|mk| mk.should_receive(:project_closing).with(prj.object_id).once}
-    prj.connect(SIGNAL('closing(QObject*)')){|pr| m.project_closing pr.object_id}
-    prj.close
-  end
-  
-  it 'should remove all extensions' do
-    prj = Ruber::AbstractProject.new nil, backend(File.join(Dir.pwd, 'test.ruprj')), 'Test'
-    prj.add_extension :e1, Qt::Object.new{|o| o.extend Ruber::Extension}
-    prj.add_extension :e2, Qt::Object.new{|o| o.extend Ruber::Extension}
-    flexmock(prj).should_receive(:remove_extension).with(:e1).once
-    flexmock(prj).should_receive(:remove_extension).with(:e2).once
-    prj.close
-  end
-  
-  it 'removes the connection with the block which register a component with the project' do
-    prj = Ruber::AbstractProject.new nil, backend(File.join(Dir.pwd, 'test.ruprj')), 'Test'
-    flexmock(@comp).should_receive(:named_disconnect).once.with("register_component_with_project #{prj.object_id}")
-    flexmock(@comp).should_receive(:named_disconnect).with(any)
-    prj.close
-  end
-  
-  it 'removes the connection with the block which removes a component from the project' do
-    prj = Ruber::AbstractProject.new nil, backend(File.join(Dir.pwd, 'test.ruprj')), 'Test'
-    flexmock(@comp).should_receive(:named_disconnect).once.with("remove_component_from_project #{prj.object_id}")
-    flexmock(@comp).should_receive(:named_disconnect).with(any)
-    prj.close
-  end
-  
-  it 'doesn\'t dispose of the project' do
-    prj = Ruber::AbstractProject.new nil, backend(File.join(Dir.pwd, 'test.ruprj')), 'Test'
-    prj.close
-    prj.should_not be_disposed
-  end
-    
-end
 
-describe 'Ruber::AbstractProject#save' do
-  
-  it_should_behave_like 'an_abstract_project_spec_method'
-  
-  def backend file
-    Ruber::YamlSettingsBackend.new file
   end
   
-  it 'emits the "saving()" signal' do
-    prj = Ruber::AbstractProject.new nil, backend(File.join(Dir.pwd, 'test.ruprj')), 'Test'
-    m = flexmock{|mk| mk.should_receive(:save).once}
-    prj.connect(SIGNAL(:saving)){m.save}
-    flexmock(prj).should_receive(:write) #to avoid actually creating a file
-    prj.save
-  end
-  
-  it 'calls the save_settings method of each extension' do
-    prj = Ruber::AbstractProject.new nil, backend(File.join(Dir.pwd, 'test.ruprj')), 'Test'
-    flexmock(prj).should_receive(:write) #to avoid actually creating a file
-    5.times do |i|
-      prj.instance_variable_get(:@project_extensions)[i.to_s] = flexmock{|m| m.should_receive(:save_settings).once}
+  describe '#close' do
+    
+    include FlexMock::ArgumentTypes
+    
+    context 'when the argument is true' do
+      
+      it 'calls the "save" method' do
+        flexmock(@prj).should_receive(:save).once
+        @prj.close true
+      end
+      
+      it 'returns false if save returns false' do
+        flexmock(@prj).should_receive(:save).once.and_return false
+        @prj.close(true).should be_false
+      end
+      
+      it 'returns true if save returns true' do
+        flexmock(@prj).should_receive(:save).once.and_return true
+        @prj.close(true).should be_true
+      end
+      
     end
-    prj.save
-  end
-  
-  it 'calls the write method after saving the extensions' do
-    prj = Ruber::AbstractProject.new nil, backend(File.join(Dir.pwd, 'test.ruprj')), 'Test'
-    m = flexmock{|mk| mk.should_receive(:save).once.ordered}
-    prj.instance_variable_get(:@project_extensions)[:x] = flexmock{|mk| mk.should_receive(:save_settings).once.ordered}
-    prj.connect(SIGNAL(:saving)){m.save}
-    flexmock(prj).should_receive(:write).once.ordered
-    prj.save
-  end
-  
-  it 'returns true if the project was saved correctly and false if an error occurs in the write method' do
-    prj = Ruber::AbstractProject.new nil, backend(File.join(Dir.pwd, 'test.ruprj')), 'Test'
-    flexmock(prj).should_receive(:write).once
-    prj.save.should be_true
-    flexmock(prj).should_receive(:write).once.and_raise(Exception)
-    prj.save.should be_false
-  end
-  
-  it 'propagates any exception raised from methods connected to the "saving()" signal' do
-    prj = Ruber::AbstractProject.new nil, backend(File.join(Dir.pwd, 'test.ruprj')), 'Test'
-    m = flexmock{|mk| mk.should_receive(:save).once.and_raise(Exception, "A slot raised an error")}
-    prj.connect(SIGNAL(:saving)){m.save}
-    flexmock(prj).should_receive(:write) #to avoid actually creating a file
-    lambda{prj.save}.should raise_error(Exception, "A slot raised an error")
-  end
-  
-end
+    
+    context 'when the argument is false' do
+    
+      it 'doesn\'t call the "save" method' do
+        flexmock(@prj).should_receive(:save).never
+        @prj.close false
+      end
+      
+      it 'always returns true' do
+        @prj.close(false).should be_true
+      end
+      
+    end
 
-describe Ruber::AbstractProject, "#write" do
-  
-  it_should_behave_like 'an_abstract_project_spec_method'
-  
-  def backend file
-    Ruber::YamlSettingsBackend.new file
+    it 'emits the "closing(QObject*)" signal, passing itself as argument' do
+      m = flexmock{|mk| mk.should_receive(:project_closing).with(@prj.object_id).once}
+      @prj.connect(SIGNAL('closing(QObject*)')){|pr| m.project_closing pr.object_id}
+      @prj.close
+    end
+    
+    it 'removes all extensions' do
+      @prj.add_extension :e1, Qt::Object.new{|o| o.extend Ruber::Extension}
+      @prj.add_extension :e2, Qt::Object.new{|o| o.extend Ruber::Extension}
+      flexmock(@prj).should_receive(:remove_extension).with(:e1).once
+      flexmock(@prj).should_receive(:remove_extension).with(:e2).once
+      @prj.close
+    end
+    
+    it 'removes the connection with the block which register a component with the project' do
+      flexmock(Ruber[:components]).should_receive(:named_disconnect).once.with("register_component_with_project #{@prj.object_id}")
+      flexmock(Ruber[:components]).should_receive(:named_disconnect).with(any)
+      @prj.close
+    end
+    
+    it 'removes the connection with the block which removes a component from the project' do
+      flexmock(Ruber[:components]).should_receive(:named_disconnect).once.with("remove_component_from_project #{@prj.object_id}")
+      flexmock(Ruber[:components]).should_receive(:named_disconnect).with(any)
+      @prj.close
+    end
+    
+    it 'doesn\'t dispose of the project' do
+      @prj.close
+      @prj.should_not be_disposed
+    end
+    
   end
   
-  it 'should emit the "settings_changed()" signal' do
-    prj = Ruber::AbstractProject.new nil, backend(File.join(Dir.pwd, 'test.ruprj')), 'Test'
-    mk = flexmock{|m| m.should_receive(:settings_changed).once}
-    prj.connect(SIGNAL(:settings_changed)){mk.settings_changed}
-    prj.write
-  end
-  
-end
+  describe '#save' do
 
-describe Ruber::AbstractProject do
-  
-  it_should_behave_like 'an_abstract_project_spec_method'
-  
-  def backend file
-    Ruber::YamlSettingsBackend.new file
+    it 'emits the "saving()" signal' do
+      m = flexmock{|mk| mk.should_receive(:save).once}
+      @prj.connect(SIGNAL(:saving)){m.save}
+      @prj.save
+    end
+    
+    it 'calls the save_settings method of each extension' do
+      flexmock(@prj).should_receive(:write) #to avoid actually creating a file
+      5.times do |i|
+        @prj.instance_variable_get(:@project_extensions)[i.to_s] = flexmock{|m| m.should_receive(:save_settings).once}
+      end
+      @prj.save
+    end
+    
+    it 'calls the write method after saving the extensions' do
+      m = flexmock{|mk| mk.should_receive(:save).once.ordered}
+      @prj.instance_variable_get(:@project_extensions)[:x] = flexmock{|mk| mk.should_receive(:save_settings).once.ordered}
+      @prj.connect(SIGNAL(:saving)){m.save}
+      flexmock(@prj).should_receive(:write).once.ordered
+      @prj.save
+    end
+    
+    it 'returns true if the project was saved correctly and false if an error occurs in the write method' do
+      flexmock(@prj).should_receive(:write).once
+      @prj.save.should be_true
+    end
+    
+    it 'returns false if an error occurs in the #write method' do
+      flexmock(@prj).should_receive(:write).once.and_raise(Exception)
+      @prj.save.should be_false
+    end
+    
+    it 'propagates any exception raised from methods connected to the "saving()" signal' do
+      m = flexmock{|mk| mk.should_receive(:save).once.and_raise(Exception, "A slot raised an error")}
+      @prj.connect(SIGNAL(:saving)){m.save}
+      flexmock(@prj).should_receive(:write) #to avoid actually creating a file
+      lambda{@prj.save}.should raise_error(Exception, "A slot raised an error")
+    end
+    
   end
   
-  before do
-    @prj = Ruber::AbstractProject.new nil, backend(File.join(Dir.pwd, 'test.ruprj')), 'Test'
-  end
+  describe '#write' do
+    
+    it 'emits the "settings_changed()" signal' do
+      mk = flexmock{|m| m.should_receive(:settings_changed).once}
+      @prj.connect(SIGNAL(:settings_changed)){mk.settings_changed}
+      @prj.write
+    end
 
+  end
+  
   describe "#query_close" do
   
     before do
@@ -670,9 +566,8 @@ describe Ruber::AbstractProject do
   
   describe '#files' do
     
-    it 'retruns an empty array' do
-      prj = Ruber::AbstractProject.new nil, backend(File.join(Dir.pwd, 'test.ruprj')), 'Test'
-      prj.files.should == []
+    it 'returns an empty array' do
+      @prj.files.should == []
     end
     
   end
