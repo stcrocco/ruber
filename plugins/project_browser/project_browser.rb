@@ -242,6 +242,13 @@ setting has changed
       end
       slots 'project_option_changed(QString, QString)'
       
+=begin rdoc
+Override of {FilteredOutputWidget#find_filename_in_index}
+
+It returns the file corresponding to the current item, unless it's a directory
+@return [Array(String,Integer),nil] the name of the file and 0 as line number or
+  *nil* if the current index corresponds to a directory
+=end
       def find_filename_in_index idx
         unless idx.column == KDE::DirModel::Name
           idx = filter.index(KDE::DirModel::Name, idx.row, idx.parent)

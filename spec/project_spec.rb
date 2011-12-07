@@ -588,24 +588,28 @@ end
 
 describe Ruber::Project do
   
-  describe 'when created' do
-    
-    before do
-      @file = File.join Dir.pwd, 'test.ruprj'
-      @dir = nil
+  before do
+    @dir = nil
+    @file = File.join '/tmp', 'test.ruprj'
+    File.open(@file, 'w') do |f|
+      f.write YAML.dump({:general => {:project_name => 'Test'}})
     end
-    
-    after do
-      FileUtils.rm_rf @dir if @dir
-    end
-    
+  end
+  
+  after do
+    FileUtils.rm_rf @file if @file
+    FileUtils.rm_rf @dir if @dir
+  end
+  
+  context 'when created' do
+        
     it 'uses the world component as parent' do
-      prj = Ruber::Project.new @file, 'Test'
+      prj = Ruber::Project.new @file
       prj.parent.should equal(Ruber[:world])
     end
     
     it 'uses Ruber::ProjectBackend as backend' do
-      prj = Ruber::Project.new @file, 'Test'
+      prj = Ruber::Project.new @file
       prj.instance_variable_get(:@backend).should be_a(Ruber::ProjectBackend)
     end
     
@@ -616,56 +620,50 @@ describe Ruber::Project do
     
     it 'considers a relative file relative to the current directory' do
       prj = Ruber::Project.new 'test.ruprj', 'Test'
-      prj.project_file.should == @file
+      prj.project_file.should == File.join(Dir.pwd, 'test.ruprj')
     end
     
     it 'is not active' do
-      Ruber::Project.new(@file, 'Test').should_not be_active
+      Ruber::Project.new(@file).should_not be_active
     end
     
   end
   
-  describe ', when closing' do
+  context 'when closing' do
     
     before do
-      @file = File.join Dir.pwd, 'test.ruprj'
+      @prj = Ruber::Project.new @file 
     end
     
     it 'should deactivate itself' do
-      prj = Ruber::Project.new @file, 'Test'
-      flexmock(prj).should_receive(:deactivate).once
-      flexmock(prj.instance_variable_get(:@backend)).should_receive(:write)
-      prj.close
+      flexmock(@prj).should_receive(:deactivate).once
+      flexmock(@prj.instance_variable_get(:@backend)).should_receive(:write)
+      @prj.close
     end
     
     it 'should call super' do
-      prj = Ruber::Project.new @file, 'Test'
-      flexmock(prj).should_receive(:save).once
-      prj.close true
+      flexmock(@prj).should_receive(:save).once
+      @prj.close true
     end
     
     it 'disposes of itself' do
-      prj = Ruber::Project.new @file, 'Test'
-      prj.close false
-      prj.should be_disposed
+      @prj.close false
+      @prj.should be_disposed
     end
-
     
-    describe ', if super returns true' do
+    context 'and if super returns true' do
       
       it 'returns true' do
-        prj = Ruber::Project.new @file, 'Test'
-        prj.close(false).should == true
+        @prj.close(false).should == true
       end
     
     end
     
-    describe ', if super returns false' do
+    context 'and super returns false' do
       
       it 'returns false' do
-        prj = Ruber::Project.new @file, 'Test'
-        flexmock(prj).should_receive(:write).once.and_raise(Exception)
-        prj.close(true).should == false
+        flexmock(@prj).should_receive(:write).once.and_raise(Exception)
+        @prj.close(true).should == false
       end
     
     end
