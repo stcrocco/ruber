@@ -236,12 +236,12 @@ describe Ruber::Document do
     end
     
     it 'returns the current project if one exists and the document belongs to it' do
-      flexmock(@list).should_receive(:file_in_project?).with("file://#{__FILE__}").and_return true
+      flexmock(@prj).should_receive(:file_in_project?).with("file://#{__FILE__}").and_return true
       @doc.project.should == @prj
     end
     
     it 'returns the document project if the file associated with the document doesn\'t belong to the current project' do
-      flexmock(@list).should_receive(:file_in_project?).with("file://#{__FILE__}").and_return false
+      flexmock(@prj).should_receive(:file_in_project?).with("file://#{__FILE__}").and_return false
       @doc.project.should be_a(Ruber::DocumentProject)
     end
     
