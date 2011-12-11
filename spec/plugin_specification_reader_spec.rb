@@ -971,11 +971,11 @@ describe 'Ruber::PluginSpecificationReader#read_project_widgets' do
         {:project_widgets => {}},
         {'project_widgets' => {}}
         ]
-      exp = [{:class => 'Array', :scope => [:global], :file_extension => [], :mimetype => []}, {:class => 'C2', :scope => [:global], :file_extension => [], :mimetype => []}]
+      exp = [{:class => 'Array', :scope => [:global], :file_extension => [], :mimetype => [], :place => [:local]}, {:class => 'C2', :scope => [:global], :file_extension => [], :mimetype => [], :place => [:local]}]
       flexmock(@reader).should_receive(:read_widget).once.with(hashes[0][:project_widgets], Array).and_return(OpenStruct.new(exp[0]))
       flexmock(@reader).should_receive(:read_widget).once.with(hashes[1]['project_widgets'], Array).and_return(OpenStruct.new(exp[1]))
-      @reader.send(:read_project_widgets,hashes[0]).should == [OpenStruct.new(exp[0])]
-      @reader.send(:read_project_widgets,hashes[1]).should == [OpenStruct.new(exp[1])]
+      @reader.send(:read_project_widgets,hashes[0]).should == [Ruber::PluginSpecificationReader::Option.new(exp[0])]
+      @reader.send(:read_project_widgets,hashes[1]).should == [Ruber::PluginSpecificationReader::Option.new(exp[1])]
     end
     
     it 'should call the read_widget method for each element of the :project_widgets/"project_widgets" entry and return an array with all the return values, when the :project_widgets/"project_widgets" is an array' do
@@ -984,15 +984,15 @@ describe 'Ruber::PluginSpecificationReader#read_project_widgets' do
         {'project_widgets' => [{:class => 'Ruber::PluginSpecificationReader'}, {:class => 'Array'}]}
       ]
       exp = [
-        {:class_obj => Array, :scope => [:global], :file_extension => [], :mimetype => []}, 
-        {:class_obj => Ruber::PluginSpecification, :scope => [:global], :file_extension => [], :mimetype => []},
-        {:class_obj => Ruber::PluginSpecificationReader, :scope => [:global], :file_extension => [], :mimetype => []},
-        {:class_obj => Array, :scope => [:global], :file_extension => [], :mimetype => []}
+        {:class_obj => Array, :scope => [:global], :file_extension => [], :mimetype => [], :place => [:local]}, 
+        {:class_obj => Ruber::PluginSpecification, :scope => [:global], :file_extension => [], :mimetype => [], :place => [:local]},
+        {:class_obj => Ruber::PluginSpecificationReader, :scope => [:global], :file_extension => [], :mimetype => [],:place => [:local]},
+        {:class_obj => Array, :scope => [:global], :file_extension => [], :mimetype => [],:place => [:local]}
       ]
       2.times{|i| flexmock(@reader).should_receive(:read_widget).once.with(hashes[0][:project_widgets][i], Array).and_return(OpenStruct.new(exp[i]))}
       2.times{|i| flexmock(@reader).should_receive(:read_widget).once.with(hashes[1]['project_widgets'][i], Array).and_return(OpenStruct.new(exp[2 + i]))}
-      @reader.send(:read_project_widgets,hashes[0]).should == [OpenStruct.new(exp[0]), OpenStruct.new(exp[1])]
-      @reader.send(:read_project_widgets,hashes[1]).should == [OpenStruct.new(exp[2]), OpenStruct.new(exp[3])]
+      @reader.send(:read_project_widgets,hashes[0]).should == [Ruber::PluginSpecificationReader::Option.new(exp[0]), Ruber::PluginSpecificationReader::Option.new(exp[1])]
+      @reader.send(:read_project_widgets,hashes[1]).should == [Ruber::PluginSpecificationReader::Option.new(exp[2]), Ruber::PluginSpecificationReader::Option.new(exp[3])]
     end
     
     it 'calls the read_rules method for each widget and merges the returned hash with the widget\'s data' do
