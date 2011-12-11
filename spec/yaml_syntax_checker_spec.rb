@@ -34,7 +34,7 @@ describe Ruber::YAMLSyntaxChecker::Plugin do
     end
   
     it 'registers a syntax checker of class Ruber::YAMLSyntaxChecker::Checker for files ending in .yaml with the syntax checker' do
-      checker = Ruber::YAMLSyntaxChecker::Checker.new 
+      checker = Ruber::YAMLSyntaxChecker::Checker.new nil
       flexmock(Ruber::YAMLSyntaxChecker::Checker).should_receive(:new).once.with(Ruber::Document).and_return checker
       doc = Ruber[:world].document @file.path
     end
@@ -74,7 +74,7 @@ describe Ruber::YAMLSyntaxChecker::Checker do
   describe '#check_syntax' do
     
     before do
-      @checker = Ruber::YAMLSyntaxChecker::Checker.new
+      @checker = Ruber::YAMLSyntaxChecker::Checker.new nil
     end
     
     context 'when the first argument is valid YAML' do
