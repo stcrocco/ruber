@@ -26,6 +26,7 @@ describe Ruber::World::World do
     #needed because otherwise the config manager would complain when running the
     #next test because the option had already been added
     Ruber[:config].remove_setting :workspace, :close_buttons
+    Ruber[:config].remove_setting :workspace, :middle_button_close
     @psf = Ruber::PluginSpecification.full  File.expand_path('lib/ruber/world/plugin.yaml')
     @world = Ruber::World::World.new Ruber[:components], @psf
     #remove the default document from the game
@@ -384,7 +385,6 @@ describe Ruber::World::World do
       file = File.join Dir.tmpdir, 'world_closing_project_test.ruprj'
       prj = @world.new_project file, 'Test'
       prj.close(false)
-      p @world.projects
     end
     
   end
