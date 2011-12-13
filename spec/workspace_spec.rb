@@ -879,7 +879,7 @@ describe Ruber::Workspace do
     @config = flexmock{|m| m.should_receive(:[]).with(:workspace, :tools_sizes).and_return({}).by_default}
     flexmock(Ruber).should_receive(:[]).with(:config).and_return(@config).by_default
 
-#     @main_widget = KDE::TabWidget.new
+    @main_widget = KDE::TabWidget.new
     @ws = Ruber::Workspace.new
   end
   
@@ -955,26 +955,19 @@ describe Ruber::Workspace do
     
   end
   
-  describe '#central_widget=' do
+  describe '#main_widget=' do
     
-    it 'removes the current central widget from the splitter' do
-      @ws.main_widget = Qt::Label.new
+    it 'puts the given widget on the top of the stack widget' do
+      w = Qt::Label.new
+      @ws.add_widget w
+      @ws.main_widget = w
       hsplit = @ws.layout.item_at_position(0,1).widget.widget(0)
-      hsplit.widget(1).should_not == @main_widget
+      hsplit.widget(1).current_widget.should == w
     end
-    
-    it 'makes the current central widget parentless' do
-      @ws.main_widget = Qt::Label.new
-      @main_widget.parent.should be_nil
+        
+    it 'raises ArgumentError if the widget hadn\'t been added to workspace' do
+      lambda{@ws.main_widget = Qt::Label.new}.should raise_error(ArgumentError, "a widget which has not been added to the workspace can\'t become the main widget")
     end
-    
-    it 'inserts the argument in the layout in the place of the current central widget' do
-      new = Qt::Label.new
-      @ws.main_widget = new
-      hsplit = @ws.layout.item_at_position(0,1).widget.widget(0)
-      hsplit.widget(1).should == new
-    end
-    
   end
   
 end
