@@ -325,6 +325,10 @@ describe Ruber::World::World do
         @world.environments.find{|env| env.project == prj}.should_not be_nil
       end
       
+      it 'raises Ruber::AbstractProject::InvalidProjectFile if the project file doesn\'t exist' do
+        lambda{@world.project '/xyz.ruprj'}.should raise_error(Ruber::AbstractProject::InvalidProjectFile)
+      end
+      
     end
     
   end

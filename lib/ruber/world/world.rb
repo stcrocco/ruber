@@ -207,7 +207,7 @@ is returned. Otherwise, a new project object is created.
   *must* already exist and be a valid project file
 @return [Project] a project associated with _file_
 @raise [AbstractProject::InvalidProjectFile] if the project file is not a valid
-  project file
+  project file or doesn't exist
 =end
       def project file
         @project_factory.project file
