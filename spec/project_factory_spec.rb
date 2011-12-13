@@ -52,6 +52,12 @@ describe Ruber::World::ProjectFactory do
         new.should_not == old
       end
       
+      it 'raises Ruber::AbstractProject::InvalidProjectFile if the project file doesn\'t exist' do
+        lambda{@factory.project '/xyz.ruprj'}.should raise_error(Ruber::AbstractProject::InvalidProjectFile, "File /xyz.ruprj doesn\'t exist")
+        # There's a crash without this. I don't know why.
+        sleep 5
+      end
+      
     end
     
   end

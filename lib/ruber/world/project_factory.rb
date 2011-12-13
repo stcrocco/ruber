@@ -94,6 +94,8 @@ signal is emitted
 @return [Project] a project associated with _file_
 @raise [MismatchingNameError] if _name_ is specified, a project associated with
   _file_ already exists but _name_ and the name of the existing project are different
+@raise [AbstractProject::InvalidProjectFile] if _file_ doesn't exist and _name_
+  is not given or if the project file isn't valid
 =end
       def project file, name = nil
         prj = @projects[file]
@@ -102,12 +104,14 @@ signal is emitted
             raise MismatchingNameError.new file, name, prj.project_name
           end
           prj
-        else
+        elsif name or File.exist?(file)
           prj = Project.new file, name
           connect prj, SIGNAL('closing(QObject*)'), self, SLOT('project_closing(QObject*)')
           @projects[prj.project_file] = prj
           emit project_created prj
           prj
+        else
+          raise Ruber::AbstractProject::InvalidProjectFile, "File #{file} doesn\'t exist"
         end
       end
       
