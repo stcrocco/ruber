@@ -11,6 +11,14 @@ describe Ruber::SyntaxChecker::Plugin do
     Ruber[:world].close_all :documents, :discard
     Ruber[:components].load_plugin 'plugins/syntax_checker/'
     @plug = Ruber[:syntax_checker]
+    @cls = Class.new do 
+      def check_syntax *args
+      end
+      
+      def initialize doc
+      end
+        
+    end
   end
 
   after do
@@ -447,7 +455,6 @@ describe Ruber::SyntaxChecker::Plugin do
   describe '#register_syntax_checker' do
 
     before do
-      @cls = Class.new
       @mimetypes = %w[application/x-ruby text/x-python]
       @patterns = %w[*.rb *.py]
     end
@@ -464,11 +471,10 @@ describe Ruber::SyntaxChecker::Plugin do
     end
     
     it 'raises ArgumentError if the given syntax checker has already been registered' do
-      cls = Class.new
       mimetypes = %w[application/x-ruby]
       patterns = %w[*.rb]
-      @plug.register_syntax_checker cls, mimetypes, patterns
-      lambda{@plug.register_syntax_checker cls, ['text/plain']}.should raise_error(ArgumentError, "#{cls} has already been registered as syntax checker")
+      @plug.register_syntax_checker @cls, mimetypes, patterns
+      lambda{@plug.register_syntax_checker @cls, ['text/plain']}.should raise_error(ArgumentError, "#{@cls} has already been registered as syntax checker")
     end
     
   end
@@ -521,7 +527,6 @@ describe Ruber::SyntaxChecker::Plugin do
   describe '#remove_syntax_checker' do
     
     before do
-      @cls = Class.new
       @plug.register_syntax_checker @cls, ['application/x-ruby']
     end
     
@@ -537,10 +542,10 @@ describe Ruber::SyntaxChecker::Plugin do
     end
     
     it 'does nothing if the given syntax checker has not been registered' do
-      cls = Class.new
+      other_cls = Class.new
       mk = flexmock{|m| m.should_receive(:syntax_checker_removed).never}
       @plug.connect(SIGNAL(:syntax_checker_removed)){mk.syntax_checker_removed}
-      lambda{@plug.remove_syntax_checker cls}.should_not raise_error
+      lambda{@plug.remove_syntax_checker other_cls}.should_not raise_error
     end
     
   end
@@ -596,6 +601,15 @@ describe Ruber::SyntaxChecker::Extension do
     @file = Tempfile.new ['', '.rb']
     @doc = Ruber[:world].document @file.path
     @ext = @doc.own_project.extension(:syntax_checker)
+    @cls = Class.new do 
+      def check_syntax *args
+      end
+      
+      def initialize doc
+      end
+        
+    end
+
   end
 
   after do
@@ -617,15 +631,13 @@ describe Ruber::SyntaxChecker::Extension do
   context 'when created' do
     
     it 'creates a new syntax checker as appropriate for the document' do
-      cls = Class.new{def initialize doc;end; def check_syntax *args;end}
-      flexmock(Ruber[:syntax_checker]).should_receive(:syntax_checker_for).with(@doc).once.and_return cls
+      flexmock(Ruber[:syntax_checker]).should_receive(:syntax_checker_for).with(@doc).once.and_return @cls
       ext = Ruber::SyntaxChecker::Extension.new @doc.own_project
-      ext.instance_variable_get(:@checker).should be_a(cls)
+      ext.instance_variable_get(:@checker).should be_a(@cls)
     end
     
     it 'doesn\'t attempt to create a syntax checker if there is none suitable for the document associated with the extension' do
       doc = Ruber[:world].new_document
-      cls = Class.new{def check_syntax *args;end}
       flexmock(Ruber[:syntax_checker]).should_receive(:syntax_checker_for).with(doc).once.and_return nil
       flexmock(doc.own_project).should_receive(:[]).with(:syntax_checker, :auto_check).and_return true
       ext = Ruber::SyntaxChecker::Extension.new doc.own_project
@@ -665,7 +677,14 @@ describe Ruber::SyntaxChecker::Extension do
   describe 'when the document\'s URL changes' do
     
     before do
-      @cls = Class.new{def check_syntax *args;end}
+      @cls = Class.new do 
+        def check_syntax *args
+        end
+        
+        def initialize doc
+        end
+          
+      end
       flexmock(Ruber[:syntax_checker]).should_receive(:syntax_checker_for).by_default.and_return @cls
     end
       
@@ -675,7 +694,7 @@ describe Ruber::SyntaxChecker::Extension do
     end
     
     it 'removes the old syntax checker if no valid syntax checkers are found' do
-      @ext.instance_variable_set :@checker, @cls.new
+      @ext.instance_variable_set :@checker, @cls.new(nil)
       flexmock(Ruber[:syntax_checker]).should_receive(:syntax_checker_for).once.and_return nil
       @doc.instance_eval{emit document_url_changed(self)}
       @ext.instance_variable_get(:@checker).should be_nil
@@ -688,10 +707,9 @@ describe Ruber::SyntaxChecker::Extension do
     context 'and the extension has no syntax checker' do
       
       it 'creates a syntax checker if possible' do
-        cls = Class.new{def check_syntax *args;end}
-        flexmock(Ruber[:syntax_checker]).should_receive(:syntax_checker_for).with(@doc).once.and_return cls
+        flexmock(Ruber[:syntax_checker]).should_receive(:syntax_checker_for).with(@doc).once.and_return @cls
         @plug.instance_eval{emit syntax_checker_added}
-        @ext.instance_variable_get(:@checker).should be_a(cls)
+        @ext.instance_variable_get(:@checker).should be_a(@cls)
       end
       
     end
@@ -711,10 +729,9 @@ describe Ruber::SyntaxChecker::Extension do
   context 'when the plugin emits the syntax_checker_removed signal' do
     
     it 'attempts to create a new syntax checker if possible' do
-      cls = Class.new{def check_syntax *args;end}
-      flexmock(Ruber[:syntax_checker]).should_receive(:syntax_checker_for).with(@doc).once.and_return cls
+      flexmock(Ruber[:syntax_checker]).should_receive(:syntax_checker_for).with(@doc).once.and_return @cls
       @plug.instance_eval{emit syntax_checker_removed}
-      @ext.instance_variable_get(:@checker).should be_a(cls)
+      @ext.instance_variable_get(:@checker).should be_a(@cls)
     end
     
   end
@@ -728,10 +745,9 @@ describe Ruber::SyntaxChecker::Extension do
       end
       
       it 'performs a syntax check' do
-        cls = Class.new
-        flexmock(@plug).should_receive(:syntax_checker_for).and_return cls
+        flexmock(@plug).should_receive(:syntax_checker_for).and_return @cls
         mk = flexmock{|m| m.should_receive(:check_syntax).once}
-        flexmock(cls).should_receive(:new).once.and_return mk
+        flexmock(@cls).should_receive(:new).once.and_return mk
         @plug.instance_eval{emit syntax_checker_added}
       end
       
@@ -744,10 +760,9 @@ describe Ruber::SyntaxChecker::Extension do
       end
       
       it 'performs a syntax check' do
-        cls = Class.new
-        flexmock(@plug).should_receive(:syntax_checker_for).and_return cls
+        flexmock(@plug).should_receive(:syntax_checker_for).and_return @cls
         mk = flexmock{|m| m.should_receive(:check_syntax).never}
-        flexmock(cls).should_receive(:new).once.and_return mk
+        flexmock(@cls).should_receive(:new).once.and_return mk
         @plug.instance_eval{emit syntax_checker_added}
       end
       
