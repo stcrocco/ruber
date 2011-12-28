@@ -206,6 +206,7 @@ Adds projects to the list
         projects.flatten.each do |prj|
           @projects[prj.project_file] = prj
         end
+        self
       end
       
 =begin rdoc
