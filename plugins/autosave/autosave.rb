@@ -253,7 +253,7 @@ into account the enabled option and always attempt to save the documents.
 @return [Boolean] see {#autosave}
 =end
       def save_open_documents opts, blk
-        save_files Ruber[:world].documents, opts, blk
+        save_files Ruber[:world].active_environment.documents, opts, blk
       end
       
 =begin rdoc
@@ -267,7 +267,7 @@ into account the enabled option and always attempt to save the documents.
 @return [Boolean] see {#autosave}
 =end
       def save_documents_with_file opts, blk
-        save_files Ruber[:world].documents.documents_with_file, opts, blk
+        save_files Ruber[:world].active_environment.documents.documents_with_file, opts, blk
       end
       
 =begin rdoc
@@ -337,6 +337,7 @@ on the value of the @autosave/remote_files@ settings:
   @autosave/remote_files@ option is set to @:normal@
 =end
       def save_doc doc
+        return true unless doc.modified?
         if doc.url.local_file? or doc.url.relative? then doc.save
         else
           case @remote_files_policy
