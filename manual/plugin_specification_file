@@ -141,7 +141,7 @@ of course, the _receiver_ and _signal_ entries are ignored).
 If given, then a handler for that action will be created
 * @states@: an array of string representing the states the action depends upon.
 Unlike for the _state_ entry, no action handler is created for these states. This
-entry is used by the {Ruber::GuiPlugin#register_handler} convenience method.
+entry is used by the {Ruber::GuiPlugin#register_action_handler} convenience method.
 
 h4. @config_options@
 
@@ -157,7 +157,7 @@ h4. @config_widgets@
 An array of hashes, where each hash describes a widget which should be put in the
 _Configure Ruber_ dialog. See "below":#common_widget_entries
 for a description of these hashes, keeping in mind that the _caption_ entry of
-each hash is required. See also {SettingsDialog} for more information.
+each hash is required. See also {Ruber::SettingsDialog} for more information.
 
 If the plugin has only one configuration widget, the array can be omitted and this
 entry may simply contain the hash describing the widget.
@@ -180,7 +180,7 @@ An array of hashes, where each hash describes a widget which should be put in th
 _Configure Project_ and/or _Configure Document_ dialogs. See "below":#common_widget_entries
 for a description of these hashes, keeping in mind that the _caption_ entry of
 each hash is required and that each hash can also contain the entries described in the
-"Rules entries section":#common_rules_entries. See also {SettingsDialog} for
+"Rules entries section":#common_rules_entries. See also {Ruber::SettingsDialog} for
 more information.
 
 h4. @tool_widgets@
@@ -287,7 +287,7 @@ h4(#common_rules_entries). Rules entries
 
 A rule is a series of properties which tells whether an extension, project option
 or project widget (which here we'll call "objects") should be added to a project or
-document or not (see {Ruber::AbstractProject.match_rule?} for more). As described
+document or not (see {Ruber::AbstractProject#match_rule?} for more). As described
 above, extensions, project options and project widgets are represented in the PSF
 by hashes. A rule is made by several standard entries in those hashes. The entries
 are:

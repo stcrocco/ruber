@@ -50,13 +50,29 @@ describe Ruber::DocumentProject::Backend do
       File.dirname(bk.file).should == exp
     end
     
-    it 'doesn\'t rise an exception if the file isn\'t a valid project file' do
-      path = "#{ENV['HOME']}/test.rb"
-      flexmock(File).should_receive(:exist?).once.and_return true
-      flexmock(File).should_receive(:read).once.and_return '{'
-      bk = nil
-      lambda{bk = Ruber::DocumentProject::Backend.new path}.should_not raise_error
-      bk.instance_variable_get(:@data).should == {}
+    context 'if the associated file is not a valid project file' do
+      
+      it 'deletes it' do
+        path = "#{ENV['HOME']}/test.rb"
+        # we create a backend only to retrieve the project file
+        backend_file = Ruber::DocumentProject::Backend.new(path).file
+        flexmock(File).should_receive(:exist?).once.and_return true
+        flexmock(File).should_receive(:read).once.with(backend_file).and_return '{'
+        flexmock(FileUtils).should_receive(:rm).once.with(backend_file)
+        Ruber::DocumentProject::Backend.new(path)
+      end
+      
+      it 'works as if the file didn\'t exist' do
+        path = "#{ENV['HOME']}/test.rb"
+        # we create a backend only to retrieve the project file
+        backend_file = Ruber::DocumentProject::Backend.new(path).file
+        flexmock(File).should_receive(:exist?).once.and_return true
+        flexmock(File).should_receive(:read).once.with(backend_file).once.and_return '{'
+        flexmock(FileUtils).should_receive(:rm).with(backend_file)
+        back = Ruber::DocumentProject::Backend.new(path)
+        back.instance_variable_get(:@data).should == {}
+      end
+      
     end
     
     it 'has no old files' do
@@ -184,7 +200,6 @@ describe Ruber::DocumentProject do
   end
   
   after(:all) do
-    
     class Ruber::DocumentProject 
     alias_method :connect, :old_connect
     end
@@ -197,7 +212,7 @@ describe Ruber::DocumentProject do
   def create_doc url, path = nil
     doc = Qt::Object.new
     class << doc
-      attr_accessor :path
+      attr_accessor :path, :environment
       attr_reader :url
       
       def has_file?
@@ -220,24 +235,26 @@ describe Ruber::DocumentProject do
     @comp = DocumentProjectSpecComponentManager.new
     flexmock(Ruber).should_receive(:[]).with(:components).and_return(@comp).by_default
     flexmock(Ruber).should_receive(:[]).with(:app).and_return(@comp).by_default
+    @prj = flexmock(:project_file => '/xyz/abc.ruprj')
+    @env = flexmock(:project => @prj)
   end
   
   describe ', when created' do
     
-    it 'accepts a document as parameter' do
+    it 'takes a document and an environment as parameters' do
       doc = create_doc __FILE__
-      lambda{Ruber::DocumentProject.new doc}.should_not raise_error
+      lambda{Ruber::DocumentProject.new doc, @env}.should_not raise_error
     end
     
     it 'uses the document as parent' do
       doc = create_doc __FILE__
-      prj = Ruber::DocumentProject.new doc
+      prj = Ruber::DocumentProject.new doc, @env
       prj.parent.should equal(doc)
     end
     
     it 'uses Ruber::DocumentProject::Backend as backend' do
       doc = create_doc __FILE__
-      prj = Ruber::DocumentProject.new doc
+      prj = Ruber::DocumentProject.new doc, @env
       prj.instance_variable_get(:@backend).should be_a(Ruber::DocumentProject::Backend)
     end
         
@@ -249,19 +266,48 @@ describe Ruber::DocumentProject do
         @encoded_url = "file://#{@dir}/x%20y%20%5E%20z"
       end
       
-      it 'uses an encoded form of the document\'s URL as project name' do
-        doc = create_doc @file
-        prj = Ruber::DocumentProject.new doc
-        prj.project_name.should == @encoded_url
+      context 'and the environment is associated with a project' do
+        
+        it 'uses an encoded form of the document\'s URL followed by a colon and the project file as project name' do
+          doc = create_doc @file
+          prj = Ruber::DocumentProject.new doc, @env
+          prj.project_name.should == @encoded_url+':'+@env.project.project_file
+        end
+        
+        it 'passes the project name as argument to the backend' do
+          name = "#@encoded_url:#{@env.project.project_file}"
+          back = Ruber::DocumentProject::Backend.new name
+          doc = create_doc @file
+          #twice because korundum executes the code before the initialize body twice,
+          #until the call to super
+          flexmock(Ruber::DocumentProject::Backend).should_receive(:new).twice.with(name).and_return back
+          prj = Ruber::DocumentProject.new doc, @env
+        end
+      
       end
       
-      it 'passes the project name as argument to the backend' do
-        back = Ruber::DocumentProject::Backend.new @encoded_url
-        doc = create_doc @file
-        #twice because korundum executes the code before the initialize body twice,
-        #until the call to super
-        flexmock(Ruber::DocumentProject::Backend).should_receive(:new).twice.with(@encoded_url).and_return back
-        prj = Ruber::DocumentProject.new doc
+      context 'and the project file is nil' do
+        
+        before do
+          @env = flexmock(:project => nil)
+        end
+        
+        it 'uses an encoded form of the document\'s URL followed by a colon as project name' do
+          doc = create_doc @file
+          prj = Ruber::DocumentProject.new doc, @env
+          prj.project_name.should == @encoded_url+':'
+        end
+        
+        it 'passes the project name as argument to the backend' do
+          name = "#@encoded_url:"
+          back = Ruber::DocumentProject::Backend.new name
+          doc = create_doc @file
+          #twice because korundum executes the code before the initialize body twice,
+          #until the call to super
+          flexmock(Ruber::DocumentProject::Backend).should_receive(:new).twice.with(name).and_return back
+          prj = Ruber::DocumentProject.new doc, @env
+        end        
+        
       end
 
     end
@@ -270,7 +316,7 @@ describe Ruber::DocumentProject do
       
       it 'uses an empty string as project name' do
         doc = create_doc ''
-        prj = Ruber::DocumentProject.new doc
+        prj = Ruber::DocumentProject.new doc, @env
         prj.project_name.should == ''
       end
       
@@ -280,19 +326,19 @@ describe Ruber::DocumentProject do
         #twice because korundum executes the code before the initialize body twice,
         #until the call to super
         flexmock(Ruber::DocumentProject::Backend).should_receive(:new).twice.with('').and_return back
-        prj = Ruber::DocumentProject.new doc
+        prj = Ruber::DocumentProject.new doc, @env
       end
       
       it 'doesn\'t raise an error if the document isn\'t associated with a file' do
         doc = create_doc ''
-        lambda{Ruber::DocumentProject.new doc}.should_not raise_error
+        lambda{Ruber::DocumentProject.new doc, @env}.should_not raise_error
       end
       
     end
         
     it 'connects the document\s "document_url_changed(QObject*)" signal with its "change_file()" slot' do
       doc = create_doc File.join(ENV['HOME'], 'test.rb')
-      prj = Ruber::DocumentProject.new doc
+      prj = Ruber::DocumentProject.new doc, @env
       prj.instance_variable_get(:@_connections).should include([doc, SIGNAL('document_url_changed(QObject*)'), prj, SLOT(:change_file)])
     end
     
@@ -302,7 +348,7 @@ describe Ruber::DocumentProject do
     
     it 'returns :document' do
       doc = create_doc __FILE__
-      prj = Ruber::DocumentProject.new doc
+      prj = Ruber::DocumentProject.new doc, @env
       prj.scope.should == :document
     end
     
@@ -312,7 +358,7 @@ describe Ruber::DocumentProject do
     
     it 'returns false if the rule\'s scope doesn\'t include :document' do
       doc = create_doc __FILE__
-      prj = Ruber::DocumentProject.new doc
+      prj = Ruber::DocumentProject.new doc, @env
       o1 = OS.new(:file_extension => [], :scope => [:global], :mimetype => [], :place => [:local])
       flexmock(doc).should_receive(:file_type_match?).with([], []).and_return true
       prj.match_rule?(o1).should be_false
@@ -320,7 +366,7 @@ describe Ruber::DocumentProject do
     
     it 'returns false if the document\'s file_type_match? method returns false' do
       doc = create_doc __FILE__
-      prj = Ruber::DocumentProject.new doc
+      prj = Ruber::DocumentProject.new doc, @env
       o1 = OS.new(:file_extension => ['*.rb'], :scope => [:document], :mimetype => [], :place => [:local])
       flexmock(doc).should_receive(:file_type_match?).once.with([], ['*.rb']).and_return false
       prj.match_rule?(o1).should be_false
@@ -328,7 +374,7 @@ describe Ruber::DocumentProject do
     
     it 'returns false if the document is associated with a remote file and the rule\'s place entry doesn\'t include :remote' do
       doc = create_doc 'http:///xyz/abc.rb'
-      prj = Ruber::DocumentProject.new doc
+      prj = Ruber::DocumentProject.new doc, @env
       o1 = OS.new(:file_extension => [], :scope => [:document], :mimetype => [], :place => [:local])
       flexmock(doc).should_receive(:file_type_match?).with([], []).and_return true
       prj.match_rule?(o1).should be_false
@@ -336,7 +382,7 @@ describe Ruber::DocumentProject do
     
     it 'returns false if the document is associated with a local file and the rule\'s place entry doesn\'t include :local' do
       doc = create_doc __FILE__
-      prj = Ruber::DocumentProject.new doc
+      prj = Ruber::DocumentProject.new doc, @env
       o1 = OS.new(:file_extension => [], :scope => [:document], :mimetype => [], :place => [:remote])
       flexmock(doc).should_receive(:file_type_match?).with([], []).and_return true
       prj.match_rule?(o1).should be_false
@@ -344,7 +390,7 @@ describe Ruber::DocumentProject do
     
     it 'considers documents not associated with a file as local files' do
       doc = create_doc KDE::Url.new
-      prj = Ruber::DocumentProject.new doc
+      prj = Ruber::DocumentProject.new doc, @env
       o1 = OS.new(:file_extension => [], :scope => [:document], :mimetype => [], :place => [:local])
       flexmock(doc).should_receive(:file_type_match?).with([], []).and_return true
       prj.match_rule?(o1).should be_true
@@ -352,12 +398,12 @@ describe Ruber::DocumentProject do
     
     it 'returns true if both the mimetype and the file extension of the rule match those of the document and the rule\'s scope include :document' do
       doc = create_doc __FILE__
-      prj = Ruber::DocumentProject.new doc
+      prj = Ruber::DocumentProject.new doc, @env
       o1 = OS.new(:file_extension => ['*.rb'], :scope => [:document], :mimetype => [], :place => [:local])
       flexmock(doc).should_receive(:file_type_match?).once.with([], ['*.rb']).and_return true
       prj.match_rule?(o1).should be_true
       doc = create_doc 'http:///xyz/abc.rb'
-      prj = Ruber::DocumentProject.new doc
+      prj = Ruber::DocumentProject.new doc, @env
       o2 = OS.new(:file_extension => ['*.rb'], :scope => [:document], :mimetype => [], :place => [:remote])
       flexmock(doc).should_receive(:file_type_match?).once.with([], ['*.rb']).and_return true
       prj.match_rule?(o2).should be_true
@@ -373,8 +419,12 @@ describe Ruber::DocumentProject do
       new_file = File.join dir, 'nuovo test.rb'
       enc_url = 'file://' + File.join(dir, 'nuovo%20test.rb')
       doc = create_doc file
-      prj = Ruber::DocumentProject.new doc
-      flexmock(prj.instance_variable_get(:@backend)).should_receive(:document_path=).once.with enc_url
+      global_project_file = '/abc.ruprj'
+      project_file = enc_url + ':' + global_project_file
+      @prj = flexmock(:project_file => global_project_file)
+      @env = flexmock(:project => @prj)
+      prj = Ruber::DocumentProject.new doc, @env
+      flexmock(prj.instance_variable_get(:@backend)).should_receive(:document_path=).once.with project_file
       doc.url = new_file
       prj.send :change_file
     end
@@ -392,13 +442,13 @@ describe Ruber::DocumentProject do
     
     it 'returns the directory where the document is if the document is associated with a file' do
       doc = create_doc __FILE__
-      prj = Ruber::DocumentProject.new doc
+      prj = Ruber::DocumentProject.new doc, @env
       prj.project_directory.should == File.dirname(__FILE__)
     end
     
     it 'returns the current directory if the document is not associated with a file' do
       doc = create_doc ''
-      prj = Ruber::DocumentProject.new doc
+      prj = Ruber::DocumentProject.new doc, @env
       prj.project_directory.should == Dir.pwd
     end
     
@@ -408,21 +458,21 @@ describe Ruber::DocumentProject do
     
     it 'calls the backend\'s write method' do
       doc = create_doc __FILE__
-      prj = Ruber::DocumentProject.new doc
+      prj = Ruber::DocumentProject.new doc, @env
       flexmock(prj.instance_variable_get(:@backend)).should_receive(:write).once
       prj.write
     end
     
     it 'doesn\'t raise an exception if the document isn\'t associated with a file' do
       doc = create_doc ''
-      prj = Ruber::DocumentProject.new doc
+      prj = Ruber::DocumentProject.new doc, @env
       flexmock(prj.instance_variable_get(:@backend)).should_receive(:write).once.and_raise(Errno::ENOENT)
       prj.write
     end
     
     it 'raises an exception if the backend raises Errno::ENOENT but the document is associated with a file' do
       doc = create_doc __FILE__
-      prj = Ruber::DocumentProject.new doc
+      prj = Ruber::DocumentProject.new doc, @env
       flexmock(prj.instance_variable_get(:@backend)).should_receive(:write).once.and_raise(Errno::ENOENT)
       lambda{prj.write}.should raise_error(Errno::ENOENT)
     end
@@ -433,20 +483,53 @@ describe Ruber::DocumentProject do
     
     it 'returns an array containing the path of the file if the document is associated with a file' do
       doc = create_doc __FILE__
-      prj = Ruber::DocumentProject.new doc
+      prj = Ruber::DocumentProject.new doc, @env
       prj.files.should == [__FILE__]
     end
     
     it 'returns the encoded URL if the document is associated with a remote file' do
       doc = create_doc 'http://xyz/a bc.rb'
-      prj = Ruber::DocumentProject.new doc
+      prj = Ruber::DocumentProject.new doc, @env
       prj.files.should == ['http://xyz/a%20bc.rb']
     end
     
     it 'returns an empty array if the document isn\'t associated with a path' do
       doc = create_doc ''
-      prj = Ruber::DocumentProject.new doc
+      prj = Ruber::DocumentProject.new doc, @env
       prj.files.should == []
+    end
+    
+  end
+  
+  describe '#save' do
+    
+    context 'if the document is not associated with a file' do
+      
+      before do
+        @doc = create_doc ''
+        @prj = Ruber::DocumentProject.new @doc, nil 
+      end
+      
+      it 'does nothing' do
+        flexmock(@prj).should_receive(:write).never
+        @prj.save
+      end
+      
+      it 'returns true' do
+        @prj.save.should == true
+      end
+      
+    end
+    
+    context 'if the document is associated with a file' do
+      
+      it 'works as AbstractProject#save' do
+        doc = create_doc __FILE__
+        prj = Ruber::DocumentProject.new doc, @env
+        flexmock(prj).should_receive(:write).once
+        prj.save
+      end
+      
     end
     
   end

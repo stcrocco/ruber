@@ -1,5 +1,5 @@
 =begin 
-    Copyright (C) 2010 by Stefano Crocco   
+    Copyright (C) 2010, 2011, 2012 by Stefano Crocco   
     stefano.crocco@alice.it   
   
     This program is free software; you can redistribute it andor modify  
@@ -32,13 +32,30 @@ require 'ruber/project'
 
 module Ruber
   
+=begin rdoc
+A project class where per-document settings are stored
+
+A DocumentProject is associated with both a document and an environment (the
+DocumentProject is said to live in the environment). This means that there can
+be more than one project for a given document, each living in a different environment
+and written to a different file.
+
+The name of the file the DocumentProject is written to is automatically computed,
+depending on both the path of the file associated with the document and the
+path of the project file associated with the environment. Whenever the path of
+the file associated with the document changes, the path of the file associated
+with the DocumentProject is automatically changed (see {#change_file}).
+
+If the document is not associated with a file, then the DocumentProject won't
+be written to a file ({#save} will do nothing in that case).
+=end
   class DocumentProject < AbstractProject
     
 =begin rdoc
-Backend for SettingsContainer used in particular for ProjectDocuments. It mostly
+Backend for SettingsContainer used particular by {DocumentProject}. It mostly
 works as YamlSettingsBackend, with the following differences:
 * it doesn't create the file if the only option to be written (that is, the only
-  one different from its default value) is the +project_name+. In that case, if
+  one different from its default value) is the @project_name@. In that case, if
   the file already exists, it is deleted
 * it automatically determines the name of the associated file from the name of the
   document
@@ -46,29 +63,31 @@ works as YamlSettingsBackend, with the following differences:
     class Backend < YamlSettingsBackend
       
 =begin rdoc
-Creates a new DocumentProject::Backend. _file_ is the path of the file associated
-with the backend.
-
-If _file_ is an invalid project file, the behaviour will be the same as the file
-didn't exist. This means that it will be overwritten when the project is saved.
-The reason for this behaviour is that there should be no user file in the directory
-where document projects are saved.
+@param [String] file the path of the file to associate with the new instance.
+  If a file with that name already exists but is not a valid project file, it
+  will silently be overwritten. This shouldn't cause data losses, as there shouldn'
+  t be user documents in  directory where document project files are saved
 =end
       def initialize file
         @old_files = []
-        begin super file_for(file)
+        path = file_for file
+        begin super path
         rescue InvalidSettingsFile
+          FileUtils.rm path
+          @data = {}
         end
       end
       
 =begin rdoc
-Works mostly as <tt>YamlSettingsBackend#write</tt>. If the only option to be written
-is the project name, the file isn't created, if it doesn't exist, and is deleted
-if it does exist. Also, if there are any obsolete files (see <tt>document_path=</tt>),
-they are deleted, too.
+Override of {YamlSettingsBackend#write}
 
-If no file name is associated with the backend (that is, if +file+ returns an empty string),
-a +SystemCall+ error (most likely, <tt>Errno::ENOENT</tt>) will be raised
+The only difference with the base class method is that if the only setting with
+a value different from the default is @general/project_name@, then the file won't
+be created (actually, it'll be deleted if it exists). Also, any obsolete files
+(see {#document_path=}) will be deleted.
+
+@raise [SystemCallError] if no file is associated with the backend
+@return [nil]
 =end
       def write opts
         new_data = compute_data opts
@@ -80,28 +99,39 @@ a +SystemCall+ error (most likely, <tt>Errno::ENOENT</tt>) will be raised
         @old_files.each{|f| FileUtils.rm_f f}
         @old_files.clear
         @data = new_data
+        nil
       end
       
 =begin rdoc
 Changes the project name and the file name so that they match a document path of
-_value_. This means:
-* setting the project name to _value_
-* changing the file associated with the backend to an encoded version of _value_
-* adding the old associated file to a list of obsolete files, which will be deleted
-  at the next write
+_value_
+  
+Changes the project name and the file associated with the backend to match the
+given document path
+
+The file previously associated with the backend is marked as obsolete, and will
+be deleted when {#write} is called.
+
+The settings won't be automatically written to the new file: you'll have to call
+{#write} to do so
+@param [String] value the path of the file associated with the document
+@return [nil]
 =end
       def document_path= value
         @data[:general] ||= {}
         @data[:general][:project_name] = value
         @old_files << @filename unless @filename.empty?
         @filename = file_for(value)
+        nil
       end
       
       private
       
 =begin rdoc
-Returns the file where the data for the document path _path_ should be stored (an
-empty string if _path_ is empty).
+@param [String] path the base string from which to compute the file associated
+  with the backend
+@return [String] the file where the data for the document should be stored. If
+  _path_ is empty, an empty string is used
 =end
       def file_for path
         return '' if path.empty?
@@ -116,25 +146,30 @@ empty string if _path_ is empty).
     slots :change_file
     
 =begin rdoc
-The document associated with the project
+@return [Document] the document associated with the project
 =end
     attr_reader :document
     
 =begin rdoc
-Creates a new DocumentProject. _doc_ is the document the project refers to.  Note
-that, until _doc_ becomes associated with a file, attempting to save the project
-will fail with an +ArgumentError+.
+@return [World::Environment] the environment the project lives in
+=end
+    attr_reader :environment
+    
+=begin rdoc
+A new instance of DocumentProject
 
-If the path of the file associated with the document changes (usually because of
-a "Save As" action), the file associated with the backend is changed automatically
+@param [Document] doc the document the DocumentProject should be associated with
+@param [World::Environment] env the environment the DocumentProject should live in
+@return [DocumentProject] a new instance of DocumentProject
 
 @todo in classes derived from Qt::Object, korundum executes the code in initialize,
 up until the call to super twice. This means that two Backend items will be created.
 See if something can be done to avoid it. I don't know whether this has any bad
 consequence or not.
 =end
-    def initialize doc
+    def initialize doc, env
       @document = doc
+      @environment = env
       path = backend_file
       back = Backend.new path
       !File.exist?(back.file) ? super(doc, back, path) : super(doc, back)
@@ -142,34 +177,48 @@ consequence or not.
     end
     
 =begin rdoc
-Override of <tt>AbstractProject#scope</tt> which returns +:document+
+Override of {AbstractProject#scope}
+
+It simply returns @:document@
+
+@return [Symbol] @:document@
 =end
     def scope
       :document
     end
     
 =begin rdoc
-Override of AbstractProject#match_rule? which also takes into account the mimetype
-and the file extension of the document and compares them with those in the rule.
-The comparison is made using <tt>Document#file_type_match?</tt>. This method returns
-*true* only if the <tt>Document#file_type_match?</tt> returns *true* and the
-rule's scope includes +:document+
+Override of {AbstractProject#match_rule?}
+
+It works as the base class method but also takes into account the mimetype and
+the file extension of the document and compares them with those in the rule.
+
+The comparison is made using {Document#file_type_match?}
+
+@param [#scope,#mimetype,#file_extension] rule the rule to compare the document
+  with
+@return [Boolean] *true* if one of the mimetypes and/or file patterns specified
+  in the rule match the document and the scope of the rule includes @:document@;
+  *false* otherwise
+@see Document#file_type_match?
 =end
-    def match_rule? obj
+    def match_rule? rule
       doc_place  = if !@document.path.empty?
         @document.url.local_file? ? :local : :remote
       else :local
       end
       if !super then false
-      elsif !obj.place.include? doc_place then false
-      elsif !@document.file_type_match? obj.mimetype, obj.file_extension then false
+      elsif !rule.place.include? doc_place then false
+      elsif !@document.file_type_match? rule.mimetype, rule.file_extension then false
       else true
       end
     end
     
 =begin rdoc
-Override of <tt>AbstractProject#project_directory</tt> which returns the current
-directory if the document isn't associated with a file.
+Override of {AbstractProject#project_directory}
+
+@return [String] the directory of the file associated with the document or the
+  current directory if the document is not associated with a file
 =end
     def project_directory
       path = @document.path
@@ -178,26 +227,31 @@ directory if the document isn't associated with a file.
     alias_method :project_dir, :project_directory
     
 =begin rdoc
-Override of <tt>AbstractProject#write</tt> which prevents a Errno::ENOENT exception
-to be raised by the backend if the document isn't associated with a file. If the
-document is associated with a file, however, the exception will be raised as usual.
+Override of {AbstractProject#write}
 
-The reason for this kind of behaviour is that the backend is expected to raise
-the exception when the document isn't associated with a file: it simply means that
-it doesn't know where to write the data. If the document is associated with a file,
-however, this shouldn't happen and the exception is then propagated because it
-truly means something is wrong.
+It works as the base class method, but it doesn't raise an exception if the
+document is not associated with a file (because a document project has a valid
+project file only if its document is itself associated with a file).
+
+If an exception is raised when writing the file and the document is associated
+with a file, the extension will be propagated as usual, because in this case
+it means something unexpected has happened
+
+@raise (see Ruber::AbstractProject#write)
+@return [nil]
 =end
     def write
       begin super
       rescue Errno::ENOENT
-        raise unless @document.path.empty?
+        raise if @document.has_file?
       end
     end
     
 =begin rdoc
-Override of AbstractProject#files which returns an array with the path of the 
-associated document, if it corresponds to a file, and an empty array otherwise
+Override of {AbstractProject#files}
+
+@return [<String>] an array with the file associated with the document or an empty
+  array if the document is not associated with a file
 =end
     def files
       url =  @document.url
@@ -209,19 +263,50 @@ associated document, if it corresponds to a file, and an empty array otherwise
       path.empty? ? [] : [path] 
     end
     
+=begin rdoc
+Override of {AbstractProject#save}
+
+It does nothing if the associated document doesn't correspond to file, otherwise
+it behaves as {AbstractProject#save}
+
+@return [Boolean] *true* if the project was saved or if the document isn't
+  associated with a file and *false* otherwise
+=end
+    def save
+      if @document.has_file? then super 
+      else true
+      end
+    end
+    
     private
     
 =begin rdoc
 Updates the backend so that the associated file reflects the file associated with
 the document.
+@return [nil]
 =end
     def change_file
       @backend.document_path = backend_file
+      nil
     end
     
+=begin rdoc
+Computes the name of the file where to save the settings
+
+The name of the file is an encoded version of the url associated with the file,
+followed by a colon and the project file associated with the environment the
+document project lives in. If the environment is not associated with a project,
+nothing follows the colon.
+
+If the document is not associated with a file, an empty string is used.
+
+@return [String] the path of the file where to save settngs
+=end
     def backend_file
       if @document.has_file?
-        @document.url.to_encoded(Qt::Url::RemoveUserInfo|Qt::Url::RemovePort|Qt::Url::RemoveFragment).to_s
+        file = @document.url.to_encoded(Qt::Url::RemoveUserInfo|Qt::Url::RemovePort|Qt::Url::RemoveFragment).to_s
+        file << ":#{@environment.project ? @environment.project.project_file : ''}"
+        file
       else ''
       end
     end

@@ -11,7 +11,7 @@ describe Ruber::World::DocumentList do
   end
   
   before do
-    @docs = 3.times.map{Ruber::Document.new}
+    @docs = 3.times.map{Ruber::Document.new Ruber[:world]}
   end
   
   it 'includes the enumerable module' do
@@ -36,7 +36,7 @@ describe Ruber::World::DocumentList do
     
     it 'creates a duplicate of the argument if the argument is not a DocumentList' do
       list = Ruber::World::DocumentList.new @docs
-      new_doc = Ruber::Document.new
+      new_doc = Ruber::Document.new Ruber[:world]
       @docs << new_doc
       list.size.should == 3
     end
@@ -96,7 +96,7 @@ describe Ruber::World::DocumentList do
     it 'returns the number of elements in the list' do
       list = create_list []
       list.size.should == 0
-      list = create_list [Ruber::Document.new]
+      list = create_list [Ruber::Document.new(Ruber[:world])]
       list.size.should == 1
       list = create_list @docs
       list.size.should == 3
@@ -245,7 +245,7 @@ describe Ruber::World::DocumentList do
     context 'when called with a KDE::Url' do
       
       before do
-        @docs << Ruber::Document.new(__FILE__)
+        @docs << Ruber::Document.new(Ruber[:world],__FILE__)
         @list = create_list @docs
       end
       
@@ -254,7 +254,7 @@ describe Ruber::World::DocumentList do
       end
       
       it 'returns the first of the documents associated with the argument if there is more than one document for the given URL' do
-        doc = Ruber::Document.new __FILE__
+        doc = Ruber::Document.new Ruber[:world], __FILE__
         @list = create_list @docs + [doc]
         @list[KDE::Url.new(__FILE__)].should == @docs[-1]
       end
@@ -268,7 +268,7 @@ describe Ruber::World::DocumentList do
     context 'when called with a string starting with a slash' do
       
       before do
-        @docs << Ruber::Document.new(__FILE__)
+        @docs << Ruber::Document.new(Ruber[:world], __FILE__)
         @list = create_list @docs
       end
       
@@ -277,14 +277,14 @@ describe Ruber::World::DocumentList do
       end
       
       it 'returns the first of the documents associated with the argument if there is more than one document for the given URL' do
-        doc = Ruber::Document.new __FILE__
+        doc = Ruber::Document.new Ruber[:world], __FILE__
         @list = create_list @docs + [doc]
         @list[__FILE__].should == @docs[-1]
       end
       
       it 'doesn\'t return remote files' do
         url = KDE::Url.new("http://xyz.it#{__FILE__}")
-        remote_doc = Ruber::Document.new url
+        remote_doc = Ruber::Document.new Ruber[:world], url
         @list = create_list @docs + [remote_doc]
         @list[__FILE__].should == @docs[-1]
       end
@@ -294,7 +294,7 @@ describe Ruber::World::DocumentList do
         @list = create_list @docs
         @list[__FILE__].should be_nil
         url = KDE::Url.new("http://xyz.it#{__FILE__}")
-        remote_doc = Ruber::Document.new url
+        remote_doc = Ruber::Document.new Ruber[:world], url
         @list = create_list @docs + [remote_doc]
         @list[__FILE__].should be_nil
       end
@@ -314,7 +314,7 @@ describe Ruber::World::DocumentList do
       end
       
       it 'returns the first of the documents with the given document name if there is more than one document with that document name' do
-        doc = Ruber::Document.new
+        doc = Ruber::Document.new Ruber[:world]
         flexmock(doc).should_receive(:document_name).and_return('doc1')
         @list = create_list @docs + [doc]
         @list['doc1'].should == @docs[1]
@@ -331,7 +331,7 @@ describe Ruber::World::DocumentList do
   describe '#document_for_file' do
     
     before do
-      @docs = [Ruber::Document.new, Ruber::Document.new(__FILE__), Ruber::Document.new]
+      @docs = [Ruber::Document.new(Ruber[:world]), Ruber::Document.new(Ruber[:world], __FILE__), Ruber::Document.new(Ruber[:world])]
       @list = create_list @docs
     end
     
@@ -346,12 +346,12 @@ describe Ruber::World::DocumentList do
     it 'doesn\'t return remote files' do
       @docs.delete_at 1
       url = KDE::Url.new("http://www.xyz.org#{__FILE__}")
-      @list = create_list @docs + [Ruber::Document.new(url)]
+      @list = create_list @docs + [Ruber::Document.new(Ruber[:world], url)]
       @list.document_for_file(__FILE__).should be_nil
     end
     
     it 'returns the first document associated with the given file, if more than one document is associated with it' do
-      @list = create_list @docs + [Ruber::Document.new(__FILE__)]
+      @list = create_list @docs + [Ruber::Document.new(Ruber[:world], __FILE__)]
       @list.document_for_file(__FILE__).should == @docs[1]
     end
     
@@ -365,7 +365,7 @@ describe Ruber::World::DocumentList do
   describe '#document_for_file?' do
     
     before do
-      @docs = [Ruber::Document.new, Ruber::Document.new(__FILE__), Ruber::Document.new]
+      @docs = [Ruber::Document.new(Ruber[:world]), Ruber::Document.new(Ruber[:world], __FILE__), Ruber::Document.new(Ruber[:world], )]
       @list = create_list @docs
     end
     
@@ -387,7 +387,7 @@ describe Ruber::World::DocumentList do
   describe '#document_for_url' do
     
     before do
-      @docs = [Ruber::Document.new, Ruber::Document.new(__FILE__), Ruber::Document.new]
+      @docs = [Ruber::Document.new(Ruber[:world]), Ruber::Document.new(Ruber[:world], __FILE__), Ruber::Document.new(Ruber[:world])]
       @list = create_list @docs
     end
     
@@ -404,7 +404,7 @@ describe Ruber::World::DocumentList do
     end
     
     it 'returns the first document associated with the given URL, if more than one document is associated with it' do
-      @list = create_list @docs + [Ruber::Document.new(__FILE__)]
+      @list = create_list @docs + [Ruber::Document.new(Ruber[:world], __FILE__)]
       @list.document_for_url(KDE::Url.new(__FILE__)).should == @docs[1]
     end
     
@@ -413,7 +413,7 @@ describe Ruber::World::DocumentList do
   describe '#document_for_url?' do
     
     before do
-      @docs = [Ruber::Document.new, Ruber::Document.new(__FILE__), Ruber::Document.new]
+      @docs = [Ruber::Document.new(Ruber[:world]), Ruber::Document.new(Ruber[:world], __FILE__), Ruber::Document.new(Ruber[:world])]
       @list = create_list @docs
     end
     
@@ -434,7 +434,7 @@ describe Ruber::World::DocumentList do
   describe '#document_with_name' do
     
     before do
-      @docs = 3.times.map{Ruber::Document.new}
+      @docs = 3.times.map{Ruber::Document.new Ruber[:world]}
       flexmock(@docs[0]).should_receive(:document_name).and_return 'doc0'
       flexmock(@docs[2]).should_receive(:document_name).and_return 'doc2'
       @list = create_list @docs
@@ -449,7 +449,7 @@ describe Ruber::World::DocumentList do
     end
     
     it 'returns the first document with the given document name, if there is more  than one document with that name' do
-      doc = Ruber::Document.new
+      doc = Ruber::Document.new Ruber[:world]
       flexmock(doc).should_receive(:document_name).and_return 'doc0'
       @list = create_list @docs + [doc]
       @list.document_with_name('doc0').should == @docs[0]
@@ -460,7 +460,7 @@ describe Ruber::World::DocumentList do
   describe '#document_with_name?' do
     
     before do
-      @docs = 3.times.map{Ruber::Document.new}
+      @docs = 3.times.map{Ruber::Document.new Ruber[:world]}
       flexmock(@docs[0]).should_receive(:document_name).and_return 'doc0'
       flexmock(@docs[2]).should_receive(:document_name).and_return 'doc2'
       @list = create_list @docs
@@ -483,9 +483,9 @@ describe Ruber::World::DocumentList do
       @empty_docs = []
       @local_docs = []
       @remote_docs = []
-      @empty_docs << Ruber::Document.new << Ruber::Document.new
-      @local_docs << Ruber::Document.new(__FILE__) << Ruber::Document.new( File.join(File.dirname(__FILE__), 'common.rb'))
-      @remote_docs << Ruber::Document.new( KDE::Url.new('http://github.com/stcrocco/ruber/raw/master/ruber.gemspec')) << Ruber::Document.new(
+      @empty_docs << Ruber::Document.new(Ruber[:world]) << Ruber::Document.new(Ruber[:world])
+      @local_docs << Ruber::Document.new(Ruber[:world], __FILE__) << Ruber::Document.new( Ruber[:world], File.join(File.dirname(__FILE__), 'common.rb'))
+      @remote_docs << Ruber::Document.new(Ruber[:world], KDE::Url.new('http://github.com/stcrocco/ruber/raw/master/ruber.gemspec')) << Ruber::Document.new(Ruber[:world],
         KDE::Url.new('http://github.com/stcrocco/ruber/raw/master/bin/ruber'))
       @all_docs << @empty_docs[0] << @local_docs[0] << @remote_docs[0] << @remote_docs[1] << @local_docs[1] << @empty_docs[1]
       @list = create_list @all_docs
@@ -534,15 +534,15 @@ describe Ruber::World::MutableDocumentList do
     context 'when called with an array as argument' do
       
       it 'creates a list containing the same documents as the argument' do
-        docs = 3.times.map{Ruber::Document.new}
+        docs = 3.times.map{Ruber::Document.new Ruber[:world]}
         @list = Ruber::World::MutableDocumentList.new docs
         @list.to_a.should == docs
       end
       
       it 'creates a duplicate of the argument' do
-        docs = 3.times.map{Ruber::Document.new}
+        docs = 3.times.map{Ruber::Document.new Ruber[:world]}
         @list = Ruber::World::MutableDocumentList.new docs
-        new_doc = Ruber::Document.new
+        new_doc = Ruber::Document.new Ruber[:world]
         @list.add new_doc
         docs.size.should == 3
       end
@@ -552,17 +552,17 @@ describe Ruber::World::MutableDocumentList do
     context 'when called with a DocumentList as argument' do
       
       it 'creates a list containing the same documents as the argument' do
-        docs = 3.times.map{Ruber::Document.new}
+        docs = 3.times.map{Ruber::Document.new Ruber[:world]}
         orig = Ruber::World::MutableDocumentList.new docs
         @list = Ruber::World::MutableDocumentList.new orig
         @list.to_a.should == docs
       end
       
       it 'creates a duplicate of the argument' do
-        docs = 3.times.map{Ruber::Document.new}
+        docs = 3.times.map{Ruber::Document.new Ruber[:world]}
         orig = Ruber::World::MutableDocumentList.new docs
         @list = Ruber::World::MutableDocumentList.new orig
-        new_doc = Ruber::Document.new
+        new_doc = Ruber::Document.new Ruber[:world]
         @list.add new_doc
         orig.size.should == 3
       end
@@ -574,7 +574,7 @@ describe Ruber::World::MutableDocumentList do
   describe '#dup' do
     
     it 'duplicates the document list' do
-      docs = 3.times.map{Ruber::Document.new}
+      docs = 3.times.map{Ruber::Document.new Ruber[:world]}
       @list.add docs
       new_list = @list.dup
       new_list.remove docs[1]
@@ -586,7 +586,7 @@ describe Ruber::World::MutableDocumentList do
   describe '#clone' do
     
     it 'duplicates the document list' do
-      docs = 3.times.map{Ruber::Document.new}
+      docs = 3.times.map{Ruber::Document.new Ruber[:world]}
       @list.add docs
       new_list = @list.clone
       new_list.remove docs[1]
@@ -594,12 +594,12 @@ describe Ruber::World::MutableDocumentList do
     end
     
     it 'copies the frozen status of the document list' do
-      docs = 3.times.map{Ruber::Document.new}
+      docs = 3.times.map{Ruber::Document.new Ruber[:world]}
       @list.add docs
       @list.freeze
       new_list = @list.clone
       new_list.should be_frozen
-      lambda{new_list.add Ruber::Document.new}.should raise_error(RuntimeError)
+      lambda{new_list.add Ruber::Document.new Ruber[:world]}.should raise_error(RuntimeError)
     end
     
   end
@@ -607,7 +607,7 @@ describe Ruber::World::MutableDocumentList do
   describe '#add' do
     
     before do
-      @docs = 3.times.map{Ruber::Document.new}
+      @docs = 3.times.map{Ruber::Document.new Ruber[:world]}
     end
     
     it 'appends the given documents to the list' do
@@ -631,7 +631,7 @@ describe Ruber::World::MutableDocumentList do
   describe '#uniq!' do
     
     it 'removes all duplicate elements from the list' do
-      docs = [Ruber::Document.new, Ruber::Document.new(__FILE__)]
+      docs = [Ruber::Document.new(Ruber[:world]), Ruber::Document.new(Ruber[:world], __FILE__)]
       @list.add docs
       @list.add docs[0]
       @list.uniq!
@@ -647,7 +647,7 @@ describe Ruber::World::MutableDocumentList do
   describe '#merge!' do
     
     before do
-      @docs = 5.times.map{Ruber::Document.new}
+      @docs = 5.times.map{Ruber::Document.new Ruber[:world]}
       @list.add @docs[3..4]
     end
     
@@ -677,7 +677,7 @@ describe Ruber::World::MutableDocumentList do
   describe '#remove' do
     
     before do
-      @docs = 3.times.map{Ruber::Document.new}
+      @docs = 3.times.map{Ruber::Document.new Ruber[:world]}
       @list.add @docs
     end
       
@@ -687,7 +687,7 @@ describe Ruber::World::MutableDocumentList do
     end
     
     it 'does nothing if the document is not in the list' do
-      @list.remove Ruber::Document.new
+      @list.remove Ruber::Document.new Ruber[:world]
       @list.to_a.should == @docs
     end
     
@@ -696,7 +696,7 @@ describe Ruber::World::MutableDocumentList do
     end
     
     it 'returns nil if no document was removed' do
-      @list.remove(Ruber::Document.new).should be_nil
+      @list.remove(Ruber::Document.new Ruber[:world]).should be_nil
     end
     
   end
@@ -704,7 +704,7 @@ describe Ruber::World::MutableDocumentList do
   describe '#clear' do
     
     it 'removes all elements from the list' do
-      @list.add 3.times.map{Ruber::Document.new}
+      @list.add 3.times.map{Ruber::Document.new Ruber[:world]}
       @list.clear
       @list.should be_empty
     end
@@ -718,7 +718,7 @@ describe Ruber::World::MutableDocumentList do
   describe '#delete_if' do
     
     before do
-      @docs = [Ruber::Document.new, Ruber::Document.new(__FILE__), Ruber::Document.new]
+      @docs = [Ruber::Document.new(Ruber[:world]), Ruber::Document.new(Ruber[:world], __FILE__), Ruber::Document.new(Ruber[:world])]
       @list.add @docs
     end
     

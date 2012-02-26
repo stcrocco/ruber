@@ -1,3 +1,4 @@
+require './spec/framework'
 require './spec/common'
 require 'ruber/world/hint_solver'
 require 'ruber/editor/document'
@@ -5,31 +6,15 @@ require 'ruber/pane'
 
 describe Ruber::World::HintSolver do
   
-  class HintSolverSpecComponentManager < Qt::Object
-    extend Forwardable
-    signals 'component_loaded(QObject*)', 'unloading_component(QObject*)'
-    def_delegators :@data, :[], :<<
-    def_delegator :@data, :each, :each_component
-    
-    def initialize parent = nil
-      super
-      @data = []
-    end
-    
-  end
-  
   before do
-    @main_window = Qt::Widget.new
-    flexmock(Ruber).should_receive(:[]).with(:main_window).and_return(@main_window).by_default
-    flexmock(Ruber).should_receive(:[]).with(:components).and_return(HintSolverSpecComponentManager.new).by_default
-    @doc = Ruber::Document.new
+    @doc = Ruber::Document.new Ruber[:world]
   end
   
   context 'when created' do
     
     it 'takes the tab widget as argument' do
       tabs = KDE::TabWidget.new
-      lambda{Ruber::World::HintSolver.new tabs, KParts::PartManager.new(@main_window), []}.should_not raise_error
+      lambda{Ruber::World::HintSolver.new tabs, KParts::PartManager.new(Ruber[:main_window]), []}.should_not raise_error
     end
     
   end
@@ -38,8 +23,8 @@ describe Ruber::World::HintSolver do
     
     before do
       @tabs = KDE::TabWidget.new
-      @solver = Ruber::World::HintSolver.new @tabs, KParts::PartManager.new(@main_window), []
-      @doc = Ruber::Document.new nil
+      @solver = Ruber::World::HintSolver.new @tabs, KParts::PartManager.new(Ruber[:main_window]), []
+      @doc = Ruber::Document.new Ruber[:world]
     end
     
     context 'when the tab widget contains no tabs' do
@@ -53,7 +38,7 @@ describe Ruber::World::HintSolver do
     context 'if the tab widget doesn\'t contain any editor for the given document' do
       
       before do
-        other_doc = Ruber::Document.new nil
+        other_doc = Ruber::Document.new Ruber[:world]
         views = 3.times.map{other_doc.create_view}
         pane1 = Ruber::Pane.new views[0]
         pane1.split views[0], views[1], Qt::Vertical
@@ -85,7 +70,7 @@ describe Ruber::World::HintSolver do
         
         before do
           @view = @doc.create_view
-          other_doc = Ruber::Document.new nil
+          other_doc = Ruber::Document.new Ruber[:world]
           views = 3.times.map{other_doc.create_view}
           pane1 = Ruber::Pane.new views[0]
           pane1.split views[0], views[1], Qt::Vertical
@@ -111,7 +96,7 @@ describe Ruber::World::HintSolver do
         
         before do
           @view = @doc.create_view
-          other_doc = Ruber::Document.new nil
+          other_doc = Ruber::Document.new Ruber[:world]
           views = 3.times.map{other_doc.create_view}
           pane1 = Ruber::Pane.new views[0]
           pane1.object_name = '1'
@@ -141,7 +126,7 @@ describe Ruber::World::HintSolver do
       
       it 'returns that editor, regardless of the strategy hint' do
         view = @doc.create_view
-        other_doc = Ruber::Document.new
+        other_doc = Ruber::Document.new Ruber[:world]
         other_view = other_doc.create_view
         pane = Ruber::Pane.new other_view
         pane.split other_view, view, Qt::Vertical
@@ -155,7 +140,7 @@ describe Ruber::World::HintSolver do
       
       before do
         @views = 3.times.map{@doc.create_view}
-        other_doc = Ruber::Document.new nil
+        other_doc = Ruber::Document.new Ruber[:world]
         @other_views = 3.times.map{other_doc.create_view}
         pane1 = Ruber::Pane.new @other_views[0]
         pane1.object_name = '1'
@@ -222,7 +207,7 @@ describe Ruber::World::HintSolver do
         end
         
         it 'returns the first editor associated with the document it finds, starting from the current tab if no editor for the document exists in the current tab' do
-          other_doc = Ruber::Document.new
+          other_doc = Ruber::Document.new Ruber[:world]
           other_view = other_doc.create_view
           pane = Ruber::Pane.new other_view
           @tabs.insert_tab 1, pane, 'new'
@@ -232,7 +217,7 @@ describe Ruber::World::HintSolver do
         end
         
         it 'returns the first editor associated with the document starting from the first tab if no editor in or after the current tab is found' do
-          other_doc = Ruber::Document.new
+          other_doc = Ruber::Document.new Ruber[:world]
           other_view = other_doc.create_view
           pane = Ruber::Pane.new other_view
           @tabs.add_tab pane, 'new'
@@ -247,7 +232,7 @@ describe Ruber::World::HintSolver do
       context 'if the first entry in the strategy hint is :previous' do
       
         it 'returns the first editor associated with the document it finds, starting from the tab before the current and going backwards tab' do
-          other_doc = Ruber::Document.new
+          other_doc = Ruber::Document.new Ruber[:world]
           other_view = other_doc.create_view
           pane = Ruber::Pane.new other_view
           @tabs.insert_tab 1, pane, 'new'
@@ -257,7 +242,7 @@ describe Ruber::World::HintSolver do
         end
       
         it 'returns the last editor associated with the document starting from the last tab if no editor before the current tab is found' do
-          other_doc = Ruber::Document.new
+          other_doc = Ruber::Document.new Ruber[:world]
           other_view = other_doc.create_view
           pane = Ruber::Pane.new other_view
           @tabs.insert_tab 1, pane, 'new'
@@ -290,7 +275,7 @@ describe Ruber::World::HintSolver do
         it 'returns the editor which respects the existing hint and comes first in the view_order list among those associated with the document' do
           @tabs.clear
           views = 3.times.map{@doc.create_view}
-          other_doc = Ruber::Document.new
+          other_doc = Ruber::Document.new Ruber[:world]
           other_views = 3.times.map{other_doc.create_view}
           order = @solver.instance_variable_get(:@view_order)
           order << other_views[1] << views[2] << other_views[0] << other_views[2] << views[0] << views[1]
@@ -309,7 +294,7 @@ describe Ruber::World::HintSolver do
       end
       
       it 'attempts all the listed strategies until one succeeds' do
-        other_doc = Ruber::Document.new
+        other_doc = Ruber::Document.new Ruber[:world]
         pane = Ruber::Pane.new other_doc.create_view
         @tabs.add_tab pane, 'new'
         @tabs.current_index = 2
@@ -317,7 +302,7 @@ describe Ruber::World::HintSolver do
       end
       
       it 'uses :next as fallback strategy if all listed strategies fail' do
-        other_doc = Ruber::Document.new
+        other_doc = Ruber::Document.new Ruber[:world]
         pane = Ruber::Pane.new other_doc.create_view
         @tabs.insert_tab 1, pane, 'new'
         @tabs.current_index = 1
@@ -332,8 +317,8 @@ describe Ruber::World::HintSolver do
     
     before do
       @tabs = KDE::TabWidget.new
-      @solver = Ruber::World::HintSolver.new @tabs, KParts::PartManager.new(@main_window), []
-      @doc = Ruber::Document.new nil
+      @solver = Ruber::World::HintSolver.new @tabs, KParts::PartManager.new(Ruber[:main_window]), []
+      @doc = Ruber::Document.new Ruber[:world]
     end
     
     context 'when the new hint is :new_tab' do

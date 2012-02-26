@@ -78,7 +78,7 @@ describe Ruber::World::World do
     end
     
     it 'emits the document_created signal passing the document as argument' do
-      doc = Ruber::Document.new
+      doc = Ruber::Document.new @world
       flexmock(Ruber::Document).should_receive(:new).once.and_return doc
       mk = flexmock{|m| m.should_receive(:test).once.with(doc)}
       @world.connect(SIGNAL('document_created(QObject*)')){|doc| mk.test doc}
@@ -111,8 +111,8 @@ describe Ruber::World::World do
     end
     
     it 'emits the document_created signal passing the document as argument if a new document has been created' do
-      doc = Ruber::Document.new __FILE__
-      flexmock(Ruber::Document).should_receive(:new).once.with(__FILE__, @world).and_return doc
+      doc = Ruber::Document.new @world, __FILE__
+      flexmock(Ruber::Document).should_receive(:new).once.with(@world, __FILE__, @world).and_return doc
       mk = flexmock{|m| m.should_receive(:test).once.with(doc)}
       @world.connect(SIGNAL('document_created(QObject*)')){|doc| mk.test doc}
       @world.document __FILE__
@@ -1000,17 +1000,17 @@ describe Ruber::World::World do
       Ruber[:world].projects.dup.each{|prj| prj.close false}
     end
     
-    it 'calls the query_close method of the project associated with each document' do
+    it 'calls the can_close? method of each document passing false as argument' do
       @docs.each do |doc|
-        flexmock(doc.own_project).should_receive(:query_close).once.and_return true
+        flexmock(doc).should_receive(:can_close?).once.with(false).and_return true
       end
       @world.query_close
     end
     
-    it 'returns false if the query_close method of a project associated with a document returns false' do
+    it 'returns false if the can_close? method of a document returns false' do
       @docs.each_with_index do |doc, i|
         res = (i !=3)
-        flexmock(doc.own_project).should_receive(:query_close).and_return res
+        flexmock(doc).should_receive(:can_close?).and_return res
       end
       @world.query_close.should == false
     end
