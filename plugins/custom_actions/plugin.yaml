@@ -1,0 +1,17 @@
+name: custom_actions
+version: 0.0.1
+about:
+ authors: [Stefano Crocco, stefano.crocco@alice.it]
+ license: :gpl
+ description: Create actions which execute custom code
+ bug_address: http://github.com/stcrocco/ruber/issues
+ icon: custom_actions.png
+class: Ruber::CustomActions::Plugin
+require: 'custom_actions'
+ui_file: customactionsui.rc
+config_options:
+ custom_actions:
+  scripts: {default: []}
+  scripts_files: {default: []}
+config_widgets:
+ - {class: Ruber::CustomActions::ConfigWidget, pixmap: custom_actions.png, caption: Custom Actions}

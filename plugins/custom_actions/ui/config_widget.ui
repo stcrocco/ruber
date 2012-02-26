@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Ruber::CustomActionsConfigWidget</class>
+ <widget class="QWidget" name="Ruber::CustomActionsConfigWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>567</width>
+    <height>521</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_3">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>&amp;File</string>
+       </property>
+       <property name="buddy">
+        <cstring>script_files</cstring>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="KUrlRequester" name="script_files">
+       <property name="access" stdset="0">
+        <string>$script_files</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="reread_file">
+       <property name="text">
+        <string>&amp;Read file again</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
+      <string>Quick actions</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="KEditListBox" name="scripts">
+        <property name="buttons">
+         <set>KEditListBox::Add|KEditListBox::Remove</set>
+        </property>
+        <property name="access" stdset="0">
+         <string>$scripts</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>&amp;Action</string>
+          </property>
+          <property name="buddy">
+           <cstring>krichtextedit</cstring>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="KRichTextEdit" name="krichtextedit"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QPushButton" name="pushButton">
+          <property name="text">
+           <string>&amp;Save</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_2">
+          <property name="text">
+           <string>&amp;Revert</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KEditListBox</class>
+   <extends>QGroupBox</extends>
+   <header>keditlistbox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KRichTextEdit</class>
+   <extends>KTextEdit</extends>
+   <header>krichtextedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KTextEdit</class>
+   <extends>QTextEdit</extends>
+   <header>ktextedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KUrlRequester</class>
+   <extends>QFrame</extends>
+   <header>kurlrequester.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
