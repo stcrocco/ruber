@@ -188,7 +188,7 @@ EOS
       
       def initialize parent = nil
         super
-        @ui = Ui::RIToolWidget.new
+        @ui = Ruber::Ui::RIToolWidget.new
         @ui.setup_ui self
         connect @ui.search_term, SIGNAL(:returnPressed), @ui.search, SIGNAL(:clicked)
         connect @ui.search, SIGNAL(:clicked), self, SLOT(:start_search)

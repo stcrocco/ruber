@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>RIToolWidget</class>
- <widget class="QWidget" name="RIToolWidget">
+ <class>Ruber::RIToolWidget</class>
+ <widget class="QWidget" name="Ruber::RIToolWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -39,6 +39,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>search_term</tabstop>
   <tabstop>search</tabstop>
