@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindowSettingsWidget</class>
- <widget class="QWidget" name="MainWindowSettingsWidget">
+ <class>Ruber::MainWindowSettingsWidget</class>
+ <widget class="QWidget" name="Ruber::MainWindowSettingsWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>507</width>
+    <width>512</width>
     <height>235</height>
    </rect>
   </property>
@@ -116,11 +116,6 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KUrlRequester</class>
-   <extends>QFrame</extends>
-   <header>kurlrequester.h</header>
-  </customwidget>
-  <customwidget>
    <class>KFontRequester</class>
    <extends>QWidget</extends>
    <header>kfontrequester.h</header>
@@ -129,6 +124,11 @@
    <class>KComboBox</class>
    <extends>QComboBox</extends>
    <header>kcombobox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KUrlRequester</class>
+   <extends>QFrame</extends>
+   <header>kurlrequester.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

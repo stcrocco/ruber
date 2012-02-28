@@ -1,7 +1,8 @@
-<ui version="4.0" >
- <class>ProjectFilesRuleChooser</class>
- <widget class="QWidget" name="ProjectFilesRuleChooser" >
-  <property name="geometry" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Ruber::ProjectFilesRuleChooser</class>
+ <widget class="QWidget" name="Ruber::ProjectFilesRuleChooser">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,40 +10,40 @@
     <height>143</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout" >
-   <item row="3" column="1" >
-    <widget class="KPushButton" name="remove_rule_btn" >
-     <property name="text" >
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="3" column="1">
+    <widget class="KPushButton" name="remove_rule_btn">
+     <property name="text">
       <string>&amp;Remove rule</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="1" >
-    <widget class="KPushButton" name="add_regexp_btn" >
-     <property name="text" >
+   <item row="0" column="1">
+    <widget class="KPushButton" name="add_regexp_btn">
+     <property name="text">
       <string>Add &amp;regexp rule</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="1" >
-    <widget class="KPushButton" name="add_path_btn" >
-     <property name="text" >
+   <item row="1" column="1">
+    <widget class="KPushButton" name="add_path_btn">
+     <property name="text">
       <string>Add &amp;file rule</string>
      </property>
     </widget>
    </item>
-   <item rowspan="5" row="0" column="0" >
-    <widget class="QTreeView" name="rules_widget" >
-     <property name="rootIsDecorated" >
+   <item row="0" column="0" rowspan="5">
+    <widget class="QTreeView" name="rules_widget">
+     <property name="rootIsDecorated">
       <bool>false</bool>
      </property>
-     <property name="uniformRowHeights" >
+     <property name="uniformRowHeights">
       <bool>true</bool>
      </property>
-     <property name="allColumnsShowFocus" >
+     <property name="allColumnsShowFocus">
       <bool>true</bool>
      </property>
     </widget>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>OutputColorWidget</class>
- <widget class="QWidget" name="OutputColorWidget">
+ <class>Ruber::OutputColorWidget</class>
+ <widget class="QWidget" name="Ruber::OutputColorWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -167,30 +167,6 @@
     </spacer>
    </item>
   </layout>
-  <zorder>label</zorder>
-  <zorder>label_2</zorder>
-  <zorder>label_3</zorder>
-  <zorder>label_5</zorder>
-  <zorder>_output_colors__output</zorder>
-  <zorder>_output_colors__output1</zorder>
-  <zorder>_output_colors__output2</zorder>
-  <zorder>label_6</zorder>
-  <zorder>_output_colors__error</zorder>
-  <zorder>_output_colors__error1</zorder>
-  <zorder>_output_colors__error2</zorder>
-  <zorder>_output_colors__warning2</zorder>
-  <zorder>label_4</zorder>
-  <zorder>_output_colors__warning1</zorder>
-  <zorder>_output_colors__warning</zorder>
-  <zorder>line</zorder>
-  <zorder>_output_colors__message</zorder>
-  <zorder>_output_colors__message_bad</zorder>
-  <zorder>label_7</zorder>
-  <zorder>label_8</zorder>
-  <zorder>label_9</zorder>
-  <zorder>label_10</zorder>
-  <zorder>_output_colors__message_good</zorder>
-  <zorder>label_10</zorder>
  </widget>
  <customwidgets>
   <customwidget>

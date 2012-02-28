@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Ruber::IRB::ConfigWidget</class>
- <widget class="QWidget" name="Ruber::IRB::ConfigWidget">
+ <class>Ruber::IRB::IRBConfigWidget</class>
+ <widget class="QWidget" name="Ruber::IRB::IRBConfigWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -112,6 +112,11 @@
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
+  </customwidget>
   <customwidget>
    <class>KUrlRequester</class>
    <extends>QFrame</extends>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>FindReplaceInFilesWidget</class>
- <widget class="QWidget" name="FindReplaceInFilesWidget">
+ <class>Ruber::FindInFiles::FindReplaceInFilesWidget</class>
+ <widget class="QWidget" name="Ruber::FindInFiles::FindReplaceInFilesWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -304,9 +304,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KUrlRequester</class>
-   <extends>QFrame</extends>
-   <header>kurlrequester.h</header>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
    <class>KLineEdit</class>
@@ -314,9 +314,9 @@
    <header>klineedit.h</header>
   </customwidget>
   <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
+   <class>KUrlRequester</class>
+   <extends>QFrame</extends>
+   <header>kurlrequester.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

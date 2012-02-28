@@ -85,7 +85,7 @@ Creates a new instance
 =end
   def initialize parent = nil
     super
-    @ui = Ui::RubyRunnerPluginOptionWidget.new
+    @ui = Ui::PluginOptionWidget.new
     @ui.setupUi self
     connect @ui.text, SIGNAL('textChanged(QString)'), self, SIGNAL('text_changed(QString)')
   end

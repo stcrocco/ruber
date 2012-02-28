@@ -47,7 +47,7 @@ Where the user can choose the rake task to execute
 =end
       def initialize prj, parent = Ruber[:main_window]
         super parent
-        @ui = Ui::RakeChooseTaskWidget.new
+        @ui = Ui::ChooseTaskWidget.new
         @ui.setupUi main_widget
         @project = prj
         @ui.tasks.model = Qt::SortFilterProxyModel.new @ui.tasks
@@ -213,7 +213,7 @@ a task in the rakefile)
 =end
         def initialize parent = Ruber[:main_window]
           super
-          @ui = Ui::RakeAddQuickTaskWidget.new
+          @ui = Ui::AddQuickTaskWidget.new
           @ui.setupUi main_widget
           collections = Ruber[:main_window].factory.clients.map{|cl| cl.action_collection}
           @ui.shortcut.check_action_collections = collections

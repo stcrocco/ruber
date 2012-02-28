@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>RubyDevelopmentConfigWidget</class>
- <widget class="QWidget" name="RubyDevelopmentConfigWidget">
+ <class>Ruber::FilesRunner::RubyDevelopmentConfigWidget</class>
+ <widget class="QWidget" name="Ruber::FilesRunner::RubyDevelopmentConfigWidget">
   <property name="geometry">
    <rect>
     <x>0</x>

@@ -20,6 +20,10 @@
 
 require_relative 'ui/config_widget'
 
+class KEditListBox
+  Remove = KDE::EditListBox::Remove
+end
+
 module Ruber
   
   module CustomActions
@@ -38,7 +42,7 @@ module Ruber
       def initialize parent = nil
         super
         @ui = Ui::CustomActionsConfigWidget.new
-        @ui.setup_ui self
+#         @ui.setup_ui self
       end
       
       def script_files

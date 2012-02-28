@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>RSpecProjectWidget</class>
- <widget class="QWidget" name="RSpecProjectWidget">
+ <class>Ruber::RSpec::RSpecProjectWidget</class>
+ <widget class="QWidget" name="Ruber::RSpec::RSpecProjectWidget">
   <property name="geometry">
    <rect>
     <x>0</x>

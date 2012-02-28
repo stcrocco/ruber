@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>RubyRunnerPluginOptionWidget</class>
- <widget class="QWidget" name="RubyRunnerPluginOptionWidget">
+ <class>Ruber::RubyRunner::PluginOptionWidget</class>
+ <widget class="QWidget" name="Ruber::RubyRunner::PluginOptionWidget">
   <property name="geometry">
    <rect>
     <x>0</x>

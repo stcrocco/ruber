@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>RSpecConfigWidget</class>
- <widget class="QWidget" name="RSpecConfigWidget">
+ <class>Ruber::RSpec::RSpecConfigWidget</class>
+ <widget class="QWidget" name="Ruber::RSpec::RSpecConfigWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>49</height>
+    <height>60</height>
    </rect>
   </property>
   <property name="windowTitle">

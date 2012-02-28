@@ -142,7 +142,7 @@ dialog hasn’t been closed as yet
         enable_button User1, false
         enable_button User2, false
         
-        @ui = ::Ui::FindReplaceInFilesWidget.new
+        @ui = Ui::FindReplaceInFilesWidget.new
         @ui.setupUi main_widget
         
         @ui.find_text.completer = Completer.new @ui.find_text

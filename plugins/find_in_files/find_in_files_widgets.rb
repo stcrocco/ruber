@@ -471,7 +471,7 @@ The configuration widget for the plugin
 =end
       def initialize parent = nil
         super
-        @ui = ::Ui::FindInFilesConfigWidget.new
+        @ui = Ui::FindInFilesConfigWidget.new
         @ui.setupUi self
       end
       

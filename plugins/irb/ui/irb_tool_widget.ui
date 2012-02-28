@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Ruber::IRB::ToolWidget</class>
- <widget class="QWidget" name="Ruber::IRB::ToolWidget">
+ <class>Ruber::IRB::IRBToolWidget</class>
+ <widget class="QWidget" name="Ruber::IRB::IRBToolWidget">
   <property name="geometry">
    <rect>
     <x>0</x>

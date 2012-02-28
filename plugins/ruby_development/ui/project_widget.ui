@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>FilesRunnerProjectWidget</class>
- <widget class="QWidget" name="FilesRunnerProjectWidget">
+ <class>Ruber::FilesRunnerProjectWidget</class>
+ <widget class="QWidget" name="Ruber::FilesRunnerProjectWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -87,14 +87,14 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KUrlRequester</class>
-   <extends>QFrame</extends>
-   <header>kurlrequester.h</header>
-  </customwidget>
-  <customwidget>
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KUrlRequester</class>
+   <extends>QFrame</extends>
+   <header>kurlrequester.h</header>
   </customwidget>
   <customwidget>
    <class>RubyOptionsWidget</class>

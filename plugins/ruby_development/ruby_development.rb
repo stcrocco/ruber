@@ -517,7 +517,7 @@ Project configuration widget for the Files runner plugin
 =end
       def initialize prj
         super
-        @ui = Ui::FilesRunnerProjectWidget.new
+        @ui = Ruber::Ui::FilesRunnerProjectWidget.new
         @ui.setupUi self
         hide_global_only_widgets if prj.scope == :document
       end

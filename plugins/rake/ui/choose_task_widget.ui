@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>RakeChooseTaskWidget</class>
- <widget class="QWidget" name="RakeChooseTaskWidget">
+ <class>Ruber::Rake::ChooseTaskWidget</class>
+ <widget class="QWidget" name="Ruber::Rake::ChooseTaskWidget">
   <property name="geometry">
    <rect>
     <x>0</x>

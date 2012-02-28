@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Ruber::CustomActionsConfigWidget</class>
- <widget class="QWidget" name="Ruber::CustomActionsConfigWidget">
+ <class>Ruber::CustomActions::CustomActionsConfigWidget</class>
+ <widget class="QWidget" name="Ruber::CustomActions::CustomActionsConfigWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -22,12 +22,12 @@
         <string>&amp;File</string>
        </property>
        <property name="buddy">
-        <cstring>script_files</cstring>
+        <cstring>_custom_actions__script_files</cstring>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="KUrlRequester" name="script_files">
+      <widget class="KUrlRequester" name="_custom_actions__script_files">
        <property name="access" stdset="0">
         <string>$script_files</string>
        </property>
@@ -49,7 +49,7 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
-       <widget class="KEditListBox" name="scripts">
+       <widget class="KEditListBox" name="_custom_actions__scripts">
         <property name="buttons">
          <set>KEditListBox::Add|KEditListBox::Remove</set>
         </property>
