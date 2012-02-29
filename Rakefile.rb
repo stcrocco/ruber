@@ -15,6 +15,16 @@ end
 UI_FILES = Dir.glob('**/*.ui').map{|f| f.sub(/\.ui\Z/, '.rb')}
 RB_FILES = Dir.glob('**/*.rb')-UI_FILES
 
+# This is needed because rbuic4 produces KEditListBox::Remove instead of
+# KDE::EditListBox::Remove. So we have to correct it by hand
+file 'plugins/custom_actions/ui/config_widget.rb' => 'plugins/custom_actions/ui/config_widget.ui' do |f|
+  cmd = "rbuic4 -o #{f.name} #{f.prerequisites[0]}"
+  sh cmd
+  contents = File.read f.name
+  contents.sub! 'KEditListBox', 'KDE::EditListBox'
+  File.open(f.name, 'w'){|of| of.write contents}
+end
+
 desc 'Creates all the files needed to run Ruber'
 file :ruber => UI_FILES 
 
