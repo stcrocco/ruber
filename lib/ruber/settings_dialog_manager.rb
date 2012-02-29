@@ -226,7 +226,8 @@ name of the signal, while the second is the name of the access method.
       KDE::DateWidget => [ 'changed(QDate)', "date"],
       KDE::FontComboBox => [ 'currentFontChanged(QFont)', "current_font"],
       KDE::FontRequester => [ 'fontSelected(QFont)', "font"],
-      KDE::UrlRequester => [ 'textChanged(QString)', "url"]
+      KDE::UrlRequester => [ 'textChanged(QString)', "url"],
+      KDE::EditListBox => ['changed()', 'items']
     }
 
 =begin rdoc

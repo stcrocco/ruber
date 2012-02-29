@@ -464,7 +464,8 @@ describe 'Ruber::SettingsDialogManager#setup_automatic_option, when no signal is
     [KDE::DateWidget, 'changed(QDate)', "date"],
     [KDE::FontComboBox, 'currentFontChanged(QFont)', "current_font"],
     [KDE::FontRequester, 'fontSelected(QFont)', "font"],
-    [KDE::UrlRequester, 'textChanged(QString)', "url"]
+    [KDE::UrlRequester, 'textChanged(QString)', "url"],
+    [KDE::EditListBox, 'changed()', 'items']
   ]
   
   before do
@@ -474,7 +475,7 @@ describe 'Ruber::SettingsDialogManager#setup_automatic_option, when no signal is
   end
   
   defaults.each do |cls, *s|
-    desc = "should behave as if the widget had'#{s[0]}' for the \"signal\" property and '#{s[1]}' for the \"accessor\" property, if the object is of class #{cls} and neither the 'access' nor the 'read' and 'store' properties have been specified"
+    desc = "should behave as if the widget had '#{s[0]}' for the \"signal\" property and '#{s[1]}' for the \"accessor\" property, if the object is of class #{cls} and neither the 'access' nor the 'read' and 'store' properties have been specified"
     it desc do
       extend FlexMock::ArgumentTypes
       widgets = [cls.new{|w| w.object_name = '_G1__o1'}]
