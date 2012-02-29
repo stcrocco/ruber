@@ -23,16 +23,6 @@ shared_examples_for 'an_abstract_project_spec_method' do
   
   include FlexMock::ArgumentTypes
   
-#   before do
-#     @comp = TestComponentManager.new
-#     @fake_app = Application.new
-#     @dlg = flexmock('dialog', :read_settings => nil, :dispose => nil)
-#     @mw = Qt::Widget.new
-#     flexmock(Ruber).should_receive(:[]).with(:components).and_return(  @comp).by_default
-#     flexmock(Ruber).should_receive(:[]).with(:app).and_return( @fake_app).by_default
-#     flexmock(Ruber).should_receive(:[]).with(:main_window).and_return( @mw).by_default
-#   end
-  
   after do
     FileUtils.rm_f 'test.ruprj'
   end

@@ -28,27 +28,27 @@ Class which takes care of automatically syncronize (some of) the options in
 an SettingsContainer with the widgets in the SettingsDialog.
 
 In the following documentation, the widgets passed as argument to the constructor
-will be called <i>upper level widgets</i>, because they're the topmost widgets
-this class is interested in. The term <i>child widget</i> will be used to refer
+will be called _upper level widgets_, because they're the topmost widgets
+this class is interested in. The term _child widget_ will be used to refer
 to any widget which is child of an upper level widget, while the generic _widget_
-can refer to both. The upper <i>level widget corresponding to </i> a widget is
+can refer to both. The upper _level widget corresponding to_ a widget is
 the upper level widget the given widget is child of (or the widget itself if it
 already is an upper level widget)
 
 To syncronize options and widgets contents, this class looks among the upper level
-widgets and their children for the widget which have an <tt>object_name</tt> of the form
-<tt>_group__option</tt>, that is: an underscore, a group name, two underscores,
+widgets and their children for the widget which have an @object_name@ of the form
+@_group__option@, that is: an underscore, a group name, two underscores,
 an option name (both the group and the option name can contain underscores. This
 is the reason for which _two_ underscores are used to separate them). Such a
 widget is associated with the option with name _name_ belonging to the group
 _group_.
 
 Having a widget associated with an option means three things:
-1. when the widget emits some signals (which mean that the settings have changed,
+# when the widget emits some signals (which mean that the settings have changed,
    the dialog's Apply button is enabled)
-2. when the dialog is displayed, the widget is updated so that it displays the
+# when the dialog is displayed, the widget is updated so that it displays the
    value stored in the SettingsContainer
-3. when the Apply or the OK button of the dialog is clicked, the option in the
+# when the Apply or the OK button of the dialog is clicked, the option in the
    SettingsContainer is updated with the value of the widget.
    
 For all this to happen, who writes the widget (or the upper level widget the widget
@@ -60,43 +60,43 @@ by hand). These properties are:
   them using a YAML array (that is, enclose them in square brackets and separate
   them with a comma followed by one space). If the widget has only a single signal
   with that name, you can omit the signal's signature, otherwise you need to include
-  it (for example, <tt>Qt::LineEdit</tt> has a single signall called <tt>textChanged</tt>,
-  so you can simply use that instead of <tt>textChanged(QString)</tt>. On the other
-  hand, <tt>Qt::ComboBox</tt> has two signals called +currentIndexChanged+, so
-  you must fully specify them: <tt>currentIndexChanged(QString)</tt> or
-  <tt>currentIndexChanged(int)</tt>).
+  it (for example,  has a single signall called @textChanged@,
+  so you can simply use that instead of . On the other
+  hand,  has two signals called @currentIndexChanged@, so
+  you must fully specify them:  or
+  ).
 * read: is the method to use to sync the value in the widget with that in
   the SettingsContainer. The reason of the name "read" is that it is used to
   read the value from the container.
 * store: is the method to use to sync the value in the SettingsContainer with that
   in the widget.
-* access: a method name to derive the +read+ and the +store+ methods from. The
-  +store+ method has the same name as this property, while the +read+
+* access: a method name to derive the @read@ and the @store@ methods from. The
+  @store@ method has the same name as this property, while the @read@
   method has the same name with ending "?" and "!" removed and an ending 
   "=" added.
 
 In the documentation for this class, the term <i>read method</i> refers to the
-method specified in the +read+ property or derived from the +access+ property by
-adding the <tt>=</tt> to it. The term <i>store method</i> refers to the
-method specified in the +store+ or +access+ property.
+method specified in the @read@ property or derived from the @access@ property by
+adding the  to it. The term <i>store method</i> refers to the
+method specified in the @store@ or @access@ property.
 
-If the +read+, +store+ or +access+ properties start with a <tt>$</tt>, they'll be called
+If the @read@, @store@ or @access@ properties start with a dollar sign (*@$@*), they'll be called
 on the upper level widget corresponding to the widget, instead than on the widget
 itself.
 
-Not all of the above properties need to be specified. In particular, the +access+
-property can't coexhist the +read+ and the +store+ properties. On the other hand,
-you can't give only one of the +read+ and +store+ properties. If you omit the
-+access+, +store+ and +read+ property entierely, and the +signal+ property only
-contains one signal, then an +access+ property is automatically created using the
+Not all of the above properties need to be specified. In particular, the @access@
+property can't coexhist the @read@ and the @store@ properties. On the other hand,
+you can't give only one of the @read@ and @store@ properties. If you omit the
+@access@, @store@ and @read@ property entierely, and the @signal@ property only
+contains one signal, then an @access@ property is automatically created using the
 name of the signal after having removed from its end the strings 'Edited', 'Changed',
 'Modified', '_edited', '_changed', '_modified' (for example, if the signal is
-'<tt>textChanged(QString)</tt>, then the +access+ property will become +text+.
+'text()', then the @access@ property will become @text@.
 
-If the +signal+ property hasn't been specified, a default one will be used, depending
+If the @signal@ property hasn't been specified, a default one will be used, depending
 on the class of the widgets. See the documentation for DEFAULT_PROPERTIES to see
-which signals will be used for which classes. If neither the +access+ property
-nor the +read+ and +store+ properties have been given, a default +access+ property
+which signals will be used for which classes. If neither the @access@ property
+nor the @read@ and @store@ properties have been given, a default @access@ property
 will also be used. If the class of the widget is not included in DEFAULT_PROPERTIES,
 an exception will be raised.
 
@@ -105,62 +105,62 @@ display it in the corresponding widget in whichever way is appropriate. A store
 method, instead, should take no arguments, retrieve the option value from the widget,
 again using the most appropriate way, and return it.
 
-Often, the default +access+ method is almost, but not completely, enough. For
-example, if the widget is a <tt>KDE::UrlRequester</tt>, but you want to store
-the option as a string, instead of using a <tt>KDE::Url</tt>, you'd need to create
-a method whose only task is to convert a  <tt>KDE::Url</tt> to a string and vice
-versa. The same could happen with a symbol and a <tt>Qt::LineEdit</tt>. To avoid
+Often, the default @access@ method is almost, but not completely, enough. For
+example, if the widget is a , but you want to store
+the option as a string, instead of using a , you'd need to create
+a method whose only task is to convert a   to a string and vice
+versa. The same could happen with a symbol and a . To avoid
 such a need, this class also performs automatic conversions, when reading or storing
-an option. It works this way: if the value to store in the +SettingsContainer+ or
+an option. It works this way: if the value to store in the @SettingsContainer@ or
 in the widget are of a different class from the one previously contained there,
-the +DEFAULT_CONVERSIONS+ hash is scanned for an entry corresponding to the two
-classes and, if found, the value returned by the corresponding +Proc+ is stored
+the @DEFAULT_CONVERSIONS@ hash is scanned for an entry corresponding to the two
+classes and, if found, the value returned by the corresponding @Proc@ is stored
 instead of the original one.
 
-===Example
+h3. Example
 
 Consider the following situation:
 
-<b>Options:</b>
-<tt>OpenStruct.new({:name => :number, :group => :G1, :default => 4})</tt>::
-  this is an option which contains an integral value, with default 4
-<tt>OpenStruct.new({:name => :path, :group => :G1, :default => ENV[['HOME']]})</tt>::
-  this is an option which contains a string representing a path. The default value
-  is the user's home directory (contained in the environment variable HOME)
-<tt>OpenStruct.new({:name => :list, :group => :G2, :default => %w[a b c]})</tt>::
-  this is an option which contains an array of strings, with default value
-  <tt>['a', 'b', 'c']</tt>.
+*Options:*
 
-<b>Widgets:</b>
+- an option which contains an integral value, with default 4:=
+   @OpenStruct.new({:name => :number, :group => :G1, :default => 4})@=:
+- an option which contains a path (as a string). The default value is the @HOME@
+  environment variable:=
+  @OpenStruct.new({:name => :path, :group => :G1, :default => ENV[['HOME']]})@=:
+- an option which contains an array of strings, with default value @['a', 'b', 'c']@:=
+  @OpenStruct.new({:name => :list, :group => :G2, :default => %w[a b c]})@=:
 
-There's a single upper level widget, of class +MyWidget+, which contains a
-<tt>Qt::SpinBox</tt>, a <tt>KDE::UrlRequester</tt> and a <tt>Qt::LineEdit</tt>.
-The value displayed in the spin box should be associated to the <tt>:number</tt>
-option, while the url requester should be associated to the <tt>:path</tt> option.
-The line edit widget should be associated with the <tt>:list</tt> option, by splitting
+*Widgets:*
+
+There's a single upper level widget, of class @MyWidget@, which contains a
+@Qt::SpinBox@, a @KDE::UrlRequester@ and a @Qt::LineEdit@.
+The value displayed in the spin box should be associated to the @number@
+option, while the url requester should be associated to the @path@ option.
+The line edit widget should be associated with the @list@ option, by splitting
 the text on commas.
 
 We can make some observations:
 * the spin box doesn't need anything except having its name set to match the
-  <tt>:number</tt> option: the default signal and access method provided by
-  <tt>DEFAULT_PROPERTIES</tt> are perfectly adequate to this situation.
+   @number@ option: the default signal and access method provided by
+  {DEFAULT_PROPERTIES} are perfectly adequate to this situation.
 * the url requester doesn't need any special settings, aside from the object name:
-  the default signal and access method provided by <tt>DEFAULT_PROPERTIES</tt> are
+  the default signal and access method provided by {DEFAULT_PROPERTIES} are
   almost what we need and the only issue is that the methods take and return a
-  <tt>KDE::Url</tt> instead of a string. But since the <tt>DEFAULT_CONVERSIONS</tt>
+   instead of a string. But since the {DEFAULT_CONVERSIONS}
   contains conversion procs for this pair of classes, even this is handled automatically
-* the line edit requires custom +read+ and +store+ methods (which can be specified
-  with a signle +access+ property), because there's no default conversion from
+* the line edit requires custom @read@ and @store@ methods (which can be specified
+  with a signle @access@ property), because there's no default conversion from
   array to string and vice versa. The default signal, instead, is suitable for
   our needs, so we don't need to specify one.
 
-Here's how the class +MyWidget+ could be written (here, all widgets are created
-manually. In general, it's more likely that you'd use the Qt Designer to create
-it. In that case, you can set the widgets' properties using the designer itself).
+Here's how the class @MyWidget@ could be written (here, all widgets are created
+manually. Usually, you'd use the Qt Designer to create them. In that case, you
+can set the widgets' properties using the designer itself).
 Note that in the constructor we make use of the block form of the widgets' constructors,
 which evaluates the given block in the new widget's context.
 
-  class MyWidget < Qt::Widget
+<pre>class MyWidget < Qt::Widget
     
     def initialize parent = nil
       super
@@ -186,13 +186,13 @@ which evaluates the given block in the new widget's context.
     end
     
   end
-  
+</pre>
 =end
   class SettingsDialogManager < Qt::Object
     
 =begin rdoc
 A hash containing the default signal and access methods to use for a number of
-classes, when the +signal+ property isn't given. The keys of the hash are the
+classes, when the @signal@ property isn't given. The keys of the hash are the
 classes, while the values are arrays of two elements. The first element is the
 name of the signal, while the second is the name of the access method.
 =end
@@ -231,7 +231,7 @@ name of the signal, while the second is the name of the access method.
     }
 
 =begin rdoc
-Hash which contains the Procs used by <tt>convert_value</tt> to convert a value
+Hash which contains the Procs used by @convert_value@ to convert a value
 from its class to another. Each key must an array of two classes, corresponding
 respectively to the class to convert _from_ and to the class to convert _to_. The
 values should be Procs which take one argument of class corresponding to the first

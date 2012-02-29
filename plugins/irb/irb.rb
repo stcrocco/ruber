@@ -130,8 +130,8 @@ module Ruber
         @ui.setup_ui self
       end
       
-      def read_settings
-        prompts = @settings_dialog.container[:irb, :prompts]
+      def read_settings cont
+        prompts = cont[:irb, :prompts]
         @ui.prompt_i.text = prompts[:PROMPT_I]
         @ui.prompt_n.text = prompts[:PROMPT_N]
         @ui.prompt_s.text = prompts[:PROMPT_S]
@@ -139,14 +139,14 @@ module Ruber
         @ui.prompt_return.text = prompts[:RETURN]
       end
       
-      def store_settings
+      def store_settings cont
         prompts = {}
         prompts[:PROMPT_I] = @ui.prompt_i.text
         prompts[:PROMPT_N] = @ui.prompt_n.text
         prompts[:PROMPT_S] = @ui.prompt_s.text
         prompts[:PROMPT_C] = @ui.prompt_c.text
         prompts[:RETURN] = @ui.prompt_return.text
-        @settings_dialog.container[:irb, :prompts] = prompts
+        cont[:irb, :prompts] = prompts
       end
       
     end

@@ -387,9 +387,10 @@ Project configuration widget
 =begin rdoc
 Fills the Tasks widget according to the rake/tasks and rake/quick_tasks project 
 options
+@param [SettingsContainer] prj the project
 @return [nil]
 =end
-      def read_settings
+      def read_settings prj
         fill_tasks_widget @project[:rake, :tasks]
         nil
       end
@@ -397,18 +398,20 @@ options
 =begin rdoc
 Sets the rake/tasks and rake/quick_task project options according to the contents
 of the Tasks widget
+@param [SettingsContainer] prj the project
 @return [nil]
 =end
-      def store_settings
+      def store_settings prj
         @project[:rake, :tasks] = tasks
         nil
       end
 
 =begin rdoc
 Clears the task widget
-@return [ni;]
+@param [SettingsContainer] prj the project
+@return [nil]
 =end
-      def read_default_settings
+      def read_default_settings prj
         mod = @ui.tasks.model
         mod.remove_rows 0, mod.row_count
         nil

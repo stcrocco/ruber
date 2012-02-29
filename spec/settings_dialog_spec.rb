@@ -45,13 +45,6 @@ describe 'Ruber::SettingsDialog, when created' do
     res['C2'][1].text.should == 'test'
   end
   
-  it 'should add an @settings_dialog instance variable and set it to self for each widget it creates' do
-    @widgets.each{|w| @cont.add_widget w}
-    dlg = Ruber::SettingsDialog.new @cont, [], @widgets
-    widgets = dlg.instance_variable_get(:@widgets).values.flatten
-    widgets.each{|w| w.instance_variable_get(:@settings_dialog).should equal(dlg)}
-  end
-  
   it 'should add a page for each caption and store the corresponding PageWidgetItems in the @page_items instance variable' do
     dlg = Ruber::SettingsDialog.new @cont, [], @widgets
     dlg.instance_variable_get(:@page_items).size.should == 2
@@ -114,27 +107,27 @@ describe 'Ruber::SettingsDialog#read_settings' do
     ]
   end
   
-  it 'should call the read_settings method of each widget which provides it' do
+  it 'should call the read_settings method of each widget which provides it passing the container as argument' do
     dlg = Ruber::SettingsDialog.new @cont, [], @widgets
     widgets = dlg.instance_variable_get(:@widgets)
     
     widgets['C1'][0].instance_eval do
-      def read_settings
+      def read_settings cont
       end
     end
-    flexmock(widgets['C1'][0]).should_receive(:read_settings).once
+    flexmock(widgets['C1'][0]).should_receive(:read_settings).once.with dlg.container
     
     widgets['C1'][1].instance_eval do
-      def read_settings
+      def read_settings cont
       end
     end
-    flexmock(widgets['C1'][1]).should_receive(:read_settings).once
+    flexmock(widgets['C1'][1]).should_receive(:read_settings).once.with dlg.container
     
     widgets['C2'][0].instance_eval do
-      def read_settings
+      def read_settings cont
       end
     end
-    flexmock(widgets['C2'][0]).should_receive(:read_settings).once
+    flexmock(widgets['C2'][0]).should_receive(:read_settings).once.with dlg.container
     
     dlg.read_settings
   end
@@ -164,31 +157,31 @@ describe 'Ruber::SettingsDialog#store_settings' do
     ]
   end
   
-  it 'should call the store_settings method of each widget which provides it' do
+  it 'should call the store_settings method of each widget which provides it, passing the container as argument' do
     dlg = Ruber::SettingsDialog.new @cont, [], @widgets
     widgets = dlg.instance_variable_get(:@widgets)
     
     widgets['C1'][0].instance_eval do
-      def store_settings
+      def store_settings cont
       end
     end
-    flexmock(widgets['C1'][0]).should_receive(:store_settings).once
+    flexmock(widgets['C1'][0]).should_receive(:store_settings).once.with @cont
     
     widgets['C1'][1].instance_eval do
-      def store_settings
+      def store_settings cont
       end
     end
-    flexmock(widgets['C1'][1]).should_receive(:store_settings).once
+    flexmock(widgets['C1'][1]).should_receive(:store_settings).once.with @cont
     
     widgets['C2'][0].instance_eval do
-      def store_settings
+      def store_settings cont
       end
     end
-    flexmock(widgets['C2'][0]).should_receive(:store_settings).once
+    flexmock(widgets['C2'][0]).should_receive(:store_settings).once.with @cont
     
     dlg.store_settings
   end
-  
+    
   it 'should call the store_settings method of the option manager' do
     dlg = Ruber::SettingsDialog.new @cont, [], @widgets
     flexmock(dlg.instance_variable_get(:@manager)).should_receive(:store_settings).once
@@ -239,31 +232,32 @@ describe 'Ruber::SettingsDialog#read_default_settings' do
     ]
   end
   
-  it 'should call the read_default_settings method of each widget which provides it' do
+  it 'should call the read_default_settings method of each widget which provides it,
+  passing the container as argument' do
     dlg = Ruber::SettingsDialog.new @cont, [], @widgets
     widgets = dlg.instance_variable_get(:@widgets)
     
     widgets['C1'][0].instance_eval do
-      def read_default_settings
+      def read_default_settings cont
       end
     end
-    flexmock(widgets['C1'][0]).should_receive(:read_default_settings).once
+    flexmock(widgets['C1'][0]).should_receive(:read_default_settings).once.with @cont
     
     widgets['C1'][1].instance_eval do
-      def read_default_settings
+      def read_default_settings cont
       end
     end
-    flexmock(widgets['C1'][1]).should_receive(:read_default_settings).once
+    flexmock(widgets['C1'][1]).should_receive(:read_default_settings).once.with @cont
     
     widgets['C2'][0].instance_eval do
-      def read_default_settings
+      def read_default_settings cont
       end
     end
-    flexmock(widgets['C2'][0]).should_receive(:read_default_settings).once
+    flexmock(widgets['C2'][0]).should_receive(:read_default_settings).once.with @cont
     
     dlg.read_default_settings
   end
-  
+   
   it 'should call the read_default_settings method of the option manager' do
     dlg = Ruber::SettingsDialog.new @cont, [], @widgets
     flexmock(dlg.instance_variable_get(:@manager)).should_receive(:read_default_settings).once

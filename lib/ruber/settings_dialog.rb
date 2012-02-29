@@ -24,12 +24,12 @@ module Ruber
 
 =begin rdoc
 Dialog used to change the options contained in an SettingsContainer. It is a specialized
-<tt>KDE::PageDialog</tt>.
+@KDE::PageDialog@.
 
 The widgets added to the option container are displayed in pages corresponding to
 the captions included in the widgets' description. If more than one widget has
 the same caption, they're displayed in the same page, one below the other (using
-a Qt::VBoxLayout). The icon used for each page is the first one found among the
+a @Qt::VBoxLayout@). The icon used for each page is the first one found among the
 widgets in that page.
 
 The process of keeping the options in sync between the widgets and the option container
@@ -38,20 +38,19 @@ If this automatic management can't be achieved for a particular option (for exam
 because the value should be obtained combining the data of more than one widget),
 you can still automatically manage the other widgets and integrate the manual
 management of the widgets which need it with the automatic management. To do so,
-you'll need to define a read_settings, a store_settings and a read_default_settings
-method in your widget. In this case, you can access the dialog using the @settings_dialog
-instance variable, which is created by this class when the widget is created.
+you need to define three methods in your widget: @read_settings@, @store_settings@ and @read_default_settings@. They can all take no arguments or take the container as only argument.
 
-===Manual option management example
-Suppose you have an option called <tt>:default_path</tt> in the :general group which stores a path. In
+h3. Manual option management example
+
+Suppose you have an option called @default_path@ in the @general@ group which stores a path. In
 your widget, however, the path is split in two parts: the directory and the filename,
-which are shown in two line edit widgets, called respectively <tt>default_dir_widget</tt>
-and <tt>default_file_widget</tt>. Since the automatic option management system assumes
+which are shown in two line edit widgets, called respectively @default_dir_widget@
+and @default_file_widget@. Since the automatic option management system assumes
 that each option corresponds to a single widget, you can't use it. So, you define
-a <tt>read_settings</tt>, a <tt>store_settings</tt> and a <tt>read_default_settings</tt>
+a @read_settings@, a @store_settings@ and a @read_default_settings@
 method in your widget class like this:
 
-bc.. class MyWidget < Qt::Widget
+<pre>class MyWidget < Qt::Widget
 
   def initialize parent = nil
     super
@@ -59,29 +58,25 @@ bc.. class MyWidget < Qt::Widget
     @default_file_widget = KDE::LineEdit.new self
   end
 
-  def read_settings
-    path = @settings_dialog.settings_container[:general, :default_path]
+  def read_settings dialog
+    path = dialog.settings_container[:general, :default_path]
     @default_dir_widget.text = File.dirname(path)
     @default_file_widget.text = File.basename(path)
   end
   
-  def store_settings
+  def store_settings dialog
     path = File.join @default_dir_widget.text, @default_file_widget.text
-    @settings_dialog.settings_container[:general, :default_path] = path
+    dialog.settings_container[:general, :default_path] = path
   end
   
-  def read_default_settings
-    path = @settings_dialog.settings_container.default(:general, :default_path)
+  def read_default_settings dialog
+    path = dialog.settings_container.default(:general, :default_path)
     @default_dir_widget.text = File.dirname(path)
     @default_file_widget.text = File.basename(path)
   end
 
 end
-  
-p. Note that the <tt>@settings_dialog</tt> instance variable has been automatically
-created by the dialog when the widget has been created and contains a reference
-to the dialog itself.
-
+</pre>
 =end
   class SettingsDialog < KDE::PageDialog
     
@@ -126,7 +121,6 @@ the dialog.
           else widget_from_class(w.class_obj)
           end
           widget.parent = page
-          widget.instance_variable_set :@settings_dialog, self
           @widgets[c] << widget
           page.layout.add_widget widget
           icon ||= KDE::Icon.new w.pixmap if w.pixmap rescue nil
@@ -158,7 +152,9 @@ method of each widgets which provide it.
 =end
     def read_settings
       @manager.read_settings
-      @widgets.values.flatten.each{|w| w.read_settings if w.respond_to? :read_settings}
+      @widgets.values.flatten.each do |w|
+        w.read_settings @container if w.respond_to? :read_settings
+      end
     end
 
 =begin rdoc
@@ -169,7 +165,9 @@ so that the options are written to file.
 =end
     def store_settings
       @manager.store_settings
-      @widgets.values.flatten.each{|w| w.store_settings if w.respond_to? :store_settings}
+      @widgets.values.flatten.each do |w| 
+        w.store_settings @container if w.respond_to? :store_settings
+      end
       @container.write
     end
 
@@ -179,7 +177,9 @@ values of the options instad of the values set by the user.
 =end
     def read_default_settings
       @manager.read_default_settings
-      @widgets.values.flatten.each{|w| w.read_default_settings if w.respond_to? :read_default_settings}
+      @widgets.values.flatten.each do |w|
+        w.read_default_settings @container if w.respond_to? :read_default_settings
+      end
     end
 
 =begin rdoc

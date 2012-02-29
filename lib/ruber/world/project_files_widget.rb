@@ -270,9 +270,10 @@ in the dialg can be enabled accordingly
 =begin rdoc
 Reads the settings from the project
 
+@param [SettingsContainer] prj the project
 @return [nil]
 =end
-    def read_settings
+    def read_settings prj
       rules = project[:general, :project_files]
       @ui.include_rules.rules = rules[:include]
       @ui.exclude_rules.rules = rules[:exclude]
@@ -284,9 +285,10 @@ Reads the settings from the project
 =begin rdoc
 Writes the settings to the project
 
+@param [SettingsContainer] prj the project
 @return [nil]
 =end
-    def store_settings
+    def store_settings prj
       res = {
         :include => @ui.include_rules.rules,
         :exclude => @ui.exclude_rules.rules,
