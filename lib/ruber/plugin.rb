@@ -127,6 +127,12 @@ Base class for all plugins which provide a GUI (that is, menu or toolbar entries
   class GuiPlugin < Plugin
     
 =begin rdoc
+@return [KDE::XMLGUIClient] the GUI client associated with the plugin
+=end
+    attr_reader :gui
+    private :gui
+    
+=begin rdoc
 Creates an instance and initializes the GUI
 @param [Ruber::PluginSpecification] psf the plugin specification object associated
 with the plugin
