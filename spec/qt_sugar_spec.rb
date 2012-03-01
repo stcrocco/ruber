@@ -608,4 +608,27 @@ describe Qt::Splitter do
     
   end
   
+  describe Qt::StandardItemModel do
+    
+    before do
+      @model = Qt::StandardItemModel.new
+    end
+    
+    describe '#empty?' do
+      
+      it 'returns true if the model contains no items' do
+        @model.should be_empty
+      end
+      
+      it 'returns false if the model contains at least one item' do
+        @model.append_row Qt::StandardItem.new('x')
+        @model.should_not be_empty
+        @model.append_row Qt::StandardItem.new('y')
+        @model.should_not be_empty
+      end
+      
+    end
+    
+  end
+  
 end

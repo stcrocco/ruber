@@ -457,6 +457,13 @@ module Qt
   class StandardItemModel
 
     include QtEnumerable
+    
+=begin rdoc
+@return [Boolean] whether the model is empty or not
+=end
+    def empty?
+      rowCount == 0
+    end
 
 =begin rdoc
 If given a block, calls it once for each top level item. This means that items
