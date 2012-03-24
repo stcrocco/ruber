@@ -11,7 +11,7 @@ require: 'custom_actions'
 ui_file: customactionsui.rc
 config_options:
  custom_actions:
-  scripts: {default: []}
-  scripts_files: {default: []}
+  actions: {default: []}
+  shortcuts: {default: {}}
 config_widgets:
  - {class: Ruber::CustomActions::ConfigWidget, pixmap: custom_actions.png, caption: Custom Actions}

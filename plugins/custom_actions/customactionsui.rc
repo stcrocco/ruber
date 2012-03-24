@@ -1,9 +1,12 @@
 <!DOCTYPE kpartgui SYSTEM 'kpartgui.dtd'>
-<kpartgui version="1" name="ruber-custom_actions" >
+<kpartgui version="3" name="ruber-custom_actions" >
  <MenuBar>
-  <Menu noMerge="1" name="Tools" >
-    <text>&amp;Custom Tools</text>
-    <ActionList name="custom_actions_actions"/>
+  <Menu noMerge="1" name="tools" >
+    <Separator/>
+    <Menu noMerge="1" name="custom_actions">
+      <text>&amp;Custom Tools</text>
+      <ActionList name="custom_actions_actions"/>
+    </Menu>
   </Menu>
  </MenuBar>
  <ActionProperties/>
