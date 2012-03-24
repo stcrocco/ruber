@@ -773,8 +773,7 @@ Method required for the Plugin interface. Does nothing
   * delete all the plugins from the list of loaded components.
 =end
     def shutdown
-      each_component(:reverse){|c| c.save_settings unless c.equal?(self)}
-      @components[:config].write
+      save_components_settings
       each_component(:reverse){|c| c.shutdown unless c.equal? self}
 #       @components[:config].write
 #       each_component do |c|
@@ -847,6 +846,19 @@ Method required for the Plugin interface. Does nothing
       each_component do |c|
         c.restore_session data unless c.same? self
       end
+    end
+    
+=begin rdoc
+Saves the settings of each component
+
+It calls the @#save_settings@ method of each component, then calls the {ConfigManager#write write} method of the config object
+
+@return [nil]
+=end
+    def save_components_settings
+      each_component(:reverse){|c| c.save_settings unless c.equal?(self)}
+      @components[:config].write
+      nil
     end
     
     

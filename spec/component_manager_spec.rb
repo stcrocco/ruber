@@ -1316,3 +1316,37 @@ describe 'Ruber::ComponentManager.fill_dependencies' do
   end
   
 end
+
+describe Ruber::ComponentManager do
+  
+  describe '#save_components_settings' do
+    
+    before do
+      @manager = Ruber::ComponentManager.new
+      
+      flexmock(Ruber).should_receive(:[]).with(:app).and_return(Qt::Object.new).by_default
+      flexmock(Ruber).should_receive(:[]).with(:components).and_return(@manager).by_default
+      @config = Qt::Object.new
+      flexmock(@config).should_receive(:save_settings).by_default
+      flexmock(@config).should_receive(:write).by_default
+      flexmock(@config).should_receive(:shutdown).by_default
+      @manager.instance_variable_get(:@components)[:config] = @config
+      flexmock(Ruber).should_receive(:[]).with(:config).and_return(@config).by_default
+    end
+    
+    it 'calls the "save_settings" method of each plugin, except for itself' do
+      comps = @manager.instance_variable_get(:@components)
+      components = 5.times.map{|i| Ruber::Plugin.new(Ruber::PluginSpecification.full({:name => "c#{i}"}))}
+      components.reverse_each{|o| flexmock(o).should_receive(:save_settings).once.globally.ordered}
+      flexmock(@manager).should_receive(:save_settings).never
+      @manager.save_components_settings
+    end
+    
+    it 'calls the #write method on the configuration object' do
+      flexmock(@config).should_receive(:write).once
+      @manager.save_components_settings
+    end
+
+  end
+  
+end
