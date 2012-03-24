@@ -83,9 +83,12 @@ It calls the {Application#quit_ruber quit_ruber} method of the application
 =begin rdoc
 Saves the properties for session management
 
+It also saves the plugins settings, using {ComponentManager#save_components_settings}
+
 @return [nil]
 =end
     def saveProperties conf
+      Ruber[:components].save_components_settings
       data = YAML.dump @session_data 
       conf.write_entry 'Ruber', data
       nil
