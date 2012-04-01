@@ -22,7 +22,7 @@ module Ruber
     
     describe '#process_pdf' do
       names = %w[
-        name version about features deps runtime_deps ui_file tool_widgets config_widgets config_options project_options project_widgets extensions actions
+        name version about features deps runtime_deps ui_file tool_widgets config_widgets config_options project_options project_widgets extensions actions type
       ]
       names.insert names.index('ui_file'), ['required', 'required', ['a', 'b']]
       names.insert names.index('ui_file'), %w[class class_obj]
@@ -89,6 +89,7 @@ describe 'Ruber::PluginSpecificationReader#process_pdf_intro' do
     flexmock(@reader).should_receive(:read_features).by_default.and_return([:p1])
     flexmock(@reader).should_receive(:read_deps).by_default.and_return([])
     flexmock(@reader).should_receive(:read_runtime_deps).by_default.and_return([])
+    flexmock(@reader).should_receive(:read_type).by_default.and_return(:global)
   end
     
   it 'should store the value returned by calling the read_name method with both arguments in the result under the :name key' do
@@ -115,6 +116,13 @@ describe 'Ruber::PluginSpecificationReader#process_pdf_intro' do
     flexmock(@reader).should_receive(:read_version).once.with(hash).and_return('1.2.3')
     res = @reader.process_pdf_intro(hash)
     res.version.should == '1.2.3'
+  end
+  
+  it 'stores the value returned by the read_type method under the type key' do
+    hash = {:type => :project}
+    flexmock(@reader).should_receive(:read_type).once.with(hash).and_return(:project)
+    res = @reader.process_pdf_intro hash
+    res.type.should == :project
   end
   
   it 'should store the value returned by the read_required method in the result under the :required key' do
@@ -1719,6 +1727,44 @@ describe Ruber::PluginSpecificationReader do
         @reader.send(:read_rules, {})[:file_extension].should == []
       end
       
+    end
+    
+  end
+  
+  describe '#read_type' do
+    
+    before do
+      @info = OpenStruct.new
+      @reader = Ruber::PluginSpecificationReader.new @info
+    end
+    
+    it 'returns the value contained in the :type or "type" entry in the hash' do
+      @reader.send(:read_type, :type => :library).should == :library
+      @reader.send(:read_type, 'type' => :library).should == :library
+    end
+    
+    it 'converts the value to a symbol if it is a string' do
+      @reader.send(:read_type, :type => 'project').should == :project
+    end
+    
+    it 'ignores the "type" key if the :type key is given' do
+      @reader.send(:read_type, :type => :project, "type" => :global).should == :project
+    end
+    
+    it 'accepts the values: core, library, global and plugin, either as strings or symbols' do
+      values = %w[core library global project]
+      values.each do |v|
+        @reader.send(:read_type, :type => v).should == v.to_sym
+        @reader.send(:read_type, :type => v.to_sym).should == v.to_sym
+      end
+    end
+    
+    it 'raises Ruber::PluginSpecification::PSFError if a type entry doesn\'t exist in the hash' do
+      lambda{@reader.send(:read_type, {})}.should raise_error(Ruber::PluginSpecification::PSFError, "The required 'type' entry is missing from the PDF")
+    end
+    
+    it 'raises Ruber::PluginSpecification::PSFError if the type entry is not :global, :project or :library' do
+      lambda{@reader.send(:read_type, {:type => 'xyz'})}.should raise_error(Ruber::PluginSpecification::PSFError, "xyz is not a valid value for the 'type' entry")
     end
     
   end
