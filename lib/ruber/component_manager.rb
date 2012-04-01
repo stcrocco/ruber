@@ -525,7 +525,7 @@ possible kinds of dependency errors.
       super
       @components = Dictionary[:components, self]
       @features = {:components => self}
-      @plugin_description = PluginSpecification.full({:name => :components, :class => self.class})
+      @plugin_description = PluginSpecification.full({:name => :components, :class => self.class, :type => :core})
     end
 
 # Returns <tt>:components</tt>

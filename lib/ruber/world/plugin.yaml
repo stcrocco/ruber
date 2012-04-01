@@ -1,4 +1,5 @@
 name: world
+type: core
 description: Container for all the environments
 require: [world, environment, project_files_widget]
 class: Ruber::World::World

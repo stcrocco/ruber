@@ -1,3 +1,4 @@
+type: global
 name: ruby_runner
 version: 0.0.1
 about:

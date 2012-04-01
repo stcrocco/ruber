@@ -1,4 +1,5 @@
 name: app
+type: core
 description: The application itself
 require: [application]
 class: 'Ruber::Application'
