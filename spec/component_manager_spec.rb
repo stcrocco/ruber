@@ -221,6 +221,7 @@ describe 'Ruber::ComponentManager.load_component' do
       yaml = <<-EOS
 name: test
 class: TestComponent
+type: global
     EOS
     dir = File.expand_path('lib/ruber/main_window')
     flexmock(KDE::Application).should_receive(:instance).and_return Qt::Object.new
@@ -239,6 +240,7 @@ class: TestComponent
       yaml = <<-EOS
 name: test
 class: TestComponent
+type: global
     EOS
     dir = File.expand_path('lib/ruber/projects')
     flexmock(KDE::Application).should_receive(:instance).and_return nil
@@ -254,11 +256,12 @@ class: TestComponent
   end
 
   
-  it 'should read the full PDF from the plugin.yaml file contained in the directory with the same name as the component, in the same directory as the component_manager.rb file' do
+  it 'should read the full PSF from the plugin.yaml file contained in the directory with the same name as the component, in the same directory as the component_manager.rb file' do
     file = File.expand_path 'lib/ruber/test/plugin.yaml'
     yaml = <<-EOS
 name: test
 class: TestComponent
+type: global
     EOS
     pdf = Ruber::PluginSpecification.full YAML.load(yaml)
     flexmock(Ruber::PluginSpecification).should_receive(:full).once.with(file).and_return pdf
@@ -279,19 +282,20 @@ name: {
     lambda{@manager.load_component 'test'}.should raise_error(ArgumentError)
   end
   
-  it 'should raise Ruber::PluginSpecification::PSFError if the file isn\'t a valid PDF, then re-raise the exception' do
+  it 'should raise Ruber::PluginSpecification::PSFError if the file isn\'t a valid PSF, then re-raise the exception' do
     file = File.expand_path 'lib/ruber/test/plugin.yaml'
     yaml = '{}'
     flexmock(File).should_receive(:read).with(file).once.and_return yaml
     lambda{@manager.load_component 'test'}.should raise_error(Ruber::PluginSpecification::PSFError)
   end
   
-  it 'should store the component directory in the "directory" attribute of the PDF' do
+  it 'should store the component directory in the "directory" attribute of the PSF' do
     dir = File.expand_path 'lib/ruber/test'
     file = File.join dir, 'plugin.yaml'
     yaml = <<-EOS
 name: test
 class: TestComponent
+type: global
     EOS
     flexmock(File).should_receive(:read).with(file).and_return yaml
     pdf = Ruber::PluginSpecification.full(YAML.load(yaml))
@@ -301,11 +305,12 @@ class: TestComponent
     @manager.load_component 'test'
   end
   
-  it 'should create an instance of the class mentioned in the PDF, passing the component manager and the pdf as argument' do
+  it 'should create an instance of the class mentioned in the PSF, passing the component manager and the pdf as argument' do
     file = File.expand_path 'lib/ruber/test/plugin.yaml'
     yaml = <<-EOS
 name: test
 class: TestComponent
+type: global
     EOS
     flexmock(File).should_receive(:read).with(file).and_return yaml
     pdf = Ruber::PluginSpecification.full(YAML.load(yaml))
@@ -320,6 +325,7 @@ class: TestComponent
     yaml = <<-EOS
 name: test
 class: TestComponent
+type: global
     EOS
     flexmock(File).should_receive(:read).with(file).and_return yaml
     comp = TestComponent.new @manager, Ruber::PluginSpecification.full(YAML.load(yaml))
@@ -334,6 +340,7 @@ class: TestComponent
     yaml = <<-EOS
 name: test
 class: TestComponent
+type: global
     EOS
     flexmock(File).should_receive(:read).with(file).once.and_return yaml
     @manager.instance_variable_get(:@components)[:config] = TestComponent.new @manager, OpenStruct.new
@@ -350,6 +357,7 @@ class: TestComponent
     yaml = <<-EOS
 name: test
 class: TestComponent
+type: global
     EOS
     flexmock(File).should_receive(:read).with(file).once.and_return yaml
     comp = TestComponent.new @manager, Ruber::PluginSpecification.full(YAML.load(yaml))
@@ -384,6 +392,7 @@ describe 'Ruber::ComponentManager#load_plugin' do
     @yaml = <<-EOS
 name: test
 class: TestPlugin
+type: global
     EOS
     @pdf = Ruber::PluginSpecification.full YAML.load(@yaml)
     flexmock(File).should_receive(:read).with(@file).and_return(@yaml).by_default
@@ -406,7 +415,7 @@ class: TestPlugin
     KDE::Global.dirs.resource_dirs('appdata').should include(@dir)
   end
  
-  it 'should read the full PDF from the plugin.yaml file contained in the directory passed as argument' do
+  it 'should read the full PSF from the plugin.yaml file contained in the directory passed as argument' do
     flexmock(File).should_receive(:read).with(@file).once.and_return @yaml
     pdf = Ruber::PluginSpecification.full YAML.load(@yaml)
     flexmock(Ruber::PluginSpecification).should_receive(:full).once.with(YAML.load(@yaml), @dir).and_return pdf
@@ -419,6 +428,7 @@ class: TestPlugin
     yaml = <<-EOS
 name: test
 class: TestPlugin
+type: global
     EOS
     flexmock(File).should_receive(:read).once.with(@file).and_raise(SystemCallError.new(0))
     lambda{@manager.load_plugin @dir}.should raise_error(SystemCallError)
@@ -434,7 +444,7 @@ name: {
     lambda{@manager.load_plugin @dir}.should raise_error(ArgumentError)
   end
   
-  it 'should raise Ruber::PluginSpecification::PSFError if the file isn\'t a valid PDF' do
+  it 'should raise Ruber::PluginSpecification::PSFError if the file isn\'t a valid PSF' do
     dir = File.expand_path "#{ENV['HOME']}/test"
     yaml = '{}'
     file = File.join dir, 'plugin.yaml'
@@ -442,7 +452,7 @@ name: {
     lambda{@manager.load_plugin @dir}.should raise_error(Ruber::PluginSpecification::PSFError)
   end
   
-  it 'should create an instance of the class mentioned in the PDF, passing the PluginSpecification object as argument, and return it' do
+  it 'should create an instance of the class mentioned in the PSF, passing the PluginSpecification object as argument, and return it' do
     pdf = Ruber::PluginSpecification.full(YAML.load(@yaml))
     flexmock(Ruber::PluginSpecification).should_receive(:full).and_return pdf
     plug = TestPlugin.new(pdf)
@@ -675,9 +685,9 @@ describe 'Ruber::ComponentManager#load_plugins' do
    
   it 'should find the plugins in the given directories and load them in the alphabetically order if there aren\'t dependencies among them' do
     contents = {
-      'd1/p1/plugin.yaml' => '{name: p1, class: P1}',
-      'd1/p2/plugin.yaml' => '{name: p2, class: P2}',
-      'd2/p3/plugin.yaml' => '{name: p3, class: P3}'
+      'd1/p1/plugin.yaml' => '{name: p1, class: P1, type: global}',
+      'd1/p2/plugin.yaml' => '{name: p2, class: P2, type: global}',
+      'd2/p3/plugin.yaml' => '{name: p3, class: P3, type: global}'
       }
     @dir = make_dir_tree(@tree, '/tmp/', contents)
     @manager.load_plugins(%w[p2 p1 p3], %w[d1 d2].map{|d| File.join(@dir, d)})
@@ -686,9 +696,9 @@ describe 'Ruber::ComponentManager#load_plugins' do
   
   it 'should work with both strings and symbols' do
     contents = {
-      'd1/p1/plugin.yaml' => '{name: p1, class: P1}',
-      'd1/p2/plugin.yaml' => '{name: p2, class: P2}',
-      'd2/p3/plugin.yaml' => '{name: p3, class: P3}'
+      'd1/p1/plugin.yaml' => '{name: p1, class: P1, type: global}',
+      'd1/p2/plugin.yaml' => '{name: p2, class: P2, type: global}',
+      'd2/p3/plugin.yaml' => '{name: p3, class: P3, type: global}'
     }
     @dir = make_dir_tree(@tree, '/tmp/', contents)
     @manager.load_plugins([:p2, :p1, :p3], %w[d1 d2].map{|d| File.join(@dir, d)})
@@ -698,9 +708,9 @@ describe 'Ruber::ComponentManager#load_plugins' do
   
   it 'should find the plugins in the given directories and load them in dependecy order' do
     contents = {
-      'd1/p1/plugin.yaml' => '{name: p1, class: P1, deps: :p3}',
-      'd1/p2/plugin.yaml' => '{name: p2, class: P2}',
-      'd2/p3/plugin.yaml' => '{name: p3, class: P3, deps: :p2}'
+      'd1/p1/plugin.yaml' => '{name: p1, class: P1, deps: :p3, type: global}',
+      'd1/p2/plugin.yaml' => '{name: p2, class: P2, type: global}',
+      'd2/p3/plugin.yaml' => '{name: p3, class: P3, deps: :p2, type: global}'
       }
     @dir = make_dir_tree(@tree, '/tmp/', contents)
     @manager.load_plugins(%w[p1 p2 p3], %w[d1 d2].map{|d| File.join(@dir, d)})
@@ -709,9 +719,9 @@ describe 'Ruber::ComponentManager#load_plugins' do
   
   it 'should resolve dependencies among the plugins' do
     contents = {
-      'd1/p1/plugin.yaml' => '{name: p1, class: P1, deps: :p4}',
-      'd1/p2/plugin.yaml' => '{name: p2, class: P2}',
-      'd2/p3/plugin.yaml' => '{name: p3, class: P3, deps: :p2, features: [:p4]}'
+      'd1/p1/plugin.yaml' => '{name: p1, class: P1, deps: :p4, type: global}',
+      'd1/p2/plugin.yaml' => '{name: p2, class: P2, type: global}',
+      'd2/p3/plugin.yaml' => '{name: p3, class: P3, deps: :p2, features: [:p4], type: global}'
       }
     @dir = make_dir_tree(@tree, '/tmp/', contents)
     @manager.load_plugins(%w[p1 p2 p3], %w[d1 d2].map{|d| File.join(@dir, d)})
@@ -720,9 +730,9 @@ describe 'Ruber::ComponentManager#load_plugins' do
   
   it 'should load the plugins using the pdfs with the unresolved dependencies' do
     contents = {
-      'd1/p1/plugin.yaml' => '{name: p1, class: P1, deps: :p4}',
-      'd1/p2/plugin.yaml' => '{name: p2, class: P2}',
-      'd2/p3/plugin.yaml' => '{name: p3, class: P3, deps: :p2, features: [:p4]}'
+      'd1/p1/plugin.yaml' => '{name: p1, class: P1, deps: :p4, type: global}',
+      'd1/p2/plugin.yaml' => '{name: p2, class: P2, type: global}',
+      'd2/p3/plugin.yaml' => '{name: p3, class: P3, deps: :p2, features: [:p4], type: global}'
       }
     @dir = make_dir_tree(@tree, '/tmp/', contents)
     @manager.load_plugins(%w[p1 p2 p3], %w[d1 d2].map{|d| File.join(@dir, d)})
@@ -732,13 +742,13 @@ describe 'Ruber::ComponentManager#load_plugins' do
   it 'should use the already-loaded plugins, if any, to compute dependencies' do
     Object.const_set :P4, Class.new(Ruber::Plugin)
     Object.const_set :P5, Class.new(Ruber::Plugin)
-    loaded =  [{:name => :p4, :class => P4 }, {:name => :p5, :class => P5, :features => [:p6]}].map{|i| Ruber::PluginSpecification.full i}
+    loaded =  [{:name => :p4, :class => P4, :type => :global}, {:name => :p5, :class => P5, :features => [:p6], :type => :global}].map{|i| Ruber::PluginSpecification.full i}
     P4.new loaded[0]
     P5.new loaded[1]
     contents = {
-      'd1/p1/plugin.yaml' => '{name: p1, class: P1, deps: :p4}',
-      'd1/p2/plugin.yaml' => '{name: p2, class: P2, deps: p6}',
-      'd2/p3/plugin.yaml' => '{name: p3, class: P3, deps: :p2}'
+      'd1/p1/plugin.yaml' => '{name: p1, class: P1, deps: :p4, type: global}',
+      'd1/p2/plugin.yaml' => '{name: p2, class: P2, deps: p6, type: global}',
+      'd2/p3/plugin.yaml' => '{name: p3, class: P3, deps: :p2, type: global}'
     }
     @dir = make_dir_tree(@tree, '/tmp/', contents)
     @manager.load_plugins(%w[p1 p2 p3], %w[d1 d2].map{|d| File.join(@dir, d)})
@@ -747,9 +757,9 @@ describe 'Ruber::ComponentManager#load_plugins' do
   
   it 'should raise Ruber::ComponentManager::MissingPlugins if some plugins couldn\'t be found' do
     contents = {
-      'd1/p1/plugin.yaml' => '{name: p1, class: P1}',
-      'd1/p2/plugin.yaml' => '{name: p2, class: P2}',
-      'd2/p3/plugin.yaml' => '{name: p3, class: P3}'
+      'd1/p1/plugin.yaml' => '{name: p1, class: P1, type: global}',
+      'd1/p2/plugin.yaml' => '{name: p2, class: P2, type: global}',
+      'd2/p3/plugin.yaml' => '{name: p3, class: P3, type: global}'
     }
     @dir = make_dir_tree(@tree, '/tmp/', contents)
     lambda{@manager.load_plugins(%w[p1 p2 p3 p4 p5], %w[d1 d2].map{|d| File.join(@dir, d)})}.should raise_error(Ruber::ComponentManager::MissingPlugins) do |e|
@@ -757,23 +767,23 @@ describe 'Ruber::ComponentManager#load_plugins' do
     end
   end
   
-  it 'should raise Ruber::ComponentManager::InvalidPDF if the PDF for some plugins was invalid' do
+  it 'should raise Ruber::ComponentManager::InvalidPSF if the PSF for some plugins was invalid' do
     contents = {
-      'd1/p1/plugin.yaml' => '{name: p1, class: P1',
-      'd1/p2/plugin.yaml' => '{class: P2}',
-      'd2/p3/plugin.yaml' => '{name: p3, class: P3}'
+      'd1/p1/plugin.yaml' => '{name: p1, type: global, class: P1',
+      'd1/p2/plugin.yaml' => '{class: P2, type: global}',
+      'd2/p3/plugin.yaml' => '{name: p3, class: P3, type: global}'
     }
     @dir = make_dir_tree(@tree, '/tmp/', contents)
-    lambda{@manager.load_plugins(%w[p1 p2 p3], %w[d1 d2].map{|d| File.join(@dir, d)})}.should raise_error(Ruber::ComponentManager::InvalidPDF) do |e|
+    lambda{@manager.load_plugins(%w[p1 p2 p3], %w[d1 d2].map{|d| File.join(@dir, d)})}.should raise_error(Ruber::ComponentManager::InvalidPSF) do |e|
       e.files.should =~ %w[d1/p1/plugin.yaml d1/p2/plugin.yaml].map{|f| File.join @dir, f}
     end
   end
   
   it 'should raise an exception if loading a plugin raises an exception and no block is given' do
     contents = {
-      'd1/p1/plugin.yaml' => '{name: p1, class: X1}',
-      'd1/p2/plugin.yaml' => '{name: p2, class: P2}',
-      'd2/p3/plugin.yaml' => '{name: p3, class: P3}'
+      'd1/p1/plugin.yaml' => '{name: p1, class: X1, type: global}',
+      'd1/p2/plugin.yaml' => '{name: p2, class: P2, type: global}',
+      'd2/p3/plugin.yaml' => '{name: p3, class: P3, type: global}'
     }
     @dir = make_dir_tree(@tree, '/tmp/', contents)
     lambda{@manager.load_plugins(%w[p1 p2 p3], %w[d1 d2].map{|d| File.join(@dir, d)})}.should raise_error(NameError)
@@ -783,9 +793,9 @@ describe 'Ruber::ComponentManager#load_plugins' do
     P1.class_eval{def initialize pdf; raise NoMethodError;end}
     P3.class_eval{def initialize pdf; raise ArgumentError;end}
     contents = {
-      'd1/p1/plugin.yaml' => '{name: p1, class: P1}',
-      'd1/p2/plugin.yaml' => '{name: p2, class: P2}',
-      'd2/p3/plugin.yaml' => '{name: p3, class: P3}'
+      'd1/p1/plugin.yaml' => '{name: p1, class: P1, type: global}',
+      'd1/p2/plugin.yaml' => '{name: p2, class: P2, type: global}',
+      'd2/p3/plugin.yaml' => '{name: p3, class: P3, type: global}'
     }
     @dir = make_dir_tree(@tree, '/tmp/', contents)
     m = flexmock do |mk|
@@ -799,9 +809,9 @@ describe 'Ruber::ComponentManager#load_plugins' do
     P1.class_eval{def initialize pdf; raise NoMethodError;end}
     P2.class_eval{def initialize pdf; raise ArgumentError;end}
     contents = {
-      'd1/p1/plugin.yaml' => '{name: p1, class: P1}',
-      'd1/p2/plugin.yaml' => '{name: p2, class: P2}',
-      'd2/p3/plugin.yaml' => '{name: p3, class: P3}'
+      'd1/p1/plugin.yaml' => '{name: p1, class: P1, type: global}',
+      'd1/p2/plugin.yaml' => '{name: p2, class: P2, type: global}',
+      'd2/p3/plugin.yaml' => '{name: p3, class: P3, type: global}'
     }
     @dir = make_dir_tree(@tree, '/tmp/', contents)
     m = flexmock do |mk|
@@ -816,9 +826,9 @@ describe 'Ruber::ComponentManager#load_plugins' do
     P1.class_eval{def initialize pdf; raise NoMethodError;end}
     P2.class_eval{def initialize pdf; raise ArgumentError;end}
     contents = {
-      'd1/p1/plugin.yaml' => '{name: p1, class: P1}',
-      'd1/p2/plugin.yaml' => '{name: p2, class: P2}',
-      'd2/p3/plugin.yaml' => '{name: p3, class: P3}'
+      'd1/p1/plugin.yaml' => '{name: p1, class: P1, type: global}',
+      'd1/p2/plugin.yaml' => '{name: p2, class: P2, type: global}',
+      'd2/p3/plugin.yaml' => '{name: p3, class: P3, type: global}'
     }
     @dir = make_dir_tree(@tree, '/tmp/', contents)
     m = flexmock do |mk|
@@ -831,9 +841,9 @@ describe 'Ruber::ComponentManager#load_plugins' do
   
   it 'should return true if no error occurs' do
         contents = {
-      'd1/p1/plugin.yaml' => '{name: p1, class: P1}',
-      'd1/p2/plugin.yaml' => '{name: p2, class: P2}',
-      'd2/p3/plugin.yaml' => '{name: p3, class: P3}'
+      'd1/p1/plugin.yaml' => '{name: p1, class: P1, type: global}',
+      'd1/p2/plugin.yaml' => '{name: p2, class: P2, type: global}',
+      'd2/p3/plugin.yaml' => '{name: p3, class: P3, type: global}'
       }
     @dir = make_dir_tree(@tree, '/tmp/', contents)
     @manager.load_plugins(%w[p2 p1 p3], %w[d1 d2].map{|d| File.join(@dir, d)}).should be_true
@@ -871,7 +881,7 @@ describe 'Ruber::ComponentManager#shutdown' do
   
   it 'should call the "save_settings" method of each plugin, except for itself' do
     comps = @manager.instance_variable_get(:@components)
-    components = 5.times.map{|i| Ruber::Plugin.new(Ruber::PluginSpecification.full({:name => "c#{i}"}))}
+    components = 5.times.map{|i| Ruber::Plugin.new(Ruber::PluginSpecification.full({:name => "c#{i}", :type => :core}))}
     components.reverse_each{|o| flexmock(o).should_receive(:save_settings).once.globally.ordered}
     flexmock(@manager).should_receive(:save_settings).never
     @manager.shutdown
@@ -879,7 +889,7 @@ describe 'Ruber::ComponentManager#shutdown' do
   
   it 'calls the write method of the config object after the plugins\' save_settings method' do
     comps = @manager.instance_variable_get(:@components)
-    components = 5.times.map{|i| Ruber::Plugin.new(Ruber::PluginSpecification.full({:name => "c#{i}"}))}
+    components = 5.times.map{|i| Ruber::Plugin.new(Ruber::PluginSpecification.full({:name => "c#{i}", :type => :global}))}
     components.each{|o| flexmock(o).should_receive(:save_settings).once.ordered('components')}
     flexmock(@config).should_receive(:write).once.ordered
     @manager.shutdown
@@ -931,7 +941,7 @@ describe 'Ruber::ComponentManager#shutdown' do
     comps = @manager.instance_variable_get(:@components)
     components = 5.times.map do |i| 
       flexmock(@manager).should_receive("unloading_c#{i}")
-      Ruber::Plugin.new(Ruber::PluginSpecification.full({:name => "c#{i}"}))
+      Ruber::Plugin.new(Ruber::PluginSpecification.full({:name => "c#{i}", :type => :global}))
     end
     components.reverse_each{|o| flexmock(o).should_receive(:shutdown).once.globally.ordered}
     @manager.shutdown
@@ -1039,13 +1049,13 @@ describe 'Ruber::ComponentManager#unload_plugin' do
     flexmock(Ruber).should_receive(:[]).with(:config).and_return(nil).by_default
     
     plugin_pdfs = [
-      {:name => :p0},
-      {:name => :p1, :features => [:x, :y]},
-      {:name => :p2, :features => [:w, :z]}
+      {:name => :p0, :type => :global},
+      {:name => :p1, :features => [:x, :y], :type => :global},
+      {:name => :p2, :features => [:w, :z], :type => :global}
       ].map{|i| Ruber::PluginSpecification.full(i)}
     component_pdfs = [
-      {:name => :c0, :features => [:a, :b]},
-      {:name => :c1, :features => [:c]}
+      {:name => :c0, :features => [:a, :b], :type => :core},
+      {:name => :c1, :features => [:c], :type => :core}
       ].map{|i| Ruber::PluginSpecification.full(i)}
     @components = component_pdfs.map{|i| @cls.new(i)}
     @plugins = plugin_pdfs.map{|i| Ruber::Plugin.new(i)}
@@ -1205,10 +1215,10 @@ describe 'Ruber::ComponentManager.find_plugins' do
   
   it 'should return a hash containing the names of the plugins (as symbols) as keys and the corresponding PluginSpecification (with the directory set to the plugin file) as values' do
     contents = {
-      'd1/p1/plugin.yaml' => 'name: p1',
-      'd1/p2/plugin.yaml' => 'name: p2',
-      'd2/p3/plugin.yaml' => 'name: p3',
-      'd2/p4/plugin.yaml' => 'name: p4',
+      'd1/p1/plugin.yaml' => '{name: p1, type: global }',
+      'd1/p2/plugin.yaml' => '{name: p2, type: global}',
+      'd2/p3/plugin.yaml' => '{name: p3, type: global}',
+      'd2/p4/plugin.yaml' => '{name: p4, type: global}',
     }
     dir = make_dir_tree YAML.load(%q{[[d1, [p1, plugin.yaml], [p2, plugin.yaml]], [d2, [p3, plugin.yaml], [p4, plugin.yaml]]]}), '/tmp', contents
     exp = %w[d1/p1 d1/p2 d2/p3 d2/p4].map do |d| 
@@ -1234,10 +1244,10 @@ describe 'Ruber::ComponentManager.find_plugins' do
     Ruber::ComponentManager.find_plugins(dirs, false).should == exp
     FileUtils.rm_r dir
         contents = {
-      'd1/p1/plugin.yaml' => 'name: p1',
-      'd1/p2/plugin.yaml' => 'name: p2',
-      'd2/p3/plugin.yaml' => 'name: p3',
-      'd2/p1/plugin.yaml' => 'name: p1',
+      'd1/p1/plugin.yaml' => '{name: p1, type: global}',
+      'd1/p2/plugin.yaml' => '{name: p2, type: global}',
+      'd2/p3/plugin.yaml' => '{name: p3, type: global}',
+      'd2/p1/plugin.yaml' => '{name: p1, type: global}',
     }
     dir = make_dir_tree YAML.load(%q{[[d1, [p1, plugin.yaml], [p2, plugin.yaml]], [d2, [p3, plugin.yaml], [p1, plugin.yaml]]]}), '/tmp', contents
     exp = %w[d1/p1 d1/p2 d2/p3].map do |d| 
@@ -1255,33 +1265,33 @@ end
 describe 'Ruber::ComponentManager.fill_dependencies' do
   
   it 'should return an empty array if plugins passed as first argument only don\'t have dependencies' do
-    pdfs = [{:name => :p1}, {:name => :p2}, {:name => :p3}, {:name => :p4}].map{|pl| Ruber::PluginSpecification.intro(pl)}
+    pdfs = [{:name => :p1, :type => :global}, {:name => :p2, :type => :global}, {:name => :p3 , :type => :global}, {:name => :p4, :type => :global}].map{|pl| Ruber::PluginSpecification.intro(pl)}
     Ruber::ComponentManager.fill_dependencies(pdfs[0..1], pdfs).should == []
   end
   
   it 'should return an empty array if the plugins passed as first argument only depend on features having the names of other of those plugins' do
-    pdfs = [{:name => :p1, :deps => :p2}, {:name => :p2, :deps => :p3}, {:name => :p3}, {:name => :p4}].map{|pl| Ruber::PluginSpecification.intro(pl)}
+    pdfs = [{:name => :p1, :deps => :p2, :type => :global}, {:name => :p2, :deps => :p3, :type => :global}, {:name => :p3, :type => :global}, {:name => :p4, :type => :global}].map{|pl| Ruber::PluginSpecification.intro(pl)}
     Ruber::ComponentManager.fill_dependencies(pdfs[0..2], pdfs).should == []
   end
   
   it 'should return an emtpy arra if the plugins passed as first argument only depend on features provided by of other plugins in the first argument' do
-    pdfs = [{:name => :p1, :deps => :f2}, {:name => :p2, :deps => :f3, :features => :f2}, {:name => :p3, :features => [:f3, :f5]}, {:name => :p4}].map{|pl| Ruber::PluginSpecification.intro(pl)}
+    pdfs = [{:name => :p1, :deps => :f2, :type => :global}, {:name => :p2, :deps => :f3, :features => :f2, :type => :global}, {:name => :p3, :features => [:f3, :f5], :type => :global}, {:name => :p4, :type => :global}].map{|pl| Ruber::PluginSpecification.intro(pl)}
     Ruber::ComponentManager.fill_dependencies(pdfs[0..2], pdfs).should == []
   end
   
   it 'should return an array containing the names of the plugins in the second argument whose name matches dependencies in the first argument not satisfied otherwise' do
-    pdfs = [{:name => :p1, :deps => [:f2, :p4]}, {:name => :p2, :deps => :p3, :features => :f2}, {:name => :p3}, {:name => :p4 }, {:name => :p5 }].map{|pl| Ruber::PluginSpecification.intro(pl)}
+    pdfs = [{:name => :p1, :deps => [:f2, :p4], :type => :global}, {:name => :p2, :deps => :p3, :features => :f2, :type => :global}, {:name => :p3, :type => :global}, {:name => :p4, :type => :global}, {:name => :p5, :type => :global}].map{|pl| Ruber::PluginSpecification.intro(pl)}
     Ruber::ComponentManager.fill_dependencies(pdfs[0..1], pdfs).map{|i| i.to_s}.should =~ [:p3, :p4].map{|i| i.to_s}
   end
   
   it 'should return an array containing the dependencies\' dependencies, if any' do
     pdfs = [
-      {:name => :p1, :deps => [:f2, :p4]},
-      {:name => :p2, :deps => :p3, :features => :f2},
-      {:name => :p3, :deps => :p6},
-      {:name => :p4, :deps => :p5 },
-      {:name => :p5 },
-      {:name => :p6}
+      {:name => :p1, :deps => [:f2, :p4], :type => :global},
+      {:name => :p2, :deps => :p3, :features => :f2, :type => :global},
+      {:name => :p3, :deps => :p6, :type => :global},
+      {:name => :p4, :deps => :p5, :type => :global},
+      {:name => :p5, :type => :global},
+      {:name => :p6, :type => :global}
     ]
     pdfs.map!{|pl| Ruber::PluginSpecification.intro(pl)}
     Ruber::ComponentManager.fill_dependencies(pdfs[0..1], pdfs).map{|i| i.to_s}.should =~ [:p3, :p4, :p5, :p6].map{|i| i.to_s}
@@ -1289,13 +1299,13 @@ describe 'Ruber::ComponentManager.fill_dependencies' do
   
   it 'should not add a plugin with the same name of a feature as a dependecy if another plugin already provides that feature' do
     pdfs = [
-      {:name => :p1, :deps => [:f2, :p4]},
-      {:name => :p2, :deps => :p3, :features => :f2},
-      {:name => :p3, :deps => :p6, :features => :p5},
-      {:name => :p4, :deps => :p5 },
-      {:name => :p5, :deps => :p7 },
-      {:name => :p6},
-      {:name => :p7}
+      {:name => :p1, :deps => [:f2, :p4], :type => :global},
+      {:name => :p2, :deps => :p3, :features => :f2, :type => :global},
+      {:name => :p3, :deps => :p6, :features => :p5, :type => :global},
+      {:name => :p4, :deps => :p5, :type => :global},
+      {:name => :p5, :deps => :p7, :type => :global},
+      {:name => :p6, :type => :global},
+      {:name => :p7, :type => :global}
     ]
     pdfs.map!{|pl| Ruber::PluginSpecification.intro(pl)}
     Ruber::ComponentManager.fill_dependencies(pdfs[0..1], pdfs).map{|i| i.to_s}.should =~ [:p3, :p4, :p6].map{|i| i.to_s}
@@ -1303,11 +1313,11 @@ describe 'Ruber::ComponentManager.fill_dependencies' do
   
   it 'should raise UnresolvedDep if some dependencies can\'t be resolved' do
     pdfs = [
-      {:name => :p1, :deps => [:f2, :p4, :p7]},
-      {:name => :p2, :deps => :p3, :features => :f2},
-      {:name => :p3, :deps => :p6, :features => :p5},
-      {:name => :p4, :deps => :p5 },
-      {:name => :p5, :deps => :p7 },
+      {:name => :p1, :deps => [:f2, :p4, :p7], :type => :global},
+      {:name => :p2, :deps => :p3, :features => :f2, :type => :global},
+      {:name => :p3, :deps => :p6, :features => :p5, :type => :global},
+      {:name => :p4, :deps => :p5, :type => :global},
+      {:name => :p5, :deps => :p7, :type => :global},
     ]
     pdfs.map!{|pl| Ruber::PluginSpecification.intro(pl)}
     lambda{Ruber::ComponentManager.fill_dependencies(pdfs[0..1], pdfs)}.should raise_error(Ruber::ComponentManager::UnresolvedDep) do |e|

@@ -224,7 +224,7 @@ describe 'KRuber::PluginSpecificationReader#read_name' do
   end
   
   it 'should raise Ruber::PluginSpecification::PSFError if a name entry doesn\'t exist in the input hash and the second argument is false' do
-    lambda{@reader.send(:read_name, {})}.should raise_error(Ruber::PluginSpecification::PSFError, "The required 'name' entry is missing from the PDF")
+    lambda{@reader.send(:read_name, {})}.should raise_error(Ruber::PluginSpecification::PSFError, "The required 'name' entry is missing from the PSF")
   end
   
   it 'should return  nil if the :name/"name" entry doesn\'t exist in the input hash and the second argument is true' do
@@ -1102,7 +1102,7 @@ describe 'Ruber::PluginSpecificationReader#read_extension' do
     end
     
     it 'should raise Ruber::PluginSpecification::PSFError if the :class/"class" entry doesn\'t exist in the second argument' do
-      lambda{@reader.send(:read_extension, :e, {})}.should raise_error(Ruber::PluginSpecification::PSFError, "The required 'class' entry is missing from the PDF")
+      lambda{@reader.send(:read_extension, :e, {})}.should raise_error(Ruber::PluginSpecification::PSFError, "The required 'class' entry is missing from the PSF")
     end
     
   end
@@ -1388,7 +1388,7 @@ describe Ruber::PluginSpecificationReader do
     end
     
     it 'should raise PluginSpecification::PSFError if the value contained in the entry isn\'t an array' do
-      lambda{@reader.send(:read_authors, {:authors => 'Name'})}.should raise_error(Ruber::PluginSpecification::PSFError, 'The "authors" entry in the PDF should be an array')
+      lambda{@reader.send(:read_authors, {:authors => 'Name'})}.should raise_error(Ruber::PluginSpecification::PSFError, 'The "authors" entry in the PSF should be an array')
     end
     
     it 'should enclose the value contained in the authors entry in an array if it\'s not a nested array' do
@@ -1525,7 +1525,7 @@ describe Ruber::PluginSpecificationReader do
       @reader = Ruber::PluginSpecificationReader.new @info
     end
     
-    it 'should return the bug_address entry of the PDF' do
+    it 'should return the bug_address entry of the PSF' do
       @reader.send(:read_bug_address, {:bug_address => 'xyz@abc.org'}).should == 'xyz@abc.org'
       @reader.send('read_bug_address', {:bug_address => 'xyz@abc.org'}).should == 'xyz@abc.org'
     end
@@ -1547,7 +1547,7 @@ describe Ruber::PluginSpecificationReader do
       @reader = Ruber::PluginSpecificationReader.new @info
     end
   
-    it 'should return the copyright entry of the PDF' do
+    it 'should return the copyright entry of the PSF' do
       @reader.send(:read_copyright, {:copyright => 'copyright text'}).should == 'copyright text'
       @reader.send('read_copyright', {:copyright => 'copyright text'}).should == 'copyright text'
     end
@@ -1569,7 +1569,7 @@ describe Ruber::PluginSpecificationReader do
       @reader = Ruber::PluginSpecificationReader.new @info
     end
     
-    it 'should return the homepage entry of the PDF' do
+    it 'should return the homepage entry of the PSF' do
       @reader.send(:read_homepage, {:homepage => 'http://www.abc.org'}).should == 'http://www.abc.org'
       @reader.send(:read_homepage, {'homepage' => 'http://www.abc.org'}).should == 'http://www.abc.org'
     end
@@ -1760,7 +1760,7 @@ describe Ruber::PluginSpecificationReader do
     end
     
     it 'raises Ruber::PluginSpecification::PSFError if a type entry doesn\'t exist in the hash' do
-      lambda{@reader.send(:read_type, {})}.should raise_error(Ruber::PluginSpecification::PSFError, "The required 'type' entry is missing from the PDF")
+      lambda{@reader.send(:read_type, {})}.should raise_error(Ruber::PluginSpecification::PSFError, "The required 'type' entry is missing from the PSF")
     end
     
     it 'raises Ruber::PluginSpecification::PSFError if the type entry is not :global, :project or :library' do

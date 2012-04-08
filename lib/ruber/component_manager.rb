@@ -50,25 +50,24 @@ module Ruber
   class ComponentManager < Qt::Object
     
 =begin rdoc
-Helper class used to resolve dependencies among plugins. Most likely you don't
-need to use it, but simply call <tt>Ruber::ComponentManager.sort_plugins</tt>.
+Helper class used to resolve dependencies among plugins. It is used by
+{Ruber::ComponentManager.sort_plugins Ruber::ComponentManager.sort_plugins}.
 =end
     class PluginSorter
       
 =begin rdoc
-Creates a new +PluginSorter+. _pdfs_ is an array of the plugin descriptions to
-sort. _ignored_ is an array containing dependencies to be ignored(maybe because
-they're already loaded). _ignored_ can be either an array of symbols, where each
-symbol is the name of a feature, or an array of +PluginSpecification+s.
+@param [<PluginSpecification>] psf the specifications of the plugins to sort
+@param [<PluginSpecification,Symbol>] ignored a list of dependencies which can
+  be considered satisfied even if they're not included in _psfs_. Usually, this
+  array contains plugins which have already been loaded
       
-<b>Note:</b> _pdfs_ should contain dependencies in terms of actual plugins, not
-of features.
+@note _psfs_ should contain dependencies in terms of actual plugins, not of features
 =end
-      def initialize pdfs, ignored = []
-        @pdfs = {}
+      def initialize psfs, ignored = []
+        @psfs = {}
         @plugins = {}
-        pdfs.each do |i|
-          @pdfs[i.name] = i
+        psfs.each do |i|
+          @psfs[i.name] = i
           @plugins[i.name] = i.deps
         end
         @ignored = ignored.map{|i| i.is_a?(OpenStruct) ? i.name : i}
@@ -77,16 +76,16 @@ of features.
       end
 
 =begin rdoc
-Sorts the plugins associated with the object, according with their dependencies 
-and returns an array containing the plugin descriptions sorted in dependence order,
-from the dependence to the dependent.
+Sorts the plugins
 
-If some of the plugins have dependency which doesn't correspond neither to another
-plugin nor to one of the plugins to ignore, <tt>Ruber::ComponentManager::UnresolvedDep</tt>
-will be raised.
-
-If there's a circular dependency among the plugins, <tt>Ruber::ComponentManager::CircularDep</tt>
-will be raised.
+@return [<PluginSpecification>] an array containing the plugins to be loaded
+  sorted so that a plugin comes after those it depends upon. Dependencies
+  on ignored plugins aren't taken into account
+@raise [Ruber::ComponentManager::UnresolvedDep] if some plugins have unsatisfied
+  dependencies
+@raise [Ruber::ComponentManager::CircularDep] if there are circuolar dependencies 
+  among the plugins (that is, @A@ depends on @B@ and @B@ depends, directly or
+  indirectly, on @A@)
 =end
       def sort_plugins
         @plugins.each_value do |v|
@@ -109,17 +108,23 @@ will be raised.
           raise "Circular deps (this shouldn't happen)" unless old_size > deps.size
           old_size = deps.size
         end
-        res.map{|i| @pdfs[i]}
+        res.map{|i| @psfs[i]}
       end
 
       private
       
 =begin rdoc
-  Checks whether all the dependencies among the plugins are satisifed either by
-  another plugin or by a plugin in the _ignore_ list. Returns a hash which is
-  empty if all the dependencies were satisifed and otherwise has for keys the
-  names of plugins whose dependencies couldn't be found and for values arrays
-  containing the names of the missing dependencies for that plugin.
+
+Checks whether all the dependencies among the plugins are statisfied
+
+A dependency can be satisfied either by one of the plugins to sort or by one
+of the plugins to ignore.
+
+@return [{Symbol => <Symbol>}] an empty hash if all dependencies were satisfied.
+  If some plugins have dependencies which aren't either in the plugin list
+  nor in the list of plugins to ignore, the hash has the names of the plugins
+  with unsatisfied dependencies as keys and arrays with the names of the missing
+  dependencies as values
 =end
       def find_unknown_deps
         known = @plugins.keys
@@ -132,18 +137,23 @@ will be raised.
       end
       
 =begin rdoc
-  Finds the dependencies of the plugin _plug_. To do this, it calls itself
-  recursively for each of the direct dependencies of the plugin. The dependencies
-  found are stored in the <tt>@deps</tt> hash. 
+Finds the dependencies of a plugin
+
+To do this, it calls itself recursively for each of the direct dependencies of
+the plugin. The dependencies found are stored in the @@deps@ hash. 
       
-  To avoid an endless loop or a SystemStackError in case of circular dependencies,
-  each time the method is called, it is also passed a second argument, an array
-  containing the names of the plugins whose dependencies have lead to that call.
+To avoid an endless loop or a @SystemStackError@ in case of circular dependencies,
+each time the method is called, it is also passed a second argument, an array
+containing the names of the plugins whose dependencies have lead to that call.
       
-  If circular dependencies are found, the entry in <tt>@deps</tt> corresponding 
-  to the plugin is set to *nil*, and an array containing the pairs of plugins with
-  circular dependencies is returned. If no circular dependencies exist, the returned
-  array is empty.
+If circular dependencies are found, the entry in @@deps@ corresponding 
+to the plugin is set to *nil*.
+
+@param [Symbol] plug the name of the plugin whose dependencies are to be found
+@param [<Symbol>] stack the chain of dependencies which lead to this
+@return [<(Symbol,Symbol)>] an empty array if there isn't no circular dependency 
+  or an array containing pairs of names of plugins which depend on one another
+  if there are circular dependencies
 =end
       def find_dep plug, stack = []
         direct_deps = @plugins[plug] || []
@@ -185,18 +195,16 @@ end
   Helper class which contains the methods needed to find all the plugins needed
   to satisfy the dependencies of a given set of plugins.
   
-  The difference between this class and PluginSorter is that the latter needs
-  to know all the plugins which should be loaded, while this class has the job of
+  The difference between this class and @PluginSorter@ is that the latter needs
+  to know all the plugins which should be loaded, while this class performs the job of
   finding out which ones need to be loaded.
 =end
     class DepsSolver
 
 =begin rdoc
-  Creates a new +DepsSolver+.
-      
-  <i>to_load</i> is an array containing the PluginSpecification corresponding describing
-  the plugins to load, while <i>availlable</i> is an array containing the 
-  PluginSpecification which can be used to resolve dependencies.
+@param [<PluginSpecification>] to_load the plugin specifications corresponding
+  to the plugin which one wants to load
+@param [<PluginSpecification>] availlable a list of all the availlable pluings
 =end
       def initialize to_load, availlable
         @to_load = to_load.map{|i| [i.name, i]}.to_h
@@ -222,14 +230,17 @@ end
       end
 
 =begin rdoc
-  Tries to resolve the dependencies for the given plugins, returning an array
-  containing the plugins needed to satisfy all the dependencies. When a plugin
-  depends on a feature _f_, then _f_ is included in the list of needed plugins, 
-  together with its dependencies, unless another required plugin already provides
-  that feature.
-      
-  If some dependencies can't be satisfied, UnresolvedDep is raised. If there are
-  circular dependencies, CircularDep is raised.
+Tries to resolve the dependencies for the given plugins
+
+If a plugin depends on a feature, a plugin with that name is added to the list
+of needed plugins, unless the feature is already provided by either another
+dependency or one of the plugins to load.
+
+@return [<Symbol>] a list of the names of the needed plugins (not features)
+@raise [UnresolvedDep] if a plugin which needs to be loaded depends on a feature
+  no other plugin provides
+@raise [CircularDep] if there's a circular dependencies among plugins which
+  need to be loaded (that is, if there are two plugins depending on each other)
 =end
       def solve
         errors = {:missing => {}, :circular => []}
@@ -247,23 +258,29 @@ end
       private
 
 =begin rdoc
-  Recursively finds all the dependencies for the plugin described by the PluginSpecification
-  _pl_.
-      
-  _errors_ is a hash used to store missing dependencies and circular dependencies.
-  It should have a <tt>:circular</tt> and a <tt>:missing</tt> key. The corresponding
-  values should be an array and a hash.
-      
-  _stack_ is an array containing the names of the plugins whose dependencies are
-  being solved and is used to detect circular dependencies. For example, if _stack_
-  is: <tt>[:a, :b, :c]</tt>, it would mean that we're resolving the dependencies
-  of the plugin :c, which is a dependency of the plugin :b, which is a dependency
-  of the plugin :a. If this array contains <tt>pl.name</tt>, then there's a circular
-  dependency.
+Finds all the dependencies for a given plugin
+
+@param [PluginSpecification] pl the plugin specification for the plugin to finds
+  the dependencies for
+@param [{:circular => Array, :missing => {Symbol => <Symbol>}}] errors a hash where to store
+  errors. Circular dependencis are stored under the @:circular@ key as pairs
+  of plugins depending on each other. Missing dependencies errors are stored
+  under the @:missing@ keys, with the keys being the names of the plugins which
+  have missing depenencies and the values arrays containing the names of the
+  missing dependencies.
   
-  <b>Note:</b> this method doesn't raise exceptions if there are circular or missing
+  This hash will be modified by this method
+@param [<Symbol>] stack the names of the plugins whose dependencies are being
+  solved. It's used to find circular dependencies. For example, if it the array
+  is: <tt>[:a, :b, :c]</tt>, it means that we're resolving the dependencies
+  of the plugin :c, which is a dependency of the plugin :b, which is a dependency
+  of the plugin :a. If the name of the plugin _pl_ is @:a@, @:b@ or @:c@, then
+  we know there's a circular dependency.
+  
+@note@ this method doesn't raise exceptions if there are circular or missing
   dependencies. Rather, it adds them to _errors_ and goes on (this means that it
   skips both missing and circular dependencies).
+@return [<Symbol>] a list of all the dependencies for _pl_
 =end
       def solve_for pl, errors, stack
         deps = []
@@ -291,16 +308,15 @@ end
       end
 
 =begin rdoc
-  Attempts to remove from the list of needed dependencies all those dependencies
-  which are there only to provide features already provided by other plugins.
-  
-  For example, if the list of needed plugins includes both the plugin <tt>:a</tt>
-  and the plugin <tt>:b</tt>, which provides the feature <tt>:a</tt>, then the
-  plugin <tt>:a</tt> whould be removed from the list.
-      
-  If after removing plugins as described above, the list contains plugins which
-  aren't needed anymore, because they were there only to satisfy the dependencies
-  of plugins which have already been removed, they're also removed.
+Removes from the dependencies list plugins which aren't truly needed
+
+Given how dependency solving works, it is possible that a plugin has been included
+in the dependency list to satisfy a dependency on a given feature, but later
+another plugin providing the same feature has been required by another plugin.
+In this case, the former plugin (and all those it depends upon, if they're now
+unneeded) is removed from the dependency list.
+
+@return [nil]
 =end
       def remove_unneeded_deps
         h = Hash.new{|hash, k| hash[k] = []}
@@ -321,34 +337,33 @@ end
           to_delete = @res.find{|i| !@deps.include?(nil) and !deps_features[i].only? i}
           to_delete = @deps.find{|k, v| v.empty?}[0] rescue nil unless to_delete
         end
+        nil
       end
       
     end
   
 =begin rdoc
-Base class for UnresolvedDep and CircularDep exceptions. It represents all the
-possible kinds of dependency errors.
+Exception representing an error while resolving dependencies
 =end
   class DependencyError < RuntimeError
   end
 
 =begin rdoc
-  Exception raised by <tt>Ruber::ComponentManager</tt> when some dependencies of
-  the plugins can't be found.
+  Exceptiong raised when a plugin has a missing dependency
 =end
     class UnresolvedDep < DependencyError
       
 =begin rdoc
-  a hash containing the missing dependencies. The keys are the names of the plugins
-  who have unknown dependencies, while the values are arrays with the name of the
-  missing dependencies
+The missing dependencies
+
+@return [{Symbol => <Symbol>}] the missing dependencies. The hash has the names
+  of the plugins whose dependencies couldn't be satisfied as keys, and an array
+  with the names of the missing dependencies as values
 =end
       attr_reader :missing
       
 =begin rdoc
-  Creates a new <tt>Ruber::ComponentManager::UnresolvedDep</tt>. _missing_ is a
-  hash containing the missing dependencies. It must have the same format as
-  the +missing+ attribute.
+@param [{Symbol => <Symbol>}] missing the missing dependencies, as in {#missing}
 =end
       def initialize missing
         @missing = Hash[missing]
@@ -361,22 +376,22 @@ possible kinds of dependency errors.
     end
     
 =begin rdoc
-  Exception raised by <tt>Ruber::ComponentManager</tt> when circular dependencies
-  among plugins are detected.
+  Exception raised when circular dependencies among plugins are detected
 =end
     class CircularDep < DependencyError
       
 =begin rdoc
-  The plugins among which the circular dependencies exist. It's an array of 
-  arrays. Each inner array contains the name of the two plugins depending
-  (perhaps indirectly) on each other.
+The circular dependencies among the plugins
+
+@return [<(Symbol, Symbol)>] an array containing the circular dependencies. Each
+  entry of the array is a pair of symbols, which are the names of the plugins
+  depending (perhaps indirectly) on each other
 =end
       attr_reader :circular_deps
       
 =begin rdoc
-  Creates a new <tt>Ruber::ComponentManager::CircularDep</tt>. _circular_ is an
-  array containing the plugins among which the circular dependencies exist, whith
-  the format described for <tt>Ruber::ComponentManager::CircularDep#circular_deps</tt>
+@param [<(Symbol, Symbol)>] circular an array describing the circular dependencies
+  among the plugin. It has the same format as {#circular_deps}
 =end
       def initialize circular
         @circular_deps = circular.deep_copy
@@ -385,12 +400,32 @@ possible kinds of dependency errors.
     end
 
 =begin rdoc
-  Exception raised when some plugins couldn't be found. _plugins_ is an array containing
+  Exception raised when some plugins can't be found. _plugins_ is an array containing
   the names of the plugins which couldn't be found, while _dirs_ is an array of
   the directories searched for those plugins
 =end
     class MissingPlugins < StandardError
-      attr_reader :plugins, :dirs
+      
+=begin rdoc
+The plugins which coulnd't be found
+
+@return [<Symbol>] an array with the names of the plugins which couldn't be
+  found
+=end
+      attr_reader :plugins
+      
+=begin rdoc
+The directories which were searched for plugins
+
+@return [<String>] an array with the directories searched for plugins
+=end
+      attr_reader :dirs
+      
+=begin rdoc
+@param [<Symbol>] plugins an array with the names of the plugins which couldn't
+  be found
+@param [<String>] dirs an array with the directories searched for plugins
+=end
       def initialize plugins, dirs
         @plugins = plugins.dup
         @dirs = dirs.dup
@@ -399,17 +434,22 @@ possible kinds of dependency errors.
     end
 
 =begin rdoc
-  Exception raised when some of the PDFs for the plugins to be loaded contain error.
-  It differs from <tt>Ruber::ComponentManager::PluginSpecification::PSFError</tt> only
-  in the fact that it contains the list of files which produced an error.
+  Exception raised when some PSFs contain errors
 =end
-    class InvalidPDF < StandardError
+    class InvalidPSF < StandardError
 
 # An array containing the files which produced errors
+      
+=begin rdoc
+The paths of the invalid PSFs
+
+@return [<String>] an array with the paths of the invalid PSFs
+=end
       attr_reader :files
 
-# Creates a new instance. _files_  is an array containing the names of the files
-# which produced errors.
+=begin rdoc
+@param [<String>] files an array with the paths of the invalid PSFs
+=end
       def initialize files
         @files = files.dup
         super "The following plugin description files contained errors: #{files.join ' '}"
@@ -446,7 +486,7 @@ possible kinds of dependency errors.
     
 =begin rdoc
   Replaces features in plugin dependencies with the names of the plugin providing
-  them. _pdfs_ is an array containing the <tt>Ruber::PluginSpecification</tt>s of plugins whose dependencies should
+  them. _psfs_ is an array containing the <tt>Ruber::PluginSpecification</tt>s of plugins whose dependencies should
   be changed, while _extra_ is an array containing the <tt>PluginSpecification</tt>s of plugins
   which should be used to look up features, but which should not be changed. For
   example, _extra_ may contain descriptions for plugins which are already loaded.
@@ -455,13 +495,13 @@ possible kinds of dependency errors.
   correctly changed. If a dependency is unknown, <tt>Ruber::ComponentManager::UnresolvedDep</tt>
   will be raised.
 =end
-    def self.resolve_features pdfs, extra = []
-      features = (pdfs+extra).inject({}) do |res, pl|
+    def self.resolve_features psfs, extra = []
+      features = (psfs+extra).inject({}) do |res, pl|
         pl.features.each{|f| res[f] = pl.name}
         res
       end
       missing = Hash.new{|h, k| h[k] = []}
-      new_pdfs = pdfs.map do |pl|
+      new_psfs = psfs.map do |pl|
         res = pl.deep_copy
         res.deps = pl.deps.map do |d| 
           f = features[d]
@@ -471,7 +511,7 @@ possible kinds of dependency errors.
         res
       end
       raise UnresolvedDep.new Hash[missing] unless missing.empty?
-      new_pdfs
+      new_psfs
     end
 
 =begin rdoc
@@ -489,7 +529,7 @@ possible kinds of dependency errors.
     end
 
 =begin rdoc
-  Sorts the plugins in the _pdfs_ array, according with their dependencies 
+  Sorts the plugins in the _psfs_ array, according with their dependencies 
   and returns an array containing the plugin descriptions sorted in dependence order,
   from the dependence to the dependent.
       
@@ -504,8 +544,8 @@ possible kinds of dependency errors.
   If there's a circular dependency among the plugins, <tt>Ruber::ComponentManager::CircularDep</tt>
   will be raised.
 =end
-    def self.sort_plugins pdfs, known = []
-      PluginSorter.new( pdfs, known ).sort_plugins
+    def self.sort_plugins psfs, known = []
+      PluginSorter.new( psfs, known ).sort_plugins
     end
     
     extend Forwardable
@@ -610,18 +650,18 @@ Method required for the Plugin interface. Does nothing
   
   _name_ is the name of a subdirectory (called the <i>component directory</i> 
   in the directory where <tt>component_manager.rb</tt>
-  is. That directory should contain the PDF file for the component to load.
+  is. That directory should contain the PSF file for the component to load.
     
   The loading process works as follows:
   * the component directory is added to the KDE resource dirs for the +pixmap+,
     +data+ and +appdata+ resource types.
-  * A full <tt>Ruber::PluginSpecification</tt> is generated from the PDF
+  * A full <tt>Ruber::PluginSpecification</tt> is generated from the PSF
     (see <tt>Ruber::PluginSpecification.full</tt>). If the file can't
-    be read, +SystemCallError+ is raised; if it isn't a valid PDF, 
+    be read, +SystemCallError+ is raised; if it isn't a valid PSF, 
     <tt>Ruber::PluginSpecification::PSFError</tt> is raised. In both cases, a message box
     warning the user is shown.
   * the component object (that is, an instance of the class specified in the +class+
-    entry of the PDF) is created
+    entry of the PSF) is created
   * the <tt>component_loaded(QObject*)</tt> signal is emitted, passing the component
     object as argument
   * the component object is returned.
@@ -647,18 +687,18 @@ Method required for the Plugin interface. Does nothing
 =begin rdoc
   Loads the plugin in the directory _dir_.
   
-  The directory _dir_ should contain the PDF for the plugin, and its last part
+  The directory _dir_ should contain the PSF for the plugin, and its last part
   should correspond to the plugin name.
     
   The loading process works as follows:
   * the plugin directory is added to the KDE resource dirs for the +pixmap+,
     +data+ and +appdata+ resource types.
-  * A full <tt>Ruber::PluginSpecification</tt> is generated from the PDF
+  * A full <tt>Ruber::PluginSpecification</tt> is generated from the PSF
     (see <tt>Ruber::PluginSpecification.full</tt>). If the file can't
-    be read, +SystemCallError+ is raised; if it isn't a valid PDF, 
+    be read, +SystemCallError+ is raised; if it isn't a valid PSF, 
     <tt>Ruber::PluginSpecification::PSFError</tt> is raised.
   * the plugin object (that is, an instance of the class specified in the +class+
-    entry of the PDF) is created
+    entry of the PSF) is created
   * the <tt>component_loaded(QObject*)</tt> signal is emitted, passing the component
     object as argument
   * for each feature provided by the plugin, the signal <tt>feature_loaded(QString, QObject*)</tt>
@@ -729,7 +769,7 @@ Method required for the Plugin interface. Does nothing
   * This method can be conceptually divided into two phases: plugin ordering and
     plugin loading. The first part doesn't change any state. This means that, if
     it fails, the caller is free to attempt to solve the problem (for example,
-    to remove the missing plugins and the ones with invalid PDFs from the list)
+    to remove the missing plugins and the ones with invalid PSFs from the list)
     and call again <tt>load_plugins</tt>. The part which actually _does_ something
     is the second. If called twice with the same arguments, it can cause trouble,
     since no attempt to skip already-loaded plugins is made. If the caller wants
@@ -775,20 +815,7 @@ Method required for the Plugin interface. Does nothing
     def shutdown
       each_component(:reverse){|c| c.save_settings unless c.equal?(self)}
       @components[:config].write
-      each_component(:reverse){|c| c.shutdown unless c.equal? self}
-#       @components[:config].write
-#       each_component do |c|
-#         unless c.equal? self
-#           if c.is_a? Plugin
-#             c.plugin_description.features.each{|f| emit method("unloading_#{f}").call( c)}
-#           end
-#           emit unloading_component(c)
-#           c.shutdown
-#         end
-#       end
-#       each_plugin {|pl| pl.delete_later}
-#       @features.delete_if{|f, pl| pl.is_a? Plugin}
-#       @components.delete_if{|_, pl| pl.is_a?(Plugin)}      
+      each_component(:reverse){|c| c.shutdown unless c.equal? self}  
     end
 
 =begin rdoc
@@ -855,7 +882,7 @@ Method required for the Plugin interface. Does nothing
 =begin rdoc
   Searches the directories in the _dirs_ array for all the subdirectories containing
   a plugin.yaml file and returns the paths of the files. Returns a hash with keys
-  corresponding to plugin names and values corresponding to the path of the PDF
+  corresponding to plugin names and values corresponding to the path of the PSF
   for the plugin.
 =end
     def locate_plugins dirs
@@ -874,11 +901,11 @@ Method required for the Plugin interface. Does nothing
 
 =begin rdoc
   Attempts to create <tt>Ruber::PluginSpecification</tt>s for each plugin in the _plugins_
-  array. The path for the PDFs is taken from _files_, which is an hash with the
-  plugin names as keys and the PDFs paths as values.
+  array. The path for the PSFs is taken from _files_, which is an hash with the
+  plugin names as keys and the PSFs paths as values.
     
-  If some PDFs are missing, <tt>MissingPlugins</tt> is raised. If some PDFs are
-  invalid, +InvalidPDF+ is raised. Otherwise, an array containing the <tt>PluginSpecification</tt>s
+  If some PSFs are missing, <tt>MissingPlugins</tt> is raised. If some PSFs are
+  invalid, +InvalidPSF+ is raised. Otherwise, an array containing the <tt>PluginSpecification</tt>s
   for the plugins is returned.
 =end
     def create_plugins_info plugins, files, dirs
@@ -895,7 +922,7 @@ Method required for the Plugin interface. Does nothing
         end
       end
       raise MissingPlugins.new missing, dirs unless missing.empty?
-      raise InvalidPDF.new errors unless errors.empty?
+      raise InvalidPSF.new errors unless errors.empty?
       res
     end
     

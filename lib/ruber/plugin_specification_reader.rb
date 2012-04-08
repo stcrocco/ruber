@@ -209,7 +209,7 @@ symbol form is used
       hash.fetch(key) do |k|
         if required
           hash.fetch(key.to_s){raise PluginSpecification::PSFError, 
-                              "The required '#{key}' entry is missing from the PDF"}
+                              "The required '#{key}' entry is missing from the PSF"}
         else hash.fetch(key.to_s, default)
         end
       end
@@ -552,7 +552,7 @@ Reads the @config_options@ entry from the PSF
       res = {}
       res[:name] = name
       unless res[:name]
-        raise PluginSpecification::PSFError, "The required 'name' entry is missing from the PDF" 
+        raise PluginSpecification::PSFError, "The required 'name' entry is missing from the PSF" 
       end
       res[:text] = get_value hash, :text, ''
       short = get_value hash, :shortcut, nil
@@ -603,7 +603,7 @@ can't be used if the application hasn't been created)
       res = get_value hash, :authors, []
       res = if res.is_a? Array and (res.empty? or res[0].is_a? Array) then res
       elsif res.is_a? Array then [res]
-      else raise PluginSpecification::PSFError, 'The "authors" entry in the PDF should be an array'
+      else raise PluginSpecification::PSFError, 'The "authors" entry in the PSF should be an array'
       end
       res.each{|a| a << '' if a.size == 1}
       res

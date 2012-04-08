@@ -113,7 +113,7 @@ The list of directories where to look for plugins is read from the configuration
 file. The chosen plugins are read from the configuration file, but excluding all
 those which aren't currently loaded (the reason to do so is that a chosen plugin
 might have failed to load and thus it should not appear in the chosen list). Also,
-any plugin which is included in the chosen list but whose PDF can't be found is
+any plugin which is included in the chosen list but whose PSF can't be found is
 excluded.
 
 Dependencies are then computed, and dependencies of the chosen plugins are marked
@@ -228,9 +228,9 @@ keys are the plugin names, while the values are the directories of the plugins.
     
 =begin rdoc
 Finds all the plugins in subdirectories of directories in the _dir_ array,
-reads their PDFs and stores the data in the <tt>@plugins_files</tt> and 
+reads their PSFs and stores the data in the <tt>@plugins_files</tt> and 
 <tt>@plugin_data</tt> instance variables. Also removes from the <tt>@chosen</tt>
-instance variable the plugins whose PDF wasn't found.
+instance variable the plugins whose PSF wasn't found.
 =end
     def read_plugins dirs
       @plugins_files = ComponentManager.find_plugins dirs, true
