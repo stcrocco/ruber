@@ -1198,69 +1198,69 @@ describe Ruber::ComponentManager do
   
 end
 
-describe 'Ruber::ComponentManager.find_plugins' do
-  
-  before do
-    @manager = Ruber::ComponentManager.new
-  end
-  
-  it 'should return a hash containing the full path of the plugin directories in the given directories as values and the plugin names as keys, if the second argument is false' do
-    dir = make_dir_tree YAML.load(%q{[[d1, [p1, plugin.yaml], [p2, plugin.yaml]], [d2, [p3, plugin.yaml], [p4, plugin.yaml]]]})
-    exp = {:p1 => 'd1/p1', :p2 => 'd1/p2', :p3 => 'd2/p3', :p4 => 'd2/p4'}.map{|p, d| [p, File.join(dir, d)]}.to_h
-    dirs = %w[d1 d2].map{|d| File.join dir, d}
-    Ruber::ComponentManager.find_plugins(dirs).should == exp
-    Ruber::ComponentManager.find_plugins(dirs, false).should == exp
-    FileUtils.rm_r dir
-  end
-  
-  it 'should return a hash containing the names of the plugins (as symbols) as keys and the corresponding PluginSpecification (with the directory set to the plugin file) as values' do
-    contents = {
-      'd1/p1/plugin.yaml' => '{name: p1, type: global }',
-      'd1/p2/plugin.yaml' => '{name: p2, type: global}',
-      'd2/p3/plugin.yaml' => '{name: p3, type: global}',
-      'd2/p4/plugin.yaml' => '{name: p4, type: global}',
-    }
-    dir = make_dir_tree YAML.load(%q{[[d1, [p1, plugin.yaml], [p2, plugin.yaml]], [d2, [p3, plugin.yaml], [p4, plugin.yaml]]]}), '/tmp', contents
-    exp = %w[d1/p1 d1/p2 d2/p3 d2/p4].map do |d| 
-      pdf = File.join d, 'plugin.yaml'
-      data = YAML.load contents[pdf]
-      [File.basename(d).to_sym, Ruber::PluginSpecification.intro(data)]
-    end.to_h
-    dirs = %w[d1 d2].map{|d| File.join dir, d}
-    res = Ruber::ComponentManager.find_plugins(dirs, true)
-    res.should == exp
-    res[:p1].directory.should == File.join(dirs[0], 'p1')
-    res[:p2].directory.should == File.join(dirs[0], 'p2')
-    res[:p3].directory.should == File.join(dirs[1], 'p3')
-    res[:p4].directory.should == File.join(dirs[1], 'p4')
-    FileUtils.rm_r dir
-  end
-  
-  it 'should return only the file in the earliest directory, if more than one directory contain the same plugin' do
-    dir = make_dir_tree YAML.load(%q{[[d1, [p1, plugin.yaml], [p2, plugin.yaml]], [d2, [p3, plugin.yaml], [p1, plugin.yaml]]]})
-    exp = {:p1 => 'd1/p1', :p2 => 'd1/p2', :p3 => 'd2/p3'}.map{|p, d| [p, File.join(dir, d)]}.to_h
-    dirs = %w[d1 d2].map{|d| File.join dir, d}
-    Ruber::ComponentManager.find_plugins(dirs).should == exp
-    Ruber::ComponentManager.find_plugins(dirs, false).should == exp
-    FileUtils.rm_r dir
-        contents = {
-      'd1/p1/plugin.yaml' => '{name: p1, type: global}',
-      'd1/p2/plugin.yaml' => '{name: p2, type: global}',
-      'd2/p3/plugin.yaml' => '{name: p3, type: global}',
-      'd2/p1/plugin.yaml' => '{name: p1, type: global}',
-    }
-    dir = make_dir_tree YAML.load(%q{[[d1, [p1, plugin.yaml], [p2, plugin.yaml]], [d2, [p3, plugin.yaml], [p1, plugin.yaml]]]}), '/tmp', contents
-    exp = %w[d1/p1 d1/p2 d2/p3].map do |d| 
-      pdf = File.join d, 'plugin.yaml'
-      data = YAML.load contents[pdf]
-      [File.basename(d).to_sym, Ruber::PluginSpecification.intro(data)]
-    end.to_h
-    dirs = %w[d1 d2].map{|d| File.join dir, d}
-    Ruber::ComponentManager.find_plugins(dirs, true).should == exp
-    FileUtils.rm_r dir
-  end
-  
-end
+# describe 'Ruber::ComponentManager.find_plugins' do
+#   
+#   before do
+#     @manager = Ruber::ComponentManager.new
+#   end
+#   
+#   it 'should return a hash containing the full path of the plugin directories in the given directories as values and the plugin names as keys, if the second argument is false' do
+#     dir = make_dir_tree YAML.load(%q{[[d1, [p1, plugin.yaml], [p2, plugin.yaml]], [d2, [p3, plugin.yaml], [p4, plugin.yaml]]]})
+#     exp = {:p1 => 'd1/p1', :p2 => 'd1/p2', :p3 => 'd2/p3', :p4 => 'd2/p4'}.map{|p, d| [p, File.join(dir, d)]}.to_h
+#     dirs = %w[d1 d2].map{|d| File.join dir, d}
+#     Ruber::ComponentManager.find_plugins(dirs).should == exp
+#     Ruber::ComponentManager.find_plugins(dirs, false).should == exp
+#     FileUtils.rm_r dir
+#   end
+#   
+#   it 'should return a hash containing the names of the plugins (as symbols) as keys and the corresponding PluginSpecification (with the directory set to the plugin file) as values' do
+#     contents = {
+#       'd1/p1/plugin.yaml' => '{name: p1, type: global }',
+#       'd1/p2/plugin.yaml' => '{name: p2, type: global}',
+#       'd2/p3/plugin.yaml' => '{name: p3, type: global}',
+#       'd2/p4/plugin.yaml' => '{name: p4, type: global}',
+#     }
+#     dir = make_dir_tree YAML.load(%q{[[d1, [p1, plugin.yaml], [p2, plugin.yaml]], [d2, [p3, plugin.yaml], [p4, plugin.yaml]]]}), '/tmp', contents
+#     exp = %w[d1/p1 d1/p2 d2/p3 d2/p4].map do |d| 
+#       pdf = File.join d, 'plugin.yaml'
+#       data = YAML.load contents[pdf]
+#       [File.basename(d).to_sym, Ruber::PluginSpecification.intro(data)]
+#     end.to_h
+#     dirs = %w[d1 d2].map{|d| File.join dir, d}
+#     res = Ruber::ComponentManager.find_plugins(dirs, true)
+#     res.should == exp
+#     res[:p1].directory.should == File.join(dirs[0], 'p1')
+#     res[:p2].directory.should == File.join(dirs[0], 'p2')
+#     res[:p3].directory.should == File.join(dirs[1], 'p3')
+#     res[:p4].directory.should == File.join(dirs[1], 'p4')
+#     FileUtils.rm_r dir
+#   end
+#   
+#   it 'should return only the file in the earliest directory, if more than one directory contain the same plugin' do
+#     dir = make_dir_tree YAML.load(%q{[[d1, [p1, plugin.yaml], [p2, plugin.yaml]], [d2, [p3, plugin.yaml], [p1, plugin.yaml]]]})
+#     exp = {:p1 => 'd1/p1', :p2 => 'd1/p2', :p3 => 'd2/p3'}.map{|p, d| [p, File.join(dir, d)]}.to_h
+#     dirs = %w[d1 d2].map{|d| File.join dir, d}
+#     Ruber::ComponentManager.find_plugins(dirs).should == exp
+#     Ruber::ComponentManager.find_plugins(dirs, false).should == exp
+#     FileUtils.rm_r dir
+#         contents = {
+#       'd1/p1/plugin.yaml' => '{name: p1, type: global}',
+#       'd1/p2/plugin.yaml' => '{name: p2, type: global}',
+#       'd2/p3/plugin.yaml' => '{name: p3, type: global}',
+#       'd2/p1/plugin.yaml' => '{name: p1, type: global}',
+#     }
+#     dir = make_dir_tree YAML.load(%q{[[d1, [p1, plugin.yaml], [p2, plugin.yaml]], [d2, [p3, plugin.yaml], [p1, plugin.yaml]]]}), '/tmp', contents
+#     exp = %w[d1/p1 d1/p2 d2/p3].map do |d| 
+#       pdf = File.join d, 'plugin.yaml'
+#       data = YAML.load contents[pdf]
+#       [File.basename(d).to_sym, Ruber::PluginSpecification.intro(data)]
+#     end.to_h
+#     dirs = %w[d1 d2].map{|d| File.join dir, d}
+#     Ruber::ComponentManager.find_plugins(dirs, true).should == exp
+#     FileUtils.rm_r dir
+#   end
+#   
+# end
 
 describe 'Ruber::ComponentManager.fill_dependencies' do
   
