@@ -341,6 +341,10 @@ describe 'KRuber::PluginSpecificationReader#read_features' do
     @reader.send(:read_features, {:features => :test}).should == [:test]
   end
   
+  it 'ignores any feature except the plugin name if the plugin type is :library' do
+    @reader.send(:read_features, {:name => 'x', :features => 'test1', :type => :library}).should == [:x]
+  end
+  
 end
 
 describe 'KRuber::PluginSpecificationReader#read_deps' do

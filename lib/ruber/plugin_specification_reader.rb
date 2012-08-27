@@ -315,6 +315,9 @@ Reads the @type@ entry from the PSF
 =begin rdoc
 Reads the @features@ entry from the PSF
 
+If the plugin has type @:library@, features in the @features@ entry of the PSF
+will be ignored and only the plugin name will be considered.
+
 @param [Hash] the contents of the PSF
 @return [<Symbol>] an array with all the features listed in the @features@ entry
   of the PSF, plus an additional entry equal to the @name@ entry. If the @features@
@@ -322,8 +325,10 @@ Reads the @features@ entry from the PSF
   All entries are converted to symbols
 =end
     def read_features hash
-      res = get_maybe_array hash, :features, :to_sym
+      type = get_value(hash, :type, :global).to_sym
       name = get_value(hash, :name, nil)
+      return [name ? name.to_sym : nil] if type == :library
+      res = get_maybe_array hash, :features, :to_sym
       res.unshift name.to_sym if name
       res
     end
