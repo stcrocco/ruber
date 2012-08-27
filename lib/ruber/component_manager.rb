@@ -50,36 +50,6 @@ Workflow:
   class ComponentManager < Qt::Object
     
 =begin rdoc
-  Replaces features in plugin dependencies with the names of the plugin providing
-  them. _psfs_ is an array containing the <tt>Ruber::PluginSpecification</tt>s of plugins whose dependencies should
-  be changed, while _extra_ is an array containing the <tt>PluginSpecification</tt>s of plugins
-  which should be used to look up features, but which should not be changed. For
-  example, _extra_ may contain descriptions for plugins which are already loaded.
-
-  It returns an array containing a copy of the <tt>Ruber::PluginSpecification</tt>s whith the dependencies
-  correctly changed. If a dependency is unknown, <tt>Ruber::ComponentManager::UnresolvedDep</tt>
-  will be raised.
-=end
-    def self.resolve_features psfs, extra = []
-      features = (psfs+extra).inject({}) do |res, pl|
-        pl.features.each{|f| res[f] = pl.name}
-        res
-      end
-      missing = Hash.new{|h, k| h[k] = []}
-      new_psfs = psfs.map do |pl|
-        res = pl.deep_copy
-        res.deps = pl.deps.map do |d| 
-          f = features[d]
-          missing[pl.name] << d unless f
-          f
-        end.uniq.compact
-        res
-      end
-      raise UnresolvedDep.new Hash[missing] unless missing.empty?
-      new_psfs
-    end
-
-=begin rdoc
   Finds all the dependencies for the given plugins choosing among a list.
   <i>to_load</i> is an array containing the +PluginSpecification+ for the plugins to load,
   while _availlable_ is an array containing the plugins which can be used to satisfy

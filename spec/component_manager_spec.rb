@@ -598,69 +598,6 @@ describe 'Ruber::ComponentManager.sort_plugins' do
   
 end
 
-describe 'Ruber::ComponentManager.resolve_features' do
-  
-  it 'should return an array of pdfs where the dependencies have been changed according to the features provided by the plugins' do
-    pdfs = [
-      {:name => :c, :deps => [:s, :a, :d], :features => [:c]},
-      {:name => :a, :deps => [:x, :r], :features => [:a]},
-      {:name => :s, :deps => [], :features => [:s, :r]},
-      {:name => :m, :deps => [:x, :c, :d], :features => [:m]},
-      {:name => :x, :deps => [], :features => [:x, :d]}
-    ].map{|i| OpenStruct.new i}
-    res = Ruber::ComponentManager.resolve_features pdfs
-    res[0].deps.should =~ [:s, :a, :x]
-    res[1].deps.should =~ [:x, :s]
-    res[2].deps.should == []
-    res[3].deps.should =~ [:x, :c]
-    res[4].deps.should == []
-  end
-  
-  it 'should raise Ruber::ComponentManager::UnresolvedDep if some features can\'t be found' do
-    pdfs = [
-      {:name => :c, :deps => [:s, :a, :d, :y], :features => [:c]},
-      {:name => :a, :deps => [:x, :r], :features => [:a]},
-      {:name => :s, :deps => [], :features => [:s, :r]},
-      {:name => :m, :deps => [:x, :c, :d, :z, :y], :features => [:m]},
-      {:name => :x, :deps => [], :features => [:x, :d]}
-    ].map{|i| OpenStruct.new i}
-    lambda{Ruber::ComponentManager.resolve_features pdfs}.should raise_error(Ruber::ComponentManager::UnresolvedDep){|e| e.missing.should == {:c => [:y], :m => [:z, :y]}}
-  end
-  
-  it 'should also take into account pdfs passed as second argument in the resolution' do
-    pdfs = [
-      {:name => :c, :deps => [:s, :a, :d, :y, :k], :features => [:c]},
-      {:name => :a, :deps => [:x, :r], :features => [:a]},
-      {:name => :s, :deps => [], :features => [:s, :r]},
-      {:name => :m, :deps => [:x, :c, :d, :z, :y], :features => [:m]},
-      {:name => :x, :deps => [], :features => [:x, :d]}
-    ].map{|i| OpenStruct.new i}
-    extra = [
-      {:name => :A, :features => [:A, :z]},
-      {:name => :B, :features => [:B, :y, :k]}
-    ].map{|i| OpenStruct.new i}
-    res = Ruber::ComponentManager.resolve_features pdfs, extra
-    res[0].deps.should =~ [:s, :a, :x, :B]
-    res[1].deps.should =~ [:x, :s]
-    res[2].deps.should == []
-    res[3].deps.should =~ [:x, :c, :A, :B]
-    res[4].deps.should == []
-  end
-  
-  it 'should not modifiy the pdfs passed as argument' do
-    pdfs = [
-      {:name => :c, :deps => [:s, :a, :d], :features => [:c]},
-      {:name => :a, :deps => [:x, :r], :features => [:a]},
-      {:name => :s, :deps => [], :features => [:s, :r]},
-      {:name => :m, :deps => [:x, :c, :d], :features => [:m]},
-      {:name => :x, :deps => [], :features => [:x, :d]}
-    ].map{|i| OpenStruct.new i}
-    res = Ruber::ComponentManager.resolve_features pdfs
-    res.each_with_index{|pl, i| pl.should_not equal(pdfs[i])}
-  end
-  
-end
-
 describe 'Ruber::ComponentManager#load_plugins' do
   
   before do

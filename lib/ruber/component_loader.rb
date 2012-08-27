@@ -17,8 +17,10 @@
     Free Software Foundation, Inc.,                                       
     59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             
 =end
+require 'facets/kernel/deep_copy'
 
 require 'ruber/plugin_specification'
+require 'ruber/component_loader_helpers'
 
 module Ruber
   
@@ -55,6 +57,37 @@ one will be returned.
         end
       end
       res
+    end
+    
+=begin rdoc
+Replaces dependencies on features with dependencies on the plugins which provide them
+
+@param [<PluginSpecification>] psfs the plugins whose dependencies should be
+  replaced
+@param [<PluginSpecification>] extra a list of plugins having where features
+  can be found but whose dependencies shouldn't be replaced (for example, they
+  can be plugins which have already been loaded)
+@return [<PluginSpecification>] a list containing copies of the elements of _psfs_
+  with the dependencies corrected
+@raise [UnresolvedDep] if some plugins depended on features provided by no plugin
+=end
+    def self.resolve_features psfs, extra = []
+      features = (psfs+extra).inject({}) do |res, pl|
+        pl.features.each{|f| res[f] = pl.name}
+        res
+      end
+      missing = Hash.new{|h, k| h[k] = []}
+      new_psfs = psfs.map do |pl|
+        res = pl.deep_copy
+        res.deps = pl.deps.map do |d| 
+          f = features[d]
+          missing[pl.name] << d unless f
+          f
+        end.uniq.compact
+        res
+      end
+      raise UnresolvedDep.new Hash[missing] unless missing.empty?
+      new_psfs
     end
 
     

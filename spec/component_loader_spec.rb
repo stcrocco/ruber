@@ -11,7 +11,7 @@ describe Ruber::ComponentLoader do
     Ruber::ComponentLoader.ancestors.should include(Qt::Object)
   end
     
-  describe 'Ruber::ComponentLoader.find_plugins' do
+  describe '.find_plugins' do
     
     before do
       tree = [
@@ -75,5 +75,55 @@ describe Ruber::ComponentLoader do
     end
     
   end
+  
+  describe '.resolve_features' do
+    
+    before do
+      @psfs = [
+        {:name => :c, :deps => [:s, :a, :d], :features => [:c]},
+        {:name => :a, :deps => [:x, :r], :features => [:a]},
+        {:name => :s, :deps => [], :features => [:s, :r]},
+        {:name => :m, :deps => [:x, :c, :d], :features => [:m]},
+        {:name => :x, :deps => [], :features => [:x, :d]}
+      ].map{|i| OpenStruct.new i}
+    end
+    
+    it 'returns an array of pdfs where the dependencies have been changed according to the features provided by the plugins' do
+      res = Ruber::ComponentLoader.resolve_features @psfs
+      res[0].deps.should =~ [:s, :a, :x]
+      res[1].deps.should =~ [:x, :s]
+      res[2].deps.should == []
+      res[3].deps.should =~ [:x, :c]
+      res[4].deps.should == []
+    end
+    
+    it 'raises Ruber::ComponentLoader::UnresolvedDep if some features can\'t be found' do
+      @psfs[0].deps << :y
+      @psfs[3].deps += [:z, :y]
+      lambda{Ruber::ComponentLoader.resolve_features @psfs}.should raise_error(Ruber::UnresolvedDep){|e| e.missing.should == {:c => [:y], :m => [:z, :y]}}
+    end
+    
+    it 'also searches the psfs passed as second argument' do
+      @psfs[0].deps += [:y, :k]
+      @psfs[3].deps += [:z, :y]
+      extra = [
+        {:name => :A, :features => [:A, :z]},
+        {:name => :B, :features => [:B, :y, :k]}
+      ].map{|i| OpenStruct.new i}
+      res = Ruber::ComponentLoader.resolve_features @psfs, extra
+      res[0].deps.should =~ [:s, :a, :x, :B]
+      res[1].deps.should =~ [:x, :s]
+      res[2].deps.should == []
+      res[3].deps.should =~ [:x, :c, :A, :B]
+      res[4].deps.should == []
+    end
+    
+    it 'doesn\' change the psfs passed as argument' do
+      res = Ruber::ComponentLoader.resolve_features @psfs
+      res.each_with_index{|pl, i| pl.should_not equal(@psfs[i])}
+    end
+    
+  end
+
   
 end
