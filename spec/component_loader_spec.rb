@@ -88,7 +88,7 @@ describe Ruber::ComponentLoader do
       ].map{|i| OpenStruct.new i}
     end
     
-    it 'returns an array of pdfs where the dependencies have been changed according to the features provided by the plugins' do
+    it 'returns an array of psfs where the dependencies have been changed according to the features provided by the plugins' do
       res = Ruber::ComponentLoader.resolve_features @psfs
       res[0].deps.should =~ [:s, :a, :x]
       res[1].deps.should =~ [:x, :s]
@@ -123,6 +123,91 @@ describe Ruber::ComponentLoader do
       res.each_with_index{|pl, i| pl.should_not equal(@psfs[i])}
     end
     
+  end
+  
+  describe '.fill_dependencies' do
+    
+    before do
+      psfs = [
+        {:name => :p1, :type => :global},
+        {:name => :p2, :type => :global},
+        {:name => :p3 , :type => :global},
+        {:name => :p4, :type => :global}
+      ]
+      @psfs = psfs.map{|pl| Ruber::PluginSpecification.intro(pl)}
+    end
+    
+    it 'returns an empty array if the plugins passed as first argument don\'t have dependencies' do
+      Ruber::ComponentLoader.fill_dependencies(@psfs[0..1], @psfs).should == []
+    end
+    
+    it 'returns an empty array if the plugins passed as first argument only depend on features having the name of other of those plugins' do
+      @psfs[0].deps = [:p2]
+      @psfs[1].deps = [:p3]
+      Ruber::ComponentLoader.fill_dependencies(@psfs[0..2], @psfs).should == []
+    end
+    
+    it 'returns an emtpy array if the plugins passed as first argument only depend on features provided by of other plugins in the first argument' do
+      @psfs[0].deps = [:f2]
+      @psfs[1].deps = [:f3]
+      @psfs[1].features << :f2
+      @psfs[2].features << :f3 << :f5
+      Ruber::ComponentLoader.fill_dependencies(@psfs[0..2], @psfs).should == []
+    end
+    
+    it 'returns an array containing the names of the plugins in the second argument whose name matches dependencies in the first argument not satisfied otherwise' do
+      @psfs[0].deps << :f2 << :p4
+      @psfs[1].deps << :p3
+      @psfs[1].features << :f2
+      @psfs << Ruber::PluginSpecification.intro(:name => :p5, :type => :global)
+      res = Ruber::ComponentLoader.fill_dependencies(@psfs[0..1], @psfs[2..-1])
+      res.should =~ [:p3, :p4]
+    end
+    
+    it 'return an array also containing the dependencies\' dependencies, if any' do
+      @psfs[0].deps << :f2 << :p4
+      @psfs[1].deps << :p3
+      @psfs[1].features << :f2
+      @psfs[2].deps << :p6
+      @psfs[2].deps << :p5
+      @psfs << Ruber::PluginSpecification.intro(:name => :p5, :type => :global)
+      @psfs << Ruber::PluginSpecification.intro(:name => :p6, :type => :global)
+      res = Ruber::ComponentLoader.fill_dependencies(@psfs[0..1], @psfs[2..-1])
+      res.should =~ [:p3, :p4, :p5, :p6]
+    end
+    
+    it 'doesn\'t add a plugin to satisfy a dependency already satisifed by another plugin' do
+      @psfs[0].deps << :f2 << :p4
+      @psfs[1].deps << :p3
+      @psfs[1].features << :f2
+      @psfs[2].deps << :p6
+      @psfs[2].features << :p5
+      @psfs[3].deps << :p5
+      @psfs << Ruber::PluginSpecification.intro(:name => :p5, :type => :global)
+      @psfs << Ruber::PluginSpecification.intro(:name => :p6, :type => :global)
+      @psfs << Ruber::PluginSpecification.intro(:name => :p7, :type => :global)
+      res = Ruber::ComponentLoader.fill_dependencies(@psfs[0..1], @psfs[2..-1])
+      res.should =~ [:p3, :p4, :p6]
+    end
+    
+    it 'raises UnresolvedDep if some dependencies can\'t be resolved' do
+      @psfs[0].deps << :f2 << :p4 << :p7
+      @psfs[1].deps << :p3
+      @psfs[1].features << :f2
+      @psfs[2].deps << :p6
+      @psfs[2].features << :p5
+      @psfs[3].deps << :p5
+      p5 = Ruber::PluginSpecification.intro(:name => :p5, 
+                                            :type => :global, 
+                                            :deps => :p7)
+      @psfs << p5
+      lambda do
+        Ruber::ComponentLoader.fill_dependencies(@psfs[0..1], @psfs[2..-1])
+      end.should raise_error(Ruber::UnresolvedDep) do |e|
+        e.missing.should == {:p7 => [:p1], :p6 => [:p3]}
+      end
+    end
+
   end
 
   

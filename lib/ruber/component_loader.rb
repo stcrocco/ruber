@@ -90,6 +90,21 @@ Replaces dependencies on features with dependencies on the plugins which provide
       new_psfs
     end
 
+=begin rdoc
+Finds all the dependencies for the given plugins choosing among a list
+  
+@param [<PluginSpecification>] to_load the plugins to find dependencies for
+@param [<PluginSpecification>] availlable other plugins which can be used to
+  satisfy dependencies of _to_load_
+@return (see DepsSolver#solve)
+@raise (see DepsSolver#solve)
+
+@see DepsSolver#solve
+=end
+    def self.fill_dependencies to_load, availlable
+      solver = DepsSolver.new to_load, availlable
+      solver.solve
+    end
     
   end
   

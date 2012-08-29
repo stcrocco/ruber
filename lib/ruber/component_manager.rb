@@ -50,20 +50,6 @@ Workflow:
   class ComponentManager < Qt::Object
     
 =begin rdoc
-  Finds all the dependencies for the given plugins choosing among a list.
-  <i>to_load</i> is an array containing the +PluginSpecification+ for the plugins to load,
-  while _availlable_ is an array containing the plugins which can be used to satisfy
-  the dependencies.
-    
-  This method uses <tt>DepsSolver#solve</tt>, so see the documentation for it for
-  a more complete description.
-=end
-    def self.fill_dependencies to_load, availlable
-      solver = DepsSolver.new to_load, availlable
-      solver.solve
-    end
-
-=begin rdoc
   Sorts the plugins in the _psfs_ array, according with their dependencies 
   and returns an array containing the plugin descriptions sorted in dependence order,
   from the dependence to the dependent.
