@@ -48,27 +48,7 @@ Workflow:
 =end
 
   class ComponentManager < Qt::Object
-    
-=begin rdoc
-  Sorts the plugins in the _psfs_ array, according with their dependencies 
-  and returns an array containing the plugin descriptions sorted in dependence order,
-  from the dependence to the dependent.
-      
-  _known_ is an array of either symbols or <tt>Ruber::PluginSpecification</tt>s corresponding
-  to plugins which can be depended upon but which shouldn't be sorted with the 
-  others (for example, because they're already loaded).
-
-  If some of the plugins have dependency which doesn't correspond neither to another
-  plugin nor to one of the knonw plugins, <tt>Ruber::ComponentManager::UnresolvedDep</tt>
-  will be raised.
-
-  If there's a circular dependency among the plugins, <tt>Ruber::ComponentManager::CircularDep</tt>
-  will be raised.
-=end
-    def self.sort_plugins psfs, known = []
-      PluginSorter.new( psfs, known ).sort_plugins
-    end
-    
+       
     extend Forwardable
     
     include Enumerable

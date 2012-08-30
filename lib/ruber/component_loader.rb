@@ -106,6 +106,31 @@ Finds all the dependencies for the given plugins choosing among a list
       solver.solve
     end
     
+=begin rdoc
+Sorts the given plugin in dependency order
+
+The plugins are sorted so that a plugin comes after any other plugin it depends
+on.
+
+@param [<PluginSpecification>] psfs the plugins to sort. It must contain all
+  the needed plugins (that is, this method won't search for plugins needed to
+  satisfy dependencies: it assumes this has already been done and all plugins
+  are included in this array)
+@param [<Symbol,PluginSpecification>] known a list of plugins or list of feature
+  names which can be used
+  to satisfy dependencies. For example, they may be plugins which have already
+  been loaded
+@return [<PluginSpecification>] the same plugins contained in _psfs_ so that
+  every plugin in the array only depends on those preceding it and never depends
+  on those following it
+@raise [UnresolvedDep] if any plugin in _psfs_ has a dependency which can't be
+  satisfied neither by other plugins in _psfs_ nor by plugins in _known_
+@raise [CircularDep] if there are circular dependencies between plugins
+=end
+    def self.sort_plugins psfs, known = []
+      PluginSorter.new( psfs, known ).sort_plugins
+    end
+    
   end
   
 end

@@ -209,6 +209,70 @@ describe Ruber::ComponentLoader do
     end
 
   end
-
   
+  describe '.sort_plugins' do
+    
+    before do
+      psfs = [
+        {:name => :c, :type => :global},
+        {:name => :a, :type => :global},
+        {:name => :s, :type => :global},
+        {:name => :m, :type => :global}
+        ]
+      @psfs = psfs.map{|i| Ruber::PluginSpecification.intro i}
+    end
+    
+    it 'sorts the plugins alphabetically if no dependencies exist' do
+      res = Ruber::ComponentLoader.sort_plugins(@psfs)
+      res.map(&:name).should == [:a, :c, :m, :s]
+    end
+    
+    it 'returns the plugins sorted according to dependencies' do
+      @psfs[0].deps << :s  << :a
+      @psfs[1].deps << :x
+      @psfs[3].deps << :x << :c
+      @psfs << Ruber::PluginSpecification.intro(:name => :x, :type => :global)
+      res = Ruber::ComponentLoader.sort_plugins(@psfs)
+      res.map(&:name).should == [:s, :x, :a, :c, :m]
+    end
+    
+    it 'doesn\'t include features passed as second argument' do
+      @psfs << Ruber::PluginSpecification.intro(:name => :x, :type => :global)
+      @psfs[0].deps << :s << :a << :b
+      @psfs[1].deps << :x << :l
+      @psfs[3].deps << :x << :c
+      @psfs[4].deps << :l << :b
+      res = Ruber::ComponentLoader.sort_plugins(@psfs, [:b, :l])
+      res.map(&:name).should == [:s, :x, :a, :c, :m]
+    end
+
+    
+    it 'should raise Ruber::UnresolvedDep if a dependency can\'t be resolved' do
+      @psfs << Ruber::PluginSpecification.intro(:name => :x, :type => :global)
+      @psfs << Ruber::PluginSpecification.intro(:name => :l, :type => :global)
+      @psfs[0].deps << :s << :a
+      @psfs[1].deps << :x
+      @psfs[3].deps << :x << :r
+      @psfs[5].deps << :t << :t
+      lambda do 
+        Ruber::ComponentLoader.sort_plugins(@psfs)
+      end.should raise_error(Ruber::UnresolvedDep) do |e|
+        e.missing.should == {:r => [:m, :l], :t => [:l]}
+      end
+    end
+    
+    it 'should raise Ruber::CircularDep if there are circular dependencies' do
+      @psfs[0].deps << :s << :a
+      @psfs[1].deps << :m
+      @psfs[3].deps << :c
+      circ = [[:a, :x], [:x, :c], [:c, :a]]
+      lambda do 
+        Ruber::ComponentLoader.sort_plugins(@psfs)
+      end.should raise_error(Ruber::CircularDep) do |e| 
+        circ.should include(e.circular_deps)
+      end
+    end
+       
+  end
+
 end

@@ -536,67 +536,6 @@ name: {
   
 end
 
-describe 'Ruber::ComponentManager.sort_plugins' do
-  
-  it 'should sort the plugins alphabetically if no dependencies exist' do
-    pdfs = [
-      {:name => :c, :deps => []},
-      {:name => :a, :deps => []},
-      {:name => :s, :deps => []},
-      {:name => :m, :deps => []}
-      ].map{|i| OpenStruct.new i}
-    res = Ruber::ComponentManager.sort_plugins(pdfs)
-    res.map{|i| i.name}.should == [:a, :c, :m, :s]
-  end
-  
-  it 'should return an array sorted according to dependencies' do
-    pdfs = [
-      {:name => :c, :deps => [:s, :a]},
-      {:name => :a, :deps => [:x]},
-      {:name => :s, :deps => []},
-      {:name => :m, :deps => [:x, :c]},
-      {:name => :x, :deps => []}
-      ].map{|i| OpenStruct.new i}
-    res = Ruber::ComponentManager.sort_plugins(pdfs)
-    res.map{|i| i.name}.should == [:s, :x, :a, :c, :m]
-  end
-  
-  it 'should raise Ruber::ComponentManager::UnresolvedDep if a dependency can\'t be resolved' do
-    pdfs = [
-      {:name => :c, :deps => [:s, :a]},
-      {:name => :a, :deps => [:x]},
-      {:name => :s, :deps => []},
-      {:name => :m, :deps => [:x, :r]},
-      {:name => :x, :deps => []},
-      {:name => :l, :deps => [:r, :t]}
-      ].map{|i| OpenStruct.new i}
-    lambda{Ruber::ComponentManager.sort_plugins(pdfs)}.should raise_error(Ruber::ComponentManager::UnresolvedDep){|e| e.missing.should == {:r => [:m, :l], :t => [:l]}}
-  end
-  
-  it 'should raise Ruber::ComponentManager::CircularDep if there are circular dependencies' do
-    pdfs = [
-      {:name => :c, :deps => [:s, :a]},
-      {:name => :a, :deps => [:x]},
-      {:name => :s, :deps => []},
-      {:name => :x, :deps => [:c]},
-      ].map{|i| OpenStruct.new i}
-    circ = [[:a, :x], [:x, :c], [:c, :a]]
-    lambda{Ruber::ComponentManager.sort_plugins(pdfs)}.should raise_error(Ruber::ComponentManager::CircularDep){|e| circ.should include(e.circular_deps)}
-  end
-  
-  it 'should not count features passed as second argument' do
-    pdfs = [
-      {:name => :c, :deps => [:s, :a, :b]},
-      {:name => :a, :deps => [:x, :l]},
-      {:name => :s, :deps => []},
-      {:name => :m, :deps => [:x, :c]},
-      {:name => :x, :deps => [:l, :b]}
-      ].map{|i| OpenStruct.new i}
-    res = Ruber::ComponentManager.sort_plugins(pdfs, [:b, :l])
-    res.map{|i| i.name}.should == [:s, :x, :a, :c, :m]
-  end
-  
-end
 
 describe 'Ruber::ComponentManager#load_plugins' do
   
