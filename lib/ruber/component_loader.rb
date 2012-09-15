@@ -24,7 +24,7 @@ require 'ruber/component_loader_helpers'
 
 module Ruber
   
-  class ComponentLoader < Qt::Object
+  module ComponentLoader
 
 =begin rdoc
 Finds all the plugins in the given directories
@@ -41,7 +41,7 @@ one will be returned.
 @return [{Symbol=>PluginSpecification}] a hash having the
   plugin names as keys and the path of the plugin files as values, if _info_ is *false*
 =end
-    def self.find_plugins dirs, info = false
+    def find_plugins dirs, info = false
       res = {}
       dirs.each do |dir|
         Dir.entries(dir).sort[2..-1].each do |name|
@@ -71,7 +71,7 @@ Replaces dependencies on features with dependencies on the plugins which provide
   with the dependencies corrected
 @raise [UnresolvedDep] if some plugins depended on features provided by no plugin
 =end
-    def self.resolve_features psfs, extra = []
+    def resolve_features psfs, extra = []
       features = (psfs+extra).inject({}) do |res, pl|
         pl.features.each{|f| res[f] = pl.name}
         res
@@ -101,7 +101,7 @@ Finds all the dependencies for the given plugins choosing among a list
 
 @see DepsSolver#solve
 =end
-    def self.fill_dependencies to_load, availlable
+    def fill_dependencies to_load, availlable
       solver = DepsSolver.new to_load, availlable
       solver.solve
     end
@@ -127,8 +127,110 @@ on.
   satisfied neither by other plugins in _psfs_ nor by plugins in _known_
 @raise [CircularDep] if there are circular dependencies between plugins
 =end
-    def self.sort_plugins psfs, known = []
+    def sort_plugins psfs, known = []
       PluginSorter.new( psfs, known ).sort_plugins
+    end
+    
+=begin rdoc
+Loads the core component with the given name
+
+The loading process works as follows:
+* the component directory is added to the KDE resource dirs for the pixmap,
+  data and appdata resource types. This doesn't happen for the application
+  component
+* A full {Ruber::PluginSpecification} is generated from the PSF. 
+* the component object is created
+
+@param [String] base_dir the directory containing the component directory
+@param [String] name the subdirectory (relative to _base_dir_) where the @plugin.rb@ file of the component to load is
+@param [Qt::Object,nil] keeper the keeper where the new component should be stored.
+  It'll also become the parent (in the sense of @Qt::Object#parent@) of the new
+  component
+@raise [SystemCallError] if the PSF for the given component can't be opened
+@raise [Ruber::PluginSpecification::PSFError] if the PSF for the given component
+  is not valid
+@return [Qt::Object] the component object
+=end
+    def load_component base_dir, name, keeper = nil
+      dir = File.join base_dir, name
+      if KDE::Application.instance
+        KDE::Global.dirs.add_resource_dir 'pixmap', dir
+        KDE::Global.dirs.add_resource_dir 'data', dir
+        KDE::Global.dirs.add_resource_dir 'appdata', dir
+      end
+      file = File.join dir, 'plugin.yaml'
+      psf = PluginSpecification.full file
+      comp = psf.class_obj.new keeper, psf
+      comp
+    end
+    
+=begin rdoc
+Loads the plugin contained in the given directory
+
+The loading process works as follows:
+* the plugin directory is added to the KDE resource dirs for the @pixmap@,
+  @data@ and @appdata@ resource types.
+* A full {Ruber::PluginSpecification} is generated from the PSF
+  (see {Ruber::PluginSpecification.full})
+* the plugin object (that is, an instance of the class specified in the @class@
+  entry of the PSF) is created, passing @self@ as second argument
+* the @component_loaded(QObject*)@ signal is emitted, with the plugin
+  object as argument
+* for each feature provided by the plugin, the signal @feature_loaded(QString, QObject*)@ is emitted with the name of the feature (as string) and the plugin
+object as arguments
+* the {PluginLike#delayed_initialize delayed_initialize} method of the plugin
+  object is called
+@param [String] dir the full path of the directory where the plugin file lives.
+  The last part of the path should be the same as the name of the plugin
+@param [PluginKeeper] keeper the object where the plugin should be stored
+@return [Object] the plugin object. The actual class of this object depends on
+  the contents of the @class@ entry of the PSF, but it'll most likely be a
+  {PluginLike}
+@raise [SystemCallError] if the PSF in the given directory can't be opened
+@raise [Ruber::PluginSpecification::PSFError] if the PSF in the given directory
+  is not valid
+@note If included in a class not derived from @Qt::Object@, the signals won't
+  be emitted. Everything else will work correctly.
+  
+  A class derived from Qt::Object which includes this module *must* define the
+  following signals:
+  * @component_loaded(QObject*)@
+  * @feature_loaded(QString, QObject*)@
+=end
+    def load_plugin dir, keeper
+      KDE::Global.dirs.add_resource_dir 'pixmap', dir
+      KDE::Global.dirs.add_resource_dir 'data', dir
+      KDE::Global.dirs.add_resource_dir 'appdata', dir
+      file = File.join dir, 'plugin.yaml'
+      psf = PluginSpecification.full YAML.load(File.read(file)), dir
+      psf.directory = dir
+      plug = psf.class_obj.new keeper, psf
+      if self.is_a? Qt::Object
+        emit component_loaded(plug)
+        psf.features.each do |f| 
+          emit feature_loaded(f.to_s, plug)
+        end
+      end
+      plug.send :delayed_initialize
+      plug
+    end
+    
+    def load_plugins
+      
+    end
+    
+    def unload_plugin
+      
+    end
+    
+    private
+    
+    def locate_plugins
+      
+    end
+    
+    def create_plugins_info
+      
     end
     
   end
