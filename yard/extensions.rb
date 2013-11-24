@@ -1,3 +1,4 @@
+require 'yard'
 YARD::Templates::Engine.register_template_path 'yard/ruber_template'
 
 # Substitute of htmlify when you don't want the extra <p>...</p> that RedCloth
