@@ -17,6 +17,8 @@
     Free Software Foundation, Inc.,                                       
     59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             
 =end
+require 'find'
+
 require 'facets/kernel/deep_copy'
 
 require 'ruber/plugin_specification'
@@ -96,14 +98,16 @@ Finds all the dependencies for the given plugins choosing among a list
 @param [<PluginSpecification>] to_load the plugins to find dependencies for
 @param [<PluginSpecification>] availlable other plugins which can be used to
   satisfy dependencies of _to_load_
-@return (see DepsSolver#solve)
+@return [<Symbol>] a list of the names of the plugins (not features) needed
+  to satisfy the dependencies of plugins in _to_load_. Note that this list
+  doesn't contain the plugins in _to_load_
 @raise (see DepsSolver#solve)
 
 @see DepsSolver#solve
 =end
     def fill_dependencies to_load, availlable
-      solver = DepsSolver.new to_load, availlable
-      solver.solve
+      solver = DepsSolver.new
+      solver.solve to_load, availlable
     end
     
 =begin rdoc
@@ -215,8 +219,96 @@ object as arguments
       plug
     end
     
-    def load_plugins
-      
+    def find_needed_plugins to_load, dirs, extra = []
+      psfs = create_plugins_info locate_plugins(dirs)
+      to_load = to_load.map{|pl| psfs[pl]}
+      availlable = psfs.values
+      to_load.concat fill_dependencies(to_load, availlable).map{|pl| psfs[pl]}
+      plugins = resolve_features to_load, extra
+      extra_features = extra.inject([]){|res, i| res.concat i.features}
+      plugins = sort_plugins plugins, extra_features
+    end
+    
+=begin rdoc
+Loads the given plugins, along with the needed dependencies
+
+This is the standard method to load plugins, because it takes care of correctly
+ordering them and gracefully handles any error which may arise.
+
+The loading process goes as follows:
+* the PSF for each plugin is found. The PSF is a file called @plugin.yaml@ in
+  a directory with the same name as the plugin (called the plugin directory).
+  The plugin directories are looked for in the directories passed as second
+  argument.
+* After reading the PSFs for all plugins, {#resolve_features} and {#sort_plugins}
+  are used to put them in the correct order. They're ordered so that any plugin
+  is loaded after all the plugins it depends on. Aside from this, the order is
+  arbitrary (but consistent: the same plugins will be ordered in the same way
+  every time this method is called).
+* Each plugin is loaded using {#load_plugin}
+
+When an exception is raised while loading a plugin and a block was passed to this method, the exception is caught and passed to the block. What happens next
+depends on the value returned by the block:
+* if the block returns @:skip@, the loading process stops and the method returns
+  successfully
+* if the block returns @:silent@, the loading process goes on. Further errors
+  are ignored
+* if the block returns a false value, the method immediately returns a failure
+* in all other cases the loading process goes on. In case more errors occur,
+  the block is called again.
+Note that the block is only called for exception raised when loading the plugins,
+not when resolving features or ordering the plugins.
+@param [<Symbol,String>] plugins the names of the plugins to load
+@param [<String>] dirs the absolute paths of the directory where to search for
+  plugins. The directories are searched in the order they are in the list. Once
+  a given plugin is found in a directory, other directories won't be searched
+  for it.
+@param [<PluginSpecification>] extra a list of already loaded plugins which
+  can be used to resolve dependencies
+@yield [plug, ex] a block called when an exception is raised loading a plugin. How the error is treated depends on the value returned by the block
+@yieldparam [Symbol] plug the name of the plugin which was being loaded
+@yieldparam [Exception] ex the exception raised while loading the plugin
+yieldreturn [Symbol] a value telling the method how to recover from the error
+
+@yieldreturn [Symbol] @:skip@ if the error should return immediately 
+@return [(Boolean, <Object>)] a pair of values. The first tell whether the method
+  was successful or not. The second is a list of all the loaded plugins
+@raise [UnresolvedDep] if there were unresolved dependencies
+@raise [CircularDep] if there were circular dependencies
+@note If a plugin fails to load and the block tells to go on with other plugins,
+  all plugins depending on the failed one will most likely fail, too.
+@note This method doesn't change Ruber's state until the plugins have been
+  ordered. This means that, if {UnresolvedDep} or {CircularDep} is raised, it's
+  completely safe for the calling method to call again this method, possibly
+  with a fixed list of plugins.
+  
+  Calling this method with the same plugin list after plugins start to load,
+  instead, may lead to trouble, since some plugins may be duplicated. However,
+  this isn't needed, given the flexibility provided by the block.
+=end
+    def load_plugins( plugins, dirs, extra = [] ) #:yields: ex
+      plugins = plugins.map(&:to_s)
+      plugin_files = locate_plugins dirs
+      plugins = create_plugins_info plugins, plugin_files, dirs
+      plugins = ComponentManager.resolve_features plugins, self.plugins.map{|pl| pl.plugin_description}
+      plugins = ComponentManager.sort_plugins plugins, @features.keys
+      silent = false
+      plugins.each do |pl| 
+        begin load_plugin File.dirname(plugin_files[pl.name.to_s])
+        rescue Exception => e
+          @components.delete pl.name
+          if silent then next
+          elsif block_given? 
+            res = yield pl, e
+            if res == :skip then break
+            elsif res == :silent then silent = true
+            elsif !res then return false
+            end
+          else raise
+          end
+        end
+      end
+      true
     end
     
     def unload_plugin
@@ -225,12 +317,60 @@ object as arguments
     
     private
     
-    def locate_plugins
+=begin rdoc
+Searches the given directories for plugins
+
+A plugin is a subdirectory containing a file named @plugin.yaml@ (which is the
+PSF for the plugin). The name of the subdirectory is assumed to be the same as
+that of the plugin.
+@param [<String>] dirs the absolute paths of the directories to search
+@return [{Symbol => String}] the names of the plugins with the path of the
+  corresponding PSF. If more than one directories contain the same plugin, the
+  hash only contains the first one
+=end
+    def locate_plugins dirs
+      plugin_files = {}
+      dirs.reverse.each do |d|
+        Find.find d do |sd|
+          psf = File.join sd, 'plugin.yaml'
+          if File.directory? sd and File.exist? psf
+            plugin_files[File.basename(sd).to_sym] ||= psf
+            Find.prune
+          end
+        end
+#         Dir.entries(d).sort[2..-1].each do |f| 
+#           full_dir = File.join d, f
+#           p full_dir
+#           if File.directory?(full_dir) and File.exist?(File.join(full_dir, 'plugin.yaml'))
+#             plugin_files[f] = File.join full_dir, 'plugin.yaml'
+#           end
+#         end
+      end
       
+      plugin_files
     end
     
-    def create_plugins_info
-      
+=begin rdoc
+Create a plugin specification object for the given plugins
+
+@param [{Symbol => String}] plugins a hash with the name of the plugins and the
+  path of the corresponding PSF
+@return [{Symbol=>PluginSpecification}] the {PluginSpecification}s for the given
+  plugins stored by plugin name
+@raise [InvalidPSF] if some of the given PSFs were invalid
+@raise [SystemCallError] if some of the PSFs didn't exist
+=end
+    def create_plugins_info plugins
+      errors = {}
+      res = {}
+      plugins.each_pair do |name, path| 
+        begin res[name] = PluginSpecification.new(path)
+        rescue ArgumentError, PluginSpecification::PSFError
+          errors << path
+        end
+      end
+      raise InvalidPSF.new errors unless errors.empty?
+      res
     end
     
   end

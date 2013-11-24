@@ -22,12 +22,12 @@ module Ruber
    
 =begin rdoc
 Helper class used to resolve dependencies among plugins. It is used by
-{Ruber::ComponentManager.sort_plugins Ruber::ComponentManager.sort_plugins}.
+{Ruber::ComponentLoader.sort_plugins Ruber::ComponentLoader.sort_plugins}.
 =end
   class PluginSorter
   
 =begin rdoc
-@param [<PluginSpecification>] psf the specifications of the plugins to sort
+@param [<PluginSpecification>] psfs the specifications of the plugins to sort
 @param [<PluginSpecification,Symbol>] ignored a list of dependencies which can
 be considered satisfied even if they're not included in _psfs_. Usually, this
 array contains plugins which have already been loaded
@@ -52,9 +52,9 @@ Sorts the plugins
 @return [<PluginSpecification>] an array containing the plugins to be loaded
 sorted so that a plugin comes after those it depends upon. Dependencies
 on ignored plugins aren't taken into account
-@raise [Ruber::ComponentManager::UnresolvedDep] if some plugins have unsatisfied
+@raise [Ruber::UnresolvedDep] if some plugins have unsatisfied
 dependencies
-@raise [Ruber::ComponentManager::CircularDep] if there are circuolar dependencies 
+@raise [Ruber::CircularDep] if there are circuolar dependencies 
 among the plugins (that is, @A@ depends on @B@ and @B@ depends, directly or
 indirectly, on @A@)
 =end
@@ -63,9 +63,9 @@ indirectly, on @A@)
       v.reject!{|d| @ignored.include? d}
     end
     unknown = find_unknown_deps
-    raise ComponentManager::UnresolvedDep.new unknown unless unknown.empty?
+    raise UnresolvedDep.new unknown unless unknown.empty?
     circular = @plugins.keys.inject([]){ |res, plug|  res + find_dep( plug ) }
-    raise ComponentManager::CircularDep.new(circular.uniq) unless circular.empty?
+    raise CircularDep.new(circular.uniq) unless circular.empty?
     deps = @deps.reject{|k, v| v.nil? }
     res = []
     old_size = deps.size
@@ -157,11 +157,22 @@ finding out which ones need to be loaded.
   class DepsSolver
 
 =begin rdoc
+Tries to resolve the dependencies for the given plugins
+
+If a plugin depends on a feature, a plugin with that name is added to the list
+of needed plugins, unless the feature is already provided by either another
+dependency or one of the plugins to load.
+
 @param [<PluginSpecification>] to_load the plugin specifications corresponding
 to the plugin which one wants to load
 @param [<PluginSpecification>] availlable a list of all the availlable pluings
+@return [<Symbol>] a list of the names of the needed plugins (not features)
+@raise [UnresolvedDep] if a plugin which needs to be loaded depends on a feature
+no other plugin provides
+@raise [CircularDep] if there's a circular dependencies among plugins which
+need to be loaded (that is, if there are two plugins depending on each other)
 =end
-    def initialize to_load, availlable
+    def solve to_load, availlable 
       @to_load = to_load.map{|i| [i.name, i]}.to_h
       @availlable = availlable.map{|i| [i.name, i]}.to_h
       @loaded_features = to_load.inject({}) do |res, i|
@@ -182,22 +193,6 @@ to the plugin which one wants to load
       # to the constructor), the array contains nil.
       @res = []
       @deps = Hash.new{|h, k| h[k] = []}
-    end
-
-=begin rdoc
-Tries to resolve the dependencies for the given plugins
-
-If a plugin depends on a feature, a plugin with that name is added to the list
-of needed plugins, unless the feature is already provided by either another
-dependency or one of the plugins to load.
-
-@return [<Symbol>] a list of the names of the needed plugins (not features)
-@raise [UnresolvedDep] if a plugin which needs to be loaded depends on a feature
-no other plugin provides
-@raise [CircularDep] if there's a circular dependencies among plugins which
-need to be loaded (that is, if there are two plugins depending on each other)
-=end
-    def solve
       errors = {:missing => {}, :circular => []}
       @res = @to_load.values.inject([]) do |r, i| 
         @deps[i.name] << nil
@@ -244,18 +239,16 @@ skips both missing and circular dependencies).
         return deps
       end
       stack << pl.name
-      unless pl.deps.empty?
-        pl.deps.each do |dep|
-          next if @loaded_features.include? dep
-          new_pl = @availlable_plugins[dep]
-          if new_pl
-            deps << dep
-            @deps[dep] << pl.name
-            deps += solve_for new_pl, errors, stack
-          else
-            (errors[:missing][dep] ||= []) << pl.name
-            return []
-          end
+      pl.deps.each do |dep|
+        next if @loaded_features.include? dep
+        new_pl = @availlable_plugins[dep]
+        if new_pl
+          deps << dep
+          @deps[dep] << pl.name
+          deps += solve_for new_pl, errors, stack
+        else
+          (errors[:missing][dep] ||= []) << pl.name
+          return []
         end
       end
       stack.pop

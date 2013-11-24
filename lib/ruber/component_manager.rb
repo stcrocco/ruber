@@ -297,53 +297,7 @@ Method required for the Plugin interface. Does nothing
     
     
     private
-    
-=begin rdoc
-  Searches the directories in the _dirs_ array for all the subdirectories containing
-  a plugin.yaml file and returns the paths of the files. Returns a hash with keys
-  corresponding to plugin names and values corresponding to the path of the PSF
-  for the plugin.
-=end
-    def locate_plugins dirs
-      plugin_files = {}
-      dirs.reverse.each do |d|
-        Dir.entries(d).sort[2..-1].each do |f| 
-          full_dir = File.join d, f
-          if File.directory?(full_dir) and File.exist?(File.join(full_dir, 'plugin.yaml'))
-            plugin_files[f] = File.join full_dir, 'plugin.yaml'
-          end
-        end
-      end
-      plugin_files
-    end
 
-
-=begin rdoc
-  Attempts to create <tt>Ruber::PluginSpecification</tt>s for each plugin in the _plugins_
-  array. The path for the PSFs is taken from _files_, which is an hash with the
-  plugin names as keys and the PSFs paths as values.
-    
-  If some PSFs are missing, <tt>MissingPlugins</tt> is raised. If some PSFs are
-  invalid, +InvalidPSF+ is raised. Otherwise, an array containing the <tt>PluginSpecification</tt>s
-  for the plugins is returned.
-=end
-    def create_plugins_info plugins, files, dirs
-      missing = []
-      errors = []
-      res = plugins.map do |pl| 
-        file = files[pl]
-        if file 
-          begin PluginSpecification.new file
-          rescue ArgumentError, PluginSpecification::PSFError
-            errors << file
-          end
-        else missing << pl
-        end
-      end
-      raise MissingPlugins.new missing, dirs unless missing.empty?
-      raise InvalidPSF.new errors unless errors.empty?
-      res
-    end
     
   end
   

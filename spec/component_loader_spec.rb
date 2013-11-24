@@ -544,7 +544,242 @@ describe Ruber::ComponentLoader do
     end
         
   end
+  
+  describe '#find_needed_plugins' do
+    
+    before do
+      contents = {
+        'd1/p1/plugin.yaml' => '{name: p1, class: P1, type: global, deps: [p4]}',
+        'd1/p2/plugin.yaml' => '{name: p2, class: P2, type: global}',
+        'd2/p3/plugin.yaml' => '{name: p3, class: P3, type: global}',
+        'd2/p4/plugin.yaml' => '{name: p4, class: P4, type: global}'
+        }
+      tree = YAML.load %q{[[d1, [p1, plugin.yaml], [p2, plugin.yaml]], [d2, [p3, plugin.yaml], [p1, plugin.yaml], [p4, plugin.yaml]]]}
+      @dir = make_dir_tree tree, Dir.tmpdir, contents
+      @psfs = Hash[contents.values.map do |str|
+        h = YAML.load str
+        [h['name'].to_sym, Ruber::PluginSpecification.intro(h)]
+      end
+      ]
+    end
+    
+    after do
+      FileUtils.rm_rf @dir
+    end
 
+    it 'returns the PSFs for the given plugins in alphabetical order if they have no dependecy according to their PSFs in the given directories' do
+      res = @loader.find_needed_plugins [:p4, :p3], [@dir]
+      res.should == [@psfs[:p3], @psfs[:p4]]
+    end
+    
+    it 'returns the PSFs in dependency order if some of them depend on others' do
+      res = @loader.find_needed_plugins [:p3, :p1, :p4], [@dir]
+      res.should == [@psfs[:p3], @psfs[:p4], @psfs[:p1]]
+    end
+    
+    it 'returns the PSFs in dependency order, adding any plugin needed to satisfy dependencies' do
+      res = @loader.find_needed_plugins [:p3, :p1], [@dir]
+      res.should == [@psfs[:p3], @psfs[:p4], @psfs[:p1]]
+    end
+    
+    it 'also uses the PSFs in the extra argument to satisfy dependencies' do
+      file = File.join @dir, 'd1', 'p1', 'plugin.yaml'
+      File.open(file, 'w'){|f| f.write "{name: p1, type: global, deps: [p5]}"}
+      FileUtils.mkdir_p File.join @dir, 'd1', 'p5'
+      file = File.join @dir, 'd1', 'p5', 'plugin.yaml'
+      File.open(file, 'w'){|f| f.write "{name: p5, type: global}"}
+      p5 = Ruber::PluginSpecification.intro :name => :p5, :type => :global
+      res = @loader.find_needed_plugins [:p3, :p1], [@dir], [p5]
+      res.should == [@psfs[:p1], @psfs[:p3]]      
+    end
+    
+  end
+  
+  describe 'Ruber::ComponentManager#load_plugins' do
+    
+    before do
+#       flexmock(Ruber).should_receive(:[]).with(:config).and_return(nil).by_default
+      @data = %q{[[d1, [p1, plugin.yaml], [p2, plugin.yaml]], [d2, [p3, plugin.yaml], [p1, plugin.yaml]]]}
+      @tree = YAML.load @data
+      @dir = nil
+      Object.const_set :P1, Class.new(Ruber::Plugin)
+      Object.const_set :P2, Class.new(Ruber::Plugin)
+      Object.const_set :P3, Class.new(Ruber::Plugin)
+    end
+    
+    after do
+      Object.send :remove_const, :P1
+      Object.send :remove_const, :P2
+      Object.send :remove_const, :P3
+    end
+    
+#     it 'should find the plugins in the given directories and load them in the alphabetically order if there aren\'t dependencies among them' do
+#       contents = {
+#         'd1/p1/plugin.yaml' => '{name: p1, class: P1, type: global}',
+#         'd1/p2/plugin.yaml' => '{name: p2, class: P2, type: global}',
+#         'd2/p3/plugin.yaml' => '{name: p3, class: P3, type: global}'
+#         }
+#       @dir = make_dir_tree(@tree, '/tmp/', contents)
+#       @manager.load_plugins(%w[p2 p1 p3], %w[d1 d2].map{|d| File.join(@dir, d)})
+#       @manager.plugins.map{|i| i.class}.should == [P1, P2, P3]
+#     end
+#     
+#     it 'should work with both strings and symbols' do
+#       contents = {
+#         'd1/p1/plugin.yaml' => '{name: p1, class: P1, type: global}',
+#         'd1/p2/plugin.yaml' => '{name: p2, class: P2, type: global}',
+#         'd2/p3/plugin.yaml' => '{name: p3, class: P3, type: global}'
+#       }
+#       @dir = make_dir_tree(@tree, '/tmp/', contents)
+#       @manager.load_plugins([:p2, :p1, :p3], %w[d1 d2].map{|d| File.join(@dir, d)})
+#       @manager.plugins.map{|i| i.class}.should == [P1, P2, P3]
+#       
+#     end
+#     
+#     it 'should find the plugins in the given directories and load them in dependecy order' do
+#       contents = {
+#         'd1/p1/plugin.yaml' => '{name: p1, class: P1, deps: :p3, type: global}',
+#         'd1/p2/plugin.yaml' => '{name: p2, class: P2, type: global}',
+#         'd2/p3/plugin.yaml' => '{name: p3, class: P3, deps: :p2, type: global}'
+#         }
+#       @dir = make_dir_tree(@tree, '/tmp/', contents)
+#       @manager.load_plugins(%w[p1 p2 p3], %w[d1 d2].map{|d| File.join(@dir, d)})
+#       @manager.plugins.map{|i| i.class}.should == [P2, P3, P1]
+#     end
+#     
+#     it 'should resolve dependencies among the plugins' do
+#       contents = {
+#         'd1/p1/plugin.yaml' => '{name: p1, class: P1, deps: :p4, type: global}',
+#         'd1/p2/plugin.yaml' => '{name: p2, class: P2, type: global}',
+#         'd2/p3/plugin.yaml' => '{name: p3, class: P3, deps: :p2, features: [:p4], type: global}'
+#         }
+#       @dir = make_dir_tree(@tree, '/tmp/', contents)
+#       @manager.load_plugins(%w[p1 p2 p3], %w[d1 d2].map{|d| File.join(@dir, d)})
+#       @manager.plugins.map{|i| i.class}.should == [P2, P3, P1]
+#     end
+#     
+#     it 'should load the plugins using the pdfs with the unresolved dependencies' do
+#       contents = {
+#         'd1/p1/plugin.yaml' => '{name: p1, class: P1, deps: :p4, type: global}',
+#         'd1/p2/plugin.yaml' => '{name: p2, class: P2, type: global}',
+#         'd2/p3/plugin.yaml' => '{name: p3, class: P3, deps: :p2, features: [:p4], type: global}'
+#         }
+#       @dir = make_dir_tree(@tree, '/tmp/', contents)
+#       @manager.load_plugins(%w[p1 p2 p3], %w[d1 d2].map{|d| File.join(@dir, d)})
+#       @manager[:p1].plugin_description.deps.should == [:p4]
+#     end
+    
+    it 'should use the already-loaded plugins, if any, to compute dependencies' do
+      Object.const_set :P4, Class.new(Ruber::Plugin)
+      Object.const_set :P5, Class.new(Ruber::Plugin)
+      loaded =  [{:name => :p4, :class => P4, :type => :global}, {:name => :p5, :class => P5, :features => [:p6], :type => :global}].map{|i| Ruber::PluginSpecification.full i}
+      P4.new loaded[0]
+      P5.new loaded[1]
+      contents = {
+        'd1/p1/plugin.yaml' => '{name: p1, class: P1, deps: :p4, type: global}',
+        'd1/p2/plugin.yaml' => '{name: p2, class: P2, deps: p6, type: global}',
+        'd2/p3/plugin.yaml' => '{name: p3, class: P3, deps: :p2, type: global}'
+      }
+      @dir = make_dir_tree(@tree, '/tmp/', contents)
+      @manager.load_plugins(%w[p1 p2 p3], %w[d1 d2].map{|d| File.join(@dir, d)})
+      lambda{@manager.load_plugins(%w[p1 p2 p3], %w[d1 d2].map{|d| File.join(@dir, d)})}.should_not raise_error
+    end
+    
+    it 'should raise Ruber::ComponentManager::MissingPlugins if some plugins couldn\'t be found' do
+      contents = {
+        'd1/p1/plugin.yaml' => '{name: p1, class: P1, type: global}',
+        'd1/p2/plugin.yaml' => '{name: p2, class: P2, type: global}',
+        'd2/p3/plugin.yaml' => '{name: p3, class: P3, type: global}'
+      }
+      @dir = make_dir_tree(@tree, '/tmp/', contents)
+      lambda{@manager.load_plugins(%w[p1 p2 p3 p4 p5], %w[d1 d2].map{|d| File.join(@dir, d)})}.should raise_error(Ruber::ComponentManager::MissingPlugins) do |e|
+        e.missing.should =~ ['p4', 'p5']
+      end
+    end
+    
+    it 'should raise Ruber::ComponentManager::InvalidPSF if the PSF for some plugins was invalid' do
+      contents = {
+        'd1/p1/plugin.yaml' => '{name: p1, type: global, class: P1',
+        'd1/p2/plugin.yaml' => '{class: P2, type: global}',
+        'd2/p3/plugin.yaml' => '{name: p3, class: P3, type: global}'
+      }
+      @dir = make_dir_tree(@tree, '/tmp/', contents)
+      lambda{@manager.load_plugins(%w[p1 p2 p3], %w[d1 d2].map{|d| File.join(@dir, d)})}.should raise_error(Ruber::ComponentManager::InvalidPSF) do |e|
+        e.files.should =~ %w[d1/p1/plugin.yaml d1/p2/plugin.yaml].map{|f| File.join @dir, f}
+      end
+    end
+    
+    it 'should raise an exception if loading a plugin raises an exception and no block is given' do
+      contents = {
+        'd1/p1/plugin.yaml' => '{name: p1, class: X1, type: global}',
+        'd1/p2/plugin.yaml' => '{name: p2, class: P2, type: global}',
+        'd2/p3/plugin.yaml' => '{name: p3, class: P3, type: global}'
+      }
+      @dir = make_dir_tree(@tree, '/tmp/', contents)
+      lambda{@manager.load_plugins(%w[p1 p2 p3], %w[d1 d2].map{|d| File.join(@dir, d)})}.should raise_error(NameError)
+    end
+    
+    it 'should call the block if an exception occurs while loading a plugin and return false as soon as the block returns false' do
+      P1.class_eval{def initialize pdf; raise NoMethodError;end}
+      P3.class_eval{def initialize pdf; raise ArgumentError;end}
+      contents = {
+        'd1/p1/plugin.yaml' => '{name: p1, class: P1, type: global}',
+        'd1/p2/plugin.yaml' => '{name: p2, class: P2, type: global}',
+        'd2/p3/plugin.yaml' => '{name: p3, class: P3, type: global}'
+      }
+      @dir = make_dir_tree(@tree, '/tmp/', contents)
+      m = flexmock do |mk|
+        mk.should_receive(:test).with(Ruber::PluginSpecification, NoMethodError).once.and_return(true)
+        mk.should_receive(:test).with(Ruber::PluginSpecification, ArgumentError).once.and_return(false)
+      end
+      (@manager.load_plugins(%w[p1 p2 p3], %w[d1 d2].map{|d| File.join(@dir, d)}){|pl, e|m.test pl, e}).should be_false
+    end
+    
+    it 'should call the block if an exception occurs while loading a plugin and stop loading plugins and return true if the block returns :skip' do
+      P1.class_eval{def initialize pdf; raise NoMethodError;end}
+      P2.class_eval{def initialize pdf; raise ArgumentError;end}
+      contents = {
+        'd1/p1/plugin.yaml' => '{name: p1, class: P1, type: global}',
+        'd1/p2/plugin.yaml' => '{name: p2, class: P2, type: global}',
+        'd2/p3/plugin.yaml' => '{name: p3, class: P3, type: global}'
+      }
+      @dir = make_dir_tree(@tree, '/tmp/', contents)
+      m = flexmock do |mk|
+        mk.should_receive(:test).with(Ruber::PluginSpecification, NoMethodError).once.and_return(true)
+        mk.should_receive(:test).with(Ruber::PluginSpecification, ArgumentError).once.and_return(:skip)
+      end
+      flexmock(P3).should_receive(:new).never
+      (@manager.load_plugins(%w[p1 p2 p3], %w[d1 d2].map{|d| File.join(@dir, d)}){|pl, e|m.test pl, e}).should be_true
+    end
+    
+    it 'should call the block if an exception occurs while loading a plugin, stop calling it for following errors and return true if the block returns :silent' do
+      P1.class_eval{def initialize pdf; raise NoMethodError;end}
+      P2.class_eval{def initialize pdf; raise ArgumentError;end}
+      contents = {
+        'd1/p1/plugin.yaml' => '{name: p1, class: P1, type: global}',
+        'd1/p2/plugin.yaml' => '{name: p2, class: P2, type: global}',
+        'd2/p3/plugin.yaml' => '{name: p3, class: P3, type: global}'
+      }
+      @dir = make_dir_tree(@tree, '/tmp/', contents)
+      m = flexmock do |mk|
+        mk.should_receive(:test).with(Ruber::PluginSpecification, NoMethodError).once.and_return(:silent)
+        mk.should_receive(:test).with(Ruber::PluginSpecification, ArgumentError).never
+      end
+      (@manager.load_plugins(%w[p1 p2 p3], %w[d1 d2].map{|d| File.join(@dir, d)}){|pl, e|m.test pl, e}).should be_true
+      @manager.plugins.last.should be_a(P3)
+    end
+    
+    it 'should return true if no error occurs' do
+          contents = {
+        'd1/p1/plugin.yaml' => '{name: p1, class: P1, type: global}',
+        'd1/p2/plugin.yaml' => '{name: p2, class: P2, type: global}',
+        'd2/p3/plugin.yaml' => '{name: p3, class: P3, type: global}'
+        }
+      @dir = make_dir_tree(@tree, '/tmp/', contents)
+      @manager.load_plugins(%w[p2 p1 p3], %w[d1 d2].map{|d| File.join(@dir, d)}).should be_true
+    end
+    
+  end
 
 end
   
