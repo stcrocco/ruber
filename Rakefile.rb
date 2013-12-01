@@ -26,13 +26,15 @@ WARNING: the documentation for this project is written for YARD (http://www.yard
          If possible, consider installing and using YARD instead
 EOS
 
-rake_rdoc = begin 
-  version = RDoc::VERSION
-  version.split('.')[1].to_i < 3
-rescue NameError then true
-end
-if rake_rdoc
+rake_rdoc = begin
+  require 'rdoc/task'
+  true
+rescue LoadError
   require 'rake/rdoctask'
+  false
+end
+
+if rake_rdoc
   Rake::RDocTask.new do |t|
     output_dir= File.expand_path(ENV['OUTPUT_DIR']) rescue 'rdoc'
     puts rdoc_warning
@@ -45,8 +47,6 @@ if rake_rdoc
   end
   
 else
-  require 'rdoc/rdoc'
-  
   desc 'Generates the documentation using RDoc'
   task :rdoc do |t|
     puts rdoc_warning
