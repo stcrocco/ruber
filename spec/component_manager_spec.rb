@@ -1,43 +1,43 @@
 require 'spec/common'
 
-require 'ruber/component_manager'
+require 'ruber/component_manager/component_manager'
 require 'ruber/plugin'
 require 'ruber/plugin_specification'
 require 'ruber/config/config'
 
 include FlexMock::ArgumentTypes
 
-describe 'Ruber::ComponentManager#w, when created' do
-  
+describe 'Ruber::ComponentManager, when created' do
+
   before do
     @manager = Ruber::ComponentManager.new
   end
-  
-  it 'should add itself to the list of features' do
+
+  it 'adds itself to the list of features' do
     @manager.instance_variable_get(:@features).should == {:components => @manager}
   end
-  
-  it 'should add itself to the "components" hash, under the :components key' do
+
+  it 'adds itself to the "components" hash, under the :components key' do
     @manager[:components].should equal(@manager)
   end
-  
-  it 'should have a plugin_description method which returns the plugin description' do
+
+  it 'has a plugin_description method which returns the plugin description' do
     res = @manager.plugin_description
     res.should be_a(Ruber::PluginSpecification)
     res.name.should == :components
     res.features.should == [:components]
     res.class_obj.should == Ruber::ComponentManager
   end
-  
-  it 'should have a plugin_name and component_name methods which return :components' do
+
+  it 'has a plugin_name and component_name methods which return :components' do
     @manager.plugin_name.should == :components
     @manager.component_name.should == :components
   end
-  
+
 end
 
 describe 'Ruber::ComponentManager#[]' do
-  
+
   it 'should return the entry stored in the @features instance variable with the same name as the argument' do
     man = Ruber::ComponentManager.new
     mk = flexmock('test component')
@@ -51,13 +51,13 @@ describe 'Ruber::ComponentManager#[]' do
     man[:test].should equal(mk)
     man[:y].should equal(mk)
   end
-  
+
 end
 
 describe 'Ruber::ComponentManager#each_component' do
-  
+
   context 'if the argument is :normal or missing' do
-    
+
     it 'calls the block passing each component in turn, in loading order' do
       man = Ruber::ComponentManager.new
       components = 5.times.map{|i| flexmock(i.to_s, :component_name => i.to_s, :plugin_description => OpenStruct.new({:features => []}))}
@@ -72,11 +72,11 @@ describe 'Ruber::ComponentManager#each_component' do
       end
       man.each_component{|i| m.test i}
     end
-    
+
   end
-  
+
   context 'if the argument is :reverse' do
-    
+
     it 'should call the block passing each component in turn, in loading order' do
       man = Ruber::ComponentManager.new
       components = 5.times.map{|i| flexmock(i.to_s, :component_name => i.to_s, :plugin_description => OpenStruct.new({:features => []}))}
@@ -87,13 +87,13 @@ describe 'Ruber::ComponentManager#each_component' do
       components.each{|c| man.add c}
       man.each_component(:reverse){|i| m.test i}
     end
-  
+
   end
-  
+
 end
 
 describe 'Ruber::ComponentManager#components' do
-  
+
   it 'calls the block passing each component in turn, in reverse loading order' do
     man = Ruber::ComponentManager.new
     components = 5.times.map{|i| flexmock(i.to_s, :component_name => i.to_s, :plugin_description => OpenStruct.new({:features => []}))}
@@ -101,13 +101,13 @@ describe 'Ruber::ComponentManager#components' do
     components.each{|c| man.add c}
     man.components.should == components
   end
-  
+
 end
 
 describe 'Ruber::ComponentManager#each_plugin' do
-  
+
   context 'when the argument is :normal or missing' do
-    
+
     it 'calls the block passing each plugin in turn, in loading order' do
       man = Ruber::ComponentManager.new
       components = 5.times.map{|i| flexmock("component #{i}", :component_name => :"#{i}",:plugin_description => OpenStruct.new({:features => []}))}
@@ -131,11 +131,11 @@ describe 'Ruber::ComponentManager#each_plugin' do
       end
       man.each_plugin(:normal){|i| m.test i}
     end
-  
+
   end
-  
+
   context 'when the argument is :reverse' do
-    
+
     it 'should call the block passing each plugin in turn, in reverse loading order' do
       man = Ruber::ComponentManager.new
       components = 5.times.map{|i| flexmock("component #{i}", :component_name => :"#{i}",:plugin_description => OpenStruct.new({:features => []}))}
@@ -153,11 +153,11 @@ describe 'Ruber::ComponentManager#each_plugin' do
     end
 
   end
- 
+
 end
 
 describe 'Ruber::ComponentManager#plugins' do
-  
+
   it 'should return an array containing all the loading plugins, in loading order' do
     man = Ruber::ComponentManager.new
     components = 5.times.map{|i| flexmock("component #{i}", :component_name => :"#{i}",:plugin_description => OpenStruct.new({:features => []}))}
@@ -170,33 +170,33 @@ describe 'Ruber::ComponentManager#plugins' do
     components.reverse_each{|c| man.add c}
     man.plugins.should == [components[4], components[3], components[1]]
   end
-  
+
 end
 
 describe 'Ruber::ComponentManager#add' do
-  
+
   before do
     @manager = Ruber::ComponentManager.new
   end
-  
+
   it 'should add the argument at the end of the component list' do
     plug = flexmock('plugin', :component_name => :test, :plugin_description => OpenStruct.new({:features => []}))
     @manager.add plug
     @manager.instance_variable_get(:@components)[:test].should equal(plug)
     @manager.instance_variable_get(:@components).keys.last.should == :test
   end
-  
+
   it 'should add the argument to the list of features for each of its features' do
     pdf = OpenStruct.new({:features => [:test, :x, :y]})
     plug = flexmock('plugin', :component_name => :test, :plugin_description => pdf)
     @manager.add plug
     @manager.instance_variable_get(:@features).should == {:components => @manager, :test => plug, :x => plug, :y => plug}
   end
-  
+
 end
 
 describe 'Ruber::ComponentManager#shutdown' do
-  
+
   before do
 #     @cls = Class.new(Qt::Object) do
 #       include Ruber::PluginLike
@@ -206,13 +206,13 @@ describe 'Ruber::ComponentManager#shutdown' do
 #       end
 # #       def connect *args
 # #       end
-#       
+#
 #       def is_a? cls
 #         true
 #       end
 #     end
     @manager = Ruber::ComponentManager.new
-    
+
     flexmock(Ruber).should_receive(:[]).with(:app).and_return(Qt::Object.new).by_default
     flexmock(Ruber).should_receive(:[]).with(:components).and_return(@manager).by_default
     @config = Qt::Object.new
@@ -222,7 +222,7 @@ describe 'Ruber::ComponentManager#shutdown' do
     @manager.instance_variable_get(:@components)[:config] = @config
     flexmock(Ruber).should_receive(:[]).with(:config).and_return(@config).by_default
   end
-  
+
   it 'should call the "save_settings" method of each plugin, except for itself' do
     comps = @manager.instance_variable_get(:@components)
     components = 5.times.map{|i| Ruber::Plugin.new(Ruber::PluginSpecification.full({:name => "c#{i}", :type => :core}))}
@@ -230,7 +230,7 @@ describe 'Ruber::ComponentManager#shutdown' do
     flexmock(@manager).should_receive(:save_settings).never
     @manager.shutdown
   end
-  
+
   it 'calls the write method of the config object after the plugins\' save_settings method' do
     comps = @manager.instance_variable_get(:@components)
     components = 5.times.map{|i| Ruber::Plugin.new(Ruber::PluginSpecification.full({:name => "c#{i}", :type => :global}))}
@@ -238,7 +238,7 @@ describe 'Ruber::ComponentManager#shutdown' do
     flexmock(@config).should_receive(:write).once.ordered
     @manager.shutdown
   end
-  
+
 #   it 'should emit the "unloading_*(QObject*)" for features provided by plugins' do
 #     comps = @manager.instance_variable_get(:@components)
 #     features = @manager.instance_variable_get(:@features)
@@ -247,7 +247,7 @@ describe 'Ruber::ComponentManager#shutdown' do
 #       {:name => :p2, :features => [:y, :z]}
 #       ].map{|i| Ruber::PluginSpecification.full(i)}
 #     component_pdfs = [ {:name => :c1}, {:name => :c2} ].map{|i| Ruber::PluginSpecification.full(i)}
-#     components = component_pdfs.map do |c| 
+#     components = component_pdfs.map do |c|
 #       comp = Ruber::Plugin.new c
 #       flexmock(comp).should_receive(:is_a?).with(Ruber::Plugin).and_return false
 #       comp
@@ -259,17 +259,17 @@ describe 'Ruber::ComponentManager#shutdown' do
 #       signals( *%w[p1 x p2 y z].map{|s| "unloading_#{s}(QObject*)"})
 #     end
 #     m = flexmock do |mk|
-#       %w[x y z].each do |x| 
+#       %w[x y z].each do |x|
 #         mk.should_receive("unloading_#{x}".to_sym).once.with(features[x.to_sym])
 #         @manager.connect(SIGNAL("unloading_#{x}(QObject*)")){|o| mk.send("unloading_#{x}", o)}
 #       end
 #     end
 #     @manager.shutdown
 #   end
-#   
+#
 #   it 'should emit the "unloading_component(QObject*)" signal for each component except itself, in reverse loading order' do
 #     comps = @manager.instance_variable_get(:@components)
-#     components = 5.times.map do |i| 
+#     components = 5.times.map do |i|
 #       flexmock(@manager).should_receive("unloading_c#{i}")
 #       Ruber::Plugin.new(Ruber::PluginSpecification.full({:name => "c#{i}"}))
 #     end
@@ -280,17 +280,17 @@ describe 'Ruber::ComponentManager#shutdown' do
 #     @manager.connect( SIGNAL('unloading_component(QObject*)')){|o| m.test o}
 #     @manager.shutdown
 #   end
-#   
+#
   it 'should call the "shutdown" methods of all the components, except itself, in reverse loading order' do
     comps = @manager.instance_variable_get(:@components)
-    components = 5.times.map do |i| 
+    components = 5.times.map do |i|
       flexmock(@manager).should_receive("unloading_c#{i}")
       Ruber::Plugin.new(Ruber::PluginSpecification.full({:name => "c#{i}", :type => :global}))
     end
     components.reverse_each{|o| flexmock(o).should_receive(:shutdown).once.globally.ordered}
     @manager.shutdown
   end
-#   
+#
 #   it 'should call the "delete_later" method of all plugins, after having call the "shutdown" methods' do
 #     cls = Class.new(Qt::Object) do
 #       include Ruber::PluginLike
@@ -298,12 +298,12 @@ describe 'Ruber::ComponentManager#shutdown' do
 #         super Ruber[:app]
 #         initialize_plugin pdf
 #       end
-#       
+#
 #       def is_a? cls
 #         false
 #       end
 #     end
-#     
+#
 #     components = 3.times.map{|i| cls.new(Ruber::PluginSpecification.full({:name => "c#{i}"}))}
 #     plugins=3.times.map{|i| Ruber::Plugin.new(Ruber::PluginSpecification.full({:name => "p#{i}"}))}
 #     (components + plugins).reverse_each{|i| flexmock(i).should_receive(:shutdown).once.globally.ordered}
@@ -313,7 +313,7 @@ describe 'Ruber::ComponentManager#shutdown' do
 #     end
 #     @manager.shutdown
 #   end
-#   
+#
 #   it 'should remove all plugins from the list of components' do
 #     cls = Class.new(Qt::Object) do
 #       include Ruber::PluginLike
@@ -321,12 +321,12 @@ describe 'Ruber::ComponentManager#shutdown' do
 #         super Ruber[:app]
 #         initialize_plugin pdf
 #       end
-#       
+#
 #       def is_a? cls
 #         false
 #       end
 #     end
-#     
+#
 #     components = 3.times.map{|i| cls.new(Ruber::PluginSpecification.full({:name => "c#{i}"}))}
 #     components.unshift @config
 #     plugins=3.times.map{|i| Ruber::Plugin.new(Ruber::PluginSpecification.full({:name => "p#{i}"}))}
@@ -339,7 +339,7 @@ describe 'Ruber::ComponentManager#shutdown' do
 #     @manager.shutdown
 #     @manager.instance_variable_get(:@components).values.sort_by{|o| o.object_id}.should == ([@manager] + components).sort_by{|o| o.object_id}
 #   end
-#   
+#
 #   it 'should remove all features provided by plugins' do
 #     plugin_pdfs = [
 #       {:name => :p0},
@@ -356,7 +356,7 @@ describe 'Ruber::ComponentManager#shutdown' do
 #         super Ruber[:app]
 #         initialize_plugin pdf
 #       end
-#       
+#
 #       def is_a? cls
 #         false
 #       end
@@ -371,7 +371,7 @@ describe 'Ruber::ComponentManager#shutdown' do
 #     @manager.shutdown
 #     @manager.instance_variable_get(:@features).should == {:components => @manager, :c0 => components[0], :a => components[0], :b => components[0], :c1 => components[1], :c => components[1]}
 #   end
-  
+
 end
 
 describe 'Ruber::ComponentManager#unload_plugin' do
@@ -391,7 +391,7 @@ describe 'Ruber::ComponentManager#unload_plugin' do
     flexmock(Ruber).should_receive(:[]).with(:app).and_return(Qt::Object.new).by_default
     flexmock(Ruber).should_receive(:[]).with(:components).and_return(@manager).by_default
     flexmock(Ruber).should_receive(:[]).with(:config).and_return(nil).by_default
-    
+
     plugin_pdfs = [
       {:name => :p0, :type => :global},
       {:name => :p1, :features => [:x, :y], :type => :global},
@@ -408,9 +408,9 @@ describe 'Ruber::ComponentManager#unload_plugin' do
     end
 
   end
-  
+
   it 'should emit the "unloading_*(QObject*)" signal for each feature provided by the plugin' do
-    m = flexmock do |mk| 
+    m = flexmock do |mk|
       mk.should_receive(:unloading_p1).once.with(@plugins[1])
       mk.should_receive(:unloading_x).once.with(@plugins[1])
       mk.should_receive(:unloading_y).once.with(@plugins[1])
@@ -421,48 +421,48 @@ describe 'Ruber::ComponentManager#unload_plugin' do
     %w[p1 x y].each{|f| @manager.connect(SIGNAL("unloading_#{f}(QObject*)")){|o| m.send("unloading_#{f}", o)}}
     @manager.unload_plugin :p1
   end
-  
+
   it 'should emit the "unloading_component(QObject*) signal passing the plugin as argument' do
     m = flexmock{|mk| mk.should_receive(:unloading_component).once.with(@plugins[1])}
     @manager.connect(SIGNAL("unloading_component(QObject*)")){|o| m.unloading_component o}
     @manager.unload_plugin :p1
   end
-  
+
   it 'should call the "unload" method of the plugin after emitting the unloading_component signal' do
     m = flexmock{|mk| mk.should_receive(:unloading_component).once.with(@plugins[1]).globally.ordered}
     @manager.connect(SIGNAL("unloading_component(QObject*)")){|o| m.unloading_component o}
     flexmock(@plugins[1]).should_receive(:unload).once.globally.ordered
     @manager.unload_plugin :p1
   end
-  
+
   it 'should call the "delete_later" method of the plugin after calling shutdown' do
     flexmock(@plugins[1]).should_receive(:shutdown).once.globally.ordered
     flexmock(@plugins[1]).should_receive(:delete_later).once.globally.ordered
     @manager.unload_plugin :p1
   end
-  
+
   it 'should remove the plugin from the list of components and its features from the list of features' do
     @manager.unload_plugin :p1
     @manager.instance_variable_get(:@features).keys.should =~ [:p0, :p2, :w, :z, :c0, :a, :b, :c1, :c, :components]
     @manager.instance_variable_get(:@components).keys.map(&:to_s).should =~ [:p0, :p2, :c0, :c1, :components].map(&:to_s)
   end
-  
+
   it 'raises ArgumentError if there\'s no plugin with that name' do
     lambda{@manager.unload_plugin(:xyz)}.should raise_error(ArgumentError, "No plugin with name xyz")
   end
-  
+
   it 'should raise ArgumentError if the name corresponds to a component instead of a plugin' do
     lambda{@manager.unload_plugin(:c1)}.should raise_error(ArgumentError, "A component can't be unloaded")
   end
-  
+
 end
 
 describe 'Ruber::ComponentManager#query_close' do
-  
+
   before do
     @manager = Ruber::ComponentManager.new
   end
-  
+
   it 'should call the query_close method of every component, except itself' do
     h = @manager.instance_variable_get(:@components)
     5.times do |i|
@@ -471,7 +471,7 @@ describe 'Ruber::ComponentManager#query_close' do
     end
     @manager.query_close
   end
-  
+
   it 'should return false as soon as one of the components\' query_close method returns false' do
     h = @manager.instance_variable_get(:@components)
     5.times do |i|
@@ -484,7 +484,7 @@ describe 'Ruber::ComponentManager#query_close' do
     end
     @manager.query_close.should be_false
   end
-  
+
   it 'should return true if all components\' query_close methods return true' do
     h = @manager.instance_variable_get(:@components)
     5.times do |i|
@@ -493,17 +493,17 @@ describe 'Ruber::ComponentManager#query_close' do
     end
     @manager.query_close.should be_true
   end
-  
+
 end
 
 describe Ruber::ComponentManager do
-  
+
   before do
     @manager = Ruber::ComponentManager.new
   end
-  
+
   describe '#session_data' do
-    
+
     it 'calls the session_data of each other component' do
       h = @manager.instance_variable_get(:@components)
       5.times do |i|
@@ -512,7 +512,7 @@ describe Ruber::ComponentManager do
       end
       @manager.session_data
     end
-    
+
     it 'returns a hash obtained by merging the hashes returned by each components\' session_data method' do
       h = @manager.instance_variable_get(:@components)
       5.times do |i|
@@ -522,11 +522,11 @@ describe Ruber::ComponentManager do
       res = @manager.session_data
       res.should == {'0' => 0, '1' => 1, '2' => 2, '3' => 3, '4' => 4}
     end
-    
+
   end
-  
+
   describe '#restore_session' do
-    
+
     it 'calls the restore_session of each other component passing it the argument' do
       cfg = KDE::ConfigGroup.new
       h = @manager.instance_variable_get(:@components)
@@ -536,18 +536,18 @@ describe Ruber::ComponentManager do
       end
       @manager.restore_session cfg
     end
-    
+
   end
 
-  
+
 end
 
 # describe 'Ruber::ComponentManager.find_plugins' do
-#   
+#
 #   before do
 #     @manager = Ruber::ComponentManager.new
 #   end
-#   
+#
 #   it 'should return a hash containing the full path of the plugin directories in the given directories as values and the plugin names as keys, if the second argument is false' do
 #     dir = make_dir_tree YAML.load(%q{[[d1, [p1, plugin.yaml], [p2, plugin.yaml]], [d2, [p3, plugin.yaml], [p4, plugin.yaml]]]})
 #     exp = {:p1 => 'd1/p1', :p2 => 'd1/p2', :p3 => 'd2/p3', :p4 => 'd2/p4'}.map{|p, d| [p, File.join(dir, d)]}.to_h
@@ -556,7 +556,7 @@ end
 #     Ruber::ComponentManager.find_plugins(dirs, false).should == exp
 #     FileUtils.rm_r dir
 #   end
-#   
+#
 #   it 'should return a hash containing the names of the plugins (as symbols) as keys and the corresponding PluginSpecification (with the directory set to the plugin file) as values' do
 #     contents = {
 #       'd1/p1/plugin.yaml' => '{name: p1, type: global }',
@@ -565,7 +565,7 @@ end
 #       'd2/p4/plugin.yaml' => '{name: p4, type: global}',
 #     }
 #     dir = make_dir_tree YAML.load(%q{[[d1, [p1, plugin.yaml], [p2, plugin.yaml]], [d2, [p3, plugin.yaml], [p4, plugin.yaml]]]}), '/tmp', contents
-#     exp = %w[d1/p1 d1/p2 d2/p3 d2/p4].map do |d| 
+#     exp = %w[d1/p1 d1/p2 d2/p3 d2/p4].map do |d|
 #       pdf = File.join d, 'plugin.yaml'
 #       data = YAML.load contents[pdf]
 #       [File.basename(d).to_sym, Ruber::PluginSpecification.intro(data)]
@@ -579,7 +579,7 @@ end
 #     res[:p4].directory.should == File.join(dirs[1], 'p4')
 #     FileUtils.rm_r dir
 #   end
-#   
+#
 #   it 'should return only the file in the earliest directory, if more than one directory contain the same plugin' do
 #     dir = make_dir_tree YAML.load(%q{[[d1, [p1, plugin.yaml], [p2, plugin.yaml]], [d2, [p3, plugin.yaml], [p1, plugin.yaml]]]})
 #     exp = {:p1 => 'd1/p1', :p2 => 'd1/p2', :p3 => 'd2/p3'}.map{|p, d| [p, File.join(dir, d)]}.to_h
@@ -594,7 +594,7 @@ end
 #       'd2/p1/plugin.yaml' => '{name: p1, type: global}',
 #     }
 #     dir = make_dir_tree YAML.load(%q{[[d1, [p1, plugin.yaml], [p2, plugin.yaml]], [d2, [p3, plugin.yaml], [p1, plugin.yaml]]]}), '/tmp', contents
-#     exp = %w[d1/p1 d1/p2 d2/p3].map do |d| 
+#     exp = %w[d1/p1 d1/p2 d2/p3].map do |d|
 #       pdf = File.join d, 'plugin.yaml'
 #       data = YAML.load contents[pdf]
 #       [File.basename(d).to_sym, Ruber::PluginSpecification.intro(data)]
@@ -603,8 +603,8 @@ end
 #     Ruber::ComponentManager.find_plugins(dirs, true).should == exp
 #     FileUtils.rm_r dir
 #   end
-#   
+#
 # end
 
-  
+
 end

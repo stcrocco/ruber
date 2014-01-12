@@ -167,6 +167,7 @@ args[:overlays], nil
     
     def urls
       count.times.inject([]) do |res, i|
+        u = arg(i)
         url = KDE::Url.new u
         url.path = File.expand_path(u) if url.protocol.empty?
         res << url
