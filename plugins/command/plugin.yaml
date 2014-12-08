@@ -8,4 +8,4 @@ about:
  icon: command.png
 require: command
 tool_widgets:
- - {class: Ruber::CommandPlugin::ToolWidget, caption: Command}
+ - {class: 'Ruber::CommandPlugin::ToolWidget', caption: Command}

@@ -6,7 +6,7 @@ about:
  description: Provides an infrastructure to execute ruby programs
  bug_address: http://github.com/stcrocco/ruber/issues
  icon: ruby.png
-class: Ruber::RubyRunner::RubyInterpretersPlugin
+class: 'Ruber::RubyRunner::RubyInterpretersPlugin'
 require: ruby_runner.rb
 ui_file: ruby_interpretersui.rc
 features: [ruby_interpreters]
@@ -14,13 +14,13 @@ config_widgets:
  - {caption: Ruby, pixmap: ruby.png, class: 'Ruber::RubyRunner::ConfigWidget'}
 config_options:
  ruby:
-  interpreters: {default: Ruber[:ruby_runner].send(:find_interpreters), order: 0}
-  ruby: {:default: "Ruber[:config][:ruby,:interpreters][0]", order: 1}
-  ruby_options: {:default: [-w]}
+  interpreters: {default: 'Ruber[:ruby_runner].send(:find_interpreters)', order: 0}
+  ruby: {default: "Ruber[:config][:ruby, :interpreters][0]", order: 1}
+  ruby_options: {default: [-w]}
 project_options:
  ruby:
-   ruby: {default: 'Ruber[:config][:ruby, :ruby]', scope: [global, document], mimetype: 'application/x-ruby', file_extension: [*.rb, Rakefile, rakefile], place: all}
+   ruby: {default: 'Ruber[:config][:ruby, :ruby]', scope: [global, document], mimetype: 'application/x-ruby', file_extension: '[*.rb, Rakefile, rakefile]', place: all}
 project_widgets:
- - {caption: Ruby, pixmap: ruby.png, class: 'Ruber::RubyRunner::ProjectWidget', scope: [global, document], mimetype: 'application/x-ruby', file_extension: [*.rb, Rakefile, rakefile]}
+ - {caption: Ruby, pixmap: ruby.png, class: 'Ruber::RubyRunner::ProjectWidget', scope: [global, document], mimetype: 'application/x-ruby', file_extension: ['*.rb', Rakefile, rakefile]}
 actions:
- ruby_runner-configured_interpreter: {text: Standard &Interpreter, class: KDE::ToggleAction}
+ ruby_runner-configured_interpreter: {text: Standard &Interpreter, class: 'KDE::ToggleAction'}

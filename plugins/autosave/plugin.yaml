@@ -7,11 +7,12 @@ about:
  bug_address: http://github.com/stcrocco/ruber/issues
  icon: document-save.png
 require: autosave
-class: Ruber::Autosave::AutosavePlugin
-config_options: 
+class: 'Ruber::Autosave::AutosavePlugin'
+config_options:
  autosave:
   enable: {default: true}
   plugins: {default: {}}
-  remote_files: {default: :skip}
+  remote_files:
+    default: :skip
 config_widgets:
- - {caption: General, class: Ruber::Autosave::ConfigWidget}
+ - {caption: General, class: 'Ruber::Autosave::ConfigWidget'}

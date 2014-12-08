@@ -1,31 +1,31 @@
-:main_window:
- :config_options:
+main_window:
+ config_options:
   General:
-   :default_script_directory: {:type: path, default: 'ENV["HOME"]'}
-   :default_project_directory: {:type: path, default: 'ENV["HOME"]'}
-   :output_font: {:default: 'Qt::Font.new("Courier",10)'}
+   default_script_directory: {type: path, default: 'ENV["HOME"]'}
+   default_project_directory: {type: path, default: 'ENV["HOME"]'}
+   output_font: {default: 'Qt::Font.new("Courier",10)'}
    auto_annotations: {type: bool, default: 'true'}
    wrap_output: {type: bool, default: 'true'}
   MainWindow:
-   :widget_size: {:key: Central widget size, :default: "Qt::Size.new"}
-   :window_size: {:key: Size, :default: 'Qt::Size.new(400,500)'}
-   :h_splitter: {:key: Horizontal splitter, :type: string list, :default: "['20', '60', '20']"}
-   :v_splitter: {:key: Vertical splitter, :type: string list, :default: "['80', '20']"}
- :config_widgets:
-  - {:caption: General, :pixmap: configure, :class: KRuby::MainWindowSettingsWidget}
-:application:
- :config_options:
+   widget_size: {key: Central widget size, default: "Qt::Size.new"}
+   window_size: {key: Size, default: 'Qt::Size.new(400,500)'}
+   h_splitter: {key: Horizontal splitter, type: string list, default: "['20', '60', '20']"}
+   v_splitter: {key: Vertical splitter, type: string list, default: "['80', '20']"}
+ config_widgets:
+  - {caption: General, pixmap: configure, class: 'KRuby::MainWindowSettingsWidget'}
+application:
+ config_options:
   General:
-   :plugin_dirs: {:type: string list, :default: '[KRuby::Application::DEFAULT_PLUGIN_PATH]'}
-   :plugins: {:type: string list, :default: 'KRuby::Application::DEFAULT_PLUGINS'}
-   :auto_load_project: {:type: bool, :default: false }
- :config_widgets:
-  - {:caption: General, :pixmap: configure, :code: "w=Qt::CheckBox.new('&Open last project at startup');w.object_name='kcfg_general_auto_load_project';w"}
-:project_list:
+   plugin_dirs: {type: string list, default: '[KRuby::Application::DEFAULT_PLUGIN_PATH]'}
+   plugins: {type: string list, default: 'KRuby::Application::DEFAULT_PLUGINS'}
+   auto_load_project: {type: bool, default: false }
+ config_widgets:
+  - {caption: General, pixmap: configure, code: "w=Qt::CheckBox.new('&Open last project at startup');w.object_name='kcfg_general_auto_load_project';w"}
+project_list:
  project_options:
-  project_files: {default: '{:include => [], :exclude => [], :extensions => []}'}
+  project_files: {default: '{include => [], exclude => [], extensions => []}'}
  project_widgets:
-  - {class: KRuby::ProjectFilesWidget, caption: 'General'}
- project_extensions: 
+  - {class: 'KRuby::ProjectFilesWidget', caption: 'General'}
+ project_extensions:
   project_files_lister: {class: ProjectFilesLister}
-  project_session_manager: {class: KRuby::ProjectSessionManager}
+  project_session_manager: {class: 'KRuby::ProjectSessionManager'}

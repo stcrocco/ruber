@@ -13,24 +13,24 @@ ui_file: rspecui.rc
 config_options:
  rspec:
   switch_behaviour: {default: 0}
-  auto_expand: {default: :expand_first}
+  auto_expand: {default: expand_first}
 config_widgets:
- - {class: Ruber::RSpec::ConfigWidget, caption: RSpec}
+ - {class: 'Ruber::RSpec::ConfigWidget', caption: RSpec}
 project_widgets:
  - {caption: RSpec, class: 'Ruber::RSpec::ProjectWidget', pixmap: rspec.png}
 project_options:
  rspec:
-  code_directory: {default: "File.join('lib', self[:general, :project_name].downcase.sub(/\s+/, '_'))", relative_path: true}
+  code_directory: {default: "File.join('lib', self[:general, :project_name].downcase.sub(/\\s+/, '_'))", relative_path: true}
   executable: {default: 'Ruber::RSpec::Plugin.find_default_executable'}
   options: {default: []}
   spec_directory: {relative_path: true, default: spec}
-  patterns: {default: [{:code: **/*.rb, :spec: %f_spec.rb}]}
+  patterns: {default: [{code: '**/*.rb', spec: '%f_spec.rb'}]}
   spec_files: {default: '*_spec.rb'}
   full_backtraces: {default: true}
 extensions:
- rspec: {class: Ruber::RSpec::ProjectExtension}
+ rspec: {class: 'Ruber::RSpec::ProjectExtension'}
 tool_widgets: {class: 'Ruber::RSpec::ToolWidget', pixmap: rspec.png, caption: RSpec}
-actions: 
+actions:
  rspec-switch: {text: 'Switch to &Spec', shortcut: 'Shift+F12', slot: switch(), states: [active_project_exists, current_document]}
  rspec-run_all: {text: Run &Project Specs, shortcut: 'Alt+Shift+R, P', slot: run_all(), states: [active_project_exists, rspec_running]}
  rspec-run_current: {text: Run Specs for &Current File, shortcut: 'Alt+Shift+R, C', slot: run_current_document(), states: [active_project_exists, current_document, rspec_running]}

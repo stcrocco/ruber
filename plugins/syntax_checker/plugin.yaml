@@ -6,7 +6,7 @@ about:
  description: Infrastructure to check the syntax of documents (needs other plugins to perform the actual syntax check)
  icon: tools-check-spelling
  bug_address: http://github.com/stcrocco/ruber/issues
-class: Ruber::SyntaxChecker::Plugin
+class: 'Ruber::SyntaxChecker::Plugin'
 require: syntax_checker
 config_options:
  syntax_checker:
@@ -15,8 +15,8 @@ project_options:
  syntax_checker:
   auto_check: {scope: document, default: true}
 config_widgets:
- {caption: Syntax, class: Ruber::SyntaxChecker::ConfigWidget, pixmap: tools-check-spelling.png}
+ {caption: Syntax, class: 'Ruber::SyntaxChecker::ConfigWidget', pixmap: tools-check-spelling.png}
 project_widgets:
  {caption: Syntax, code: 'Qt::CheckBox.new("&Automatically check syntax for this document"){self.object_name = "_syntax_checker__auto_check"}', pixmap: tools-check-spelling.png, scope: document}
 extensions:
- syntax_checker: {class: Ruber::SyntaxChecker::Extension, scope: document}
+ syntax_checker: {class: 'Ruber::SyntaxChecker::Extension', scope: document}
