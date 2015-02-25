@@ -43,20 +43,35 @@ module Ruber
     class Checker
       
       def initialize doc
+        begin
+          @exception_cls = Psych::SyntaxError
+          @method = method :parse_psych_error
+        rescue NameError
+          @exception_cls = ArgumentError
+          @method = method :parse_syck_error
+        end
       end
       
       def check_syntax str, format
-        exception = Pysch::SyntaxError rescue ArgumentError
         begin 
           YAML.parse str
           nil
-        rescue exception => e
-          match = e.message.match %r{syntax error on line\s+(-?\d+),\s+col\s+(-?\d+)}i
-          return [] unless match
-          line = [match[1].to_i, 0].max
-          col = [match[2].to_i, 0].max
-          [SyntaxError.new(line, col, 'Syntax error', 'Syntax error')]
+        rescue @exception_cls => e
+          error = @method.call e
+          [error].compact
         end
+      end
+
+      def parse_psych_error ex
+        SyntaxError.new ex.line - 1, ex.column, ex.problem, ex.problem
+      end
+
+      def parse_syck_error ex
+        match = e.message.match %r{syntax error on line\s+(-?\d+),\s+col\s+(-?\d+)}i
+        return [] unless match
+        line = [match[1].to_i, 0].max
+        col = [match[2].to_i, 0].max
+        SyntaxError.new line, col, 'Syntax error', 'Syntax error'
       end
       
     end
