@@ -65,7 +65,7 @@ A tool widget can be in several different states:
 =end
     class StackedWidget < Qt::StackedWidget
       
-      protected
+#       protected
       
 =begin rdoc
 Handles the key press event. First, it calls the method of the parent class,

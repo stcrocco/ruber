@@ -298,7 +298,7 @@ and invalidating the model) emits the <tt>filter_changed(QString)</tt> signal
         invalidate_filter
       end
       
-      protected
+#       protected
       
 =begin rdoc
 Override of <tt>Qt::SortFilterProxyModel#filterAcceptsRow</tt> which also takes

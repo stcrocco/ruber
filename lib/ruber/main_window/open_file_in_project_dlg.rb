@@ -78,13 +78,13 @@ module Ruber
         #on windows, where one can also use \ as separator. The problem is that in regexp
         #it's the escape character, so one must use something like
         #value.include?(File::SEPARATOR) || (File::ALT_SEPARATOR and value.match(/\\{2}))
-        @role = if @filter and !value.source.include?(File::SEPARATOR) then Qt::UserRole + 1 
+        @role = if @filter and !value.source.include?(File::SEPARATOR) then Qt::UserRole + 1
         else Qt::DisplayRole
         end
         invalidate
       end
 
-      protected
+#       protected
 
 =begin rdoc
  Reimplementation of Qt::SortFilterProxyModel#filterAcceptsRow which returns
@@ -183,7 +183,7 @@ e.is_auto_repeat, e.count
     def change_filter text
       begin
         reg = text.empty? ? nil : Regexp.new( text )
-        @ui.file_list.model.filter= reg
+        @ui.file_list.model.filter = reg
         @ui.file_list.selection_model.select @ui.file_list.model.index(0,0), 
           Qt::ItemSelectionModel::ClearAndSelect|Qt::ItemSelectionModel::Rows
         @ui.file_list.current_index = @ui.file_list.model.index(0,0)

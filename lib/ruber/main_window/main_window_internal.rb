@@ -38,7 +38,7 @@ A list of strings to be used to create the filter for open file dialogs
         'store_splitter_sizes(QString)', 'update_document_icon(QObject*)',
         'remove_plugin_ui_actions(QObject*)', 'close_project_files(QObject*)'
     
-    protected
+#     protected
     
 =begin rdoc
 Override of @KParts::MainWindow#queryClose@ 
