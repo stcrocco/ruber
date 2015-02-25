@@ -7,15 +7,15 @@ about:
  bug_address: http://github.com/stcrocco/ruber/issues
  icon: ruby_development.png
 deps: [ruby_runner, autosave]
-class: 'Ruber::FilesRunner::Plugin'
+class: Ruber::FilesRunner::Plugin
 require: ruby_development
 ui_file: ruby_developmentui.rc
-tool_widgets: {class: 'Ruber::FilesRunner::OutputWidget', caption: Ruby output, position: bottom, name: ruby_output_widget, pixmap: ruby_development.png}
+tool_widgets: {:class: Ruber::FilesRunner::OutputWidget, :caption: Ruby output, :position: :bottom, :name: ruby_output_widget, pixmap: ruby_development.png}
 config_options:
  ruby:
   run_in_terminal_cmd: {default: 'konsole --workdir %d --hold -e %r'}
 config_widgets:
- - {caption: Ruby, class: 'Ruber::FilesRunner::ConfigWidget'}
+ - {caption: Ruby, class: Ruber::FilesRunner::ConfigWidget}
 project_options:
  ruby:
   main_program: {default: "''", relative_path: true}
@@ -23,10 +23,10 @@ project_options:
   working_dir: {default: '.', relative_path: true}
   run_in_terminal: {default: false, scope: [document, global], place: all}
 project_widgets:
- - {caption: Ruby, class: 'Ruber::FilesRunner::ProjectWidget', scope: [document, global]}
+ - {caption: Ruby, class: Ruber::FilesRunner::ProjectWidget, scope: [document, global]}
 actions:
  ruby_runner-run: {text: '&Run', icon: ruby_development.png, shortcut: F8, slot: run(), states: [active_project_exists, current_document, ruby_running]}
  ruby_runner-run_current_file: {text: Run &Current File, icon: ruby_development.png, shortcut: Ctrl+F8, slot: run_current_document(), states: [current_document, ruby_running]}
  ruby_runner-run_file: {text: Run &File..., icon: ruby_development.png, shortcut: Shift+F8, slot: run_file(), state: '!ruby_running'}
  ruby_runner-stop: {text: '&Stop', icon: process-stop, shortcut: ESC, slot: stop_process(), state: ruby_running}
- ruby_runner-run_in_terminal: {text: Run Programs in &Terminal, class: 'KDE::ToggleAction'}
+ ruby_runner-run_in_terminal: {text: Run Programs in &Terminal, class: KDE::ToggleAction}

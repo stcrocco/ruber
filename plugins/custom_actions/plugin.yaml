@@ -6,7 +6,7 @@ about:
  description: Create actions which execute custom code
  bug_address: http://github.com/stcrocco/ruber/issues
  icon: custom_actions.png
-class: 'Ruber::CustomActions::Plugin'
+class: Ruber::CustomActions::Plugin
 require: 'custom_actions'
 ui_file: customactionsui.rc
 config_options:
@@ -14,4 +14,4 @@ config_options:
   actions: {default: []}
   shortcuts: {default: {}}
 config_widgets:
- - {class: 'Ruber::CustomActions::ConfigWidget', pixmap: custom_actions.png, caption: Custom Actions}
+ - {class: Ruber::CustomActions::ConfigWidget, pixmap: custom_actions.png, caption: Custom Actions}

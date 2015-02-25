@@ -7,19 +7,19 @@ about:
  bug_address: http://github.com/stcrocco/ruber/issues
  icon: project-development.png
 require: project_browser.rb
-tool_widgets: {class: 'Ruber::ProjectBrowser::ToolWidget', caption: Project browser, position: left, name: project_browser}
+tool_widgets: {class: Ruber::ProjectBrowser::ToolWidget, caption: Project browser, position: left, name: project_browser}
 project_options:
  project_browser:
   project_files_only: {default: true, scope: global, type: user}
 project_widgets:
- -
+ - {
     code: |-
-      Qt::CheckBox.new do
+      Qt::CheckBox.new do 
         self.text = "&Show only project files"
         self.object_name="_project_browser__project_files_only"
       end
 
-    caption: Project Browser
-
+    , caption: Project Browser
+    }
 extensions:
- project_browser: {class: 'Ruber::ProjectBrowser::Extension', scope: global}
+ project_browser: {class: Ruber::ProjectBrowser::Extension, scope: global}
