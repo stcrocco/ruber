@@ -1,21 +1,21 @@
-=begin 
-    Copyright (C) 2010, 2011 by Stefano Crocco   
-    stefano.crocco@alice.it   
-  
-    This program is free software; you can redistribute it andor modify  
-    it under the terms of the GNU General Public License as published by  
-    the Free Software Foundation; either version 2 of the License, or     
-    (at your option) any later version.                                   
-  
-    This program is distributed in the hope that it will be useful,       
-    but WITHOUT ANY WARRANTY; without even the implied warranty of        
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         
-    GNU General Public License for more details.                          
-  
-    You should have received a copy of the GNU General Public License     
-    along with this program; if not, write to the                         
-    Free Software Foundation, Inc.,                                       
-    59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             
+=begin
+    Copyright (C) 2010, 2011 by Stefano Crocco
+    stefano.crocco@alice.it
+
+    This program is free software; you can redistribute it andor modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the
+    Free Software Foundation, Inc.,
+    59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 =end
 
 # Special comments used here to mark things to do:
@@ -45,19 +45,19 @@ tool widgets.
 @extension environment {api: '{Environment}'}
 =end
   class MainWindow < KParts::MainWindow
-    
+
     include PluginLike
-    
+
     include GuiStatesHandler
-    
-    extend Forwardable    
-    
+
+    extend Forwardable
+
     signals 'current_document_changed(QObject*)', 'active_editor_changed(QObject*)'
-        
+
     slots :load_settings
-    
+
     DEFAULT_HINTS = Ruber::World::Environment::DEFAULT_HINTS
-    
+
 =begin rdoc
 The widget which contains the tool widgets.
 
@@ -69,7 +69,7 @@ them.
 @return [Workspace] the workspace associated with the main window
 =end
     attr_reader :workspace
-    
+
 =begin rdoc
 A hash with the data stored in the session manager by plugins. The hash is only
 availlable after the <tt>restore</tt> method has been called (which means that it
@@ -79,7 +79,7 @@ the hash isn't availlable, *nil* is returned
 <b>NOTE:</b> only for use by Application when restoring the session
 =end
     attr_reader :last_session_data
-        
+
 =begin rdoc
 Creates a new MainWindow. <i>_manager</i> is the component manager, while _pdf_
 is the plugin description for this object.
@@ -112,16 +112,16 @@ is the plugin description for this object.
       setup_actions action_collection
       active_project_action = action_collection.action('project-active_project')
       default_view_action = active_project_action.add_action '&None (single files mode)'
-      
+
       connect Ruber[:world], SIGNAL('project_created(QObject*)'), self, SLOT('slot_project_created(QObject*)')
       connect Ruber[:world], SIGNAL('closing_project(QObject*)'), self, SLOT('slot_project_closing(QObject*)')
-      
+
       Ruber[:world].connect SIGNAL('active_project_changed(QObject*)') do |prj|
         @active_environment = Ruber[:world].environment prj
       end
       setup_GUI
       create_shell_GUI true
-      
+
       config_obj = Ruber[:config].kconfig
       apply_main_window_settings KDE::ConfigGroup.new( config_obj, 'MainWindow')
       recent_files = KDE::ConfigGroup.new config_obj, 'Recent files'
@@ -129,19 +129,19 @@ is the plugin description for this object.
       open_recent_action.load_entries recent_files
       switch_to_recent_action = action_collection.action("window-switch_to_recent_file")
       switch_to_recent_action.load_entries recent_files
-      
+
       # Synchronize the two menus, so that when the user clears one of them the also
       # is also cleared
       connect open_recent_action, SIGNAL(:recentListCleared), switch_to_recent_action, SLOT(:clear)
       connect switch_to_recent_action, SIGNAL(:recentListCleared), open_recent_action, SLOT(:clear)
-      
+
       recent_projects = KDE::ConfigGroup.new config_obj, 'Recent projects'
       action_collection.action("project-open_recent").load_entries recent_projects
       status_bar.show
       setup_initial_states
       Ruber[:world].active_environment = Ruber[:world].default_environment
     end
-    
+
 =begin rdoc
 The toplevel panes associated with the active environment
 
@@ -150,7 +150,7 @@ The toplevel panes associated with the active environment
     def tabs
       @active_environment.tabs
     end
-    
+
 =begin rdoc
 The views contained in the active environment
 
@@ -161,49 +161,49 @@ The views contained in the active environment
     def views doc = nil
       @active_environment.views
     end
-    
+
     ##
     # :method: add_tool
     # Adds a tool widget to the main window. See Workspace#add_tool_widget for more information.
     def_delegator :@workspace, :add_tool_widget, :add_tool
-    
+
     ##
     # :method: remove_tool
     # Removes a tool widget from the main window. See Workspace#remove_tool_widget for more information.
     def_delegator :@workspace, :remove_tool_widget, :remove_tool
-    
+
     ##
     # :method: toggle_tool
     # Activates a tool widget if it was hidden and hides it if it was active.
     # See Workspace#toggle_tool for more information.
     def_delegators :@workspace, :toggle_tool
-    
+
     ##
     # :method: raise_tool
     # Activates a tool widget. See Workspace#raise_tool for more information.
     def_delegators :@workspace, :raise_tool
-    
+
     ##
     # :method: show_tool
     # Displays a tool widget. See Workspace#show_tool for more information.
     def_delegators :@workspace, :show_tool
-    
+
     ##
     # :method: activate_tool
     # Shows and gives focus to a tool. See Workspace#activate_tool for more information.
     def_delegators :@workspace, :activate_tool
-    
+
     ##
     # :method: hide_tool
     # Hides a tool widget. See Workspace#hide_tool for more information.
     def_delegators :@workspace, :hide_tool
-    
+
     ##
     # :method: tool_widgets
     # Returns a hash having the tool widgets as keys and their positions as values.
     # See Workspace#tool_widgets for more information.
     def_delegators :@workspace, :tool_widgets
-    
+
 =begin rdoc
 Returns an editor associated with the given document, creating it if needed
 
@@ -246,12 +246,12 @@ hint, a new one will be created, unless the @create_if_needed@ hint is *false*.
   be the last one where the editor will be looked for)
   * @:first@: the first editor associated with the document will be used
   * @:last@: the last editor associated the document will be used
-  
+
   This option is only useful when using an existing editor
 @option hints [Symbol,Integer,EditorView] :new (:new_tab) where to place the new editor, if
   it needs to be created. It can have one of the following values:
   * @:new_tab@: put the new editor as the single editor in a new tab
-  * @:current@: place the new editor in the pane obtained splitting the 
+  * @:current@: place the new editor in the pane obtained splitting the
   current editor
   * @:current_tab@: place the new editor in the pane obtained splitting the first
   editor in the current tab
@@ -289,8 +289,8 @@ hint, a new one will be created, unless the @create_if_needed@ hint is *false*.
 #       docs = Ruber[:documents].documents
 #       unless doc.is_a? Document
 #         unless hints.has_key? :close_starting_document
-#           hints[:close_starting_document] = docs.size == 1 && 
-#               docs[0].extension(:ruber_default_document).default_document && 
+#           hints[:close_starting_document] = docs.size == 1 &&
+#               docs[0].extension(:ruber_default_document).default_document &&
 #               docs[0].pristine?
 #         end
 #         url = doc
@@ -310,7 +310,7 @@ hint, a new one will be created, unless the @create_if_needed@ hint is *false*.
 #       else ed
 #       end
     end
-    
+
 =begin rdoc
 Returns an editor associated with the given document
 
@@ -341,14 +341,15 @@ file doesn't exist
 #       return unless doc
 #       @view_manager.editor_for doc, hints
 #     end
-    
+
 =begin rdoc
 The active editor
-    
+
 @see World::Environment#active_editor
 @return (see World::Environment#active_editor)
 =end
     def active_editor
+      return unless @active_environment
       @active_environment.active_editor
     end
     alias_method :current_editor, :active_editor
@@ -361,7 +362,7 @@ If the editor is not in the current tab, the tab it belongs to becomes active.
 Activating an editor means merging its GUI with the main window's GUI, changing
 the title of the main window accordingly and telling the status bar to refer to
 that view.
-    
+
 After activating the editor, the {#current_document_changed} and {#active_editor_changed}
 signals are emitted.
 @param [EditorView,nil] editor the editor to activate. If *nil*, then the currently active
@@ -370,7 +371,7 @@ signals are emitted.
   def activate_editor editor
     @active_environment.activate_editor editor
   end
-    
+
 =begin rdoc
 Replaces an editor with another
 
@@ -402,7 +403,7 @@ it).
     def replace_editor old, editor_or_doc
       @active_environment.replace_editor old, editor_or_doc
     end
-    
+
 =begin rdoc
 The toplevel pane corresponding to the given index or editor
 
@@ -416,7 +417,7 @@ The toplevel pane corresponding to the given index or editor
     def tab arg
       @active_environment.tab arg
     end
-    
+
 =begin rdoc
 The document associated with the active editor
 
@@ -427,7 +428,7 @@ The document associated with the active editor
       (ed = active_editor) ? ed.document : nil
     end
     alias_method :current_document, :active_document
-    
+
 =begin rdoc
 Displays an editor for the given document
 
@@ -458,7 +459,7 @@ Besides the keys listed in {#editor_for!}, _hints_ can also contain the two entr
 #       ed
     end
     alias_method :display_doc, :display_document
-    
+
 =begin rdoc
 Executes the given block without automatically activating an editor whenever the
 current tab changes
@@ -487,7 +488,7 @@ After calling this method, the focus widget of the current tab gets focus
       blk.call
 #       @view_manager.without_activating &blk
     end
-    
+
 =begin rdoc
 Closes an editor view
 
@@ -500,13 +501,13 @@ Closes an editor view
     def close_editor editor, ask = true
       @active_environment.close_editor editor, ask
 #       doc = editor.document
-#       if doc.views.size > 1 
+#       if doc.views.size > 1
 #         editor.close
 #         true
 #       else doc.close ask
 #       end
     end
-    
+
 =begin rdoc
 Asks the user to save multiple documents
 
@@ -555,7 +556,7 @@ In the second and third cases, the method simply returns respectively *true* or
       end
       true
     end
-    
+
 =begin rdoc
 Override of {PluginLike#query_close}
 
@@ -570,13 +571,13 @@ saving and does nothing otherwise.
       end
       true
     end
-    
+
 =begin rdoc
 Opens a project, displaying amessage boxe in case of errors
 
 This method provides a standard interface for creating a project from a project
 file named, automatically handling the possible exceptions.
-    
+
 In particular, a message box will be displayed if the project file doesn't exist
 or if it exists but it's not a valid project file.
 
@@ -643,7 +644,7 @@ the window.
       c.window_size = rect.size
       nil
     end
-    
+
 =begin rdoc
 Override of {PluginLike#load_settings}
 @return [nil]
@@ -655,7 +656,7 @@ Override of {PluginLike#load_settings}
       @tabs.tabs_closable = Ruber[:config][:workspace, :close_buttons] if @tabs
       nil
     end
-    
+
 =begin rdoc
 Gives focus to an editor view
 
@@ -679,7 +680,7 @@ Giving focus to the editor implies:
   @return [EditorView,nil]
 @return [EditorView,nil] the editor which was given focus or *nil* if no editor
   received focus
-=end  
+=end
 #     def focus_on_editor ed = nil, hints = DEFAULT_HINTS
 #       if ed
 #         ed = editor_for! ed, hints unless ed.is_a? EditorView
@@ -689,20 +690,20 @@ Giving focus to the editor implies:
 #       end
 #       active_editor
 #     end
-    
+
     def focus_on_editor
       active_editor.set_focus if active_editor
       active_editor
     end
     slots :focus_on_editor
-        
+
 =begin rdoc
 @return [String] the default directory where to look for, and create, projects
 =end
     def projects_directory
       @default_project_dir
     end
-    
+
 =begin rdoc
 Executes a given action
 
@@ -722,7 +723,7 @@ Executes a given action
       elsif (action = action_collection.action(name))
         if action.class == KDE::ToggleAction then KDE::ToggleAction
           action.instance_eval{emit toggled(*args)}
-        elsif action.class == KDE::Action 
+        elsif action.class == KDE::Action
           action.instance_eval{emit triggered()}
         else action.instance_eval{emit triggered(*args)}
         end
@@ -730,7 +731,7 @@ Executes a given action
       else false
       end
     end
-   
+
   end
-  
+
 end
