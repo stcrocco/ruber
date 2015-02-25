@@ -1,9 +1,4 @@
 require 'rdoc'
-require 'yaml'
-
-begin YAML::ENGINE.yamler='syck'
-rescue NameError
-end
 
 verbose(true)
 
