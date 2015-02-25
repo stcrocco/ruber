@@ -39,8 +39,6 @@ begin YAML::ENGINE.yamler = 'syck'
 rescue NameError #YAML::ENGINE only exists in ruby 1.9.2
 end
 
-require 'facets/kernel/require_relative'
-
 require 'ruber/version'
 require 'ruber/qt_sugar'
 require 'ruber/kde_sugar'
