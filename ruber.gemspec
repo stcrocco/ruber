@@ -11,10 +11,10 @@ Gem::Specification.new do |s|
   s.description = <<-DESC
   Ruber is a Ruby editor for KDE 4 written in pure ruby, making use of the
   excellent ruby bindings for KDE 4 (korundum).
-  
+
   Ruber is plugin-based, meaning that almost all its functionality is provided
   by plugins. This has two important consequences:
-  1) A user can write plugins having availlable all the features availlable to 
+  1) A user can write plugins having availlable all the features availlable to
   the Ruber developers. In other words, there's not a plugin-specifi API
   2) Users can write plugins which replace some of the core functionality of
   Ruber. For example, a user can create a plugin which replaces the default
@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'dictionary'
   s.add_dependency 'rak'
   s.add_dependency 'outsider'
+  s.license = 'GPL'
   s.bindir = 'bin'
   s.executables = 'ruber'
   s.files = FileList['lib/**/*.*', 'plugins/**/*.*', 'spec/**/*', 'data/**/*', 'ruber.desktop', 'outsider_files', 'icons/*.*', 'COPYING', 'INSTALL', 'LICENSE', 'CHANGES']
