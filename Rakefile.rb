@@ -52,7 +52,7 @@ task :clean do
   rm_rf 'rdoc'
 end
 
-begin 
+begin
   begin
     require 'rspec/core/rake_task'
     RSpec::Core::RakeTask.new do |t|
@@ -69,7 +69,7 @@ begin
 rescue LoadError
 end
 
-begin 
+begin
   require 'yard'
   desc 'generates the documentation using YARD'
   cache = ENV['YARD_NO_CACHE'] ? '' : '-c'
@@ -85,6 +85,9 @@ desc 'Builds the ruber gem'
 task :gem => [:ruber] do
   require 'rubygems'
   spec = Gem::Specification.load 'ruber.gemspec'
-  builder = Gem::Builder.new(spec)
-  builder.build
+  begin require 'rubygems/package'
+  rescue LoadError
+    Gem::Builder.new(spec).build
+  end
+  Gem::Package.build(spec)
 end
