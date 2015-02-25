@@ -14,4 +14,4 @@ config_options:
   actions: {default: []}
   shortcuts: {default: {}}
 config_widgets:
- - {class: Ruber::CustomActions::ConfigWidget, pixmap: custom_actions.png, caption: Custom Actions}
+ - {class: 'Ruber::CustomActions::ConfigWidget', pixmap: custom_actions.png, caption: Custom Actions}

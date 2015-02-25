@@ -9,15 +9,15 @@ about:
 :class: Ruber::FindInFiles::FindInFilesPlugin
 :deps: [autosave]
 :require: find_in_files
-:provides: [:find_in_files]
+:provides: [find_in_files]
 :ui_file: find_in_files_ui.rc
 :tool_widgets: 
- - {:class: Ruber::FindInFiles::FindWidget, :pixmap: edit-find, :caption: Find in files, :position: :bottom, :name: find_in_files_widget, var_name: find_widget}
- - {class: Ruber::FindInFiles::ReplaceWidget, :pixmap: edit-find-replace, caption: Replace in files, name: replace_in_files_widget, var_name: replace_widget}
+ - {class: 'Ruber::FindInFiles::FindWidget', pixmap: edit-find, caption: Find in files, position: 'bottom', name: find_in_files_widget, var_name: find_widget}
+ - {class: 'Ruber::FindInFiles::ReplaceWidget', pixmap: edit-find-replace, caption: Replace in files, name: replace_in_files_widget, var_name: replace_widget}
 :config_widgets:
- - {:caption: Find in Files, :pixmap: edit-find, :class: Ruber::FindInFiles::ConfigWidget}
+ - {caption: Find in Files, pixmap: edit-find, class: 'Ruber::FindInFiles::ConfigWidget'}
 :config_options:
  find_in_files:
-  :rak_path: {:default: `which rak`.strip}
+  :rak_path: {default: '`which rak`.strip'}
 actions:
  find_in_files-find_replace: {text: Find and Replace in Files..., icon: edit-find, shortcut: Alt+Ctrl+F, slot: find_replace(), state: '!find_in_files_running'}

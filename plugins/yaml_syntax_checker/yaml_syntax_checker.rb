@@ -46,10 +46,11 @@ module Ruber
       end
       
       def check_syntax str, format
+        exception = Pysch::SyntaxError rescue ArgumentError
         begin 
           YAML.parse str
           nil
-        rescue ArgumentError => e
+        rescue exception => e
           match = e.message.match %r{syntax error on line\s+(-?\d+),\s+col\s+(-?\d+)}i
           return [] unless match
           line = [match[1].to_i, 0].max

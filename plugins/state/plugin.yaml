@@ -11,7 +11,7 @@ config_options:
  state:
   restore_cursor_position: {default: true}
   restore_projects: {default: true}
-  startup_behaviour: {default: [:default_environment, :projects]}
+  startup_behaviour: {default: '[:default_environment, :projects]'}
   last_state: {default: []}
   default_environment_tabs: {default: []}
   default_environment_active_view: {default: nil}
@@ -23,8 +23,8 @@ project_options:
   active_view: {default: ~, type: session, scope: global}
   cursor_position: {default: [0, 0], type: session, scope: document}
 config_widgets:
- - {class: Ruber::State::ConfigWidget, caption: General}
+ - {class: 'Ruber::State::ConfigWidget', caption: General}
 extensions:
  state:
-  - {class: Ruber::State::DocumentExtension, scope: document}
-  - {class: Ruber::State::ProjectExtension, scope: global}
+  - {class: 'Ruber::State::DocumentExtension', scope: document}
+  - {class: 'Ruber::State::ProjectExtension', scope: global}

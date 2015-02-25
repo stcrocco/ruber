@@ -4,5 +4,5 @@ require: [application]
 class: 'Ruber::Application'
 config_options: 
  :general:
-   :plugin_dirs: {:default: Ruber::Application::DEFAULT_PLUGIN_PATHS}
-   :plugins: {:default: Ruber::Application::DEFAULT_PLUGINS}
+   :plugin_dirs: {default: 'Ruber::Application::DEFAULT_PLUGIN_PATHS'}
+   :plugins: {default: 'Ruber::Application::DEFAULT_PLUGINS'}

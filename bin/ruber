@@ -33,12 +33,6 @@ unless defined? KDE::IconButton
   require 'kio'
 end
 
-require 'yaml'
-# psych (used by default in ruby 1.9.3) doesn't correctly parse some YAML files
-begin YAML::ENGINE.yamler = 'syck'
-rescue NameError #YAML::ENGINE only exists in ruby 1.9.2
-end
-
 require 'ruber/version'
 require 'ruber/qt_sugar'
 require 'ruber/kde_sugar'

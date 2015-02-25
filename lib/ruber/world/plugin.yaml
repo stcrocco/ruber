@@ -1,17 +1,17 @@
 name: world
 description: Container for all the environments
 require: [world, environment, project_files_widget]
-class: Ruber::World::World
+class: 'Ruber::World::World'
 config_options:
  workspace:
   close_buttons: {default: true, type: bool}
   middle_button_close: {default: false, type: bool}
 config_widgets:
- - {caption: Workspace, pixmap: workspace, class: Ruber::World::WorkspaceSettingsWidget}
+ - {caption: Workspace, pixmap: workspace, class: 'Ruber::World::WorkspaceSettingsWidget'}
 extensions:
- environment: {class: Ruber::World::Environment, scope: global}
+ environment: {class: 'Ruber::World::Environment', scope: global}
 project_options:
  general:
-  project_files: {default: {:include: [], :exclude: [], :extensions: ["*.rb"]}}
+  project_files: {default: '{:include => [], :exclude => [], :extensions => ["*.rb"]}'}
 project_widgets:
- - {caption: Files, pixmap: configure, class: Ruber::ProjectFilesWidget}
+ - {caption: Files, pixmap: configure, class: 'Ruber::ProjectFilesWidget'}
