@@ -8,7 +8,6 @@ require 'korundum4'
 # require 'ktexteditor'
 require 'kio'
 require 'ostruct'
-require 'facets/kernel/require_relative'
 
 module QtEnumerable
   

@@ -18,7 +18,6 @@
     59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             
 =end
 
-require 'facets/kernel/require_relative'
 require_relative 'ui/choose_plugins_widget'
 
 module Ruber
