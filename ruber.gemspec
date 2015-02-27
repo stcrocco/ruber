@@ -25,7 +25,7 @@ Gem::Specification.new do |s|
   s.requirements << 'KDE 4.5' << 'korundum4'
   s.add_dependency 'facets', '>=2.7'
   s.add_dependency 'dictionary'
-  s.add_dependency 'rak'
+  s.add_dependency 'rak-eugeneching'
   s.add_dependency 'outsider'
   s.license = 'GPL'
   s.bindir = 'bin'

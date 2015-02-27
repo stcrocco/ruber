@@ -29,6 +29,13 @@ module Ruber
   module FindInFiles
 
 =begin rdoc
+Regexp to check for matches from rak
+
+Matching lines should have the format @file_name:row:col | text@
+=end
+    MATCH_REGEXP = /^(.+):(\d+):\d+\s*\|\s*(.*)$/
+
+=begin rdoc
 Tool widget to display the output of a search.
 
 It adds the "Filter on file names" toggle action to the RBM menu: when its on,
@@ -86,7 +93,7 @@ have the format @filename line|text@. Lines which don't have this format are ign
 =end
       def display_output lines
         lines.each do |l|
-          match = l.match(/^(.+)\s+(\d+)\|(.*)$/)
+          match = l.match MATCH_REGEXP
           next unless match
           file, line, text = match.to_a[1..-1].map{|i| i.strip}
           if @current_file_item.text != file
