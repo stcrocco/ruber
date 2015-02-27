@@ -21,6 +21,8 @@
 require 'yaml'
 require 'facets/boolean'
 
+require_relative 'qt_enumerable'
+
 module KDE
   
   class Url

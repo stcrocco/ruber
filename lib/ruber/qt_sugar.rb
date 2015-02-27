@@ -20,6 +20,8 @@
 
 require 'yaml'
 
+require_relative 'qt_enumerable'
+
 module Qt
   
   NilObject = Object.new{self.object_name = 'nil object'}
