@@ -1,0 +1,18 @@
+<html>
+<head>
+<title><%= method.full_name%><%= method_origin%></title>
+</head>
+<body>
+<h1><%= method.full_name%><%= method_origin%></h1>
+<% unless aliases.empty? %>
+<p><strong>Also known as <%= aliases.map{|a| "<code>#{a}</code>"}.join ", " %></strong>
+<% end %>
+</p>
+<hr>
+<pre>
+<%= arglists.reject{|a| a.strip.empty?}.join "\n" %>
+</pre>
+<hr>
+<%= comment %>
+</body>
+</html>

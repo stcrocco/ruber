@@ -1,0 +1,45 @@
+<html>
+<head>
+<title><%= title %></title>
+</head>
+<body>
+<h1><%=type.capitalize%> <%=name%><%inheritance%></h1>
+<%unless included.empty?%>
+<h2> Included modules</h2>
+<ul>
+<% included.each do |i| %>
+<li><%= i.module.to_s %></li>
+<% end %>
+</ul>
+<%end%>
+<hr>
+<%=comment%>
+<% unless constants.empty? %>
+<hr>
+<h2>Constants defined in this <%= type.downcase %></h2>
+<% constants.each_pair do |n, desc| %>
+<dl>
+<dt><code><%= n %></code></dt><dd><%=desc%></dd>
+</dl>
+<% end %>
+<% end %>
+<% unless class_methods.empty? %>
+<hr>
+<h2> Class methods </h2>
+<ul>
+<% class_methods.each do |m| %>
+<li><a href="method://<%=store%>$<%=store_type.to_s%>$<%= ERB::Util.url_encode (m.full_name) %>"><%= m.name %></a> </li>
+<% end %>
+</ul>
+<% end %>
+<% unless instance_methods.empty? %>
+<hr>
+<h2> Instance methods </h2>
+<ul>
+<% instance_methods.each do |m| %>
+<li><a href="method://<%=store%>$<%=store_type.to_s%>$<%= ERB::Util.url_encode (m.full_name) %>"><%= m.name %></a> </li>
+<% end %>
+</ul>
+<% end %>
+</body>
+</html>

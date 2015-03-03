@@ -1,65 +1,86 @@
---- 
-:general: 
+---
+:general:
   :project_name: Ruber
-  :project_files: 
-    :include: 
-    - COPYING
-    - INSTALL
-    - Rakefile.rb
+  :project_files:
+    :include:
+    - !binary |-
+      Q09QWUlORw==
+    - !binary |-
+      SU5TVEFMTA==
+    - !binary |-
+      UmFrZWZpbGUucmI=
     - !ruby/regexp /share\/.*/
-    - TODO
-    - ./bin/ruber
+    - !binary |-
+      VE9ETw==
+    - !binary |-
+      Li9iaW4vcnViZXI=
     - !ruby/regexp /manual\/.*/
-    - ./ruber.gemspec
-    - ./ruber.ruprj
-    - ruber.desktop
-    - outsider_files
-    - README.textile
-    - CHANGES
-    :exclude: 
+    - !binary |-
+      Li9ydWJlci5nZW1zcGVj
+    - !binary |-
+      Li9ydWJlci5ydXByag==
+    - !binary |-
+      cnViZXIuZGVza3RvcA==
+    - !binary |-
+      b3V0c2lkZXJfZmlsZXM=
+    - !binary |-
+      UkVBRE1FLnRleHRpbGU=
+    - !binary |-
+      Q0hBTkdFUw==
+    :exclude:
     - !ruby/regexp /^_darcs\/.*/
     - !ruby/regexp /^doc\/.*/
     - !ruby/regexp /^old\/.*/
     - !ruby/regexp /ui\/.*\.rb/
-    :extensions: 
-    - "*.rb"
-    - "*.ui"
-    - "*.yaml"
-    - "*.rc"
-    - "*.erb"
-:rake: 
-  :rakefile: Rakefile.rb
+    :extensions:
+    - !binary |-
+      Ki5yYg==
+    - !binary |-
+      Ki51aQ==
+    - !binary |-
+      Ki55YW1s
+    - !binary |-
+      Ki5yYw==
+    - !binary |-
+      Ki5lcmI=
+    - !binary |-
+      Ki5yaHRtbA==
+:rake:
+  :rakefile: !binary |-
+    UmFrZWZpbGUucmI=
   :ruby_options: []
-
-  :tasks: 
-    clean: 
+  :tasks:
+    clean:
     - Removes documentation and intermediate files
     - 
-    kruby: 
+    kruby:
     - Creates all the files needed to run KRuby
     - 
-    manuals: 
+    manuals:
     - Build all the manuals and the RDoc API
     - 
-    programmer-manual: 
+    programmer-manual:
     - Create the programmer's manual
     - 
-    rdoc: 
+    rdoc:
     - Build the rdoc HTML Files
     - 
-    spec: 
+    spec:
     - Run all examples
     - 
-:ruby: 
-  :main_program: bin/ruber
-  :ruby_options: 
+:ruby:
+  :main_program: !binary |-
+    YmluL3J1YmVy
+  :ruby_options:
   - -Ilib
-:rspec: 
+:rspec:
   :code_directory: .
-  :patterns: 
-  - :code: "**/*.rb"
-    :spec: "%f_spec.rb"
+  :patterns:
+  - :code: !binary |-
+      KiovKi5yYg==
+    :spec: !binary |-
+      JWZfc3BlYy5yYg==
     :glob: 0
   :full_backtraces: false
-  :ruby_options: 
+  :ruby_options:
   - -I.
