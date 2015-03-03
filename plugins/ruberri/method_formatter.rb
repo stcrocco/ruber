@@ -51,7 +51,9 @@ module Ruber
           end
           doc << RDoc::Markup::Rule.new(1) unless i == last
         end
-        formatter = RDoc::Markup::ToHtml.new
+        opts = RDoc::Options.new
+        opts.pipe = true
+        formatter = RDoc::Markup::ToHtml.new opts
         doc.accept formatter
       end
       
