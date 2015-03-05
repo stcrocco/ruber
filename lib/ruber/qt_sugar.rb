@@ -1,33 +1,57 @@
-=begin 
-    Copyright (C) 2010 by Stefano Crocco   
-    stefano.crocco@alice.it   
-  
-    This program is free software; you can redistribute it andor modify  
-    it under the terms of the GNU General Public License as published by  
-    the Free Software Foundation; either version 2 of the License, or     
-    (at your option) any later version.                                   
-  
-    This program is distributed in the hope that it will be useful,       
-    but WITHOUT ANY WARRANTY; without even the implied warranty of        
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         
-    GNU General Public License for more details.                          
-  
-    You should have received a copy of the GNU General Public License     
-    along with this program; if not, write to the                         
-    Free Software Foundation, Inc.,                                       
-    59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             
+=begin
+    Copyright (C) 2010 by Stefano Crocco
+    stefano.crocco@alice.it
+
+    This program is free software; you can redistribute it andor modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the
+    Free Software Foundation, Inc.,
+    59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 =end
 
 require 'yaml'
 
 require_relative 'qt_enumerable'
 
+module QtYAML
+
+  def allocate
+    new
+  end
+
+  def make_serializable *vars
+
+    define_method :encode_with do |coder|
+      vars.each do |v|
+        coder[v] = send v
+      end
+    end
+
+    define_method :init_with do |coder|
+      vars.each do |v|
+        self.send "#{v}=", coder[v]
+      end
+    end
+
+  end
+
+end
+
 module Qt
-  
+
   NilObject = Object.new{self.object_name = 'nil object'}
-  
+
   class Base
-    
+
     def nil_object?
       # if the object doesn't inherit from Qt::Object, meta_object will raise
       # an exception
@@ -38,21 +62,21 @@ module Qt
 =begin rdoc
   :call-seq:
   obj.named_connect(sig, name){||...}
-    
+
   It works as Qt::Base#connect, except for the fact that it associates a name
   with the connection. This way, you can use <tt>Qt::base#named_disconnect</tt>
   to disconnect the block from the signal.
-    
+
   This is implemented by tracking the object internally created by Qt to manage
-  the connection and assigning it a name, so that it can then be found using 
-  <tt>find_child</tt>. 
-    
+  the connection and assigning it a name, so that it can then be found using
+  <tt>find_child</tt>.
+
   <b>Note:</b> this method assumes that only one object of class
-  <tt>Qt::SignalBlockInvocation</tt> is created by +connect+. If it isn't so, 
+  <tt>Qt::SignalBlockInvocation</tt> is created by +connect+. If it isn't so,
   +RuntimeError+ will be raised.
 =end
     def named_connect signal, name, &blk
-      #It seems that find_children always return all children, regardless of 
+      #It seems that find_children always return all children, regardless of
       #the class passed as argument
 #       old_children = find_children(Qt::SignalBlockInvocation)
       old_children = find_children(Qt::Object).select{|c| c.class == Qt::SignalBlockInvocation}
@@ -61,7 +85,7 @@ module Qt
       new_children = find_children(Qt::Object).select{|c| c.class == Qt::SignalBlockInvocation} - old_children
 #       new_children = find_children(Qt::SignalBlockInvocation) - old_children
       unless new_children.size == 1
-        raise RuntimeError, "Wrong number of new children: #{new_children.size} instead of 1" 
+        raise RuntimeError, "Wrong number of new children: #{new_children.size} instead of 1"
       end
       new_children.first.object_name = name
       true
@@ -75,18 +99,43 @@ module Qt
       rec = find_child Qt::SignalBlockInvocation, name
       disconnect self, nil, rec, nil
     end
-    
+
   end
-  
+
+  class ByteArray
+
+    extend QtYAML
+
+    def encode_with coder
+      coder['encoded_data'] = to_percent_encoding.data
+    end
+
+    def init_with coder
+      other = Qt::ByteArray.from_percent_encoding Qt::ByteArray.new(coder['encoded_data'])
+      set_raw_data other.data, other.size
+    end
+
+    def _dump n
+      to_percent_encoding.data
+    end
+
+    def self._load str
+      Qt::ByteArray.from_percent_encoding Qt::ByteArray.new(str)
+    end
+
+  end
+
   class Point
-    
+
+    extend QtYAML
+
     yaml_as "tag:ruby.yaml.org,2002:Qt::Point"
-    
+
     def self.yaml_new cls, tag, val
       x, y= val['x'], val['y']
       Qt::Point.new(x, y)
     end
-    
+
     def to_yaml opts = {}
       YAML.quick_emit(self, opts) do |out|
         out.map(taguri, to_yaml_style) do |map|
@@ -95,27 +144,31 @@ module Qt
         end
       end
     end
-    
+
     def _dump _
       "#{x};#{self.y}"
     end
-    
+
     def self._load str
       x, y = str.split ';'
       self.new x.to_i, y.to_i
     end
-    
+
+    make_serializable 'x', 'y'
+
   end
-  
+
   class PointF
-    
+
+    extend QtYAML
+
     yaml_as "tag:ruby.yaml.org,2002:Qt::PointF"
-    
+
     def self.yaml_new cls, tag, val
       x, y= val['x'], val['y']
       Qt::PointF.new(x.to_f, y.to_f)
     end
-    
+
     def to_yaml opts = {}
       YAML.quick_emit(self, opts) do |out|
         out.map(taguri, to_yaml_style) do |map|
@@ -126,7 +179,7 @@ module Qt
         end
       end
     end
-    
+
     def _dump _
       loc = Qt::Locale.c
       loc.number_options = Qt::Locale::OmitGroupSeparator
@@ -134,23 +187,29 @@ module Qt
       sy = loc.to_string( self.y )
       "#{sx};#{sy}"
     end
-    
+
     def self._load str
       x, y = str.split ';'
       self.new x.to_f, y.to_f
     end
-    
+
+    make_serializable 'x', 'y'
+
   end
-  
+
   class Size
-    
+
+    extend QtYAML
+
+    make_serializable 'width', 'height'
+
     yaml_as "tag:ruby.yaml.org,2002:Qt::Size"
-    
+
     def self.yaml_new cls, tag, val
       width, height= val['width'], val['height']
       Qt::Size.new(width, height)
     end
-    
+
     def to_yaml opts = {}
       YAML.quick_emit(self, opts) do |out|
         out.map(taguri, to_yaml_style) do |map|
@@ -159,28 +218,32 @@ module Qt
         end
       end
     end
-    
+
     def _dump _
       "#{width};#{height}"
     end
-    
+
     def self._load str
       w, h = str.split ';'
       self.new w.to_i, h.to_i
     end
-    
-    
+
+
   end
-  
+
   class SizeF
-    
+
+    extend QtYAML
+
+    make_serializable 'width', 'height'
+
     yaml_as "tag:ruby.yaml.org,2002:Qt::SizeF"
-    
+
     def self.yaml_new cls, tag, val
       width, height= val['width'], val['height']
       Qt::SizeF.new(width.to_f, height.to_f)
     end
-    
+
     def to_yaml opts = {}
       YAML.quick_emit(self, opts) do |out|
         out.map(taguri, to_yaml_style) do |map|
@@ -191,7 +254,7 @@ module Qt
         end
       end
     end
-    
+
     def _dump _
       loc = Qt::Locale.c
       loc.number_options = Qt::Locale::OmitGroupSeparator
@@ -199,24 +262,27 @@ module Qt
       sh = loc.to_string height
       "#{sw};#{sh}"
     end
-    
+
     def self._load str
       w, h = str.split ';'
       self.new w.to_f, h.to_f
     end
-    
+
   end
-  
+
   class Rect
-    
+
+    extend QtYAML
+    make_serializable 'left', 'top', 'width', 'height'
+
     yaml_as "tag:ruby.yaml.org,2002:Qt::Rect"
-    
+
     def self.yaml_new cls, tag, val
-      left, top, width, height= val['left'], val['top'], val['width'], 
+      left, top, width, height= val['left'], val['top'], val['width'],
           val['height']
       self.new(left, top, width, height)
     end
-    
+
     def to_yaml opts = {}
       YAML.quick_emit(self, opts) do |out|
         out.map(taguri, to_yaml_style) do |map|
@@ -227,28 +293,31 @@ module Qt
         end
       end
     end
-    
+
     def _dump _
       "#{left};#{top};#{width};#{height}"
     end
-    
+
     def self._load str
       l, t, w, h = str.split ';'
       self.new l.to_i, t.to_i, w.to_i, h.to_i
     end
-    
+
   end
-  
+
   class RectF
-    
+
+    extend QtYAML
+    make_serializable 'left', 'top', 'width', 'height'
+
     yaml_as "tag:ruby.yaml.org,2002:Qt::RectF"
-    
+
     def self.yaml_new cls, tag, val
-      left, top, width, height= val['left'], val['top'], val['width'], 
+      left, top, width, height= val['left'], val['top'], val['width'],
           val['height']
       Qt::RectF.new(left.to_f, top.to_f, width.to_f, height.to_f)
     end
-    
+
     def to_yaml opts = {}
       YAML.quick_emit(self, opts) do |out|
         out.map(taguri, to_yaml_style) do |map|
@@ -261,7 +330,7 @@ module Qt
         end
       end
     end
-    
+
     def _dump _
       loc = Qt::Locale.c
       loc.number_options = Qt::Locale::OmitGroupSeparator
@@ -271,22 +340,26 @@ module Qt
       sh = loc.to_string height
       "#{sl};#{st};#{sw};#{sh}"
     end
-    
+
     def self._load str
       l, t, w, h = str.split ';'
       self.new l.to_f, t.to_f, w.to_f, h.to_f
     end
-    
+
   end
-  
+
   class Color
+
+    extend QtYAML
+    make_serializable 'red', 'green', 'blue'
+
     yaml_as "tag:ruby.yaml.org,2002:Qt::Color"
-    
+
     def self.yaml_new cls, tag, val
       r, g, b= val['red'], val['green'], val['blue']
       Qt::Color.new(r, g, b)
     end
-    
+
     def to_yaml opts = {}
       YAML.quick_emit(self, opts) do |out|
         out.map(taguri, to_yaml_style) do |map|
@@ -296,26 +369,34 @@ module Qt
         end
       end
     end
-    
+
     def _dump _
       "#{red};#{green};#{blue}"
     end
-    
+
     def self._load str
       r, g, b = str.split ';'
       self.new r.to_i, g.to_i, b.to_i
     end
-    
+
   end
-  
+
   class Date
+
+    extend QtYAML
+    make_serializable 'year', 'month', 'day'
+
+    def init_with coder
+      self.set_date coder['year'], coder['month'], coder['day']
+    end
+
     yaml_as "tag:ruby.yaml.org,2002:Qt::Date"
-    
+
     def self.yaml_new cls, tag, val
       y, m, d = val['year'], val['month'], val['day']
       Qt::Date.new(y, m, d)
     end
-    
+
     def to_yaml opts = {}
       YAML.quick_emit(self, opts) do |out|
         out.map(taguri, to_yaml_style) do |map|
@@ -325,26 +406,30 @@ module Qt
         end
       end
     end
-    
+
     def _dump _
       "#{year};#{month};#{day}"
     end
-    
+
     def self._load str
       y, m, d = str.split ';'
       self.new(y.to_i, m.to_i, d.to_i)
     end
-    
+
   end
-  
+
   class DateTime
+
+    extend QtYAML
+    make_serializable 'date', 'time', 'time_spec'
+
     yaml_as "tag:ruby.yaml.org,2002:Qt::DateTime"
-    
+
     def self.yaml_new cls, tag, val
       date, time, spec = val['date'], val['time'], val['time_spec']
       Qt::DateTime.new date, time, spec
     end
-    
+
     def to_yaml opts = {}
       YAML.quick_emit(self, opts) do |out|
         out.map(taguri, to_yaml_style) do |map|
@@ -354,55 +439,84 @@ module Qt
         end
       end
     end
-    
+
     def _dump _
       Marshal.dump [date, time, time_spec]
     end
-    
+
     def self._load str
       date, time, time_spec = Marshal.load str
       self.new date, time, time_spec
     end
-    
+
   end
-  
+
   class Font
+
+    extend QtYAML
+
+    def encode_with coder
+      coder['format'] = to_string
+    end
+
+    def init_with coder
+      from_string coder['format']
+    end
+
     yaml_as "tag:ruby.yaml.org,2002:Qt::Font"
-    
+
     def self.yaml_new cls, tag, val
       res = Qt::Font.new
       res.from_string val
       res
     end
-    
+
     def to_yaml opts = {}
       YAML.quick_emit(self, opts) do |out|
         out.scalar taguri, to_string, :plain
       end
     end
-    
+
     def _dump _
       to_string
     end
-    
+
     def self._load str
       res = Qt::Font.new
       res.from_string str
       res
     end
-    
+
   end
-  
+
   class Time
+
+    extend QtYAML
+
+    def encode_with coder
+      unless null?
+        coder['hour'] = hour
+        coder['minute'] = minute
+        coder['second'] = second
+        coder['msec'] = msec
+      end
+    end
+
+    def init_with coder
+      if coder['hour']
+        set_HMS coder['hour'], coder['minute'], coder['second'], coder['msec']
+      end
+    end
+
     yaml_as "tag:ruby.yaml.org,2002:Qt::Time"
-    
+
     def self.yaml_new cls, tag, val
       if val['valid']
         Qt::Time.new val['hours'], val['minutes'], val['seconds'], val['msec']
       else Qt::Time.new
       end
     end
-    
+
     def to_yaml opts = {}
       YAML.quick_emit(self, opts) do |out|
         out.map(taguri, to_yaml_style) do |map|
@@ -416,13 +530,13 @@ module Qt
         end
       end
     end
-    
+
     def _dump _
       if valid? then "#{hour};#{minute};#{second};#{msec}"
       else ""
       end
     end
-    
+
     def self._load str
       if str.empty? then self.new
       else
@@ -430,36 +544,47 @@ module Qt
         self.new h.to_i, m.to_i, s.to_i, ms.to_i
       end
     end
-    
+
   end
-  
+
   class Url
+
+    extend QtYAML
+
+    def encode_with coder
+      coder['encoded'] = to_encoded
+    end
+
+    def init_with coder
+      self.encoded_url = coder['encoded']
+    end
+
     yaml_as "tag:ruby.yaml.org,2002:Qt::Url"
-    
+
     def self.yaml_new cls, tag, val
       Qt::Url.new val
     end
-    
+
     def to_yaml opts = {}
       YAML.quick_emit(self, opts) do |out|
         out.scalar taguri, to_string, :plain
       end
     end
-    
+
     def _dump _
       to_string
     end
-    
+
     def self._load str
       self.new str
     end
-    
+
   end
-  
+
   class StandardItemModel
 
     include QtEnumerable
-    
+
 =begin rdoc
 @return [Boolean] whether the model is empty or not
 =end
@@ -476,7 +601,7 @@ If a block isn't given, returns an +Enumerator+ which does the same as above.
     def each
       if block_given?
         rowCount.times do |i|
-          columnCount.times do |j| 
+          columnCount.times do |j|
             it = item(i,j)
             yield it if it
           end
@@ -496,7 +621,7 @@ If a block isn't given, returns an +Enumerator+ which does the same as above.
     def each_row
       if block_given?
         rowCount.times do |r|
-          a = [] 
+          a = []
           columnCount.times{|c| a << item(r, c)}
           yield a
         end
@@ -507,7 +632,7 @@ If a block isn't given, returns an +Enumerator+ which does the same as above.
   end
 
   class SortFilterProxyModel
-    
+
     include QtEnumerable
 
 =begin rdoc
@@ -542,7 +667,7 @@ If a block isn't given, returns an +Enumerator+ which does the same as above.
       else self.to_enum
       end
     end
-    
+
 =begin rdoc
 Passes an array containing the items in each of the children rows. Returns an
 Enumerator if called without a block
@@ -579,11 +704,11 @@ Enumerator if called without a block
   end
 
   class Variant
-    
+
     def to_sym
       to_string.to_sym
     end
-    
+
 =begin rdoc
 Redefinition of <tt>to_bool</tt> it's needed because otherwise the Object#to_bool
 method defined in <tt>facets/boolean</tt> is used, instead of calling method_missing.
@@ -594,11 +719,11 @@ the problem is solved
     def to_bool
       method_missing :to_bool
     end
-    
+
   end
-  
+
   class MetaObject
-    
+
     def each_signal
       if block_given?
         method_count.times do |i|
@@ -608,7 +733,7 @@ the problem is solved
       else self.enum_for(:each_signal)
       end
     end
-    
+
     def each_slot
       if block_given?
         method_count.times do |i|
@@ -618,16 +743,16 @@ the problem is solved
       else self.enum_for(:each_slot)
       end
     end
-    
+
     def each_method
       if block_given?
         method_count.times{|i| yield method i}
       else self.enum_for(:each_method)
       end
     end
-    
+
   end
-  
+
 =begin rdoc
 Module implementing the {#each} method used by all layout classes
 
@@ -639,9 +764,9 @@ The {#each} method is then defined in this module which is included in all layou
 classes
 =end
   module LayoutEach
-    
+
     include QtEnumerable
-    
+
 =begin rdoc
 Iterates on all items in the layout
 
@@ -656,47 +781,47 @@ will only be passed one time.
 =end
     def each
       return to_enum unless block_given?
-      count.times do |i| 
+      count.times do |i|
         it = item_at i
         yield it.widget || it.layout
       end
       self
     end
-    
+
   end
-  
+
   class Layout
     include LayoutEach
   end
-  
+
   class BoxLayout
     include LayoutEach
   end
-  
+
   class VBoxLayout
     include LayoutEach
   end
-  
+
   class HBoxLayout
     include LayoutEach
   end
-  
+
   class StackedLayout
     include LayoutEach
   end
-  
+
   class FormLayout
     include LayoutEach
   end
-  
+
   class GridLayout
     include LayoutEach
   end
-  
+
   class Qt::Splitter
-    
+
     include QtEnumerable
-  
+
 =begin rdoc
 Iterates on all items in the splitter
 
@@ -712,14 +837,14 @@ The iteration order is from top to bottom and from left to right.
       count.times{|i| yield widget(i)}
       self
     end
-    
+
   end
-  
-  
+
+
   class Qt::StackedWidget
-   
+
     include QtEnumerable
-    
+
 =begin rdoc
 Calls the block for each widget in the stack, or returns an enumerator if no block
 is given
@@ -730,15 +855,15 @@ is given
       else to_enum
       end
     end
-    
+
     def empty?
       self.count == 0
     end
-    
+
   end
-  
+
   class Enum
-    
+
 =begin rdoc
 Converts the enum to an integer
 @return [Integer] the integer value of the enum
@@ -747,7 +872,7 @@ Converts the enum to an integer
       to_i
     end
   end
-  
+
 end
 
 =begin rdoc
@@ -755,12 +880,12 @@ Qt::StandardItemModel-derived class which allow to set flags for all the items.
 To do so, simply set the global_flags attribute to the desired flags.
 =end
 class GlobalFlagStandardItemModel < Qt::StandardItemModel
-  
+
 =begin rdoc
 The flags which should be returned by every call to flags.
 =end
   attr_accessor :global_flags
-  
+
 =begin rdoc
 Creates a new GlobalFlagStandardItemModel. The global_flags attribute for the new
 model will be set to nil. This means that the flags method will behave exactly as
@@ -770,7 +895,7 @@ the Qt::StandardItemModel#flags method.
     super
     @global_flags = nil
   end
-  
+
 =begin rdoc
 Returns the flags associated with the index _idx_. If returns the value contained
 in the global_flags attribute if it is not nil, otherwise it will call
@@ -779,5 +904,5 @@ Qt::StandardItemModel#flags and return that value
   def flags idx
     @global_flags || super
   end
-  
+
 end

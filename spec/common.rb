@@ -1,25 +1,11 @@
 require 'fileutils'
 require 'yaml'
-if defined? YAML::ENGINE
-  YAML::ENGINE.yamler = 'syck'
-end
+
 require 'flexmock/argument_types'
 require 'korundum4'
 # require 'ktexteditor'
 require 'kio'
 require 'ostruct'
-
-module QtEnumerable
-  
-  include Enumerable
-  
-  begin
-    alias :count_items :count
-    undef_method :count
-  rescue NoMethodError
-  end
-  
-end
 
 require 'ruber/qt_sugar'
 require 'ruber/kde_sugar'
@@ -60,7 +46,7 @@ def make_dir_tree contents, base = '/tmp/', file_contents = {}
   files = []
   contents = YAML.load(contents) if contents.is_a? String
   mktree = lambda do |dir, current|
-    if current.is_a? Array 
+    if current.is_a? Array
       current_full = File.join(dir, current[0])
       dirs << current_full
       current[1..-1].each do |c|
@@ -97,7 +83,7 @@ if RUBY_VERSION =~ /9/
 end
 
 RSPEC::Matchers.define :have_entries do |hash|
-  
+
   match do |obj|
     if obj.respond_to? :[]
       hash.each_pair do |k, v|
@@ -109,7 +95,7 @@ RSPEC::Matchers.define :have_entries do |hash|
       end
     end
   end
-  
+
 end
 
 RSPEC::Matchers.define :be_the_same_as do |exp|

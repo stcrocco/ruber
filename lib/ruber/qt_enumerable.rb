@@ -12,7 +12,7 @@ module QtEnumerable
   include Enumerable
 
   begin
-    alias :count_items :count
+    alias_method :count_items, :count
     undef_method :count
   rescue NoMethodError
   end
