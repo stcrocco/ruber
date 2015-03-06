@@ -1,32 +1,32 @@
-=begin 
-    Copyright (C) 2011 by Stefano Crocco   
-    stefano.crocco@alice.it   
-  
-    This program is free software; you can redistribute it andor modify  
-    it under the terms of the GNU General Public License as published by  
-    the Free Software Foundation; either version 2 of the License, or     
-    (at your option) any later version.                                   
-  
-    This program is distributed in the hope that it will be useful,       
-    but WITHOUT ANY WARRANTY; without even the implied warranty of        
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         
-    GNU General Public License for more details.                          
-  
-    You should have received a copy of the GNU General Public License     
-    along with this program; if not, write to the                         
-    Free Software Foundation, Inc.,                                       
-    59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             
+=begin
+    Copyright (C) 2011 by Stefano Crocco
+    stefano.crocco@alice.it
+
+    This program is free software; you can redistribute it andor modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the
+    Free Software Foundation, Inc.,
+    59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 =end
 
 require 'yaml'
 require 'rdoc/ri/driver'
 
 module Ruber
-  
+
   module RI
-    
+
     class Search
-      
+
       def search text
         drv = RDoc::RI::Driver.new
         classes = find_classes drv, text
@@ -44,7 +44,7 @@ module Ruber
         end
         content
       end
-      
+
       def prepare_class_list classes
         found = {:type => :class}
         list = []
@@ -60,7 +60,7 @@ module Ruber
         found[:list] = list
         found
       end
-      
+
       def prepare_method_list methods
         found = {:type => :method}
         list = []
@@ -80,7 +80,7 @@ module Ruber
       def find_classes drv, name
         begin cls = drv.expand_class(Regexp.quote(name))
         rescue RDoc::RI::Driver::NotFoundError
-          return 
+          return []
         end
         stores = drv.classes[cls]
         return unless stores
@@ -90,7 +90,7 @@ module Ruber
         end
         classes
       end
-      
+
       def find_methods drv, name
         found = drv.load_methods_matching name
         return nil if found.empty?
@@ -101,11 +101,11 @@ module Ruber
         end
         methods.empty? ? nil : methods
       end
-      
+
     end
-    
+
   end
-  
+
 end
 
 puts YAML.dump(Ruber::RI::Search.new.search(ARGV[0] || ''))
