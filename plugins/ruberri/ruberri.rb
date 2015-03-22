@@ -186,10 +186,59 @@ EOS
 
     class ToolWidget < Qt::Widget
 
+      HistoryData = Struct :schema, :path, :links
+
+      class History
+
+        def initialize
+          @entries = []
+          @current = -1
+        end
+
+        def current
+          @entries[@current]
+        end
+
+        def current_index
+          @current
+        end
+
+        def empty?
+          @entries.empty?
+        end
+
+        def at_end?
+          @current == -1
+        end
+
+        def at_beginning?
+          @current == -@entries.count
+        end
+
+        def << entry
+          if at_end? @entries << entry
+          else
+            @entries.slice! @current+1, -1
+            @entries << entry
+            @current = -1
+          end
+        end
+
+        def move_back
+          @current -= 1 unless at_beginning
+        end
+
+        def move_forward
+          @current += 1 unless at_end?
+        end
+
+      end
+
       def initialize parent = nil
         super
         @ui = Ruber::Ui::RIToolWidget.new
         @ui.setup_ui self
+        @history = History.new
         connect @ui.search_term, SIGNAL(:returnPressed), @ui.search, SIGNAL(:clicked)
         connect @ui.search, SIGNAL(:clicked), self, SLOT(:start_search)
         @ui.content.open_links = false
