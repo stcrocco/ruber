@@ -243,6 +243,9 @@ EOS
         connect @ui.search, SIGNAL(:clicked), self, SLOT(:start_search)
         @ui.content.open_links = false
         connect @ui.content, SIGNAL('anchorClicked(QUrl)'), Ruber[:ruberri], SLOT('display_url(QUrl)')
+        @ui.prev_btn.icon = KDE::IconLoader.load_icon 'go-previous'
+        @ui.next_btn.icon = KDE::IconLoader.load_icon 'go-next'
+        @ui.prev_btn.enabled = @ui.next_btn.enabled = false
       end
 
       def content

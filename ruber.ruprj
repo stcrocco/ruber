@@ -3,51 +3,33 @@
   :project_name: Ruber
   :project_files:
     :include:
-    - !binary |-
-      Q09QWUlORw==
-    - !binary |-
-      SU5TVEFMTA==
-    - !binary |-
-      UmFrZWZpbGUucmI=
+    - COPYING
+    - INSTALL
+    - Rakefile.rb
     - !ruby/regexp /share\/.*/
-    - !binary |-
-      VE9ETw==
-    - !binary |-
-      Li9iaW4vcnViZXI=
+    - TODO
+    - ./bin/ruber
     - !ruby/regexp /manual\/.*/
-    - !binary |-
-      Li9ydWJlci5nZW1zcGVj
-    - !binary |-
-      Li9ydWJlci5ydXByag==
-    - !binary |-
-      cnViZXIuZGVza3RvcA==
-    - !binary |-
-      b3V0c2lkZXJfZmlsZXM=
-    - !binary |-
-      UkVBRE1FLnRleHRpbGU=
-    - !binary |-
-      Q0hBTkdFUw==
+    - ./ruber.gemspec
+    - ./ruber.ruprj
+    - ruber.desktop
+    - outsider_files
+    - README.textile
+    - CHANGES
     :exclude:
     - !ruby/regexp /^_darcs\/.*/
     - !ruby/regexp /^doc\/.*/
     - !ruby/regexp /^old\/.*/
     - !ruby/regexp /ui\/.*\.rb/
     :extensions:
-    - !binary |-
-      Ki5yYg==
-    - !binary |-
-      Ki51aQ==
-    - !binary |-
-      Ki55YW1s
-    - !binary |-
-      Ki5yYw==
-    - !binary |-
-      Ki5lcmI=
-    - !binary |-
-      Ki5yaHRtbA==
+    - '*.rb'
+    - '*.ui'
+    - '*.yaml'
+    - '*.rc'
+    - '*.erb'
+    - '*.rhtml'
 :rake:
-  :rakefile: !binary |-
-    UmFrZWZpbGUucmI=
+  :rakefile: Rakefile.rb
   :ruby_options: []
   :tasks:
     clean:
@@ -69,17 +51,14 @@
     - Run all examples
     - 
 :ruby:
-  :main_program: !binary |-
-    YmluL3J1YmVy
+  :main_program: bin/ruber
   :ruby_options:
   - -Ilib
 :rspec:
   :code_directory: .
   :patterns:
-  - :code: !binary |-
-      KiovKi5yYg==
-    :spec: !binary |-
-      JWZfc3BlYy5yYg==
+  - :code: '**/*.rb'
+    :spec: '%f_spec.rb'
     :glob: 0
   :full_backtraces: false
   :ruby_options:
