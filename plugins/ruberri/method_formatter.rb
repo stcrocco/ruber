@@ -27,17 +27,57 @@ module Ruber
 
   module RI
 
+=begin rdoc
+Class with the task of producing an HTML page from the @RI@ documentation for a
+method.
+
+The HTML page is generated using an ERB template contained in the @method.rhtml@
+file.
+=end
     class MethodFormatter
 
       Data = Struct.new :store, :method, :method_origin, :arglists, :aliases,
           :comment
+=begin rdoc
+Helper class providing access to information provided by @RI@ from the ERB template.
+
+@!attribute store
+  @return [String] the path to the store file
+@!attribute method
+  @return [RDoc::AnyMethod] the object containing information about the method
+@!attribute method_origin
+  @return [String] the source of the method
+@!attribute arglists
+  @return [<String>] the various argument lists for the method
+@!attribute aliases
+  @return [<String>] a list of aliases for the method
+@!attribute comment
+  @return [String] the description associated with the class
+
+@!method initialize
+  Returns a new instance of Data
+
+  All attributes are set to @nil@
+  @return [Data]
+=end
 
       class Data
+=begin rdoc
+The @Binding@ associated with the instance
+
+@return [Binding] the @Binding@ associated with the instance. This is needed
+  by ERB
+=end
         def get_binding
           binding
         end
       end
 
+=begin rdoc
+@param [String] method the full name of the method
+@param [String] store the path of the file containing the store
+@param [String] store_type the type of the store
+=end
       def initialize method, store, store_type
         @store = RDoc::RI::Store.new store, store_type
         cls= method.split(/(?:::)|#/, 2)[0]
@@ -47,6 +87,11 @@ module Ruber
         @formatter = RDoc::Markup::ToHtml.new opts
       end
 
+=begin rdoc
+Generates the HTML page for the method
+
+@return [String] the HTML code of the page
+=end
       def to_html
         erb = ERB.new File.read(File.join(File.dirname(__FILE__), 'method.rhtml'))
         @data.method_origin = @store.friendly_path =~ /ruby core/ ? '' : " (from #{@store.friendly_path})"
@@ -59,6 +104,11 @@ module Ruber
 
       private
 
+=begin rdoc
+Generates HTML code from the RDoc-formatted documentation
+
+@param [RDoc::Markup::Document] doc the document to format
+=end
       def format_document doc
         doc.accept @formatter
       end
