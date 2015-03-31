@@ -80,7 +80,7 @@ module Ruber
       def find_classes drv, name
         begin cls = drv.expand_class(Regexp.quote(name))
         rescue RDoc::RI::Driver::NotFoundError
-          return []
+          return
         end
         stores = drv.classes[cls]
         return unless stores
