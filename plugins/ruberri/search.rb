@@ -37,7 +37,7 @@ module Ruber
           regexp = /::#{Regexp.quote text}$/
           list = []
           hash.each_key do |cls|
-            list << find_classes(drv, cls) if cls =~ regexp
+            list.concat find_classes(drv, cls) if cls =~ regexp
           end
           content = prepare_class_list list
         else content = {}
