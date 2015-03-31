@@ -226,7 +226,7 @@ The page contains a paragraph describing what happened and the error message
 <h1>Error</h1>
 <p>#{intro}</p>
 <pre>
-#{err}
+#{error}
 </pre>
         EOS
       end
@@ -695,7 +695,7 @@ Slot called when one of the actions in the forward menu is triggered
 
 Moves the history to the entry corresponding to the action.
 @return [void]
-=end     
+=end
       def next_action_triggered a
         go_forward a.data.to_i + 1
       end

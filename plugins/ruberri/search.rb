@@ -25,8 +25,30 @@ module Ruber
 
   module RI
 
+=begin rdoc
+Helper class which performs a search in the @RI@ database
+=end
     class Search
 
+=begin rdoc
+Performs a search in the @RI@ database
+
+The search results are returned in a hash with the following entries:
+
+- @:type@::= whether the search returned results for classes or methods. It can
+  be either @:class@ or @:method@
+- @@:list@::= a list containing the entries found in the RI database
+
+Each entry is a hash with the following keys:
+
+- @:store@::= the path of the file containing the store with the entry
+- @:friendly_store@::= a human friendly name for the store
+- @:store_type@::= the type of store
+- @:name@::= the full name of the class or method
+
+@param [String] text the text to search
+@return [Hash] a hash containing the results of the search
+=end
       def search text
         drv = RDoc::RI::Driver.new
         classes = find_classes drv, text
@@ -45,6 +67,21 @@ module Ruber
         content
       end
 
+=begin rdoc
+Puts RI data from a list of classes into a hash
+
+@param [<(RDoc::NormalClass, RDoc::Store)>] classes a list of classes with the
+  store they're from
+@return [Hash] a hash containing information for the given classes. The hash has
+  the keys @:type@ and @:list@. @:key@ is always @:class@ (even for modules),
+  while @:list@ is a list of hashes, each describing one of the classes. Each
+  hash has the following entries:
+
+  - @:store@::= the name of the store file
+  - @:friendly_store@::= a human friendly version of the store path
+  - @:store_type@::= the type of store
+  - @:name@::= the fill name of the class
+=end
       def prepare_class_list classes
         found = {:type => :class}
         list = []
@@ -61,6 +98,21 @@ module Ruber
         found
       end
 
+=begin rdoc
+Puts RI data from a list of methods into a hash
+
+@param [<(RDoc::NormalClass, RDoc::Store)>] methods a list of classes with the
+  store they're from
+@return [Hash] a hash containing information for the given classes. The hash has
+  the keys @:type@ and @:list@. @:key@ is always @:class@ (even for modules),
+  while @:list@ is a list of hashes, each describing one of the classes. Each
+  hash has the following entries:
+
+  - @:store@::= the name of the store file
+  - @:friendly_store@::= a human friendly version of the store path
+  - @:store_type@::= the type of store
+  - @:name@::= the fill name of the class
+=end
       def prepare_method_list methods
         found = {:type => :method}
         list = []
@@ -77,6 +129,14 @@ module Ruber
         found
       end
 
+=begin rdoc
+Find classes with a given name
+
+@param [RDoc::Ri::Driver] drv the ri driver to look for classes
+@param [String] name the name of the class
+@return [<(RDoc::NormalClass, RDoc::Store)>] a list of found classes together
+  with the store they're in
+=end
       def find_classes drv, name
         begin cls = drv.expand_class(Regexp.quote(name))
         rescue RDoc::RI::Driver::NotFoundError
@@ -91,6 +151,14 @@ module Ruber
         classes
       end
 
+=begin rdoc
+Find methods with a given name
+
+@param [RDoc::Ri::Driver] drv the ri driver to look for methods
+@param [String] name the name of the method
+@return [<(RDoc::AnyMethod, Rdoc::Store)>] a list of found methods together
+  with the store they're in
+=end
       def find_methods drv, name
         found = drv.load_methods_matching name
         return nil if found.empty?
