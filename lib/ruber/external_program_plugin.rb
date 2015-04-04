@@ -1,21 +1,21 @@
-=begin 
-    Copyright (C) 2010 by Stefano Crocco   
-    stefano.crocco@alice.it   
-  
-    This program is free software; you can redistribute it andor modify  
-    it under the terms of the GNU General Public License as published by  
-    the Free Software Foundation; either version 2 of the License, or     
-    (at your option) any later version.                                   
-  
-    This program is distributed in the hope that it will be useful,       
-    but WITHOUT ANY WARRANTY; without even the implied warranty of        
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         
-    GNU General Public License for more details.                          
-  
-    You should have received a copy of the GNU General Public License     
-    along with this program; if not, write to the                         
-    Free Software Foundation, Inc.,                                       
-    59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             
+=begin
+    Copyright (C) 2010 by Stefano Crocco
+    stefano.crocco@alice.it
+
+    This program is free software; you can redistribute it andor modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the
+    Free Software Foundation, Inc.,
+    59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 =end
 
 require 'ruber/plugin'
@@ -27,7 +27,7 @@ Base class for plugins whose main task is to run an external program and maybe
 (not necessarily) to display the output in a tool widget.
 
 Basically, this class is a wrapper for <tt>KDE::Process</tt> providing a more
-integrated API for the most common functions. In particular, it provides the 
+integrated API for the most common functions. In particular, it provides the
 following functionality:
 * automatic creation of the process
 * automatic cleanup at shutdown
@@ -47,7 +47,7 @@ or <tt>process_standard_error</tt> method. Derived classes can override these me
 to do what they want with the output.
 
 In general, you can't be sure whether the data contained read from standard output
-or error contains complete lines. To deal with this issue, whenob reading from a
+or error contains complete lines. To deal with this issue, when reading from a
 stream, only full lines (that is, lines which end in "\n") are passed to
 <tt>process_standard_output</tt> or <tt>process_standard_error</tt>. If the last
 line isn't complete, it is stored in a buffer. The next time characters are read
@@ -83,17 +83,17 @@ program doesn't exist)
 * <tt>stop_process()</tt>
 =end
   class ExternalProgramPlugin < GuiPlugin
-    
+
     slots 'slot_process_finished(int, QProcess::ExitStatus)', 'display_exit_message(int, QString)',
         :stop_process
-    
+
     signals 'process_finished(int, QString)', :process_started, :process_failed_to_start
 
 =begin rdoc
 The <tt>KDE::Process</tt> used by the plugin
 =end
     attr_reader :process
-    
+
 =begin rdoc
 Creates a new ExternalProgramPlugin.
 
@@ -127,14 +127,14 @@ You can set it to any value you want later
       end
       connect @process, SIGNAL('started()'), self, SIGNAL('process_started()')
     end
-    
+
 =begin rdoc
 Starts the program.
-    
+
 _prog_ is the name of the program (you don't need to specify the absolute path
 if it's in PATH). _args_ is an array containing the arguments. _dir_ is the working
 directory.
-    
+
 _title_ is the string to display in the output widget. If it is an empty string, the name
 of the program followed by its arguments will be used. If it is *nil* or *false*,
 the title won't be set.
@@ -152,7 +152,7 @@ the title won't be set.
       end
       @process.start
     end
-    
+
 =begin rdoc
 Stops the process.
 
@@ -161,7 +161,7 @@ It's a shortcut for <tt>process.kill</tt>
     def stop_process
       @process.kill
     end
-    
+
 =begin rdoc
 Prepares the plugin to be unloaded by killing the process (no signal will be emitted
 from the process or the plugin from now on).
@@ -174,9 +174,9 @@ might cause a crash when Ruber is closed
       @process.kill
       super
     end
-    
+
     private
-    
+
 =begin rdoc
 Pre-processes the string _str_ then passes the resulting array to <tt>process_standard_output</tt>.
 
@@ -212,7 +212,7 @@ it will cause the buffer to be emptied (as described above) and nothing else.
         @buffer_content_channel = :stdout
       end
       return if lines.empty?
-      process_standard_output lines 
+      process_standard_output lines
     end
 
 =begin rdoc
@@ -250,9 +250,9 @@ it will cause the buffer to be emptied (as described above) and nothing else.
         @buffer_content_channel = :stderr
       end
       return if lines.empty?
-      process_standard_error lines 
+      process_standard_error lines
     end
-    
+
 =begin rdoc
 Does something with the text written to standard output by the program.
 
@@ -281,7 +281,7 @@ such). If buffering is off, you'll have to take care of newlines by yourself.
       end
       nil
     end
- 
+
 =begin rdoc
 Does something with the text written to standard error by the program.
 
@@ -310,7 +310,7 @@ such). If buffering is off, you'll have to take care of newlines by yourself.
       end
       nil
     end
-    
+
 =begin rdoc
 Method called if the program fails to start (in response, but not connected to,
 the process <tt>error(QProcess::ProcessError)</tt> signal if the argument is
@@ -324,7 +324,7 @@ generated, you'll need to override this method. If you do so, don't forget to
 emit the <tt>failed_to_start()</tt> signal.
 =end
     def failed_to_start
-      emit process_failed_to_start 
+      emit process_failed_to_start
       if @output_widget
         mod = @output_widget.model
         rc = mod.row_count
@@ -337,7 +337,7 @@ emit the <tt>failed_to_start()</tt> signal.
         @output_widget.set_output_type idx, :error1
       end
     end
-    
+
 =begin rdoc
 Slot called in response to the process' <tt>finished(int, QProcess::ExitStatus)</tt>
 signal.
@@ -387,12 +387,12 @@ signal or override this method without calling *super*
       case reason
       when ''
         if code == 0 then text << 'exited normally'
-        else 
+        else
           text << "exited with code #{code}"
           type = :message_bad
         end
       when 'killed' then text << 'killed'
-      when 'crash' 
+      when 'crash'
         text << "crashed with code #{code}"
         type = :message_bad
       end
@@ -401,5 +401,5 @@ signal or override this method without calling *super*
     end
 
   end
-  
+
 end

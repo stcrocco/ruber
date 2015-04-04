@@ -1,21 +1,21 @@
-=begin 
-    Copyright (C) 2010,2011 by Stefano Crocco   
-    stefano.crocco@alice.it   
-  
-    This program is free software; you can redistribute it andor modify  
-    it under the terms of the GNU General Public License as published by  
-    the Free Software Foundation; either version 2 of the License, or     
-    (at your option) any later version.                                   
-  
-    This program is distributed in the hope that it will be useful,       
-    but WITHOUT ANY WARRANTY; without even the implied warranty of        
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         
-    GNU General Public License for more details.                          
-  
-    You should have received a copy of the GNU General Public License     
-    along with this program; if not, write to the                         
-    Free Software Foundation, Inc.,                                       
-    59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             
+=begin
+    Copyright (C) 2010,2011 by Stefano Crocco
+    stefano.crocco@alice.it
+
+    This program is free software; you can redistribute it andor modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the
+    Free Software Foundation, Inc.,
+    59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 =end
 
 require 'ruby_runner/ruby_runner'
@@ -27,7 +27,7 @@ require 'yaml'
 require 'open3'
 
 module Ruber
-  
+
 =begin rdoc
 Frontend plugin to RSpec
 
@@ -59,7 +59,7 @@ specified in the @rspec/spec_directory@ option. If more than one entry is specif
 all of them will be tried
 =end
   module RSpec
-    
+
 =begin rdoc
 Plugin object for the RSpec plugin
 @api_method #specs_for_file
@@ -68,24 +68,47 @@ Plugin object for the RSpec plugin
 @api_method #run_rspec_for
 =end
     class Plugin < RubyRunner::RubyRunnerPlugin
-      
+
+      Options = Struct.new :ruby, :ruby_options, :rspec, :specs_dir, :rspec_options,
+          :filter, :dir, :files, :line, :full_backtrace, :source, :stderr
+
+      class Options
+
+        def initialize *args
+          super
+          self.ruby = Ruber[:config][:ruby, :ruby],
+          self.ruby_options = Ruber[:config][:ruby, :ruby_options]
+          self.rspec = 'rspec'
+          self.rspec_options = []
+          self.specs_dir = Dir.pwd
+          self.dir = Dir.pwd
+          self.files = []
+          self.full_backtrace = false
+          self.stderr = false
+        end
+
+      end
+
+
 =begin rdoc
 The starting delimiter of the data written by the formatter
 =end
       STARTING_DELIMITER = /^####%%%%####KRUBY_BEGIN$/
-      
+
 =begin rdoc
 The ending delimiter of the data written by the formatter
 =end
       ENDING_DELIMITER = /^####%%%%####KRUBY_END$/
-      
+
 =begin rdoc
-Symbolic values associated with the @rspec/switch_behaviour@ settings 
+Symbolic values associated with the @rspec/switch_behaviour@ settings
 =end
       SWITCH_BEHAVIOUR = [:new_tab, :horizontal, :vertical]
-      
+
+      MAX_RSPEC_VERSION = 3
+
       signals :settings_changed
-      
+
 =begin rdoc
 Finds the rspec program to use by default
 
@@ -102,9 +125,9 @@ if no rspec program was found
         path
       end
 
-      
+
       slots :run_all, :run_current, :run_current_line
-      
+
 =begin rdoc
 @param [Ruber::PluginSpecification] the plugin specification object associated with
 the plugin
@@ -115,7 +138,7 @@ the plugin
         @formatter = File.join File.dirname(__FILE__), 'ruber_rspec_formatter'
         self.connect(SIGNAL('process_finished(int, QString)')){Ruber[:main_window].set_state 'rspec_running', false}
         Ruber[:main_window].set_state 'rspec_running', false
-        
+
         switch_prc = Proc.new{|states| states['active_project_exists'] and states['current_document']}
         register_action_handler 'rspec-switch', &switch_prc
         register_action_handler 'rspec-run_all' do |states|
@@ -167,7 +190,7 @@ to find out whether the file is a spec file or not.
         return nil unless prj
         prj.extension(:rspec).code_file? file
       end
-      
+
 =begin rdoc
 Runs rspec for the given files
 
@@ -207,41 +230,82 @@ as first argument to {Autosave::AutosavePlugin#autosave}
 (including the case when the process was already running or autosaving failed)
 =end
       def run_rspec files, opts, autosave_opts = {}, &blk
-        default_opts = {
-          :ruby => Ruber[:config][:ruby, :ruby],
-          :ruby_options => Ruber[:config][:ruby, :ruby_options],
-          :spec => 'spec',
-          :spec_options => [],
-          :dir => '.'
-        }
-        opts = default_opts.merge opts
         return false if @process.state != Qt::Process::NotRunning
         @widget.clear_output
         files = files.select{|f| File.exist? f}
         if autosave_opts[:files]
           plug = autosave_opts[:plugin] || self
           what = autosave_opts[:files]
-          return false unless Ruber[:autosave].autosave plug, 
+          return false unless Ruber[:autosave].autosave plug,
               what, autosave_opts, &blk
         end
-        full_backtraces = opts[:full_backtraces] ? %w[-b] : []
-        args = [opts[:spec]] + %W[-r #{@formatter} -f Ruber::RSpec::Formatter] + 
-            opts[:spec_options] + full_backtraces + files
-        @widget.working_directory = opts[:dir]
-        @display_standard_error = opts[:stderr]
+        opts.files = files
+        rspec_cmd = format_rspec_options opts
+        title = format_title opts
+        @widget.working_directory = opts.dir
+        @display_standard_error = opts.stderr
         Ruber[:main_window].activate_tool(@widget)
         Ruber[:main_window].change_state 'rspec_running', true
-        title = ([opts[:spec].split('/')[-1]] + opts[:spec_options]+ full_backtraces + files).join ' '
-        run_process opts[:ruby], opts[:dir], opts[:ruby_options] + args, title
-        @widget.model.item(0,0).tool_tip = ([opts[:ruby]] + opts[:ruby_options] + args).join " "
+        title = format_title opts
+        run_process opts.ruby, opts.dir, opts.ruby_options + rspec_cmd, title
+        @widget.model.item(0,0).tool_tip = "<p>"+([opts.ruby] + opts.ruby_options + rspec_cmd).join(" ") + "</p>"
         true
       end
-      
+
+      def format_title opts
+        cmd = format_rspec_options opts
+        rspec_full = cmd[0]
+        rspec_short = File.basename rspec_full
+        rspec_opts = cmd[4...(-opts.files.count)]
+        rspec = `which #{rspec_short}`.strip == rspec_full ? rspec_short : rspec_full
+        files = cmd[-opts.files.count..-1]
+        title = [rspec] + rspec_opts + files.map{|f| f.sub(/^#{Regexp.quote opts.dir}\//, '')}
+        title.join " "
+      end
+
+      def format_rspec_options opts
+        v = rspec_version
+        if v then send "format_rspec_options_v#{[v, MAX_RSPEC_VERSION].min}", opts
+        else format_rspec_options_unknown_version
+        end
+      end
+
+      def rspec_version
+        prj = Ruber[:world].active_environment.project
+        if prj then prj.extension(:rspec).rspec_version
+        else nil
+        end
+      end
+
+      def format_rspec_options_v1 opts
+        res = [ opts.rspec, '-r', @formatter, '-f Ruber::RSpec::Formatter' ]
+        res << '-b' if opts.full_backtrace
+        res << '-l' << opts.line if opts.line
+        res.concat opts.rspec_options
+        res.concat files
+        res
+      end
+      alias_method :format_rspec_options_v2, :format_rspec_options_v1
+
+      def format_rspec_options_v3 opts
+        res = [ opts.rspec, '-r', @formatter, '-f Ruber::RSpec::Formatter' ]
+        res << '-b' if opts.full_backtrace
+        res.concat opts.rspec_options
+        if opts.line
+          files = opts.files.dup
+          files[0] += ':' + opts.line.to_s
+          res.concat files
+        else res.concat opts.files
+        end
+        res
+      end
+      alias_method :format_rspec_options_unknown_version, :format_rspec_options_v3
+
       def load_settings
         super
         emit settings_changed
       end
-      
+
       def spec_for_pattern pattern, file
         spec = pattern[:spec].gsub(/%f/, File.basename(file, '.rb'))
         dir = File.dirname(file)
@@ -252,7 +316,7 @@ as first argument to {Autosave::AutosavePlugin#autosave}
         spec.gsub! %r{%d}, dir
         spec
       end
-      
+
       private
 
 =begin rdoc
@@ -271,7 +335,7 @@ already been added when that method is called.
         change_switch_name doc if doc
         nil
       end
-      
+
 
 =begin rdoc
 Override of {ExternalProgramPlugin#process_standard_output}
@@ -291,7 +355,7 @@ appropriately.
         end
         nil
       end
-      
+
 =begin rdoc
 Override of {ExternalProgramPlugin#process_standard_error}
 @param [Array] lines the standard error output, split in lines
@@ -333,7 +397,7 @@ preserved.
         end
         res
       end
-      
+
 =begin rdoc
 Runs all the specs for the project.
 @return [nil]
@@ -345,11 +409,11 @@ Runs all the specs for the project.
           return
         end
         opts = options prj
-        opts[:files] = Dir.glob File.join(opts[:specs_dir], '**', opts[:filter])
+        opts.files = Dir.glob File.join(opts[:specs_dir], '**', opts[:filter])
         run_rspec_for prj, opts, :files => :project_files, :on_failure => :ask, :message => 'Do you want to run the tests all the same?'
         nil
       end
-      
+
 =begin rdoc
 Runs the specs corresponding to the current file
 
@@ -368,7 +432,7 @@ which, most likely, will cause it to fail.
 
 @return [Boolean] *true* if the spec program is started and *false* otherwise
 (including the case when the process was already running or autosaving failed)
-=end      
+=end
       def run_current_document
         doc = Ruber[:world].active_document
         unless doc
@@ -384,15 +448,15 @@ which, most likely, will cause it to fail.
           KDE::MessageBox.sorry nil, KDE.i18n("You must save the document to a file before running rspec on it")
           return
         elsif ext.spec_file? doc.path
-          opts[:files] = [doc.path]
-        elsif ext.code_file?(doc.path) 
-          opts[:files] = ext.specs_for_code doc.path
+          opts.files = [doc.path]
+        elsif ext.code_file?(doc.path)
+          opts.files = ext.specs_for_code doc.path
         end
         run_rspec_for prj, opts, :files => :documents_with_file, :on_failure => :ask,
             :message => 'Do you want to run the tests all the same?'
       end
       slots :run_current_document
-      
+
 =begin rdoc
 Runs the example(s) in the current line
 
@@ -420,9 +484,9 @@ current file is the example file, not the source.
           return
         elsif ext.spec_file? doc.path
           view = Ruber[:main_window].active_editor
-        elsif ext.code_file?(doc.path) 
+        elsif ext.code_file?(doc.path)
           specs = ext.specs_for_code doc.path
-          view = Ruber[:world].active_environment.views.find do |v| 
+          view = Ruber[:world].active_environment.views.find do |v|
             specs.include? v.document.path
           end
           unless view
@@ -431,13 +495,13 @@ current file is the example file, not the source.
           end
           doc = view.document
         end
-        opts[:files] = [view.document.path]
+        opts.files = [view.document.path]
         line = view.cursor_position.line + 1
-        opts[:spec_options] += ["-l", line.to_s]
+        opts.line = line
         run_rspec_for prj, opts, :files => :documents_with_file, :on_failure => :ask,
             :message => 'Do you want to run the tests all the same?'
       end
-      
+
 =begin rdoc
 Runs the spec command for the given object
 
@@ -460,7 +524,8 @@ entry (see below)
       def run_rspec_for origin, opts, autosave_opts = {}, &blk
         process.kill
         ruby, *cmd = ruby_command_for origin, opts[:dir]
-        opts = {:ruby => ruby, :ruby_options => cmd}.merge opts
+        opts.ruby = ruby
+        opts.ruby_options = cmd
         run_rspec opts[:files], opts, autosave_opts, &blk
       end
 
@@ -485,16 +550,16 @@ Besides, the above entries, the hash also contains a @:dir@ entry which contains
 the project directory.
 =end
       def options prj
-        res = {}
-        res[:spec] = prj[:rspec, :executable]
-        res[:spec_options] = prj[:rspec, :options]
-        res[:specs_dir] = prj[:rspec, :spec_directory, :absolute]
-        res[:filter] = prj[:rspec, :spec_files]
-        res[:dir] = prj.project_directory
-        res[:full_backtraces] = prj[:rspec, :full_backtraces]
+        res = Options.new
+        res.rspec = prj[:rspec, :executable]
+        res.rspec_options = prj[:rspec, :options]
+        res.specs_dir = prj[:rspec, :spec_directory, :absolute]
+        res.filter = prj[:rspec, :spec_files]
+        res.dir = prj.project_directory
+        res.full_backtrace = prj[:rspec, :full_backtraces]
         res
       end
-      
+
 =begin rdoc
 Slot associated with the @Switch@ action
 
@@ -538,7 +603,7 @@ See {ExternalProgramPlugin#display_exit_message} for the meaning of the paramete
       def display_exit_message code, reason
         super unless reason.empty?
       end
-      
+
 =begin rdoc
 Changes the text of the @Switch to spec@ action depending on whether the given
 document is a spec or code file
@@ -560,21 +625,32 @@ signal.
         nil
       end
       slots 'change_switch_name(QObject*)'
-      
+
     end
-    
-    
+
+
     class ProjectExtension < Qt::Object
-      
+
       include Ruber::Extension
-      
+
       def initialize prj
         super
         @project = prj
         @categories = {}
+        @rspec_version = nil
         connect Ruber[:rspec], SIGNAL(:settings_changed), self, SLOT(:clear)
       end
-      
+
+      def rspec_version
+        unless @rspec_version
+          ruby = Ruber[:rspec].interpreter_for @project
+          rspec = @project[:rspec, :executable]
+          version = `#{ruby} #{rspec} -v`
+          @rspec_version = version.match(/^(\d+)/)[1].to_i if version
+        end
+        @rspec_version
+      end
+
       def specs_for_code file
         return [] unless @project.file_in_project? file
         return [] unless code_file? file
@@ -589,7 +665,7 @@ signal.
         end
         res.select{|f| File.exist? f}
       end
-      
+
       def code_for_spec file
         return nil unless @project.file_in_project? file
         return nil unless spec_file? file
@@ -597,11 +673,11 @@ signal.
           specs_for_code(f).include? file
         end
       end
-      
+
       def code_file? file
         category(file) == :code
       end
-      
+
       def spec_file? file
         category(file) == :spec
       end
@@ -624,14 +700,15 @@ signal.
         else @categories[file] = :unknown
         end
       end
-      
+
       def clear
         @categories.clear
+        @rspec_version = nil
       end
       slots :clear
-      
+
     end
-    
+
 =begin rdoc
 Project widget for the RSpec frontend plugin
 =end
@@ -645,7 +722,7 @@ Project widget for the RSpec frontend plugin
         @ui = Ui::RSpecProjectWidget.new
         @ui.setupUi self
         view = @ui._rspec__patterns
-        mod = Qt::StandardItemModel.new 
+        mod = Qt::StandardItemModel.new
         view.model = mod
         mod.horizontal_header_labels = ['Code file', 'Spec file']
         @ui.add_pattern.connect(SIGNAL(:clicked)) do
@@ -662,10 +739,10 @@ Project widget for the RSpec frontend plugin
           @ui.remove_pattern.enabled = view.selection_model.has_selection
         end
       end
-      
-      
+
+
       private
-      
+
 =begin rdoc
 Sets the text of the pattern widget
 @param [Array<String>] the pattern to use. They'll be joined with commas to create
@@ -674,13 +751,13 @@ the text to put in the widget
       def patterns= value
         view = @ui._rspec__patterns
         value.each do |h|
-          row = [Qt::StandardItem.new(h[:code]), 
+          row = [Qt::StandardItem.new(h[:code]),
                  Qt::StandardItem.new(h[:spec])]
           view.model.append_row row
         end
         2.times{|i| view.resize_column_to_contents i}
       end
-      
+
 =begin rdoc
 Parses the content of the pattern widget
 @return [Array<Hash>] an array containing the patterns
@@ -692,14 +769,14 @@ Parses the content of the pattern widget
           {:code => code, :spec => cols[1].text, :glob => text_glob?(code)}
         end
       end
-      
+
       def text_glob? text
         text=~ /[*?{}\[\]]/
       end
-      
+
 =begin rdoc
 Changes the text of the "RSpec options" widget
-      
+
 @param [Array<String>] value the options to pass to spec. They'll be joined with
 spaces
 =end
@@ -716,16 +793,16 @@ quotes around them keep them, as described in {Shellwords.split_with_quotes})
       def spec_options
         Shellwords.split_with_quotes @ui._rspec__options.text
       end
-      
+
     end
-    
+
     class ConfigWidget < Qt::Widget
-      
+
 =begin rdoc
 The symbols associated with the entries in the @_rake__auto_expand@ widget
 =end
       AUTO_EXPAND = [:expand_none, :expand_first, :expand_all]
-      
+
 =begin rdoc
 @param [Qt::Widget,nil] parent the parent widget
 =end
@@ -734,7 +811,7 @@ The symbols associated with the entries in the @_rake__auto_expand@ widget
         @ui = Ui::RSpecConfigWidget.new
         @ui.setup_ui self
       end
-      
+
 =begin rdoc
 Writer method for the @rspec/auto_expand@ option
 @param [Symbol] value the value of the option. It may be any value contained in
@@ -744,18 +821,18 @@ Writer method for the @rspec/auto_expand@ option
       def auto_expand= value
         @ui._rspec__auto_expand.current_index = AUTO_EXPAND.index value
       end
-      
+
 =begin rdoc
 Store method for the @rspec/auto_expand@ option
-@return [Symbol] the symbol associated with the current entry in the @_rake__auto_expand@ 
+@return [Symbol] the symbol associated with the current entry in the @_rake__auto_expand@
   widget
 =end
       def auto_expand
         AUTO_EXPAND[@ui._rspec__auto_expand.current_index]
       end
-      
+
     end
-    
+
   end
-  
+
 end
