@@ -129,7 +129,7 @@ if no rspec program was found
       slots :run_all, :run_current, :run_current_line
 
 =begin rdoc
-@param [Ruber::PluginSpecification] the plugin specification object associated with
+@param [Ruber::PluginSpecification] psf the plugin specification object associated with
 the plugin
 =end
       def initialize psf
@@ -252,60 +252,23 @@ as first argument to {Autosave::AutosavePlugin#autosave}
         true
       end
 
-      def format_title opts
-        cmd = format_rspec_options opts
-        rspec_full = cmd[0]
-        rspec_short = File.basename rspec_full
-        rspec_opts = cmd[4...(-opts.files.count)]
-        rspec = `which #{rspec_short}`.strip == rspec_full ? rspec_short : rspec_full
-        files = cmd[-opts.files.count..-1]
-        title = [rspec] + rspec_opts + files.map{|f| f.sub(/^#{Regexp.quote opts.dir}\//, '')}
-        title.join " "
-      end
+=begin rdoc
+Override of {PluginLike#load_settings}
 
-      def format_rspec_options opts
-        v = rspec_version
-        if v then send "format_rspec_options_v#{[v, MAX_RSPEC_VERSION].min}", opts
-        else format_rspec_options_unknown_version
-        end
-      end
-
-      def rspec_version
-        prj = Ruber[:world].active_environment.project
-        if prj then prj.extension(:rspec).rspec_version
-        else nil
-        end
-      end
-
-      def format_rspec_options_v1 opts
-        res = [ opts.rspec, '-r', @formatter, '-f' << 'Ruber::RSpec::Formatter' ]
-        res << '-b' if opts.full_backtrace
-        res << '-l' << opts.line if opts.line
-        res.concat opts.rspec_options
-        res.concat opts.files
-        res
-      end
-      alias_method :format_rspec_options_v2, :format_rspec_options_v1
-
-      def format_rspec_options_v3 opts
-        res = [ opts.rspec, '-r', @formatter, '-f', 'Ruber::RSpec::Formatter' ]
-        res << '-b' if opts.full_backtrace
-        res.concat opts.rspec_options
-        if opts.line
-          files = opts.files.dup
-          files[0] += ':' + opts.line.to_s
-          res.concat files
-        else res.concat opts.files
-        end
-        res
-      end
-      alias_method :format_rspec_options_unknown_version, :format_rspec_options_v3
-
+@return [void]
+=end
       def load_settings
         super
         emit settings_changed
       end
 
+=begin rdoc
+The spec file corresponding to a given file according to a pattern
+
+@param [String] pattern the pattern
+@param [String] file the file to match against the pattern
+@return [String] the spec file for _file_ according to _pattern_
+=end
       def spec_for_pattern pattern, file
         spec = pattern[:spec].gsub(/%f/, File.basename(file, '.rb'))
         dir = File.dirname(file)
@@ -336,6 +299,88 @@ already been added when that method is called.
         nil
       end
 
+=begin rdoc
+The version of RSpec associated with the active project
+@see {ProjectExtension#rspec_version}
+@return [Integer] the major number of the rspec version associated with the active
+  project
+=end
+      def rspec_version
+        prj = Ruber[:world].active_environment.project
+        if prj then prj.extension(:rspec).rspec_version
+        else nil
+        end
+      end
+
+=begin rdoc
+Creates the rspec command for the given options
+
+The command won't include the ruby part, just the RSpec part.
+
+@param [Options] opts the options to use to run RSpec
+@return [<String>] the command line to run rspec with
+=end
+      def format_rspec_options opts
+        v = rspec_version
+        if v then send "format_rspec_options_v#{[v, MAX_RSPEC_VERSION].min}", opts
+        else format_rspec_options_unknown_version
+        end
+      end
+
+=begin rdoc
+Helper method used by {#format_rspec_options}
+
+This method is used for rspec-1.x and rspec-2.x
+@param (see #format_rspec_options)
+@return (see #format_rspec_options)
+=end
+      def format_rspec_options_v1 opts
+        res = [ opts.rspec, '-r', @formatter, '-f' << 'Ruber::RSpec::Formatter' ]
+        res << '-b' if opts.full_backtrace
+        res << '-l' << opts.line if opts.line
+        res.concat opts.rspec_options
+        res.concat opts.files
+        res
+      end
+      alias_method :format_rspec_options_v2, :format_rspec_options_v1
+
+=begin rdoc
+Helper method used by {#format_rspec_options}
+
+This method is used for rspec-3.x and greater
+@param (see #format_rspec_options)
+@return (see #format_rspec_options)
+=end
+      def format_rspec_options_v3 opts
+        res = [ opts.rspec, '-r', @formatter, '-f', 'Ruber::RSpec::Formatter' ]
+        res << '-b' if opts.full_backtrace
+        res.concat opts.rspec_options
+        if opts.line
+          files = opts.files.dup
+          files[0] += ':' + opts.line.to_s
+          res.concat files
+        else res.concat opts.files
+        end
+        res
+      end
+      alias_method :format_rspec_options_unknown_version, :format_rspec_options_v3
+
+=begin rdoc
+The title to display in the tool widget
+
+@param (see #format_rspec_options)
+@return [String] the title to display
+=end
+      def format_title opts
+        cmd = format_rspec_options opts
+        rspec_full = cmd[0]
+        rspec_short = File.basename rspec_full
+        rspec_opts = cmd[4...(-opts.files.count)]
+        rspec = `which #{rspec_short}`.strip == rspec_full ? rspec_short : rspec_full
+        files = cmd[-opts.files.count..-1]
+        title = [rspec] + rspec_opts + files.map{|f| f.sub(/^#{Regexp.quote opts.dir}\//, '')}
+        title.join " "
+      end
 
 =begin rdoc
 Override of {ExternalProgramPlugin#process_standard_output}
@@ -532,22 +577,12 @@ entry (see below)
 =begin rdoc
 Collects all the options relative to this plugin from a project
 
-*Note:* *never* use destructive methods on the values contained in this hash. Doing so will
+@note *never* use destructive methods on the attributes of the returned object. Doing so will
 change the options stored in the project, which most likely isn't what you want.
 If you need to change the options, make duplicates of the values
 
 @param [AbstractProject] prj the project to retrieve options from
-@return [Hash] an hash containing the options stored in the project. The correspondence
-between options and entries in this hash is the following:
-* @:rspec/executable@ &rarr; @:spec@
-* @:rspec/options@ &rarr; @:spec_options@
-* @:rspec/spec_directory@ &rarr; @:specs_dir@
-* @:rspec/spec_files@ &rarr; @:filter@
-* @:rspec/spec_pattern@ &rarr; @:pattern@
-* @:rspec/full_backtraces@ &rarr; @:full_backtraces@
-
-Besides, the above entries, the hash also contains a @:dir@ entry which contains
-the project directory.
+@return [Options] an object containing the options stored in the project
 =end
       def options prj
         res = Options.new
@@ -628,11 +663,16 @@ signal.
 
     end
 
-
+=begin rdoc
+Extension managing project-wide RSpec settings
+=end
     class ProjectExtension < Qt::Object
 
       include Ruber::Extension
 
+=begin rdoc
+@param [Project] prj the project the extension is associated with
+=end
       def initialize prj
         super
         @project = prj
@@ -641,6 +681,14 @@ signal.
         connect Ruber[:rspec], SIGNAL(:settings_changed), self, SLOT(:clear)
       end
 
+=begin rdoc
+The major rspec version associated with the project
+
+Since determinig the rspec version requires running an external program, the
+results are cached; the cache is invalidated when the project settings change.
+
+@return [Integer] the major number of the rspec associated with the project
+=end
       def rspec_version
         unless @rspec_version
           ruby = Ruber[:rspec].interpreter_for @project
@@ -651,6 +699,13 @@ signal.
         @rspec_version
       end
 
+=begin rdoc
+The spec files associated with the given code file
+
+@param [String] file the path of the file to retrieve the specs file for
+@return [<String>] a list of the spec files associated with _file_. If no spec
+  file is associated with _file_ the array is empty
+=end
       def specs_for_code file
         return [] unless @project.file_in_project? file
         return [] unless code_file? file
@@ -666,6 +721,13 @@ signal.
         res.select{|f| File.exist? f}
       end
 
+=begin rdoc
+The code file associated with a given spec file
+
+@param [String] file the path of the spec file
+@return [String, nil] the code file associated with _file_ or @nil@ if no code
+  file could be found
+=end
       def code_for_spec file
         return nil unless @project.file_in_project? file
         return nil unless spec_file? file
@@ -674,14 +736,37 @@ signal.
         end
       end
 
+=begin rdoc
+Whether or not a file is a code file
+@param [String] file the file path
+@return [Boolean] @true@ if the file is a code file and @false@ otherwise
+=end
       def code_file? file
         category(file) == :code
       end
 
+=begin rdoc
+Whether or not a file is a spec file
+@param [String] file the file path
+@return [Boolean] @true@ if the file is a spec file and @false@ otherwise
+=end
       def spec_file? file
         category(file) == :spec
       end
 
+=begin rdoc
+The category a given file belongs to
+
+Possible categories are:
+- @:spec@:= for spec files (files in the spec directory for the project and match
+    one of the spec patterns)
+- @:code@:= for code files (files in the code directory and belonging to the
+    project)
+- @:unknown@:= for all other files
+
+@param [String] file the file to retrieve the category for
+@return [Symbol] @:spec@, @:code@ or @:unknown@ depending on whether _file_ is
+=end
       def category file
         cat = @categories[file]
         return cat if cat
@@ -701,6 +786,11 @@ signal.
         end
       end
 
+=begin rdoc
+Clears various cached values
+
+@return [void]
+=end
       def clear
         @categories.clear
         @rspec_version = nil
@@ -770,6 +860,13 @@ Parses the content of the pattern widget
         end
       end
 
+=begin rdoc
+Whether the given text is a glob or not
+
+The text is considered a glob if it includes special glob characters
+@param [String] text the text
+@return [Boolean] @true@ if the text is a glob and false otherwise
+=end
       def text_glob? text
         text=~ /[*?{}\[\]]/
       end
@@ -796,6 +893,9 @@ quotes around them keep them, as described in {Shellwords.split_with_quotes})
 
     end
 
+=begin rdoc
+The configuration dialog for the RSpec plugin
+=end
     class ConfigWidget < Qt::Widget
 
 =begin rdoc
