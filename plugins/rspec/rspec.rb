@@ -135,7 +135,7 @@ the plugin
       def initialize psf
         super psf, :rspec, {:scope => [:global]}, nil, false
         Ruber[:autosave].register_plugin self, true
-        @formatter = File.join File.dirname(__FILE__), 'ruber_rspec_formatter'
+        @formatter = File.join File.dirname(__FILE__), 'ruber_rspec_formatter.rb'
         self.connect(SIGNAL('process_finished(int, QString)')){Ruber[:main_window].set_state 'rspec_running', false}
         Ruber[:main_window].set_state 'rspec_running', false
 
@@ -278,17 +278,17 @@ as first argument to {Autosave::AutosavePlugin#autosave}
       end
 
       def format_rspec_options_v1 opts
-        res = [ opts.rspec, '-r', @formatter, '-f Ruber::RSpec::Formatter' ]
+        res = [ opts.rspec, '-r', @formatter, '-f' << 'Ruber::RSpec::Formatter' ]
         res << '-b' if opts.full_backtrace
         res << '-l' << opts.line if opts.line
         res.concat opts.rspec_options
-        res.concat files
+        res.concat opts.files
         res
       end
       alias_method :format_rspec_options_v2, :format_rspec_options_v1
 
       def format_rspec_options_v3 opts
-        res = [ opts.rspec, '-r', @formatter, '-f Ruber::RSpec::Formatter' ]
+        res = [ opts.rspec, '-r', @formatter, '-f', 'Ruber::RSpec::Formatter' ]
         res << '-b' if opts.full_backtrace
         res.concat opts.rspec_options
         if opts.line
