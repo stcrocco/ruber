@@ -1,25 +1,25 @@
 module Ruber
-  
+
   module RSpec
-    
+
 =begin rdoc
 Filter model used by the RSpec output widget
 
 It allows to choose whether to accept items corresponding to output to standard error or to reject
-it. To find out if a given item corresponds to the output of standard error or 
+it. To find out if a given item corresponds to the output of standard error or
 standard output, this model uses the data contained in a custom role in the output.
 The index of this role is {RSpec::OutputWidget::OutputTypeRole}.
 =end
     class FilterModel < FilteredOutputWidget::FilterModel
-      
+
       slots 'toggle_display_stderr(bool)'
-      
+
 =begin rdoc
 Whether output from standard error should be displayed or not
 @return [Boolean]
 =end
       attr_reader :display_stderr
-      
+
 =begin rdoc
 Create a new instance
 
@@ -31,7 +31,7 @@ The new instance is set not to show the output from standard error
         super
         @display_stderr = false
       end
-      
+
 =begin rdoc
 Sets whether to display or ignore items corresponding to output to standard error
 
@@ -46,7 +46,7 @@ If this choice has changed, the model is invalidated.
         @display_standard_error
       end
       alias_method :toggle_display_stderr, :display_stderr=
-      
+
 =begin rdoc
 Override of {FilteredOutputWidget::FilterModel#filterAcceptsRow}
 
@@ -63,9 +63,9 @@ to standard error. In all other respects, it behaves as the base class method.
         end
         super
       end
-      
+
     end
-    
+
 =begin rdoc
 Tool widget used by the rspec plugin.
 
@@ -77,9 +77,9 @@ in child items.
 While the examples are being run, a progress bar is shown.
 =end
     class ToolWidget < FilteredOutputWidget
-      
+
       slots :spec_started, 'spec_finished(int, QString)'
-      
+
 =begin rdoc
 @param [Qt::Widget, nil] parent the parent widget
 =end
@@ -108,7 +108,7 @@ While the examples are being run, a progress bar is shown.
         connect view, SIGNAL('collapsed(QModelIndex)'), self, SLOT(:resize_columns)
         setup_actions
       end
-      
+
 =begin rdoc
 Displays the data relative to an example in the widget
 
@@ -140,16 +140,17 @@ converted to a string and displayed in the widget
         when :new_example then change_current_example data
         when :start then set_example_count data
         when :summary then display_summary data
+        when :deprecation then display_deprecation data
         else model.insert_lines data.to_s, :output, nil
         end
       end
-      
+
       def load_settings
         super
         compute_spanning_cols_size
         resize_columns
       end
-      
+
 =begin rdoc
 Changes the current example
 
@@ -163,7 +164,7 @@ which contains the text of the tool tip to use.
         @progress_bar.tool_tip = data[:description]
         nil
       end
-      
+
 =begin rdoc
 Sets the number of examples found by the spec program.
 
@@ -177,8 +178,8 @@ which contains the number of examples
         @progress_bar.maximum = data[:count]
         nil
       end
-      
-      
+
+
 =begin rdoc
 Updates the progress bar by incrementing its value by one
 
@@ -189,7 +190,7 @@ Updates the progress bar by incrementing its value by one
         @progress_bar.value += 1
         nil
       end
-      
+
 =begin rdoc
 Displays information about a failed example in the tool widget.
 
@@ -226,7 +227,7 @@ Displays information about a failed example in the tool widget.
         view.expand filter.map_from_source(back_label.index)
         nil
       end
-      
+
 =begin rdoc
 Displays information about a pending example in the tool widget
 
@@ -243,7 +244,26 @@ Displays information about a pending example in the tool widget
         model.insert ['Message: ', "#{data[:message]} (#{data[:exception]})"], :message, nil, :parent => top
         nil
       end
-      
+
+=begin rdoc
+Displays a deprecation notice from rspec
+
+@parah [Hash] data the data about the deprecation
+@option data [String] @:message@ the message associated with the deprecation warning
+@option data [String] @:site@ where the deprecation warning came from
+@option data [String] @:replacement@ the replacement suggested by RSpec
+@return [nil]
+=end
+      def display_deprecation data
+        top = model.insert("[DEPRECATION] #{data[:message]}", :warning, nil)[0]
+        if working_dir then site = data[:site].sub(/^#{Regexp.quote working_dir}\//, './')
+        else site = data[:site]
+        end
+        model.insert ['From:', site], :message, nil, :parent => top
+        model.insert ['Suggestions:', data[:replacement]], :message, nil, :parent => top
+        nil
+      end
+
 =begin rdoc
 Displays a summary of the spec run in the tool widget
 
@@ -273,7 +293,7 @@ and failed example.
         end
         nil
       end
-      
+
 =begin rdoc
 Override of {OutputWidget#title=}
 
@@ -286,9 +306,9 @@ It's needed to have the title element span all columns
         model.item(0,0).tool_tip = val
         view.set_first_column_spanned 0, Qt::ModelIndex.new, true
       end
-      
+
       private
-      
+
 =begin rdoc
 Resets the tool widget and sets the cursor to busy
 @return [nil]
@@ -302,7 +322,7 @@ Resets the tool widget and sets the cursor to busy
         self.cursor = Qt::Cursor.new(Qt::BusyCursor)
         nil
       end
-      
+
 =begin rdoc
 Does the necessary cleanup for when spec finishes running
 
@@ -338,7 +358,7 @@ It hides the progress widget and restores the default cursor.
         auto_expand_items
         nil
       end
-      
+
 =begin rdoc
 Expands items according to the @rspec/auto_expand@ option
 
@@ -364,12 +384,12 @@ is @:expand_none@, nothing is done
         end
         nil
       end
-      
+
       def compute_spanning_cols_size
         metrics = view.font_metrics
         @toplevel_width = source_model.each_row.map{|r| metrics.bounding_rect(r[0].text).width}.max || 0
       end
-      
+
       def resize_columns
         view.resize_column_to_contents 0
         view.resize_column_to_contents 1
@@ -377,14 +397,14 @@ is @:expand_none@, nothing is done
         view.set_column_width 1, min_width if view.column_width(1) < min_width
       end
       slots :resize_columns
-      
+
       def without_resizing_columns
         disconnect view, SIGNAL('expanded(QModelIndex)'), self, SLOT(:resize_columns)
         begin yield
         ensure connect view, SIGNAL('expanded(QModelIndex)'), self, SLOT(:resize_columns)
         end
       end
-      
+
 =begin rdoc
 Creates the additional actions.
 
@@ -400,7 +420,7 @@ standard error should be displayed or not.
         a.checked = false
         connect a, SIGNAL('toggled(bool)'), filter, SLOT('toggle_display_stderr(bool)')
       end
-      
+
 =begin rdoc
 Override of {OutputWidget#find_filename_in_index}
 
@@ -419,7 +439,7 @@ it looks for it in the parent indexes
         end
         res
       end
-      
+
 =begin rdoc
 Override of {OutputWidget#text_for_clipboard}
 
@@ -448,7 +468,7 @@ Override of {OutputWidget#text_for_clipboard}
         prev = order.shift[1]
         text = prev.data.valid? ? prev.data.to_string : ''
         order.each do |_, v|
-          text << ( (prev.parent == v.parent and prev.row == v.row) ? "\t" : "\n") 
+          text << ( (prev.parent == v.parent and prev.row == v.row) ? "\t" : "\n")
           text << (v.data.valid? ? v.data.to_string : '')
           prev = v
         end
@@ -456,7 +476,7 @@ Override of {OutputWidget#text_for_clipboard}
       end
 
     end
-    
+
   end
-  
+
 end
