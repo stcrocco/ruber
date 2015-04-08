@@ -1,4 +1,5 @@
 :name: :find_in_files
+type: global
 version: 0.0.1
 about:
  authors: [Stefano Crocco, stefano.crocco@alice.it]

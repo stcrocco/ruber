@@ -1,5 +1,5 @@
 =begin 
-    Copyright (C) 2010 by Stefano Crocco   
+    Copyright (C) 2010-2012 by Stefano Crocco   
     stefano.crocco@alice.it   
   
     This program is free software; you can redistribute it andor modify  
@@ -23,15 +23,15 @@ require 'facets/string/camelcase'
 module Ruber
 
 =begin rdoc
-Module which abstracts some common functionality of Document and EditorView due
-to the fact that both are mostly simply wrappers around two +KTextEditor+ classes.
+Module which abstracts some common functionality of {Document} and {EditorView} due
+to the fact that both are mostly simply wrappers around two @KTextEditor@ classes.
 
-Throught this documentation, the KTextEditor::Document or KTextEditor::View corresponding
-to the object will be referred to as the <i>wrapped object</i>.
+Throught this documentation, the @KTextEditor::Document@ or @KTextEditor::View@
+corresponding to the object will be called the _wrapped object_.
 
 In particular, this class:
 * provide a way to access methods provided by the different interfaces implemented
-  by the wrapped object without directly accessing it (using InterfaceProxy)
+  by the wrapped object without directly accessing it (using {InterfaceProxy})
 * redirect to the wrapped object any method call the object itself doesn't respond
   to
 * provide a (private) method to access the wrapped object
@@ -41,14 +41,18 @@ In particular, this class:
   module KTextEditorWrapper
     
 =begin rdoc
-Helper class which, given a Qt::Object implementing different interfaces, allows
+Helper class which, given a @Qt::Object@ implementing different interfaces, allows
 to access method provided by one interface without exposing the object itself.
+
+@example
+  proxy = Proxy.new doc #doc is an instance of KTextEditor::Document
+  proxy.interface = KTextEditor::ModificationInterface
+  proxy.modified_on_disk_warning = true
 =end
     class InterfaceProxy
       
 =begin rdoc
-Creates a new InterfaceProxy. _obj_ is the <tt>Qt::Object</tt> to cast to the
-appropriate interface
+@param [Qt::Object] obj the @Qt::Object@ to cast to the various interfaces
 =end
       def initialize obj
         @obj = obj
@@ -56,11 +60,13 @@ appropriate interface
       end
       
 =begin rdoc
-Sets the interface to which the object is going to be cast. _iface_ can be either
-the name of an interface, as symbol or string, both in camelcase or snakecase
-(withouth the +KTextEditor+ namespace) or the class itself. After a call to this
-method (and until the next one) <tt>method_missing</tt> will redirect all unknown
-method calls to this interface.
+Sets the interface to which the object is going to be cast
+@param [Class,String,Symbol] iface the name of the interface to cast the object
+  to. If a string or symbol, it must be the name of one of the interfaces contained
+  in the @KTextEditor@ namespace (without the @KTextEditor@). They can be given
+  either in snakecase or camelcase format
+@raise [NameError] if a string or symbol is given as argument but it doesn't
+  correspond to a constant in the @KTextEditor@ namespace
 =end
       def interface= iface
         cls = if iface.is_a? Class then iface
@@ -72,9 +78,15 @@ method calls to this interface.
       end
       
 =begin rdoc
-Passes the method call to the object cast to the current interface. If the argument
-list contains instances of classes which mix-in KTextEditorWrapper, they're replaced
-with the object they wrap before being passed to the interface.
+Forwards the method call to the interface object
+
+Any argument which is a @KTextEditorWrapper@ is replaced by the value returned
+by its {#internal} method before being used as argument.
+
+@param [String,Symbol] name the name of the method to be called
+@param [<Object>] args the arguments passed to the original method
+@param [Proc,nil] blk any block passed to the original method
+@return [Object] the value returned by the method called on the interface
 =end
       def method_missing name, *args, &blk
         args.map!{|a| a.is_a?(KTextEditorWrapper) ? a.send(:internal) : a}
@@ -84,33 +96,40 @@ with the object they wrap before being passed to the interface.
     end
     
 =begin rdoc
-Makes easier having the object emit a signal in corrispondence with
-signals emitted by the wrapped object. In particular, this method does the following
-(for each signal given in the arguments):
+Makes easier having the object emit a signal in response to
+signals emitted by the wrapped object.
+    
+For each signal passed as argument, this method does the following:
 * creates a signal for the object based on the name of the signal in the wrapped
   object
 * creates a slot for the object with a name obtained from the name of the signal, which takes
   the same arguments as the signal in the wrapped object and emits the associated
   signal of the object. The arguments of the emitted signal are taken from those
   passed to the slot, but they can be reordered. Also, *self* can be specified
-* returns a hash suitable to be passed as second argument to <tt>initialize_wrapper</tt>.
-Usually, this method is called when the class is created and the returned hash
-is stored in a class instance variable. The class's +initialize+ method then passes
-it as second argument to <tt>initialize_wrapper</tt>.
+* returns a hash suitable to be passed as second argument to {#initialize_wrapper}.
 
-_cls_ is the class for which signals and slots will be defined. _data_ is a hash
-containing the information for the signal and slot to create.
-* its keys are the names of the signals converted to snakecase. This name will be
-  converted to camelcase to obtain the name of the signal of the wrapped object,
-  while will be used as is for the signal of the object.
-* its values are arrays. The first element is the signature of the signal of the
-  wrapped object. The second element is an array of integers and *nil*s. An integer
-  _i_ in the position _n_ of the array means that the _n_th argument of the new
-  signal will be the _i_th argument of the signal of the wrapped object (both 
-  indexes start from 0). If the array contains *nil* in position _n_, the _n_th
-  argument of the new signal will be *self* (in the signature of the new signal,
-  this will mean <tt>QWidget*</tt> if _cls_ derives from <tt>Qt::Widget</tt> and
-  <tt>QObject*</tt> otherwise).
+Usually, this method is called when the class is created and the returned hash
+is stored in a class instance variable. The class's @#initialize@ method then passes
+it as second argument to {#initialize_wrapper}.
+
+@param [Class] cls the class signals and slot will be defined in
+@param [{String => (String, <Integer,nil>)}] data a hash matching the signals
+  of the wrapped class with those to define for the wrapper class. The keys are
+  the names of the signals in the wrapped class converted to snakecase (which
+  will be used as names for the signals in the wrapper class).
+  
+  The first element in each value is the signature of the signal in the wraped
+  class. The second element is an array describing the arguments of the signal
+  in the wrapper class. If this array has the number _i_ in position _n_, it
+  means that the _n_th argument of the signal of the wrapper object is the
+  _i_th argument of the wrapped object. A value of *nil* at position _n_ means
+  that the _n_th argument of the wrapper signal is *self* (this means that in the
+  signature, @QWidget*@ or @QObject*@ will be used for this argument, according
+  to whether the class is a widget or not).
+@return [Hash] a hash to be passed as second argument to {#initialize_wrapper}
+@note calling this method won't define any signal on the wrapper class. You'll
+  have to do that yourself. It does, however, define slots which will emit those
+  signals
 =end
     def self.prepare_wrapper_connections cls, data
       res = {}
@@ -140,10 +159,15 @@ EOS
     end
     
 =begin rdoc
-Returns an InterfaceProxy set to the interface _name_. See <tt>InterfaceProxy#interface=</tt>
-for the possible values for _name_. It is meant to be used this way (supposing
-_doc_ is an object which wraps <tt>KTextEditor::Document</tt>)
+Casts the wrapped object to an interface
+
+@param (see InterfaceProxy#interface=)
+@return [InterfaceProxy] a proxy interface for the wrapped object cast to the
+  given interface
+@example
+  # assume that doc is an instance of Ruber::Document
   doc.interface(:modification_interface).modified_on_disk_warning = true
+  
 =end
     def interface name
       @_interface.interface = name
@@ -152,6 +176,11 @@ _doc_ is an object which wraps <tt>KTextEditor::Document</tt>)
     
 =begin rdoc
 Forwards the method call to the wrapped object
+
+@param [String,Symbol] name the name of the method to be called
+@param [<Object>] args the arguments passed to the original method
+@param [Proc,nil] blk any block passed to the original method
+@return [Object] the value returned by the method of the wrapped object
 =end
     def method_missing name, *args, &blk
       begin super
@@ -163,38 +192,45 @@ Forwards the method call to the wrapped object
     private
     
 =begin rdoc
-Method which needs to be called before using any of the functionality provided by
-the module (usually, it's called from +initialize+). _obj_ is the wrapped object,
-while _signals_ is a hash as described in <tt>connect_wrapped_signals</tt>.
+Initializes the variables needed by the module
 
-It creates an InterfaceProxy for the wrapped object and calls <tt>connect_wrapped_signals</tt>
-passing _signals_ as argument.
+This method needs to be called before using any of the instance methods provided
+by the module (usually, it's called from the @#initialize@ method of the wrapper
+object, after calling @super@ and creating the wrapped object).
+@param [Qt::Object] obj the wrapped object
+@param signals (see KTextEditorWrapper#connect_wrapped_signals)
+@return nil
 =end
     def initialize_wrapper obj, signals
       @_interface = InterfaceProxy.new obj
       @_wrapped = obj
       connect_wrapped_signals signals
+      nil
     end
     
 =begin rdoc
-Returns the wrapped object (this method is mainly for internal use)
+@return [Qt::Object] the wrapped object
 =end
     def internal
       @_wrapped
     end
    
 =begin rdoc
-Makes a connections between a series of signals and of slots. _signals_ is a hash
-whose keys are the names of the signals and whose entries are the slots each signal
-should be connected to (only one slot can be connected to each signal). You can't
-connect a signal to another signal with this method.
+Automatically connects signals of the wrapped object to slots in the wrapper
+object
 
 This method is mainly meant to be used in conjunction with <tt>prepare_wrapper_connections</tt>.
+
+@param [{String => String}] signals a hash matching signals of the wrapped object
+  (the keys) to slots of the wrapper objects (the values). Each signal can be
+  connected only to one slot
+@return [nil]
 =end
     def connect_wrapped_signals signals
       signals.each_pair do |k, v|
         connect @_wrapped, SIGNAL(k), self, SLOT(v)
       end
+      nil
     end
     
   end

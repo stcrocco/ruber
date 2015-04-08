@@ -1,3 +1,4 @@
+type: global
 name: rake
 version: 0.0.1
 about:

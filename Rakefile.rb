@@ -68,6 +68,7 @@ begin
   require 'yard'
   desc 'generates the documentation using YARD'
   cache = ENV['YARD_NO_CACHE'] ? '' : '-c'
+  ext_file = File.join File.dirname(__FILE__), '/yard/extensions.rb'
   YARD::Rake::YardocTask.new(:doc) do |t|
     output_dir= File.expand_path(ENV['OUTPUT_DIR']) rescue 'doc'
     t.files   = ['lib/**/*.rb',  'lib/ruber/**/*.rb', 'plugins/**/*.rb', '-', 'TODO', 'manual/**/*', 'INSTALL', 'CHANGES', 'LICENSE']

@@ -40,8 +40,9 @@ given file.
 =begin rdoc
 @param [Qt::Object,nil] parent the parent object
 =end
-      def initialize parent = nil
-        super
+      def initialize world, parent = nil
+        super parent
+        @world = world
         @documents = {}
       end
     
@@ -106,7 +107,7 @@ it and adds it to the internal document list if needed
 @return [Ruber::Document] the new document
 =end
       def create_document file, parent
-        doc = Document.new file, parent
+        doc = Document.new @world, file, parent
         @documents[doc.url] = doc if file
         connect doc, SIGNAL('closing(QObject*)'), self, SLOT('document_closed(QObject*)')
         connect doc, SIGNAL('document_url_changed(QObject*)'), self, SLOT('document_url_changed(QObject*)')

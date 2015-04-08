@@ -638,7 +638,7 @@ describe Ruber::SyntaxChecker::Extension do
     
     it 'doesn\'t attempt to create a syntax checker if there is none suitable for the document associated with the extension' do
       doc = Ruber[:world].new_document
-      flexmock(Ruber[:syntax_checker]).should_receive(:syntax_checker_for).with(doc).once.and_return nil
+      flexmock(Ruber[:syntax_checker]).should_receive(:syntax_checker_for).with(doc).and_return nil
       flexmock(doc.own_project).should_receive(:[]).with(:syntax_checker, :auto_check).and_return true
       ext = Ruber::SyntaxChecker::Extension.new doc.own_project
       ext.instance_variable_get(:@checker).should be_nil

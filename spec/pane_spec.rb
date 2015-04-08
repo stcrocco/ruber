@@ -1,3 +1,4 @@
+require 'spec/framework'
 require './spec/common'
 require 'ruber/pane'
 require 'ruber/editor/document'
@@ -18,10 +19,10 @@ describe Ruber::Pane do
   end
   
   before do
-    @main_window = Qt::Widget.new
-    flexmock(Ruber).should_receive(:[]).with(:main_window).and_return(@main_window).by_default
-    flexmock(Ruber).should_receive(:[]).with(:components).and_return(PaneSpecComponentManager.new).by_default
-    @doc = Ruber::Document.new
+#     @main_window = Qt::Widget.new
+#     flexmock(Ruber).should_receive(:[]).with(:main_window).and_return(@main_window).by_default
+#     flexmock(Ruber).should_receive(:[]).with(:components).and_return(PaneSpecComponentManager.new).by_default
+    @doc = Ruber::Document.new Ruber[:world]
   end
   
   it 'is enumerable' do
@@ -359,7 +360,7 @@ describe Ruber::Pane do
     context 'if the given view is not directly contained in the pane' do
       
       it 'does nothing and returns nil if the view isn\'t contained in any of the children panes' do
-        doc = Ruber::Document.new
+        doc = Ruber::Document.new Ruber[:world]
         views = 5.times.map{doc.create_view}
         pane = Ruber::Pane.new(views[0])
         pane.split views[0], views[1], Qt::Horizontal, :after
@@ -369,7 +370,7 @@ describe Ruber::Pane do
       end
       
       it 'calls the same method of the pane containing the view' do
-        doc = Ruber::Document.new
+        doc = Ruber::Document.new Ruber[:world]
         views = 4.times.map{doc.create_view}
         pane = Ruber::Pane.new(views[0])
         pane.split views[0], views[1], Qt::Horizontal, :after
@@ -379,7 +380,7 @@ describe Ruber::Pane do
       end
       
       it 'emits the split(QWidget*, QWidget*,QWidget*) signal passing the pane where the view was contained, the original and the new view as arguments' do
-        doc = Ruber::Document.new
+        doc = Ruber::Document.new Ruber[:world]
         views = 4.times.map{doc.create_view}
         pane = Ruber::Pane.new(views[0])
         pane.split views[0], views[1], Qt::Horizontal, :after
@@ -398,7 +399,7 @@ describe Ruber::Pane do
     context 'if the pane is in single view mode' do
       
       it 'calls the remove_view method' do
-        doc = Ruber::Document.new
+        doc = Ruber::Document.new Ruber[:world]
         view = doc.create_view nil
         pane = Ruber::Pane.new view
         flexmock(pane).should_receive(:remove_view).once.with(view)
@@ -406,7 +407,7 @@ describe Ruber::Pane do
       end
       
       it 'emits the removing_view(QWidget*,QWidget*) signal passing self and the view as arguments' do
-        doc = Ruber::Document.new
+        doc = Ruber::Document.new Ruber[:world]
         view = doc.create_view nil
         pane = Ruber::Pane.new view
         mk = flexmock{|m| m.should_receive(:removing_view).with(pane, view).once}
@@ -419,7 +420,7 @@ describe Ruber::Pane do
     context 'if the pane is in multiple view mode' do
       
       it 'does not attempt to remove the view' do
-        doc = Ruber::Document.new
+        doc = Ruber::Document.new Ruber[:world]
         views = 3.times.map{doc.create_view nil}
         pane = Ruber::Pane.new views[0]
         1.upto(2){|i| pane.split views[i-1], views[i], Qt::Vertical}
@@ -428,7 +429,7 @@ describe Ruber::Pane do
       end
       
       it 'emits the removing_view(QWidget*,QWidget*) signal passing the pane containing the view and the view itself as arguments' do
-        doc = Ruber::Document.new
+        doc = Ruber::Document.new Ruber[:world]
         views = 3.times.map{doc.create_view nil}
         pane = Ruber::Pane.new views[0]
         1.upto(2){|i| pane.split views[i-1], views[i], Qt::Vertical}
@@ -444,7 +445,7 @@ describe Ruber::Pane do
   describe '#remove_view' do
     
     before do
-      @doc = Ruber::Document.new
+      @doc = Ruber::Document.new Ruber[:world]
       @view = @doc.create_view nil
       @pane = Ruber::Pane.new @view
       flexmock(@pane).should_receive(:delete_later).by_default
@@ -471,7 +472,7 @@ describe Ruber::Pane do
   context 'when a child pane emits the closing_last_view signal' do
     
     before do
-      @doc = Ruber::Document.new
+      @doc = Ruber::Document.new Ruber[:world]
       @views = 3.times.map{@doc.create_view}
     end
     
@@ -595,7 +596,7 @@ describe Ruber::Pane do
   describe '#each_pane' do
     
     before do
-      @doc = Ruber::Document.new
+      @doc = Ruber::Document.new Ruber[:world]
       @views = 4.times.map{@doc.create_view}
       @pane = Ruber::Pane.new @views[0]
     end
@@ -687,7 +688,7 @@ describe Ruber::Pane do
   describe '#each_view' do
     
     before do
-      @doc = Ruber::Document.new
+      @doc = Ruber::Document.new Ruber[:world]
       @views = 4.times.map{@doc.create_view}
       @pane = Ruber::Pane.new @views[0]
     end
@@ -743,7 +744,7 @@ describe Ruber::Pane do
   describe '#parent_pane' do
     
     before do
-      @doc = Ruber::Document.new
+      @doc = Ruber::Document.new Ruber[:world]
       @views = 4.times.map{@doc.create_view}
       @pane = Ruber::Pane.new @views[0]
     end
@@ -775,7 +776,7 @@ describe Ruber::Pane do
   describe '#contains?' do
     
     before do
-      @doc = Ruber::Document.new
+      @doc = Ruber::Document.new Ruber[:world]
       @views = 4.times.map{@doc.create_view}
       @pane = Ruber::Pane.new @views[0]
     end

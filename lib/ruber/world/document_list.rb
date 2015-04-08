@@ -94,6 +94,9 @@ Element access
     range is out of range, *nil* is returned
 @overload [] url
   Returns the document associated with the given URL
+  
+  You must use a @KDE::Url@ if you want to find a document using it's url. Passing
+  a string wouldn't work, as it would be considered the document's name.
   @param [KDE::Url] url the url to retrieve the document for
   @return [Document,nil] the document associated with the given url or *nil*
     if the list contains no document associated with the url. If the list contains

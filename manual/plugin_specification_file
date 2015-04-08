@@ -18,6 +18,30 @@ given in the description of each entry.
 
 h2. PSF Introduction
 
+h4. @type@ [Mandatory]
+
+The type of plugin the PSF describes. It must be one of the following (either
+a string or a symbol can be used):
+
+- core := a core component of Ruber. This should only be used in the PSFs that
+  describe ruber core components and can't be used by plugins written by the
+  user.
+
+- library := the PSF describes a library plugin. A library plugin can't be unloaded
+  after it's been loaded and can't provide any extra feature. They should be
+  used for plugins other plugins will depend on in non-standard ways (for example
+  plugins providing classes other plugins will derive from). A library plugin
+  may only depend on other library plugins
+
+- global := the PSF describes a plugin which is loaded globally and affects Ruber
+  as a whole. These are the plugins  which can be chosen from the Choose Plugins
+  dialog in the Settings menu. A gobal plugin may depend on both global and
+  library plugins.
+
+- project := the PSF describes a plugin which should affect a single project
+  and can be loaded multiple times, each time for a different project. A project
+  plugin may depend only on project and library plugins.
+
 h4. @name@ [Mandatory]
 
 The name of the plugin. It can be either a string or symbol

@@ -1,3 +1,4 @@
+type: global
 name: ruby_syntax_checker
 version: 0.0.1
 about:

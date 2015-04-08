@@ -1,3 +1,4 @@
+require 'spec/framework'
 require './spec/common'
 
 require 'tempfile'
@@ -63,13 +64,14 @@ describe Ruber::EditorView do
   end
 
   before do
-    @app = KDE::Application.instance
-    @w = Qt::Widget.new
-    @comp = Qt::Object.new
-    flexmock(@comp).should_receive(:each_component)
-    flexmock(Ruber).should_receive(:[]).with(:components).and_return @comp
-    @doc = Ruber::Document.new nil, @app
-    @view = @doc.create_view @w
+#     @app = KDE::Application.instance
+#     @w = Qt::Widget.new
+#     @comp = Qt::Object.new
+#     flexmock(@comp).should_receive(:each_component)
+#     flexmock(Ruber).should_receive(:[]).with(:components).and_return @comp
+    @parent = Qt::Widget.new
+    @doc = Ruber::Document.new Ruber[:world]
+    @view = @doc.create_view @parent 
   end
   
   after do
@@ -195,13 +197,9 @@ end
 describe 'Ruber::EditorView#execute_action' do
   
   before do
-    @app = KDE::Application.instance
-    @w = Qt::Widget.new
-    @comp = Qt::Object.new
-    flexmock(@comp).should_receive(:each_component)
-    flexmock(Ruber).should_receive(:[]).with(:components).and_return @comp
-    @doc = Ruber::Document.new nil, @app
-    @view = @doc.create_view @w
+    @parent = Qt::Widget.new
+    @doc = Ruber::Document.new Ruber[:world]
+    @view = @doc.create_view @parent
   end
   
   it 'should make the action emit the "triggered()" signal' do

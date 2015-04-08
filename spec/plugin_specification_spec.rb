@@ -62,7 +62,7 @@ describe 'Ruber::PluginSpecification.new' do
   it 'should raise PSFError if the :name entry is missing from the pdf' do
     flexmock(File).should_receive(:exist?).and_return true
     flexmock(File).should_receive(:read).and_return("description: desc}")
-    lambda{Ruber::PluginSpecification.new 'file'}.should raise_error(Ruber::PluginSpecification::PSFError, "The required 'name' entry is missing from the PDF")
+    lambda{Ruber::PluginSpecification.new 'file'}.should raise_error(Ruber::PluginSpecification::PSFError, "The required 'name' entry is missing from the PSF")
   end
   
   it 'should raise SystemCallError if the file doesn\'t exist' do
@@ -75,7 +75,7 @@ describe 'Ruber::PluginSpecification.new' do
     lambda{Ruber::PluginSpecification.new 'file'}.should raise_error(ArgumentError)
   end
   
-  it 'should raise Ruber::PluginSpecification::PdfError if the file isn\'t a valid PDF' do
+  it 'should raise Ruber::PluginSpecification::PdfError if the file isn\'t a valid PSF' do
     flexmock(File).should_receive(:exist?).and_return true
     flexmock(File).should_receive(:read).and_return("{:description: desc}")
     lambda{Ruber::PluginSpecification.new 'file'}.should raise_error(Ruber::PluginSpecification::PSFError)
@@ -148,7 +148,7 @@ describe 'Ruber::PluginSpecification.intro' do
     lambda{Ruber::PluginSpecification.intro 'file'}.should raise_error(ArgumentError)
   end
   
-  it 'should raise Ruber::PluginSpecification::PdfError if the file isn\'t a valid PDF' do
+  it 'should raise Ruber::PluginSpecification::PdfError if the file isn\'t a valid PSF' do
     flexmock(File).should_receive(:exist?).and_return true
     flexmock(File).should_receive(:read).and_return("{:description: desc}")
     lambda{Ruber::PluginSpecification.intro 'file'}.should raise_error(Ruber::PluginSpecification::PSFError)
@@ -222,7 +222,7 @@ describe 'Ruber::PluginSpecification.full' do
     lambda{Ruber::PluginSpecification.full 'file'}.should raise_error(ArgumentError)
   end
   
-  it 'should raise Ruber::PluginSpecification::PdfError if the file isn\'t a valid PDF' do
+  it 'should raise Ruber::PluginSpecification::PdfError if the file isn\'t a valid PSF' do
     flexmock(File).should_receive(:exist?).and_return true
     flexmock(File).should_receive(:read).and_return("{:description: desc}")
     lambda{Ruber::PluginSpecification.full 'file'}.should raise_error(Ruber::PluginSpecification::PSFError)

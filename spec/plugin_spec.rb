@@ -223,7 +223,7 @@ describe Ruber::Plugin do
       Ruber::Plugin.class_eval{alias :load_settings :old_load_settings}
     end
     
-    it 'should create the tool widgets mentioned in the PDF' do
+    it 'should create the tool widgets mentioned in the PSF' do
       @data[:tool_widgets] = [
         {:class => Qt::CheckBox, :caption => 'w1', :pixmap => 'xyz.png'},
         {:class => Qt::LineEdit, :position => :left, :caption => 'w2', :pixmap => 'abc.png'},

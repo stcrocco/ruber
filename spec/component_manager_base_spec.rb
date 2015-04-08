@@ -1,40 +1,69 @@
 require 'spec/common'
 
-require 'ruber/component_manager/component_manager'
+require 'ruber/component_manager/component_manager_base'
 require 'ruber/plugin'
 require 'ruber/plugin_specification'
-require 'ruber/config/config'
+# require 'ruber/config/config'
 
 include FlexMock::ArgumentTypes
 
-describe 'Ruber::ComponentManager, when created' do
+describe Ruber::ComponentManagerBase do
 
   before do
-    @manager = Ruber::ComponentManager.new
+    @availlable = [
+      {:name => :a, :features => [:a, :fa], :type => :global},
+      {:name => :b, :features => [:b, :fb1, :fb2], :type => :global},
+      {:name => :c, :features => [:c, :fc], :type => :project},
+      {:name => :d, :features => [:d, :fd1, :fd2], :type => :project},
+      {:name => :e, :features => [:e], :type => :library},
+      {:name => :f, :features => [:f], :type => :library}
+    ].map{|x| Ruber::PluginSpecification.intro x}
+    @man = Ruber::ComponentManagerBase.new @availlable
   end
 
-  it 'adds itself to the list of features' do
-    @manager.instance_variable_get(:@features).should == {:components => @manager}
+  it 'inherits from Qt::Object' do
+    Ruber::ComponentManagerBase.ancestors.should include(Qt::Object)
   end
 
-  it 'adds itself to the "components" hash, under the :components key' do
-    @manager[:components].should equal(@manager)
+  describe 'when created' do
+
+    it 'takes a list of all availlable plugins and an optional parent object as argument' do
+      lambda{Ruber::ComponentManagerBase.new @availlable}.should_not raise_error
+      parent = Qt::Object.new
+      lambda{Ruber::ComponentManagerBase.new @availlable, parent}.should_not raise_error
+    end
+
+    it 'creates a new ComponentLoader' do
+      flexmock(Ruber::ComponentLoader).should receive(:new).once.with @availlable
+    end
+
   end
 
-  it 'has a plugin_description method which returns the plugin description' do
-    res = @manager.plugin_description
-    res.should be_a(Ruber::PluginSpecification)
-    res.name.should == :components
-    res.features.should == [:components]
-    res.class_obj.should == Ruber::ComponentManager
+  describe '#plugins=' do
+
+    it ''
+
   end
 
-  it 'has a plugin_name and component_name methods which return :components' do
-    @manager.plugin_name.should == :components
-    @manager.component_name.should == :components
-  end
+#   describe '#[]' do
+#
+#     it 'returns the feature having the same name as the argument' do
+#     mk = flexmock 'test component'
+#     @man.instance_variable_get(:@components)[:test] = mk
+#     features = @man.instance_variable_get(:@features)
+#     features[:x] = @man
+#     features[:test] = mk
+#     features[:y] = mk
+#     @man[:components].should equal(@man)
+#     @man[:x].should equal(@man)
+#     @man[:test].should equal(mk)
+#     @man[:y].should equal(mk)
+#     end
+#
+#   end
 
 end
+
 
 describe 'Ruber::ComponentManager#[]' do
 
@@ -378,7 +407,7 @@ describe 'Ruber::ComponentManager#unload_plugin' do
 
   before do
     @cls = Class.new(Qt::Object) do
-      include Ruber::PluginLike
+      nclude Ruber::PluginLike
       def initialize pdf
         super Ruber[:app]
         initialize_plugin pdf
@@ -496,52 +525,51 @@ describe 'Ruber::ComponentManager#query_close' do
 
 end
 
-describe Ruber::ComponentManager do
-
-  before do
-    @manager = Ruber::ComponentManager.new
-  end
-
-  describe '#session_data' do
-
-    it 'calls the session_data of each other component' do
-      h = @manager.instance_variable_get(:@components)
-      5.times do |i|
-        mk = flexmock(:name => i.to_s){|m| m.should_receive(:session_data).once.with_no_args.and_return({})}
-        h << [mk.name, mk]
-      end
-      @manager.session_data
-    end
-
-    it 'returns a hash obtained by merging the hashes returned by each components\' session_data method' do
-      h = @manager.instance_variable_get(:@components)
-      5.times do |i|
-        mk = flexmock(:name => i.to_s){|m| m.should_receive(:session_data).once.and_return({i.to_s => i})}
-        h << [mk.name, mk]
-      end
-      res = @manager.session_data
-      res.should == {'0' => 0, '1' => 1, '2' => 2, '3' => 3, '4' => 4}
-    end
-
-  end
-
-  describe '#restore_session' do
-
-    it 'calls the restore_session of each other component passing it the argument' do
-      cfg = KDE::ConfigGroup.new
-      h = @manager.instance_variable_get(:@components)
-      5.times do |i|
-        mk = flexmock(:name => i.to_s){|m| m.should_receive(:restore_session).once.with(cfg)}
-        h << [mk.name, mk]
-      end
-      @manager.restore_session cfg
-    end
-
-  end
-
-
-end
-
+# describe Ruber::ComponentManager do
+#
+#   before do
+#     @manager = Ruber::ComponentManager.new
+#   end
+#
+#   describe '#session_data' do
+#
+#     it 'calls the session_data of each other component' do
+#       h = @manager.instance_variable_get(:@components)
+#       5.times do |i|
+#         mk = flexmock(:name => i.to_s){|m| m.should_receive(:session_data).once.with_no_args.and_return({})}
+#         h << [mk.name, mk]
+#       end
+#       @manager.session_data
+#     end
+#
+#     it 'returns a hash obtained by merging the hashes returned by each components\' session_data method' do
+#       h = @manager.instance_variable_get(:@components)
+#       5.times do |i|
+#         mk = flexmock(:name => i.to_s){|m| m.should_receive(:session_data).once.and_return({i.to_s => i})}
+#         h << [mk.name, mk]
+#       end
+#       res = @manager.session_data
+#       res.should == {'0' => 0, '1' => 1, '2' => 2, '3' => 3, '4' => 4}
+#     end
+#
+#   end
+#
+#   describe '#restore_session' do
+#
+#     it 'calls the restore_session of each other component passing it the argument' do
+#       cfg = KDE::ConfigGroup.new
+#       h = @manager.instance_variable_get(:@components)
+#       5.times do |i|
+#         mk = flexmock(:name => i.to_s){|m| m.should_receive(:restore_session).once.with(cfg)}
+#         h << [mk.name, mk]
+#       end
+#       @manager.restore_session cfg
+#     end
+#
+#   end
+#
+#
+# end
 
 # describe 'Ruber::ComponentManager.find_plugins' do
 #
@@ -607,3 +635,5 @@ end
 #
 # end
 
+
+# end

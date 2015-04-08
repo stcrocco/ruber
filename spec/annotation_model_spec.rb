@@ -1,14 +1,13 @@
+require 'spec/framework'
 require 'spec/common'
 
 require 'ruber/editor/document'
+require 'ruber/editor/annotation_model'
 
 describe Ruber::AnnotationModel do
 
   before do
-    @components = flexmock{|m| m.should_ignore_missing}
-    @w = Qt::Widget.new
-    flexmock(Ruber).should_receive(:[]).with(:components).and_return(@components).by_default
-    @doc = Ruber::Document.new nil, @app
+    @doc = Ruber::Document.new Ruber[:world]
     @model = Ruber::AnnotationModel.new @doc
   end
 
@@ -166,9 +165,6 @@ describe Ruber::AnnotationModel do
 
   after do
     @model.class.instance_variable_get(:@annotation_types).clear
-    @doc.instance_variable_get(:@doc).closeUrl false
-    @doc.dispose
-#     @app.quit
   end
 
 end

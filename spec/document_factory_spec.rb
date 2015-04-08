@@ -9,7 +9,19 @@ describe Ruber::World::DocumentFactory do
   end
   
   before do
-    @factory = Ruber::World::DocumentFactory.new
+    @factory = Ruber::World::DocumentFactory.new Ruber[:world]
+  end
+  
+  describe '.new' do
+    
+    it 'takes the world and an optional parent as arguments' do
+      fac = Ruber::World::DocumentFactory.new Ruber[:world]
+      fac.should be_a(Ruber::World::DocumentFactory)
+      parent = Qt::Object.new
+      fac = Ruber::World::DocumentFactory.new Ruber[:world], parent
+      fac.should be_a(Ruber::World::DocumentFactory)
+    end
+    
   end
   
   describe '#document' do
@@ -95,9 +107,9 @@ describe Ruber::World::DocumentFactory do
     context 'when creating a new document' do
       
       it 'emits the document_created signal passing the document as argument' do
-        docs = [Ruber::Document.new(__FILE__), Ruber::Document.new]
-        flexmock(Ruber::Document).should_receive(:new).with(__FILE__,nil).once.and_return docs[0]
-        flexmock(Ruber::Document).should_receive(:new).with(nil,nil).once.and_return docs[1]
+        docs = [Ruber::Document.new(Ruber[:world],__FILE__), Ruber::Document.new(Ruber[:world])]
+        flexmock(Ruber::Document).should_receive(:new).with(Ruber[:world], __FILE__,nil).once.and_return docs[0]
+        flexmock(Ruber::Document).should_receive(:new).with(Ruber[:world],nil,nil).once.and_return docs[1]
         mk = flexmock do |m|
           m.should_receive(:document_created).with(docs[0]).once
           m.should_receive(:document_created).with(docs[1]).once

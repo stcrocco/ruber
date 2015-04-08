@@ -1,5 +1,5 @@
 =begin 
-    Copyright (C) 2010 by Stefano Crocco   
+    Copyright (C) 2010,2011,2012 by Stefano Crocco   
     stefano.crocco@alice.it   
   
     This program is free software; you can redistribute it andor modify  
@@ -49,31 +49,15 @@ module Ruber
     
     slots 'slot_selection_changed(KTextEditor::View*)'
     
-#     @view.connect(SIGNAL('selectionChanged(KTextEditor::View*)')) do |v|
-#       changed = @view.block_selection ^ @block_selection
-#       if changed
-#         @block_selection = @view.block_selection
-#         emit selection_mode_changed @block_selection, self
-#       end
-#     end
+    attr_accessor :environment
     
-
-
-#     signals 'closing()', 'information_message(QString, QObject*)', 
-# 'cursor_position_changed(KTextEditor::Cursor, QObject*)', 
-# 'view_mode_changed(QString, QObject*)', 'edit_mode_changed(KTextEditor::View::EditMode, QObject*)',
-# 'selection_mode_changed(bool, QObject*)', 'context_menu_about_to_show(QMenu*, QObject*)',
-# 'focus_in(QObject*)', 'focus_out(QObject*)', 'horizontal_scroll_position_changed(QObject*)',
-# 'mouse_position_changed(KTextEditor::Cursor, QObject*)', 'selection_changed(QObject*)',
-# 'text_inserted(KTextEditor::Cursor, QString, QObject*)', 'vertical_scroll_position_changed(KTextEditor::Cursor, QObject*)'
-
-    attr_reader :doc
-    alias_method :document, :doc
+    attr_reader :document
+    alias_method :doc, :document
     def initialize doc, internal, parent = nil
       super parent
       set_attribute Qt::WA_DeleteOnClose, true
       @block_selection = false
-      @doc = doc
+      @document = doc
       @view = internal
       @view.parent = self
       initialize_wrapper @view, self.class.instance_variable_get(:@signal_table)
@@ -98,7 +82,7 @@ module Ruber
         emit edit_mode_changed( m, self)
       end
 
-      am = @doc.interface('annotation_interface').annotation_model
+      am = @document.interface('annotation_interface').annotation_model
       am.connect(SIGNAL('annotations_changed()')) do
         show = Ruber[:config][:general, :auto_annotations] && am.has_annotations?
         set_annotation_border_visible(show) rescue NoMethodError

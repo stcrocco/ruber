@@ -280,8 +280,11 @@ name doesn't exist, or if _args_ is not empty, +ArgumentError+ is raised.
     end
     
 =begin rdoc
-Override of <tt>SettingsContainer#write</tt> which emits the +settings_changed+ signal after
-writing the settings to file
+Override of <tt>SettingsContainer#write</tt>
+
+It emits the {#settings_changed} signal after writing the settings to file
+@return [nil]
+@raise [SystemCallError] if an error occurs while writing to the file
 =end
     def write
       super
@@ -318,6 +321,8 @@ will be removed (calling their @remove_from_project@ method if they have one).
       Ruber[:components].named_disconnect "register_component_with_project #{object_id}"
       true
     end
+    slots :close
+    slots 'close(bool)'
     
     def query_close
       @project_extensions.each_value{|v| return false unless v.query_close}

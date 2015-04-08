@@ -1,3 +1,4 @@
 name: config
+type: core
 require: config
 class: Ruber::ConfigManager

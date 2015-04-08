@@ -1,4 +1,5 @@
 name: main_window
+type: core
 require: [main_window, output_color_widget]
 class: Ruber::MainWindow
 config_options:

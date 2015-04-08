@@ -8,21 +8,22 @@ require 'tmpdir'
 describe Ruber::World::Environment do
   
   before(:all) do
-    #the following line is only needed until world is added to the list of
-    #components loaded by the application
-    Ruber[:components].load_component 'world' unless Ruber[:world]
+    class KDE::TabWidget
+      def show *args
+      end
+    end
   end
   
   before do
     Ruber[:world].close_all(:documents, :discard)
     @env = Ruber::World::Environment.new nil
-    #without this, the tab widgets become visible, slowing down tests noticeably
-    flexmock(@env.tab_widget).should_receive(:show).by_default
     @env.activate
   end
   
-  after do
-    @env.dispose
+  after :all do
+    class KDE::TabWidget
+      remove_method :show
+    end
   end
   
   it 'inherits from Qt::Object' do
@@ -206,14 +207,14 @@ describe Ruber::World::Environment do
     
     it 'uses the Ruber::World::Environment::DEFAULT_HINTS as default hints argument' do
       doc = Ruber[:world].new_document
-      view = doc.create_view
+      view = doc.create_view @env
       flexmock(@solver).should_receive(:find_editor).with(doc, Ruber::World::Environment::DEFAULT_HINTS).once.and_return(view)
       @env.editor_for!(doc)
     end
     
     it 'merges the given hints with the default ones' do
       doc = Ruber[:world].new_document
-      view = doc.create_view
+      view = doc.create_view @env
       exp_hints = Ruber::World::Environment::DEFAULT_HINTS.merge(:create_if_needed => false)
       flexmock(@solver).should_receive(:find_editor).with(doc, exp_hints).once.and_return(view)
       @env.editor_for!(doc, :create_if_needed => false)
@@ -280,12 +281,12 @@ describe Ruber::World::Environment do
           
           before do
             @add_view_proc = lambda do |view|
-              flexmock(view.document).should_receive(:create_view).and_return view
+              flexmock(view.document).should_receive(:create_view).with(@env).and_return view
               @env.editor_for! view.document, :existing => :never, :new => :new_tab
             end
           end
           
-          it 'creates and returns a new editor' do
+          it 'creates and returns a new editor passing the environment as argument' do
             @env.editor_for!(@doc, :create_if_needed => true).should be_a(Ruber::EditorView)
           end
           
@@ -496,7 +497,7 @@ describe Ruber::World::Environment do
   describe '#documents' do
     
     before do
-      @docs = [Ruber::Document.new, Ruber[:world].document(__FILE__)] 
+      @docs = [Ruber[:world].new_document, Ruber[:world].document(__FILE__)] 
       @env.editor_for! @docs[0]
       @env.editor_for! @docs[1], :existing => :never
     end
@@ -516,10 +517,44 @@ describe Ruber::World::Environment do
     
   end
   
+  describe '#document' do
+    
+    before do
+      @file = __FILE__
+    end
+    
+    it 'calls the #document method of the world component passing it its argument' do
+      doc = Ruber[:world].document @file
+      flexmock(Ruber[:world]).should_receive(:document).once.with @file
+      @env.document @file
+    end
+    
+    context 'if the world component\'s #document method returns a document' do
+      
+      it 'returns the document projected on the environment' do
+        prj_doc = @env.document @file
+        prj_doc.should be_a(Ruber::ProjectedDocument)
+        prj_doc.path.should == @file
+        prj_doc.environment.should == @env
+      end
+      
+    end
+    
+    context 'if the world component\'s #document method returns nil' do
+      
+      it 'returns nil' do
+        flexmock(Ruber[:world]).should_receive(:document).once.and_return nil
+        @env.document(@file).should be_nil
+      end
+      
+    end
+    
+  end
+  
   describe '#views' do
     
     before do
-      @docs = 3.times.map{Ruber::Document.new}
+      @docs = 3.times.map{Ruber::Document.new Ruber[:world]}
       @editors = []
       @editors << @env.editor_for!(@docs[0])
       @editors << @env.editor_for!(@docs[1], :new => :current_tab)
@@ -572,7 +607,7 @@ describe Ruber::World::Environment do
       clients = Ruber[:main_window].gui_factory.clients
       clients.each{|c| Ruber[:main_window].gui_factory.remove_client c unless c.is_a? Ruber::MainWindow}
       @env.activate
-      @docs = 3.times.map{Ruber::Document.new}
+      @docs = 3.times.map{Ruber::Document.new Ruber[:world]}
       @editors = []
       @editors << @env.editor_for!(@docs[0])
       @editors << @env.editor_for!(@docs[1], :new => :current_tab)
@@ -1053,6 +1088,26 @@ describe Ruber::World::Environment do
         @env.close_editor editor, false
         @doc.close!
       end
+      
+      it 'returns true if the document is closed' do
+        editor = @env.editor_for! @doc
+        class << @doc
+          alias_method :close!, :close
+        end
+        flexmock(@doc).should_receive(:close).once.and_return true
+        @env.close_editor( editor, false).should == true
+        @doc.close!
+      end
+      
+      it 'returns false if the document isn\'t closed' do
+        editor = @env.editor_for! @doc
+        class << @doc
+          alias_method :close!, :close
+        end
+        flexmock(@doc).should_receive(:close).once.and_return false
+        @env.close_editor( editor, false).should == false
+        @doc.close!
+      end
 
     end
     
@@ -1070,6 +1125,22 @@ describe Ruber::World::Environment do
         flexmock(@doc).should_receive(:close).never
         flexmock(editor).should_receive(:close).once
         @env.close_editor editor, false
+        editor.close!
+        @doc.close!
+      end
+      
+      it 'returns true' do
+        class << @doc
+          alias_method :close!, :close
+        end
+        editor = @env.editor_for! @doc
+        class << editor
+          alias_method :close!, :close
+        end
+        other_editor = @doc.create_view
+        flexmock(@doc).should_receive(:close).never
+        flexmock(editor).should_receive(:close).once
+        @env.close_editor(editor, false).should == true
         editor.close!
         @doc.close!
       end
@@ -1098,34 +1169,34 @@ describe Ruber::World::Environment do
         FileUtils.rm_f @file
       end
       
-      context 'if the argument is :save' do
+      context 'if the argument is true' do
         
         it 'calls the project\'s close method passing true as argument' do
           flexmock(@project).should_receive(:close).with(true).once
-          @env.close :save
+          @env.close true
         end
         
         it 'returns the value returned by the project\'s close method' do
           flexmock(@project).should_receive(:close).once.and_return(true)
-          @env.close(:save).should == true
+          @env.close(true).should == true
           flexmock(@project).should_receive(:close).once.and_return(false)
-          @env.close(:save).should == false          
+          @env.close(true).should == false          
         end
         
       end
       
-      context 'if the argument is :discard' do
+      context 'if the argument is false' do
         
         it 'calls the project\'s close method passing false as argument' do
           flexmock(@project).should_receive(:close).with(false).once
-          @env.close :discard
+          @env.close false
         end
         
         it 'returns the value returned by the project\'s close method' do
           flexmock(@project).should_receive(:close).once.and_return(true)
-          @env.close(:discard).should == true
+          @env.close(false).should == true
           flexmock(@project).should_receive(:close).once.and_return(false)
-          @env.close(:discard).should == false          
+          @env.close(false).should == false          
         end
         
       end
@@ -1143,11 +1214,11 @@ describe Ruber::World::Environment do
         @other_views = [@docs[2].create_view, @docs[3].create_view]
       end
       
-      context 'if the argument is :save' do
+      context 'if the argument is true' do
       
         it 'calls MainWindow#save_documents passing the list of documents all of whose views are in the environment' do
           flexmock(Ruber[:main_window]).should_receive(:save_documents).with( [@docs[0], @docs[1]]).once
-          @env.close :save
+          @env.close true
         end
       
         context 'if MainWindow#save returns true' do
@@ -1159,33 +1230,33 @@ describe Ruber::World::Environment do
           it 'emits the closing signal passing itself as argument' do
             mk = flexmock{|m| m.should_receive(:env_closing).once.with(@env.object_id)}
             @env.connect(SIGNAL('closing(QObject*)')){|e| mk.env_closing e.object_id}
-            @env.close :save
+            @env.close true
           end
           
           it 'deactivates itself' do
             @env.activate
-            @env.close :save
+            @env.close true
             @env.should_not be_active
           end
 
           it 'closes all the documents whose views are all contained in the environment without asking' do
             2.times{|i| flexmock(@docs[i]).should_receive(:close).with(false).once}
             2.upto(3){|i| flexmock(@docs[i]).should_receive(:close).never}
-            @env.close :save
+            @env.close true
           end
           
           it 'closes all the views in the environment whose documents have views not associated with the enviroment' do
             @env_views.select{|v| v.document == @docs[2]}.each{|v| flexmock(v).should_receive(:close).once}
-            @env.close :save
+            @env.close true
           end
           
           it 'disposes of itself' do
             flexmock(@env).should_receive(:delete_later).once
-            @env.close :save
+            @env.close true
           end
           
           it 'returns true' do
-            @env.close(:save).should == true
+            @env.close(true).should == true
           end
           
         end
@@ -1199,11 +1270,11 @@ describe Ruber::World::Environment do
           it 'does nothing' do
             @env_views.each{|v| flexmock(v).should_receive(:close).never}
             @docs.each{|d| flexmock(d).should_receive(:close).never}
-            @env.close :save
+            @env.close true
           end
           
           it 'returns false' do
-            @env.close(:save).should == false
+            @env.close(true).should == false
           end
           
         end
@@ -1215,39 +1286,39 @@ describe Ruber::World::Environment do
         
         it 'doesn\'t call MainWindow#save_documents' do
           flexmock(Ruber[:main_window]).should_receive(:save_documents).never
-          @env.close :discard
+          @env.close false
         end
         
         it 'emits the closing signal passing itself as argument' do
           mk = flexmock{|m| m.should_receive(:env_closing).once.with(@env.object_id)}
           @env.connect(SIGNAL('closing(QObject*)')){|e| mk.env_closing e.object_id}
-          @env.close :discard
+          @env.close false
         end
         
         it 'deactivates itself' do
           @env.activate
-          @env.close :discard
+          @env.close false
           @env.should_not be_active
         end
         
         it 'closes all the documents whose views are all contained in the environment without asking' do
           2.times{|i| flexmock(@docs[i]).should_receive(:close).with(false).once}
           2.upto(3){|i| flexmock(@docs[i]).should_receive(:close).never}
-          @env.close :discard
+          @env.close false
         end
         
         it 'closes all the views in the environment whose documents have views not associated with the enviroment' do
           @env_views.select{|v| v.document == @docs[2]}.each{|v| flexmock(v).should_receive(:close).once}
-          @env.close :discard
+          @env.close false
         end
         
         it 'disposes of itself' do
           flexmock(@env).should_receive(:delete_later).once
-          @env.close :discard
+          @env.close false
         end
         
         it 'returns true' do
-          @env.close(:discard).should == true
+          @env.close(false).should == true
         end
                 
       end
@@ -1259,7 +1330,7 @@ describe Ruber::World::Environment do
   describe '#close_editors' do
     
     before do
-      @docs = 3.times.map{Ruber::Document.new}
+      @docs = 3.times.map{Ruber::Document.new Ruber[:world]}
       @views = []
       @docs.each_with_index do |doc, i|
         views = 3.times.map{@env.editor_for! doc, :existing => :never}
@@ -1384,6 +1455,15 @@ describe Ruber::World::Environment do
       ed = @env.display_document @doc
       ed.should be_a(Ruber::EditorView)
       ed.document.should == @doc
+    end
+    
+    context 'if editor_for doesn\'t return any editor' do
+      
+      it 'returns nil' do
+        flexmock(@env).should_receive(:editor_for!).and_return nil
+        @env.display_document(@doc, :line => 5, :column => 3).should be_nil
+      end
+      
     end
     
   end
@@ -1703,6 +1783,7 @@ describe Ruber::World::Environment do
         flexmock(Ruber[:app]).should_receive(:status).and_return(:running)
       end
       
+      
       it 'calls MainWindow#save_documents passing all the documents not having views outside the environment' do
         flexmock(Ruber[:main_window]).should_receive(:save_documents).once.with([@docs[0]])
         @env.query_close
@@ -1808,16 +1889,29 @@ describe Ruber::World::Environment do
     
     context 'if the view to replace is the last view associated with its document' do
       
-      it 'calls the document\'s query_close method before replacing the view' do
-        flexmock(@old_view.document).should_receive(:query_close).globally.ordered.once.and_return true
-        flexmock(@old_view.parent).should_receive(:replace_view).with(@old_view, @new_view).once.globally.ordered
-        @env.replace_editor @old_view, @new_view
+      context 'if the third argument is true' do
+      
+        it 'calls the document\'s query_close method before replacing the view' do
+          flexmock(@old_view.document).should_receive(:query_close).globally.ordered.once.and_return true
+          flexmock(@old_view.parent).should_receive(:replace_view).with(@old_view, @new_view).once.globally.ordered
+          @env.replace_editor @old_view, @new_view, true
+        end
+        
+        it 'does nothing if the document\'s query_close method returns false' do
+          flexmock(@old_view.document).should_receive(:query_close).and_return false
+          flexmock(@old_view.parent).should_receive(:replace_view).with(@old_view, @new_view).never
+          @env.replace_editor @old_view, @new_view, true
+        end
+        
       end
       
-      it 'does nothing if the document\'s query_close method returns false' do
-        flexmock(@old_view.document).should_receive(:query_close).and_return false
-        flexmock(@old_view.parent).should_receive(:replace_view).with(@old_view, @new_view).never
-        @env.replace_editor @old_view, @new_view
+      context 'if the third  argument is false' do
+
+        it 'doesn\'t call the document\'s query_close method before replacing the view' do
+          flexmock(@old_view.document).should_receive(:query_close).never
+          @env.replace_editor @old_view, @new_view, false
+        end
+        
       end
       
       it 'closes the document after replacing the view' do
