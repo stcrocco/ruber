@@ -434,7 +434,7 @@ example
         hash = {}
         hash[:type] = :pending
         hash[:description] = notif.description
-        hash[:message] = notif.message
+        hash[:message] = notif.example.execution_result.pending_message
         hash[:location] = notif.example.metadata[:location]
         write_data hash
       end
