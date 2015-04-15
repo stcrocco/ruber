@@ -430,12 +430,12 @@ example
 @param [RSpec::Core::Example] ex the pending example
 @return [nil]
 =end
-      def example_pending ex
+      def example_pending notif
         hash = {}
         hash[:type] = :pending
-        hash[:description] = ex.metadata[:full_description]
-        hash[:message] = ex.metadata[:execution_result][:pending_message]
-        hash[:location] = ex.metadata[:location]
+        hash[:description] = notif.description
+        hash[:message] = notif.message
+        hash[:location] = notif.example.metadata[:location]
         write_data hash
       end
 
