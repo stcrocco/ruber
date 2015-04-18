@@ -410,9 +410,8 @@ by newlines
         exception = notif.exception
         hash[:exception] = exception.class.name
         hash[:message] = exception.message
-        msg = notif.message_lines[0].split(':', 2)[1].lstrip
-        hash[:location] = "UNKNOWN"
-        hash[:location] =  "#{notif.example.metadata[:location]} (#{msg})"
+        loc = notif.message_lines[0].split(':', 2)[1] || notif.message_lines[0]
+        hash[:location] =  "#{notif.example.metadata[:location]} (#{loc.lstrip})"
         hash[:backtrace] = exception.backtrace.join "\n"
         write_data hash
       end
