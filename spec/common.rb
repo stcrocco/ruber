@@ -46,7 +46,7 @@ def make_dir_tree contents, base = '/tmp/', file_contents = {}
   letters = ('A'..'Z').to_a + ('a'..'z').to_a
   temp_dir = File.join base, 10.times.map{letters[rand(52)]}.join
   dirs = []
-  files = []
+  files = {}
   contents = YAML.load(contents) if contents.is_a? String
   mktree = lambda do |dir, current|
     if current.is_a? Array
@@ -55,18 +55,14 @@ def make_dir_tree contents, base = '/tmp/', file_contents = {}
       current[1..-1].each do |c|
         mktree.call current_full, c
       end
-    else files << File.join(dir, current)
+    else files[File.join dir, current] = ''
     end
   end
   contents.each {|d| mktree.call temp_dir, d}
   FileUtils.mkdir temp_dir
-  file_contents = file_contents.map{|k, v| [File.join( temp_dir, k), v]}.to_h
+  file_contents.each_pair{|f, cont| files[File.join temp_dir, f] = cont}
   dirs.each{|d| FileUtils.mkdir d}
-  files.each do |f|
-    if file_contents[f] then File.open(f, 'w'){|out| out.write file_contents[f]}
-    else `touch #{f}`
-    end
-  end
+  files.each_pair{|f, cont| File.write f, cont}
   temp_dir
 end
 
