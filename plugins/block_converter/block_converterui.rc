@@ -1,0 +1,10 @@
+<!DOCTYPE kpartgui SYSTEM 'kpartgui.dtd'>
+<kpartgui version="2" name="ruber-block_converter_plugin" >
+ <MenuBar>
+  <Menu noMerge="1" name="ruby" >
+   <text>&amp;Ruby</text>
+   <Separator/>
+   <Action name="block_converter-convert"/>
+  </Menu>
+ </MenuBar>
+</kpartgui>

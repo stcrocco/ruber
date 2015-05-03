@@ -1,0 +1,12 @@
+name: block_converter
+version: 0.0.1
+about:
+  authors: [Stefano Crocco, stefano.crocco@alice.it]
+  license: gpl
+  description: A plugin to convert brace blocks to do/end blocks and vice versa
+  bug_address: http://github.com/stcrocco/ruber/issues
+require: block_converter
+class: 'Ruber::BlockConverter::Plugin'
+ui_file: 'block_converterui.rc'
+actions:
+  block_converter-convert: {text: Convert block, shortcut: 'Alt+Shift+B', slot: 'convert_block()', state: current_document}
