@@ -216,7 +216,7 @@ Displays information about a failed example in the tool widget.
             model.set l, :message, top.row_count, :col => 1, :parent => top
           end
         end
-        backtrace = data[:backtrace].split_lines
+        backtrace = (data[:backtrace] || '').split_lines
         back_label, back = model.insert(['Backtrace:', backtrace.shift], :message, nil, :parent => top)
         backtrace.each do |l|
           model.insert [nil, l], :message, nil, :parent => back_label
