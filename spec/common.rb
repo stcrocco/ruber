@@ -3,7 +3,6 @@ require 'yaml'
 
 require 'flexmock/argument_types'
 require 'korundum4'
-# require 'ktexteditor'
 require 'kio'
 require 'ostruct'
 
@@ -12,7 +11,7 @@ require 'ruber/kde_sugar'
 require 'ruber/ktexteditor_sugar'
 require 'ruber/utils'
 
-#Distinguish between rspec 1.* and 2.*
+#Distinguish between rspec 1.* and later
 RSPEC = begin require 'rspec/core'
   RSpec
 rescue LoadError
@@ -20,6 +19,10 @@ rescue LoadError
 end
 (RSPEC.name == 'RSpec' ? RSPEC : RSPEC::Runner).configure do |config|
   config.mock_with :flexmock
+  # Don't check for versions, as newer versions of 2.x seem to allow this
+  begin config.expect_with(:rspec){|c| c.syntax = [:should, :expect]}
+  rescue
+  end
 end
 
 OS = OpenStruct
