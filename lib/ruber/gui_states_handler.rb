@@ -1,21 +1,21 @@
-=begin 
-    Copyright (C) 2010 by Stefano Crocco   
-    stefano.crocco@alice.it   
-  
-    This program is free software; you can redistribute it andor modify  
-    it under the terms of the GNU General Public License as published by  
-    the Free Software Foundation; either version 2 of the License, or     
-    (at your option) any later version.                                   
-  
-    This program is distributed in the hope that it will be useful,       
-    but WITHOUT ANY WARRANTY; without even the implied warranty of        
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         
-    GNU General Public License for more details.                          
-  
-    You should have received a copy of the GNU General Public License     
-    along with this program; if not, write to the                         
-    Free Software Foundation, Inc.,                                       
-    59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             
+=begin
+    Copyright (C) 2010 by Stefano Crocco
+    stefano.crocco@alice.it
+
+    This program is free software; you can redistribute it andor modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the
+    Free Software Foundation, Inc.,
+    59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 =end
 
 require 'facets/boolean'
@@ -28,12 +28,12 @@ some 'states' are *true* or *false*. This functionality is similar to that provi
 by the KDE XML GUI framework, but much more flexible.
 
 A state is simply a string to which a *true* or *false* value is associated. For
-example, the value associated with a state called <tt>"current_document_modified"</tt> 
+example, the value associated with a state called <tt>"current_document_modified"</tt>
 should be set to *true* whenever the current document becomes modified and to
 *false* when it's saved. Through the rest of this documentation, the expression
 <i>the value of the state</i> will mean <i>the true or false value associated with
 the state</i>.
-  
+
 The system works this way: an action
 is registered using the <tt>register_action_handler</tt> method. To do
 so, a block (called a _handler_) and a list of states the action depends on are
@@ -54,9 +54,9 @@ must call the <tt>initialize_states_handler</tt> method. This is usually done in
 the +initialize+ method of the including class.
 =end
   module GuiStatesHandler
-    
+
     Data = Struct.new :action, :handler, :extra_id #:nodoc:
-    
+
 =begin rdoc
 Override of +Module#included+ which is called whenever the module is included in
 another module or class.
@@ -65,9 +65,10 @@ If _other_ is a class derived from <tt>Qt::Object</tt>, it defines the <tt>ui_st
 signal.
 =end
     def self.included other
+      super
       other.send :signals, 'ui_state_changed(QString, bool)' if other.ancestors.include?(Qt::Object)
     end
-    
+
 =begin rdoc
 Makes an action known to the system, telling it on which states it depends and
 which handler should be used to decide whether the action should be enabled or
@@ -85,7 +86,7 @@ be enabled and a false value if it shouldn't.
 
 _option_ contains some options. One is <tt>:check</tt>: if *true*, the handler
 will be called (and the action enabled or disabled) immediately after registering
-it; if it's false, nothing will be done until one of the states in _states_ 
+it; if it's false, nothing will be done until one of the states in _states_
 changes. The other option is <tt>:extra_id</tt>. If not *nil*, it is an extra value
 used to identify the action (see <tt>remove_action_handler_for</tt> for more information).
 
@@ -115,7 +116,7 @@ This registers an handler for an action which depends on the two states 'a' and
     else false
     end
   end
-  
+
 This registers an action depending only on the state 'a' which should be enabled
 when 'a' is *true* and disabled when 'a' is *false*.
 
@@ -129,7 +130,7 @@ been generated:
   action_handler.register_action_handler KDE::Action.new(nil), 'a'
 
 Here, still using the default handler, register an handler for an action which
-depends only on the state 'a' but needs to be enabled when 'a' is *false* and 
+depends only on the state 'a' but needs to be enabled when 'a' is *false* and
 disabled when it's *true*.
   action_handler.register_action_handler KDE::Action.new(nil), '!a'
 =end
@@ -137,7 +138,7 @@ disabled when it's *true*.
       states = Array(states)
       states = states.map &:to_s
       if !blk and states.size > 1
-        raise ArgumentError, "If more than one state is supplied, a block is needed" 
+        raise ArgumentError, "If more than one state is supplied, a block is needed"
       elsif !blk
         if states[0].start_with? '!'
           states[0] = states[0][1..-1]
@@ -145,20 +146,23 @@ disabled when it's *true*.
         else blk = Proc.new{|s| s[states[0]]}
         end
       end
+      unless action.is_a? KDE::Action
+        raise TypeError, "first argument to GuiStatesHandler#register_action_handler should be a KDE::Action, instead a #{action.class} was given"
+      end
       data = Data.new(action, blk, options[:extra_id])
       states.each{|s| @gui_state_handler_handlers[s.to_s] << data}
       if options[:check]
         action.enabled = blk.call @gui_state_handler_states
       end
     end
-  
+
 =begin rdoc
 Remove the existing handlers for actions matching _action_ and <i>extra_id</i>.
 
 _action_ may be either a <tt>Qt::Action</tt> or a string. If it is a <tt>Qt::Action</tt>,
 then only the handlers for that object will be removed (actually, there usually
 is only one handler).
-    
+
 If _action_ is a string, all handlers for actions whose
 <tt>object_name</tt> is _action_ will be removed. In this case, the <i>extra_id</i>
 parameter can be used narrow the list of actions to remove (for example, if there
@@ -188,7 +192,7 @@ be removed.
 Sets the value associated with the state _state_ to _value_, then calls the
 handlers of all actions depending on _state_ and enables or disables them according
 to the returned value. If *self* is an instance of <tt>Qt::Object</tt>, it also
-emits the <tt>ui_state_changed(QString, bool)</tt> signal, passing _state_ and 
+emits the <tt>ui_state_changed(QString, bool)</tt> signal, passing _state_ and
 _value_ (converted to bool) as arguments.
 
 _state_ can be either a string or symbol (in this case, it'll be converted to string).
@@ -199,13 +203,13 @@ the usual ruby rules before being used.
       state = state.to_s
       value = value.to_bool
       @gui_state_handler_states[state] = value
-      @gui_state_handler_handlers[state].each do |d| 
+      @gui_state_handler_handlers[state].each do |d|
         d.action.enabled = d.handler.call @gui_state_handler_states
       end
       emit ui_state_changed state, value if self.is_a?(Qt::Object)
     end
     alias_method :set_state, :change_state
-    
+
 =begin rdoc
 Returns the value associated with the state _name_. If the value of the state
 has never been set using <tt>change_state</tt>, *nil* will be returned.
@@ -214,9 +218,9 @@ has never been set using <tt>change_state</tt>, *nil* will be returned.
       @gui_state_handler_states[name.to_s]
     end
     alias_method :gui_state, :state
-    
+
     private
-    
+
 =begin rdoc
 Initializes the instance variables used by the module. It must be called before
 any other method in the module is used.
@@ -225,7 +229,7 @@ any other method in the module is used.
       @gui_state_handler_states = {}
       @gui_state_handler_handlers = Hash.new{|h, k| h[k] = []}
     end
-    
+
   end
-  
+
 end
