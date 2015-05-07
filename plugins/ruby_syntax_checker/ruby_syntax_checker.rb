@@ -1,31 +1,31 @@
-=begin 
-    Copyright (C) 2010, 2011 by Stefano Crocco   
-    stefano.crocco@alice.it   
-  
-    This program is free software; you can redistribute it andor modify  
-    it under the terms of the GNU General Public License as published by  
-    the Free Software Foundation; either version 2 of the License, or     
-    (at your option) any later version.                                   
-  
-    This program is distributed in the hope that it will be useful,       
-    but WITHOUT ANY WARRANTY; without even the implied warranty of        
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         
-    GNU General Public License for more details.                          
-  
-    You should have received a copy of the GNU General Public License     
-    along with this program; if not, write to the                         
-    Free Software Foundation, Inc.,                                       
-    59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             
+=begin
+    Copyright (C) 2010, 2011 by Stefano Crocco
+    stefano.crocco@alice.it
+
+    This program is free software; you can redistribute it andor modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the
+    Free Software Foundation, Inc.,
+    59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 =end
 
 module Ruber
-  
+
   module RubySyntaxChecker
-    
+
     SyntaxError = Struct.new :line, :column, :message, :formatted_message, :error_type
-    
+
     class Plugin < Ruber::Plugin
-      
+
       def initialize psf
         super
         Ruber[:syntax_checker].register_syntax_checker RubySyntaxChecker::Checker, ['application/x-ruby'],
@@ -37,9 +37,9 @@ module Ruber
       end
 
     end
-    
+
     class Checker
-      
+
       SPECIAL_ERROR_STRINGS = [
         'unmatched close parenthesis:',
         'end pattern with unmatched parenthesis:',
@@ -51,9 +51,9 @@ module Ruber
         'embedded document meets end of file',
         'can\'t find string "[^"]+" anywhere before EOF'
       ]
-      
+
       ERROR_TYPES=[
-        [/\bunexpected \$end,\s+expecting (?:keyword_end|kEND)/, :missing_end],
+        [/\bunexpected (?:end-of-input|\$end),\s+expecting (?:keyword_end|kEND)/, :missing_end],
         [/\bunexpected (?:keyword_end|kEND),\s+expecting \$end/, :extra_end],
         [/\bexpecting '\)/, :missing_close_paren],
         [/\bunexpected '\)/, :extra_close_paren],
@@ -75,12 +75,12 @@ module Ruber
         [/embedded document meets end of file/, :missing_block_comment_end],
         [/can't find string "[^"]+" anywhere before EOF/, :missing_heredoc_end]
       ]
-      
+
       def initialize doc
         @doc = doc
         @regexp = %r{^-e:(\d+):\s+(?:syntax error,|(#{SPECIAL_ERROR_STRINGS.join '|'}))(?:\s+(.*)|$)}
       end
-      
+
       def check_syntax text, formatted
         ruby = Ruber[:ruby_development].interpreter_for @doc
         begin
@@ -93,9 +93,9 @@ module Ruber
         end
         parse_output msg, formatted
       end
-      
+
       private
-      
+
       def parse_output str, formatted
         # The inner array is needed in case the first message doesn\'t use a
         # recognized format (for example, regexp syntax errors don\'t have a standard
@@ -117,7 +117,7 @@ module Ruber
         errors = error_lines.map do |a, number, type|
           error = SyntaxError.new number, nil, a.shift, nil, type
           a.each_with_index do |l, i|
-            if l.match %r{^\s*\^\s*$} 
+            if l.match %r{^\s*\^\s*$}
               error.column = l.index '^'
               previous_line = a[i-1]
               if previous_line and previous_line.match /^\.{3}/
@@ -139,9 +139,9 @@ module Ruber
         end
         errors
       end
-      
+
     end
-      
+
   end
-  
+
 end
